@@ -1,2 +1,2 @@
 # dive
-C++ Finite Element Library with Python Wrapper
+C++ Finite Element Aggregate with Python Wrapper
