@@ -1,6 +1,6 @@
 -- premake5.lua
 workspace "dive"
-	configurations { "Python", "PythonCL" }
+	configurations { "PythonCL" }
 	location "build"
 
 project "dive"
@@ -23,27 +23,6 @@ project "dive"
 
 	files { "src/**.hpp", "src/**.cpp" }
 
-	filter "configurations:Python"
-		kind "SharedLib"
-		architecture "x86_64"
-		defines { "NDEBUG"}
-		optimize "Speed"
-		
-		links { "utils", "logger", "eilig", "basis", "quadrature", "nodes", "kdtree",
-				"interpolation", "values", "material", "python312" }
-		
-		libdirs { "../utils/build/Release" }
-		libdirs { "../logger/build/Release" }
-		libdirs { "../eilig/build/Release" }
-		libdirs { "../basis/build/Release" }
-		libdirs { "../quadrature/build/Release" }
-		libdirs { "../nodes/build/Release" }
-		libdirs { "../kdtree/build/Release" }
-		libdirs { "../interpolation/build/Release" }
-		libdirs { "../values/build/Release" }
-		libdirs { "../material/build/Release" }
-		libdirs { "../python/lib" }
-	
 	filter "configurations:PythonCL"
 		kind "SharedLib"
 		architecture "x86_64"

@@ -13,18 +13,13 @@
 
 #include "dive_loads.hpp"
 #include "dive_loads_dirichlet.hpp"
+#include "dive_loads_distributed_edge.hpp"
 #include "dive_loads_distributed_face.hpp"
 #include "dive_loads_distributed_volume.hpp"
 
 #include "dive_meshes.hpp"
 #include "dive_meshes_basic.hpp"
 #include "dive_selection.hpp"
-
-#include "dive_loads.hpp"
-#include "dive_loads_dirichlet.hpp"
-#include "dive_loads_distributed_volume.hpp"
-#include "dive_loads_distributed_face.hpp"
-#include "dive_loads_distributed_edge.hpp"
 
 #include "dive_values_scalar_congruent.hpp"
 #include "dive_values_matrix_congruent.hpp"
