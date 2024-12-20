@@ -32,7 +32,7 @@
 %shared_ptr(material::MaterialFluid);
 %shared_ptr(material::MaterialSolid);
 
-%include "..\material\material_types.hpp"
-%include "..\material\material_base.hpp"
-%include "..\material\material_fluid.hpp"
-%include "..\material\material_solid.hpp"
+%include "..\..\material\src\material_types.hpp"
+%include "..\..\material\src\material_base.hpp"
+%include "..\..\material\src\material_fluid.hpp"
+%include "..\..\material\src\material_solid.hpp"

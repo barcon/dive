@@ -62,7 +62,6 @@ OBJECTS :=
 GENERATED += $(OBJDIR)/dive_elements_hexa.o
 GENERATED += $(OBJDIR)/dive_export_python.o
 GENERATED += $(OBJDIR)/dive_loads_dirichlet.o
-GENERATED += $(OBJDIR)/dive_loads_distributed_edge.o
 GENERATED += $(OBJDIR)/dive_loads_distributed_face.o
 GENERATED += $(OBJDIR)/dive_loads_distributed_volume.o
 GENERATED += $(OBJDIR)/dive_meshes_basic.o
@@ -96,7 +95,6 @@ GENERATED += $(OBJDIR)/dive_weakforms_thermal_stiffness.o
 OBJECTS += $(OBJDIR)/dive_elements_hexa.o
 OBJECTS += $(OBJDIR)/dive_export_python.o
 OBJECTS += $(OBJDIR)/dive_loads_dirichlet.o
-OBJECTS += $(OBJDIR)/dive_loads_distributed_edge.o
 OBJECTS += $(OBJDIR)/dive_loads_distributed_face.o
 OBJECTS += $(OBJDIR)/dive_loads_distributed_volume.o
 OBJECTS += $(OBJDIR)/dive_meshes_basic.o
@@ -197,9 +195,6 @@ $(OBJDIR)/dive_export_python.o: ../src/dive_export_python.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/dive_loads_dirichlet.o: ../src/dive_loads_dirichlet.cpp
-	@echo "$(notdir $<)"
-	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
-$(OBJDIR)/dive_loads_distributed_edge.o: ../src/dive_loads_distributed_edge.cpp
 	@echo "$(notdir $<)"
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/dive_loads_distributed_face.o: ../src/dive_loads_distributed_face.cpp

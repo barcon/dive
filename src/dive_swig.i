@@ -47,7 +47,7 @@ namespace interpolation
 %include "dive_swig_bases.i"
 %include "dive_swig_timers.i"
 %include "dive_swig_values.i"
-%include "dive_swig_integral.i"
+%include "dive_swig_quadrature.i"
 %include "dive_swig_interpolation.i"
 %include "dive_swig_material.i"
 %include "dive_swig_routines.i"

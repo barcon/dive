@@ -28,8 +28,8 @@
 %shared_ptr(interpolation::InterpolationNN);
 %shared_ptr(interpolation::InterpolationRBF);
 
-%include "..\interpolation\interpolation_types.hpp"
-%include "..\interpolation\interpolation_fixed.hpp"
-%include "..\interpolation\interpolation_idw.hpp"
-%include "..\interpolation\interpolation_nn.hpp"
-%include "..\interpolation\interpolation_rbf.hpp"
+%include "..\..\interpolation\src\interpolation_types.hpp"
+%include "..\..\interpolation\src\interpolation_fixed.hpp"
+%include "..\..\interpolation\src\interpolation_idw.hpp"
+%include "..\..\interpolation\src\interpolation_nn.hpp"
+%include "..\..\interpolation\src\interpolation_rbf.hpp"

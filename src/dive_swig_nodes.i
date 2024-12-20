@@ -17,8 +17,8 @@
 
 %template(vecNodes) std::vector<std::shared_ptr<nodes::INode>>;
 
-%include "..\nodes\nodes_types.hpp"
-%include "..\nodes\nodes_basic.hpp"
+%include "..\..\nodes\src\nodes_types.hpp"
+%include "..\..\nodes\src\nodes_basic.hpp"
 
 %pythoncode
 %{

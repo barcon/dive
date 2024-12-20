@@ -20,6 +20,6 @@
 
 %template(vecBasis) std::vector<std::shared_ptr<basis::IBasis>>;
 
-%include "..\basis\basis_types.hpp"
-%include "..\basis\basis_cartesian.hpp"
-%include "..\basis\basis_cylindrical.hpp"
+%include "..\..\basis\src\basis_types.hpp"
+%include "..\..\basis\src\basis_cartesian.hpp"
+%include "..\..\basis\src\basis_cylindrical.hpp"

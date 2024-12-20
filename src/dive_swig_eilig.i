@@ -48,16 +48,16 @@ namespace std
 %rename (VectorCL) eilig::opencl::Vector;
 %rename (EllpackCL) eilig::opencl::Ellpack;
 
-%include "..\eilig\eilig_types.hpp"
-%include "..\eilig\eilig_vector.hpp"
-%include "..\eilig\eilig_matrix.hpp"
-%include "..\eilig\eilig_matrix_ellpack.hpp"
-%include "..\eilig\eilig_opencl_entry_proxy.hpp"
-%include "..\eilig\eilig_opencl_kernels.hpp"
-%include "..\eilig\eilig_opencl_vector.hpp"
-%include "..\eilig\eilig_opencl_matrix_ellpack.hpp"
-%include "..\eilig\eilig_routines.hpp"
-%include "..\eilig\eilig_transform.hpp"
+%include "..\..\eilig\src\eilig_types.hpp"
+%include "..\..\eilig\src\eilig_vector.hpp"
+%include "..\..\eilig\src\eilig_matrix.hpp"
+%include "..\..\eilig\src\eilig_matrix_ellpack.hpp"
+%include "..\..\eilig\src\eilig_opencl_entry_proxy.hpp"
+%include "..\..\eilig\src\eilig_opencl_kernels.hpp"
+%include "..\..\eilig\src\eilig_opencl_vector.hpp"
+%include "..\..\eilig\src\eilig_opencl_matrix_ellpack.hpp"
+%include "..\..\eilig\src\eilig_routines.hpp"
+%include "..\..\eilig\src\eilig_transform.hpp"
 
 %extend eilig::Vector {
     String __str__() const 
