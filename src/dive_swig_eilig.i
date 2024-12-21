@@ -4,10 +4,6 @@
 	#include "eilig_vector.hpp"
 	#include "eilig_matrix.hpp"
 	#include "eilig_matrix_ellpack.hpp"
-	#include "eilig_opencl_entry_proxy.hpp"
-	#include "eilig_opencl_kernels.hpp"
-	#include "eilig_opencl_vector.hpp"
-	#include "eilig_opencl_matrix_ellpack.hpp"
 	#include "eilig_routines.hpp"
 	#include "eilig_transform.hpp"
 
@@ -21,20 +17,7 @@
 	
 	using Indices = std::vector<Index>;
 	using Scalars = std::vector<Scalar>;
-
-	namespace club
-	{
-		using PlatformNumber = size_t;
-		using DeviceNumber = size_t;
-	}
-	
-	using BufferPtr = club::BufferPtr;	
-	
-	using KernelsPtr = eilig::opencl::Kernels*;
-	using ConstKernelsPtr = const eilig::opencl::Kernels*;
 %}
-
-#define EILIG_ENABLE_OPENCL
 
 namespace std 
 {
@@ -45,17 +28,11 @@ namespace std
 %template(vecDouble) std::vector<double>;
 %template(arrDouble) std::vector<std::vector<double>>;
 
-%rename (VectorCL) eilig::opencl::Vector;
-%rename (EllpackCL) eilig::opencl::Ellpack;
 
 %include "..\..\eilig\src\eilig_types.hpp"
 %include "..\..\eilig\src\eilig_vector.hpp"
 %include "..\..\eilig\src\eilig_matrix.hpp"
 %include "..\..\eilig\src\eilig_matrix_ellpack.hpp"
-%include "..\..\eilig\src\eilig_opencl_entry_proxy.hpp"
-%include "..\..\eilig\src\eilig_opencl_kernels.hpp"
-%include "..\..\eilig\src\eilig_opencl_vector.hpp"
-%include "..\..\eilig\src\eilig_opencl_matrix_ellpack.hpp"
 %include "..\..\eilig\src\eilig_routines.hpp"
 %include "..\..\eilig\src\eilig_transform.hpp"
 
@@ -125,50 +102,6 @@ namespace std
     }		
 }
 
-%extend eilig::opencl::Vector {
-    String __str__() const 
-	{
-        return eilig::ListVector(*self);
-    }
-	
-	Vector __radd__(Scalar value) const 
-	{
-        return value + (*self);
-    }
-	
-	Vector __rsub__(Scalar value) const 
-	{
-        return value - (*self);
-    }	
-	
-	Vector __rmul__(Scalar value) const 
-	{
-        return value * (*self);
-    }		
-}
-
-%extend eilig::opencl::Ellpack {
-    String __str__() const 
-	{
-        return eilig::ListMatrix(*self);
-    }
-	
-	Ellpack __radd__(Scalar value) const 
-	{
-        return value + (*self);
-    }
-	
-	Ellpack __rsub__(Scalar value) const 
-	{
-        return value - (*self);
-    }	
-	
-	Ellpack __rmul__(Scalar value) const 
-	{
-        return value * (*self);
-    }		
-}
-
 %pythoncode
 %{
 
@@ -198,23 +131,5 @@ def SetItemEllpack(self, index, value):
 
 Ellpack.__getitem__ = GetItemEllpack
 Ellpack.__setitem__ = SetItemEllpack
-
-def GetItemVectorCL(self, index):
-    return self.GetValue(index)
-
-def SetItemVectorCL(self, index, value):
-    return self.SetValue(index, value)
-
-VectorCL.__getitem__ = GetItemVectorCL
-VectorCL.__setitem__ = SetItemVectorCL
-
-def GetItemEllpackCL(self, index):
-    return self.GetValue(index[0], index[1])
-
-def SetItemEllpackCL(self, index, value):
-    return self.SetValue(index[0], index[1], value)
-
-EllpackCL.__getitem__ = GetItemEllpackCL
-EllpackCL.__setitem__ = SetItemEllpackCL
 
 %}

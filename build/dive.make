@@ -40,7 +40,7 @@ ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -m64 -O3 -std=c++17
 ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
 LIBS += -lutils -llogger -leilig -lbasis -lquadrature -lnodes -lkdtree -linterpolation -lvalues -lmaterial -lclub -lopencl -lpython312
 LDDEPS +=
-ALL_LDFLAGS += $(LDFLAGS) -L../../utils/build/Release -L../../logger/build/Release -L../../eilig/build/Release -L../../basis/build/Release -L../../quadrature/build/Release -L../../nodes/build/Release -L../../kdtree/build/Release -L../../interpolation/build/Release -L../../values/build/Release -L../../material/build/Release -L../../club/build/Release -L../../opencl/lib/x86_64 -L../../python/lib -L/usr/lib64 -m64 -shared -Wl,--out-implib="PythonCL/dive.lib" -s
+ALL_LDFLAGS += $(LDFLAGS) -L../../utils/build/Release -L../../logger/build/Release -L../../eilig/build/ReleaseCL -L../../basis/build/Release -L../../quadrature/build/Release -L../../nodes/build/Release -L../../kdtree/build/Release -L../../interpolation/build/Release -L../../values/build/Release -L../../material/build/Release -L../../club/build/Release -L../../opencl/lib/x86_64 -L../../python/lib -L/usr/lib64 -m64 -shared -Wl,--out-implib="PythonCL/dive.lib" -s
 LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
 define PREBUILDCMDS
 endef
