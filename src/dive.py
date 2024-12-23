@@ -434,9 +434,6 @@ class arrDouble(object):
 
 # Register arrDouble in _dive:
 _dive.arrDouble_swigregister(arrDouble)
-
-def GlobalSize(num1, num2):
-    return _dive.GlobalSize(num1, num2)
 class Vector(object):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
@@ -719,324 +716,18 @@ class Ellpack(object):
 
 # Register Ellpack in _dive:
 _dive.Ellpack_swigregister(Ellpack)
-class EntryProxy(object):
-    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
-    __repr__ = _swig_repr
 
-    def __init__(self, buffer, offset):
-        _dive.EntryProxy_swiginit(self, _dive.new_EntryProxy(buffer, offset))
+def NormMax(_in):
+    return _dive.NormMax(_in)
 
-    def SetBuffer(self, buffer):
-        return _dive.EntryProxy_SetBuffer(self, buffer)
+def NormP(*args):
+    return _dive.NormP(*args)
 
-    def SetIndex(self, index):
-        return _dive.EntryProxy_SetIndex(self, index)
+def NormP2(*args):
+    return _dive.NormP2(*args)
 
-    def __call__(self):
-        return _dive.EntryProxy___call__(self)
-
-    def __iadd__(self, rhs):
-        return _dive.EntryProxy___iadd__(self, rhs)
-
-    def __isub__(self, rhs):
-        return _dive.EntryProxy___isub__(self, rhs)
-    __swig_destroy__ = _dive.delete_EntryProxy
-
-# Register EntryProxy in _dive:
-_dive.EntryProxy_swigregister(EntryProxy)
-
-def CreateKernels(fileName, platformNumber, deviceNumber):
-    return _dive.CreateKernels(fileName, platformNumber, deviceNumber)
-class Kernels(object):
-    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
-    __repr__ = _swig_repr
-
-    def __init__(self):
-        _dive.Kernels_swiginit(self, _dive.new_Kernels())
-    __swig_destroy__ = _dive.delete_Kernels
-
-    def Init(self, fileName, platformNumber, deviceNumber):
-        return _dive.Kernels_Init(self, fileName, platformNumber, deviceNumber)
-    platform_ = property(_dive.Kernels_platform__get, _dive.Kernels_platform__set)
-    context_ = property(_dive.Kernels_context__get, _dive.Kernels_context__set)
-    program_ = property(_dive.Kernels_program__get, _dive.Kernels_program__set)
-    kVectorCopyS_ = property(_dive.Kernels_kVectorCopyS__get, _dive.Kernels_kVectorCopyS__set)
-    kVectorAddS_ = property(_dive.Kernels_kVectorAddS__get, _dive.Kernels_kVectorAddS__set)
-    kVectorAddSl_ = property(_dive.Kernels_kVectorAddSl__get, _dive.Kernels_kVectorAddSl__set)
-    kVectorAddV_ = property(_dive.Kernels_kVectorAddV__get, _dive.Kernels_kVectorAddV__set)
-    kVectorPlus_ = property(_dive.Kernels_kVectorPlus__get, _dive.Kernels_kVectorPlus__set)
-    kVectorSubS_ = property(_dive.Kernels_kVectorSubS__get, _dive.Kernels_kVectorSubS__set)
-    kVectorSubSl_ = property(_dive.Kernels_kVectorSubSl__get, _dive.Kernels_kVectorSubSl__set)
-    kVectorSubV_ = property(_dive.Kernels_kVectorSubV__get, _dive.Kernels_kVectorSubV__set)
-    kVectorMinus_ = property(_dive.Kernels_kVectorMinus__get, _dive.Kernels_kVectorMinus__set)
-    kVectorMulS_ = property(_dive.Kernels_kVectorMulS__get, _dive.Kernels_kVectorMulS__set)
-    kVectorDot_ = property(_dive.Kernels_kVectorDot__get, _dive.Kernels_kVectorDot__set)
-    kVectorNormMax_ = property(_dive.Kernels_kVectorNormMax__get, _dive.Kernels_kVectorNormMax__set)
-    kVectorNormP_ = property(_dive.Kernels_kVectorNormP__get, _dive.Kernels_kVectorNormP__set)
-    kVectorNormP2_ = property(_dive.Kernels_kVectorNormP2__get, _dive.Kernels_kVectorNormP2__set)
-    kEllpackNormP_ = property(_dive.Kernels_kEllpackNormP__get, _dive.Kernels_kEllpackNormP__set)
-    kEllpackNormP2_ = property(_dive.Kernels_kEllpackNormP2__get, _dive.Kernels_kEllpackNormP2__set)
-    kEllpackMaxCount_ = property(_dive.Kernels_kEllpackMaxCount__get, _dive.Kernels_kEllpackMaxCount__set)
-    kEllpackExpandPosition_ = property(_dive.Kernels_kEllpackExpandPosition__get, _dive.Kernels_kEllpackExpandPosition__set)
-    kEllpackExpandData_ = property(_dive.Kernels_kEllpackExpandData__get, _dive.Kernels_kEllpackExpandData__set)
-    kEllpackShrinkPosition_ = property(_dive.Kernels_kEllpackShrinkPosition__get, _dive.Kernels_kEllpackShrinkPosition__set)
-    kEllpackShrinkData_ = property(_dive.Kernels_kEllpackShrinkData__get, _dive.Kernels_kEllpackShrinkData__set)
-    kEllpackCopyS_ = property(_dive.Kernels_kEllpackCopyS__get, _dive.Kernels_kEllpackCopyS__set)
-    kEllpackAddS_ = property(_dive.Kernels_kEllpackAddS__get, _dive.Kernels_kEllpackAddS__set)
-    kEllpackAddSl_ = property(_dive.Kernels_kEllpackAddSl__get, _dive.Kernels_kEllpackAddSl__set)
-    kEllpackPlus_ = property(_dive.Kernels_kEllpackPlus__get, _dive.Kernels_kEllpackPlus__set)
-    kEllpackSubS_ = property(_dive.Kernels_kEllpackSubS__get, _dive.Kernels_kEllpackSubS__set)
-    kEllpackSubSl_ = property(_dive.Kernels_kEllpackSubSl__get, _dive.Kernels_kEllpackSubSl__set)
-    kEllpackMinus_ = property(_dive.Kernels_kEllpackMinus__get, _dive.Kernels_kEllpackMinus__set)
-    kEllpackMulS_ = property(_dive.Kernels_kEllpackMulS__get, _dive.Kernels_kEllpackMulS__set)
-    kEllpackMulV_ = property(_dive.Kernels_kEllpackMulV__get, _dive.Kernels_kEllpackMulV__set)
-    kEllpackMulM_ = property(_dive.Kernels_kEllpackMulM__get, _dive.Kernels_kEllpackMulM__set)
-    kEllpackSwapRows_ = property(_dive.Kernels_kEllpackSwapRows__get, _dive.Kernels_kEllpackSwapRows__set)
-    kEllpackSwapCols_ = property(_dive.Kernels_kEllpackSwapCols__get, _dive.Kernels_kEllpackSwapCols__set)
-    kEllpackTranspose_ = property(_dive.Kernels_kEllpackTranspose__get, _dive.Kernels_kEllpackTranspose__set)
-    kEllpackFindWidthTranspose_ = property(_dive.Kernels_kEllpackFindWidthTranspose__get, _dive.Kernels_kEllpackFindWidthTranspose__set)
-    kEllpackDiagonal_ = property(_dive.Kernels_kEllpackDiagonal__get, _dive.Kernels_kEllpackDiagonal__set)
-    kEllpackRegion_ = property(_dive.Kernels_kEllpackRegion__get, _dive.Kernels_kEllpackRegion__set)
-    kEllpackLower1_ = property(_dive.Kernels_kEllpackLower1__get, _dive.Kernels_kEllpackLower1__set)
-    kEllpackLower2_ = property(_dive.Kernels_kEllpackLower2__get, _dive.Kernels_kEllpackLower2__set)
-    kEllpackUpper1_ = property(_dive.Kernels_kEllpackUpper1__get, _dive.Kernels_kEllpackUpper1__set)
-    kEllpackUpper2_ = property(_dive.Kernels_kEllpackUpper2__get, _dive.Kernels_kEllpackUpper2__set)
-
-# Register Kernels in _dive:
-_dive.Kernels_swigregister(Kernels)
-kVectorCopyS = cvar.kVectorCopyS
-kVectorAddS = cvar.kVectorAddS
-kVectorAddSl = cvar.kVectorAddSl
-kVectorAddV = cvar.kVectorAddV
-kVectorPlus = cvar.kVectorPlus
-kVectorSubS = cvar.kVectorSubS
-kVectorSubSl = cvar.kVectorSubSl
-kVectorSubV = cvar.kVectorSubV
-kVectorMinus = cvar.kVectorMinus
-kVectorMulS = cvar.kVectorMulS
-kVectorDot = cvar.kVectorDot
-kVectorNormMax = cvar.kVectorNormMax
-kVectorNormP = cvar.kVectorNormP
-kVectorNormP2 = cvar.kVectorNormP2
-kEllpackNormP = cvar.kEllpackNormP
-kEllpackNormP2 = cvar.kEllpackNormP2
-kEllpackMaxCount = cvar.kEllpackMaxCount
-kEllpackExpandPosition = cvar.kEllpackExpandPosition
-kEllpackExpandData = cvar.kEllpackExpandData
-kEllpackShrinkPosition = cvar.kEllpackShrinkPosition
-kEllpackShrinkData = cvar.kEllpackShrinkData
-kEllpackCopyS = cvar.kEllpackCopyS
-kEllpackAddS = cvar.kEllpackAddS
-kEllpackAddSl = cvar.kEllpackAddSl
-kEllpackPlus = cvar.kEllpackPlus
-kEllpackSubS = cvar.kEllpackSubS
-kEllpackSubSl = cvar.kEllpackSubSl
-kEllpackMinus = cvar.kEllpackMinus
-kEllpackMulS = cvar.kEllpackMulS
-kEllpackMulV = cvar.kEllpackMulV
-kEllpackMulM = cvar.kEllpackMulM
-kEllpackSwapRows = cvar.kEllpackSwapRows
-kEllpackSwapCols = cvar.kEllpackSwapCols
-kEllpackTranspose = cvar.kEllpackTranspose
-kEllpackFindWidthTranspose = cvar.kEllpackFindWidthTranspose
-kEllpackDiagonal = cvar.kEllpackDiagonal
-kEllpackRegion = cvar.kEllpackRegion
-kEllpackLower1 = cvar.kEllpackLower1
-kEllpackLower2 = cvar.kEllpackLower2
-kEllpackUpper1 = cvar.kEllpackUpper1
-kEllpackUpper2 = cvar.kEllpackUpper2
-
-class VectorCL(object):
-    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
-    __repr__ = _swig_repr
-
-    def __init__(self, *args):
-        _dive.VectorCL_swiginit(self, _dive.new_VectorCL(*args))
-    __swig_destroy__ = _dive.delete_VectorCL
-
-    def Resize(self, *args):
-        return _dive.VectorCL_Resize(self, *args)
-
-    def Fill(self, value):
-        return _dive.VectorCL_Fill(self, value)
-
-    def __call__(self, row):
-        return _dive.VectorCL___call__(self, row)
-
-    def __add__(self, *args):
-        return _dive.VectorCL___add__(self, *args)
-
-    def __pos__(self):
-        return _dive.VectorCL___pos__(self)
-
-    def __sub__(self, *args):
-        return _dive.VectorCL___sub__(self, *args)
-
-    def __neg__(self):
-        return _dive.VectorCL___neg__(self)
-
-    def __mul__(self, rhs):
-        return _dive.VectorCL___mul__(self, rhs)
-
-    def SwapRows(self, row1, row2):
-        return _dive.VectorCL_SwapRows(self, row1, row2)
-
-    def Region(self, *args):
-        return _dive.VectorCL_Region(self, *args)
-
-    def GetRows(self):
-        return _dive.VectorCL_GetRows(self)
-
-    def GetCols(self):
-        return _dive.VectorCL_GetCols(self)
-
-    def GetValue(self, row):
-        return _dive.VectorCL_GetValue(self, row)
-
-    def GetKernels(self):
-        return _dive.VectorCL_GetKernels(self)
-
-    def GetDataGPU(self):
-        return _dive.VectorCL_GetDataGPU(self)
-
-    def SetValue(self, row, value):
-        return _dive.VectorCL_SetValue(self, row, value)
-
-    def __str__(self):
-        return _dive.VectorCL___str__(self)
-
-    def __radd__(self, value):
-        return _dive.VectorCL___radd__(self, value)
-
-    def __rsub__(self, value):
-        return _dive.VectorCL___rsub__(self, value)
-
-    def __rmul__(self, value):
-        return _dive.VectorCL___rmul__(self, value)
-
-# Register VectorCL in _dive:
-_dive.VectorCL_swigregister(VectorCL)
-class EllpackCL(object):
-    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
-    __repr__ = _swig_repr
-
-    def __init__(self, *args):
-        _dive.EllpackCL_swiginit(self, _dive.new_EllpackCL(*args))
-    __swig_destroy__ = _dive.delete_EllpackCL
-
-    def IsUsed(self, *args):
-        return _dive.EllpackCL_IsUsed(self, *args)
-
-    def Add(self, row, col):
-        return _dive.EllpackCL_Add(self, row, col)
-
-    def Remove(self, row, col):
-        return _dive.EllpackCL_Remove(self, row, col)
-
-    def Resize(self, *args):
-        return _dive.EllpackCL_Resize(self, *args)
-
-    def Fill(self, value):
-        return _dive.EllpackCL_Fill(self, value)
-
-    def Init(self, input):
-        return _dive.EllpackCL_Init(self, input)
-
-    def Dump(self):
-        return _dive.EllpackCL_Dump(self)
-
-    def __call__(self, row, col):
-        return _dive.EllpackCL___call__(self, row, col)
-
-    def __add__(self, *args):
-        return _dive.EllpackCL___add__(self, *args)
-
-    def __pos__(self):
-        return _dive.EllpackCL___pos__(self)
-
-    def __sub__(self, *args):
-        return _dive.EllpackCL___sub__(self, *args)
-
-    def __neg__(self):
-        return _dive.EllpackCL___neg__(self)
-
-    def __mul__(self, *args):
-        return _dive.EllpackCL___mul__(self, *args)
-
-    def SwapRows(self, row1, row2):
-        return _dive.EllpackCL_SwapRows(self, row1, row2)
-
-    def SwapCols(self, col1, col2):
-        return _dive.EllpackCL_SwapCols(self, col1, col2)
-
-    def Transpose(self):
-        return _dive.EllpackCL_Transpose(self)
-
-    def Diagonal(self):
-        return _dive.EllpackCL_Diagonal(self)
-
-    def Lower(self, diag):
-        return _dive.EllpackCL_Lower(self, diag)
-
-    def LowerWithDiagonal(self):
-        return _dive.EllpackCL_LowerWithDiagonal(self)
-
-    def LowerWithoutDiagonal(self):
-        return _dive.EllpackCL_LowerWithoutDiagonal(self)
-
-    def Upper(self, diag):
-        return _dive.EllpackCL_Upper(self, diag)
-
-    def UpperWithDiagonal(self):
-        return _dive.EllpackCL_UpperWithDiagonal(self)
-
-    def UpperWithoutDiagonal(self):
-        return _dive.EllpackCL_UpperWithoutDiagonal(self)
-
-    def Region(self, *args):
-        return _dive.EllpackCL_Region(self, *args)
-
-    def GetRows(self):
-        return _dive.EllpackCL_GetRows(self)
-
-    def GetCols(self):
-        return _dive.EllpackCL_GetCols(self)
-
-    def GetWidth(self):
-        return _dive.EllpackCL_GetWidth(self)
-
-    def GetValue(self, row, col):
-        return _dive.EllpackCL_GetValue(self, row, col)
-
-    def GetKernels(self):
-        return _dive.EllpackCL_GetKernels(self)
-
-    def GetCountGPU(self):
-        return _dive.EllpackCL_GetCountGPU(self)
-
-    def GetPositionGPU(self):
-        return _dive.EllpackCL_GetPositionGPU(self)
-
-    def GetDataGPU(self):
-        return _dive.EllpackCL_GetDataGPU(self)
-
-    def SetValue(self, row, col, value):
-        return _dive.EllpackCL_SetValue(self, row, col, value)
-
-    def __str__(self):
-        return _dive.EllpackCL___str__(self)
-
-    def __radd__(self, value):
-        return _dive.EllpackCL___radd__(self, value)
-
-    def __rsub__(self, value):
-        return _dive.EllpackCL___rsub__(self, value)
-
-    def __rmul__(self, value):
-        return _dive.EllpackCL___rmul__(self, value)
-
-# Register EllpackCL in _dive:
-_dive.EllpackCL_swigregister(EllpackCL)
+def Dot(in1, in2):
+    return _dive.Dot(in1, in2)
 
 def Cross(in1, in2):
     return _dive.Cross(in1, in2)
@@ -1077,23 +768,11 @@ def IterativJacobi(x, A, b, rtol=0.001, itmax=0):
 def IterativGauss(x, A, b, rtol=0.001, itmax=0):
     return _dive.IterativGauss(x, A, b, rtol, itmax)
 
-def NormMax(*args):
-    return _dive.NormMax(*args)
+def IterativCG(x, A, b, rtol=0.001, itmax=0):
+    return _dive.IterativCG(x, A, b, rtol, itmax)
 
-def NormP(*args):
-    return _dive.NormP(*args)
-
-def NormP2(*args):
-    return _dive.NormP2(*args)
-
-def Dot(*args):
-    return _dive.Dot(*args)
-
-def IterativCG(*args):
-    return _dive.IterativCG(*args)
-
-def IterativBiCGStab(*args):
-    return _dive.IterativBiCGStab(*args)
+def IterativBiCGStab(x, A, b, rtol=0.001, itmax=0):
+    return _dive.IterativBiCGStab(x, A, b, rtol, itmax)
 
 def WriteToFile(*args):
     return _dive.WriteToFile(*args)
@@ -1101,8 +780,8 @@ def WriteToFile(*args):
 def ReadFromFile(*args):
     return _dive.ReadFromFile(*args)
 
-def ListVector(*args):
-    return _dive.ListVector(*args)
+def ListVector(vector):
+    return _dive.ListVector(vector)
 
 def ListMatrix(*args):
     return _dive.ListMatrix(*args)
@@ -1176,24 +855,6 @@ def SetItemEllpack(self, index, value):
 
 Ellpack.__getitem__ = GetItemEllpack
 Ellpack.__setitem__ = SetItemEllpack
-
-def GetItemVectorCL(self, index):
-    return self.GetValue(index)
-
-def SetItemVectorCL(self, index, value):
-    return self.SetValue(index, value)
-
-VectorCL.__getitem__ = GetItemVectorCL
-VectorCL.__setitem__ = SetItemVectorCL
-
-def GetItemEllpackCL(self, index):
-    return self.GetValue(index[0], index[1])
-
-def SetItemEllpackCL(self, index, value):
-    return self.SetValue(index[0], index[1], value)
-
-EllpackCL.__getitem__ = GetItemEllpackCL
-EllpackCL.__setitem__ = SetItemEllpackCL
 
 
 class vecBasis(object):
