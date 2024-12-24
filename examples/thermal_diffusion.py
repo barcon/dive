@@ -9,7 +9,6 @@ basis       = dive.CreateBasisCartesian(1)
 timer       = dive.CreateTimerStationary(1, 0.0)
 material    = materials.Fluids['Oil_ISO_VG68'](1, T_ref)
 meshFile    = 'cavity.msh'
-speed       = 0.01
 
 def ApplyBoundaryConditions(problem, temperature1, temperature2):
     basis = dive.CreateBasisCartesian(1)
@@ -57,5 +56,5 @@ ApplyBoundaryConditions(problem, 100.0, 0.0)
 
 thermal.solver.Initialize()
 
-thermal.solver.SolverStationaryDiffusion()
+thermal.solver.Start()
 meshes.plot.Field(meshThermal.GetNodes())

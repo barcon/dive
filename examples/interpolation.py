@@ -16,7 +16,7 @@ for node in nodes:
     value = Func1(point.GetValue(0), point.GetValue(1), point.GetValue(2))
     node.SetValue(0, value)
     
-intepolation = dive.CreateValueScalar3DInterpolation(nodes, dive.interpolation_idw)
+intepolation = dive.CreateValueScalar3DInterpolation(nodes, dive.interpolation_nn)
 
 print(Func1(0.0, 0.0, 0.0))
 print(intepolation.GetValue(0.0, 0.0, 0.0))

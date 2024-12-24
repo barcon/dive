@@ -11,6 +11,12 @@ class Temperature:
     totalDof = 0
     pivot = 0
 
+@dataclass
+class Solution:
+    equation = None
+    tolerance = 1.0e-6 
+    callback = None
+
 temperature = None
 
 M = None
@@ -32,7 +38,9 @@ S22 = None
 f = None
 g = None
 
-def CreateProblemThermal(tag, timer, mesh, pressure, velocity, material):
+
+
+def CreateProblemThermal(tag, timer, mesh, pressure, velocity, material, solver):
     global temperature
     temperature = Temperature()
 
@@ -58,6 +66,14 @@ def Initialize():
     temperature.pivot = temperature.problem.GetPivot()
     
     return
+
+def Start():
+    type = temperature.problem.GetTimer().GetType()
+
+    if( type == dive.timer_stationary):
+        match 
+    else:
+        return
 
 def SolverStationaryDiffusion():
     global temperature
@@ -242,6 +258,16 @@ def Derivative(y, t):
 
     return dy_dt
 
-def EulerExplicit(y0, dy0, dt):
+def EulerExplicit(y0, dy0, dt):    
     y1 = y0 + dt * dy0
     return y1
+
+solver = {
+    "stationary": {"diffusion" : SolverStationaryDiffusion,
+                  "convection" : SolverStationaryConvection,
+                  "stabilized" : SolverStationaryStabilized},
+    
+    "transient": {"diffusion" : None,
+                  "convection" : None,
+                  "stabilized" : None},
+}
