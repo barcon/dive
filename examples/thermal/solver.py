@@ -38,8 +38,6 @@ S22 = None
 f = None
 g = None
 
-
-
 def CreateProblemThermal(tag, timer, mesh, pressure, velocity, material, solver):
     global temperature
     temperature = Temperature()
@@ -269,5 +267,5 @@ solver = {
     
     "transient": {"diffusion" : None,
                   "convection" : None,
-                  "stabilized" : None},
+                   "stabilized" : None},
 }
