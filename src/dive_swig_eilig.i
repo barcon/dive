@@ -1,3 +1,10 @@
+%apply Status& INOUT { Status& status };
+
+%typemap(in) Status (*function)(Status, Index, Scalar)
+{
+    $1 = (std::size_t (*)(long long int, std::size_t, double))PyLong_AsVoidPtr($input);
+}
+
 %inline
 %{
 	#include "eilig_types.hpp"
@@ -17,6 +24,8 @@
 	
 	using Indices = std::vector<Index>;
 	using Scalars = std::vector<Scalar>;
+	
+	using CallbackIterative = Status (*)(Status, Index, Scalar);		
 %}
 
 namespace std 

@@ -23,12 +23,12 @@ def Viscosity_Oil_VDI2204(ISO, temperature): #[Pa.s]
 def ThermalConductivity_Oil(temperature): #[W/(m.K)]
     return 0.129 
 
-def Fluid_Oil(tag, ISO, temperature):
+def CreateFluidOil(tag, ISO, temperature):
     material            = dive.CreateMaterialFluid(tag)
     valueClass          = dive.CreateValueString('class', 'Fluid', 'Class')
     valueGroup          = dive.CreateValueString('Mineral Hydraulic Oil', 'Group', 'group')
-    valueDescription    = dive.CreateValueString('Oil ISO VG 68', 'Description', 'description')
-    valueName           = dive.CreateValueString('ISO VG 68', 'Name', 'name')
+    valueDescription    = dive.CreateValueString('Oil ISO VG ' + str(ISO), 'Description', 'description')
+    valueName           = dive.CreateValueString('ISO VG ' + str(ISO), 'Name', 'name')
 
     valueDensity        = dive.CreateValueScalar2D(Density_Oil_VDI2204(temperature), 'Density', 'rho')
     valueSpecificHeat   = dive.CreateValueScalar2D(SpecificHeat_Oil_VDI2204(temperature), 'Specific Heat', 'cp')
@@ -46,10 +46,7 @@ def Fluid_Oil(tag, ISO, temperature):
 
     return material
 
-def Fluid_Oil_VG68(tag, temperature):
-    return Fluid_Oil(tag, 68, temperature)
-
-def Fluid_Unity(tag):
+def CreateFluidUnity(tag):
     material            = dive.CreateMaterialFluid(tag)
     valueClass          = dive.CreateValueString('Fluid', 'Fluid', 'Class')
     valueGroup          = dive.CreateValueString('Unity', 'Group', 'group')
@@ -72,7 +69,7 @@ def Fluid_Unity(tag):
 
     return material
 
-Fluids = {'Oil_ISO_VG68': Fluid_Oil_VG68, 'Unity': Fluid_Unity}
+#Fluids = {'Oil_ISO_VG68': Fluid_Oil_VG68, 'Unity': Fluid_Unity}
 
 #z = 17
 #step= 10.0

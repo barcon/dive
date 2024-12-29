@@ -1071,11 +1071,8 @@ def ForwardLinearSystem(*args):
 def DirectLUP(x, LU, permutation, b):
     return _diveCL.DirectLUP(x, LU, permutation, b)
 
-def IterativJacobi(x, A, b, rtol=0.001, itmax=0):
-    return _diveCL.IterativJacobi(x, A, b, rtol, itmax)
-
-def IterativGauss(x, A, b, rtol=0.001, itmax=0):
-    return _diveCL.IterativGauss(x, A, b, rtol, itmax)
+def IterativeBiCGStab(x, A, b, rtol, itmax, arg6=None):
+    return _diveCL.IterativeBiCGStab(x, A, b, rtol, itmax, arg6)
 
 def NormMax(*args):
     return _diveCL.NormMax(*args)
@@ -1088,12 +1085,6 @@ def NormP2(*args):
 
 def Dot(*args):
     return _diveCL.Dot(*args)
-
-def IterativCG(*args):
-    return _diveCL.IterativCG(*args)
-
-def IterativBiCGStab(*args):
-    return _diveCL.IterativBiCGStab(*args)
 
 def WriteToFile(*args):
     return _diveCL.WriteToFile(*args)

@@ -762,17 +762,8 @@ def ForwardLinearSystem(*args):
 def DirectLUP(x, LU, permutation, b):
     return _dive.DirectLUP(x, LU, permutation, b)
 
-def IterativJacobi(x, A, b, rtol=0.001, itmax=0):
-    return _dive.IterativJacobi(x, A, b, rtol, itmax)
-
-def IterativGauss(x, A, b, rtol=0.001, itmax=0):
-    return _dive.IterativGauss(x, A, b, rtol, itmax)
-
-def IterativCG(x, A, b, rtol=0.001, itmax=0):
-    return _dive.IterativCG(x, A, b, rtol, itmax)
-
-def IterativBiCGStab(x, A, b, rtol=0.001, itmax=0):
-    return _dive.IterativBiCGStab(x, A, b, rtol, itmax)
+def IterativeBiCGStab(x, A, b, rtol, itmax, arg6=None):
+    return _dive.IterativeBiCGStab(x, A, b, rtol, itmax, arg6)
 
 def WriteToFile(*args):
     return _dive.WriteToFile(*args)

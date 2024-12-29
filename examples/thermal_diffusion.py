@@ -7,7 +7,7 @@ T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
 basis       = dive.CreateBasisCartesian(1)
 timer       = dive.CreateTimerStationary(1, 0.0)
-material    = materials.Fluids['Oil_ISO_VG68'](1, T_ref)
+material    = materials.CreateFluidOil(1, 68, T_ref)
 meshFile    = 'cavity.msh'
 
 def ApplyBoundaryConditions(problem, temperature1, temperature2):
@@ -48,13 +48,14 @@ def FunctionVelocity(point):
 meshes.cavity.quadratic = True
 meshes.Create(meshFile)
 
-meshThermal = meshes.LoadMesh(1, meshFile)
-pressure    = dive.CreateValueScalar3D(p_ref)
+mesh     = meshes.LoadMesh(1, meshFile)
+pressure = dive.CreateValueScalar3D(p_ref)
+problem  = thermal.CreateProblemThermal(1, timer, mesh, pressure, None, material)
 
-problem = thermal.solver.CreateProblemThermal(1, timer, meshThermal, pressure, None, material)
+quit()
 ApplyBoundaryConditions(problem, 100.0, 0.0)
 
 thermal.solver.Initialize()
 
 thermal.solver.Start()
-meshes.plot.Field(meshThermal.GetNodes())
+meshes.plot.Field(mesh.GetNodes())

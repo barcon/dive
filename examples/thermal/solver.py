@@ -11,12 +11,6 @@ class Temperature:
     totalDof = 0
     pivot = 0
 
-@dataclass
-class Solution:
-    equation = None
-    tolerance = 1.0e-6 
-    callback = None
-
 temperature = None
 
 M = None
@@ -38,7 +32,7 @@ S22 = None
 f = None
 g = None
 
-def CreateProblemThermal(tag, timer, mesh, pressure, velocity, material, solver):
+def CreateProblemThermal(tag, timer, mesh, pressure, velocity, material):
     global temperature
     temperature = Temperature()
 

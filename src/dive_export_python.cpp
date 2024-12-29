@@ -3207,207 +3207,208 @@ SWIG_Python_NonDynamicSetAttr(PyObject *obj, PyObject *name, PyObject *value) {
 #define SWIGTYPE_p_f_double__double swig_types[50]
 #define SWIGTYPE_p_f_double_double__double swig_types[51]
 #define SWIGTYPE_p_f_double_double_double__double swig_types[52]
-#define SWIGTYPE_p_interpolation__IInterpolation swig_types[53]
-#define SWIGTYPE_p_interpolation__InterpolationFixed swig_types[54]
-#define SWIGTYPE_p_interpolation__InterpolationIDW swig_types[55]
-#define SWIGTYPE_p_interpolation__InterpolationNN swig_types[56]
-#define SWIGTYPE_p_interpolation__InterpolationRBF swig_types[57]
-#define SWIGTYPE_p_kdtree__TreePtr swig_types[58]
-#define SWIGTYPE_p_long_long swig_types[59]
-#define SWIGTYPE_p_material__IBase swig_types[60]
-#define SWIGTYPE_p_material__IMaterial swig_types[61]
-#define SWIGTYPE_p_material__IMaterialFluid swig_types[62]
-#define SWIGTYPE_p_material__IMaterialSolid swig_types[63]
-#define SWIGTYPE_p_material__MaterialFluid swig_types[64]
-#define SWIGTYPE_p_material__MaterialSolid swig_types[65]
-#define SWIGTYPE_p_nodes__INode swig_types[66]
-#define SWIGTYPE_p_nodes__Node swig_types[67]
-#define SWIGTYPE_p_p_PyObject swig_types[68]
-#define SWIGTYPE_p_quadrature__GaussHexa swig_types[69]
-#define SWIGTYPE_p_quadrature__GaussLine swig_types[70]
-#define SWIGTYPE_p_quadrature__GaussRect swig_types[71]
-#define SWIGTYPE_p_quadrature__IGauss swig_types[72]
-#define SWIGTYPE_p_size_t swig_types[73]
-#define SWIGTYPE_p_size_type swig_types[74]
-#define SWIGTYPE_p_std__allocatorT_dive__DirichletMeshIndex_t swig_types[75]
-#define SWIGTYPE_p_std__allocatorT_dive__DofMeshIndex_t swig_types[76]
-#define SWIGTYPE_p_std__allocatorT_dive__NodeMeshIndex_t swig_types[77]
-#define SWIGTYPE_p_std__allocatorT_double_t swig_types[78]
-#define SWIGTYPE_p_std__allocatorT_std__shared_ptrT_basis__IBasis_t_t swig_types[79]
-#define SWIGTYPE_p_std__allocatorT_std__shared_ptrT_dive__elements__IElement_t_t swig_types[80]
-#define SWIGTYPE_p_std__allocatorT_std__shared_ptrT_dive__loads__IDirichlet_t_t swig_types[81]
-#define SWIGTYPE_p_std__allocatorT_std__shared_ptrT_dive__loads__ILoad_t_t swig_types[82]
-#define SWIGTYPE_p_std__allocatorT_std__shared_ptrT_dive__meshes__IMesh_t_t swig_types[83]
-#define SWIGTYPE_p_std__allocatorT_std__shared_ptrT_nodes__INode_t_t swig_types[84]
-#define SWIGTYPE_p_std__allocatorT_std__size_t_t swig_types[85]
-#define SWIGTYPE_p_std__allocatorT_std__vectorT_dive__NodeMeshIndex_t_t swig_types[86]
-#define SWIGTYPE_p_std__allocatorT_std__vectorT_double_t_t swig_types[87]
-#define SWIGTYPE_p_std__invalid_argument swig_types[88]
-#define SWIGTYPE_p_std__setT_dive__selection__Face_dive__selection__FaceCmp_std__allocatorT_dive__selection__Face_t_t swig_types[89]
-#define SWIGTYPE_p_std__setT_std__shared_ptrT_dive__elements__IElement_t_dive__selection__ElementCmp_std__allocatorT_std__shared_ptrT_dive__elements__IElement_t_t_t swig_types[90]
-#define SWIGTYPE_p_std__setT_std__shared_ptrT_nodes__INode_t_dive__selection__NodeCmp_std__allocatorT_std__shared_ptrT_nodes__INode_t_t_t swig_types[91]
-#define SWIGTYPE_p_std__setT_std__size_t_dive__selection__TypeCmp_std__allocatorT_std__size_t_t_t swig_types[92]
-#define SWIGTYPE_p_std__shared_ptrT_basis__Cartesian_const_t swig_types[93]
-#define SWIGTYPE_p_std__shared_ptrT_basis__Cartesian_t swig_types[94]
-#define SWIGTYPE_p_std__shared_ptrT_basis__Cylindrical_const_t swig_types[95]
-#define SWIGTYPE_p_std__shared_ptrT_basis__Cylindrical_t swig_types[96]
-#define SWIGTYPE_p_std__shared_ptrT_basis__IBasis_const_t swig_types[97]
-#define SWIGTYPE_p_std__shared_ptrT_basis__IBasis_t swig_types[98]
-#define SWIGTYPE_p_std__shared_ptrT_dive__elements__ElementHexa_const_t swig_types[99]
-#define SWIGTYPE_p_std__shared_ptrT_dive__elements__ElementHexa_t swig_types[100]
-#define SWIGTYPE_p_std__shared_ptrT_dive__elements__IElement_const_t swig_types[101]
-#define SWIGTYPE_p_std__shared_ptrT_dive__elements__IElement_t swig_types[102]
-#define SWIGTYPE_p_std__shared_ptrT_dive__loads__Dirichlet_const_t swig_types[103]
-#define SWIGTYPE_p_std__shared_ptrT_dive__loads__Dirichlet_t swig_types[104]
-#define SWIGTYPE_p_std__shared_ptrT_dive__loads__IDirichlet_const_t swig_types[105]
-#define SWIGTYPE_p_std__shared_ptrT_dive__loads__IDirichlet_t swig_types[106]
-#define SWIGTYPE_p_std__shared_ptrT_dive__loads__ILoad_const_t swig_types[107]
-#define SWIGTYPE_p_std__shared_ptrT_dive__loads__ILoad_t swig_types[108]
-#define SWIGTYPE_p_std__shared_ptrT_dive__loads__LoadDistributedFace_const_t swig_types[109]
-#define SWIGTYPE_p_std__shared_ptrT_dive__loads__LoadDistributedFace_t swig_types[110]
-#define SWIGTYPE_p_std__shared_ptrT_dive__loads__LoadDistributedVolume_const_t swig_types[111]
-#define SWIGTYPE_p_std__shared_ptrT_dive__loads__LoadDistributedVolume_t swig_types[112]
-#define SWIGTYPE_p_std__shared_ptrT_dive__meshes__IMesh_const_t swig_types[113]
-#define SWIGTYPE_p_std__shared_ptrT_dive__meshes__IMesh_t swig_types[114]
-#define SWIGTYPE_p_std__shared_ptrT_dive__meshes__Mesh_const_t swig_types[115]
-#define SWIGTYPE_p_std__shared_ptrT_dive__meshes__Mesh_t swig_types[116]
-#define SWIGTYPE_p_std__shared_ptrT_dive__problems__IFluid_t swig_types[117]
-#define SWIGTYPE_p_std__shared_ptrT_dive__problems__IPressure_t swig_types[118]
-#define SWIGTYPE_p_std__shared_ptrT_dive__problems__IProblem_const_t swig_types[119]
-#define SWIGTYPE_p_std__shared_ptrT_dive__problems__IProblem_t swig_types[120]
-#define SWIGTYPE_p_std__shared_ptrT_dive__problems__IThermal_t swig_types[121]
-#define SWIGTYPE_p_std__shared_ptrT_dive__problems__ProblemFluid_const_t swig_types[122]
-#define SWIGTYPE_p_std__shared_ptrT_dive__problems__ProblemFluid_t swig_types[123]
-#define SWIGTYPE_p_std__shared_ptrT_dive__problems__ProblemPressure_const_t swig_types[124]
-#define SWIGTYPE_p_std__shared_ptrT_dive__problems__ProblemPressure_t swig_types[125]
-#define SWIGTYPE_p_std__shared_ptrT_dive__problems__ProblemThermal_const_t swig_types[126]
-#define SWIGTYPE_p_std__shared_ptrT_dive__problems__ProblemThermal_t swig_types[127]
-#define SWIGTYPE_p_std__shared_ptrT_dive__timers__ITimer_const_t swig_types[128]
-#define SWIGTYPE_p_std__shared_ptrT_dive__timers__ITimer_t swig_types[129]
-#define SWIGTYPE_p_std__shared_ptrT_dive__timers__TimerStationary_const_t swig_types[130]
-#define SWIGTYPE_p_std__shared_ptrT_dive__timers__TimerStationary_t swig_types[131]
-#define SWIGTYPE_p_std__shared_ptrT_dive__timers__TimerStepped_const_t swig_types[132]
-#define SWIGTYPE_p_std__shared_ptrT_dive__timers__TimerStepped_t swig_types[133]
-#define SWIGTYPE_p_std__shared_ptrT_interpolation__IInterpolation_const_t swig_types[134]
-#define SWIGTYPE_p_std__shared_ptrT_interpolation__IInterpolation_t swig_types[135]
-#define SWIGTYPE_p_std__shared_ptrT_interpolation__InterpolationFixed_const_t swig_types[136]
-#define SWIGTYPE_p_std__shared_ptrT_interpolation__InterpolationFixed_t swig_types[137]
-#define SWIGTYPE_p_std__shared_ptrT_interpolation__InterpolationIDW_const_t swig_types[138]
-#define SWIGTYPE_p_std__shared_ptrT_interpolation__InterpolationIDW_t swig_types[139]
-#define SWIGTYPE_p_std__shared_ptrT_interpolation__InterpolationNN_const_t swig_types[140]
-#define SWIGTYPE_p_std__shared_ptrT_interpolation__InterpolationNN_t swig_types[141]
-#define SWIGTYPE_p_std__shared_ptrT_interpolation__InterpolationRBF_const_t swig_types[142]
-#define SWIGTYPE_p_std__shared_ptrT_interpolation__InterpolationRBF_t swig_types[143]
-#define SWIGTYPE_p_std__shared_ptrT_material__IBase_const_t swig_types[144]
-#define SWIGTYPE_p_std__shared_ptrT_material__IBase_t swig_types[145]
-#define SWIGTYPE_p_std__shared_ptrT_material__IMaterialFluid_const_t swig_types[146]
-#define SWIGTYPE_p_std__shared_ptrT_material__IMaterialFluid_t swig_types[147]
-#define SWIGTYPE_p_std__shared_ptrT_material__IMaterialSolid_const_t swig_types[148]
-#define SWIGTYPE_p_std__shared_ptrT_material__IMaterialSolid_t swig_types[149]
-#define SWIGTYPE_p_std__shared_ptrT_material__IMaterial_const_t swig_types[150]
-#define SWIGTYPE_p_std__shared_ptrT_material__IMaterial_t swig_types[151]
-#define SWIGTYPE_p_std__shared_ptrT_material__MaterialFluid_const_t swig_types[152]
-#define SWIGTYPE_p_std__shared_ptrT_material__MaterialFluid_t swig_types[153]
-#define SWIGTYPE_p_std__shared_ptrT_material__MaterialSolid_const_t swig_types[154]
-#define SWIGTYPE_p_std__shared_ptrT_material__MaterialSolid_t swig_types[155]
-#define SWIGTYPE_p_std__shared_ptrT_nodes__INode_const_t swig_types[156]
-#define SWIGTYPE_p_std__shared_ptrT_nodes__INode_t swig_types[157]
-#define SWIGTYPE_p_std__shared_ptrT_nodes__Node_const_t swig_types[158]
-#define SWIGTYPE_p_std__shared_ptrT_nodes__Node_t swig_types[159]
-#define SWIGTYPE_p_std__shared_ptrT_quadrature__GaussHexa_const_t swig_types[160]
-#define SWIGTYPE_p_std__shared_ptrT_quadrature__GaussHexa_t swig_types[161]
-#define SWIGTYPE_p_std__shared_ptrT_quadrature__GaussLine_const_t swig_types[162]
-#define SWIGTYPE_p_std__shared_ptrT_quadrature__GaussLine_t swig_types[163]
-#define SWIGTYPE_p_std__shared_ptrT_quadrature__GaussRect_const_t swig_types[164]
-#define SWIGTYPE_p_std__shared_ptrT_quadrature__GaussRect_t swig_types[165]
-#define SWIGTYPE_p_std__shared_ptrT_quadrature__IGauss_const_t swig_types[166]
-#define SWIGTYPE_p_std__shared_ptrT_quadrature__IGauss_t swig_types[167]
-#define SWIGTYPE_p_std__shared_ptrT_values__IBool_t swig_types[168]
-#define SWIGTYPE_p_std__shared_ptrT_values__IMatrix3D_t swig_types[169]
-#define SWIGTYPE_p_std__shared_ptrT_values__IScalar1D_t swig_types[170]
-#define SWIGTYPE_p_std__shared_ptrT_values__IScalar2D_t swig_types[171]
-#define SWIGTYPE_p_std__shared_ptrT_values__IScalar3D_t swig_types[172]
-#define SWIGTYPE_p_std__shared_ptrT_values__IScalar_t swig_types[173]
-#define SWIGTYPE_p_std__shared_ptrT_values__IString_t swig_types[174]
-#define SWIGTYPE_p_std__shared_ptrT_values__IValue_t swig_types[175]
-#define SWIGTYPE_p_std__shared_ptrT_values__IVector3D_t swig_types[176]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueBool_const_t swig_types[177]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueBool_t swig_types[178]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueMatrix3DCongruent_const_t swig_types[179]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueMatrix3DCongruent_t swig_types[180]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueMatrix3DInterpolation_const_t swig_types[181]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueMatrix3DInterpolation_t swig_types[182]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar1DFunction_const_t swig_types[183]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar1DFunction_t swig_types[184]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar1D_const_t swig_types[185]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar1D_t swig_types[186]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar2DFunction_const_t swig_types[187]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar2DFunction_t swig_types[188]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar2D_const_t swig_types[189]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar2D_t swig_types[190]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar3DCongruent_const_t swig_types[191]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar3DCongruent_t swig_types[192]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar3DFunction_const_t swig_types[193]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar3DFunction_t swig_types[194]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar3DInterpolation_const_t swig_types[195]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar3DInterpolation_t swig_types[196]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar3D_const_t swig_types[197]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar3D_t swig_types[198]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar_const_t swig_types[199]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar_t swig_types[200]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueString_const_t swig_types[201]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueString_t swig_types[202]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueVector3DCongruent_const_t swig_types[203]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueVector3DCongruent_t swig_types[204]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueVector3D_const_t swig_types[205]
-#define SWIGTYPE_p_std__shared_ptrT_values__ValueVector3D_t swig_types[206]
-#define SWIGTYPE_p_std__string swig_types[207]
-#define SWIGTYPE_p_std__vectorT_dive__DirichletMeshIndex_t swig_types[208]
-#define SWIGTYPE_p_std__vectorT_dive__DofMeshIndex_t swig_types[209]
-#define SWIGTYPE_p_std__vectorT_dive__NodeMeshIndex_t swig_types[210]
-#define SWIGTYPE_p_std__vectorT_double_t swig_types[211]
-#define SWIGTYPE_p_std__vectorT_eilig__Ellpack_std__allocatorT_eilig__Ellpack_t_t swig_types[212]
-#define SWIGTYPE_p_std__vectorT_eilig__Matrix_std__allocatorT_eilig__Matrix_t_t swig_types[213]
-#define SWIGTYPE_p_std__vectorT_eilig__Vector_std__allocatorT_eilig__Vector_t_t swig_types[214]
-#define SWIGTYPE_p_std__vectorT_std__shared_ptrT_basis__IBasis_t_t swig_types[215]
-#define SWIGTYPE_p_std__vectorT_std__shared_ptrT_dive__elements__IElement_t_t swig_types[216]
-#define SWIGTYPE_p_std__vectorT_std__shared_ptrT_dive__loads__IDirichlet_t_t swig_types[217]
-#define SWIGTYPE_p_std__vectorT_std__shared_ptrT_dive__loads__ILoad_t_t swig_types[218]
-#define SWIGTYPE_p_std__vectorT_std__shared_ptrT_dive__meshes__IMesh_t_t swig_types[219]
-#define SWIGTYPE_p_std__vectorT_std__shared_ptrT_nodes__INode_t_t swig_types[220]
-#define SWIGTYPE_p_std__vectorT_std__size_t_t swig_types[221]
-#define SWIGTYPE_p_std__vectorT_std__vectorT_dive__NodeMeshIndex_t_t swig_types[222]
-#define SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t swig_types[223]
-#define SWIGTYPE_p_swig__SwigPyIterator swig_types[224]
-#define SWIGTYPE_p_utils__Strings swig_types[225]
-#define SWIGTYPE_p_utils__file__Text swig_types[226]
-#define SWIGTYPE_p_value_type swig_types[227]
-#define SWIGTYPE_p_values__IBool swig_types[228]
-#define SWIGTYPE_p_values__IMatrix3D swig_types[229]
-#define SWIGTYPE_p_values__IScalar swig_types[230]
-#define SWIGTYPE_p_values__IScalar1D swig_types[231]
-#define SWIGTYPE_p_values__IScalar2D swig_types[232]
-#define SWIGTYPE_p_values__IScalar3D swig_types[233]
-#define SWIGTYPE_p_values__IString swig_types[234]
-#define SWIGTYPE_p_values__IValue swig_types[235]
-#define SWIGTYPE_p_values__IVector3D swig_types[236]
-#define SWIGTYPE_p_values__ValueBool swig_types[237]
-#define SWIGTYPE_p_values__ValueMatrix3DCongruent swig_types[238]
-#define SWIGTYPE_p_values__ValueMatrix3DInterpolation swig_types[239]
-#define SWIGTYPE_p_values__ValueScalar swig_types[240]
-#define SWIGTYPE_p_values__ValueScalar1D swig_types[241]
-#define SWIGTYPE_p_values__ValueScalar1DFunction swig_types[242]
-#define SWIGTYPE_p_values__ValueScalar2D swig_types[243]
-#define SWIGTYPE_p_values__ValueScalar2DFunction swig_types[244]
-#define SWIGTYPE_p_values__ValueScalar3D swig_types[245]
-#define SWIGTYPE_p_values__ValueScalar3DCongruent swig_types[246]
-#define SWIGTYPE_p_values__ValueScalar3DFunction swig_types[247]
-#define SWIGTYPE_p_values__ValueScalar3DInterpolation swig_types[248]
-#define SWIGTYPE_p_values__ValueString swig_types[249]
-#define SWIGTYPE_p_values__ValueVector3D swig_types[250]
-#define SWIGTYPE_p_values__ValueVector3DCongruent swig_types[251]
-static swig_type_info *swig_types[253];
-static swig_module_info swig_module = {swig_types, 252, 0, 0, 0, 0};
+#define SWIGTYPE_p_f_long_long___size_t_double__long_long swig_types[53]
+#define SWIGTYPE_p_interpolation__IInterpolation swig_types[54]
+#define SWIGTYPE_p_interpolation__InterpolationFixed swig_types[55]
+#define SWIGTYPE_p_interpolation__InterpolationIDW swig_types[56]
+#define SWIGTYPE_p_interpolation__InterpolationNN swig_types[57]
+#define SWIGTYPE_p_interpolation__InterpolationRBF swig_types[58]
+#define SWIGTYPE_p_kdtree__TreePtr swig_types[59]
+#define SWIGTYPE_p_long_long swig_types[60]
+#define SWIGTYPE_p_material__IBase swig_types[61]
+#define SWIGTYPE_p_material__IMaterial swig_types[62]
+#define SWIGTYPE_p_material__IMaterialFluid swig_types[63]
+#define SWIGTYPE_p_material__IMaterialSolid swig_types[64]
+#define SWIGTYPE_p_material__MaterialFluid swig_types[65]
+#define SWIGTYPE_p_material__MaterialSolid swig_types[66]
+#define SWIGTYPE_p_nodes__INode swig_types[67]
+#define SWIGTYPE_p_nodes__Node swig_types[68]
+#define SWIGTYPE_p_p_PyObject swig_types[69]
+#define SWIGTYPE_p_quadrature__GaussHexa swig_types[70]
+#define SWIGTYPE_p_quadrature__GaussLine swig_types[71]
+#define SWIGTYPE_p_quadrature__GaussRect swig_types[72]
+#define SWIGTYPE_p_quadrature__IGauss swig_types[73]
+#define SWIGTYPE_p_size_t swig_types[74]
+#define SWIGTYPE_p_size_type swig_types[75]
+#define SWIGTYPE_p_std__allocatorT_dive__DirichletMeshIndex_t swig_types[76]
+#define SWIGTYPE_p_std__allocatorT_dive__DofMeshIndex_t swig_types[77]
+#define SWIGTYPE_p_std__allocatorT_dive__NodeMeshIndex_t swig_types[78]
+#define SWIGTYPE_p_std__allocatorT_double_t swig_types[79]
+#define SWIGTYPE_p_std__allocatorT_std__shared_ptrT_basis__IBasis_t_t swig_types[80]
+#define SWIGTYPE_p_std__allocatorT_std__shared_ptrT_dive__elements__IElement_t_t swig_types[81]
+#define SWIGTYPE_p_std__allocatorT_std__shared_ptrT_dive__loads__IDirichlet_t_t swig_types[82]
+#define SWIGTYPE_p_std__allocatorT_std__shared_ptrT_dive__loads__ILoad_t_t swig_types[83]
+#define SWIGTYPE_p_std__allocatorT_std__shared_ptrT_dive__meshes__IMesh_t_t swig_types[84]
+#define SWIGTYPE_p_std__allocatorT_std__shared_ptrT_nodes__INode_t_t swig_types[85]
+#define SWIGTYPE_p_std__allocatorT_std__size_t_t swig_types[86]
+#define SWIGTYPE_p_std__allocatorT_std__vectorT_dive__NodeMeshIndex_t_t swig_types[87]
+#define SWIGTYPE_p_std__allocatorT_std__vectorT_double_t_t swig_types[88]
+#define SWIGTYPE_p_std__invalid_argument swig_types[89]
+#define SWIGTYPE_p_std__setT_dive__selection__Face_dive__selection__FaceCmp_std__allocatorT_dive__selection__Face_t_t swig_types[90]
+#define SWIGTYPE_p_std__setT_std__shared_ptrT_dive__elements__IElement_t_dive__selection__ElementCmp_std__allocatorT_std__shared_ptrT_dive__elements__IElement_t_t_t swig_types[91]
+#define SWIGTYPE_p_std__setT_std__shared_ptrT_nodes__INode_t_dive__selection__NodeCmp_std__allocatorT_std__shared_ptrT_nodes__INode_t_t_t swig_types[92]
+#define SWIGTYPE_p_std__setT_std__size_t_dive__selection__TypeCmp_std__allocatorT_std__size_t_t_t swig_types[93]
+#define SWIGTYPE_p_std__shared_ptrT_basis__Cartesian_const_t swig_types[94]
+#define SWIGTYPE_p_std__shared_ptrT_basis__Cartesian_t swig_types[95]
+#define SWIGTYPE_p_std__shared_ptrT_basis__Cylindrical_const_t swig_types[96]
+#define SWIGTYPE_p_std__shared_ptrT_basis__Cylindrical_t swig_types[97]
+#define SWIGTYPE_p_std__shared_ptrT_basis__IBasis_const_t swig_types[98]
+#define SWIGTYPE_p_std__shared_ptrT_basis__IBasis_t swig_types[99]
+#define SWIGTYPE_p_std__shared_ptrT_dive__elements__ElementHexa_const_t swig_types[100]
+#define SWIGTYPE_p_std__shared_ptrT_dive__elements__ElementHexa_t swig_types[101]
+#define SWIGTYPE_p_std__shared_ptrT_dive__elements__IElement_const_t swig_types[102]
+#define SWIGTYPE_p_std__shared_ptrT_dive__elements__IElement_t swig_types[103]
+#define SWIGTYPE_p_std__shared_ptrT_dive__loads__Dirichlet_const_t swig_types[104]
+#define SWIGTYPE_p_std__shared_ptrT_dive__loads__Dirichlet_t swig_types[105]
+#define SWIGTYPE_p_std__shared_ptrT_dive__loads__IDirichlet_const_t swig_types[106]
+#define SWIGTYPE_p_std__shared_ptrT_dive__loads__IDirichlet_t swig_types[107]
+#define SWIGTYPE_p_std__shared_ptrT_dive__loads__ILoad_const_t swig_types[108]
+#define SWIGTYPE_p_std__shared_ptrT_dive__loads__ILoad_t swig_types[109]
+#define SWIGTYPE_p_std__shared_ptrT_dive__loads__LoadDistributedFace_const_t swig_types[110]
+#define SWIGTYPE_p_std__shared_ptrT_dive__loads__LoadDistributedFace_t swig_types[111]
+#define SWIGTYPE_p_std__shared_ptrT_dive__loads__LoadDistributedVolume_const_t swig_types[112]
+#define SWIGTYPE_p_std__shared_ptrT_dive__loads__LoadDistributedVolume_t swig_types[113]
+#define SWIGTYPE_p_std__shared_ptrT_dive__meshes__IMesh_const_t swig_types[114]
+#define SWIGTYPE_p_std__shared_ptrT_dive__meshes__IMesh_t swig_types[115]
+#define SWIGTYPE_p_std__shared_ptrT_dive__meshes__Mesh_const_t swig_types[116]
+#define SWIGTYPE_p_std__shared_ptrT_dive__meshes__Mesh_t swig_types[117]
+#define SWIGTYPE_p_std__shared_ptrT_dive__problems__IFluid_t swig_types[118]
+#define SWIGTYPE_p_std__shared_ptrT_dive__problems__IPressure_t swig_types[119]
+#define SWIGTYPE_p_std__shared_ptrT_dive__problems__IProblem_const_t swig_types[120]
+#define SWIGTYPE_p_std__shared_ptrT_dive__problems__IProblem_t swig_types[121]
+#define SWIGTYPE_p_std__shared_ptrT_dive__problems__IThermal_t swig_types[122]
+#define SWIGTYPE_p_std__shared_ptrT_dive__problems__ProblemFluid_const_t swig_types[123]
+#define SWIGTYPE_p_std__shared_ptrT_dive__problems__ProblemFluid_t swig_types[124]
+#define SWIGTYPE_p_std__shared_ptrT_dive__problems__ProblemPressure_const_t swig_types[125]
+#define SWIGTYPE_p_std__shared_ptrT_dive__problems__ProblemPressure_t swig_types[126]
+#define SWIGTYPE_p_std__shared_ptrT_dive__problems__ProblemThermal_const_t swig_types[127]
+#define SWIGTYPE_p_std__shared_ptrT_dive__problems__ProblemThermal_t swig_types[128]
+#define SWIGTYPE_p_std__shared_ptrT_dive__timers__ITimer_const_t swig_types[129]
+#define SWIGTYPE_p_std__shared_ptrT_dive__timers__ITimer_t swig_types[130]
+#define SWIGTYPE_p_std__shared_ptrT_dive__timers__TimerStationary_const_t swig_types[131]
+#define SWIGTYPE_p_std__shared_ptrT_dive__timers__TimerStationary_t swig_types[132]
+#define SWIGTYPE_p_std__shared_ptrT_dive__timers__TimerStepped_const_t swig_types[133]
+#define SWIGTYPE_p_std__shared_ptrT_dive__timers__TimerStepped_t swig_types[134]
+#define SWIGTYPE_p_std__shared_ptrT_interpolation__IInterpolation_const_t swig_types[135]
+#define SWIGTYPE_p_std__shared_ptrT_interpolation__IInterpolation_t swig_types[136]
+#define SWIGTYPE_p_std__shared_ptrT_interpolation__InterpolationFixed_const_t swig_types[137]
+#define SWIGTYPE_p_std__shared_ptrT_interpolation__InterpolationFixed_t swig_types[138]
+#define SWIGTYPE_p_std__shared_ptrT_interpolation__InterpolationIDW_const_t swig_types[139]
+#define SWIGTYPE_p_std__shared_ptrT_interpolation__InterpolationIDW_t swig_types[140]
+#define SWIGTYPE_p_std__shared_ptrT_interpolation__InterpolationNN_const_t swig_types[141]
+#define SWIGTYPE_p_std__shared_ptrT_interpolation__InterpolationNN_t swig_types[142]
+#define SWIGTYPE_p_std__shared_ptrT_interpolation__InterpolationRBF_const_t swig_types[143]
+#define SWIGTYPE_p_std__shared_ptrT_interpolation__InterpolationRBF_t swig_types[144]
+#define SWIGTYPE_p_std__shared_ptrT_material__IBase_const_t swig_types[145]
+#define SWIGTYPE_p_std__shared_ptrT_material__IBase_t swig_types[146]
+#define SWIGTYPE_p_std__shared_ptrT_material__IMaterialFluid_const_t swig_types[147]
+#define SWIGTYPE_p_std__shared_ptrT_material__IMaterialFluid_t swig_types[148]
+#define SWIGTYPE_p_std__shared_ptrT_material__IMaterialSolid_const_t swig_types[149]
+#define SWIGTYPE_p_std__shared_ptrT_material__IMaterialSolid_t swig_types[150]
+#define SWIGTYPE_p_std__shared_ptrT_material__IMaterial_const_t swig_types[151]
+#define SWIGTYPE_p_std__shared_ptrT_material__IMaterial_t swig_types[152]
+#define SWIGTYPE_p_std__shared_ptrT_material__MaterialFluid_const_t swig_types[153]
+#define SWIGTYPE_p_std__shared_ptrT_material__MaterialFluid_t swig_types[154]
+#define SWIGTYPE_p_std__shared_ptrT_material__MaterialSolid_const_t swig_types[155]
+#define SWIGTYPE_p_std__shared_ptrT_material__MaterialSolid_t swig_types[156]
+#define SWIGTYPE_p_std__shared_ptrT_nodes__INode_const_t swig_types[157]
+#define SWIGTYPE_p_std__shared_ptrT_nodes__INode_t swig_types[158]
+#define SWIGTYPE_p_std__shared_ptrT_nodes__Node_const_t swig_types[159]
+#define SWIGTYPE_p_std__shared_ptrT_nodes__Node_t swig_types[160]
+#define SWIGTYPE_p_std__shared_ptrT_quadrature__GaussHexa_const_t swig_types[161]
+#define SWIGTYPE_p_std__shared_ptrT_quadrature__GaussHexa_t swig_types[162]
+#define SWIGTYPE_p_std__shared_ptrT_quadrature__GaussLine_const_t swig_types[163]
+#define SWIGTYPE_p_std__shared_ptrT_quadrature__GaussLine_t swig_types[164]
+#define SWIGTYPE_p_std__shared_ptrT_quadrature__GaussRect_const_t swig_types[165]
+#define SWIGTYPE_p_std__shared_ptrT_quadrature__GaussRect_t swig_types[166]
+#define SWIGTYPE_p_std__shared_ptrT_quadrature__IGauss_const_t swig_types[167]
+#define SWIGTYPE_p_std__shared_ptrT_quadrature__IGauss_t swig_types[168]
+#define SWIGTYPE_p_std__shared_ptrT_values__IBool_t swig_types[169]
+#define SWIGTYPE_p_std__shared_ptrT_values__IMatrix3D_t swig_types[170]
+#define SWIGTYPE_p_std__shared_ptrT_values__IScalar1D_t swig_types[171]
+#define SWIGTYPE_p_std__shared_ptrT_values__IScalar2D_t swig_types[172]
+#define SWIGTYPE_p_std__shared_ptrT_values__IScalar3D_t swig_types[173]
+#define SWIGTYPE_p_std__shared_ptrT_values__IScalar_t swig_types[174]
+#define SWIGTYPE_p_std__shared_ptrT_values__IString_t swig_types[175]
+#define SWIGTYPE_p_std__shared_ptrT_values__IValue_t swig_types[176]
+#define SWIGTYPE_p_std__shared_ptrT_values__IVector3D_t swig_types[177]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueBool_const_t swig_types[178]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueBool_t swig_types[179]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueMatrix3DCongruent_const_t swig_types[180]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueMatrix3DCongruent_t swig_types[181]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueMatrix3DInterpolation_const_t swig_types[182]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueMatrix3DInterpolation_t swig_types[183]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar1DFunction_const_t swig_types[184]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar1DFunction_t swig_types[185]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar1D_const_t swig_types[186]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar1D_t swig_types[187]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar2DFunction_const_t swig_types[188]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar2DFunction_t swig_types[189]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar2D_const_t swig_types[190]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar2D_t swig_types[191]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar3DCongruent_const_t swig_types[192]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar3DCongruent_t swig_types[193]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar3DFunction_const_t swig_types[194]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar3DFunction_t swig_types[195]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar3DInterpolation_const_t swig_types[196]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar3DInterpolation_t swig_types[197]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar3D_const_t swig_types[198]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar3D_t swig_types[199]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar_const_t swig_types[200]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueScalar_t swig_types[201]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueString_const_t swig_types[202]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueString_t swig_types[203]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueVector3DCongruent_const_t swig_types[204]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueVector3DCongruent_t swig_types[205]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueVector3D_const_t swig_types[206]
+#define SWIGTYPE_p_std__shared_ptrT_values__ValueVector3D_t swig_types[207]
+#define SWIGTYPE_p_std__string swig_types[208]
+#define SWIGTYPE_p_std__vectorT_dive__DirichletMeshIndex_t swig_types[209]
+#define SWIGTYPE_p_std__vectorT_dive__DofMeshIndex_t swig_types[210]
+#define SWIGTYPE_p_std__vectorT_dive__NodeMeshIndex_t swig_types[211]
+#define SWIGTYPE_p_std__vectorT_double_t swig_types[212]
+#define SWIGTYPE_p_std__vectorT_eilig__Ellpack_std__allocatorT_eilig__Ellpack_t_t swig_types[213]
+#define SWIGTYPE_p_std__vectorT_eilig__Matrix_std__allocatorT_eilig__Matrix_t_t swig_types[214]
+#define SWIGTYPE_p_std__vectorT_eilig__Vector_std__allocatorT_eilig__Vector_t_t swig_types[215]
+#define SWIGTYPE_p_std__vectorT_std__shared_ptrT_basis__IBasis_t_t swig_types[216]
+#define SWIGTYPE_p_std__vectorT_std__shared_ptrT_dive__elements__IElement_t_t swig_types[217]
+#define SWIGTYPE_p_std__vectorT_std__shared_ptrT_dive__loads__IDirichlet_t_t swig_types[218]
+#define SWIGTYPE_p_std__vectorT_std__shared_ptrT_dive__loads__ILoad_t_t swig_types[219]
+#define SWIGTYPE_p_std__vectorT_std__shared_ptrT_dive__meshes__IMesh_t_t swig_types[220]
+#define SWIGTYPE_p_std__vectorT_std__shared_ptrT_nodes__INode_t_t swig_types[221]
+#define SWIGTYPE_p_std__vectorT_std__size_t_t swig_types[222]
+#define SWIGTYPE_p_std__vectorT_std__vectorT_dive__NodeMeshIndex_t_t swig_types[223]
+#define SWIGTYPE_p_std__vectorT_std__vectorT_double_t_t swig_types[224]
+#define SWIGTYPE_p_swig__SwigPyIterator swig_types[225]
+#define SWIGTYPE_p_utils__Strings swig_types[226]
+#define SWIGTYPE_p_utils__file__Text swig_types[227]
+#define SWIGTYPE_p_value_type swig_types[228]
+#define SWIGTYPE_p_values__IBool swig_types[229]
+#define SWIGTYPE_p_values__IMatrix3D swig_types[230]
+#define SWIGTYPE_p_values__IScalar swig_types[231]
+#define SWIGTYPE_p_values__IScalar1D swig_types[232]
+#define SWIGTYPE_p_values__IScalar2D swig_types[233]
+#define SWIGTYPE_p_values__IScalar3D swig_types[234]
+#define SWIGTYPE_p_values__IString swig_types[235]
+#define SWIGTYPE_p_values__IValue swig_types[236]
+#define SWIGTYPE_p_values__IVector3D swig_types[237]
+#define SWIGTYPE_p_values__ValueBool swig_types[238]
+#define SWIGTYPE_p_values__ValueMatrix3DCongruent swig_types[239]
+#define SWIGTYPE_p_values__ValueMatrix3DInterpolation swig_types[240]
+#define SWIGTYPE_p_values__ValueScalar swig_types[241]
+#define SWIGTYPE_p_values__ValueScalar1D swig_types[242]
+#define SWIGTYPE_p_values__ValueScalar1DFunction swig_types[243]
+#define SWIGTYPE_p_values__ValueScalar2D swig_types[244]
+#define SWIGTYPE_p_values__ValueScalar2DFunction swig_types[245]
+#define SWIGTYPE_p_values__ValueScalar3D swig_types[246]
+#define SWIGTYPE_p_values__ValueScalar3DCongruent swig_types[247]
+#define SWIGTYPE_p_values__ValueScalar3DFunction swig_types[248]
+#define SWIGTYPE_p_values__ValueScalar3DInterpolation swig_types[249]
+#define SWIGTYPE_p_values__ValueString swig_types[250]
+#define SWIGTYPE_p_values__ValueVector3D swig_types[251]
+#define SWIGTYPE_p_values__ValueVector3DCongruent swig_types[252]
+static swig_type_info *swig_types[254];
+static swig_module_info swig_module = {swig_types, 253, 0, 0, 0, 0};
 #define SWIG_TypeQuery(name) SWIG_TypeQueryModule(&swig_module, &swig_module, name)
 #define SWIG_MangledTypeQuery(name) SWIG_MangledTypeQueryModule(&swig_module, &swig_module, name)
 
@@ -4107,6 +4108,8 @@ SWIG_AsVal_ptrdiff_t (PyObject * obj, ptrdiff_t *val)
 	
 	using Indices = std::vector<Index>;
 	using Scalars = std::vector<Scalar>;
+	
+	using CallbackIterative = Status (*)(Status, Index, Scalar);		
 
 
 namespace swig {
@@ -20005,7 +20008,76 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_IterativJacobi__SWIG_0(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+SWIGINTERN PyObject *_wrap_IterativeBiCGStab__SWIG_0(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
+  PyObject *resultobj = 0;
+  eilig::Vector *arg1 = 0 ;
+  eilig::Ellpack *arg2 = 0 ;
+  eilig::Vector *arg3 = 0 ;
+  eilig::Scalar arg4 ;
+  eilig::Index arg5 ;
+  eilig::CallbackIterative arg6 = (eilig::CallbackIterative) 0 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  void *argp2 = 0 ;
+  int res2 = 0 ;
+  void *argp3 = 0 ;
+  int res3 = 0 ;
+  double val4 ;
+  int ecode4 = 0 ;
+  size_t val5 ;
+  int ecode5 = 0 ;
+  
+  (void)self;
+  if ((nobjs < 6) || (nobjs > 6)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_eilig__Vector,  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IterativeBiCGStab" "', argument " "1"" of type '" "eilig::Vector &""'"); 
+  }
+  if (!argp1) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativeBiCGStab" "', argument " "1"" of type '" "eilig::Vector &""'"); 
+  }
+  arg1 = reinterpret_cast< eilig::Vector * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_eilig__Ellpack,  0  | 0);
+  if (!SWIG_IsOK(res2)) {
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "IterativeBiCGStab" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
+  }
+  if (!argp2) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativeBiCGStab" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
+  }
+  arg2 = reinterpret_cast< eilig::Ellpack * >(argp2);
+  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_eilig__Vector,  0  | 0);
+  if (!SWIG_IsOK(res3)) {
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "IterativeBiCGStab" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
+  }
+  if (!argp3) {
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativeBiCGStab" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
+  }
+  arg3 = reinterpret_cast< eilig::Vector * >(argp3);
+  ecode4 = SWIG_AsVal_double(swig_obj[3], &val4);
+  if (!SWIG_IsOK(ecode4)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "IterativeBiCGStab" "', argument " "4"" of type '" "eilig::Scalar""'");
+  } 
+  arg4 = static_cast< eilig::Scalar >(val4);
+  ecode5 = SWIG_AsVal_size_t(swig_obj[4], &val5);
+  if (!SWIG_IsOK(ecode5)) {
+    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "IterativeBiCGStab" "', argument " "5"" of type '" "eilig::Index""'");
+  } 
+  arg5 = static_cast< eilig::Index >(val5);
+  {
+    int res = SWIG_ConvertFunctionPtr(swig_obj[5], (void**)(&arg6), SWIGTYPE_p_f_long_long___size_t_double__long_long);
+    if (!SWIG_IsOK(res)) {
+      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "IterativeBiCGStab" "', argument " "6"" of type '" "eilig::CallbackIterative""'"); 
+    }
+  }
+  eilig::IterativeBiCGStab(*arg1,(eilig::Ellpack const &)*arg2,(eilig::Vector const &)*arg3,arg4,SWIG_STD_MOVE(arg5),arg6);
+  resultobj = SWIG_Py_Void();
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_IterativeBiCGStab__SWIG_1(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
   PyObject *resultobj = 0;
   eilig::Vector *arg1 = 0 ;
   eilig::Ellpack *arg2 = 0 ;
@@ -20022,202 +20094,59 @@ SWIGINTERN PyObject *_wrap_IterativJacobi__SWIG_0(PyObject *self, Py_ssize_t nob
   int ecode4 = 0 ;
   size_t val5 ;
   int ecode5 = 0 ;
-  eilig::Status result;
   
   (void)self;
   if ((nobjs < 5) || (nobjs > 5)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_eilig__Vector,  0 );
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IterativJacobi" "', argument " "1"" of type '" "eilig::Vector &""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IterativeBiCGStab" "', argument " "1"" of type '" "eilig::Vector &""'"); 
   }
   if (!argp1) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativJacobi" "', argument " "1"" of type '" "eilig::Vector &""'"); 
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativeBiCGStab" "', argument " "1"" of type '" "eilig::Vector &""'"); 
   }
   arg1 = reinterpret_cast< eilig::Vector * >(argp1);
   res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_eilig__Ellpack,  0  | 0);
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "IterativJacobi" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "IterativeBiCGStab" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativJacobi" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativeBiCGStab" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
   }
   arg2 = reinterpret_cast< eilig::Ellpack * >(argp2);
   res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_eilig__Vector,  0  | 0);
   if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "IterativJacobi" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "IterativeBiCGStab" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
   }
   if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativJacobi" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativeBiCGStab" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
   }
   arg3 = reinterpret_cast< eilig::Vector * >(argp3);
   ecode4 = SWIG_AsVal_double(swig_obj[3], &val4);
   if (!SWIG_IsOK(ecode4)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "IterativJacobi" "', argument " "4"" of type '" "eilig::Scalar""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "IterativeBiCGStab" "', argument " "4"" of type '" "eilig::Scalar""'");
   } 
   arg4 = static_cast< eilig::Scalar >(val4);
   ecode5 = SWIG_AsVal_size_t(swig_obj[4], &val5);
   if (!SWIG_IsOK(ecode5)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "IterativJacobi" "', argument " "5"" of type '" "eilig::Index""'");
+    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "IterativeBiCGStab" "', argument " "5"" of type '" "eilig::Index""'");
   } 
   arg5 = static_cast< eilig::Index >(val5);
-  result = (eilig::Status)eilig::IterativJacobi(*arg1,(eilig::Ellpack const &)*arg2,(eilig::Vector const &)*arg3,arg4,SWIG_STD_MOVE(arg5));
-  resultobj = SWIG_From_long_SS_long(static_cast< long long >(result));
+  eilig::IterativeBiCGStab(*arg1,(eilig::Ellpack const &)*arg2,(eilig::Vector const &)*arg3,arg4,SWIG_STD_MOVE(arg5));
+  resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
   return NULL;
 }
 
 
-SWIGINTERN PyObject *_wrap_IterativJacobi__SWIG_1(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
-  PyObject *resultobj = 0;
-  eilig::Vector *arg1 = 0 ;
-  eilig::Ellpack *arg2 = 0 ;
-  eilig::Vector *arg3 = 0 ;
-  eilig::Scalar arg4 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
-  void *argp3 = 0 ;
-  int res3 = 0 ;
-  double val4 ;
-  int ecode4 = 0 ;
-  eilig::Status result;
-  
-  (void)self;
-  if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_eilig__Vector,  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IterativJacobi" "', argument " "1"" of type '" "eilig::Vector &""'"); 
-  }
-  if (!argp1) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativJacobi" "', argument " "1"" of type '" "eilig::Vector &""'"); 
-  }
-  arg1 = reinterpret_cast< eilig::Vector * >(argp1);
-  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_eilig__Ellpack,  0  | 0);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "IterativJacobi" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
-  }
-  if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativJacobi" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
-  }
-  arg2 = reinterpret_cast< eilig::Ellpack * >(argp2);
-  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_eilig__Vector,  0  | 0);
-  if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "IterativJacobi" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
-  }
-  if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativJacobi" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
-  }
-  arg3 = reinterpret_cast< eilig::Vector * >(argp3);
-  ecode4 = SWIG_AsVal_double(swig_obj[3], &val4);
-  if (!SWIG_IsOK(ecode4)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "IterativJacobi" "', argument " "4"" of type '" "eilig::Scalar""'");
-  } 
-  arg4 = static_cast< eilig::Scalar >(val4);
-  result = (eilig::Status)eilig::IterativJacobi(*arg1,(eilig::Ellpack const &)*arg2,(eilig::Vector const &)*arg3,arg4);
-  resultobj = SWIG_From_long_SS_long(static_cast< long long >(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_IterativJacobi__SWIG_2(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
-  PyObject *resultobj = 0;
-  eilig::Vector *arg1 = 0 ;
-  eilig::Ellpack *arg2 = 0 ;
-  eilig::Vector *arg3 = 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
-  void *argp3 = 0 ;
-  int res3 = 0 ;
-  eilig::Status result;
-  
-  (void)self;
-  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_eilig__Vector,  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IterativJacobi" "', argument " "1"" of type '" "eilig::Vector &""'"); 
-  }
-  if (!argp1) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativJacobi" "', argument " "1"" of type '" "eilig::Vector &""'"); 
-  }
-  arg1 = reinterpret_cast< eilig::Vector * >(argp1);
-  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_eilig__Ellpack,  0  | 0);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "IterativJacobi" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
-  }
-  if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativJacobi" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
-  }
-  arg2 = reinterpret_cast< eilig::Ellpack * >(argp2);
-  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_eilig__Vector,  0  | 0);
-  if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "IterativJacobi" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
-  }
-  if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativJacobi" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
-  }
-  arg3 = reinterpret_cast< eilig::Vector * >(argp3);
-  result = (eilig::Status)eilig::IterativJacobi(*arg1,(eilig::Ellpack const &)*arg2,(eilig::Vector const &)*arg3);
-  resultobj = SWIG_From_long_SS_long(static_cast< long long >(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_IterativJacobi(PyObject *self, PyObject *args) {
+SWIGINTERN PyObject *_wrap_IterativeBiCGStab(PyObject *self, PyObject *args) {
   Py_ssize_t argc;
-  PyObject *argv[6] = {
+  PyObject *argv[7] = {
     0
   };
   
-  if (!(argc = SWIG_Python_UnpackTuple(args, "IterativJacobi", 0, 5, argv))) SWIG_fail;
+  if (!(argc = SWIG_Python_UnpackTuple(args, "IterativeBiCGStab", 0, 6, argv))) SWIG_fail;
   --argc;
-  if (argc == 3) {
-    int _v = 0;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_eilig__Vector, SWIG_POINTER_NO_NULL);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_eilig__Ellpack, SWIG_POINTER_NO_NULL | 0);
-      _v = SWIG_CheckState(res);
-      if (_v) {
-        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_eilig__Vector, SWIG_POINTER_NO_NULL | 0);
-        _v = SWIG_CheckState(res);
-        if (_v) {
-          return _wrap_IterativJacobi__SWIG_2(self, argc, argv);
-        }
-      }
-    }
-  }
-  if (argc == 4) {
-    int _v = 0;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_eilig__Vector, SWIG_POINTER_NO_NULL);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_eilig__Ellpack, SWIG_POINTER_NO_NULL | 0);
-      _v = SWIG_CheckState(res);
-      if (_v) {
-        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_eilig__Vector, SWIG_POINTER_NO_NULL | 0);
-        _v = SWIG_CheckState(res);
-        if (_v) {
-          {
-            int res = SWIG_AsVal_double(argv[3], NULL);
-            _v = SWIG_CheckState(res);
-          }
-          if (_v) {
-            return _wrap_IterativJacobi__SWIG_1(self, argc, argv);
-          }
-        }
-      }
-    }
-  }
   if (argc == 5) {
     int _v = 0;
     void *vptr = 0;
@@ -20240,238 +20169,14 @@ SWIGINTERN PyObject *_wrap_IterativJacobi(PyObject *self, PyObject *args) {
               _v = SWIG_CheckState(res);
             }
             if (_v) {
-              return _wrap_IterativJacobi__SWIG_0(self, argc, argv);
+              return _wrap_IterativeBiCGStab__SWIG_1(self, argc, argv);
             }
           }
         }
       }
     }
   }
-  
-fail:
-  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'IterativJacobi'.\n"
-    "  Possible C/C++ prototypes are:\n"
-    "    eilig::IterativJacobi(eilig::Vector &,eilig::Ellpack const &,eilig::Vector const &,eilig::Scalar,eilig::Index)\n"
-    "    eilig::IterativJacobi(eilig::Vector &,eilig::Ellpack const &,eilig::Vector const &,eilig::Scalar)\n"
-    "    eilig::IterativJacobi(eilig::Vector &,eilig::Ellpack const &,eilig::Vector const &)\n");
-  return 0;
-}
-
-
-SWIGINTERN PyObject *_wrap_IterativGauss__SWIG_0(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
-  PyObject *resultobj = 0;
-  eilig::Vector *arg1 = 0 ;
-  eilig::Ellpack *arg2 = 0 ;
-  eilig::Vector *arg3 = 0 ;
-  eilig::Scalar arg4 ;
-  eilig::Index arg5 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
-  void *argp3 = 0 ;
-  int res3 = 0 ;
-  double val4 ;
-  int ecode4 = 0 ;
-  size_t val5 ;
-  int ecode5 = 0 ;
-  eilig::Status result;
-  
-  (void)self;
-  if ((nobjs < 5) || (nobjs > 5)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_eilig__Vector,  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IterativGauss" "', argument " "1"" of type '" "eilig::Vector &""'"); 
-  }
-  if (!argp1) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativGauss" "', argument " "1"" of type '" "eilig::Vector &""'"); 
-  }
-  arg1 = reinterpret_cast< eilig::Vector * >(argp1);
-  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_eilig__Ellpack,  0  | 0);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "IterativGauss" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
-  }
-  if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativGauss" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
-  }
-  arg2 = reinterpret_cast< eilig::Ellpack * >(argp2);
-  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_eilig__Vector,  0  | 0);
-  if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "IterativGauss" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
-  }
-  if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativGauss" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
-  }
-  arg3 = reinterpret_cast< eilig::Vector * >(argp3);
-  ecode4 = SWIG_AsVal_double(swig_obj[3], &val4);
-  if (!SWIG_IsOK(ecode4)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "IterativGauss" "', argument " "4"" of type '" "eilig::Scalar""'");
-  } 
-  arg4 = static_cast< eilig::Scalar >(val4);
-  ecode5 = SWIG_AsVal_size_t(swig_obj[4], &val5);
-  if (!SWIG_IsOK(ecode5)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "IterativGauss" "', argument " "5"" of type '" "eilig::Index""'");
-  } 
-  arg5 = static_cast< eilig::Index >(val5);
-  result = (eilig::Status)eilig::IterativGauss(*arg1,(eilig::Ellpack const &)*arg2,(eilig::Vector const &)*arg3,arg4,SWIG_STD_MOVE(arg5));
-  resultobj = SWIG_From_long_SS_long(static_cast< long long >(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_IterativGauss__SWIG_1(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
-  PyObject *resultobj = 0;
-  eilig::Vector *arg1 = 0 ;
-  eilig::Ellpack *arg2 = 0 ;
-  eilig::Vector *arg3 = 0 ;
-  eilig::Scalar arg4 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
-  void *argp3 = 0 ;
-  int res3 = 0 ;
-  double val4 ;
-  int ecode4 = 0 ;
-  eilig::Status result;
-  
-  (void)self;
-  if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_eilig__Vector,  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IterativGauss" "', argument " "1"" of type '" "eilig::Vector &""'"); 
-  }
-  if (!argp1) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativGauss" "', argument " "1"" of type '" "eilig::Vector &""'"); 
-  }
-  arg1 = reinterpret_cast< eilig::Vector * >(argp1);
-  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_eilig__Ellpack,  0  | 0);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "IterativGauss" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
-  }
-  if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativGauss" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
-  }
-  arg2 = reinterpret_cast< eilig::Ellpack * >(argp2);
-  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_eilig__Vector,  0  | 0);
-  if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "IterativGauss" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
-  }
-  if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativGauss" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
-  }
-  arg3 = reinterpret_cast< eilig::Vector * >(argp3);
-  ecode4 = SWIG_AsVal_double(swig_obj[3], &val4);
-  if (!SWIG_IsOK(ecode4)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "IterativGauss" "', argument " "4"" of type '" "eilig::Scalar""'");
-  } 
-  arg4 = static_cast< eilig::Scalar >(val4);
-  result = (eilig::Status)eilig::IterativGauss(*arg1,(eilig::Ellpack const &)*arg2,(eilig::Vector const &)*arg3,arg4);
-  resultobj = SWIG_From_long_SS_long(static_cast< long long >(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_IterativGauss__SWIG_2(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
-  PyObject *resultobj = 0;
-  eilig::Vector *arg1 = 0 ;
-  eilig::Ellpack *arg2 = 0 ;
-  eilig::Vector *arg3 = 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
-  void *argp3 = 0 ;
-  int res3 = 0 ;
-  eilig::Status result;
-  
-  (void)self;
-  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_eilig__Vector,  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IterativGauss" "', argument " "1"" of type '" "eilig::Vector &""'"); 
-  }
-  if (!argp1) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativGauss" "', argument " "1"" of type '" "eilig::Vector &""'"); 
-  }
-  arg1 = reinterpret_cast< eilig::Vector * >(argp1);
-  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_eilig__Ellpack,  0  | 0);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "IterativGauss" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
-  }
-  if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativGauss" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
-  }
-  arg2 = reinterpret_cast< eilig::Ellpack * >(argp2);
-  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_eilig__Vector,  0  | 0);
-  if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "IterativGauss" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
-  }
-  if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativGauss" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
-  }
-  arg3 = reinterpret_cast< eilig::Vector * >(argp3);
-  result = (eilig::Status)eilig::IterativGauss(*arg1,(eilig::Ellpack const &)*arg2,(eilig::Vector const &)*arg3);
-  resultobj = SWIG_From_long_SS_long(static_cast< long long >(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_IterativGauss(PyObject *self, PyObject *args) {
-  Py_ssize_t argc;
-  PyObject *argv[6] = {
-    0
-  };
-  
-  if (!(argc = SWIG_Python_UnpackTuple(args, "IterativGauss", 0, 5, argv))) SWIG_fail;
-  --argc;
-  if (argc == 3) {
-    int _v = 0;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_eilig__Vector, SWIG_POINTER_NO_NULL);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_eilig__Ellpack, SWIG_POINTER_NO_NULL | 0);
-      _v = SWIG_CheckState(res);
-      if (_v) {
-        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_eilig__Vector, SWIG_POINTER_NO_NULL | 0);
-        _v = SWIG_CheckState(res);
-        if (_v) {
-          return _wrap_IterativGauss__SWIG_2(self, argc, argv);
-        }
-      }
-    }
-  }
-  if (argc == 4) {
-    int _v = 0;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_eilig__Vector, SWIG_POINTER_NO_NULL);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_eilig__Ellpack, SWIG_POINTER_NO_NULL | 0);
-      _v = SWIG_CheckState(res);
-      if (_v) {
-        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_eilig__Vector, SWIG_POINTER_NO_NULL | 0);
-        _v = SWIG_CheckState(res);
-        if (_v) {
-          {
-            int res = SWIG_AsVal_double(argv[3], NULL);
-            _v = SWIG_CheckState(res);
-          }
-          if (_v) {
-            return _wrap_IterativGauss__SWIG_1(self, argc, argv);
-          }
-        }
-      }
-    }
-  }
-  if (argc == 5) {
+  if (argc == 6) {
     int _v = 0;
     void *vptr = 0;
     int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_eilig__Vector, SWIG_POINTER_NO_NULL);
@@ -20493,260 +20198,12 @@ SWIGINTERN PyObject *_wrap_IterativGauss(PyObject *self, PyObject *args) {
               _v = SWIG_CheckState(res);
             }
             if (_v) {
-              return _wrap_IterativGauss__SWIG_0(self, argc, argv);
-            }
-          }
-        }
-      }
-    }
-  }
-  
-fail:
-  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'IterativGauss'.\n"
-    "  Possible C/C++ prototypes are:\n"
-    "    eilig::IterativGauss(eilig::Vector &,eilig::Ellpack const &,eilig::Vector const &,eilig::Scalar,eilig::Index)\n"
-    "    eilig::IterativGauss(eilig::Vector &,eilig::Ellpack const &,eilig::Vector const &,eilig::Scalar)\n"
-    "    eilig::IterativGauss(eilig::Vector &,eilig::Ellpack const &,eilig::Vector const &)\n");
-  return 0;
-}
-
-
-SWIGINTERN PyObject *_wrap_IterativCG__SWIG_0(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
-  PyObject *resultobj = 0;
-  eilig::Vector *arg1 = 0 ;
-  eilig::Ellpack *arg2 = 0 ;
-  eilig::Vector *arg3 = 0 ;
-  eilig::Scalar arg4 ;
-  eilig::Index arg5 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
-  void *argp3 = 0 ;
-  int res3 = 0 ;
-  double val4 ;
-  int ecode4 = 0 ;
-  size_t val5 ;
-  int ecode5 = 0 ;
-  eilig::Status result;
-  
-  (void)self;
-  if ((nobjs < 5) || (nobjs > 5)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_eilig__Vector,  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IterativCG" "', argument " "1"" of type '" "eilig::Vector &""'"); 
-  }
-  if (!argp1) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativCG" "', argument " "1"" of type '" "eilig::Vector &""'"); 
-  }
-  arg1 = reinterpret_cast< eilig::Vector * >(argp1);
-  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_eilig__Ellpack,  0  | 0);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "IterativCG" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
-  }
-  if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativCG" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
-  }
-  arg2 = reinterpret_cast< eilig::Ellpack * >(argp2);
-  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_eilig__Vector,  0  | 0);
-  if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "IterativCG" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
-  }
-  if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativCG" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
-  }
-  arg3 = reinterpret_cast< eilig::Vector * >(argp3);
-  ecode4 = SWIG_AsVal_double(swig_obj[3], &val4);
-  if (!SWIG_IsOK(ecode4)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "IterativCG" "', argument " "4"" of type '" "eilig::Scalar""'");
-  } 
-  arg4 = static_cast< eilig::Scalar >(val4);
-  ecode5 = SWIG_AsVal_size_t(swig_obj[4], &val5);
-  if (!SWIG_IsOK(ecode5)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "IterativCG" "', argument " "5"" of type '" "eilig::Index""'");
-  } 
-  arg5 = static_cast< eilig::Index >(val5);
-  result = (eilig::Status)eilig::IterativCG(*arg1,(eilig::Ellpack const &)*arg2,(eilig::Vector const &)*arg3,arg4,SWIG_STD_MOVE(arg5));
-  resultobj = SWIG_From_long_SS_long(static_cast< long long >(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_IterativCG__SWIG_1(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
-  PyObject *resultobj = 0;
-  eilig::Vector *arg1 = 0 ;
-  eilig::Ellpack *arg2 = 0 ;
-  eilig::Vector *arg3 = 0 ;
-  eilig::Scalar arg4 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
-  void *argp3 = 0 ;
-  int res3 = 0 ;
-  double val4 ;
-  int ecode4 = 0 ;
-  eilig::Status result;
-  
-  (void)self;
-  if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_eilig__Vector,  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IterativCG" "', argument " "1"" of type '" "eilig::Vector &""'"); 
-  }
-  if (!argp1) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativCG" "', argument " "1"" of type '" "eilig::Vector &""'"); 
-  }
-  arg1 = reinterpret_cast< eilig::Vector * >(argp1);
-  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_eilig__Ellpack,  0  | 0);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "IterativCG" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
-  }
-  if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativCG" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
-  }
-  arg2 = reinterpret_cast< eilig::Ellpack * >(argp2);
-  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_eilig__Vector,  0  | 0);
-  if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "IterativCG" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
-  }
-  if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativCG" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
-  }
-  arg3 = reinterpret_cast< eilig::Vector * >(argp3);
-  ecode4 = SWIG_AsVal_double(swig_obj[3], &val4);
-  if (!SWIG_IsOK(ecode4)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "IterativCG" "', argument " "4"" of type '" "eilig::Scalar""'");
-  } 
-  arg4 = static_cast< eilig::Scalar >(val4);
-  result = (eilig::Status)eilig::IterativCG(*arg1,(eilig::Ellpack const &)*arg2,(eilig::Vector const &)*arg3,arg4);
-  resultobj = SWIG_From_long_SS_long(static_cast< long long >(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_IterativCG__SWIG_2(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
-  PyObject *resultobj = 0;
-  eilig::Vector *arg1 = 0 ;
-  eilig::Ellpack *arg2 = 0 ;
-  eilig::Vector *arg3 = 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
-  void *argp3 = 0 ;
-  int res3 = 0 ;
-  eilig::Status result;
-  
-  (void)self;
-  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_eilig__Vector,  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IterativCG" "', argument " "1"" of type '" "eilig::Vector &""'"); 
-  }
-  if (!argp1) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativCG" "', argument " "1"" of type '" "eilig::Vector &""'"); 
-  }
-  arg1 = reinterpret_cast< eilig::Vector * >(argp1);
-  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_eilig__Ellpack,  0  | 0);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "IterativCG" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
-  }
-  if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativCG" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
-  }
-  arg2 = reinterpret_cast< eilig::Ellpack * >(argp2);
-  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_eilig__Vector,  0  | 0);
-  if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "IterativCG" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
-  }
-  if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativCG" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
-  }
-  arg3 = reinterpret_cast< eilig::Vector * >(argp3);
-  result = (eilig::Status)eilig::IterativCG(*arg1,(eilig::Ellpack const &)*arg2,(eilig::Vector const &)*arg3);
-  resultobj = SWIG_From_long_SS_long(static_cast< long long >(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_IterativCG(PyObject *self, PyObject *args) {
-  Py_ssize_t argc;
-  PyObject *argv[6] = {
-    0
-  };
-  
-  if (!(argc = SWIG_Python_UnpackTuple(args, "IterativCG", 0, 5, argv))) SWIG_fail;
-  --argc;
-  if (argc == 3) {
-    int _v = 0;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_eilig__Vector, SWIG_POINTER_NO_NULL);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_eilig__Ellpack, SWIG_POINTER_NO_NULL | 0);
-      _v = SWIG_CheckState(res);
-      if (_v) {
-        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_eilig__Vector, SWIG_POINTER_NO_NULL | 0);
-        _v = SWIG_CheckState(res);
-        if (_v) {
-          return _wrap_IterativCG__SWIG_2(self, argc, argv);
-        }
-      }
-    }
-  }
-  if (argc == 4) {
-    int _v = 0;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_eilig__Vector, SWIG_POINTER_NO_NULL);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_eilig__Ellpack, SWIG_POINTER_NO_NULL | 0);
-      _v = SWIG_CheckState(res);
-      if (_v) {
-        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_eilig__Vector, SWIG_POINTER_NO_NULL | 0);
-        _v = SWIG_CheckState(res);
-        if (_v) {
-          {
-            int res = SWIG_AsVal_double(argv[3], NULL);
-            _v = SWIG_CheckState(res);
-          }
-          if (_v) {
-            return _wrap_IterativCG__SWIG_1(self, argc, argv);
-          }
-        }
-      }
-    }
-  }
-  if (argc == 5) {
-    int _v = 0;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_eilig__Vector, SWIG_POINTER_NO_NULL);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_eilig__Ellpack, SWIG_POINTER_NO_NULL | 0);
-      _v = SWIG_CheckState(res);
-      if (_v) {
-        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_eilig__Vector, SWIG_POINTER_NO_NULL | 0);
-        _v = SWIG_CheckState(res);
-        if (_v) {
-          {
-            int res = SWIG_AsVal_double(argv[3], NULL);
-            _v = SWIG_CheckState(res);
-          }
-          if (_v) {
-            {
-              int res = SWIG_AsVal_size_t(argv[4], NULL);
+              void *ptr = 0;
+              int res = SWIG_ConvertFunctionPtr(argv[5], &ptr, SWIGTYPE_p_f_long_long___size_t_double__long_long);
               _v = SWIG_CheckState(res);
-            }
-            if (_v) {
-              return _wrap_IterativCG__SWIG_0(self, argc, argv);
+              if (_v) {
+                return _wrap_IterativeBiCGStab__SWIG_0(self, argc, argv);
+              }
             }
           }
         }
@@ -20755,264 +20212,10 @@ SWIGINTERN PyObject *_wrap_IterativCG(PyObject *self, PyObject *args) {
   }
   
 fail:
-  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'IterativCG'.\n"
+  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'IterativeBiCGStab'.\n"
     "  Possible C/C++ prototypes are:\n"
-    "    eilig::IterativCG(eilig::Vector &,eilig::Ellpack const &,eilig::Vector const &,eilig::Scalar,eilig::Index)\n"
-    "    eilig::IterativCG(eilig::Vector &,eilig::Ellpack const &,eilig::Vector const &,eilig::Scalar)\n"
-    "    eilig::IterativCG(eilig::Vector &,eilig::Ellpack const &,eilig::Vector const &)\n");
-  return 0;
-}
-
-
-SWIGINTERN PyObject *_wrap_IterativBiCGStab__SWIG_0(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
-  PyObject *resultobj = 0;
-  eilig::Vector *arg1 = 0 ;
-  eilig::Ellpack *arg2 = 0 ;
-  eilig::Vector *arg3 = 0 ;
-  eilig::Scalar arg4 ;
-  eilig::Index arg5 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
-  void *argp3 = 0 ;
-  int res3 = 0 ;
-  double val4 ;
-  int ecode4 = 0 ;
-  size_t val5 ;
-  int ecode5 = 0 ;
-  eilig::Status result;
-  
-  (void)self;
-  if ((nobjs < 5) || (nobjs > 5)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_eilig__Vector,  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IterativBiCGStab" "', argument " "1"" of type '" "eilig::Vector &""'"); 
-  }
-  if (!argp1) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativBiCGStab" "', argument " "1"" of type '" "eilig::Vector &""'"); 
-  }
-  arg1 = reinterpret_cast< eilig::Vector * >(argp1);
-  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_eilig__Ellpack,  0  | 0);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "IterativBiCGStab" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
-  }
-  if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativBiCGStab" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
-  }
-  arg2 = reinterpret_cast< eilig::Ellpack * >(argp2);
-  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_eilig__Vector,  0  | 0);
-  if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "IterativBiCGStab" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
-  }
-  if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativBiCGStab" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
-  }
-  arg3 = reinterpret_cast< eilig::Vector * >(argp3);
-  ecode4 = SWIG_AsVal_double(swig_obj[3], &val4);
-  if (!SWIG_IsOK(ecode4)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "IterativBiCGStab" "', argument " "4"" of type '" "eilig::Scalar""'");
-  } 
-  arg4 = static_cast< eilig::Scalar >(val4);
-  ecode5 = SWIG_AsVal_size_t(swig_obj[4], &val5);
-  if (!SWIG_IsOK(ecode5)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode5), "in method '" "IterativBiCGStab" "', argument " "5"" of type '" "eilig::Index""'");
-  } 
-  arg5 = static_cast< eilig::Index >(val5);
-  result = (eilig::Status)eilig::IterativBiCGStab(*arg1,(eilig::Ellpack const &)*arg2,(eilig::Vector const &)*arg3,arg4,SWIG_STD_MOVE(arg5));
-  resultobj = SWIG_From_long_SS_long(static_cast< long long >(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_IterativBiCGStab__SWIG_1(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
-  PyObject *resultobj = 0;
-  eilig::Vector *arg1 = 0 ;
-  eilig::Ellpack *arg2 = 0 ;
-  eilig::Vector *arg3 = 0 ;
-  eilig::Scalar arg4 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
-  void *argp3 = 0 ;
-  int res3 = 0 ;
-  double val4 ;
-  int ecode4 = 0 ;
-  eilig::Status result;
-  
-  (void)self;
-  if ((nobjs < 4) || (nobjs > 4)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_eilig__Vector,  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IterativBiCGStab" "', argument " "1"" of type '" "eilig::Vector &""'"); 
-  }
-  if (!argp1) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativBiCGStab" "', argument " "1"" of type '" "eilig::Vector &""'"); 
-  }
-  arg1 = reinterpret_cast< eilig::Vector * >(argp1);
-  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_eilig__Ellpack,  0  | 0);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "IterativBiCGStab" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
-  }
-  if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativBiCGStab" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
-  }
-  arg2 = reinterpret_cast< eilig::Ellpack * >(argp2);
-  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_eilig__Vector,  0  | 0);
-  if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "IterativBiCGStab" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
-  }
-  if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativBiCGStab" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
-  }
-  arg3 = reinterpret_cast< eilig::Vector * >(argp3);
-  ecode4 = SWIG_AsVal_double(swig_obj[3], &val4);
-  if (!SWIG_IsOK(ecode4)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "IterativBiCGStab" "', argument " "4"" of type '" "eilig::Scalar""'");
-  } 
-  arg4 = static_cast< eilig::Scalar >(val4);
-  result = (eilig::Status)eilig::IterativBiCGStab(*arg1,(eilig::Ellpack const &)*arg2,(eilig::Vector const &)*arg3,arg4);
-  resultobj = SWIG_From_long_SS_long(static_cast< long long >(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_IterativBiCGStab__SWIG_2(PyObject *self, Py_ssize_t nobjs, PyObject **swig_obj) {
-  PyObject *resultobj = 0;
-  eilig::Vector *arg1 = 0 ;
-  eilig::Ellpack *arg2 = 0 ;
-  eilig::Vector *arg3 = 0 ;
-  void *argp1 = 0 ;
-  int res1 = 0 ;
-  void *argp2 = 0 ;
-  int res2 = 0 ;
-  void *argp3 = 0 ;
-  int res3 = 0 ;
-  eilig::Status result;
-  
-  (void)self;
-  if ((nobjs < 3) || (nobjs > 3)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_eilig__Vector,  0 );
-  if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IterativBiCGStab" "', argument " "1"" of type '" "eilig::Vector &""'"); 
-  }
-  if (!argp1) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativBiCGStab" "', argument " "1"" of type '" "eilig::Vector &""'"); 
-  }
-  arg1 = reinterpret_cast< eilig::Vector * >(argp1);
-  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_eilig__Ellpack,  0  | 0);
-  if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "IterativBiCGStab" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
-  }
-  if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativBiCGStab" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
-  }
-  arg2 = reinterpret_cast< eilig::Ellpack * >(argp2);
-  res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_eilig__Vector,  0  | 0);
-  if (!SWIG_IsOK(res3)) {
-    SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "IterativBiCGStab" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
-  }
-  if (!argp3) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativBiCGStab" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
-  }
-  arg3 = reinterpret_cast< eilig::Vector * >(argp3);
-  result = (eilig::Status)eilig::IterativBiCGStab(*arg1,(eilig::Ellpack const &)*arg2,(eilig::Vector const &)*arg3);
-  resultobj = SWIG_From_long_SS_long(static_cast< long long >(result));
-  return resultobj;
-fail:
-  return NULL;
-}
-
-
-SWIGINTERN PyObject *_wrap_IterativBiCGStab(PyObject *self, PyObject *args) {
-  Py_ssize_t argc;
-  PyObject *argv[6] = {
-    0
-  };
-  
-  if (!(argc = SWIG_Python_UnpackTuple(args, "IterativBiCGStab", 0, 5, argv))) SWIG_fail;
-  --argc;
-  if (argc == 3) {
-    int _v = 0;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_eilig__Vector, SWIG_POINTER_NO_NULL);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_eilig__Ellpack, SWIG_POINTER_NO_NULL | 0);
-      _v = SWIG_CheckState(res);
-      if (_v) {
-        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_eilig__Vector, SWIG_POINTER_NO_NULL | 0);
-        _v = SWIG_CheckState(res);
-        if (_v) {
-          return _wrap_IterativBiCGStab__SWIG_2(self, argc, argv);
-        }
-      }
-    }
-  }
-  if (argc == 4) {
-    int _v = 0;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_eilig__Vector, SWIG_POINTER_NO_NULL);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_eilig__Ellpack, SWIG_POINTER_NO_NULL | 0);
-      _v = SWIG_CheckState(res);
-      if (_v) {
-        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_eilig__Vector, SWIG_POINTER_NO_NULL | 0);
-        _v = SWIG_CheckState(res);
-        if (_v) {
-          {
-            int res = SWIG_AsVal_double(argv[3], NULL);
-            _v = SWIG_CheckState(res);
-          }
-          if (_v) {
-            return _wrap_IterativBiCGStab__SWIG_1(self, argc, argv);
-          }
-        }
-      }
-    }
-  }
-  if (argc == 5) {
-    int _v = 0;
-    void *vptr = 0;
-    int res = SWIG_ConvertPtr(argv[0], &vptr, SWIGTYPE_p_eilig__Vector, SWIG_POINTER_NO_NULL);
-    _v = SWIG_CheckState(res);
-    if (_v) {
-      int res = SWIG_ConvertPtr(argv[1], 0, SWIGTYPE_p_eilig__Ellpack, SWIG_POINTER_NO_NULL | 0);
-      _v = SWIG_CheckState(res);
-      if (_v) {
-        int res = SWIG_ConvertPtr(argv[2], 0, SWIGTYPE_p_eilig__Vector, SWIG_POINTER_NO_NULL | 0);
-        _v = SWIG_CheckState(res);
-        if (_v) {
-          {
-            int res = SWIG_AsVal_double(argv[3], NULL);
-            _v = SWIG_CheckState(res);
-          }
-          if (_v) {
-            {
-              int res = SWIG_AsVal_size_t(argv[4], NULL);
-              _v = SWIG_CheckState(res);
-            }
-            if (_v) {
-              return _wrap_IterativBiCGStab__SWIG_0(self, argc, argv);
-            }
-          }
-        }
-      }
-    }
-  }
-  
-fail:
-  SWIG_Python_RaiseOrModifyTypeError("Wrong number or type of arguments for overloaded function 'IterativBiCGStab'.\n"
-    "  Possible C/C++ prototypes are:\n"
-    "    eilig::IterativBiCGStab(eilig::Vector &,eilig::Ellpack const &,eilig::Vector const &,eilig::Scalar,eilig::Index)\n"
-    "    eilig::IterativBiCGStab(eilig::Vector &,eilig::Ellpack const &,eilig::Vector const &,eilig::Scalar)\n"
-    "    eilig::IterativBiCGStab(eilig::Vector &,eilig::Ellpack const &,eilig::Vector const &)\n");
+    "    eilig::IterativeBiCGStab(eilig::Vector &,eilig::Ellpack const &,eilig::Vector const &,eilig::Scalar,eilig::Index,eilig::CallbackIterative)\n"
+    "    eilig::IterativeBiCGStab(eilig::Vector &,eilig::Ellpack const &,eilig::Vector const &,eilig::Scalar,eilig::Index)\n");
   return 0;
 }
 
@@ -91990,10 +91193,7 @@ static PyMethodDef SwigMethods[] = {
 	 { "DiagonalLinearSystem", _wrap_DiagonalLinearSystem, METH_VARARGS, NULL},
 	 { "ForwardLinearSystem", _wrap_ForwardLinearSystem, METH_VARARGS, NULL},
 	 { "DirectLUP", _wrap_DirectLUP, METH_VARARGS, NULL},
-	 { "IterativJacobi", _wrap_IterativJacobi, METH_VARARGS, NULL},
-	 { "IterativGauss", _wrap_IterativGauss, METH_VARARGS, NULL},
-	 { "IterativCG", _wrap_IterativCG, METH_VARARGS, NULL},
-	 { "IterativBiCGStab", _wrap_IterativBiCGStab, METH_VARARGS, NULL},
+	 { "IterativeBiCGStab", _wrap_IterativeBiCGStab, METH_VARARGS, NULL},
 	 { "WriteToFile", _wrap_WriteToFile, METH_VARARGS, NULL},
 	 { "ReadFromFile", _wrap_ReadFromFile, METH_VARARGS, NULL},
 	 { "ListVector", _wrap_ListVector, METH_O, NULL},
@@ -94048,6 +93248,7 @@ static swig_type_info _swigt__p_eilig__Vector = {"_p_eilig__Vector", "Vector *|b
 static swig_type_info _swigt__p_f_double__double = {"_p_f_double__double", "values::Function_S_S|values::Scalar (*)(values::Scalar)|double (*)(double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double_double__double = {"_p_f_double_double__double", "values::Function_S_SS|values::Scalar (*)(values::Scalar,values::Scalar)|double (*)(double,double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double_double_double__double = {"_p_f_double_double_double__double", "Scalar (*)(Scalar,Scalar,Scalar)|values::Function_S_SSS|values::Scalar (*)(values::Scalar,values::Scalar,values::Scalar)|double (*)(double,double,double)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_long___size_t_double__long_long = {"_p_f_long_long___size_t_double__long_long", "eilig::CallbackIterative|long long (*)(long long,::size_t,double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_interpolation__IInterpolation = {"_p_interpolation__IInterpolation", "interpolation::IInterpolation *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_interpolation__InterpolationFixed = {"_p_interpolation__InterpolationFixed", "interpolation::InterpolationFixed *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_interpolation__InterpolationIDW = {"_p_interpolation__InterpolationIDW", "interpolation::InterpolationIDW *", 0, 0, (void*)0, 0};
@@ -94302,6 +93503,7 @@ static swig_type_info *swig_type_initial[] = {
   &_swigt__p_f_double__double,
   &_swigt__p_f_double_double__double,
   &_swigt__p_f_double_double_double__double,
+  &_swigt__p_f_long_long___size_t_double__long_long,
   &_swigt__p_interpolation__IInterpolation,
   &_swigt__p_interpolation__InterpolationFixed,
   &_swigt__p_interpolation__InterpolationIDW,
@@ -94556,6 +93758,7 @@ static swig_cast_info _swigc__p_eilig__Vector[] = {  {&_swigt__p_eilig__Vector, 
 static swig_cast_info _swigc__p_f_double__double[] = {  {&_swigt__p_f_double__double, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_double_double__double[] = {  {&_swigt__p_f_double_double__double, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_f_double_double_double__double[] = {  {&_swigt__p_f_double_double_double__double, 0, 0, 0},{0, 0, 0, 0}};
+static swig_cast_info _swigc__p_f_long_long___size_t_double__long_long[] = {  {&_swigt__p_f_long_long___size_t_double__long_long, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_interpolation__IInterpolation[] = {  {&_swigt__p_interpolation__IInterpolation, 0, 0, 0},  {&_swigt__p_interpolation__InterpolationFixed, _p_interpolation__InterpolationFixedTo_p_interpolation__IInterpolation, 0, 0},  {&_swigt__p_interpolation__InterpolationIDW, _p_interpolation__InterpolationIDWTo_p_interpolation__IInterpolation, 0, 0},  {&_swigt__p_interpolation__InterpolationNN, _p_interpolation__InterpolationNNTo_p_interpolation__IInterpolation, 0, 0},  {&_swigt__p_interpolation__InterpolationRBF, _p_interpolation__InterpolationRBFTo_p_interpolation__IInterpolation, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_interpolation__InterpolationFixed[] = {  {&_swigt__p_interpolation__InterpolationFixed, 0, 0, 0},{0, 0, 0, 0}};
 static swig_cast_info _swigc__p_interpolation__InterpolationIDW[] = {  {&_swigt__p_interpolation__InterpolationIDW, 0, 0, 0},{0, 0, 0, 0}};
@@ -94810,6 +94013,7 @@ static swig_cast_info *swig_cast_initial[] = {
   _swigc__p_f_double__double,
   _swigc__p_f_double_double__double,
   _swigc__p_f_double_double_double__double,
+  _swigc__p_f_long_long___size_t_double__long_long,
   _swigc__p_interpolation__IInterpolation,
   _swigc__p_interpolation__InterpolationFixed,
   _swigc__p_interpolation__InterpolationIDW,
