@@ -90,7 +90,7 @@ def SolverStationaryDiffusion():
     dy0_1 = dy0.Region(0, pivot - 1)  
     dy0_2 = dy0.Region(pivot, totalDof - 1)  
     
-    dive.IterativBiCGStab(dy0_2, K22, - K21 * y0_1, 0.00001)
+    dive.IterativeBiCGStab(dy0_2, K22, - K21 * y0_1, 0.00001)
 
     dy0.Region(0, pivot - 1, dy0_1)
     dy0.Region(pivot, totalDof - 1, dy0_2)
@@ -130,7 +130,7 @@ def SolverStationaryConvection():
     dy0_1 = dy0.Region(0, pivot - 1)  
     dy0_2 = dy0.Region(pivot, totalDof - 1)  
     
-    dive.IterativBiCGStab(dy0_2, C22 + K22, -(C21 + K21) * y0_1, 0.000001)
+    dive.IterativeBiCGStab(dy0_2, C22 + K22, -(C21 + K21) * y0_1, 0.000001)
 
     dy0.Region(0, pivot - 1, dy0_1)
     dy0.Region(pivot, totalDof - 1, dy0_2)
@@ -179,7 +179,7 @@ def SolverStationaryStabilized():
     dy0_1 = dy0.Region(0, pivot - 1)  
     dy0_2 = dy0.Region(pivot, totalDof - 1)  
     
-    dive.IterativBiCGStab(dy0_2, C22 + K22 - dt * S22, -(C21 + K21 - dt * S21) * y0_1, 0.000001)
+    dive.IterativeBiCGStab(dy0_2, C22 + K22 - dt * S22, -(C21 + K21 - dt * S21) * y0_1, 0.000001)
 
     dy0.Region(0, pivot - 1, dy0_1)
     dy0.Region(pivot, totalDof - 1, dy0_2)

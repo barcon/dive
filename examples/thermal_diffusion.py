@@ -1,6 +1,7 @@
 import dive
 import materials
 import meshes
+import meshes.cavity
 import thermal
 
 T_ref       = 313.15      #[K]      = 40 [°C]
@@ -46,16 +47,15 @@ def FunctionVelocity(point):
     return res
 
 meshes.cavity.quadratic = True
-meshes.Create(meshFile)
+meshes.cavity.Create(meshFile)
 
 mesh     = meshes.LoadMesh(1, meshFile)
 pressure = dive.CreateValueScalar3D(p_ref)
 problem  = thermal.CreateProblemThermal(1, timer, mesh, pressure, None, material)
 
-quit()
 ApplyBoundaryConditions(problem, 100.0, 0.0)
 
-thermal.solver.Initialize()
+thermal.Initialize()
+thermal.SolverStationaryDiffusion()
 
-thermal.solver.Start()
 meshes.plot.Field(mesh.GetNodes())
