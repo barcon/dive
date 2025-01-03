@@ -32,6 +32,17 @@ S22 = None
 f = None
 g = None
 
+def CallbackIterative(status, iteration, residual):
+    if status == dive.EILIG_RUNNING:
+        print("Residual = ", residual)
+        return dive.EILIG_CONTINUE
+    elif status == dive.EILIG_NOT_CONVERGED:
+        return dive.EILIG_STOP
+    elif status == dive.EILIG_SUCCESS:
+        return dive.EILIG_STOP
+
+    return dive.EILIG_CONTINUE
+
 def CreateProblemThermal(tag, timer, mesh, pressure, velocity, material):
     global temperature
     temperature = Temperature()
@@ -90,7 +101,7 @@ def SolverStationaryDiffusion():
     dy0_1 = dy0.Region(0, pivot - 1)  
     dy0_2 = dy0.Region(pivot, totalDof - 1)  
     
-    dive.IterativeBiCGStab(dy0_2, K22, - K21 * y0_1, 0.00001)
+    dive.IterativeBiCGStab(dy0_2, K22, - K21 * y0_1, 1.0e-6, CallbackIterative)
 
     dy0.Region(0, pivot - 1, dy0_1)
     dy0.Region(pivot, totalDof - 1, dy0_2)

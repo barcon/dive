@@ -2,9 +2,8 @@
 
 %apply Status& INOUT { Status& status };
 
-%typemap(in) Status (*function)(Status, Index, Scalar)
-{
-    $1 = (std::size_t (*)(long long int, std::size_t, double))PyLong_AsVoidPtr($input);
+%typemap(in) Status (*callbackIterative)(Status, Index, Scalar) {
+    $1 = (long long int (*)(long long int, std::size_t, double))PyLong_AsVoidPtr($input);;
 }
 
 %inline
@@ -19,6 +18,7 @@
 	#include "eilig_opencl_matrix_ellpack.hpp"
 	#include "eilig_routines.hpp"
 	#include "eilig_transform.hpp"
+	#include "eilig_status.hpp"
 
 	using Scalar = double;
 	using Status = long long int;
@@ -31,8 +31,6 @@
 	using Indices = std::vector<Index>;
 	using Scalars = std::vector<Scalar>;
 	
-	using CallbackIterative = Status (*)(Status, Index, Scalar);		
-
 	namespace club
 	{
 		using PlatformNumber = size_t;
@@ -67,6 +65,7 @@ namespace std
 %include "..\..\eilig\src\eilig_opencl_matrix_ellpack.hpp"
 %include "..\..\eilig\src\eilig_routines.hpp"
 %include "..\..\eilig\src\eilig_transform.hpp"
+%include "..\..\eilig\src\eilig_status.hpp"
 
 %extend eilig::Vector {
     String __str__() const 
@@ -225,5 +224,19 @@ def SetItemEllpackCL(self, index, value):
 
 EllpackCL.__getitem__ = GetItemEllpackCL
 EllpackCL.__setitem__ = SetItemEllpackCL
+
+import ctypes
+
+py_callback_iterative = ctypes.CFUNCTYPE(ctypes.c_longlong, ctypes.c_longlong, ctypes.c_size_t, ctypes.c_double)
+
+def IterativeBiCGStab(x, A, b, rtol, callback):
+
+    # wrap the python callback with a ctypes function pointer
+    f = py_callback_iterative(callback)
+
+    # get the function pointer of the ctypes wrapper by casting it to void* and taking its value
+    f_ptr = ctypes.cast(f, ctypes.c_void_p).value
+
+    _dive.IterativeBiCGStab(x, A, b, rtol, f_ptr)
 
 %}

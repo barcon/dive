@@ -1071,7 +1071,7 @@ def ForwardLinearSystem(*args):
 def DirectLUP(x, LU, permutation, b):
     return _diveCL.DirectLUP(x, LU, permutation, b)
 
-def IterativeBiCGStab(x, A, b, rtol, itmax, arg6=None):
+def IterativeBiCGStab(x, A, b, rtol, itmax, arg6):
     return _diveCL.IterativeBiCGStab(x, A, b, rtol, itmax, arg6)
 
 def NormMax(*args):
@@ -1292,6 +1292,16 @@ class vecBasis(object):
 
 # Register vecBasis in _diveCL:
 _diveCL.vecBasis_swigregister(vecBasis)
+EILIG_STOP = cvar.EILIG_STOP
+EILIG_CONTINUE = cvar.EILIG_CONTINUE
+EILIG_RUNNING = cvar.EILIG_RUNNING
+EILIG_SUCCESS = cvar.EILIG_SUCCESS
+EILIG_NOT_CONVERGED = cvar.EILIG_NOT_CONVERGED
+EILIG_INVALID_TOLERANCE = cvar.EILIG_INVALID_TOLERANCE
+EILIG_INVALID_FILE = cvar.EILIG_INVALID_FILE
+EILIG_NULLPTR = cvar.EILIG_NULLPTR
+messages = cvar.messages
+
 class IBasis(object):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 

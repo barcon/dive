@@ -762,8 +762,8 @@ def ForwardLinearSystem(*args):
 def DirectLUP(x, LU, permutation, b):
     return _dive.DirectLUP(x, LU, permutation, b)
 
-def IterativeBiCGStab(x, A, b, rtol, itmax, arg6=None):
-    return _dive.IterativeBiCGStab(x, A, b, rtol, itmax, arg6)
+def IterativeBiCGStab(x, A, b, rtol, callbackIterative):
+    return _dive.IterativeBiCGStab(x, A, b, rtol, callbackIterative)
 
 def WriteToFile(*args):
     return _dive.WriteToFile(*args)
@@ -846,6 +846,20 @@ def SetItemEllpack(self, index, value):
 
 Ellpack.__getitem__ = GetItemEllpack
 Ellpack.__setitem__ = SetItemEllpack
+
+import ctypes
+
+py_callback_iterative = ctypes.CFUNCTYPE(ctypes.c_longlong, ctypes.c_longlong, ctypes.c_size_t, ctypes.c_double)
+
+def IterativeBiCGStab(x, A, b, rtol, callback):
+
+# wrap the python callback with a ctypes function pointer
+    f = py_callback_iterative(callback)
+
+# get the function pointer of the ctypes wrapper by casting it to void* and taking its value
+    f_ptr = ctypes.cast(f, ctypes.c_void_p).value
+
+    _dive.IterativeBiCGStab(x, A, b, rtol, f_ptr)
 
 
 class vecBasis(object):
@@ -953,6 +967,16 @@ class vecBasis(object):
 
 # Register vecBasis in _dive:
 _dive.vecBasis_swigregister(vecBasis)
+EILIG_STOP = cvar.EILIG_STOP
+EILIG_CONTINUE = cvar.EILIG_CONTINUE
+EILIG_RUNNING = cvar.EILIG_RUNNING
+EILIG_SUCCESS = cvar.EILIG_SUCCESS
+EILIG_NOT_CONVERGED = cvar.EILIG_NOT_CONVERGED
+EILIG_INVALID_TOLERANCE = cvar.EILIG_INVALID_TOLERANCE
+EILIG_INVALID_FILE = cvar.EILIG_INVALID_FILE
+EILIG_NULLPTR = cvar.EILIG_NULLPTR
+messages = cvar.messages
+
 class IBasis(object):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 

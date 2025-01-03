@@ -11,28 +11,6 @@
 %include "std_set.i"
 %include "std_vector.i"
 
-%apply Status& INOUT { Status& status };
-
-%typemap(in) Scalar (*function)(Scalar)
-{
-    $1 = (double (*)(double))PyLong_AsVoidPtr($input);
-}
-
-%typemap(in) Scalar (*function)(Scalar, Scalar)
-{
-    $1 = (double (*)(double, double))PyLong_AsVoidPtr($input);
-}
-
-%typemap(in) Scalar (*function)(Scalar, Scalar, Scalar)
-{
-    $1 = (double (*)(double, double, double))PyLong_AsVoidPtr($input);
-}
-
-%typemap(in) Scalar (*function)(Scalar, Scalar, Scalar, Scalar)
-{
-    $1 = (double (*)(double, double, double, double))PyLong_AsVoidPtr($input);
-}
-
 namespace utils
 {
 	typedef ::String std::string;
@@ -86,11 +64,6 @@ namespace interpolation
 	using NumberFaces = Number;
 	using NumberEdges = Number;
 	
-	using Function_S_S = Scalar (*)(Scalar);	
-	using Function_S_SS = Scalar (*)(Scalar, Scalar);
-	using Function_S_SSS = Scalar (*)(Scalar, Scalar, Scalar);	
-	using Function_S_SSSS = Scalar (*)(Scalar, Scalar, Scalar, Scalar);	
-
 	using Indices = std::vector<size_t>;	
 	using String = std::string;
 %}
