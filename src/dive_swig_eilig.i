@@ -1,6 +1,6 @@
 %apply Status& INOUT { Status& status };
 
-%typemap(in) Status (*callbackIterative)(Status, Index, Scalar) {
+%typemap(in) long long int (*callbackIterative)(long long int, std::size_t, double) {
     $1 = (long long int (*)(long long int, std::size_t, double))PyLong_AsVoidPtr($input);
 }
 

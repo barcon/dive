@@ -30,7 +30,7 @@ endif
 RESCOMP = windres
 TARGETDIR = PythonCL
 TARGET = $(TARGETDIR)/_diveCL.pyd
-OBJDIR = obj
+OBJDIR = obj/_PythonCL
 DEFINES += -DNDEBUG -DEILIG_ENABLE_OPENCL
 INCLUDES += -I../../utils/src -I../../logger/src -I../../eilig/src -I../../basis/src -I../../quadrature/src -I../../nodes/src -I../../kdtree/src -I../../interpolation/src -I../../values/src -I../../material/src -I../../python/inc -I../../club/src -I../../opencl/inc
 FORCE_INCLUDE +=

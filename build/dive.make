@@ -30,7 +30,7 @@ endif
 RESCOMP = windres
 TARGETDIR = Python
 TARGET = $(TARGETDIR)/_dive.pyd
-OBJDIR = obj
+OBJDIR = obj/_Python
 DEFINES += -DNDEBUG
 INCLUDES += -I../../utils/src -I../../logger/src -I../../eilig/src -I../../basis/src -I../../quadrature/src -I../../nodes/src -I../../kdtree/src -I../../interpolation/src -I../../values/src -I../../material/src -I../../python/inc
 FORCE_INCLUDE +=

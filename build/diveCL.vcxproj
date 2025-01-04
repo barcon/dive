@@ -29,9 +29,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PythonCL|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>PythonCL\</OutDir>
-    <IntDir>obj\</IntDir>
+    <IntDir>obj\_PythonCL\</IntDir>
     <TargetName>_diveCL</TargetName>
     <TargetExt>.pyd</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='PythonCL|x64'">
+    <VcpkgConfiguration>Release</VcpkgConfiguration>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='PythonCL|x64'">
     <ClCompile>

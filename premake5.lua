@@ -9,6 +9,7 @@ project "dive"
 	cppdialect "C++17"
 	targetname ("_dive")
 	targetextension (".pyd")
+	objdir "%{cfg.location}/obj/%{cfg.platform}_%{cfg.buildcfg}"	
 
 	targetdir "build/%{cfg.buildcfg}"
 	includedirs { "../utils/src" }	
@@ -58,6 +59,7 @@ project "diveCL"
 	cppdialect "C++17"
 	targetname ("_diveCL")
 	targetextension (".pyd")
+	objdir "%{cfg.location}/obj/%{cfg.platform}_%{cfg.buildcfg}"	
 
 	targetdir "build/%{cfg.buildcfg}"
 	includedirs { "../utils/src" }	

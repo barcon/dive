@@ -34,11 +34,11 @@ g = None
 
 def CallbackIterative(status, iteration, residual):
     if status == dive.EILIG_RUNNING:
-        print("Residual = ", residual)
         return dive.EILIG_CONTINUE
     elif status == dive.EILIG_NOT_CONVERGED:
         return dive.EILIG_STOP
     elif status == dive.EILIG_SUCCESS:
+        print("Residual = ", residual)
         return dive.EILIG_STOP
 
     return dive.EILIG_CONTINUE

@@ -20009,7 +20009,7 @@ SWIGINTERN PyObject *_wrap_IterativeBiCGStab(PyObject *self, PyObject *args) {
   eilig::Ellpack *arg2 = 0 ;
   eilig::Vector *arg3 = 0 ;
   eilig::Scalar arg4 ;
-  eilig::Status (*arg5)(eilig::Status,eilig::Index,eilig::Scalar) = (eilig::Status (*)(eilig::Status,eilig::Index,eilig::Scalar)) 0 ;
+  CallbackIterative arg5 = (CallbackIterative) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   void *argp2 = 0 ;
@@ -20052,10 +20052,7 @@ SWIGINTERN PyObject *_wrap_IterativeBiCGStab(PyObject *self, PyObject *args) {
   } 
   arg4 = static_cast< eilig::Scalar >(val4);
   {
-    int res = SWIG_ConvertFunctionPtr(swig_obj[4], (void**)(&arg5), SWIGTYPE_p_f_long_long___size_t_double__long_long);
-    if (!SWIG_IsOK(res)) {
-      SWIG_exception_fail(SWIG_ArgError(res), "in method '" "IterativeBiCGStab" "', argument " "5"" of type '" "eilig::Status (*)(eilig::Status,eilig::Index,eilig::Scalar)""'"); 
-    }
+    arg5 = (long long int (*)(long long int, std::size_t, double))PyLong_AsVoidPtr(swig_obj[4]);
   }
   eilig::IterativeBiCGStab(*arg1,(eilig::Ellpack const &)*arg2,(eilig::Vector const &)*arg3,arg4,arg5);
   resultobj = SWIG_Py_Void();
@@ -93222,7 +93219,7 @@ static swig_type_info _swigt__p_eilig__Vector = {"_p_eilig__Vector", "Vector *|b
 static swig_type_info _swigt__p_f_double__double = {"_p_f_double__double", "values::Function_S_S|values::Scalar (*)(values::Scalar)|double (*)(double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double_double__double = {"_p_f_double_double__double", "values::Function_S_SS|values::Scalar (*)(values::Scalar,values::Scalar)|double (*)(double,double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_f_double_double_double__double = {"_p_f_double_double_double__double", "Scalar (*)(Scalar,Scalar,Scalar)|values::Function_S_SSS|values::Scalar (*)(values::Scalar,values::Scalar,values::Scalar)|double (*)(double,double,double)", 0, 0, (void*)0, 0};
-static swig_type_info _swigt__p_f_long_long___size_t_double__long_long = {"_p_f_long_long___size_t_double__long_long", "eilig::Status (*)(eilig::Status,eilig::Index,eilig::Scalar)|long long (*)(long long,::size_t,double)", 0, 0, (void*)0, 0};
+static swig_type_info _swigt__p_f_long_long___size_t_double__long_long = {"_p_f_long_long___size_t_double__long_long", "CallbackIterative|long long (*)(long long,::size_t,double)", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_interpolation__IInterpolation = {"_p_interpolation__IInterpolation", "interpolation::IInterpolation *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_interpolation__InterpolationFixed = {"_p_interpolation__InterpolationFixed", "interpolation::InterpolationFixed *", 0, 0, (void*)0, 0};
 static swig_type_info _swigt__p_interpolation__InterpolationIDW = {"_p_interpolation__InterpolationIDW", "interpolation::InterpolationIDW *", 0, 0, (void*)0, 0};
