@@ -1,6 +1,7 @@
 import dive
 import meshes
 import plot.residuals
+import math
 
 from dataclasses import dataclass
 
@@ -33,17 +34,14 @@ S22 = None
 f = None
 g = None
 
-def CallbackIterative(status, iteration, residual):  
-    if status == dive.EILIG_RUNNING:
+def CallbackIterative(iteration, residual):  
+    if(math.isnan(residual)):
+        return dive.EILIG_NOT_CONVERGED
+    
+    if(residual < 1.0e-6):
         #plots.residuals.Add("Temperature", iteration, residual)
-        return dive.EILIG_CONTINUE
-    elif status == dive.EILIG_NOT_CONVERGED:
-        print(f"Solution NOT converged (iterations = {iteration} | residual = {residual:.2g})")
-        return dive.EILIG_STOP
-    elif status == dive.EILIG_SUCCESS:
-        #plots.residuals.Add("Temperature", iteration, residual)        
         print(f"Solution converged (iterations = {iteration} | residual = {residual:.2g})")
-        return dive.EILIG_STOP
+        return dive.EILIG_SUCCESS
 
     return dive.EILIG_CONTINUE
 
@@ -99,14 +97,14 @@ def SolverStationaryDiffusion():
     dy0_1 = dy0.Region(0, pivot - 1)  
     dy0_2 = dy0.Region(pivot, totalDof - 1)  
     
-    dive.IterativeBiCGStab(dy0_2, K22, - K21 * y0_1, 1.0e-6, CallbackIterative)
+    dive.IterativeBiCGStab(dy0_2, K22, - K21 * y0_1, CallbackIterative)
 
     dy0.Region(0, pivot - 1, dy0_1)
     dy0.Region(pivot, totalDof - 1, dy0_2)
 
     temperature.problem.UpdateMeshValues(y0 + dy0)
 
-    #plot.Field(temperature.problem.GetMesh().GetNodes())     
+    plot.Field(temperature.problem.GetMesh().GetNodes())     
     
     #key = None
     #while key != chr( ):

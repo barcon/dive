@@ -1,7 +1,7 @@
 %apply Status& INOUT { Status& status };
 
-%typemap(in) long long int (*callbackIterative)(long long int, std::size_t, double) {
-    $1 = (long long int (*)(long long int, std::size_t, double))PyLong_AsVoidPtr($input);
+%typemap(in) long long int (*callbackIterative)(std::size_t, double) {
+    $1 = (long long int (*)(std::size_t, double))PyLong_AsVoidPtr($input);
 }
 
 %inline
@@ -142,7 +142,7 @@ Ellpack.__setitem__ = SetItemEllpack
 
 import ctypes
 
-py_callback_iterative = ctypes.CFUNCTYPE(ctypes.c_longlong, ctypes.c_longlong, ctypes.c_size_t, ctypes.c_double)
+py_callback_iterative = ctypes.CFUNCTYPE(ctypes.c_longlong, ctypes.c_size_t, ctypes.c_double)
 
 def IterativeBiCGStab(x, A, b, callback):
 
