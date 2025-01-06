@@ -20008,20 +20008,17 @@ SWIGINTERN PyObject *_wrap_IterativeBiCGStab(PyObject *self, PyObject *args) {
   eilig::Vector *arg1 = 0 ;
   eilig::Ellpack *arg2 = 0 ;
   eilig::Vector *arg3 = 0 ;
-  eilig::Scalar arg4 ;
-  CallbackIterative arg5 = (CallbackIterative) 0 ;
+  CallbackIterative arg4 = (CallbackIterative) 0 ;
   void *argp1 = 0 ;
   int res1 = 0 ;
   void *argp2 = 0 ;
   int res2 = 0 ;
   void *argp3 = 0 ;
   int res3 = 0 ;
-  double val4 ;
-  int ecode4 = 0 ;
-  PyObject *swig_obj[5] ;
+  PyObject *swig_obj[4] ;
   
   (void)self;
-  if (!SWIG_Python_UnpackTuple(args, "IterativeBiCGStab", 5, 5, swig_obj)) SWIG_fail;
+  if (!SWIG_Python_UnpackTuple(args, "IterativeBiCGStab", 4, 4, swig_obj)) SWIG_fail;
   res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_eilig__Vector,  0 );
   if (!SWIG_IsOK(res1)) {
     SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IterativeBiCGStab" "', argument " "1"" of type '" "eilig::Vector &""'"); 
@@ -20046,15 +20043,10 @@ SWIGINTERN PyObject *_wrap_IterativeBiCGStab(PyObject *self, PyObject *args) {
     SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativeBiCGStab" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
   }
   arg3 = reinterpret_cast< eilig::Vector * >(argp3);
-  ecode4 = SWIG_AsVal_double(swig_obj[3], &val4);
-  if (!SWIG_IsOK(ecode4)) {
-    SWIG_exception_fail(SWIG_ArgError(ecode4), "in method '" "IterativeBiCGStab" "', argument " "4"" of type '" "eilig::Scalar""'");
-  } 
-  arg4 = static_cast< eilig::Scalar >(val4);
   {
-    arg5 = (long long int (*)(long long int, std::size_t, double))PyLong_AsVoidPtr(swig_obj[4]);
+    arg4 = (long long int (*)(long long int, std::size_t, double))PyLong_AsVoidPtr(swig_obj[3]);
   }
-  eilig::IterativeBiCGStab(*arg1,(eilig::Ellpack const &)*arg2,(eilig::Vector const &)*arg3,arg4,arg5);
+  eilig::IterativeBiCGStab(*arg1,(eilig::Ellpack const &)*arg2,(eilig::Vector const &)*arg3,arg4);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:

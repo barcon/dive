@@ -1,8 +1,9 @@
 import dive
 import materials
 import meshes
-import meshes.cavity
+import plot
 import thermal
+import os
 
 T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
@@ -26,12 +27,12 @@ def ApplyBoundaryConditions(problem, temperature1, temperature2):
 
     nodesBottom = dive.FilterNodesByCoordinate(nodes, basis, dive.axis_y, 0.0, 0.001)
     for node in nodesBottom:
-        dirichlet = dive.CreateDirichletByValue(node, 0, -temperature2)
+        dirichlet = dive.CreateDirichletByValue(node, 0, temperature2)
         problem.AddDirichlet(dirichlet)
 
     nodesLeft = dive.FilterNodesByCoordinate(nodes, basis, dive.axis_x, 0.0, 0.001)
     for node in nodesLeft:
-        dirichlet = dive.CreateDirichletByValue(node, 0, -temperature2)
+        dirichlet = dive.CreateDirichletByValue(node, 0, temperature2)
         problem.AddDirichlet(dirichlet)
 
     nodesRight = dive.FilterNodesByCoordinate(nodes, basis, dive.axis_x, l, 0.001)
@@ -53,9 +54,7 @@ mesh     = meshes.LoadMesh(1, meshFile)
 pressure = dive.CreateValueScalar3D(p_ref)
 problem  = thermal.CreateProblemThermal(1, timer, mesh, pressure, None, material)
 
-ApplyBoundaryConditions(problem, 1000.0, 900.0)
+ApplyBoundaryConditions(problem, 100.0, 0.0)
 
 thermal.Initialize()
 thermal.SolverStationaryDiffusion()
-
-meshes.plot.Field(mesh.GetNodes())

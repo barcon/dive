@@ -144,7 +144,7 @@ import ctypes
 
 py_callback_iterative = ctypes.CFUNCTYPE(ctypes.c_longlong, ctypes.c_longlong, ctypes.c_size_t, ctypes.c_double)
 
-def IterativeBiCGStab(x, A, b, rtol, callback):
+def IterativeBiCGStab(x, A, b, callback):
 
     # wrap the python callback with a ctypes function pointer
     f = py_callback_iterative(callback)
@@ -152,6 +152,6 @@ def IterativeBiCGStab(x, A, b, rtol, callback):
     # get the function pointer of the ctypes wrapper by casting it to void* and taking its value
     f_ptr = ctypes.cast(f, ctypes.c_void_p).value
 
-    _dive.IterativeBiCGStab(x, A, b, rtol, f_ptr)
+    _dive.IterativeBiCGStab(x, A, b, f_ptr)
 
 %}

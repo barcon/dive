@@ -762,8 +762,8 @@ def ForwardLinearSystem(*args):
 def DirectLUP(x, LU, permutation, b):
     return _dive.DirectLUP(x, LU, permutation, b)
 
-def IterativeBiCGStab(x, A, b, rtol, callbackIterative):
-    return _dive.IterativeBiCGStab(x, A, b, rtol, callbackIterative)
+def IterativeBiCGStab(x, A, b, callbackIterative):
+    return _dive.IterativeBiCGStab(x, A, b, callbackIterative)
 
 def WriteToFile(*args):
     return _dive.WriteToFile(*args)

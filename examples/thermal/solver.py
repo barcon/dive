@@ -1,5 +1,6 @@
 import dive
 import meshes
+import plot.residuals
 
 from dataclasses import dataclass
 
@@ -32,13 +33,16 @@ S22 = None
 f = None
 g = None
 
-def CallbackIterative(status, iteration, residual):
+def CallbackIterative(status, iteration, residual):  
     if status == dive.EILIG_RUNNING:
+        #plots.residuals.Add("Temperature", iteration, residual)
         return dive.EILIG_CONTINUE
     elif status == dive.EILIG_NOT_CONVERGED:
+        print(f"Solution NOT converged (iterations = {iteration} | residual = {residual:.2g})")
         return dive.EILIG_STOP
     elif status == dive.EILIG_SUCCESS:
-        print("Residual = ", residual)
+        #plots.residuals.Add("Temperature", iteration, residual)        
+        print(f"Solution converged (iterations = {iteration} | residual = {residual:.2g})")
         return dive.EILIG_STOP
 
     return dive.EILIG_CONTINUE
@@ -67,16 +71,10 @@ def Initialize():
     temperature.problem.Initialize()
     temperature.totalDof = temperature.problem.GetTotalDof()
     temperature.pivot = temperature.problem.GetPivot()
+
+    plot.residuals.Monitoring("Temperature")
     
     return
-
-def Start():
-    type = temperature.problem.GetTimer().GetType()
-
-    if( type == dive.timer_stationary):
-        match 
-    else:
-        return
 
 def SolverStationaryDiffusion():
     global temperature
@@ -107,6 +105,12 @@ def SolverStationaryDiffusion():
     dy0.Region(pivot, totalDof - 1, dy0_2)
 
     temperature.problem.UpdateMeshValues(y0 + dy0)
+
+    #plot.Field(temperature.problem.GetMesh().GetNodes())     
+    
+    #key = None
+    #while key != chr( ):
+    #    key = input("Press escape (ESC) to exit.")      
 
     return
 
@@ -264,13 +268,3 @@ def Derivative(y, t):
 def EulerExplicit(y0, dy0, dt):    
     y1 = y0 + dt * dy0
     return y1
-
-solver = {
-    "stationary": {"diffusion" : SolverStationaryDiffusion,
-                  "convection" : SolverStationaryConvection,
-                  "stabilized" : SolverStationaryStabilized},
-    
-    "transient": {"diffusion" : None,
-                  "convection" : None,
-                   "stabilized" : None},
-}
