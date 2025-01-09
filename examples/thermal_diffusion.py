@@ -1,15 +1,13 @@
 import dive
-import materials
+import materials.fluid
 import meshes
-import plot
 import thermal
-import os
 
 T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
 basis       = dive.CreateBasisCartesian(1)
 timer       = dive.CreateTimerStationary(1, 0.0)
-material    = materials.CreateFluidOil(1, 68, T_ref)
+material    = materials.fluid.CreateFluidOil(1, 68, T_ref)
 meshFile    = 'cavity.msh'
 
 def ApplyBoundaryConditions(problem, temperature1, temperature2):
@@ -39,13 +37,6 @@ def ApplyBoundaryConditions(problem, temperature1, temperature2):
     for node in nodesRight:
         dirichlet = dive.CreateDirichletByValue(node, 0, temperature2)
         problem.AddDirichlet(dirichlet)   
-
-def FunctionVelocity(point):
-    global speed
-
-    res = dive.Matrix(3, 1, 0.0)
-    res[0, 0] = speed
-    return res
 
 meshes.cavity.quadratic = False
 meshes.cavity.Create(meshFile)

@@ -1,6 +1,8 @@
 import dive
 import meshes
-import plot.residuals
+#import plots.residual
+import matplotlib.pyplot as plt
+from matplotlib.ticker import (MultipleLocator, AutoMinorLocator)
 import math
 
 from dataclasses import dataclass
@@ -34,13 +36,42 @@ S22 = None
 f = None
 g = None
 
+xs = []
+ys = []
+
 def CallbackIterative(iteration, residual):  
+    global xs
+    global ys
+
     if(math.isnan(residual)):
         return dive.EILIG_NOT_CONVERGED
-    
-    if(residual < 1.0e-6):
-        #plots.residuals.Add("Temperature", iteration, residual)
+
+    xs.append(iteration)
+    ys.append(residual)
+
+    if(residual < 1.0e-5):
         print(f"Solution converged (iterations = {iteration} | residual = {residual:.2g})")
+
+        fig, ax = plt.subplots()
+
+        ax.xaxis.set_minor_locator(MultipleLocator(25))
+        ax.yaxis.set_minor_locator(MultipleLocator(10))
+
+        ax.grid(True)
+        ax.grid(which='minor', linestyle=':', linewidth=0.5, color='blue', alpha=0.5)       
+        ax.minorticks_on()
+
+        plt.plot(xs, ys)
+        
+        plt.xlim(0, 150)
+        plt.xlabel('Iteration [--]')
+	    
+        plt.ylim(1.0e-7, 1.0e1)
+        plt.ylabel('Residual')
+        plt.yscale('log')
+        
+        plt.show()
+
         return dive.EILIG_SUCCESS
 
     return dive.EILIG_CONTINUE
@@ -69,9 +100,7 @@ def Initialize():
     temperature.problem.Initialize()
     temperature.totalDof = temperature.problem.GetTotalDof()
     temperature.pivot = temperature.problem.GetPivot()
-
-    plot.residuals.Monitoring("Temperature")
-    
+   
     return
 
 def SolverStationaryDiffusion():
@@ -104,7 +133,7 @@ def SolverStationaryDiffusion():
 
     temperature.problem.UpdateMeshValues(y0 + dy0)
 
-    plot.Field(temperature.problem.GetMesh().GetNodes())     
+    #plots.Field(temperature.problem.GetMesh().GetNodes())     
     
     #key = None
     #while key != chr( ):
