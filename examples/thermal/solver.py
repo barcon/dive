@@ -1,8 +1,6 @@
 import dive
 import meshes
-#import plots.residual
-import matplotlib.pyplot as plt
-from matplotlib.ticker import (MultipleLocator, AutoMinorLocator)
+import plots
 import math
 
 from dataclasses import dataclass
@@ -36,42 +34,21 @@ S22 = None
 f = None
 g = None
 
-xs = []
-ys = []
+rtol = 1.0e-5
+iterations = []
+residuals = []
 
 def CallbackIterative(iteration, residual):  
-    global xs
-    global ys
-
+    global iterations
+    global residuals
+    
     if(math.isnan(residual)):
         return dive.EILIG_NOT_CONVERGED
 
-    xs.append(iteration)
-    ys.append(residual)
+    iterations.append(iteration)
+    residuals.append(residual)
 
-    if(residual < 1.0e-5):
-        print(f"Solution converged (iterations = {iteration} | residual = {residual:.2g})")
-
-        fig, ax = plt.subplots()
-
-        ax.xaxis.set_minor_locator(MultipleLocator(25))
-        ax.yaxis.set_minor_locator(MultipleLocator(10))
-
-        ax.grid(True)
-        ax.grid(which='minor', linestyle=':', linewidth=0.5, color='blue', alpha=0.5)       
-        ax.minorticks_on()
-
-        plt.plot(xs, ys)
-        
-        plt.xlim(0, 150)
-        plt.xlabel('Iteration [--]')
-	    
-        plt.ylim(1.0e-7, 1.0e1)
-        plt.ylabel('Residual')
-        plt.yscale('log')
-        
-        plt.show()
-
+    if(residual < rtol):
         return dive.EILIG_SUCCESS
 
     return dive.EILIG_CONTINUE
@@ -104,6 +81,8 @@ def Initialize():
     return
 
 def SolverStationaryDiffusion():
+    global iterations
+    global residuals
     global temperature
 
     global K 
@@ -126,18 +105,18 @@ def SolverStationaryDiffusion():
     dy0_1 = dy0.Region(0, pivot - 1)  
     dy0_2 = dy0.Region(pivot, totalDof - 1)  
     
-    dive.IterativeBiCGStab(dy0_2, K22, - K21 * y0_1, CallbackIterative)
+    status = dive.IterativeBiCGStab(dy0_2, K22, - K21 * y0_1, CallbackIterative)
 
-    dy0.Region(0, pivot - 1, dy0_1)
-    dy0.Region(pivot, totalDof - 1, dy0_2)
+    if(status == dive.EILIG_SUCCESS):
+        print("Converged")
+        print(status)
+        dy0.Region(0, pivot - 1, dy0_1)
+        dy0.Region(pivot, totalDof - 1, dy0_2)
 
-    temperature.problem.UpdateMeshValues(y0 + dy0)
-
-    #plots.Field(temperature.problem.GetMesh().GetNodes())     
-    
-    #key = None
-    #while key != chr( ):
-    #    key = input("Press escape (ESC) to exit.")      
+        temperature.problem.UpdateMeshValues(y0 + dy0)
+        
+        plots.field.Map(temperature.problem.GetMesh().GetNodes())
+        plots.residual.Show(iterations, residuals)
 
     return
 

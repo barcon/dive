@@ -1,6 +1,5 @@
 import dive
 import math
-import numpy as np
 import matplotlib.pyplot as plt
 
 def AddCurve(nodes, axis = 0, dof = 0):
@@ -25,7 +24,7 @@ def AddCurve(nodes, axis = 0, dof = 0):
 
     return
 
-def Field(nodes, dof = 0, title = ''):
+def Map(nodes, dof = 0, title = ''):
     x = []
     y = []
     f = []
@@ -50,27 +49,7 @@ def Field(nodes, dof = 0, title = ''):
 
     return
 
-def FieldVector(nodes):
-    x = []
-    y = []
-    u = []
-    v = []
-    for node in nodes:
-        x.append(node.GetPoint()[0])
-        y.append(node.GetPoint()[1])
-        u.append(node.GetValue(0))
-        v.append(node.GetValue(1))
-
-    fig, ax = plt.subplots()
-    #ax.axis([0.0, 1.0, 0.0, 1.0])    
-    ax.plot(x, y, 'o', markersize=0, color='grey')
-    ax.quiver(x, y, u, v)
- 
-    plt.show()
-    plt.close() 
-    return
-
-def FieldVectorNorm(nodes):
+def MapNorm(nodes):
     x = []
     y = []
     f = []
@@ -90,6 +69,26 @@ def FieldVectorNorm(nodes):
     #ax.plot(x, y, 'o', markersize=0, color='grey')
     ax.tricontourf(x, y, f)
 
+    plt.show()
+    plt.close() 
+    return
+
+def FieldVector(nodes):
+    x = []
+    y = []
+    u = []
+    v = []
+    for node in nodes:
+        x.append(node.GetPoint()[0])
+        y.append(node.GetPoint()[1])
+        u.append(node.GetValue(0))
+        v.append(node.GetValue(1))
+
+    fig, ax = plt.subplots()
+    #ax.axis([0.0, 1.0, 0.0, 1.0])    
+    ax.plot(x, y, 'o', markersize=0, color='grey')
+    ax.quiver(x, y, u, v)
+ 
     plt.show()
     plt.close() 
     return

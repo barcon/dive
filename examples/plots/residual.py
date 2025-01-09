@@ -1,38 +1,27 @@
 import dive
 import math
-import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.ticker import (MultipleLocator, AutoMinorLocator)
 
-from dataclasses import dataclass
+def Show(iterations, residuals):
+    fig, ax = plt.subplots()
 
-@dataclass
-class Point:
-    iteration: int
-    residual: float
+    ax.xaxis.set_minor_locator(MultipleLocator(25))
+    ax.yaxis.set_minor_locator(MultipleLocator(10))
 
-fig = None
-ax = None
-plot = None 
-dict = { }
+    ax.grid(True)
+    ax.grid(which='minor', linestyle=':', linewidth=0.5, color='blue', alpha=0.5)       
+    ax.minorticks_on()
 
-def Add(name):
-    dict[name] = {name, [], []}
-
-    return
-
-def Add(name, iteration, residual):
-    global fig
-    global ax
-
-    #plt.ion()    
-    plt.subplot()
-
-    t = np.linspace(0,2*math.pi,400)
-    a = np.sin(t)
-    b = np.cos(t)
-    c = a + b
-
-    plt.plot(t, a, t, b, t, c)
+    plt.plot(iterations, residuals)
+    
+    plt.xlim(0, 150)
+    plt.xlabel('Iteration [--]')
+    
+    plt.ylim(1.0e-7, 1.0e1)
+    plt.ylabel('Residual')
+    plt.yscale('log')
+    
     plt.show()
 
     return
