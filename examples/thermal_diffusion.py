@@ -1,4 +1,3 @@
-import dive
 import materials.fluid
 import meshes
 import thermal
@@ -41,11 +40,13 @@ def ApplyBoundaryConditions(problem, temperature1, temperature2):
 meshes.cavity.quadratic = False
 meshes.cavity.Create(meshFile)
 
-mesh     = meshes.LoadMesh(1, meshFile)
+mesh, status  = dive.LoadGmsh(1, meshFile)
 pressure = dive.CreateValueScalar3D(p_ref)
+
 problem  = thermal.CreateProblemThermal(1, timer, mesh, pressure, None, material)
 
 ApplyBoundaryConditions(problem, 100.0, 0.0)
 
 thermal.Initialize()
-thermal.SolverStationaryDiffusion()
+
+y, status = thermal.SolverStationaryDiffusion()

@@ -24,7 +24,7 @@ def AddCurve(nodes, axis = 0, dof = 0):
 
     return
 
-def Map(nodes, dof = 0, title = ''):
+def Show(nodes, dof = 0, title = ''):
     x = []
     y = []
     f = []

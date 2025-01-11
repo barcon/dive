@@ -1,6 +1,7 @@
 import dive
 import meshes
-import plots
+import plots.field
+import plots.residual
 import math
 
 from dataclasses import dataclass
@@ -14,6 +15,8 @@ class Temperature:
     pivot = 0
 
 temperature = None
+monitor = None
+rtol = 1.0e-5
 
 M = None
 M21 = None
@@ -34,19 +37,15 @@ S22 = None
 f = None
 g = None
 
-rtol = 1.0e-5
-iterations = []
-residuals = []
-
 def CallbackIterative(iteration, residual):  
     global iterations
     global residuals
+    global rtol
     
     if(math.isnan(residual)):
         return dive.EILIG_NOT_CONVERGED
 
-    iterations.append(iteration)
-    residuals.append(residual)
+    monitor.Add(iteration, residual)
 
     if(residual < rtol):
         return dive.EILIG_SUCCESS
@@ -62,28 +61,29 @@ def CreateProblemThermal(tag, timer, mesh, pressure, velocity, material):
     temperature.problem.SetMesh(mesh)
     temperature.problem.SetPressure(pressure)
     temperature.problem.SetVelocity(velocity)
-
     temperature.numberDof = temperature.problem.GetNumberDof()
     temperature.material = material
 
-    meshes.routines.ApplyMaterial(mesh.GetElements(), material)
+    meshes.routines.ApplyMaterial(mesh.GetElements(), temperature.material)
     meshes.routines.SetNumberDof(mesh.GetElements(), temperature.numberDof)
     
     return temperature.problem
 
 def Initialize(): 
     global temperature
+    global monitor
 
     temperature.problem.Initialize()
     temperature.totalDof = temperature.problem.GetTotalDof()
     temperature.pivot = temperature.problem.GetPivot()
    
+    monitor = plots.residual.Monitor("Temperature")
+
     return
 
 def SolverStationaryDiffusion():
-    global iterations
-    global residuals
     global temperature
+    global monitor    
 
     global K 
     global K21
@@ -97,28 +97,16 @@ def SolverStationaryDiffusion():
     K22 = K.Region(pivot, pivot, totalDof - 1, totalDof - 1)
 
     y0 = temperature.problem.Energy()
-    dy0 = dive.Vector(totalDof, 0.0)
   
     y0_1 = y0.Region(0, pivot - 1)  
     y0_2 = y0.Region(pivot, totalDof - 1)  
     
-    dy0_1 = dy0.Region(0, pivot - 1)  
-    dy0_2 = dy0.Region(pivot, totalDof - 1)  
-    
-    status = dive.IterativeBiCGStab(dy0_2, K22, - K21 * y0_1, CallbackIterative)
+    status = dive.IterativeBiCGStab(y0_2, K22, - K21 * y0_1, CallbackIterative)
 
-    if(status == dive.EILIG_SUCCESS):
-        print("Converged")
-        print(status)
-        dy0.Region(0, pivot - 1, dy0_1)
-        dy0.Region(pivot, totalDof - 1, dy0_2)
+    y0.Region(0, pivot - 1, y0_1)
+    y0.Region(pivot, totalDof - 1, y0_2)
 
-        temperature.problem.UpdateMeshValues(y0 + dy0)
-        
-        plots.field.Map(temperature.problem.GetMesh().GetNodes())
-        plots.residual.Show(iterations, residuals)
-
-    return
+    return y0, status
 
 def SolverStationaryConvection():
     global temperature
