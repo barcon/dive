@@ -1,6 +1,8 @@
 import thermal
 import meshes
 import materials.fluid
+import plots.field
+import plots.residual
 
 T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
@@ -39,8 +41,8 @@ def ApplyBoundaryConditions(problem, temperature1, temperature2):
 
 meshes.cavity.quadratic = False
 meshes.cavity.Create(meshFile)
-
 mesh = meshes.routines.LoadMesh(1, meshFile)
+
 pressure = thermal.CreateValueScalar3D(p_ref)
 problem  = thermal.CreateProblem(1, timer, mesh, pressure, None, material)
 
@@ -48,3 +50,11 @@ ApplyBoundaryConditions(problem, 100.0, 0.0)
 
 thermal.Initialize()
 y, status = thermal.SolverStationaryDiffusion()
+
+problem.UpdateMeshValues(y)
+
+plots.field.Show(mesh.GetNodes())
+plots.residual.Show(thermal.monitor)
+
+#print(type(thermal.monitor))
+#plots.residual.Show(thermal.monitor)

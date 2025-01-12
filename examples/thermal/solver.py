@@ -1,8 +1,7 @@
 import meshes
 import solver.routines
-import plots.field
-import plots.residual
-import math
+#import plots.residual
+#import math
 
 from dive import *
 from dataclasses import dataclass
@@ -37,8 +36,6 @@ S22 = None
 f = None
 g = None
 
-#monitor.Add(iteration, residual)
-
 def CreateProblem(tag, timer, mesh, pressure, velocity, material):
     global temperature
     temperature = Temperature()
@@ -56,7 +53,7 @@ def CreateProblem(tag, timer, mesh, pressure, velocity, material):
     
     return temperature.problem
 
-def Initialize(): 
+def Initialize():
     global temperature
     global monitor
 
@@ -69,8 +66,7 @@ def Initialize():
     return
 
 def SolverStationaryDiffusion():
-    global temperature
-    global monitor    
+    global temperature 
 
     global K 
     global K21
@@ -87,7 +83,7 @@ def SolverStationaryDiffusion():
   
     y0_1 = y0.Region(0, pivot - 1)  
     y0_2 = y0.Region(pivot, totalDof - 1)  
-    
+
     status = IterativeBiCGStab(y0_2, K22, - K21 * y0_1, solver.routines.CallbackIterative)
 
     y0.Region(0, pivot - 1, y0_1)
