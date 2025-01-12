@@ -1,9 +1,10 @@
-import dive
 import meshes
+import solver.routines
 import plots.field
 import plots.residual
 import math
 
+from dive import *
 from dataclasses import dataclass
 
 @dataclass
@@ -16,7 +17,6 @@ class Temperature:
 
 temperature = None
 monitor = None
-rtol = 1.0e-5
 
 M = None
 M21 = None
@@ -37,26 +37,13 @@ S22 = None
 f = None
 g = None
 
-def CallbackIterative(iteration, residual):  
-    global iterations
-    global residuals
-    global rtol
-    
-    if(math.isnan(residual)):
-        return dive.EILIG_NOT_CONVERGED
+#monitor.Add(iteration, residual)
 
-    monitor.Add(iteration, residual)
-
-    if(residual < rtol):
-        return dive.EILIG_SUCCESS
-
-    return dive.EILIG_CONTINUE
-
-def CreateProblemThermal(tag, timer, mesh, pressure, velocity, material):
+def CreateProblem(tag, timer, mesh, pressure, velocity, material):
     global temperature
     temperature = Temperature()
 
-    temperature.problem = dive.CreateProblemThermal(tag)
+    temperature.problem = CreateProblemThermal(tag)
     temperature.problem.SetTimer(timer)
     temperature.problem.SetMesh(mesh)
     temperature.problem.SetPressure(pressure)
@@ -77,7 +64,7 @@ def Initialize():
     temperature.totalDof = temperature.problem.GetTotalDof()
     temperature.pivot = temperature.problem.GetPivot()
    
-    monitor = plots.residual.Monitor("Temperature")
+    monitor = solver.routines.Monitor("Temperature")
 
     return
 
@@ -101,7 +88,7 @@ def SolverStationaryDiffusion():
     y0_1 = y0.Region(0, pivot - 1)  
     y0_2 = y0.Region(pivot, totalDof - 1)  
     
-    status = dive.IterativeBiCGStab(y0_2, K22, - K21 * y0_1, CallbackIterative)
+    status = IterativeBiCGStab(y0_2, K22, - K21 * y0_1, solver.routines.CallbackIterative)
 
     y0.Region(0, pivot - 1, y0_1)
     y0.Region(pivot, totalDof - 1, y0_2)
@@ -258,7 +245,3 @@ def Derivative(y, t):
     dy_dt.Region(pivot, totalDof - 1, dy_dt_2)
 
     return dy_dt
-
-def EulerExplicit(y0, dy0, dt):    
-    y1 = y0 + dt * dy0
-    return y1

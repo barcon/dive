@@ -1,19 +1,5 @@
-
 import matplotlib.pyplot as plt
 from matplotlib.ticker import (MultipleLocator, AutoMinorLocator)
-
-from dataclasses import dataclass, field
-
-@dataclass
-class Monitor:
-    name: str
-    iteration : list[float] = field(default_factory = list)
-    residual : list[float] = field(default_factory = list)
-
-    def Add(self, iteration, residual):
-        self.iteration.append(iteration)
-        self.residual.append(residual)
-        return
 
 def Show(monitor):
     fig, ax = plt.subplots()
