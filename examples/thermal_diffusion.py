@@ -1,8 +1,8 @@
-import thermal
 import meshes
+import thermal
 import materials.fluid
 import plots.field
-import plots.residual
+
 
 T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
@@ -49,12 +49,10 @@ problem  = thermal.CreateProblem(1, timer, mesh, pressure, None, material)
 ApplyBoundaryConditions(problem, 100.0, 0.0)
 
 thermal.Initialize()
-y, status = thermal.SolverStationaryDiffusion()
 
-problem.UpdateMeshValues(y)
+K22, b, y0_1 = thermal.Diffusion()
+y0_2, status = thermal.solver.Iterative(K22, b)
 
-plots.field.Show(mesh.GetNodes())
-plots.residual.Show(thermal.monitor)
+#problem.UpdateMeshValues(y)
 
-#print(type(thermal.monitor))
-#plots.residual.Show(thermal.monitor)
+#plots.field.Show(mesh.GetNodes())

@@ -1,7 +1,5 @@
 import meshes
-import solver.routines
-#import plots.residual
-#import math
+import solver
 
 from dive import *
 from dataclasses import dataclass
@@ -15,7 +13,6 @@ class Temperature:
     pivot = 0
 
 temperature = None
-monitor = None
 
 M = None
 M21 = None
@@ -61,11 +58,9 @@ def Initialize():
     temperature.totalDof = temperature.problem.GetTotalDof()
     temperature.pivot = temperature.problem.GetPivot()
    
-    monitor = solver.routines.Monitor("Temperature")
-
     return
 
-def SolverStationaryDiffusion():
+def Diffusion():
     global temperature 
 
     global K 
@@ -82,14 +77,14 @@ def SolverStationaryDiffusion():
     y0 = temperature.problem.Energy()
   
     y0_1 = y0.Region(0, pivot - 1)  
-    y0_2 = y0.Region(pivot, totalDof - 1)  
+    #y0_2 = y0.Region(pivot, totalDof - 1)  
 
-    status = IterativeBiCGStab(y0_2, K22, - K21 * y0_1, solver.routines.CallbackIterative)
+    #status = IterativeBiCGStab(y0_2, K22, - K21 * y0_1, solver.routines.CallbackIterative)
 
-    y0.Region(0, pivot - 1, y0_1)
-    y0.Region(pivot, totalDof - 1, y0_2)
+    #y0.Region(0, pivot - 1, y0_1)
+    #y0.Region(pivot, totalDof - 1, y0_2)
 
-    return y0, status
+    return K22, -(K21 * y0_1), y0_1
 
 def SolverStationaryConvection():
     global temperature

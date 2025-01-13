@@ -10,7 +10,8 @@ def Show(monitor):
     ax.grid(True)
     ax.grid(which='minor', linestyle=':', linewidth=0.5, color='blue', alpha=0.5)       
     ax.minorticks_on()
-
+    
+    plt.title('Solution convergence')
     plt.plot(monitor.iteration, monitor.residual)
     
     plt.xlim(0, 150)
