@@ -1,13 +1,12 @@
 import meshes
 import thermal
-import materials.fluid
-import plots.field
-
+import materials
 
 T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
 basis       = thermal.CreateBasisCartesian(1)
 timer       = thermal.CreateTimerStationary(1, 0.0)
+pressure    = thermal.CreateValueScalar3D(p_ref)
 material    = materials.fluid.CreateFluidOil(1, 68, T_ref)
 meshFile    = 'cavity.msh'
 
@@ -43,16 +42,7 @@ meshes.cavity.quadratic = False
 meshes.cavity.Create(meshFile)
 mesh = meshes.routines.LoadMesh(1, meshFile)
 
-pressure = thermal.CreateValueScalar3D(p_ref)
-problem  = thermal.CreateProblem(1, timer, mesh, pressure, None, material)
-
-ApplyBoundaryConditions(problem, 100.0, 0.0)
-
-thermal.Initialize()
-
-K22, b, y0_1 = thermal.Diffusion()
-y0_2, status = thermal.solver.Iterative(K22, b)
-
-#problem.UpdateMeshValues(y)
-
-#plots.field.Show(mesh.GetNodes())
+thermal.CreateProblem(1, timer, mesh, pressure, None, material)
+#thermal.ApplyBoundaryConditions(ApplyBoundaryConditions)
+#thermal.Initialize()
+#thermal.Diffusion()

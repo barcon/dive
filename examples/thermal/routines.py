@@ -1,18 +1,8 @@
 import meshes
 import solver
-
 from dive import *
-from dataclasses import dataclass
 
-@dataclass
-class Temperature:
-    problem = None 
-    material = None    
-    numberDof = 0   
-    totalDof = 0
-    pivot = 0
-
-temperature = None
+problem = None 
 
 M = None
 M21 = None
@@ -34,57 +24,48 @@ f = None
 g = None
 
 def CreateProblem(tag, timer, mesh, pressure, velocity, material):
-    global temperature
-    temperature = Temperature()
+    global problem
 
-    temperature.problem = CreateProblemThermal(tag)
-    temperature.problem.SetTimer(timer)
-    temperature.problem.SetMesh(mesh)
-    temperature.problem.SetPressure(pressure)
-    temperature.problem.SetVelocity(velocity)
-    temperature.numberDof = temperature.problem.GetNumberDof()
-    temperature.material = material
+    problem = CreateProblemThermal(tag)
+    problem.SetTimer(timer)
+    problem.SetMesh(mesh)
+    problem.SetPressure(pressure)
+    problem.SetVelocity(velocity)
 
-    meshes.routines.ApplyMaterial(mesh.GetElements(), temperature.material)
-    meshes.routines.SetNumberDof(mesh.GetElements(), temperature.numberDof)
+    meshes.routines.ApplyMaterial(mesh.GetElements(), material)
+    meshes.routines.SetNumberDof(mesh.GetElements(), problem.GetNumberDof())
     
-    return temperature.problem
+    return problem
 
-def Initialize():
-    global temperature
-    global monitor
+def Initialize(): 
+    global problem
 
-    temperature.problem.Initialize()
-    temperature.totalDof = temperature.problem.GetTotalDof()
-    temperature.pivot = temperature.problem.GetPivot()
-   
+    problem.Initialize()
+    
     return
 
 def Diffusion():
-    global temperature 
-
     global K 
     global K21
     global K22 
 
-    totalDof = temperature.totalDof
-    pivot = temperature.pivot
+    totalDof = problem.GetTotalDof()
+    pivot = problem.GetPivot()
     
-    K = temperature.problem.Stiffness()
+    K = problem.Stiffness()
     K21 = K.Region(pivot, 0, totalDof - 1, pivot - 1)
     K22 = K.Region(pivot, pivot, totalDof - 1, totalDof - 1)
 
     y0 = temperature.problem.Energy()
-  
     y0_1 = y0.Region(0, pivot - 1)  
-    #y0_2 = y0.Region(pivot, totalDof - 1)  
+    y0_2 = y0.Region(pivot, totalDof - 1)  
 
-    #status = IterativeBiCGStab(y0_2, K22, - K21 * y0_1, solver.routines.CallbackIterative)
+    y0_2, status = solver.Iterative(K22, - K21 * y0_1)
 
-    #y0.Region(0, pivot - 1, y0_1)
-    #y0.Region(pivot, totalDof - 1, y0_2)
+    y0.Region(0, pivot - 1, y0_1)
+    y0.Region(pivot, totalDof - 1, y0_2)
 
-    return K22, -(K21 * y0_1), y0_1
+    return
 
 def SolverStationaryConvection():
     global temperature
