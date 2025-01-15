@@ -23,4 +23,15 @@ Transfinite Surface {1} = {2, 4, 3, 1};
 //+
 Transfinite Volume{1} = {2, 6, 8, 4, 1, 5, 7, 3};
 //+
-Recombine Surface {5, 4, 3, 6, 2, 1};
+Recombine Surface {5, 4, 3, 6, 2, 1};//+
+Physical Surface("left", 13) = {1};
+//+
+Physical Surface("right", 14) = {2};
+//+
+Physical Surface("bottom", 15) = {3};
+//+
+Physical Surface("top", 16) = {4};
+//+
+Physical Surface("back", 17) = {5};
+//+
+Physical Surface("front", 18) = {6};

@@ -1,8 +1,9 @@
 import meshes
-import solver
+import solvers
+
 from dive import *
 
-problem = None 
+problem = None
 
 M = None
 M21 = None
@@ -23,6 +24,35 @@ S22 = None
 f = None
 g = None
 
+def ApplyBoundaryConditions(temperature1, temperature2):
+    global problem
+    basis = CreateBasisCartesian(1)
+    nodes = problem.GetMesh().GetNodes()
+    
+    l = meshes.cavity.x
+    h = meshes.cavity.y
+    w = meshes.cavity.z
+
+    nodesTop = FilterNodesByCoordinate(nodes, basis, axis_y, h, 0.001)
+    for node in nodesTop:
+        dirichlet = CreateDirichletByValue(node, 0, temperature1)
+        problem.AddDirichlet(dirichlet)
+
+    nodesBottom = FilterNodesByCoordinate(nodes, basis, axis_y, 0.0, 0.001)
+    for node in nodesBottom:
+        dirichlet = CreateDirichletByValue(node, 0, temperature2)
+        problem.AddDirichlet(dirichlet)
+
+    nodesLeft = FilterNodesByCoordinate(nodes, basis, axis_x, 0.0, 0.001)
+    for node in nodesLeft:
+        dirichlet = CreateDirichletByValue(node, 0, temperature2)
+        problem.AddDirichlet(dirichlet)
+
+    nodesRight = FilterNodesByCoordinate(nodes, basis, axis_x, l, 0.001)
+    for node in nodesRight:
+        dirichlet = CreateDirichletByValue(node, 0, temperature2)
+        problem.AddDirichlet(dirichlet)   
+
 def CreateProblem(tag, timer, mesh, pressure, velocity, material):
     global problem
 
@@ -33,7 +63,6 @@ def CreateProblem(tag, timer, mesh, pressure, velocity, material):
     problem.SetVelocity(velocity)
 
     meshes.routines.ApplyMaterial(mesh.GetElements(), material)
-    meshes.routines.SetNumberDof(mesh.GetElements(), problem.GetNumberDof())
     
     return problem
 
@@ -41,6 +70,13 @@ def Initialize():
     global problem
 
     problem.Initialize()
+    
+    return
+
+def UpdateMeshValues(y): 
+    global problem
+
+    problem.UpdateMeshValues(y)
     
     return
 
@@ -56,16 +92,16 @@ def Diffusion():
     K21 = K.Region(pivot, 0, totalDof - 1, pivot - 1)
     K22 = K.Region(pivot, pivot, totalDof - 1, totalDof - 1)
 
-    y0 = temperature.problem.Energy()
+    y0 = problem.Energy()
     y0_1 = y0.Region(0, pivot - 1)  
     y0_2 = y0.Region(pivot, totalDof - 1)  
 
-    y0_2, status = solver.Iterative(K22, - K21 * y0_1)
+    y0_2, monitor = solvers.Iterative(K22, - K21 * y0_1)
 
     y0.Region(0, pivot - 1, y0_1)
     y0.Region(pivot, totalDof - 1, y0_2)
 
-    return
+    return y0, monitor
 
 def SolverStationaryConvection():
     global temperature
