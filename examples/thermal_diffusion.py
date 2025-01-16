@@ -16,6 +16,8 @@ meshes.cavity.quadratic = False
 meshes.cavity.Create(meshFile)
 mesh = meshes.routines.LoadMesh(1, meshFile)
 
+quit()
+
 thermal.CreateProblem(1, timer, mesh, pressure, None, material)
 thermal.ApplyBoundaryConditions(100.0, 0.0)
 thermal.Initialize()

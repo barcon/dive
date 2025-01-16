@@ -53,8 +53,15 @@ def Create(fileName):
 
     gmsh.model.geo.addSurfaceLoop([1, 2, 3, 4, 5, 6], 1)
     gmsh.model.geo.addVolume([1], 1)
-    gmsh.model.geo.synchronize()    
+    gmsh.model.geo.synchronize()
     
+    gmsh.model.add_physical_group(2, [1, 2], 991, "back")
+    gmsh.model.add_physical_group(2, [2, 3], 992, "front")
+    gmsh.model.add_physical_group(2, [3], 3, "right")
+    gmsh.model.add_physical_group(2, [4], 4, "top")
+    gmsh.model.add_physical_group(2, [5], 5, "left")
+    gmsh.model.add_physical_group(2, [6], 6, "bottom")
+
     gmsh.option.setNumber('Mesh.SecondOrderIncomplete', 1)  
 
     gmsh.model.mesh.setTransfiniteCurve( 1, nx, "Bump", 0.05)
