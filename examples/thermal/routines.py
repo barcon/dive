@@ -1,6 +1,4 @@
-import meshes
 import solvers
-
 from dive import *
 
 problem = None
@@ -24,45 +22,14 @@ S22 = None
 f = None
 g = None
 
-def ApplyBoundaryConditions(temperature1, temperature2):
-    global problem
-    basis = CreateBasisCartesian(1)
-    nodes = problem.GetMesh().GetNodes()
-    
-    l = meshes.cavity.x
-    h = meshes.cavity.y
-    w = meshes.cavity.z
-
-    nodesTop = FilterNodesByCoordinate(nodes, basis, axis_y, h, 0.001)
-    for node in nodesTop:
-        dirichlet = CreateDirichletByValue(node, 0, temperature1)
-        problem.AddDirichlet(dirichlet)
-
-    nodesBottom = FilterNodesByCoordinate(nodes, basis, axis_y, 0.0, 0.001)
-    for node in nodesBottom:
-        dirichlet = CreateDirichletByValue(node, 0, temperature2)
-        problem.AddDirichlet(dirichlet)
-
-    nodesLeft = FilterNodesByCoordinate(nodes, basis, axis_x, 0.0, 0.001)
-    for node in nodesLeft:
-        dirichlet = CreateDirichletByValue(node, 0, temperature2)
-        problem.AddDirichlet(dirichlet)
-
-    nodesRight = FilterNodesByCoordinate(nodes, basis, axis_x, l, 0.001)
-    for node in nodesRight:
-        dirichlet = CreateDirichletByValue(node, 0, temperature2)
-        problem.AddDirichlet(dirichlet)   
-
-def CreateProblem(tag, timer, mesh, pressure, velocity, material):
+def CreateProblem(tag, timer, mesh, pressure, velocity):
     global problem
 
     problem = CreateProblemThermal(tag)
     problem.SetTimer(timer)
     problem.SetMesh(mesh)
     problem.SetPressure(pressure)
-    problem.SetVelocity(velocity)
-
-    meshes.routines.ApplyMaterial(mesh.GetElements(), material)
+    problem.SetVelocity(velocity) 
     
     return problem
 
@@ -78,6 +45,18 @@ def UpdateMeshValues(y):
 
     problem.UpdateMeshValues(y)
     
+    return
+
+def ApplyDirichlet(nodes, value, dof = None):
+    for node in nodes:
+        if (dof == None):
+            numberDof = node.GetNumberDof()
+            for i in range(0, numberDof):
+                dirichlet = CreateDirichletByValue(node, i, value)
+                problem.AddDirichlet(dirichlet)
+        else:
+            dirichlet = CreateDirichletByValue(node, dof, value)
+            problem.AddDirichlet(dirichlet)
     return
 
 def Diffusion():

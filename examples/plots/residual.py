@@ -14,7 +14,9 @@ def Show(monitor):
     plt.title('Solution convergence')
     plt.plot(monitor.iteration, monitor.residual)
     
-    plt.xlim(0, 150)
+    xlim = max(monitor.iteration)
+
+    plt.xlim(0, xlim)
     plt.xlabel('Iteration [--]')
     
     plt.ylim(1.0e-7, 1.0e1)
