@@ -3,7 +3,6 @@ import thermal
 import materials.fluid
 import plots.residual
 import plots.field
-import time
 
 T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
