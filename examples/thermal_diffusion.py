@@ -1,5 +1,6 @@
 import meshes
 import thermal
+import solvers
 import materials.fluid
 import plots.residual
 import plots.field
@@ -29,9 +30,12 @@ thermal.ApplyDirichlet(nodesLeft, 0.0)
 thermal.ApplyDirichlet(nodesRight, 0.0)
 thermal.Initialize()
 
-y0, monitor = thermal.Diffusion()
+K21, K22 = thermal.Diffusion()
+y0_1, y0_2 = thermal.Energy()
 
-thermal.UpdateMeshValues(y0)
+y02, monitor = solvers.Iterative(K22, - K21 * y0_1)
+
+thermal.UpdateMeshValues(y0_1, y0_2)
 
 plots.residual.Show(monitor)
 plots.field.Show(mesh.GetNodes())

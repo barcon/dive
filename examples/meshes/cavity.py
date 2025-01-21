@@ -4,11 +4,11 @@ x = 1.0
 y = 1.0
 z = 0.1
 
-nx = 51
-ny = 51
+nx = 21
+ny = 21
 nz = 2
 
-quadratic = True
+quadratic = False
 
 def Create(fileName):
     gmsh.initialize()

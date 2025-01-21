@@ -1,4 +1,3 @@
-import solvers
 from dive import *
 
 problem = None
@@ -40,10 +39,18 @@ def Initialize():
     
     return
 
-def UpdateMeshValues(y): 
+def UpdateMeshValues(y01, y02): 
     global problem
 
-    problem.UpdateMeshValues(y)
+    totalDof = problem.GetTotalDof()
+    pivot = problem.GetPivot()
+
+    y0 = problem.Energy()
+
+    y0.Region(0, pivot - 1, y01)
+    y0.Region(pivot, totalDof - 1, y02)
+
+    problem.UpdateMeshValues(y0)
     
     return
 
@@ -59,6 +66,25 @@ def ApplyDirichlet(nodes, value, dof = None):
             problem.AddDirichlet(dirichlet)
     return
 
+def Energy():
+    totalDof = problem.GetTotalDof()
+    pivot = problem.GetPivot()
+    
+    y0 = problem.Energy()
+    y0_1 = y0.Region(0, pivot - 1)  
+    y0_2 = y0.Region(pivot, totalDof - 1)  
+
+    return y0_1,  y0_2
+
+def EnergyDerivative():
+    totalDof = problem.GetTotalDof()
+    pivot = problem.GetPivot()
+    
+    dy0_1 = Vector(pivot)
+    dy0_2 = Vector(totalDof - pivot)
+
+    return dy0_1, dy0_2
+
 def Diffusion():
     global K 
     global K21
@@ -71,16 +97,21 @@ def Diffusion():
     K21 = K.Region(pivot, 0, totalDof - 1, pivot - 1)
     K22 = K.Region(pivot, pivot, totalDof - 1, totalDof - 1)
 
-    y0 = problem.Energy()
-    y0_1 = y0.Region(0, pivot - 1)  
-    y0_2 = y0.Region(pivot, totalDof - 1)  
+    return K21, K22
 
-    y0_2, monitor = solvers.Iterative(K22, - K21 * y0_1)
+def Mass():
+    global M
+    global M21
+    global M22 
 
-    y0.Region(0, pivot - 1, y0_1)
-    y0.Region(pivot, totalDof - 1, y0_2)
+    totalDof = problem.GetTotalDof()
+    pivot = problem.GetPivot()
+    
+    M = problem.Mass()
+    M21 = M.Region(pivot, 0, totalDof - 1, pivot - 1)
+    M22 = M.Region(pivot, pivot, totalDof - 1, totalDof - 1)
 
-    return y0, monitor
+    return M21, M22
 
 def SolverStationaryConvection():
     global temperature
