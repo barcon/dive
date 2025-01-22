@@ -21,7 +21,7 @@ def Viscosity_Oil_VDI2204(ISO, temperature): #[Pa.s]
     return nx * (rho * ISO / (nx * 1.0E6))**((159.56 / ((temperature - T_ref) + 95.0)) - 0.181913)
 
 def ThermalConductivity_Oil(temperature): #[W/(m.K)]
-    return 0.129 
+    return 0.129
 
 def CreateFluidOil(tag, ISO, temperature):
     material            = dive.CreateMaterialFluid(tag)

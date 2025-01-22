@@ -19,8 +19,8 @@ def AddCurve(nodes, axis = 0, dof = 0):
     #ax.grid(which = "minor", linewidth = 0.2)
     #ax.minorticks_on()
     plt.plot(x, f)
-   
-    #plt.show()
+
+    plt.show()
 
     return
 
