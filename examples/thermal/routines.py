@@ -67,23 +67,12 @@ def ApplyDirichlet(nodes, value, dof = None):
     return
 
 def Energy():
-    totalDof = problem.GetTotalDof()
-    pivot = problem.GetPivot()
-    
-    y0 = problem.Energy()
-    y0_1 = y0.Region(0, pivot - 1)  
-    y0_2 = y0.Region(pivot, totalDof - 1)  
-
-    return y0_1,  y0_2
+    return problem.Energy()
 
 def EnergyDerivative():
     totalDof = problem.GetTotalDof()
-    pivot = problem.GetPivot()
-    
-    dy0_1 = Vector(pivot)
-    dy0_2 = Vector(totalDof - pivot)
 
-    return dy0_1, dy0_2
+    return Vector(totalDof)
 
 def Diffusion():
     global K 

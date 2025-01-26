@@ -14,7 +14,6 @@ class Monitor:
         self.residual.append(residual)
         return
 
-
 def Iterative(A, b):
     tolerance = 1.0e-5
     monitor = Monitor()
@@ -37,6 +36,6 @@ def Iterative(A, b):
 
     return y, monitor
 
-def EulerExplicit(y0, dy0, dt):    
+def EulerExplicit(y0, dy0, dt):
     y1 = y0 + dt * dy0
     return y1
