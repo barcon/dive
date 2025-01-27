@@ -69,12 +69,12 @@ dy, dy_1, dy_2 = thermal.EnergyDerivative()
 
 while(timer.GetCurrentTime() != timer.GetEndTime()):
     y0 = thermal.Energy()
-    y0_1
+    y0_1, y0_2 = thermal.Split(y0)
     
     dy_2, monitor  = solvers.Iterative(M22, -K21 * y0_1 - K22 * y0_2)
 
     y1 = solvers.EulerExplicit(y0, dy, dt)
-  
+        
     y0_1 = y1_1
     y0_2 = y1_2
 

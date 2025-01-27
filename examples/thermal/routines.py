@@ -39,7 +39,7 @@ def Initialize():
     
     return
 
-def UpdateMeshValues(y01, y02): 
+def UpdateMeshValues(y): 
     global problem
 
     totalDof = problem.GetTotalDof()
@@ -47,8 +47,8 @@ def UpdateMeshValues(y01, y02):
 
     y0 = problem.Energy()
 
-    y0.Region(0, pivot - 1, y01)
-    y0.Region(pivot, totalDof - 1, y02)
+    y0.Region(0, pivot - 1, y[0])
+    y0.Region(pivot, totalDof - 1, y[1])
 
     problem.UpdateMeshValues(y0)
     
@@ -67,12 +67,26 @@ def ApplyDirichlet(nodes, value, dof = None):
     return
 
 def Energy():
-    return problem.Energy()
+    totalDof = problem.GetTotalDof()
+    pivot = problem.GetPivot()
+
+    y = problem.Energy()
+
+    y0 = y.Region(0, pivot - 1)  
+    y1 = y.Region(pivot, totalDof - 1) 
+
+    return [y0, y1]
 
 def EnergyDerivative():
     totalDof = problem.GetTotalDof()
+    pivot = problem.GetPivot()
 
-    return Vector(totalDof)
+    dy = Vector(totalDof)
+
+    dy0 = dy.Region(0, pivot - 1)  
+    dy1 = dy.Region(pivot, totalDof - 1) 
+
+    return [dy0, dy1]
 
 def Diffusion():
     global K 
@@ -86,7 +100,7 @@ def Diffusion():
     K21 = K.Region(pivot, 0, totalDof - 1, pivot - 1)
     K22 = K.Region(pivot, pivot, totalDof - 1, totalDof - 1)
 
-    return K21, K22
+    return [K21, K22]
 
 def Mass():
     global M
@@ -100,7 +114,7 @@ def Mass():
     M21 = M.Region(pivot, 0, totalDof - 1, pivot - 1)
     M22 = M.Region(pivot, pivot, totalDof - 1, totalDof - 1)
 
-    return M21, M22
+    return [M21, M22]
 
 def SolverStationaryConvection():
     global temperature

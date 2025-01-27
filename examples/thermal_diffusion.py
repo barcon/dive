@@ -30,12 +30,12 @@ thermal.ApplyDirichlet(nodesLeft, 0.0)
 thermal.ApplyDirichlet(nodesRight, 0.0)
 thermal.Initialize()
 
-K21, K22 = thermal.Diffusion()
-y0_1, y0_2 = thermal.Energy()
+K = thermal.Diffusion()
+y = thermal.Energy()
 
-y0_2, monitor = solvers.Iterative(K22, - K21 * y0_1)
+y[1], monitor = solvers.Iterative(K[1], - K[0] * y[0])
 
-thermal.UpdateMeshValues(y0_1, y0_2)
+thermal.UpdateMeshValues(y)
 
 plots.residual.Show(monitor)
 plots.field.Show(mesh.GetNodes())
