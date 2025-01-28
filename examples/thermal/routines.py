@@ -88,7 +88,7 @@ def EnergyDerivative():
 
     return [dy0, dy1]
 
-def Diffusion():
+def Stiffness():
     global K 
     global K21
     global K22 
@@ -116,12 +116,19 @@ def Mass():
 
     return [M21, M22]
 
+def Diffusion(t, y):
+    global M22
+    global K21
+    global K22
+
+    return M22, -K21 * y[0] - K22 * y[1]
+
 def SolverStationaryConvection():
     global temperature
 
     global K 
     global K21
-    global K22 
+    global K22
 
     global C
     global C21

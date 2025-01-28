@@ -1,5 +1,4 @@
 import meshes
-import plots.beam
 import thermal
 import solvers
 import materials.fluid
@@ -61,25 +60,16 @@ thermal.ApplyDirichlet(nodesLeft, 100.0)
 thermal.ApplyDirichlet(nodesRight, 100.0)
 thermal.Initialize()
 
-dt = timer.GetStepSize()
-M21, M22 = thermal.Mass()
-K21, K22 = thermal.Diffusion()
-y1, y1_1, y1_2 = thermal.Energy()
-dy, dy_1, dy_2 = thermal.EnergyDerivative()
-
-while(timer.GetCurrentTime() != timer.GetEndTime()):
+while(True):    
     y0 = thermal.Energy()
-    y0_1, y0_2 = thermal.Split(y0)
-    
-    dy_2, monitor  = solvers.Iterative(M22, -K21 * y0_1 - K22 * y0_2)
-
-    y1 = solvers.EulerExplicit(y0, dy, dt)
-        
-    y0_1 = y1_1
-    y0_2 = y1_2
+    y1 = solvers.EulerExplicit(timer, y0, thermal.Diffusion)
 
     thermal.UpdateMeshValues(y1)
 
-    timer.SetNextStep()
+    if(timer.GetCurrentTime() == timer.GetEndTime()):
+        break
+    else:    
+        timer.SetNextStep()
 
 plots.field.Show(nodesField)
+plots.field.AddCurve(nodesCurve)

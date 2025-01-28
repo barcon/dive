@@ -105,7 +105,13 @@ namespace dive
 		{
 			if (stepSize <= 0.0)
 			{
-				logger::Error(headerDive, "Step sizer must be > 0.0");
+				logger::Error(headerDive, "Step size must be > 0.0");
+				return;
+			}
+
+			if (stepSize > (t1_ - t0_))
+			{
+				logger::Error(headerDive, "Step size bigger than final minus initial time");
 				return;
 			}
 

@@ -36,6 +36,14 @@ def Iterative(A, b):
 
     return y, monitor
 
-def EulerExplicit(y0, dy0, dt):
-    y1 = y0 + dt * dy0
-    return y1
+def EulerExplicit(timer, y0, derivative):
+    t = timer.GetCurrentTime()
+    dt = timer.GetStepSize()
+    y = [y0[0], y0[1]]
+
+    M, f = derivative(t, y0)
+    dydt, monitor = Iterative(M, f)
+    
+    y[1] = y0[1] + dt * dydt
+
+    return y

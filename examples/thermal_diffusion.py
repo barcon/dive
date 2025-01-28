@@ -13,7 +13,7 @@ pressure    = thermal.CreateValueScalar3D(p_ref)
 material    = materials.fluid.CreateFluidOil(1, 68, T_ref)
 meshFile    = 'cavity.msh'
 
-meshes.cavity.quadratic = False
+meshes.cavity.quadratic = True
 meshes.cavity.Create(meshFile)
 mesh = meshes.routines.LoadMesh(1, meshFile)
 meshes.routines.ApplyMaterial(mesh.GetElements(), material)
@@ -30,7 +30,7 @@ thermal.ApplyDirichlet(nodesLeft, 0.0)
 thermal.ApplyDirichlet(nodesRight, 0.0)
 thermal.Initialize()
 
-K = thermal.Diffusion()
+K = thermal.Stiffness()
 y = thermal.Energy()
 
 y[1], monitor = solvers.Iterative(K[1], - K[0] * y[0])
