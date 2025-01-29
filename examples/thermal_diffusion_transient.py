@@ -10,7 +10,7 @@ from prettytable import PrettyTable
 T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
 basis       = thermal.CreateBasisCartesian(1)
-timer       = thermal.CreateTimerStepped(1, 0.0, 5e+5, 1e+3)
+timer       = thermal.CreateTimerStepped(1, 0.0, 1e+6, 1e+3)
 pressure    = thermal.CreateValueScalar3D(p_ref)
 material    = materials.fluid.CreateFluidOil(1, 68, T_ref)
 meshFile    = 'beam.msh'
@@ -60,9 +60,20 @@ thermal.ApplyDirichlet(nodesLeft, 100.0)
 thermal.ApplyDirichlet(nodesRight, 100.0)
 thermal.Initialize()
 
+M21, M22 = thermal.Mass()
+K21, K22 = thermal.Stiffness()
+
+def Diffusion(t, y):
+    global M21
+    global M22
+    global K21
+    global K22
+
+    return M22, -K21 * y[0] - K22 * y[1]
+
 while(True):    
     y0 = thermal.Energy()
-    y1 = solvers.EulerExplicit(timer, y0, thermal.Diffusion)
+    y1 = solvers.EulerExplicit(timer, y0, Diffusion)
 
     thermal.UpdateMeshValues(y1)
 
@@ -71,5 +82,5 @@ while(True):
     else:    
         timer.SetNextStep()
 
-plots.field.Show(nodesField)
+#plots.field.Show(nodesField)
 plots.field.AddCurve(nodesCurve)

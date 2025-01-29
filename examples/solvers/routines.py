@@ -36,14 +36,35 @@ def Iterative(A, b):
 
     return y, monitor
 
-def EulerExplicit(timer, y0, derivative):
+def EulerExplicit(timer, y0, equation):
     t = timer.GetCurrentTime()
     dt = timer.GetStepSize()
-    y = [y0[0], y0[1]]
+    y = [dive.Vector(y0[0]), dive.Vector(y0[1])]
 
-    M, f = derivative(t, y0)
+    M, f = equation(t, y)
     dydt, monitor = Iterative(M, f)
     
     y[1] = y0[1] + dt * dydt
 
     return y
+
+def EulerImplicit(timer, y0, equation):
+    tolerance = 1.0e-3
+    t = timer.GetCurrentTime()
+    dt = timer.GetStepSize()
+    y1 = [dive.Vector(y0[0]), dive.Vector(y0[1])]
+    yt = [dive.Vector(y0[0]), dive.Vector(y0[1])]
+    norm = math.inf
+
+    while (norm > tolerance):
+        yt[1] = dive.Vector(y1[1])
+
+        M, f = equation(t, y1)
+        dydt, monitor = Iterative(M, f)
+    
+        y1[1] = y0[1] + dt * dydt
+
+        norm = dive.NormP2(y1[1] - yt[1]) / dive.NormP2(y1[1])
+        print("Norm = ", norm)
+        
+    return y1

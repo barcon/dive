@@ -89,10 +89,6 @@ def EnergyDerivative():
     return [dy0, dy1]
 
 def Stiffness():
-    global K 
-    global K21
-    global K22 
-
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
     
@@ -103,10 +99,6 @@ def Stiffness():
     return [K21, K22]
 
 def Mass():
-    global M
-    global M21
-    global M22 
-
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
     
@@ -115,13 +107,6 @@ def Mass():
     M22 = M.Region(pivot, pivot, totalDof - 1, totalDof - 1)
 
     return [M21, M22]
-
-def Diffusion(t, y):
-    global M22
-    global K21
-    global K22
-
-    return M22, -K21 * y[0] - K22 * y[1]
 
 def SolverStationaryConvection():
     global temperature
