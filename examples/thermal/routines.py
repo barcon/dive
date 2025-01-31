@@ -108,6 +108,16 @@ def Mass():
 
     return [M21, M22]
 
+def Convection():
+    totalDof = problem.GetTotalDof()
+    pivot = problem.GetPivot()
+    
+    C = problem.Convection()
+    C21 = C.Region(pivot, 0, totalDof - 1, pivot - 1)
+    C22 = C.Region(pivot, pivot, totalDof - 1, totalDof - 1)
+
+    return [C21, C22]
+
 def SolverStationaryConvection():
     global temperature
 

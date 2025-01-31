@@ -2,7 +2,7 @@ import dive
 import math
 import matplotlib.pyplot as plt
 
-def AddCurve(nodes, axis = 0, dof = 0):
+def ShowCurve(nodes, axis = 0, dof = 0):
     x = []
     f = []
     for node in nodes:

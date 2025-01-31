@@ -82,5 +82,4 @@ while(True):
     else:    
         timer.SetNextStep()
 
-#plots.field.Show(nodesField)
-plots.field.AddCurve(nodesCurve)
+plots.field.ShowCurve(nodesCurve)

@@ -33,7 +33,7 @@ thermal.Initialize()
 K = thermal.Stiffness()
 y = thermal.Energy()
 
-y[1], monitor = solvers.Iterative(K[1], - K[0] * y[0])
+y[1], monitor = solvers.Iterative(K[1], -K[0]*y[0])
 
 thermal.UpdateMeshValues(y)
 

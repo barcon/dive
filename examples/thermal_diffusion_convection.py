@@ -22,7 +22,7 @@ pressure    = thermal.CreateValueScalar3D(p_ref)
 material    = materials.fluid.CreateFluidOil(1, 68, T_ref)
 meshFile    = 'beam.msh'
 
-meshes.beam.quadratic = False
+meshes.beam.quadratic = True
 meshes.beam.Create(meshFile)
 meshThermal = meshes.routines.LoadMesh(1, meshFile)
 meshVelocity = meshes.routines.LoadMesh(2, meshFile)
@@ -41,7 +41,7 @@ heightElement = meshThermal.GetElementHeightMinium()
 lenghtDomain = meshes.beam.x
 diffusity = k / (cp * rho)
 
-peclet = 3.0
+peclet = 1.5
 speed = (2 * peclet * diffusity) / heightElement
 
 dt1 = lenghtDomain**2.0 / diffusity
@@ -56,6 +56,8 @@ tableSummary = PrettyTable()
 tableSummary.field_names = ["Property", "Value", "Unit"]
 tableSummary.align["Property"] = "l"
 tableSummary.align["Unit"] = "l"
+tableSummary.add_row(["Peclet", "{:.2f}".format(peclet), ""])
+tableSummary.add_row(["Speed", "{:.2e}".format(speed), ""])
 tableSummary.add_row(["Density", "{:.2f}".format(rho), ""])
 tableSummary.add_row(["Specific Heat", "{:.2f}".format(cp), ""])
 tableSummary.add_row(["Thermal Conductivity", "{:.2f}".format(k), ""])
@@ -71,8 +73,8 @@ print(tableSummary)
 
 meshes.routines.ApplyField(meshVelocity, dof = 3, function = FunctionVelocity)
 
-nodesLeft = thermal.FilterNodesByCoordinate(meshThermal.GetNodes(), basis, thermal.axis_x, 0.0, 0.01)
-nodesRight = thermal.FilterNodesByCoordinate(meshThermal.GetNodes(), basis, thermal.axis_x, meshes.beam.x, 0.01)
+nodesLeft = thermal.FilterNodesByCoordinate(meshThermal.GetNodes(), basis, thermal.axis_x, 0.0, 0.001)
+nodesRight = thermal.FilterNodesByCoordinate(meshThermal.GetNodes(), basis, thermal.axis_x, meshes.beam.x, 0.001)
 
 nodesCurve = thermal.FilterNodesByCoordinate(meshThermal.GetNodes(), basis, thermal.axis_y, 0.0, 0.001)
 nodesCurve = thermal.FilterNodesByCoordinate(nodesCurve, basis, thermal.axis_z, 0.0, 0.001)
@@ -82,13 +84,12 @@ thermal.ApplyDirichlet(nodesLeft, 100.0)
 thermal.ApplyDirichlet(nodesRight, 0.0)
 thermal.Initialize()
 
-quit()
+K = thermal.Stiffness()
+C = thermal.Convection()
+y = thermal.Energy()
 
-thermal.solver.Initialize()
-thermal.solver.SolverStationaryConvection()
-#thermal.solver.SolverStationaryStabilized()
+y[1], monitor = solvers.Iterative(K[1] + C[1], -(K[0] + C[0])*y[0])
 
-nodesPlot = dive.FilterNodesByCoordinate(meshThermal.GetNodes(), basis, dive.axis_y, 0.0, 0.01)
-nodesPlot = dive.FilterNodesByCoordinate(nodesPlot, basis, dive.axis_z, 0.0, 0.01)
-meshes.plot.AddCurve(nodesPlot)
-meshes.plot.plt.show()
+thermal.UpdateMeshValues(y)
+
+plots.field.ShowCurve(nodesCurve)

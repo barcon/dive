@@ -4,9 +4,9 @@ x = 1.0
 y = 0.1
 z = 0.1
 
-nx = 21
-ny = 2
-nz = 2
+nx = 41
+ny = 3
+nz = 3
 
 quadratic = False
 
@@ -56,6 +56,21 @@ def Create(fileName):
     gmsh.model.geo.synchronize()
     
     gmsh.option.setNumber('Mesh.SecondOrderIncomplete', 1)  
+
+    gmsh.model.mesh.setTransfiniteCurve( 1, nx, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve( 3, nx, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve( 5, nx, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve( 7, nx, "Progression", 1.00)
+
+    gmsh.model.mesh.setTransfiniteCurve( 2, ny, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve( 4, ny, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve( 6, ny, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve( 8, ny, "Progression", 1.00)
+    
+    gmsh.model.mesh.setTransfiniteCurve( 9, nz, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve(10, nz, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve(11, nz, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve(12, nz, "Progression", 1.00)
 
     gmsh.model.mesh.setTransfiniteSurface( 1, "Left", [ 1,  2,  3,  4])
     gmsh.model.mesh.setTransfiniteSurface( 2, "Left", [ 5,  6,  7,  8])
