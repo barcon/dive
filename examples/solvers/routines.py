@@ -36,35 +36,55 @@ def Iterative(A, b):
 
     return y, monitor
 
-def EulerExplicit(timer, y0, equation):
+def ForwardMethod(timer, y0, equation):
     t = timer.GetCurrentTime()
     dt = timer.GetStepSize()
-    y = [dive.Vector(y0[0]), dive.Vector(y0[1])]
+    y1 = [dive.Vector(y0[0]), dive.Vector(y0[1])]
 
-    M, f = equation(t, y)
+    M, f = equation(t, y0)
     dydt, monitor = Iterative(M, f)
     
-    y[1] = y0[1] + dt * dydt
+    y1[1] = y0[1] + dt * dydt
 
-    return y
+    return y1
 
-def EulerImplicit(timer, y0, equation):
+def BackwardMethod(timer, y0, equation):
     tolerance = 1.0e-3
     t = timer.GetCurrentTime()
     dt = timer.GetStepSize()
     y1 = [dive.Vector(y0[0]), dive.Vector(y0[1])]
-    yt = [dive.Vector(y0[0]), dive.Vector(y0[1])]
+    y2 = [dive.Vector(y0[0]), dive.Vector(y0[1])]
     norm = math.inf
 
     while (norm > tolerance):
-        yt[1] = dive.Vector(y1[1])
-
-        M, f = equation(t, y1)
+        M, f = equation(t + dt, y1)
         dydt, monitor = Iterative(M, f)
     
-        y1[1] = y0[1] + dt * dydt
+        y2[1] = y0[1] + dt * dydt
 
-        norm = dive.NormP2(y1[1] - yt[1]) / dive.NormP2(y1[1])
-        print("Norm = ", norm)
+        norm = dive.NormP2(y2[1] - y1[1]) / dive.NormP2(y2[1])
+        y1[1] = y2[1]
+       
+    return y1
+
+def CrankNicolsonMethod(timer, y0, equation):
+    tolerance = 1.0e-3
+    t = timer.GetCurrentTime()
+    dt = timer.GetStepSize()
+    y1 = [dive.Vector(y0[0]), dive.Vector(y0[1])]
+    y2 = [dive.Vector(y0[0]), dive.Vector(y0[1])]
+    norm = math.inf
+
+    M, f = equation(t, y0)
+    dydt0, monitor = Iterative(M, f)
+
+    while (norm > tolerance):
+        M, f = equation(t + dt, y1)
+        dydt1, monitor = Iterative(M, f)
+    
+        y2[1] = y0[1] + dt * 0.5* (dydt1 + dydt0)
+
+        norm = dive.NormP2(y2[1] - y1[1]) / dive.NormP2(y2[1])
+        y1[1] = y2[1]
         
     return y1

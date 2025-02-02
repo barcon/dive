@@ -13,7 +13,7 @@ def ShowCurve(nodes, axis = 0, dof = 0):
     #ax = plt.subplots()
     #ax.set_title(title)
     plt.xlim(x[0], x[-1])
-    plt.ylim(min(f), max(f))
+    plt.ylim(0, max(f))
     #ax.grid(which = "both", linestyle = "dashed")
     #ax.grid(which = "major", linewidth = 1)
     #ax.grid(which = "minor", linewidth = 0.2)

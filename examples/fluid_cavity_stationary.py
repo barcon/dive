@@ -1,11 +1,13 @@
-import dive
-import materials
+import fluid.momentum
+import fluid.pressure
 import meshes
 import fluid
+import solvers
+import materials.fluid
+import plots.residual
+import plots.field
 
 from prettytable import PrettyTable
-
-import meshes.plot_cavity
 
 def ApplyBoundaryConditionsVelocity(problem, value):
     global heightElement
@@ -68,33 +70,29 @@ def ApplyBoundaryConditionsPressure(problem, value):
 
 T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
-basis       = dive.CreateBasisCartesian(1)
-timer       = dive.CreateTimerStationary(1, 0.0)
-material    = materials.Fluids['Oil_ISO_VG68'](1, T_ref)
+basis       = fluid.CreateBasisCartesian(1)
+timer       = fluid.CreateTimerStationary(1, 0.0)
+pressure    = fluid.CreateValueScalar3D(p_ref)
+material    = materials.fluid.CreateFluidOil(1, 68, T_ref)
 meshFile    = 'cavity.msh'
 speed       = 0.0
-status      = None
 
-meshes.cavity.x = 1.0
-meshes.cavity.y = 1.0
-meshes.cavity.z = 0.1
-meshes.cavity.nx = 21
-meshes.cavity.ny = 21
-meshes.cavity.nz = 2
-#meshes.cavity.quadratic = True
-meshes.cavity.quadratic = False
-meshes.Create(meshFile)
+meshes.cavity.quadratic = True
+meshes.cavity.Create(meshFile)
+meshVelocity = meshes.routines.LoadMesh(1, meshFile)
+meshPressure = meshes.routines.LoadMesh(2, meshFile)
+meshes.routines.ApplyMaterial(meshVelocity.GetElements(), material)
+meshes.routines.ApplyMaterial(meshPressure.GetElements(), material)
 
-meshPressure = meshes.LoadMesh(1, meshFile)
-meshVelocity = meshes.LoadMesh(2, meshFile)
-
-temperature = dive.CreateValueScalar3D(T_ref)
-pressure = dive.CreateValueScalar3DCongruent(meshPressure)
-velocity = dive.CreateValueMatrix3DCongruent(meshVelocity)
+temperature = fluid.CreateValueScalar3D(T_ref)
+pressure = fluid.CreateValueScalar3DCongruent(meshPressure)
+velocity = fluid.CreateValueMatrix3DCongruent(meshVelocity)
 
 rho = material.GetDensity(T_ref, p_ref)
 mu = material.GetDynamicViscosity(T_ref, p_ref)
 cp = material.GetSpecificHeat(T_ref, p_ref)
+
+quit()
 
 heightElement = meshVelocity.GetElementHeightMinium()
 lenghtDomain = meshes.cavity.x
@@ -124,8 +122,8 @@ tableSummary.add_row(["Convection Domain Time", "{:.2g}".format(dt3), "[s]"])
 tableSummary.add_row(["Convection Element Time", "{:.2g}".format(dt4), "[s]"])
 print(tableSummary)
 
-problemPressure = fluid.solver.CreateProblemPressure(1, timer, meshPressure, temperature, velocity, material)
-problemVelocity = fluid.solver.CreateProblemVelocity(2, timer, meshVelocity, temperature, pressure, material)
+fluid.pressure.CreateProblem(1, timer, meshPressure, temperature, velocity)
+fluid.momentum.CreateProblem(2, timer, meshVelocity, temperature, pressure)
 
 ApplyBoundaryConditionsVelocity(problemVelocity, speed)
 ApplyBoundaryConditionsPressure(problemPressure, p_ref)

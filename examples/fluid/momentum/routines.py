@@ -2,14 +2,14 @@ from dive import *
 
 problem = None
 
-def CreateProblem(tag, timer, mesh, pressure, velocity):
-    global problem
+def CreateProblem(tag, timer, mesh, temperature, pressure):
+    problem = None 
 
-    problem = CreateProblemThermal(tag)
+    problem = CreateProblemFluid(tag)
     problem.SetTimer(timer)
     problem.SetMesh(mesh)
-    problem.SetPressure(pressure)
-    problem.SetVelocity(velocity) 
+    problem.SetTemperature(temperature)
+    problem.SetPressure(pressure) 
     
     return problem
 
@@ -47,18 +47,18 @@ def ApplyDirichlet(nodes, value, dof = None):
             problem.AddDirichlet(dirichlet)
     return
 
-def Energy():
+def Velocity():
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
 
-    y = problem.Energy()
+    y = problem.Velocity()
 
     y0 = y.Region(0, pivot - 1)  
     y1 = y.Region(pivot, totalDof - 1) 
 
     return [y0, y1]
 
-def EnergyDerivative():
+def VelocityDerivative():
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
 

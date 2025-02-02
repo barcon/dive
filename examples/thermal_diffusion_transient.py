@@ -4,13 +4,14 @@ import solvers
 import materials.fluid
 import plots.residual
 import plots.field
+import math
 
 from prettytable import PrettyTable
 
 T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
 basis       = thermal.CreateBasisCartesian(1)
-timer       = thermal.CreateTimerStepped(1, 0.0, 1e+6, 1e+3)
+timer       = thermal.CreateTimerStepped(1, 0.0, 1e+6, 1e+2)
 pressure    = thermal.CreateValueScalar3D(p_ref)
 material    = materials.fluid.CreateFluidOil(1, 68, T_ref)
 meshFile    = 'beam.msh'
@@ -41,19 +42,20 @@ tableSummary.add_row(["Specific Heat", "{:.2f}".format(cp), ""])
 tableSummary.add_row(["Thermal Conductivity", "{:.2f}".format(k), ""])
 tableSummary.add_row(["Thermal Diffusity", "{:.2e}".format(diffusity), ""])
 tableSummary.add_row(["Domain Lenght", "{:.2f}".format(lenghtDomain), "[m]"])
-tableSummary.add_row(["Element Height", "{:.2e}".format(heightElement), "[m]"])
+tableSummary.add_row(["Element Size", "{:.2e}".format(heightElement), "[m]"])
 tableSummary.add_row(["Diffusion Domain Time", "{:.2g}".format(dt1), "[s]"])
 tableSummary.add_row(["Diffusion Element Time", "{:.2g}".format(dt2), "[s]"])
 print(tableSummary)
 #--------------------------------------------------------------------------------------------------
 
-nodesLeft = thermal.FilterNodesByCoordinate(mesh.GetNodes(), basis, thermal.axis_x, 0.0, 0.01)
-nodesRight = thermal.FilterNodesByCoordinate(mesh.GetNodes(), basis, thermal.axis_x, meshes.beam.x, 0.01)
+tolerance = heightElement/10.0
+nodesLeft = thermal.FilterNodesByCoordinate(mesh.GetNodes(), basis, thermal.axis_x, 0.0, tolerance)
+nodesRight = thermal.FilterNodesByCoordinate(mesh.GetNodes(), basis, thermal.axis_x, meshes.beam.x, tolerance)
 
-nodesCurve = thermal.FilterNodesByCoordinate(mesh.GetNodes(), basis, thermal.axis_y, 0.0, 0.001)
-nodesCurve = thermal.FilterNodesByCoordinate(nodesCurve, basis, thermal.axis_z, 0.0, 0.001)
+nodesCurve = thermal.FilterNodesByCoordinate(mesh.GetNodes(), basis, thermal.axis_y, 0.0, tolerance)
+nodesCurve = thermal.FilterNodesByCoordinate(nodesCurve, basis, thermal.axis_z, 0.0, tolerance)
 
-nodesField = thermal.FilterNodesByCoordinate(mesh.GetNodes(), basis, thermal.axis_z, 0.0, 0.001)
+nodesField = thermal.FilterNodesByCoordinate(mesh.GetNodes(), basis, thermal.axis_z, 0.0, tolerance)
 
 thermal.CreateProblem(1, timer, mesh, pressure, None)
 thermal.ApplyDirichlet(nodesLeft, 100.0)
@@ -71,15 +73,17 @@ def Diffusion(t, y):
 
     return M22, -K21 * y[0] - K22 * y[1]
 
-while(True):    
+while(True): 
     y0 = thermal.Energy()
-    y1 = solvers.EulerExplicit(timer, y0, Diffusion)
+    y1 = solvers.ForwardMethod(timer, y0, Diffusion)
+    #y1 = solvers.BackwardMethod(timer, y0, Diffusion)
+    #y1 = solvers.CrankNicolsonMethod(timer, y0, Diffusion)
 
     thermal.UpdateMeshValues(y1)
 
     if(timer.GetCurrentTime() == timer.GetEndTime()):
-        break
-    else:    
-        timer.SetNextStep()
+        break        
+    else:
+        timer.SetNextStep()  
 
 plots.field.ShowCurve(nodesCurve)
