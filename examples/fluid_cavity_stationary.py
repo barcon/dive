@@ -92,8 +92,6 @@ rho = material.GetDensity(T_ref, p_ref)
 mu = material.GetDynamicViscosity(T_ref, p_ref)
 cp = material.GetSpecificHeat(T_ref, p_ref)
 
-quit()
-
 heightElement = meshVelocity.GetElementHeightMinium()
 lenghtDomain = meshes.cavity.x
 diffusity = mu / (cp * rho)
@@ -109,22 +107,40 @@ tableSummary = PrettyTable()
 tableSummary.field_names = ["Property", "Value", "Unit"]
 tableSummary.align["Property"] = "l"
 tableSummary.align["Unit"] = "l"
-tableSummary.add_row(["Density", "{:.2f}".format(rho), ""])
+tableSummary.add_row(["Density", "{:.2f}".format(rho), "[kg/m³]"])
 tableSummary.add_row(["Viscosity", "{:.2e}".format(mu), ""])
 tableSummary.add_row(["Diffusity", "{:.2e}".format(diffusity), ""])
-tableSummary.add_row(["Speed", "{:.2g}".format(speed), ""])
+tableSummary.add_row(["Speed", "{:.2g}".format(speed), "[m/s]"])
 tableSummary.add_row(["Reynolds", "{:.2e}".format(reynolds), "[-]"])
-tableSummary.add_row(["Domain Lenght", "{:.2f}".format(lenghtDomain), ""])
-tableSummary.add_row(["Element Height", "{:.2e}".format(heightElement), ""])
+tableSummary.add_row(["Domain Lenght", "{:.2f}".format(lenghtDomain), "[m]"])
+tableSummary.add_row(["Element Height", "{:.2e}".format(heightElement), "[m]"])
 tableSummary.add_row(["Diffusion Domain Time", "{:.2g}".format(dt1), "[s]"])
 tableSummary.add_row(["Diffusion Element Time", "{:.2g}".format(dt2), "[s]"])
 tableSummary.add_row(["Convection Domain Time", "{:.2g}".format(dt3), "[s]"])
 tableSummary.add_row(["Convection Element Time", "{:.2g}".format(dt4), "[s]"])
 print(tableSummary)
 
-fluid.pressure.CreateProblem(1, timer, meshPressure, temperature, velocity)
-fluid.momentum.CreateProblem(2, timer, meshVelocity, temperature, pressure)
+tolerance = heightElement/10.0
+nodesTop = fluid.FilterNodesByCoordinate(meshVelocity.GetNodes(), basis, fluid.axis_y, meshes.cavity.y, tolerance)
+nodesLeft = fluid.FilterNodesByCoordinate(meshVelocity.GetNodes(), basis, fluid.axis_x, 0.0, tolerance)
+nodesRight = fluid.FilterNodesByCoordinate(meshVelocity.GetNodes(), basis, fluid.axis_x, meshes.cavity.x, tolerance)
+nodesBottom = fluid.FilterNodesByCoordinate(meshVelocity.GetNodes(), basis, fluid.axis_y, 0.0, tolerance)
+nodesFront = fluid.FilterNodesByCoordinate(meshVelocity.GetNodes(), basis, fluid.axis_z, meshes.cavity.z, tolerance)
+nodesBack = fluid.FilterNodesByCoordinate(meshVelocity.GetNodes(), basis, fluid.axis_z, 0.0, tolerance)
 
+fluid.momentum.CreateProblem(2, timer, meshVelocity, temperature, pressure)
+fluid.momentum.ApplyDirichlet(nodesTop, speed, dof = 0)
+fluid.momentum.ApplyDirichlet(nodesTop, 0.0, dof = 1)
+fluid.momentum.ApplyDirichlet(nodesTop, 0.0, dof = 2)
+fluid.momentum.ApplyDirichlet(nodesLeft, 0.0)
+fluid.momentum.ApplyDirichlet(nodesRight, 0.0)
+fluid.momentum.ApplyDirichlet(nodesBottom, 0.0)
+fluid.momentum.ApplyDirichlet(nodesFront, 0.0, dof = 2)
+fluid.momentum.ApplyDirichlet(nodesBack, 0.0, dof = 2)
+
+fluid.pressure.CreateProblem(1, timer, meshPressure, temperature, velocity)
+
+quit()
 ApplyBoundaryConditionsVelocity(problemVelocity, speed)
 ApplyBoundaryConditionsPressure(problemPressure, p_ref)
 

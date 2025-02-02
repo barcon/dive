@@ -36,6 +36,8 @@ def UpdateMeshValues(y):
     return
 
 def ApplyDirichlet(nodes, value, dof = None):
+    global problem
+
     for node in nodes:
         if (dof == None):
             numberDof = node.GetNumberDof()
@@ -48,6 +50,8 @@ def ApplyDirichlet(nodes, value, dof = None):
     return
 
 def Energy():
+    global problem
+
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
 
@@ -59,6 +63,8 @@ def Energy():
     return [y0, y1]
 
 def EnergyDerivative():
+    global problem
+
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
 
@@ -70,6 +76,8 @@ def EnergyDerivative():
     return [dy0, dy1]
 
 def Stiffness():
+    global problem
+
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
     
@@ -80,6 +88,8 @@ def Stiffness():
     return [K21, K22]
 
 def Mass():
+    global problem    
+    
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
     
@@ -90,6 +100,8 @@ def Mass():
     return [M21, M22]
 
 def Convection():
+    global problem
+
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
     
@@ -100,6 +112,8 @@ def Convection():
     return [C21, C22]
 
 def Stabilization():
+    global problem
+
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
     
