@@ -2,7 +2,7 @@ import dive
 import math
 import matplotlib.pyplot as plt
 
-def ShowCurve(nodes, axis = 0, dof = 0):
+def Curve(nodes, axis = 0, dof = 0):
     x = []
     f = []
     for node in nodes:
@@ -24,7 +24,7 @@ def ShowCurve(nodes, axis = 0, dof = 0):
 
     return
 
-def Show(nodes, dof = 0, title = ''):
+def HeatMap(nodes, dof = 0, title = ''):
     x = []
     y = []
     f = []
@@ -49,7 +49,7 @@ def Show(nodes, dof = 0, title = ''):
 
     return
 
-def MapNorm(nodes):
+def HeatMapNorm(nodes):
     x = []
     y = []
     f = []
@@ -66,14 +66,14 @@ def MapNorm(nodes):
 
     fig, ax = plt.subplots()
     #ax.axis([0.0, 1.0, 0.0, 1.0])    
-    #ax.plot(x, y, 'o', markersize=0, color='grey')
+    ax.plot(x, y, 'o', markersize=1, color='grey')
     ax.tricontourf(x, y, f)
 
     plt.show()
     plt.close() 
     return
 
-def FieldVector(nodes):
+def Vector(nodes):
     x = []
     y = []
     u = []

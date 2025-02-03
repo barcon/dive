@@ -5,68 +5,9 @@ import fluid
 import solvers
 import materials.fluid
 import plots.residual
-import plots.field
+import plots.routines
 
 from prettytable import PrettyTable
-
-def ApplyBoundaryConditionsVelocity(problem, value):
-    global heightElement
-    tolerance = heightElement / 5.0
-
-    x = meshes.cavity.x
-    y = meshes.cavity.y
-    z = meshes.cavity.z
-
-    nodes = problem.GetMesh().GetNodes()
-
-    nodesTop = dive.FilterNodesByCoordinate(nodes, basis, dive.axis_y, y, tolerance)
-    for node in nodesTop:
-        problem.AddDirichlet(dive.CreateDirichletByValue(node, 0, value))   
-        problem.AddDirichlet(dive.CreateDirichletByValue(node, 1, 0.0))   
-        problem.AddDirichlet(dive.CreateDirichletByValue(node, 2, 0.0))
-
-    nodesLeft = dive.FilterNodesByCoordinate(nodes, basis, dive.axis_x, 0.0, tolerance)
-    for node in nodesLeft:
-        problem.AddDirichlet(dive.CreateDirichletByValue(node, 0, 0.0))   
-        problem.AddDirichlet(dive.CreateDirichletByValue(node, 1, 0.0))   
-        problem.AddDirichlet(dive.CreateDirichletByValue(node, 2, 0.0))          
-
-    nodesRight = dive.FilterNodesByCoordinate(nodes, basis, dive.axis_x, x, tolerance)
-    for node in nodesRight:
-        problem.AddDirichlet(dive.CreateDirichletByValue(node, 0, 0.0))   
-        problem.AddDirichlet(dive.CreateDirichletByValue(node, 1, 0.0))   
-        problem.AddDirichlet(dive.CreateDirichletByValue(node, 2, 0.0))     
-
-    nodesBottom = dive.FilterNodesByCoordinate(nodes, basis, dive.axis_y, 0.0, tolerance)
-    for node in nodesBottom:
-        problem.AddDirichlet(dive.CreateDirichletByValue(node, 0, 0.0))   
-        problem.AddDirichlet(dive.CreateDirichletByValue(node, 1, 0.0))   
-        problem.AddDirichlet(dive.CreateDirichletByValue(node, 2, 0.0))         
-
-    nodesFront = dive.FilterNodesByCoordinate(nodes, basis, dive.axis_z, z, tolerance)
-    for node in nodesFront:
-        problem.AddDirichlet(dive.CreateDirichletByValue(node, 2, 0.0))          
-
-    nodesBack = dive.FilterNodesByCoordinate(nodes, basis, dive.axis_z, 0.0, tolerance)
-    for node in nodesBack:
-        problem.AddDirichlet(dive.CreateDirichletByValue(node, 2, 0.0)) 
-
-def ApplyBoundaryConditionsPressure(problem, value):
-    global heightElement
-    tolerance = heightElement / 5.0
-
-    x = meshes.cavity.x
-    y = meshes.cavity.y
-    z = meshes.cavity.z
-
-    nodes = problem.GetMesh().GetNodes()
-
-    nodesCorner = dive.FilterNodesByCoordinate(nodes, basis, dive.axis_x, 0, tolerance)
-    nodesCorner = dive.FilterNodesByCoordinate(nodesCorner, basis, dive.axis_y, 0, tolerance)
-    for node in nodesCorner:
-        problem.AddDirichlet(dive.CreateDirichletByValue(node, 0, value))        
-
-    return     
 
 T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
@@ -77,7 +18,7 @@ material    = materials.fluid.CreateFluidOil(1, 68, T_ref)
 meshFile    = 'cavity.msh'
 speed       = 0.0
 
-meshes.cavity.quadratic = True
+meshes.cavity.quadratic = False
 meshes.cavity.Create(meshFile)
 meshVelocity = meshes.routines.LoadMesh(1, meshFile)
 meshPressure = meshes.routines.LoadMesh(2, meshFile)
@@ -92,10 +33,11 @@ rho = material.GetDensity(T_ref, p_ref)
 mu = material.GetDynamicViscosity(T_ref, p_ref)
 cp = material.GetSpecificHeat(T_ref, p_ref)
 
+#--------------------------------------------------------------------------------------------------
 heightElement = meshVelocity.GetElementHeightMinium()
 lenghtDomain = meshes.cavity.x
 diffusity = mu / (cp * rho)
-reynolds = 1.0
+reynolds = 500.0
 speed =  reynolds * mu / (rho * lenghtDomain)
 
 dt1 = lenghtDomain**2.0 / diffusity
@@ -114,11 +56,12 @@ tableSummary.add_row(["Speed", "{:.2g}".format(speed), "[m/s]"])
 tableSummary.add_row(["Reynolds", "{:.2e}".format(reynolds), "[-]"])
 tableSummary.add_row(["Domain Lenght", "{:.2f}".format(lenghtDomain), "[m]"])
 tableSummary.add_row(["Element Height", "{:.2e}".format(heightElement), "[m]"])
-tableSummary.add_row(["Diffusion Domain Time", "{:.2g}".format(dt1), "[s]"])
-tableSummary.add_row(["Diffusion Element Time", "{:.2g}".format(dt2), "[s]"])
-tableSummary.add_row(["Convection Domain Time", "{:.2g}".format(dt3), "[s]"])
-tableSummary.add_row(["Convection Element Time", "{:.2g}".format(dt4), "[s]"])
+tableSummary.add_row(["Diffusion Domain Time", "{:.2e}".format(dt1), "[s]"])
+tableSummary.add_row(["Diffusion Element Time", "{:.2e}".format(dt2), "[s]"])
+tableSummary.add_row(["Convection Domain Time", "{:.2e}".format(dt3), "[s]"])
+tableSummary.add_row(["Convection Element Time", "{:.2e}".format(dt4), "[s]"])
 print(tableSummary)
+#--------------------------------------------------------------------------------------------------
 
 tolerance = heightElement/10.0
 nodesTop = fluid.FilterNodesByCoordinate(meshVelocity.GetNodes(), basis, fluid.axis_y, meshes.cavity.y, tolerance)
@@ -128,7 +71,7 @@ nodesBottom = fluid.FilterNodesByCoordinate(meshVelocity.GetNodes(), basis, flui
 nodesFront = fluid.FilterNodesByCoordinate(meshVelocity.GetNodes(), basis, fluid.axis_z, meshes.cavity.z, tolerance)
 nodesBack = fluid.FilterNodesByCoordinate(meshVelocity.GetNodes(), basis, fluid.axis_z, 0.0, tolerance)
 
-fluid.momentum.CreateProblem(2, timer, meshVelocity, temperature, pressure)
+fluid.momentum.CreateProblem(1, timer, meshVelocity, temperature, pressure)
 fluid.momentum.ApplyDirichlet(nodesTop, speed, dof = 0)
 fluid.momentum.ApplyDirichlet(nodesTop, 0.0, dof = 1)
 fluid.momentum.ApplyDirichlet(nodesTop, 0.0, dof = 2)
@@ -137,36 +80,23 @@ fluid.momentum.ApplyDirichlet(nodesRight, 0.0)
 fluid.momentum.ApplyDirichlet(nodesBottom, 0.0)
 fluid.momentum.ApplyDirichlet(nodesFront, 0.0, dof = 2)
 fluid.momentum.ApplyDirichlet(nodesBack, 0.0, dof = 2)
+fluid.momentum.Initialize()
 
-fluid.pressure.CreateProblem(1, timer, meshPressure, temperature, velocity)
+nodesCorner = fluid.FilterNodesByCoordinate(meshPressure.GetNodes(), basis, fluid.axis_x, 0.0, tolerance)
+nodesCorner = fluid.FilterNodesByCoordinate(nodesCorner, basis, fluid.axis_y, 0.0, tolerance)
 
-quit()
-ApplyBoundaryConditionsVelocity(problemVelocity, speed)
-ApplyBoundaryConditionsPressure(problemPressure, p_ref)
+fluid.pressure.CreateProblem(2, timer, meshPressure, temperature, velocity)
+fluid.pressure.ApplyDirichlet(nodesCorner, 0.0)
+fluid.pressure.Initialize()
 
-fluid.solver.InitializeVelocity()
-fluid.solver.InitializePressure()
+K = fluid.momentum.Stiffness()
+y = fluid.momentum.Momentum()
 
-problemVelocity.Mass()
-problemVelocity.Stiffness()
+y[1], monitor = solvers.Iterative(K[1], -K[0] * y[0])
 
-#fluid.solver.StationaryDiffusion()
-fluid.solver.StationaryConvection()
-#fluid.solver.StationaryStabilized()
-fluid.solver.StationaryPressure()
-fluid.solver.StationaryCorrection()
-
-meshes.plot.FieldVector(meshVelocity.GetNodes())
-meshes.plot.FieldVectorNorm(meshVelocity.GetNodes())
-meshes.plot.Field(meshVelocity.GetNodes(), 0)
-meshes.plot.Field(meshVelocity.GetNodes(), 1)
-meshes.plot.Field(meshPressure.GetNodes())
-
-nodes = problemVelocity.GetMesh().GetNodes()
-nodesCenter = dive.FilterNodesByCoordinate(nodes, basis, dive.axis_x, meshes.cavity.x / 2.0, 0.001)
-nodesCenter = dive.FilterNodesByCoordinate(nodesCenter, basis, dive.axis_z, 0.0, 0.05)
-
-meshes.plot_cavity.HorizontalVelocity(nodesCenter, speed)
+fluid.momentum.UpdateMeshValuesMomentum(y)
+plots.HeatMapNorm(meshVelocity.GetNodes())
+plots.Vector(meshVelocity.GetNodes())
 
 #print(meshPressure.GetNodes())
 #print(meshVelocity.GetNodes())

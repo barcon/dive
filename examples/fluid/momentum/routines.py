@@ -20,13 +20,13 @@ def Initialize():
     
     return
 
-def UpdateMeshValues(y): 
+def UpdateMeshValuesMomentum(y): 
     global problem
 
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
 
-    y0 = problem.Energy()
+    y0 = problem.Momentum()
 
     y0.Region(0, pivot - 1, y[0])
     y0.Region(pivot, totalDof - 1, y[1])
@@ -63,6 +63,32 @@ def Velocity():
     return [y0, y1]
 
 def VelocityDerivative():
+    global problem
+
+    totalDof = problem.GetTotalDof()
+    pivot = problem.GetPivot()
+
+    dy = Vector(totalDof)
+
+    dy0 = dy.Region(0, pivot - 1)  
+    dy1 = dy.Region(pivot, totalDof - 1) 
+
+    return [dy0, dy1]
+
+def Momentum():
+    global problem
+
+    totalDof = problem.GetTotalDof()
+    pivot = problem.GetPivot()
+
+    y = problem.Momentum()
+
+    y0 = y.Region(0, pivot - 1)  
+    y1 = y.Region(pivot, totalDof - 1) 
+
+    return [y0, y1]
+
+def MomentumDerivative():
     global problem
 
     totalDof = problem.GetTotalDof()

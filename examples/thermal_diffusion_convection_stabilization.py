@@ -3,7 +3,7 @@ import thermal
 import solvers
 import materials.fluid
 import plots.residual
-import plots.field
+import plots.routines
 
 from prettytable import PrettyTable
 
@@ -94,4 +94,4 @@ dt = 0.01
 y[1], monitor = solvers.Iterative(K[1] + C[1] - dt * S[1], -(K[0] + C[0] - dt *S[0])*y[0])
 
 thermal.UpdateMeshValues(y)
-plots.field.ShowCurve(nodesCurve)
+plots.Curve(nodesCurve)

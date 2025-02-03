@@ -22,7 +22,7 @@ def Show(monitor):
 
     plt.xlim(0, xlim)
     plt.xlabel('Iteration [--]')
-    
+
     plt.ylim(1.0e-7, 1.0e1)
     plt.ylabel('Residual')
     plt.yscale('log')
