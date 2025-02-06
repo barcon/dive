@@ -13,6 +13,9 @@ def CreateProblem(tag, timer, mesh, temperature, pressure):
     
     return problem
 
+def GetProblem():
+    return problem
+
 def Initialize(): 
     global problem
 

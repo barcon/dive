@@ -2,15 +2,18 @@ from dive import *
 
 problem = None
 
-def CreateProblem(tag, timer, mesh, pressure, velocity):
+def CreateProblem(tag, timer, mesh, temperature, velocity):
     global problem
 
-    problem = CreateProblemThermal(tag)
+    problem = CreateProblemPressure(tag)
     problem.SetTimer(timer)
     problem.SetMesh(mesh)
-    problem.SetPressure(pressure)
+    problem.SetTemperature(temperature)
     problem.SetVelocity(velocity) 
     
+    return problem
+
+def GetProblem():
     return problem
 
 def Initialize(): 
@@ -89,12 +92,12 @@ def Mass():
 
     return [M21, M22]
 
-def Stabilization():
+def Crossed(problemMomentum):
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
     
-    S = problem.Stabilization()
-    S21 = S.Region(pivot, 0, totalDof - 1, pivot - 1)
-    S22 = S.Region(pivot, pivot, totalDof - 1, totalDof - 1)
+    G = problem.Crossed_Udp(problemMomentum)
+    G21 = G.Region(pivot, 0, totalDof - 1, pivot - 1)
+    G22 = G.Region(pivot, pivot, totalDof - 1, totalDof - 1)
 
-    return [S21, S22]
+    return [G21, G22]

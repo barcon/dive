@@ -222,9 +222,13 @@ namespace dive
 		using StiffnessPressurePtr = std::shared_ptr<StiffnessPressure>;
 		using ConstStiffnessPressurePtr = std::shared_ptr<const StiffnessPressure>;
 
-		class CrossedPressure;
-		using CrossedPressurePtr = std::shared_ptr<CrossedPressure>;
-		using ConstCrossedPressurePtr = std::shared_ptr<const CrossedPressure>;
+		class CrossedPressure_Udp;
+		using CrossedPressure_Udp_Ptr = std::shared_ptr<CrossedPressure_Udp>;
+		using ConstCrossedPressure_Udp_Ptr = std::shared_ptr<const CrossedPressure_Udp>;
+
+		class CrossedPressure_pdU;
+		using CrossedPressure_pdU_Ptr = std::shared_ptr<CrossedPressure_pdU>;
+		using ConstCrossedPressure_pdU_Ptr = std::shared_ptr<const CrossedPressure_pdU>;
 
 		class StabilizationPressure;
 		using StabilizationPressurePtr = std::shared_ptr<StabilizationPressure>;

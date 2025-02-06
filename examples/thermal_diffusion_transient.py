@@ -2,8 +2,7 @@ import meshes
 import thermal
 import solvers
 import materials.fluid
-import plots.residual
-import plots.field
+import plots
 import math
 
 from prettytable import PrettyTable
@@ -11,7 +10,7 @@ from prettytable import PrettyTable
 T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
 basis       = thermal.CreateBasisCartesian(1)
-timer       = thermal.CreateTimerStepped(1, 0.0, 1e+6, 1e+2)
+timer       = thermal.CreateTimerStepped(1, 0.0, 1e+6, 1e+3)
 pressure    = thermal.CreateValueScalar3D(p_ref)
 material    = materials.fluid.CreateFluidOil(1, 68, T_ref)
 meshFile    = 'beam.msh'
@@ -75,8 +74,8 @@ def Diffusion(t, y):
 
 while(True): 
     y0 = thermal.Energy()
-    y1 = solvers.ForwardMethod(timer, y0, Diffusion)
-    #y1 = solvers.BackwardMethod(timer, y0, Diffusion)
+    #y1 = solvers.ForwardMethod(timer, y0, Diffusion)
+    y1 = solvers.BackwardMethod(timer, y0, Diffusion)
     #y1 = solvers.CrankNicolsonMethod(timer, y0, Diffusion)
 
     thermal.UpdateMeshValues(y1)
@@ -86,4 +85,4 @@ while(True):
     else:
         timer.SetNextStep()  
 
-plots.field.ShowCurve(nodesCurve)
+plots.Curve(nodesCurve)

@@ -179,42 +179,42 @@ namespace dive {
 
 			return res;
 		}
-		Sparse ProblemPressure::Crossed(IProblemPtr problemVelocity) const
+		Sparse ProblemPressure::Crossed_Udp(IProblemPtr problemMomentum) const
 		{
 			TimerStart();
 
-			auto crossedWeak = weakforms::CreateWeakFormCrossedPressure();
-			crossedWeak->SetProblemVelocity(problemVelocity);
+			auto crossedWeak = weakforms::CreateWeakFormCrossedPressure_Udp();
+			crossedWeak->SetProblemMomentum(problemMomentum);
 
 			IProblemPtr problemPressure = std::make_shared<ProblemPressure>(*this);
 
-			auto res = IntegralForm(crossedWeak, problemPressure, problemVelocity);
+			auto res = IntegralForm(crossedWeak, problemPressure, problemMomentum);
 
 			TimerElapsed(__FUNCTION__);
 
 			return res;
 		}
-		Sparse ProblemPressure::Stabilization(IProblemPtr problemVelocity) const
+		Sparse ProblemPressure::Stabilization(IProblemPtr problemMomentum) const
 		{
 			TimerStart();
 
 			auto stabilizationWeak = weakforms::CreateWeakFormStabilizationPressure();
-			stabilizationWeak->SetProblemVelocity(problemVelocity);
+			stabilizationWeak->SetProblemMomentum(problemMomentum);
 
 			IProblemPtr problemPressure = std::make_shared<ProblemPressure>(*this);
 
-			auto res = IntegralForm(stabilizationWeak, problemPressure, problemVelocity);
+			auto res = IntegralForm(stabilizationWeak, problemPressure, problemMomentum);
 
 			TimerElapsed(__FUNCTION__);
 
 			return res;
 		}
-		Vector ProblemPressure::LoadDistributedFaceFlux(IProblemPtr problemVelocity, const Vector& momentum) const
+		Vector ProblemPressure::LoadDistributedFaceFlux(IProblemPtr problemMomentum, const Vector& momentum) const
 		{
 			TimerStart();
 
 			auto loadDistributedFaceFluxPressureWeak = weakforms::CreateWeakFormLoadDistributedFaceFluxPressure();
-			loadDistributedFaceFluxPressureWeak->SetProblemVelocity(problemVelocity);
+			loadDistributedFaceFluxPressureWeak->SetProblemMomentum(problemMomentum);
 			loadDistributedFaceFluxPressureWeak->SetMomentum(momentum);
 
 			IProblemPtr problemPressure = std::make_shared<ProblemPressure>(*this);

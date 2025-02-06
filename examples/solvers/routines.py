@@ -63,6 +63,7 @@ def BackwardMethod(timer, y0, equation):
         y2[1] = y0[1] + dt * dydt
 
         norm = dive.NormP2(y2[1] - y1[1]) / dive.NormP2(y2[1])
+        #norm = dive.NormP2(y2[1] - y1[1]) / dive.NormMax(y2[1])
         y1[1] = y2[1]
        
     return y1

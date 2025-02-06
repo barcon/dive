@@ -4,8 +4,7 @@ import meshes
 import fluid
 import solvers
 import materials.fluid
-import plots.residual
-import plots.routines
+import plots
 
 from prettytable import PrettyTable
 
@@ -90,12 +89,22 @@ fluid.pressure.ApplyDirichlet(nodesCorner, 0.0)
 fluid.pressure.Initialize()
 
 K = fluid.momentum.Stiffness()
-y = fluid.momentum.Momentum()
+q = fluid.momentum.Momentum()
 
-y[1], monitor = solvers.Iterative(K[1], -K[0] * y[0])
+H = fluid.pressure.Stiffness()
+G = fluid.pressure.Crossed(fluid.pressure.GetProblem())
+p = fluid.pressure.Pressure()
 
-fluid.momentum.UpdateMeshValuesMomentum(y)
+dt = 0.1
+
+q[1], monitor = solvers.Iterative(K[1], -K[0] * q[0])
+p[1], monitor = solvers.Iterative(H[1], -H[0] * p[0] - (1.0 / dt) * (G[0]* q[0] + G[1]* q[1]))
+
+fluid.momentum.UpdateMeshValuesMomentum(q)
+fluid.pressure.UpdateMeshValues(p)
+
 plots.HeatMapNorm(meshVelocity.GetNodes())
+plots.HeatMapNorm(meshPressure.GetNodes())
 plots.Vector(meshVelocity.GetNodes())
 
 #print(meshPressure.GetNodes())
