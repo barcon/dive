@@ -249,7 +249,6 @@ namespace dive {
 			TimerStart();
 
 			auto loadDistributedVolumeStabilizationWeak = weakforms::CreateWeakFormLoadDistributedVolumeStabilizationFluid();
-			loadDistributedVolumeStabilizationWeak->SetVelocity(velocity_);
 
 			IProblemPtr problemFluid = std::make_shared<ProblemFluid>(*this);
 

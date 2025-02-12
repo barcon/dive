@@ -50,6 +50,12 @@ def ApplyDirichlet(nodes, value, dof = None):
             problem.AddDirichlet(dirichlet)
     return
 
+def ApplyLoadDistributedVolumeDivergence(elements):
+    for element in elements:
+        load = CreateLoadDistributedVolume(element, None)
+        problem.AddLoad(load)
+    return
+
 def Pressure():
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
@@ -92,12 +98,12 @@ def Mass():
 
     return [M21, M22]
 
-def Crossed(problemMomentum):
+def LoadDistributedVolumeDivergence(problemMomentum):
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
     
-    G = problem.Crossed_Udp(problemMomentum)
-    G21 = G.Region(pivot, 0, totalDof - 1, pivot - 1)
-    G22 = G.Region(pivot, pivot, totalDof - 1, totalDof - 1)
+    f = problem.LoadDistributedVolumeDivergence(problemMomentum)
+    f1 = f.Region(0, pivot - 1)  
+    f2 = f.Region(pivot, totalDof - 1) 
 
-    return [G21, G22]
+    return [f1, f2]

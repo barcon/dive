@@ -37,7 +37,7 @@ namespace dive {
 
 			output = -(1.0 / 2.0) * dNu.Transpose() * dNu;
 		}
-		Matrix StabilizationFluid::FormVelocity(IElementPtr element, const Vector& local) const
+		Matrix StabilizationFluid::FormMomentum(IElementPtr element, const Vector& local) const
 		{
 			return element->u(local);
 		}
@@ -74,7 +74,7 @@ namespace dive {
 		}
 		Matrix StabilizationFluid::FormMatrix_udN(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const
 		{
-			auto u = FormVelocity(element, local);
+			auto u = FormMomentum(element, local);
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNode(0)->GetNumberDof();
 			auto dimension = element->GetDimension();

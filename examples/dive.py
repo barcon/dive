@@ -4803,14 +4803,11 @@ class IPressure(IProblem):
     def Stiffness(self):
         return _dive.IPressure_Stiffness(self)
 
-    def Crossed(self, problemVelocity):
-        return _dive.IPressure_Crossed(self, problemVelocity)
+    def Stabilization(self, problemMomentum):
+        return _dive.IPressure_Stabilization(self, problemMomentum)
 
-    def Stabilization(self, problemVelocity):
-        return _dive.IPressure_Stabilization(self, problemVelocity)
-
-    def LoadDistributedFaceFlux(self, problemVelocity, momentum):
-        return _dive.IPressure_LoadDistributedFaceFlux(self, problemVelocity, momentum)
+    def LoadDistributedVolumeDivergence(self, problemMomentum):
+        return _dive.IPressure_LoadDistributedVolumeDivergence(self, problemMomentum)
 
     def Pressure(self):
         return _dive.IPressure_Pressure(self)
@@ -5179,14 +5176,11 @@ class ProblemPressure(IPressure):
     def Stiffness(self):
         return _dive.ProblemPressure_Stiffness(self)
 
-    def Crossed(self, problemVelocity):
-        return _dive.ProblemPressure_Crossed(self, problemVelocity)
+    def Stabilization(self, problemMomentum):
+        return _dive.ProblemPressure_Stabilization(self, problemMomentum)
 
-    def Stabilization(self, problemVelocity):
-        return _dive.ProblemPressure_Stabilization(self, problemVelocity)
-
-    def LoadDistributedFaceFlux(self, problemVelocity, momentum):
-        return _dive.ProblemPressure_LoadDistributedFaceFlux(self, problemVelocity, momentum)
+    def LoadDistributedVolumeDivergence(self, problemMomentum):
+        return _dive.ProblemPressure_LoadDistributedVolumeDivergence(self, problemMomentum)
 
     def Pressure(self):
         return _dive.ProblemPressure_Pressure(self)

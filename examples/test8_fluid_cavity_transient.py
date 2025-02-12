@@ -2,10 +2,9 @@ import dive
 import materials
 import meshes
 import fluid
+import plots
 
 from prettytable import PrettyTable
-
-import meshes.plot_cavity
 
 def ApplyBoundaryConditionsVelocity(problem, value):
     global heightElement

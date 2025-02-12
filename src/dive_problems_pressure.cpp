@@ -179,21 +179,6 @@ namespace dive {
 
 			return res;
 		}
-		Sparse ProblemPressure::Crossed_Udp(IProblemPtr problemMomentum) const
-		{
-			TimerStart();
-
-			auto crossedWeak = weakforms::CreateWeakFormCrossedPressure_Udp();
-			crossedWeak->SetProblemMomentum(problemMomentum);
-
-			IProblemPtr problemPressure = std::make_shared<ProblemPressure>(*this);
-
-			auto res = IntegralForm(crossedWeak, problemPressure, problemMomentum);
-
-			TimerElapsed(__FUNCTION__);
-
-			return res;
-		}
 		Sparse ProblemPressure::Stabilization(IProblemPtr problemMomentum) const
 		{
 			TimerStart();
@@ -209,17 +194,16 @@ namespace dive {
 
 			return res;
 		}
-		Vector ProblemPressure::LoadDistributedFaceFlux(IProblemPtr problemMomentum, const Vector& momentum) const
+		Vector ProblemPressure::LoadDistributedVolumeDivergence(IProblemPtr problemMomentum) const
 		{
 			TimerStart();
 
-			auto loadDistributedFaceFluxPressureWeak = weakforms::CreateWeakFormLoadDistributedFaceFluxPressure();
-			loadDistributedFaceFluxPressureWeak->SetProblemMomentum(problemMomentum);
-			loadDistributedFaceFluxPressureWeak->SetMomentum(momentum);
+			auto loadDistributedVolumeDivergencePressureWeak = weakforms::CreateWeakFormLoadDistributedVolumeDivergencePressure();
+			loadDistributedVolumeDivergencePressureWeak->SetProblemMomentum(problemMomentum);
 
 			IProblemPtr problemPressure = std::make_shared<ProblemPressure>(*this);
 
-			auto res = IntegralForm(loadDistributedFaceFluxPressureWeak, problemPressure, loads_);
+			auto res = IntegralForm(loadDistributedVolumeDivergencePressureWeak, problemPressure, loads_);
 
 			TimerElapsed(__FUNCTION__);
 

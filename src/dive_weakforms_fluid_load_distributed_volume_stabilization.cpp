@@ -43,10 +43,6 @@ namespace dive {
 
 			output = -(1.0 / 2.0) * dNu.Transpose() * f;
 		}
-		void LoadDistributedVolumeStabilizationFluid::SetVelocity(IMatrix3DPtr velocity)
-		{
-			velocity_ = velocity;
-		}
 		Matrix LoadDistributedVolumeStabilizationFluid::FormMatrix_N(IElementPtr element, const Vector& point) const
 		{
 			auto numberNodes = element->GetNumberNodes();
@@ -67,7 +63,7 @@ namespace dive {
 		}
 		Matrix LoadDistributedVolumeStabilizationFluid::FormMatrix_udN(IElementPtr element, const Vector& point) const
 		{
-			auto u = FormVelocity(element, point);
+			auto u = FormMomentum(element, point);
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNumberDof();
 			auto dimension = element->GetDimension();
@@ -88,7 +84,7 @@ namespace dive {
 
 			return res;
 		}
-		Matrix LoadDistributedVolumeStabilizationFluid::FormVelocity(IElementPtr element, const Vector& point) const
+		Matrix LoadDistributedVolumeStabilizationFluid::FormMomentum(IElementPtr element, const Vector& point) const
 		{
 			return element->u(point);
 		}

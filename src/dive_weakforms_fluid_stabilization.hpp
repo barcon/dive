@@ -23,7 +23,7 @@ namespace dive
 		protected:
 			StabilizationFluid() = default;
 
-			Matrix FormVelocity(IElementPtr element, const Vector& local) const;
+			Matrix FormMomentum(IElementPtr element, const Vector& local) const;
 			Scalar FormDivergence(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const;
 			Matrix FormMatrix_N(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const;
 			Matrix FormMatrix_udN(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const;

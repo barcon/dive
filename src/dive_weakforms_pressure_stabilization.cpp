@@ -38,20 +38,20 @@ namespace dive {
 
 			output = dNp.Transpose() * (du * N + udN);
 		}
-		void StabilizationPressure::SetProblemVelocity(IProblemPtr problemVelocity)
+		void StabilizationPressure::SetProblemMomentum(IProblemPtr problemMomentum)
 		{
-			problemVelocity_ = problemVelocity;
+			problemMomentum_ = problemMomentum;
 		}
-		Matrix StabilizationPressure::FormVelocity(IElementPtr element, const Vector& local) const
+		Matrix StabilizationPressure::FormMomentum(IElementPtr element, const Vector& local) const
 		{
-			const auto& elementVelocity = problemVelocity_->GetMesh()->GetElements()[element->GetElementIndex()];
+			const auto& elementMomentum = problemMomentum_->GetMesh()->GetElements()[element->GetElementIndex()];
 
-			return elementVelocity->u(local);
+			return elementMomentum->u(local);
 		}
 		Scalar StabilizationPressure::FormDivergence(IElementPtr element, const Vector& local) const
 		{
-			const auto& elementVelocity = problemVelocity_->GetMesh()->GetElements()[element->GetElementIndex()];
-			auto du = eilig::Inverse(elementVelocity->J(local)) * elementVelocity->du(local);
+			const auto& elementMomentum = problemMomentum_->GetMesh()->GetElements()[element->GetElementIndex()];
+			auto du = eilig::Inverse(elementMomentum->J(local)) * elementMomentum->du(local);
 
 			Scalar divergence{ 0.0 };
 
@@ -64,11 +64,11 @@ namespace dive {
 		}
 		Matrix StabilizationPressure::FormMatrix_N(IElementPtr element, const Vector& local) const
 		{
-			const auto& elementVelocity = problemVelocity_->GetMesh()->GetElements()[element->GetElementIndex()];
+			const auto& elementMomentum = problemMomentum_->GetMesh()->GetElements()[element->GetElementIndex()];
 
-			auto numberNodes = elementVelocity->GetNumberNodes();
-			auto numberDof = elementVelocity->GetNode(0)->GetNumberDof();
-			auto N = elementVelocity->N(local);
+			auto numberNodes = elementMomentum->GetNumberNodes();
+			auto numberDof = elementMomentum->GetNode(0)->GetNumberDof();
+			auto N = elementMomentum->N(local);
 
 			Matrix res(numberDof, numberNodes * numberDof, 0.0);
 
@@ -84,21 +84,21 @@ namespace dive {
 		}
 		Matrix StabilizationPressure::FormMatrix_udN(IElementPtr element, const Vector& local) const
 		{
-			const auto& elementVelocity = problemVelocity_->GetMesh()->GetElements()[element->GetElementIndex()];
+			const auto& elementMomentum = problemMomentum_->GetMesh()->GetElements()[element->GetElementIndex()];
 
-			auto numberNodes = elementVelocity->GetNumberNodes();
-			auto numberDof = elementVelocity->GetNode(0)->GetNumberDof();
-			auto dimension = elementVelocity->GetDimension();
-			auto velocity = FormVelocity(elementVelocity, local);
-			auto dN = elementVelocity->InvJ(local) * elementVelocity->dN(local);
+			auto numberNodes = elementMomentum->GetNumberNodes();
+			auto numberDof = elementMomentum->GetNode(0)->GetNumberDof();
+			auto dimension = elementMomentum->GetDimension();
+			auto momentum = FormMomentum(elementMomentum, local);
+			auto dN = elementMomentum->InvJ(local) * elementMomentum->dN(local);
 
 			Matrix res(dimension, numberNodes * numberDof, 0.0);
 
 			for (NodeIndex i = 0; i < numberNodes; ++i)
 			{
-				res(0, i * numberDof + 0) = velocity(0) * dN(0, i) + velocity(1) * dN(1, i) + velocity(2) * dN(2, i);
-				res(1, i * numberDof + 1) = velocity(0) * dN(0, i) + velocity(1) * dN(1, i) + velocity(2) * dN(2, i);
-				res(2, i * numberDof + 2) = velocity(0) * dN(0, i) + velocity(1) * dN(1, i) + velocity(2) * dN(2, i);
+				res(0, i * numberDof + 0) = momentum(0) * dN(0, i) + momentum(1) * dN(1, i) + momentum(2) * dN(2, i);
+				res(1, i * numberDof + 1) = momentum(0) * dN(0, i) + momentum(1) * dN(1, i) + momentum(2) * dN(2, i);
+				res(2, i * numberDof + 2) = momentum(0) * dN(0, i) + momentum(1) * dN(1, i) + momentum(2) * dN(2, i);
 			}
 
 			return res;

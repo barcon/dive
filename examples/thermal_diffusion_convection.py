@@ -41,7 +41,7 @@ heightElement = meshThermal.GetElementHeightMinium()
 lenghtDomain = meshes.beam.x
 diffusity = k / (cp * rho)
 
-peclet = 2.5
+peclet = 3.5
 speed = (2 * peclet * diffusity) / heightElement
 
 dt1 = lenghtDomain**2.0 / diffusity

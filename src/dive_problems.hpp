@@ -84,10 +84,8 @@ namespace dive
 
 			virtual Sparse Mass() const = 0;
 			virtual Sparse Stiffness() const = 0;
-			virtual Sparse Crossed1(IProblemPtr problemMomentum) const = 0;
-			virtual Sparse Crossed2(IProblemPtr problemMomentum) const = 0;
 			virtual Sparse Stabilization(IProblemPtr problemMomentum) const = 0;
-			virtual Vector LoadDistributedFaceFlux(IProblemPtr problemMomentum, const Vector& momentum) const = 0;
+			virtual Vector LoadDistributedVolumeDivergence(IProblemPtr problemMomentum) const = 0;
 
 			virtual Vector Pressure() const = 0;
 		};

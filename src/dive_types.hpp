@@ -172,23 +172,6 @@ namespace dive
 		using ConstWeakFormLoadPtr = std::shared_ptr<const WeakFormLoad>;
 
 		//---------------------------------------------------------------------
-		class MassThermal;
-		using MassThermalPtr = std::shared_ptr<MassThermal>;
-		using ConstMassThermalPtr = std::shared_ptr<const MassThermal>;
-
-		class StiffnessThermal;
-		using StiffnessThermalPtr = std::shared_ptr<StiffnessThermal>;
-		using ConstStiffnessThermalPtr = std::shared_ptr<const StiffnessThermal>;
-
-		class ConvectionThermal;
-		using ConvectionThermalPtr = std::shared_ptr<ConvectionThermal>;
-		using ConstConvectionThermalPtr = std::shared_ptr<const ConvectionThermal>;
-
-		class StabilizationThermal;
-		using StabilizationThermalPtr = std::shared_ptr<StabilizationThermal>;
-		using ConstStabilizationThermalPtr = std::shared_ptr<const StabilizationThermal>;
-
-		//---------------------------------------------------------------------
 		class MassFluid;
 		using MassFluidPtr = std::shared_ptr<MassFluid>;
 		using ConstMassFluidPtr = std::shared_ptr<const MassFluid>;
@@ -213,6 +196,10 @@ namespace dive
 		using LoadDistributedVolumeStabilizationFluidPtr = std::shared_ptr<LoadDistributedVolumeStabilizationFluid>;
 		using ConstLoadDistributedVolumeStabilizationFluidPtr = std::shared_ptr<const LoadDistributedVolumeStabilizationFluid>;
 
+		class LoadDistributedVolumeCorrectionFluid;
+		using LoadDistributedVolumeCorrectionFluidPtr = std::shared_ptr<LoadDistributedVolumeCorrectionFluid>;
+		using ConstLoadDistributedVolumeCorrectionFluidPtr = std::shared_ptr<const LoadDistributedVolumeCorrectionFluid>;
+
 		//---------------------------------------------------------------------
 		class MassPressure;
 		using MassPressurePtr = std::shared_ptr<MassPressure>;
@@ -222,21 +209,30 @@ namespace dive
 		using StiffnessPressurePtr = std::shared_ptr<StiffnessPressure>;
 		using ConstStiffnessPressurePtr = std::shared_ptr<const StiffnessPressure>;
 
-		class CrossedPressure_Udp;
-		using CrossedPressure_Udp_Ptr = std::shared_ptr<CrossedPressure_Udp>;
-		using ConstCrossedPressure_Udp_Ptr = std::shared_ptr<const CrossedPressure_Udp>;
-
-		class CrossedPressure_pdU;
-		using CrossedPressure_pdU_Ptr = std::shared_ptr<CrossedPressure_pdU>;
-		using ConstCrossedPressure_pdU_Ptr = std::shared_ptr<const CrossedPressure_pdU>;
-
 		class StabilizationPressure;
 		using StabilizationPressurePtr = std::shared_ptr<StabilizationPressure>;
 		using ConstStabilizationPressurePtr = std::shared_ptr<const StabilizationPressure>;
 
-		class LoadDistributedFaceFluxPressure;
-		using LoadDistributedFaceFluxPressurePtr = std::shared_ptr<LoadDistributedFaceFluxPressure>;
-		using ConstLoadDistributedFaceFluxPressurePtr = std::shared_ptr<const LoadDistributedFaceFluxPressure>;
+		class LoadDistributedVolumeDivergencePressure;
+		using LoadDistributedVolumeDivergencePressurePtr = std::shared_ptr<LoadDistributedVolumeDivergencePressure>;
+		using ConstLoadDistributedVolumeDivergencePressurePtr = std::shared_ptr<const LoadDistributedVolumeDivergencePressure>;
+
+		//---------------------------------------------------------------------
+		class MassThermal;
+		using MassThermalPtr = std::shared_ptr<MassThermal>;
+		using ConstMassThermalPtr = std::shared_ptr<const MassThermal>;
+
+		class StiffnessThermal;
+		using StiffnessThermalPtr = std::shared_ptr<StiffnessThermal>;
+		using ConstStiffnessThermalPtr = std::shared_ptr<const StiffnessThermal>;
+
+		class ConvectionThermal;
+		using ConvectionThermalPtr = std::shared_ptr<ConvectionThermal>;
+		using ConstConvectionThermalPtr = std::shared_ptr<const ConvectionThermal>;
+
+		class StabilizationThermal;
+		using StabilizationThermalPtr = std::shared_ptr<StabilizationThermal>;
+		using ConstStabilizationThermalPtr = std::shared_ptr<const StabilizationThermal>;
 	}
 
 	namespace loads

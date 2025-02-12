@@ -31,12 +31,12 @@ namespace dive {
 		{
 			auto N = FormMatrix_N(element, local, cacheIndex);
 			auto udN = FormMatrix_udN(element, local, cacheIndex);
-			auto u = FormVelocity(element, local);
+			auto u = FormMomentum(element, local);
 			auto du = FormDivergence(element, local, cacheIndex);
 
 			output = N.Transpose() * (du * N + udN);
 		}
-		Matrix ConvectionFluid::FormVelocity(IElementPtr element, const Vector& local) const
+		Matrix ConvectionFluid::FormMomentum(IElementPtr element, const Vector& local) const
 		{
 			return element->u(local);
 		}
@@ -76,7 +76,7 @@ namespace dive {
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNumberDof();
 			auto dimension = element->GetDimension();
-			auto u = FormVelocity(element, local);
+			auto u = FormMomentum(element, local);
 			auto dN = element->InvJ(local, cacheIndex) * element->dN(local, cacheIndex);
 
 			Matrix res(numberDof, numberNodes * numberDof, 0.0);
