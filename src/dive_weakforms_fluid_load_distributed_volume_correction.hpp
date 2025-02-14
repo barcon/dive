@@ -27,9 +27,7 @@ namespace dive
 			LoadDistributedVolumeCorrectionFluid() = default;
 
 			Scalar FormPressure(IElementPtr element, const Vector& point) const;
-			Scalar FormDivergence(IElementPtr element, const Vector& point) const;
-			Matrix FormMatrix_N(IElementPtr element, const Vector& point) const;
-			Matrix FormMatrix_udN(IElementPtr element, const Vector& point) const;
+			Vector FormVector_dN(IElementPtr element, const Vector& point) const;
 
 			IProblemPtr problemPressure_{ nullptr };
 

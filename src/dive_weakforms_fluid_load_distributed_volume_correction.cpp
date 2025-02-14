@@ -33,47 +33,23 @@ namespace dive {
 			auto force = std::static_pointer_cast<loads::LoadDistributedVolume>(load);
 			auto element = force->GetElement();
 
-			auto N = FormMatrix_N(element, point);
-			auto udN = FormMatrix_udN(element, point);
-			auto du = FormDivergence(element, point);
-			
-			auto dNu = du * N + udN;
-			
-			auto f = force->GetValue(point);
+			auto dN = FormVector_dN(element, point);
+			auto p = FormPressure(element, point);
 
-			output = -(1.0 / 2.0) * dNu.Transpose() * f;
+			output = dN * p;
 		}
 		void LoadDistributedVolumeCorrectionFluid::SetProblemPressure(IProblemPtr problemPressure)
 		{
 			problemPressure_ = problemPressure;
 		}
-		Matrix LoadDistributedVolumeCorrectionFluid::FormMatrix_N(IElementPtr element, const Vector& point) const
+		Vector LoadDistributedVolumeCorrectionFluid::FormVector_dN(IElementPtr element, const Vector& point) const
 		{
-			auto numberNodes = element->GetNumberNodes();
-			auto numberDof = element->GetNumberDof();
-			auto N = element->N(point);
-
-			Matrix res(numberDof, numberNodes * numberDof, 0.0);
-
-			for (DofIndex i = 0; i < numberDof; ++i)
-			{
-				for (NodeIndex j = 0; j < numberNodes; ++j)
-				{
-					res(i, j * numberDof + i) = N(j);
-				}
-			}
-
-			return res;
-		}
-		Matrix LoadDistributedVolumeCorrectionFluid::FormMatrix_udN(IElementPtr element, const Vector& point) const
-		{
-			auto u = FormMomentum(element, point);
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNumberDof();
 			auto dimension = element->GetDimension();
 			auto dN = eilig::Inverse(element->J(point)) * element->dN(point);
 
-			Matrix res(numberDof, numberNodes * numberDof, 0.0);
+			Vector res(numberNodes * numberDof, 0.0);
 
 			for (DofIndex m = 0; m < numberDof; ++m)
 			{
@@ -92,19 +68,6 @@ namespace dive {
 		{
 			const auto& elementPressure = problemPressure_->GetMesh()->GetElements()[element->GetElementIndex()];
 			return elementPressure->u(point)(0);
-		}
-		Scalar LoadDistributedVolumeCorrectionFluid::FormDivergence(IElementPtr element, const Vector& point) const
-		{
-			auto du = eilig::Inverse(element->J(point)) * element->du(point);
-
-			Scalar divergence{ 0.0 };
-
-			for (Index i = 0; (i < du.GetRows()) && (i < du.GetCols()); ++i)
-			{
-				divergence += du(i, i);
-			}
-
-			return divergence;
 		}
 	} // namespace problems
 } // namespace dive
