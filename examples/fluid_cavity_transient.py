@@ -11,7 +11,7 @@ from prettytable import PrettyTable
 T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
 basis       = fluid.CreateBasisCartesian(1)
-timer       = fluid.CreateTimerStepped(1, 0.0, 1e+3, 1.0)
+timer       = fluid.CreateTimerStepped(1, 0.0, 1e+2, 0.4)
 pressure    = fluid.CreateValueScalar3D(p_ref)
 material    = materials.fluid.CreateFluidOil(1, 68, T_ref)
 meshFile    = 'cavity.msh'
@@ -35,12 +35,12 @@ cp = material.GetSpecificHeat(T_ref, p_ref)
 #--------------------------------------------------------------------------------------------------
 heightElement = meshVelocity.GetElementHeightMinium()
 lenghtDomain = meshes.cavity.x
-diffusity = mu / (cp * rho)
-reynolds = 10.0
+kinematicViscosity = mu / rho
+reynolds = 100.0
 speed =  reynolds * mu / (rho * lenghtDomain)
 
-dt1 = lenghtDomain**2.0 / diffusity
-dt2 = heightElement**2.0 /  diffusity
+dt1 = lenghtDomain**2.0 / kinematicViscosity
+dt2 = heightElement**2.0 / kinematicViscosity
 dt3 = lenghtDomain / (speed)
 dt4 = heightElement / (speed)
 
@@ -49,8 +49,8 @@ tableSummary.field_names = ["Property", "Value", "Unit"]
 tableSummary.align["Property"] = "l"
 tableSummary.align["Unit"] = "l"
 tableSummary.add_row(["Density", "{:.2f}".format(rho), "[kg/m³]"])
-tableSummary.add_row(["Viscosity", "{:.2e}".format(mu), ""])
-tableSummary.add_row(["Diffusity", "{:.2e}".format(diffusity), ""])
+tableSummary.add_row(["Dynamic Viscosity", "{:.2e}".format(mu), ""])
+tableSummary.add_row(["Kinematic Viscosity", "{:.2e}".format(kinematicViscosity), ""])
 tableSummary.add_row(["Speed", "{:.2g}".format(speed), "[m/s]"])
 tableSummary.add_row(["Reynolds", "{:.2e}".format(reynolds), "[-]"])
 tableSummary.add_row(["Domain Lenght", "{:.2f}".format(lenghtDomain), "[m]"])
@@ -94,35 +94,36 @@ dt = timer.GetStepSize()
 
 M = fluid.momentum.Mass()
 K = fluid.momentum.Stiffness()
-q = fluid.momentum.Momentum()
-dq = fluid.momentum.MomentumDerivative()
-dqq = fluid.momentum.MomentumDerivative()
-
 H = fluid.pressure.Stiffness()
-p = fluid.pressure.Pressure()
+Gt = fluid.pressure.Crossed(fluid.momentum.GetProblem(), partitioned=False).Transpose()
 
-dq[1], monitor = solvers.Iterative(M[1], - dt * (K[0]) * q[0])
-fluid.momentum.UpdateMeshValuesMomentum(dq)
+while(True): 
+    p = fluid.pressure.Pressure()    
+    q = fluid.momentum.Momentum()
+    dq = fluid.momentum.MomentumDerivative()
+    dqq = fluid.momentum.MomentumDerivative()
 
-fd = fluid.pressure.LoadDistributedVolumeDivergence(fluid.momentum.GetProblem())
-p[1], monitor = solvers.Iterative(H[1], -H[0] * p[0] - (1.0 / dt) * (fd[1]))
-fluid.pressure.UpdateMeshValues(p)
+    C = fluid.momentum.Convection()
+    monitor = solvers.Iterative(M[3], dq[1], -dt * (K[2] * q[0] + K[3] * q[1] + C[2] * q[0] + C[3] * q[1]))
+    fluid.momentum.UpdateMeshValuesMomentum(dq)
 
-q[0] = q[0] + dq[0] + dqq[0]
-q[1] = q[1] + dq[1] + dqq[1]
+    fd = fluid.pressure.LoadDistributedVolumeDivergence(fluid.momentum.GetProblem())
+    monitor = solvers.Iterative(H[3], p[1], -H[2] * p[0] - (1.0 / dt) * (fd[1]))
+    fluid.pressure.UpdateMeshValues(p)
 
-#fq = fluid.momentum.LoadDistributedVolumeCorrection1()
-#fp = fluid.momentum.LoadDistributedVolumeCorrection2(fluid.pressure.GetProblem())
-#dqq[1], monitor = solvers.Iterative(M[1], fq[1] + dt * fp[1])
-fluid.momentum.UpdateMeshValuesMomentum(q)
+    fc = fluid.momentum.LoadDistributedCrossed(Gt, fluid.pressure.Pressure(partitioned=False))
+    monitor = solvers.Iterative(M[3], dqq[1], -dt * (fc[1]))
+    
+    q[0] = q[0] + dq[0] + dqq[0]
+    q[1] = q[1] + dq[1] + dqq[1]
+
+    fluid.momentum.UpdateMeshValuesMomentum(q)
+
+    if(timer.GetCurrentTime() == timer.GetEndTime()):
+        break        
+    else:
+        timer.SetNextStep() 
 
 plots.HeatMapNorm(meshPressure.GetNodes())
 plots.HeatMapNorm(meshVelocity.GetNodes())
 plots.Vector(meshVelocity.GetNodes())
-
-#print(meshPressure.GetNodes())
-#print(meshVelocity.GetNodes())
-#print(meshVelocity.GetElements())
-#print(problemVelocity.GetDofMeshIndices())
-#print(problemVelocity.GetNodeMeshIndices())
-#print(problemVelocity.GetDirichletMeshIndices())

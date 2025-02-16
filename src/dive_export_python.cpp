@@ -20005,8 +20005,8 @@ fail:
 
 SWIGINTERN PyObject *_wrap_IterativeBiCGStab(PyObject *self, PyObject *args) {
   PyObject *resultobj = 0;
-  eilig::Vector *arg1 = 0 ;
-  eilig::Ellpack *arg2 = 0 ;
+  eilig::Ellpack *arg1 = 0 ;
+  eilig::Vector *arg2 = 0 ;
   eilig::Vector *arg3 = 0 ;
   CallbackIterative arg4 = (CallbackIterative) 0 ;
   void *argp1 = 0 ;
@@ -20020,22 +20020,22 @@ SWIGINTERN PyObject *_wrap_IterativeBiCGStab(PyObject *self, PyObject *args) {
   
   (void)self;
   if (!SWIG_Python_UnpackTuple(args, "IterativeBiCGStab", 4, 4, swig_obj)) SWIG_fail;
-  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_eilig__Vector,  0 );
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1, SWIGTYPE_p_eilig__Ellpack,  0  | 0);
   if (!SWIG_IsOK(res1)) {
-    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IterativeBiCGStab" "', argument " "1"" of type '" "eilig::Vector &""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IterativeBiCGStab" "', argument " "1"" of type '" "eilig::Ellpack const &""'"); 
   }
   if (!argp1) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativeBiCGStab" "', argument " "1"" of type '" "eilig::Vector &""'"); 
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativeBiCGStab" "', argument " "1"" of type '" "eilig::Ellpack const &""'"); 
   }
-  arg1 = reinterpret_cast< eilig::Vector * >(argp1);
-  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_eilig__Ellpack,  0  | 0);
+  arg1 = reinterpret_cast< eilig::Ellpack * >(argp1);
+  res2 = SWIG_ConvertPtr(swig_obj[1], &argp2, SWIGTYPE_p_eilig__Vector,  0 );
   if (!SWIG_IsOK(res2)) {
-    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "IterativeBiCGStab" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
+    SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "IterativeBiCGStab" "', argument " "2"" of type '" "eilig::Vector &""'"); 
   }
   if (!argp2) {
-    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativeBiCGStab" "', argument " "2"" of type '" "eilig::Ellpack const &""'"); 
+    SWIG_exception_fail(SWIG_ValueError, "invalid null reference " "in method '" "IterativeBiCGStab" "', argument " "2"" of type '" "eilig::Vector &""'"); 
   }
-  arg2 = reinterpret_cast< eilig::Ellpack * >(argp2);
+  arg2 = reinterpret_cast< eilig::Vector * >(argp2);
   res3 = SWIG_ConvertPtr(swig_obj[2], &argp3, SWIGTYPE_p_eilig__Vector,  0  | 0);
   if (!SWIG_IsOK(res3)) {
     SWIG_exception_fail(SWIG_ArgError(res3), "in method '" "IterativeBiCGStab" "', argument " "3"" of type '" "eilig::Vector const &""'"); 
@@ -20047,7 +20047,7 @@ SWIGINTERN PyObject *_wrap_IterativeBiCGStab(PyObject *self, PyObject *args) {
   {
     arg4 = (long long int (*)(std::size_t, double))PyLong_AsVoidPtr(swig_obj[3]);
   }
-  result = (eilig::Status)eilig::IterativeBiCGStab(*arg1,(eilig::Ellpack const &)*arg2,(eilig::Vector const &)*arg3,arg4);
+  result = (eilig::Status)eilig::IterativeBiCGStab((eilig::Ellpack const &)*arg1,*arg2,(eilig::Vector const &)*arg3,arg4);
   resultobj = SWIG_From_long_SS_long(static_cast< long long >(result));
   return resultobj;
 fail:
@@ -83601,6 +83601,53 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_IPressure_Crossed(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  dive::problems::IPressure *arg1 = (dive::problems::IPressure *) 0 ;
+  IProblemPtr arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< dive::problems::IPressure const > tempshared1 ;
+  std::shared_ptr< dive::problems::IPressure const > *smartarg1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[2] ;
+  Sparse result;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "IPressure_Crossed", 2, 2, swig_obj)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_dive__problems__IPressure_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IPressure_Crossed" "', argument " "1"" of type '" "dive::problems::IPressure const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const dive::problems::IPressure > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const dive::problems::IPressure > * >(argp1);
+      arg1 = const_cast< dive::problems::IPressure * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const dive::problems::IPressure > * >(argp1);
+      arg1 = const_cast< dive::problems::IPressure * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    int newmem = 0;
+    res2 = SWIG_ConvertPtrAndOwn(swig_obj[1], &argp2, SWIGTYPE_p_std__shared_ptrT_dive__problems__IProblem_t,  0 , &newmem);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "IPressure_Crossed" "', argument " "2"" of type '" "IProblemPtr""'");
+    }
+    if (argp2) arg2 = *(reinterpret_cast< IProblemPtr * >(argp2));
+    if (newmem & SWIG_CAST_NEW_MEMORY) delete reinterpret_cast< IProblemPtr * >(argp2);
+  }
+  result = ((dive::problems::IPressure const *)arg1)->Crossed(arg2);
+  resultobj = SWIG_NewPointerObj((new Sparse(result)), SWIGTYPE_p_eilig__Ellpack, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_IPressure_Stabilization(PyObject *self, PyObject *args) {
   PyObject *resultobj = 0;
   dive::problems::IPressure *arg1 = (dive::problems::IPressure *) 0 ;
@@ -88326,6 +88373,53 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_ProblemPressure_Crossed(PyObject *self, PyObject *args) {
+  PyObject *resultobj = 0;
+  dive::problems::ProblemPressure *arg1 = (dive::problems::ProblemPressure *) 0 ;
+  IProblemPtr arg2 ;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  std::shared_ptr< dive::problems::ProblemPressure const > tempshared1 ;
+  std::shared_ptr< dive::problems::ProblemPressure const > *smartarg1 = 0 ;
+  void *argp2 ;
+  int res2 = 0 ;
+  PyObject *swig_obj[2] ;
+  Sparse result;
+  
+  (void)self;
+  if (!SWIG_Python_UnpackTuple(args, "ProblemPressure_Crossed", 2, 2, swig_obj)) SWIG_fail;
+  {
+    int newmem = 0;
+    res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_dive__problems__ProblemPressure_t, 0 |  0 , &newmem);
+    if (!SWIG_IsOK(res1)) {
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ProblemPressure_Crossed" "', argument " "1"" of type '" "dive::problems::ProblemPressure const *""'");
+    }
+    if (newmem & SWIG_CAST_NEW_MEMORY) {
+      tempshared1 = *reinterpret_cast< std::shared_ptr< const dive::problems::ProblemPressure > * >(argp1);
+      delete reinterpret_cast< std::shared_ptr< const dive::problems::ProblemPressure > * >(argp1);
+      arg1 = const_cast< dive::problems::ProblemPressure * >(tempshared1.get());
+    } else {
+      smartarg1 = reinterpret_cast< std::shared_ptr< const dive::problems::ProblemPressure > * >(argp1);
+      arg1 = const_cast< dive::problems::ProblemPressure * >((smartarg1 ? smartarg1->get() : 0));
+    }
+  }
+  {
+    int newmem = 0;
+    res2 = SWIG_ConvertPtrAndOwn(swig_obj[1], &argp2, SWIGTYPE_p_std__shared_ptrT_dive__problems__IProblem_t,  0 , &newmem);
+    if (!SWIG_IsOK(res2)) {
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ProblemPressure_Crossed" "', argument " "2"" of type '" "IProblemPtr""'");
+    }
+    if (argp2) arg2 = *(reinterpret_cast< IProblemPtr * >(argp2));
+    if (newmem & SWIG_CAST_NEW_MEMORY) delete reinterpret_cast< IProblemPtr * >(argp2);
+  }
+  result = ((dive::problems::ProblemPressure const *)arg1)->Crossed(arg2);
+  resultobj = SWIG_NewPointerObj((new Sparse(result)), SWIGTYPE_p_eilig__Ellpack, SWIG_POINTER_OWN |  0 );
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_ProblemPressure_Stabilization(PyObject *self, PyObject *args) {
   PyObject *resultobj = 0;
   dive::problems::ProblemPressure *arg1 = (dive::problems::ProblemPressure *) 0 ;
@@ -92267,6 +92361,7 @@ static PyMethodDef SwigMethods[] = {
 	 { "IPressure_SetVelocity", _wrap_IPressure_SetVelocity, METH_VARARGS, NULL},
 	 { "IPressure_Mass", _wrap_IPressure_Mass, METH_O, NULL},
 	 { "IPressure_Stiffness", _wrap_IPressure_Stiffness, METH_O, NULL},
+	 { "IPressure_Crossed", _wrap_IPressure_Crossed, METH_VARARGS, NULL},
 	 { "IPressure_Stabilization", _wrap_IPressure_Stabilization, METH_VARARGS, NULL},
 	 { "IPressure_LoadDistributedVolumeDivergence", _wrap_IPressure_LoadDistributedVolumeDivergence, METH_VARARGS, NULL},
 	 { "IPressure_Pressure", _wrap_IPressure_Pressure, METH_O, NULL},
@@ -92385,6 +92480,7 @@ static PyMethodDef SwigMethods[] = {
 	 { "ProblemPressure_UpdateMeshValues", _wrap_ProblemPressure_UpdateMeshValues, METH_VARARGS, NULL},
 	 { "ProblemPressure_Mass", _wrap_ProblemPressure_Mass, METH_O, NULL},
 	 { "ProblemPressure_Stiffness", _wrap_ProblemPressure_Stiffness, METH_O, NULL},
+	 { "ProblemPressure_Crossed", _wrap_ProblemPressure_Crossed, METH_VARARGS, NULL},
 	 { "ProblemPressure_Stabilization", _wrap_ProblemPressure_Stabilization, METH_VARARGS, NULL},
 	 { "ProblemPressure_LoadDistributedVolumeDivergence", _wrap_ProblemPressure_LoadDistributedVolumeDivergence, METH_VARARGS, NULL},
 	 { "ProblemPressure_Pressure", _wrap_ProblemPressure_Pressure, METH_O, NULL},

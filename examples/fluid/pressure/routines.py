@@ -56,54 +56,94 @@ def ApplyLoadDistributedVolumeDivergence(elements):
         problem.AddLoad(load)
     return
 
-def Pressure():
+def Pressure(partitioned = True):
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
 
     y = problem.Pressure()
 
-    y0 = y.Region(0, pivot - 1)  
-    y1 = y.Region(pivot, totalDof - 1) 
+    if(partitioned):
+        y0 = y.Region(0, pivot - 1)  
+        y1 = y.Region(pivot, totalDof - 1) 
+        return [y0, y1]  
 
-    return [y0, y1]
+    return y
 
-def PressureDerivative():
+def PressureDerivative(partitioned = True):
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
 
     dy = Vector(totalDof)
 
-    dy0 = dy.Region(0, pivot - 1)  
-    dy1 = dy.Region(pivot, totalDof - 1) 
+    if(partitioned):
+        dy0 = dy.Region(0, pivot - 1)  
+        dy1 = dy.Region(pivot, totalDof - 1) 
+        return [dy0, dy1]  
 
-    return [dy0, dy1]
+    return dy
 
-def Stiffness():
-    totalDof = problem.GetTotalDof()
-    pivot = problem.GetPivot()
-    
-    K = problem.Stiffness()
-    K21 = K.Region(pivot, 0, totalDof - 1, pivot - 1)
-    K22 = K.Region(pivot, pivot, totalDof - 1, totalDof - 1)
+def Mass(partitioned = True):
+    global problem
 
-    return [K21, K22]
-
-def Mass():
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
     
     M = problem.Mass()
-    M21 = M.Region(pivot, 0, totalDof - 1, pivot - 1)
-    M22 = M.Region(pivot, pivot, totalDof - 1, totalDof - 1)
 
-    return [M21, M22]
+    if(partitioned):
+        M11 = M.Region(0, 0, pivot - 1, pivot - 1)
+        M12 = M.Region(0, pivot, pivot - 1, totalDof - 1)
+        M21 = M.Region(pivot, 0, totalDof - 1, pivot - 1)
+        M22 = M.Region(pivot, pivot, totalDof - 1, totalDof - 1)
+        return [M11, M12, M21, M22]        
 
-def LoadDistributedVolumeDivergence(problemMomentum):
+    return M
+
+def Stiffness(partitioned = True):
+    global problem
+
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
     
-    f = problem.LoadDistributedVolumeDivergence(problemMomentum)
-    f1 = f.Region(0, pivot - 1)  
-    f2 = f.Region(pivot, totalDof - 1) 
+    K = problem.Stiffness()
 
-    return [f1, f2]
+    if(partitioned):
+        K11 = K.Region(0, 0, pivot - 1, pivot - 1)
+        K12 = K.Region(0, pivot, pivot - 1, totalDof - 1)
+        K21 = K.Region(pivot, 0, totalDof - 1, pivot - 1)
+        K22 = K.Region(pivot, pivot, totalDof - 1, totalDof - 1)
+        return [K11, K12, K21, K22]        
+
+    return K
+
+def Crossed(problemMomentum, partitioned = True):
+    global problem
+
+    totalDof = problem.GetTotalDof()
+    pivot = problem.GetPivot()
+    
+    G = problem.Crossed(problemMomentum)
+
+    if(partitioned):
+        G11 = G.Region(0, 0, pivot - 1, pivot - 1)
+        G12 = G.Region(0, pivot, pivot - 1, totalDof - 1)        
+        G21 = G.Region(pivot, 0, totalDof - 1, pivot - 1)
+        G22 = G.Region(pivot, pivot, totalDof - 1, totalDof - 1)
+        return [G11, G12, G21, G22]        
+
+    return G
+
+def LoadDistributedVolumeDivergence(problemMomentum, partitioned = True):
+    global problem
+
+    totalDof = problem.GetTotalDof()
+    pivot = problem.GetPivot()
+    
+    fd = problem.LoadDistributedVolumeDivergence(problemMomentum)
+    
+    if(partitioned):
+        fd1 = fd.Region(0, pivot - 1)  
+        fd2 = fd.Region(pivot, totalDof - 1) 
+        return [fd1, fd2]      
+
+    return fd

@@ -88,11 +88,11 @@
     <ClInclude Include="..\src\dive_weakforms_basic.hpp" />
     <ClInclude Include="..\src\dive_weakforms_fluid_convection.hpp" />
     <ClInclude Include="..\src\dive_weakforms_fluid_load_distributed_volume.hpp" />
-    <ClInclude Include="..\src\dive_weakforms_fluid_load_distributed_volume_correction.hpp" />
     <ClInclude Include="..\src\dive_weakforms_fluid_load_distributed_volume_stabilization.hpp" />
     <ClInclude Include="..\src\dive_weakforms_fluid_mass.hpp" />
     <ClInclude Include="..\src\dive_weakforms_fluid_stabilization.hpp" />
     <ClInclude Include="..\src\dive_weakforms_fluid_stiffness.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_pressure_crossed.hpp" />
     <ClInclude Include="..\src\dive_weakforms_pressure_load_distributed_volume_divergence.hpp" />
     <ClInclude Include="..\src\dive_weakforms_pressure_mass.hpp" />
     <ClInclude Include="..\src\dive_weakforms_pressure_stabilization.hpp" />
@@ -123,11 +123,11 @@
     <ClCompile Include="..\src\dive_weakforms_basic.cpp" />
     <ClCompile Include="..\src\dive_weakforms_fluid_convection.cpp" />
     <ClCompile Include="..\src\dive_weakforms_fluid_load_distributed_volume.cpp" />
-    <ClCompile Include="..\src\dive_weakforms_fluid_load_distributed_volume_correction.cpp" />
     <ClCompile Include="..\src\dive_weakforms_fluid_load_distributed_volume_stabilization.cpp" />
     <ClCompile Include="..\src\dive_weakforms_fluid_mass.cpp" />
     <ClCompile Include="..\src\dive_weakforms_fluid_stabilization.cpp" />
     <ClCompile Include="..\src\dive_weakforms_fluid_stiffness.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_pressure_crossed.cpp" />
     <ClCompile Include="..\src\dive_weakforms_pressure_load_distributed_volume_divergence.cpp" />
     <ClCompile Include="..\src\dive_weakforms_pressure_mass.cpp" />
     <ClCompile Include="..\src\dive_weakforms_pressure_stabilization.cpp" />

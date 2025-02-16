@@ -762,8 +762,8 @@ def ForwardLinearSystem(*args):
 def DirectLUP(x, LU, permutation, b):
     return _dive.DirectLUP(x, LU, permutation, b)
 
-def IterativeBiCGStab(x, A, b, callbackIterative):
-    return _dive.IterativeBiCGStab(x, A, b, callbackIterative)
+def IterativeBiCGStab(A, x, b, callbackIterative):
+    return _dive.IterativeBiCGStab(A, x, b, callbackIterative)
 
 def WriteToFile(*args):
     return _dive.WriteToFile(*args)
@@ -4803,6 +4803,9 @@ class IPressure(IProblem):
     def Stiffness(self):
         return _dive.IPressure_Stiffness(self)
 
+    def Crossed(self, problemMomentum):
+        return _dive.IPressure_Crossed(self, problemMomentum)
+
     def Stabilization(self, problemMomentum):
         return _dive.IPressure_Stabilization(self, problemMomentum)
 
@@ -5175,6 +5178,9 @@ class ProblemPressure(IPressure):
 
     def Stiffness(self):
         return _dive.ProblemPressure_Stiffness(self)
+
+    def Crossed(self, problemMomentum):
+        return _dive.ProblemPressure_Crossed(self, problemMomentum)
 
     def Stabilization(self, problemMomentum):
         return _dive.ProblemPressure_Stabilization(self, problemMomentum)

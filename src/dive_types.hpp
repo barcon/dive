@@ -196,10 +196,6 @@ namespace dive
 		using LoadDistributedVolumeStabilizationFluidPtr = std::shared_ptr<LoadDistributedVolumeStabilizationFluid>;
 		using ConstLoadDistributedVolumeStabilizationFluidPtr = std::shared_ptr<const LoadDistributedVolumeStabilizationFluid>;
 
-		class LoadDistributedVolumeCorrectionFluid;
-		using LoadDistributedVolumeCorrectionFluidPtr = std::shared_ptr<LoadDistributedVolumeCorrectionFluid>;
-		using ConstLoadDistributedVolumeCorrectionFluidPtr = std::shared_ptr<const LoadDistributedVolumeCorrectionFluid>;
-
 		//---------------------------------------------------------------------
 		class MassPressure;
 		using MassPressurePtr = std::shared_ptr<MassPressure>;
@@ -208,6 +204,10 @@ namespace dive
 		class StiffnessPressure;
 		using StiffnessPressurePtr = std::shared_ptr<StiffnessPressure>;
 		using ConstStiffnessPressurePtr = std::shared_ptr<const StiffnessPressure>;
+
+		class CrossedPressure;
+		using CrossedPressurePtr = std::shared_ptr<CrossedPressure>;
+		using ConstCrossedPressurePtr = std::shared_ptr<const CrossedPressure>;
 
 		class StabilizationPressure;
 		using StabilizationPressurePtr = std::shared_ptr<StabilizationPressure>;

@@ -14,10 +14,9 @@ class Monitor:
         self.residual.append(residual)
         return
 
-def Iterative(A, b):
+def Iterative(A, x, b):
     tolerance = 1.0e-5
     monitor = Monitor()
-    rows = b.GetRows()
 
     def CallbackIterative(iteration, residual):
         
@@ -31,22 +30,22 @@ def Iterative(A, b):
 
         return dive.EILIG_CONTINUE
 
-    y = dive.Vector(rows, 0.0)
-    monitor.status = dive.IterativeBiCGStab(y, A, b, CallbackIterative)
+    monitor.status = dive.IterativeBiCGStab(A, x, b, CallbackIterative)
 
-    return y, monitor
+    return monitor
 
-def ForwardMethod(timer, y0, equation):
+def ForwardMethod(timer, x0, equation):
     t = timer.GetCurrentTime()
     dt = timer.GetStepSize()
-    y1 = [dive.Vector(y0[0]), dive.Vector(y0[1])]
+    x1 = [dive.Vector(x0[0]), dive.Vector(x0[1])]
+    dfdt = dive.Vector(x0[1].GetRows())
 
-    M, f = equation(t, y0)
-    dydt, monitor = Iterative(M, f)
+    M, f = equation(t, x0)
+    monitor = Iterative(M, dfdt, f)
     
-    y1[1] = y0[1] + dt * dydt
+    x1[1] = x0[1] + dt * dfdt
 
-    return y1
+    return x1
 
 def BackwardMethod(timer, y0, equation):
     tolerance = 1.0e-3
@@ -63,7 +62,6 @@ def BackwardMethod(timer, y0, equation):
         y2[1] = y0[1] + dt * dydt
 
         norm = dive.NormP2(y2[1] - y1[1]) / dive.NormP2(y2[1])
-        #norm = dive.NormP2(y2[1] - y1[1]) / dive.NormMax(y2[1])
         y1[1] = y2[1]
        
     return y1

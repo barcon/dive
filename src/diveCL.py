@@ -5142,6 +5142,9 @@ class IPressure(IProblem):
     def Stiffness(self):
         return _diveCL.IPressure_Stiffness(self)
 
+    def Crossed(self, problemMomentum):
+        return _diveCL.IPressure_Crossed(self, problemMomentum)
+
     def Stabilization(self, problemMomentum):
         return _diveCL.IPressure_Stabilization(self, problemMomentum)
 
@@ -5514,6 +5517,9 @@ class ProblemPressure(IPressure):
 
     def Stiffness(self):
         return _diveCL.ProblemPressure_Stiffness(self)
+
+    def Crossed(self, problemMomentum):
+        return _diveCL.ProblemPressure_Crossed(self, problemMomentum)
 
     def Stabilization(self, problemMomentum):
         return _diveCL.ProblemPressure_Stabilization(self, problemMomentum)

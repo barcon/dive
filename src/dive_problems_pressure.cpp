@@ -179,6 +179,21 @@ namespace dive {
 
 			return res;
 		}
+		Sparse ProblemPressure::Crossed(IProblemPtr problemMomentum) const
+		{
+			TimerStart();
+
+			auto crossedWeak = weakforms::CreateWeakFormCrossedPressure();
+			crossedWeak->SetProblemMomentum(problemMomentum);
+
+			IProblemPtr problemPressure = std::make_shared<ProblemPressure>(*this);
+
+			auto res = IntegralForm(crossedWeak, problemPressure, problemMomentum);
+
+			TimerElapsed(__FUNCTION__);
+
+			return res;
+		}
 		Sparse ProblemPressure::Stabilization(IProblemPtr problemMomentum) const
 		{
 			TimerStart();
