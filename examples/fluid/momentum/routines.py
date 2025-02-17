@@ -51,133 +51,29 @@ def ApplyDirichlet(nodes, value, dof = None):
             problem.AddDirichlet(dirichlet)
     return
 
-def Velocity(partitioned = True):
+def PartitionVector(vector):
     global problem
 
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
 
-    y = problem.Velocity()
+    v0 = vector.Region(0, pivot - 1)  
+    v1 = vector.Region(pivot, totalDof - 1) 
 
-    if(partitioned):
-        y0 = y.Region(0, pivot - 1)  
-        y1 = y.Region(pivot, totalDof - 1) 
-        return [y0, y1]  
+    return [v0, v1]
 
-    return y 
-
-def VelocityDerivative(partitioned = True):
+def PartitionMatrix(matrix):
     global problem
 
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
+        
+    m00 = matrix.Region(0, 0, pivot - 1, pivot - 1)
+    m01 = matrix.Region(0, pivot, pivot - 1, totalDof - 1)        
+    m10 = matrix.Region(pivot, 0, totalDof - 1, pivot - 1)
+    m11 = matrix.Region(pivot, pivot, totalDof - 1, totalDof - 1)
 
-    dy = Vector(totalDof)
-
-    if(partitioned):
-        dy0 = dy.Region(0, pivot - 1)  
-        dy1 = dy.Region(pivot, totalDof - 1) 
-        return [dy0, dy1]  
-
-    return dy 
-
-def Momentum(partitioned = True):
-    global problem
-
-    totalDof = problem.GetTotalDof()
-    pivot = problem.GetPivot()
-
-    y = problem.Momentum()
-
-    if(partitioned):
-        y0 = y.Region(0, pivot - 1)  
-        y1 = y.Region(pivot, totalDof - 1) 
-        return [y0, y1]  
-
-    return y 
-
-def MomentumDerivative(partitioned = True):
-    global problem
-
-    totalDof = problem.GetTotalDof()
-    pivot = problem.GetPivot()
-
-    dy = Vector(totalDof)
-
-    if(partitioned):
-        dy0 = dy.Region(0, pivot - 1)  
-        dy1 = dy.Region(pivot, totalDof - 1) 
-        return [dy0, dy1]  
-
-    return dy
-
-def Mass(partitioned = True):
-    global problem
-
-    totalDof = problem.GetTotalDof()
-    pivot = problem.GetPivot()
-    
-    M = problem.Mass()
-
-    if(partitioned):
-        M11 = M.Region(0, 0, pivot - 1, pivot - 1)
-        M12 = M.Region(0, pivot, pivot - 1, totalDof - 1)
-        M21 = M.Region(pivot, 0, totalDof - 1, pivot - 1)
-        M22 = M.Region(pivot, pivot, totalDof - 1, totalDof - 1)
-        return [M11, M12, M21, M22]        
-
-    return M
-
-def Stiffness(partitioned = True):
-    global problem
-
-    totalDof = problem.GetTotalDof()
-    pivot = problem.GetPivot()
-    
-    K = problem.Stiffness()
-
-    if(partitioned):
-        K11 = K.Region(0, 0, pivot - 1, pivot - 1)
-        K12 = K.Region(0, pivot, pivot - 1, totalDof - 1)
-        K21 = K.Region(pivot, 0, totalDof - 1, pivot - 1)
-        K22 = K.Region(pivot, pivot, totalDof - 1, totalDof - 1)
-        return [K11, K12, K21, K22]        
-
-    return K
-
-def Convection(partitioned = True):
-    global problem
-
-    totalDof = problem.GetTotalDof()
-    pivot = problem.GetPivot()
-    
-    C = problem.Convection()
-    
-    if(partitioned):
-        C11 = C.Region(0, 0, pivot - 1, pivot - 1)
-        C12 = C.Region(0, pivot, pivot - 1, totalDof - 1)        
-        C21 = C.Region(pivot, 0, totalDof - 1, pivot - 1)
-        C22 = C.Region(pivot, pivot, totalDof - 1, totalDof - 1)
-        return [C11, C12, C21, C22]        
-
-    return C
-
-def Stabilization(partitioned = True):
-    global problem
-
-    totalDof = problem.GetTotalDof()
-    pivot = problem.GetPivot()
-    
-    S = problem.Stabilization()
-
-    if(partitioned):
-        S11 = S.Region(0, 0, pivot - 1, pivot - 1)
-        S12 = S.Region(0, pivot, pivot - 1, totalDof - 1)           
-        S21 = S.Region(pivot, 0, totalDof - 1, pivot - 1)
-        S22 = S.Region(pivot, pivot, totalDof - 1, totalDof - 1)
-        return [S11, S12, S21, S22]        
-
-    return S
+    return [m00, m01, m10, m11]       
 
 def LoadDistributedCrossed(G, p, partitioned = True):
     global problem

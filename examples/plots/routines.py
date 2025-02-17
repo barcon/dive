@@ -36,7 +36,7 @@ def HeatMap(nodes, dof = 0, title = ''):
 
     fig, ax = plt.subplots()
     ax.set_title(title)
-    #ax.axis([0.0, 1.0, 0.0, 1.0])    
+    ax.axis([0.0, 1.0, 0.0, 1.0])    
     ax.plot(x, y, 'o', markersize = 1, color = 'grey')
     ax.tricontourf(x, y, f)
     #fig.colorbar(c)
@@ -85,7 +85,7 @@ def Vector(nodes):
         v.append(node.GetValue(1))
 
     fig, ax = plt.subplots()
-    #ax.axis([0.0, 1.0, 0.0, 1.0])    
+    ax.axis([0.0, 1.0, 0.0, 1.0])    
     ax.plot(x, y, 'o', markersize=0, color='grey')
     ax.quiver(x, y, u, v)
  

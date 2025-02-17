@@ -10,7 +10,7 @@ from prettytable import PrettyTable
 T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
 basis       = thermal.CreateBasisCartesian(1)
-timer       = thermal.CreateTimerStepped(1, 0.0, 1e+6, 1e+3)
+timer       = thermal.CreateTimerStepped(1, 0.0, 1e+6, 1e+2)
 pressure    = thermal.CreateValueScalar3D(p_ref)
 material    = materials.fluid.CreateFluidOil(1, 68, T_ref)
 meshFile    = 'beam.msh'
@@ -26,10 +26,10 @@ cp = material.GetSpecificHeat(T_ref, p_ref)
 
 #--------------------------------------------------------------------------------------------------
 heightElement = mesh.GetElementHeightMinium()
-lenghtDomain = meshes.cavity.x
+lengthDomain = meshes.cavity.x
 diffusity = k / (cp * rho)
 
-dt1 = lenghtDomain**2.0 / diffusity
+dt1 = lengthDomain**2.0 / diffusity
 dt2 = heightElement**2.0 /  diffusity
 
 tableSummary = PrettyTable()
@@ -40,7 +40,7 @@ tableSummary.add_row(["Density", "{:.2f}".format(rho), ""])
 tableSummary.add_row(["Specific Heat", "{:.2f}".format(cp), ""])
 tableSummary.add_row(["Thermal Conductivity", "{:.2f}".format(k), ""])
 tableSummary.add_row(["Thermal Diffusity", "{:.2e}".format(diffusity), ""])
-tableSummary.add_row(["Domain Lenght", "{:.2f}".format(lenghtDomain), "[m]"])
+tableSummary.add_row(["Domain Lenght", "{:.2f}".format(lengthDomain), "[m]"])
 tableSummary.add_row(["Element Size", "{:.2e}".format(heightElement), "[m]"])
 tableSummary.add_row(["Diffusion Domain Time", "{:.2g}".format(dt1), "[s]"])
 tableSummary.add_row(["Diffusion Element Time", "{:.2g}".format(dt2), "[s]"])
@@ -75,8 +75,8 @@ def Diffusion(t, y):
 while(True): 
     y0 = thermal.Energy()
     #y1 = solvers.ForwardMethod(timer, y0, Diffusion)
-    y1 = solvers.BackwardMethod(timer, y0, Diffusion)
-    #y1 = solvers.CrankNicolsonMethod(timer, y0, Diffusion)
+    #y1 = solvers.BackwardMethod(timer, y0, Diffusion)
+    y1 = solvers.CrankNicolsonMethod(timer, y0, Diffusion)
 
     thermal.UpdateMeshValues(y1)
 

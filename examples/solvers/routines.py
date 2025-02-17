@@ -34,18 +34,18 @@ def Iterative(A, x, b):
 
     return monitor
 
-def ForwardMethod(timer, x0, equation):
+def ForwardMethod(timer, y0, equation):
     t = timer.GetCurrentTime()
     dt = timer.GetStepSize()
-    x1 = [dive.Vector(x0[0]), dive.Vector(x0[1])]
-    dfdt = dive.Vector(x0[1].GetRows())
+    y1 = [dive.Vector(y0[0]), dive.Vector(y0[1])]
+    dydt = dive.Vector(y0[1].GetRows())
 
-    M, f = equation(t, x0)
-    monitor = Iterative(M, dfdt, f)
+    M, f = equation(t, y0)
+    monitor = Iterative(M, dydt, f)
     
-    x1[1] = x0[1] + dt * dfdt
+    y1[1] = y0[1] + dt * dydt
 
-    return x1
+    return y1
 
 def BackwardMethod(timer, y0, equation):
     tolerance = 1.0e-3
@@ -53,11 +53,12 @@ def BackwardMethod(timer, y0, equation):
     dt = timer.GetStepSize()
     y1 = [dive.Vector(y0[0]), dive.Vector(y0[1])]
     y2 = [dive.Vector(y0[0]), dive.Vector(y0[1])]
+    dydt = dive.Vector(y0[1].GetRows())    
+  
     norm = math.inf
-
     while (norm > tolerance):
         M, f = equation(t + dt, y1)
-        dydt, monitor = Iterative(M, f)
+        monitor = Iterative(M, dydt, f)
     
         y2[1] = y0[1] + dt * dydt
 
@@ -72,14 +73,16 @@ def CrankNicolsonMethod(timer, y0, equation):
     dt = timer.GetStepSize()
     y1 = [dive.Vector(y0[0]), dive.Vector(y0[1])]
     y2 = [dive.Vector(y0[0]), dive.Vector(y0[1])]
-    norm = math.inf
+    dydt0 = dive.Vector(y0[1].GetRows())    
+    dydt1 = dive.Vector(y0[1].GetRows())    
 
     M, f = equation(t, y0)
-    dydt0, monitor = Iterative(M, f)
+    monitor = Iterative(M, dydt0, f)
 
+    norm = math.inf
     while (norm > tolerance):
         M, f = equation(t + dt, y1)
-        dydt1, monitor = Iterative(M, f)
+        monitor = Iterative(M, dydt1, f)
     
         y2[1] = y0[1] + dt * 0.5* (dydt1 + dydt0)
 
