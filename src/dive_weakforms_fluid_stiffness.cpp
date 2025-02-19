@@ -31,9 +31,8 @@ namespace dive {
 		{		
 			auto B = FormMatrix_B(element, local, cacheIndex);
 			auto Id = FormMatrix_Id(element, local);
-			auto Z = FormVector_Z(element, local);
 
-			output = eilig::ScaleByVector(B.Transpose() * Id * B, Z);
+			output = B.Transpose() * Id * B;
 		}
 		void StiffnessFluid::SetTemperature(IScalar3DPtr temperature)
 		{
@@ -73,25 +72,6 @@ namespace dive {
 
 				res(5, i * numberDof + 0) = dN(2, i);
 				res(5, i * numberDof + 2) = dN(0, i);
-			}
-
-			return res;
-		}
-		Vector StiffnessFluid::FormVector_Z(IElementPtr element, const Vector& local) const
-		{
-			auto numberNodes = element->GetNumberNodes();
-			auto numberDof = element->GetNumberDof();
-
-			auto temperature = values::GetValue(temperature_, local, element);
-			auto pressure = values::GetValue(pressure_, local, element);
-			auto rho = element->GetMaterial()->GetDensity(temperature, pressure);
-			auto rhoInv = 1. / rho;
-
-			Vector res(numberNodes * numberDof);
-
-			for (Index i = 0; i < res.GetRows(); ++i)
-			{
-				res(i) = rhoInv;
 			}
 
 			return res;
