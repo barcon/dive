@@ -1,7 +1,7 @@
 import meshes
 import thermal
 import solvers
-import materials.fluid
+import materials.fluid.oil
 import plots
 import math
 
@@ -12,7 +12,7 @@ p_ref       = 101325.1    #[N/m²]   =  1 [atm]
 basis       = thermal.CreateBasisCartesian(1)
 timer       = thermal.CreateTimerStepped(1, 0.0, 1e+6, 1e+2)
 pressure    = thermal.CreateValueScalar3D(p_ref)
-material    = materials.fluid.CreateFluidOil(1, 68, T_ref)
+material    = materials.oil.Create(1, 68, T_ref)
 meshFile    = 'beam.msh'
 
 meshes.beam.quadratic = False
