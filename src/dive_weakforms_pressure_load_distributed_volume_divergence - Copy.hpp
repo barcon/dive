@@ -21,7 +21,7 @@ namespace dive
 			LoadDistributedVolumeDivergencePressurePtr GetPtr();
 			ConstLoadDistributedVolumeDivergencePressurePtr GetPtr() const;
 
-			void WeakFormulation(ILoadPtr load, const Vector& point, Matrix& output) const override;
+			void WeakFormulation(ILoadPtr load, const Vector& point, Vector& output) const override;
 
 			void SetProblemMomentum(IProblemPtr problemMomentum);
 
@@ -29,7 +29,7 @@ namespace dive
 			LoadDistributedVolumeDivergencePressure() = default;
 
 			Matrix FormMatrix_N(IElementPtr element, const Vector& local) const;
-			Matrix FormMatrix_Div(IElementPtr element, const Vector& local) const;
+			Scalar FormDivergence(IElementPtr element, const Vector& local) const;
 
 			IProblemPtr problemMomentum_{ nullptr };
 

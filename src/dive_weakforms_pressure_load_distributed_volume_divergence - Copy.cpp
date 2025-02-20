@@ -27,15 +27,16 @@ namespace dive {
 		{
 			return const_cast<LoadDistributedVolumeDivergencePressure*>(this)->GetPtr();
 		}
-		void LoadDistributedVolumeDivergencePressure:: WeakFormulation(ILoadPtr load, const Vector& point, Matrix& output) const
+		void LoadDistributedVolumeDivergencePressure:: WeakFormulation(ILoadPtr load, const Vector& point, Vector& output) const
 		{
 			auto force = std::static_pointer_cast<loads::LoadDistributedVolume>(load);
 			auto element = force->GetElement();
 
 			auto N = FormMatrix_N(element, point);
-			auto du = FormMatrix_Div(element, point);
+			auto Nt = Vector(N.Transpose(), 0);
+			auto du = FormDivergence(element, point);
 			
-			output = N.Transpose() * du;
+			output = Nt * du;
 		}
 		void LoadDistributedVolumeDivergencePressure::SetProblemMomentum(IProblemPtr problemMomentum)
 		{
@@ -45,26 +46,6 @@ namespace dive {
 		{
 			return element->N(local);
 		}
-		Matrix LoadDistributedVolumeDivergencePressure::FormMatrix_Div(IElementPtr element, const Vector& local) const
-		{
-			const auto& elementMomentum = problemMomentum_->GetMesh()->GetElements()[element->GetElementIndex()];
-			auto dN = eilig::Inverse(elementMomentum->J(local)) * elementMomentum->dN(local);
-			auto numberNodes = elementMomentum->GetNumberNodes();
-			auto numberDof = elementMomentum->GetNode(0)->GetNumberDof();
-
-			Matrix res(1, numberNodes * numberDof, 0.0);
-
-			for (Index i = 0; (i < du.GetRows()) && (i < du.GetCols()); ++i)
-			{
-				divergence += du(i, i);
-			}
-
-			return res;
-		}
-	} // namespace problems
-} // namespace dive
-
-/*
 		Scalar LoadDistributedVolumeDivergencePressure::FormDivergence(IElementPtr element, const Vector& local) const
 		{
 			const auto& elementMomentum = problemMomentum_->GetMesh()->GetElements()[element->GetElementIndex()];
@@ -79,4 +60,5 @@ namespace dive {
 
 			return divergence;
 		}
-*/
+	} // namespace problems
+} // namespace dive

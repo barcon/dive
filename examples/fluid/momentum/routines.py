@@ -73,19 +73,4 @@ def PartitionMatrix(matrix):
     m10 = matrix.Region(pivot, 0, totalDof - 1, pivot - 1)
     m11 = matrix.Region(pivot, pivot, totalDof - 1, totalDof - 1)
 
-    return [m00, m01, m10, m11]       
-
-def LoadDistributedCrossed(G, p, partitioned = True):
-    global problem
-
-    totalDof = problem.GetTotalDof()
-    pivot = problem.GetPivot()
-
-    fc = G * p
-
-    if(partitioned):
-        fc1 = fc.Region(0, pivot - 1)  
-        fc2 = fc.Region(pivot, totalDof - 1) 
-        return [fc1, fc2]      
-
-    return fc
+    return [m00, m01, m10, m11]
