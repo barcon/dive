@@ -238,7 +238,7 @@ namespace dive {
 
 			IProblemPtr problemFluid = std::make_shared<ProblemFluid>(*this);
 
-			auto res = IntegralForm(loadDistributedVolumeWeak, problemFluid, loads_);
+			auto res = Vector(IntegralForm(loadDistributedVolumeWeak, problemFluid, loads_), 0);
 
 			TimerElapsed(__FUNCTION__);
 
@@ -252,7 +252,7 @@ namespace dive {
 
 			IProblemPtr problemFluid = std::make_shared<ProblemFluid>(*this);
 
-			auto res = IntegralForm(loadDistributedVolumeStabilizationWeak, problemFluid, loads_);
+			auto res = Vector(IntegralForm(loadDistributedVolumeStabilizationWeak, problemFluid, loads_), 0);
 
 			TimerElapsed(__FUNCTION__);
 

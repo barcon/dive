@@ -41,7 +41,7 @@
 #include "dive_weakforms_pressure_stiffness.hpp"
 #include "dive_weakforms_pressure_crossed.hpp"
 #include "dive_weakforms_pressure_stabilization.hpp"
-#include "dive_weakforms_pressure_load_distributed_volume_divergence.hpp"
+#include "dive_weakforms_pressure_distributed_volume_divergence.hpp"
 
 #include "dive_problems.hpp"
 #include "dive_problems_basic.hpp"

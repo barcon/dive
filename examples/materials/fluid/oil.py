@@ -1,11 +1,17 @@
 import dive
 
-def Density_Oil_VDI2204(temperature): #[kg/m³]
+def Density_Oil_VDI2204(temperature):
+    """
+    Calculate density [kg/m³] depending on the temperature [K]
+    """    
     rho_oil = 872.0     #[kg/m³]
     T_oil   = 288.15    #[K]
     return rho_oil*(1.0 - 0.00065 * (temperature - T_oil))
 
-def SpecificHeat_Oil_VDI2204(temperature): #[J/(kg.K)]
+def SpecificHeat_Oil_VDI2204(temperature):
+    """
+    Calculate specific heat [J/(kg.K)] depending on the temperature [K]
+    """      
     rho_oil = 872.0     #[kg/m³]
     T_ref = 273.15
 
@@ -14,16 +20,25 @@ def SpecificHeat_Oil_VDI2204(temperature): #[J/(kg.K)]
     else:
         return 2910.0 - 1.29 * rho_oil + 4.605 * (temperature - T_ref) 
     
-def Viscosity_Oil_VDI2204(ISO, temperature): #[Pa.s]
+def Viscosity_Oil_VDI2204(ISO, temperature):
+    """
+    Calculate dynamic viscosity [Pa.s] depending on the temperature [K]
+    """     
     T_ref = 273.15
     nx = 1.8E-4
     rho = Density_Oil_VDI2204(temperature)
     return nx * (rho * ISO / (nx * 1.0E6))**((159.56 / ((temperature - T_ref) + 95.0)) - 0.181913)
 
-def ThermalConductivity_Oil(temperature): #[W/(m.K)]
+def ThermalConductivity_Oil(temperature):
+    """
+    Calculate thermal conductivity [W/(m.K)]
+    """     
     return 0.129
 
 def Create(tag, ISO, temperature):
+    """
+    Create material with a tag at a fixed temperature [K]
+    """    
     material            = dive.CreateMaterialFluid(tag)
     valueClass          = dive.CreateValueString('class', 'Fluid', 'Class')
     valueGroup          = dive.CreateValueString('Mineral Hydraulic Oil', 'Group', 'group')

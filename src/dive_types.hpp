@@ -213,9 +213,9 @@ namespace dive
 		using StabilizationPressurePtr = std::shared_ptr<StabilizationPressure>;
 		using ConstStabilizationPressurePtr = std::shared_ptr<const StabilizationPressure>;
 
-		class LoadDistributedVolumeDivergencePressure;
-		using LoadDistributedVolumeDivergencePressurePtr = std::shared_ptr<LoadDistributedVolumeDivergencePressure>;
-		using ConstLoadDistributedVolumeDivergencePressurePtr = std::shared_ptr<const LoadDistributedVolumeDivergencePressure>;
+		class DistributedVolumeDivergencePressure;
+		using DistributedVolumeDivergencePressurePtr = std::shared_ptr<DistributedVolumeDivergencePressure>;
+		using ConstDistributedVolumeDivergencePressurePtr = std::shared_ptr<const DistributedVolumeDivergencePressure>;
 
 		//---------------------------------------------------------------------
 		class MassThermal;

@@ -8,7 +8,7 @@
 #include "dive_weakforms_pressure_stiffness.hpp"
 #include "dive_weakforms_pressure_crossed.hpp"
 #include "dive_weakforms_pressure_stabilization.hpp"
-#include "dive_weakforms_pressure_load_distributed_volume_divergence.hpp"
+#include "dive_weakforms_pressure_distributed_volume_divergence.hpp"
 
 namespace dive
 {
@@ -60,7 +60,7 @@ namespace dive
 			Sparse Stiffness() const override;
 			Sparse Crossed(IProblemPtr problemMomentum) const override;
 			Sparse Stabilization(IProblemPtr problemMomentum) const override;
-			Vector LoadDistributedVolumeDivergence(IProblemPtr problemMomentum) const override;
+			Sparse DistributedVolumeDivergence(IProblemPtr problemMomentum) const override;
 			
 			Vector Pressure() const override;
 

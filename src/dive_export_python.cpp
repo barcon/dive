@@ -83695,7 +83695,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_IPressure_LoadDistributedVolumeDivergence(PyObject *self, PyObject *args) {
+SWIGINTERN PyObject *_wrap_IPressure_DistributedVolumeDivergence(PyObject *self, PyObject *args) {
   PyObject *resultobj = 0;
   dive::problems::IPressure *arg1 = (dive::problems::IPressure *) 0 ;
   IProblemPtr arg2 ;
@@ -83706,15 +83706,15 @@ SWIGINTERN PyObject *_wrap_IPressure_LoadDistributedVolumeDivergence(PyObject *s
   void *argp2 ;
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
-  Vector result;
+  Sparse result;
   
   (void)self;
-  if (!SWIG_Python_UnpackTuple(args, "IPressure_LoadDistributedVolumeDivergence", 2, 2, swig_obj)) SWIG_fail;
+  if (!SWIG_Python_UnpackTuple(args, "IPressure_DistributedVolumeDivergence", 2, 2, swig_obj)) SWIG_fail;
   {
     int newmem = 0;
     res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_dive__problems__IPressure_t, 0 |  0 , &newmem);
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IPressure_LoadDistributedVolumeDivergence" "', argument " "1"" of type '" "dive::problems::IPressure const *""'");
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "IPressure_DistributedVolumeDivergence" "', argument " "1"" of type '" "dive::problems::IPressure const *""'");
     }
     if (newmem & SWIG_CAST_NEW_MEMORY) {
       tempshared1 = *reinterpret_cast< std::shared_ptr< const dive::problems::IPressure > * >(argp1);
@@ -83729,13 +83729,13 @@ SWIGINTERN PyObject *_wrap_IPressure_LoadDistributedVolumeDivergence(PyObject *s
     int newmem = 0;
     res2 = SWIG_ConvertPtrAndOwn(swig_obj[1], &argp2, SWIGTYPE_p_std__shared_ptrT_dive__problems__IProblem_t,  0 , &newmem);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "IPressure_LoadDistributedVolumeDivergence" "', argument " "2"" of type '" "IProblemPtr""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "IPressure_DistributedVolumeDivergence" "', argument " "2"" of type '" "IProblemPtr""'");
     }
     if (argp2) arg2 = *(reinterpret_cast< IProblemPtr * >(argp2));
     if (newmem & SWIG_CAST_NEW_MEMORY) delete reinterpret_cast< IProblemPtr * >(argp2);
   }
-  result = ((dive::problems::IPressure const *)arg1)->LoadDistributedVolumeDivergence(arg2);
-  resultobj = SWIG_NewPointerObj((new Vector(result)), SWIGTYPE_p_eilig__Vector, SWIG_POINTER_OWN |  0 );
+  result = ((dive::problems::IPressure const *)arg1)->DistributedVolumeDivergence(arg2);
+  resultobj = SWIG_NewPointerObj((new Sparse(result)), SWIGTYPE_p_eilig__Ellpack, SWIG_POINTER_OWN |  0 );
   return resultobj;
 fail:
   return NULL;
@@ -88467,7 +88467,7 @@ fail:
 }
 
 
-SWIGINTERN PyObject *_wrap_ProblemPressure_LoadDistributedVolumeDivergence(PyObject *self, PyObject *args) {
+SWIGINTERN PyObject *_wrap_ProblemPressure_DistributedVolumeDivergence(PyObject *self, PyObject *args) {
   PyObject *resultobj = 0;
   dive::problems::ProblemPressure *arg1 = (dive::problems::ProblemPressure *) 0 ;
   IProblemPtr arg2 ;
@@ -88478,15 +88478,15 @@ SWIGINTERN PyObject *_wrap_ProblemPressure_LoadDistributedVolumeDivergence(PyObj
   void *argp2 ;
   int res2 = 0 ;
   PyObject *swig_obj[2] ;
-  Vector result;
+  Sparse result;
   
   (void)self;
-  if (!SWIG_Python_UnpackTuple(args, "ProblemPressure_LoadDistributedVolumeDivergence", 2, 2, swig_obj)) SWIG_fail;
+  if (!SWIG_Python_UnpackTuple(args, "ProblemPressure_DistributedVolumeDivergence", 2, 2, swig_obj)) SWIG_fail;
   {
     int newmem = 0;
     res1 = SWIG_ConvertPtrAndOwn(swig_obj[0], &argp1, SWIGTYPE_p_std__shared_ptrT_dive__problems__ProblemPressure_t, 0 |  0 , &newmem);
     if (!SWIG_IsOK(res1)) {
-      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ProblemPressure_LoadDistributedVolumeDivergence" "', argument " "1"" of type '" "dive::problems::ProblemPressure const *""'");
+      SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ProblemPressure_DistributedVolumeDivergence" "', argument " "1"" of type '" "dive::problems::ProblemPressure const *""'");
     }
     if (newmem & SWIG_CAST_NEW_MEMORY) {
       tempshared1 = *reinterpret_cast< std::shared_ptr< const dive::problems::ProblemPressure > * >(argp1);
@@ -88501,13 +88501,13 @@ SWIGINTERN PyObject *_wrap_ProblemPressure_LoadDistributedVolumeDivergence(PyObj
     int newmem = 0;
     res2 = SWIG_ConvertPtrAndOwn(swig_obj[1], &argp2, SWIGTYPE_p_std__shared_ptrT_dive__problems__IProblem_t,  0 , &newmem);
     if (!SWIG_IsOK(res2)) {
-      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ProblemPressure_LoadDistributedVolumeDivergence" "', argument " "2"" of type '" "IProblemPtr""'");
+      SWIG_exception_fail(SWIG_ArgError(res2), "in method '" "ProblemPressure_DistributedVolumeDivergence" "', argument " "2"" of type '" "IProblemPtr""'");
     }
     if (argp2) arg2 = *(reinterpret_cast< IProblemPtr * >(argp2));
     if (newmem & SWIG_CAST_NEW_MEMORY) delete reinterpret_cast< IProblemPtr * >(argp2);
   }
-  result = ((dive::problems::ProblemPressure const *)arg1)->LoadDistributedVolumeDivergence(arg2);
-  resultobj = SWIG_NewPointerObj((new Vector(result)), SWIGTYPE_p_eilig__Vector, SWIG_POINTER_OWN |  0 );
+  result = ((dive::problems::ProblemPressure const *)arg1)->DistributedVolumeDivergence(arg2);
+  resultobj = SWIG_NewPointerObj((new Sparse(result)), SWIGTYPE_p_eilig__Ellpack, SWIG_POINTER_OWN |  0 );
   return resultobj;
 fail:
   return NULL;
@@ -92363,7 +92363,7 @@ static PyMethodDef SwigMethods[] = {
 	 { "IPressure_Stiffness", _wrap_IPressure_Stiffness, METH_O, NULL},
 	 { "IPressure_Crossed", _wrap_IPressure_Crossed, METH_VARARGS, NULL},
 	 { "IPressure_Stabilization", _wrap_IPressure_Stabilization, METH_VARARGS, NULL},
-	 { "IPressure_LoadDistributedVolumeDivergence", _wrap_IPressure_LoadDistributedVolumeDivergence, METH_VARARGS, NULL},
+	 { "IPressure_DistributedVolumeDivergence", _wrap_IPressure_DistributedVolumeDivergence, METH_VARARGS, NULL},
 	 { "IPressure_Pressure", _wrap_IPressure_Pressure, METH_O, NULL},
 	 { "IPressure_swigregister", IPressure_swigregister, METH_O, NULL},
 	 { "delete_IThermal", _wrap_delete_IThermal, METH_O, NULL},
@@ -92482,7 +92482,7 @@ static PyMethodDef SwigMethods[] = {
 	 { "ProblemPressure_Stiffness", _wrap_ProblemPressure_Stiffness, METH_O, NULL},
 	 { "ProblemPressure_Crossed", _wrap_ProblemPressure_Crossed, METH_VARARGS, NULL},
 	 { "ProblemPressure_Stabilization", _wrap_ProblemPressure_Stabilization, METH_VARARGS, NULL},
-	 { "ProblemPressure_LoadDistributedVolumeDivergence", _wrap_ProblemPressure_LoadDistributedVolumeDivergence, METH_VARARGS, NULL},
+	 { "ProblemPressure_DistributedVolumeDivergence", _wrap_ProblemPressure_DistributedVolumeDivergence, METH_VARARGS, NULL},
 	 { "ProblemPressure_Pressure", _wrap_ProblemPressure_Pressure, METH_O, NULL},
 	 { "ProblemPressure_swigregister", ProblemPressure_swigregister, METH_O, NULL},
 	 { "Face_faceIndex_set", _wrap_Face_faceIndex_set, METH_VARARGS, NULL},

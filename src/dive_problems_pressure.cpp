@@ -209,16 +209,16 @@ namespace dive {
 
 			return res;
 		}
-		Vector ProblemPressure::LoadDistributedVolumeDivergence(IProblemPtr problemMomentum) const
+		Sparse ProblemPressure::DistributedVolumeDivergence(IProblemPtr problemMomentum) const
 		{
 			TimerStart();
 
-			auto loadDistributedVolumeDivergencePressureWeak = weakforms::CreateWeakFormLoadDistributedVolumeDivergencePressure();
-			loadDistributedVolumeDivergencePressureWeak->SetProblemMomentum(problemMomentum);
+			auto distributedVolumeDivergencePressureWeak = weakforms::CreateWeakFormDistributedVolumeDivergencePressure();
+			distributedVolumeDivergencePressureWeak->SetProblemMomentum(problemMomentum);
 
 			IProblemPtr problemPressure = std::make_shared<ProblemPressure>(*this);
 
-			auto res = IntegralForm(loadDistributedVolumeDivergencePressureWeak, problemPressure, loads_);
+			auto res = IntegralForm(distributedVolumeDivergencePressureWeak, problemPressure, problemMomentum);
 
 			TimerElapsed(__FUNCTION__);
 

@@ -4809,8 +4809,8 @@ class IPressure(IProblem):
     def Stabilization(self, problemMomentum):
         return _dive.IPressure_Stabilization(self, problemMomentum)
 
-    def LoadDistributedVolumeDivergence(self, problemMomentum):
-        return _dive.IPressure_LoadDistributedVolumeDivergence(self, problemMomentum)
+    def DistributedVolumeDivergence(self, problemMomentum):
+        return _dive.IPressure_DistributedVolumeDivergence(self, problemMomentum)
 
     def Pressure(self):
         return _dive.IPressure_Pressure(self)
@@ -5185,8 +5185,8 @@ class ProblemPressure(IPressure):
     def Stabilization(self, problemMomentum):
         return _dive.ProblemPressure_Stabilization(self, problemMomentum)
 
-    def LoadDistributedVolumeDivergence(self, problemMomentum):
-        return _dive.ProblemPressure_LoadDistributedVolumeDivergence(self, problemMomentum)
+    def DistributedVolumeDivergence(self, problemMomentum):
+        return _dive.ProblemPressure_DistributedVolumeDivergence(self, problemMomentum)
 
     def Pressure(self):
         return _dive.ProblemPressure_Pressure(self)
