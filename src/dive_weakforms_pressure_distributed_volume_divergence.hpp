@@ -8,8 +8,6 @@ namespace dive
 {
     namespace weakforms
     {
-		using ProblemFluidPtr = problems::ProblemFluidPtr;
-
 		DistributedVolumeDivergencePressurePtr CreateWeakFormDistributedVolumeDivergencePressure();
 
 		class DistributedVolumeDivergencePressure : public WeakFormElement, virtual public std::enable_shared_from_this<DistributedVolumeDivergencePressure>

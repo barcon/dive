@@ -178,7 +178,7 @@ namespace dive {
 
 			auto massWeak = weakforms::CreateWeakFormMassFluid();
 
-			IProblemPtr problemFluid = std::make_shared<ProblemFluid>(*this);
+			auto problemFluid = std::make_shared<ProblemFluid>(*this);
 			
 			auto res = IntegralForm(massWeak, problemFluid, problemFluid);
 
@@ -194,7 +194,7 @@ namespace dive {
 			stiffnessWeak->SetTemperature(temperature_);
 			stiffnessWeak->SetPressure(pressure_);
 
-			IProblemPtr problemFluid = std::make_shared<ProblemFluid>(*this);
+			auto problemFluid = std::make_shared<ProblemFluid>(*this);
 
 			auto res =  IntegralForm(stiffnessWeak, problemFluid, problemFluid);
 
@@ -208,7 +208,7 @@ namespace dive {
 
 			auto convectionWeak = weakforms::CreateWeakFormConvectionFluid();
 
-			IProblemPtr problemFluid = std::make_shared<ProblemFluid>(*this);
+			auto problemFluid = std::make_shared<ProblemFluid>(*this);
 
 			auto res = IntegralForm(convectionWeak, problemFluid, problemFluid);
 
@@ -222,7 +222,7 @@ namespace dive {
 
 			auto stabilizationWeak = weakforms::CreateWeakFormStabilizationFluid();
 
-			IProblemPtr problemFluid = std::make_shared<ProblemFluid>(*this);
+			auto problemFluid = std::make_shared<ProblemFluid>(*this);
 
 			auto res = IntegralForm(stabilizationWeak, problemFluid, problemFluid);
 
@@ -236,7 +236,7 @@ namespace dive {
 
 			auto loadDistributedVolumeWeak = weakforms::CreateWeakFormLoadDistributedVolumeFluid();
 
-			IProblemPtr problemFluid = std::make_shared<ProblemFluid>(*this);
+			auto problemFluid = std::make_shared<ProblemFluid>(*this);
 
 			auto res = Vector(IntegralForm(loadDistributedVolumeWeak, problemFluid, loads_), 0);
 
@@ -250,7 +250,7 @@ namespace dive {
 
 			auto loadDistributedVolumeStabilizationWeak = weakforms::CreateWeakFormLoadDistributedVolumeStabilizationFluid();
 
-			IProblemPtr problemFluid = std::make_shared<ProblemFluid>(*this);
+			auto problemFluid = std::make_shared<ProblemFluid>(*this);
 
 			auto res = Vector(IntegralForm(loadDistributedVolumeStabilizationWeak, problemFluid, loads_), 0);
 

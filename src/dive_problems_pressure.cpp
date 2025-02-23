@@ -157,7 +157,7 @@ namespace dive {
 			massWeak->SetPressure(pressure_);
 			massWeak->SetVelocity(velocity_);
 
-			IProblemPtr problemPressure = std::make_shared<ProblemPressure>(*this);
+			auto problemPressure = std::make_shared<ProblemPressure>(*this);
 
 			auto res = IntegralForm(massWeak, problemPressure, problemPressure);
 
@@ -171,7 +171,7 @@ namespace dive {
 
 			auto stiffnessWeak = weakforms::CreateWeakFormStiffnessPressure();
 
-			IProblemPtr problemPressure = std::make_shared<ProblemPressure>(*this);
+			auto problemPressure = std::make_shared<ProblemPressure>(*this);
 
 			auto res = IntegralForm(stiffnessWeak, problemPressure, problemPressure);
 
@@ -186,7 +186,7 @@ namespace dive {
 			auto crossedWeak = weakforms::CreateWeakFormCrossedPressure();
 			crossedWeak->SetProblemMomentum(problemMomentum);
 
-			IProblemPtr problemPressure = std::make_shared<ProblemPressure>(*this);
+			auto problemPressure = std::make_shared<ProblemPressure>(*this);
 
 			auto res = IntegralForm(crossedWeak, problemPressure, problemMomentum);
 
@@ -201,7 +201,7 @@ namespace dive {
 			auto stabilizationWeak = weakforms::CreateWeakFormStabilizationPressure();
 			stabilizationWeak->SetProblemMomentum(problemMomentum);
 
-			IProblemPtr problemPressure = std::make_shared<ProblemPressure>(*this);
+			auto problemPressure = std::make_shared<ProblemPressure>(*this);
 
 			auto res = IntegralForm(stabilizationWeak, problemPressure, problemMomentum);
 
@@ -216,7 +216,7 @@ namespace dive {
 			auto distributedVolumeDivergencePressureWeak = weakforms::CreateWeakFormDistributedVolumeDivergencePressure();
 			distributedVolumeDivergencePressureWeak->SetProblemMomentum(problemMomentum);
 
-			IProblemPtr problemPressure = std::make_shared<ProblemPressure>(*this);
+			auto problemPressure = std::make_shared<ProblemPressure>(*this);
 
 			auto res = IntegralForm(distributedVolumeDivergencePressureWeak, problemPressure, problemMomentum);
 

@@ -156,7 +156,7 @@ namespace dive {
 			massWeak->SetTemperature(temperature_);
 			massWeak->SetPressure(pressure_);
 
-			IProblemPtr problemThermal = std::make_shared<ProblemThermal>(*this);
+			auto problemThermal = std::make_shared<ProblemThermal>(*this);
 
 			auto res = IntegralForm(massWeak, problemThermal, problemThermal);
 
@@ -172,7 +172,7 @@ namespace dive {
 			stiffnessWeak->SetTemperature(temperature_);
 			stiffnessWeak->SetPressure(pressure_);
 
-			IProblemPtr problemThermal = std::make_shared<ProblemThermal>(*this);
+			auto problemThermal = std::make_shared<ProblemThermal>(*this);
 
 			auto res = IntegralForm(stiffnessWeak, problemThermal, problemThermal);
 
@@ -189,7 +189,7 @@ namespace dive {
 			convectionWeak->SetPressure(pressure_);
 			convectionWeak->SetVelocity(velocity_);
 
-			IProblemPtr problemThermal = std::make_shared<ProblemThermal>(*this);
+			auto problemThermal = std::make_shared<ProblemThermal>(*this);
 
 			auto res = IntegralForm(convectionWeak, problemThermal, problemThermal);
 
@@ -206,7 +206,7 @@ namespace dive {
 			stabilizationWeak->SetPressure(pressure_);
 			stabilizationWeak->SetVelocity(velocity_);
 
-			IProblemPtr problemThermal = std::make_shared<ProblemThermal>(*this);
+			auto problemThermal = std::make_shared<ProblemThermal>(*this);
 
 			auto res = IntegralForm(stabilizationWeak, problemThermal, problemThermal);
 

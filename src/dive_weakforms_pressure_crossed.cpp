@@ -39,11 +39,11 @@ namespace dive {
 		}
 		Matrix CrossedPressure::FormMatrix_N(IElementPtr element, const Vector& local) const
 		{
-			const auto& elementVelocity = problemMomentum_->GetMesh()->GetElements()[element->GetElementIndex()];
+			const auto& elementMomentum = problemMomentum_->GetMesh()->GetElements()[element->GetElementIndex()];
 
-			auto numberNodes = elementVelocity->GetNumberNodes();
-			auto numberDof = elementVelocity->GetNumberDof();
-			auto N = elementVelocity->N(local);
+			auto numberNodes = elementMomentum->GetNumberNodes();
+			auto numberDof = elementMomentum->GetNumberDof();
+			auto N = elementMomentum->N(local);
 
 			Matrix res(numberDof, numberNodes * numberDof, 0.0);
 

@@ -29,9 +29,9 @@ namespace dive {
 		void DistributedVolumeDivergencePressure::WeakFormulation(IElementPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const
 		{
 			auto N = FormMatrix_N(element, local, cacheIndex);
-			auto du = FormMatrix_Div(element, local);
+			auto div = FormMatrix_Div(element, local);
 			
-			output = N.Transpose() * du;
+			output = N.Transpose() * div;
 		}
 		void DistributedVolumeDivergencePressure::SetProblemMomentum(IProblemPtr problemMomentum)
 		{
@@ -44,18 +44,18 @@ namespace dive {
 		Matrix DistributedVolumeDivergencePressure::FormMatrix_Div(IElementPtr element, const Vector& local) const
 		{
 			const auto& elementMomentum = problemMomentum_->GetMesh()->GetElements()[element->GetElementIndex()];
+
 			auto numberNodes = elementMomentum->GetNumberNodes();
-			auto numberDof = elementMomentum->GetNode(0)->GetNumberDof();
-			auto dimension = elementMomentum->GetDimension();
+			auto numberDof = elementMomentum->GetNumberDof();
 			auto dN = eilig::Inverse(elementMomentum->J(local)) * elementMomentum->dN(local);
 
 			Matrix res(1, numberNodes * numberDof, 0.0);
 
-			for (NodeIndex i = 0; i < numberNodes; ++i)
+			for (DofIndex i = 0; i < numberDof; ++i)
 			{
-				for (Dimension j = 0; j < dimension; ++j)
+				for (NodeIndex j = 0; j < numberNodes; ++j)
 				{
-					res(1, i * dimension + j) = dN(j, i);
+					res(0, j * numberDof + i) = dN(i, j);
 				}
 			}
 
@@ -63,20 +63,3 @@ namespace dive {
 		}
 	} // namespace problems
 } // namespace dive
-
-/*
-		Scalar DistributedVolumeDivergencePressure::FormDivergence(IElementPtr element, const Vector& local) const
-		{
-			const auto& elementMomentum = problemMomentum_->GetMesh()->GetElements()[element->GetElementIndex()];
-			auto du = eilig::Inverse(elementMomentum->J(local)) * elementMomentum->du(local);
-
-			Scalar divergence{ 0.0 };
-
-			for (Index i = 0; (i < du.GetRows()) && (i < du.GetCols()); ++i)
-			{
-				divergence += du(i, i);
-			}
-
-			return divergence;
-		}
-*/

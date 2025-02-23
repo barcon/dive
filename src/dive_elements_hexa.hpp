@@ -339,7 +339,7 @@ namespace dive
 
 			IMaterialPtr material_{ nullptr };
 
-			IGaussPtr gaussElementHexa_{ nullptr };
+			IGaussPtr gaussHexa_{ nullptr };
 			IGaussPtr gaussRect_{ nullptr };
 			IGaussPtr gaussLine_{ nullptr };
 

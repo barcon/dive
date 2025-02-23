@@ -11,7 +11,7 @@ from prettytable import PrettyTable
 T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
 basis       = fluid.CreateBasisCartesian(1)
-timer       = fluid.CreateTimerStepped(1, 0.0, 1e+5, 10.0)
+timer       = fluid.CreateTimerStepped(1, 0.0, 1e+3, 10.0)
 pressure    = fluid.CreateValueScalar3D(p_ref)
 material    = materials.fluid.water.Create(1, T_ref)
 meshFile    = 'cavity.msh'
@@ -85,7 +85,6 @@ elementsDivergence = meshPressure.GetElements()
 
 fluid.pressure.CreateProblem(2, timer, meshPressure, temperature, velocity)
 fluid.pressure.ApplyDirichlet(nodesCorner, 0.0)
-fluid.pressure.ApplyLoadDistributedVolumeDivergence(elementsDivergence)
 fluid.pressure.Initialize()
 
 M = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Mass())
@@ -94,11 +93,8 @@ H = fluid.pressure.PartitionMatrix(fluid.pressure.GetProblem().Stiffness())
 G = fluid.pressure.GetProblem().Crossed(fluid.momentum.GetProblem()).Transpose()
 D = fluid.pressure.GetProblem().DistributedVolumeDivergence(fluid.momentum.GetProblem())
 
-print(D.GetRows())
-print(D.GetCols())
-quit()
-
 while(True): 
+    print("Time step = ", timer.GetCurrentTime())
     p = fluid.pressure.PartitionVector(fluid.pressure.GetProblem().Pressure())
     u = fluid.momentum.PartitionVector(fluid.momentum.GetProblem().Velocity())
     q = fluid.momentum.PartitionVector(fluid.momentum.GetProblem().Momentum())
@@ -116,6 +112,7 @@ while(True):
     fd = fluid.pressure.PartitionVector(D * q)
     monitor = solvers.Iterative(H[3], p[1], -H[2] * p[0] - (1.0 / dt) * (fd[1]))   
     fluid.pressure.UpdateMeshValues(p)
+    q = fluid.momentum.PartitionVector(fluid.momentum.GetProblem().Momentum())    
 
     fluid.momentum.UpdateMeshValuesMomentum(dq)
     p = fluid.pressure.GetProblem().Pressure()

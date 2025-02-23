@@ -76,7 +76,7 @@ namespace dive
 		}
 		ElementHexa::ElementHexa()
 		{
-			gaussElementHexa_ = quadrature::CreateGaussHexa();
+			gaussHexa_ = quadrature::CreateGaussHexa();
 			gaussRect_ = quadrature::CreateGaussRect();
 			gaussLine_ = quadrature::CreateGaussLine();
 
@@ -323,9 +323,9 @@ namespace dive
 
 			std::size_t counter{ 0 };
 
-			const auto& points = gaussElementHexa_->GetPoints();
-			const auto& weights = gaussElementHexa_->GetWeights();
-			const auto& quadrature = gaussElementHexa_->GetQuadrature();
+			const auto& points = gaussHexa_->GetPoints();
+			const auto& weights = gaussHexa_->GetWeights();
+			const auto& quadrature = gaussHexa_->GetQuadrature();
 
 			for (quadrature::Quadrature i = 0; i < quadrature; ++i)
 			{
@@ -548,7 +548,7 @@ namespace dive
 		}
 		IGaussPtr ElementHexa::IntegralVolume() const
 		{
-			return gaussElementHexa_;
+			return gaussHexa_;
 		}
 		IGaussPtr ElementHexa::IntegralArea() const
 		{
@@ -629,7 +629,7 @@ namespace dive
 				nodes_.resize(numberNodes_);
 				type_ = element_hexa8;
 
-				gaussElementHexa_->SetQuadrature(2);
+				gaussHexa_->SetQuadrature(2);
 				gaussRect_->SetQuadrature(2);
 				gaussLine_->SetQuadrature(2);
 			}
@@ -648,7 +648,7 @@ namespace dive
 				nodes_.resize(numberNodes_);
 				type_ = element_hexa20;
 
-				gaussElementHexa_->SetQuadrature(3);
+				gaussHexa_->SetQuadrature(3);
 				gaussRect_->SetQuadrature(3);
 				gaussLine_->SetQuadrature(3);
 			}

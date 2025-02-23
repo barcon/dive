@@ -15,6 +15,7 @@ namespace dive {
 			const auto& counter = gauss->GetCounter();
 
 			WeakFormulation(element, 0, points[0], local);
+	
 			output = weights[0] * element->DetJ(points[0], 0) * local;
 
 			for (quadrature::Counter i = 1; i < counter; ++i)

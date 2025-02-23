@@ -90,6 +90,11 @@ namespace dive
 						weakForm->IntegrationFace(load, local);
 						break;
 					}
+					case(loads::load_distributedEdge):
+					{
+						weakForm->IntegrationEdge(load, local);
+						break;
+					}
 				}
 
 				for (NodeIndex i = 0; i < numberNodes; ++i)
