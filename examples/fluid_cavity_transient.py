@@ -11,7 +11,7 @@ from prettytable import PrettyTable
 T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
 basis       = fluid.CreateBasisCartesian(1)
-timer       = fluid.CreateTimerStepped(1, 0.0, 1e+3, 10.0)
+timer       = fluid.CreateTimerStepped(1, 0.0, 1e+4, 10.0)
 pressure    = fluid.CreateValueScalar3D(p_ref)
 material    = materials.fluid.water.Create(1, T_ref)
 meshFile    = 'cavity.msh'
@@ -36,7 +36,7 @@ cp = material.GetSpecificHeat(T_ref, p_ref)
 heightElement = meshVelocity.GetElementHeightMinium()
 lengthDomain = meshes.cavity.x
 kinematicViscosity = mu / rho
-reynolds = 400.0
+reynolds = 1000.0
 speed =  reynolds * mu / (rho * lengthDomain)
 
 dt = timer.GetStepSize()
@@ -58,7 +58,7 @@ tableSummary.add_row(["Diffusion Time Ratio", "{:.4f}".format(dt / dt1), "[--]"]
 tableSummary.add_row(["Convection Time Ratio", "{:.4f}".format(dt / dt2), "[--]"])
 print(tableSummary)
 #--------------------------------------------------------------------------------------------------
-
+#quit()
 tolerance   = heightElement/10.0
 nodesTop    = fluid.FilterNodesByCoordinate(meshVelocity.GetNodes(), basis, fluid.axis_y, meshes.cavity.y, tolerance)
 nodesLeft   = fluid.FilterNodesByCoordinate(meshVelocity.GetNodes(), basis, fluid.axis_x, 0.0, tolerance)
@@ -102,8 +102,8 @@ while(True):
     dqq = fluid.momentum.PartitionVector(fluid.Vector(fluid.momentum.GetProblem().GetTotalDof()))
 
     C = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Convection())
-    #monitor = solvers.Iterative(M[3], dq[1], -dt * (K[2] * u[0] + K[3] * u[1] + C[2] * q[0] + C[3] * q[1]))
-    monitor = solvers.Iterative(M[3], dq[1], -dt * (K[2] * u[0] + K[3] * u[1]))
+    monitor = solvers.Iterative(M[3], dq[1], -dt * (K[2] * u[0] + K[3] * u[1] + C[2] * q[0] + C[3] * q[1]))
+    #monitor = solvers.Iterative(M[3], dq[1], -dt * (K[2] * u[0] + K[3] * u[1]))
     q[0] = q[0] + dq[0]
     q[1] = q[1] + dq[1]
 
