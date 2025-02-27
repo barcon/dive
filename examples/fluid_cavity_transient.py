@@ -36,7 +36,7 @@ cp = material.GetSpecificHeat(T_ref, p_ref)
 heightElement = meshVelocity.GetElementHeightMinium()
 lengthDomain = meshes.cavity.x
 kinematicViscosity = mu / rho
-reynolds = 1000.0
+reynolds = 100.0
 speed =  reynolds * mu / (rho * lengthDomain)
 
 dt = timer.GetStepSize()
@@ -101,9 +101,9 @@ while(True):
     dq = fluid.momentum.PartitionVector(fluid.Vector(fluid.momentum.GetProblem().GetTotalDof()))
     dqq = fluid.momentum.PartitionVector(fluid.Vector(fluid.momentum.GetProblem().GetTotalDof()))
 
-    C = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Convection())
-    monitor = solvers.Iterative(M[3], dq[1], -dt * (K[2] * u[0] + K[3] * u[1] + C[2] * q[0] + C[3] * q[1]))
-    #monitor = solvers.Iterative(M[3], dq[1], -dt * (K[2] * u[0] + K[3] * u[1]))
+    #C = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Convection())
+    #monitor = solvers.Iterative(M[3], dq[1], -dt * (K[2] * u[0] + K[3] * u[1] + C[2] * q[0] + C[3] * q[1]))
+    monitor = solvers.Iterative(M[3], dq[1], -dt * (K[2] * u[0] + K[3] * u[1]))
     q[0] = q[0] + dq[0]
     q[1] = q[1] + dq[1]
 

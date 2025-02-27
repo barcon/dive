@@ -32,9 +32,10 @@ namespace dive {
 			auto N = FormMatrix_N(element, local, cacheIndex);
 			auto udN = FormMatrix_udN(element, local, cacheIndex);
 			auto u = FormMomentum(element, local);
-			auto du = FormDivergence(element, local, cacheIndex);
+			auto div = FormMatrix_Div(element, local, cacheIndex);
 
-			output = N.Transpose() * (du * N + udN);
+			//output = N.Transpose() * (du * N + udN);
+			output = N.Transpose() * N * div;
 		}
 		Matrix ConvectionFluid::FormMomentum(IElementPtr element, const Vector& local) const
 		{
@@ -89,6 +90,24 @@ namespace dive {
 					{
 						res(k, n * numberDof + m) += u(k) * dN(k, n);
 					}
+				}
+			}
+
+			return res;
+		}
+		Matrix ConvectionFluid::FormMatrix_Div(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const
+		{
+			auto numberNodes = element->GetNumberNodes();
+			auto numberDof = element->GetNumberDof();
+			auto dN = eilig::Inverse(element->J(local)) * element->dN(local);
+
+			Matrix res(1, numberNodes * numberDof, 0.0);
+
+			for (DofIndex i = 0; i < numberDof; ++i)
+			{
+				for (NodeIndex j = 0; j < numberNodes; ++j)
+				{
+					res(0, j * numberDof + i) = dN(i, j);
 				}
 			}
 

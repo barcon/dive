@@ -28,6 +28,7 @@ namespace dive
 			Scalar FormDivergence(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const;
 			Matrix FormMatrix_N(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const;
 			Matrix FormMatrix_udN(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const;
+			Matrix FormMatrix_Div(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const;
 
 			using std::enable_shared_from_this<ConvectionFluid>::shared_from_this;
 		};
