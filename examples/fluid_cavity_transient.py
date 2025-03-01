@@ -11,7 +11,7 @@ from prettytable import PrettyTable
 T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
 basis       = fluid.CreateBasisCartesian(1)
-timer       = fluid.CreateTimerStepped(1, 0.0, 1e+4, 10.0)
+timer       = fluid.CreateTimerStepped(1, 0.0, 1e+5, 10.0)
 pressure    = fluid.CreateValueScalar3D(p_ref)
 material    = materials.fluid.water.Create(1, T_ref)
 meshFile    = 'cavity.msh'
@@ -58,7 +58,7 @@ tableSummary.add_row(["Diffusion Time Ratio", "{:.4f}".format(dt / dt1), "[--]"]
 tableSummary.add_row(["Convection Time Ratio", "{:.4f}".format(dt / dt2), "[--]"])
 print(tableSummary)
 #--------------------------------------------------------------------------------------------------
-#quit()
+
 tolerance   = heightElement/10.0
 nodesTop    = fluid.FilterNodesByCoordinate(meshVelocity.GetNodes(), basis, fluid.axis_y, meshes.cavity.y, tolerance)
 nodesLeft   = fluid.FilterNodesByCoordinate(meshVelocity.GetNodes(), basis, fluid.axis_x, 0.0, tolerance)
@@ -87,42 +87,48 @@ fluid.pressure.CreateProblem(2, timer, meshPressure, temperature, velocity)
 fluid.pressure.ApplyDirichlet(nodesCorner, 0.0)
 fluid.pressure.Initialize()
 
-M = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Mass())
-K = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Stiffness())
-H = fluid.pressure.PartitionMatrix(fluid.pressure.GetProblem().Stiffness())
-G = fluid.pressure.GetProblem().Crossed(fluid.momentum.GetProblem()).Transpose()
-D = fluid.pressure.GetProblem().DistributedVolumeDivergence(fluid.momentum.GetProblem())
+#--------------------------------------------------------------------------------------------------
+
+Mf  = fluid.momentum.GetProblem().Mass()
+Kf  = fluid.momentum.GetProblem().Stiffness()
+Cf_s= fluid.momentum.GetProblem().ConvectionSymmetric() 
+Cf_a= fluid.momentum.GetProblem().ConvectionAsymmetric()
+
+Kp  = fluid.pressure.GetProblem().Stiffness()
+Cp_t= fluid.pressure.GetProblem().Crossed(fluid.momentum.GetProblem()).Transpose()
+Dp  = fluid.pressure.GetProblem().DistributedVolumeDivergence(fluid.momentum.GetProblem())
+
+p = fluid.pressure.GetProblem().Pressure()
+u = fluid.momentum.GetProblem().Velocity()
+q = fluid.momentum.GetProblem().Momentum()
+q0 = fluid.momentum.GetProblem().Momentum()
+q1 = fluid.momentum.GetProblem().Momentum()
+q2 = fluid.momentum.GetProblem().Momentum()
+q3 = fluid.momentum.GetProblem().Momentum()
+qi = fluid.momentum.GetProblem().Momentum()
+dq = fluid.momentum.GetProblem().Momentum()
+dqq = fluid.momentum.GetProblem().Momentum()
 
 while(True): 
     print("Time step = ", timer.GetCurrentTime())
-    p = fluid.pressure.PartitionVector(fluid.pressure.GetProblem().Pressure())
-    u = fluid.momentum.PartitionVector(fluid.momentum.GetProblem().Velocity())
-    q = fluid.momentum.PartitionVector(fluid.momentum.GetProblem().Momentum())
-    dq = fluid.momentum.PartitionVector(fluid.Vector(fluid.momentum.GetProblem().GetTotalDof()))
-    dqq = fluid.momentum.PartitionVector(fluid.Vector(fluid.momentum.GetProblem().GetTotalDof()))
 
-    #C = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Convection())
     #monitor = solvers.Iterative(M[3], dq[1], -dt * (K[2] * u[0] + K[3] * u[1] + C[2] * q[0] + C[3] * q[1]))
-    monitor = solvers.Iterative(M[3], dq[1], -dt * (K[2] * u[0] + K[3] * u[1]))
-    q[0] = q[0] + dq[0]
-    q[1] = q[1] + dq[1]
+    monitor = solvers.Iterative(Mf[3], dq[1], -dt * (Kf[2] * u[0] + Kf[3] * u[1]))
+    q = q0 + dq
 
-    fluid.momentum.UpdateMeshValuesMomentum(q)
-    q = fluid.momentum.GetProblem().Momentum()
-    fd = fluid.pressure.PartitionVector(D * q)
-    monitor = solvers.Iterative(H[3], p[1], -H[2] * p[0] - (1.0 / dt) * (fd[1]))   
+    fd = fluid.pressure.PartitionVector(Dp * q)
+    monitor = solvers.Iterative(Kp[3], p[1], -Kp[2] * p[0] - (1.0 / dt) * (fd[1]))   
     fluid.pressure.UpdateMeshValues(p)
     q = fluid.momentum.PartitionVector(fluid.momentum.GetProblem().Momentum())    
 
     fluid.momentum.UpdateMeshValuesMomentum(dq)
     p = fluid.pressure.GetProblem().Pressure()
-    fc = fluid.momentum.PartitionVector(G * p)
-    monitor = solvers.Iterative(M[3], dqq[1], -dt * (fc[1]))
+    fc = fluid.momentum.PartitionVector(Cp_t * p)
+    monitor = solvers.Iterative(Mf[3], dqq[1], -dt * (fc[1]))
 
-    q[0] = q[0] + dqq[0]
-    q[1] = q[1] + dqq[1]
+    q3 = q0 + dq + dqq
 
-    fluid.momentum.UpdateMeshValuesMomentum(q)
+    fluid.momentum.UpdateMeshValuesMomentum(q3)
 
     if(timer.GetCurrentTime() == timer.GetEndTime()):
         break

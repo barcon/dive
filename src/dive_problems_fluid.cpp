@@ -118,7 +118,7 @@ namespace dive {
 
 			if (mesh != nullptr)
 			{
-				velocity_ = values::CreateValueMatrix3DCongruent(mesh_);
+				momentum_ = values::CreateValueMatrix3DCongruent(mesh_);
 			}
 		}
 		void ProblemFluid::SetTag(Tag tag)
@@ -161,7 +161,7 @@ namespace dive {
 				auto dofIndex = dofMeshIndices_[i].dofIndex;
 
 				auto node = dofMeshIndices_[i].node;
-				auto element = node->GetElements()[0]; //TODO: density should be actually calculated based on the averaged value between all elements
+				auto element = node->GetElements()[0];
 				auto point = element->LocalCoordinates(node);
 				auto material = std::static_pointer_cast<material::IMaterialFluid>(element->GetMaterial());
 
@@ -202,11 +202,25 @@ namespace dive {
 
 			return res;
 		}
-		Sparse ProblemFluid::Convection() const
+		Sparse ProblemFluid::ConvectionSymmetric() const
 		{
 			TimerStart();
 
-			auto convectionWeak = weakforms::CreateWeakFormConvectionFluid();
+			auto convectionWeak = weakforms::CreateWeakFormConvectionSymmetricFluid();
+
+			auto problemFluid = std::make_shared<ProblemFluid>(*this);
+
+			auto res = IntegralForm(convectionWeak, problemFluid, problemFluid);
+
+			TimerElapsed(__FUNCTION__);
+
+			return res;
+		}
+		Sparse ProblemFluid::ConvectionAsymmetric() const
+		{
+			TimerStart();
+
+			auto convectionWeak = weakforms::CreateWeakFormConvectionAsymmetricFluid();
 
 			auto problemFluid = std::make_shared<ProblemFluid>(*this);
 

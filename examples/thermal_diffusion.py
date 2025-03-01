@@ -16,6 +16,7 @@ meshes.cavity.quadratic = True
 meshes.cavity.Create(meshFile)
 mesh = meshes.routines.LoadMesh(1, meshFile)
 meshes.routines.ApplyMaterial(mesh.GetElements(), material)
+#--------------------------------------------------------------------------------------------------
 
 nodesTop = thermal.FilterNodesByCoordinate(mesh.GetNodes(), basis, thermal.axis_y, meshes.cavity.y, 0.001)
 nodesBottom = thermal.FilterNodesByCoordinate(mesh.GetNodes(), basis, thermal.axis_y, 0.0, 0.001)
@@ -28,6 +29,7 @@ thermal.ApplyDirichlet(nodesBottom, 0.0)
 thermal.ApplyDirichlet(nodesLeft, 0.0)
 thermal.ApplyDirichlet(nodesRight, 0.0)
 thermal.Initialize()
+#--------------------------------------------------------------------------------------------------
 
 K = thermal.Stiffness()
 y = thermal.Energy()
