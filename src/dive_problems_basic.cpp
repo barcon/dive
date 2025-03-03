@@ -124,7 +124,6 @@ namespace dive
 			{
 				elements[i]->SetNumberDof(numberDof);
 				elements[i]->SetElementIndex(i);
-				elements[i]->CalculateHeight();
 				elements[i]->InitializeCache();
 			}
 

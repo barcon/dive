@@ -46,7 +46,7 @@ namespace dive
 			Scalar Volume() const override;
 			Scalar Area(const FaceIndex& face) const override;
 			Scalar Length(const EdgeIndex& edge) const override;
-			Scalar CalculateHeight() override;
+			Scalar Size() const override;
 
 			Vector LocalCoordinates(INodePtr node) const override;
 			Vector LocalCoordinates(const NodeIndex& nodeIndex) const override;
@@ -74,7 +74,6 @@ namespace dive
 			Tag GetTag() const override;
 			IMaterialPtr GetMaterial() const override;
 			ElementIndex GetElementIndex() const override;
-			Scalar GetHeight() const override;
 			NumberDof GetNumberDof() const override;
 
 			IGaussPtr IntegralVolume() const override;
@@ -298,7 +297,6 @@ namespace dive
 
 			Tag		tag_{ 0 };
 			Type	type_{ element_hexa8 };
-			Scalar	height_{ 0.0 };
 			Nodes	nodes_;
 			Nodes	nodesLocal_;
 

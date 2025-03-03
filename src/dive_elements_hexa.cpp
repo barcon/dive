@@ -83,63 +83,6 @@ namespace dive
 			SetOrder(linear);
 			SetParametric(linear);
 		}
-		Scalar ElementHexa::CalculateHeight()
-		{
-			Vector local1(3, 0.0);
-			Vector local2(3, 0.0);
-
-			Vector global1(3, 0.0);
-			Vector global2(3, 0.0);
-
-			Scalar h1{ 0.0 };
-			Scalar h2{ 0.0 };
-			Scalar h3{ 0.0 };
-
-			height_ = 0.0;
-
-			local1(0) = 1.0;
-			local1(1) = 0.0;
-			local1(2) = 0.0;
-
-			local2(0) = -1.0;
-			local2(1) = 0.0;
-			local2(2) = 0.0;
-
-			global1 = GlobalCoordinates(local1);
-			global2 = GlobalCoordinates(local2);
-
-			h1 = eilig::NormP2(global1 - global2);
-
-			local1(0) = 0.0;
-			local1(1) = 1.0;
-			local1(2) = 0.0;
-
-			local2(0) = 0.0;
-			local2(1) = -1.0;
-			local2(2) = 0.0;
-
-			global1 = GlobalCoordinates(local1);
-			global2 = GlobalCoordinates(local2);
-
-			h2 = eilig::NormP2(global1 - global2);
-
-			local1(0) = 0.0;
-			local1(1) = 0.0;
-			local1(2) = 1.0;
-
-			local2(0) = 0.0;
-			local2(1) = 0.0;
-			local2(2) = -1.0;
-
-			global1 = GlobalCoordinates(local1);
-			global2 = GlobalCoordinates(local2);
-
-			h3 = eilig::NormP2(global1 - global2);
-
-			height_ = std::min({ h1, h2, h3 });
-
-			return height_;
-		}
 		Matrix ElementHexa::u() const
 		{
 			Matrix res(numberDof_ * numberNodes_, 1, 0.0);
@@ -405,6 +348,59 @@ namespace dive
 
 			return res;
 		}
+		Scalar ElementHexa::Size() const
+		{
+			Vector local1(3, 0.0);
+			Vector local2(3, 0.0);
+
+			Vector global1(3, 0.0);
+			Vector global2(3, 0.0);
+
+			Scalar h1{ 0.0 };
+			Scalar h2{ 0.0 };
+			Scalar h3{ 0.0 };
+
+			local1(0) = 1.0;
+			local1(1) = 0.0;
+			local1(2) = 0.0;
+
+			local2(0) = -1.0;
+			local2(1) = 0.0;
+			local2(2) = 0.0;
+
+			global1 = GlobalCoordinates(local1);
+			global2 = GlobalCoordinates(local2);
+
+			h1 = eilig::NormP2(global1 - global2);
+
+			local1(0) = 0.0;
+			local1(1) = 1.0;
+			local1(2) = 0.0;
+
+			local2(0) = 0.0;
+			local2(1) = -1.0;
+			local2(2) = 0.0;
+
+			global1 = GlobalCoordinates(local1);
+			global2 = GlobalCoordinates(local2);
+
+			h2 = eilig::NormP2(global1 - global2);
+
+			local1(0) = 0.0;
+			local1(1) = 0.0;
+			local1(2) = 1.0;
+
+			local2(0) = 0.0;
+			local2(1) = 0.0;
+			local2(2) = -1.0;
+
+			global1 = GlobalCoordinates(local1);
+			global2 = GlobalCoordinates(local2);
+
+			h3 = eilig::NormP2(global1 - global2);
+
+			return std::min({ h1, h2, h3 });
+		}
 		Vector ElementHexa::LocalCoordinates(INodePtr node) const
 		{
 			return LocalCoordinates(GetNodeIndex(node));
@@ -538,9 +534,9 @@ namespace dive
 		{
 			return elementIndex_;
 		}
-		Scalar ElementHexa::GetHeight() const
+		Scalar ElementHexa::GetSize() const
 		{
-			return height_;
+			return size_;
 		}
 		NumberDof ElementHexa::GetNumberDof() const
 		{

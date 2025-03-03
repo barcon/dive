@@ -33,15 +33,15 @@ mu = material.GetDynamicViscosity(T_ref, p_ref)
 cp = material.GetSpecificHeat(T_ref, p_ref)
 
 #--------------------------------------------------------------------------------------------------
-heightElement = meshVelocity.GetElementHeightMinium()
-lengthDomain = meshes.cavity.x
+sizeElement = meshVelocity.GetElementSizeMinimum()
+sizeDomain = meshes.cavity.x
 kinematicViscosity = mu / rho
 reynolds = 100.0
-speed =  reynolds * mu / (rho * lengthDomain)
+speed =  reynolds * mu / (rho * sizeDomain)
 
 dt = timer.GetStepSize()
-dt1 = heightElement**2.0 / kinematicViscosity
-dt2 = heightElement / (speed)
+dt1 = sizeElement**2.0 / kinematicViscosity
+dt2 = sizeElement / (speed)
 
 tableSummary = PrettyTable()
 tableSummary.field_names = ["Property", "Value", "Unit"]
@@ -52,14 +52,15 @@ tableSummary.add_row(["Dynamic Viscosity", "{:.2e}".format(mu), ""])
 tableSummary.add_row(["Kinematic Viscosity", "{:.2e}".format(kinematicViscosity), ""])
 tableSummary.add_row(["Speed", "{:.2g}".format(speed), "[m/s]"])
 tableSummary.add_row(["Reynolds", "{:.2e}".format(reynolds), "[-]"])
-tableSummary.add_row(["Domain Length", "{:.2f}".format(lengthDomain), "[m]"])
-tableSummary.add_row(["Element Height", "{:.2e}".format(heightElement), "[m]"])
+tableSummary.add_row(["Domain Size", "{:.2f}".format(sizeDomain), "[m]"])
+tableSummary.add_row(["Element Size", "{:.2e}".format(sizeElement), "[m]"])
 tableSummary.add_row(["Diffusion Time Ratio", "{:.4f}".format(dt / dt1), "[--]"])
 tableSummary.add_row(["Convection Time Ratio", "{:.4f}".format(dt / dt2), "[--]"])
 print(tableSummary)
 #--------------------------------------------------------------------------------------------------
+quit()
 
-tolerance   = heightElement/10.0
+tolerance   = sizeElement/10.0
 nodesTop    = fluid.FilterNodesByCoordinate(meshVelocity.GetNodes(), basis, fluid.axis_y, meshes.cavity.y, tolerance)
 nodesLeft   = fluid.FilterNodesByCoordinate(meshVelocity.GetNodes(), basis, fluid.axis_x, 0.0, tolerance)
 nodesRight  = fluid.FilterNodesByCoordinate(meshVelocity.GetNodes(), basis, fluid.axis_x, meshes.cavity.x, tolerance)
@@ -94,9 +95,9 @@ Kf  = fluid.momentum.GetProblem().Stiffness()
 Cf_s= fluid.momentum.GetProblem().ConvectionSymmetric() 
 Cf_a= fluid.momentum.GetProblem().ConvectionAsymmetric()
 
-Kp  = fluid.pressure.GetProblem().Stiffness()
-Cp_t= fluid.pressure.GetProblem().Crossed(fluid.momentum.GetProblem()).Transpose()
-Dp  = fluid.pressure.GetProblem().DistributedVolumeDivergence(fluid.momentum.GetProblem())
+H = fluid.pressure.GetProblem().Stiffness()
+G = fluid.pressure.GetProblem().Crossed(fluid.momentum.GetProblem()).Transpose()
+D = fluid.pressure.GetProblem().DistributedVolumeDivergence(fluid.momentum.GetProblem())
 
 p = fluid.pressure.GetProblem().Pressure()
 u = fluid.momentum.GetProblem().Velocity()
@@ -116,14 +117,14 @@ while(True):
     monitor = solvers.Iterative(Mf[3], dq[1], -dt * (Kf[2] * u[0] + Kf[3] * u[1]))
     q = q0 + dq
 
-    fd = fluid.pressure.PartitionVector(Dp * q)
-    monitor = solvers.Iterative(Kp[3], p[1], -Kp[2] * p[0] - (1.0 / dt) * (fd[1]))   
+    fd = fluid.pressure.PartitionVector(D * q)
+    monitor = solvers.Iterative(H[3], p[1], -H[2] * p[0] - (1.0 / dt) * (fd[1]))
     fluid.pressure.UpdateMeshValues(p)
     q = fluid.momentum.PartitionVector(fluid.momentum.GetProblem().Momentum())    
 
     fluid.momentum.UpdateMeshValuesMomentum(dq)
     p = fluid.pressure.GetProblem().Pressure()
-    fc = fluid.momentum.PartitionVector(Cp_t * p)
+    fc = fluid.momentum.PartitionVector(G * p)
     monitor = solvers.Iterative(Mf[3], dqq[1], -dt * (fc[1]))
 
     q3 = q0 + dq + dqq

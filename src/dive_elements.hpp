@@ -71,7 +71,7 @@ namespace dive
 			virtual Scalar Volume() const = 0;
 			virtual Scalar Area(const FaceIndex& face) const = 0;
 			virtual Scalar Length(const EdgeIndex& edge) const = 0;
-			virtual Scalar CalculateHeight() = 0;
+			virtual Scalar Size() const = 0;
 
 			virtual Vector LocalCoordinates(INodePtr node) const = 0;
 			virtual Vector LocalCoordinates(const NodeIndex& nodeIndex) const = 0;
@@ -99,7 +99,6 @@ namespace dive
 			virtual Tag GetTag() const = 0;
 			virtual IMaterialPtr GetMaterial() const = 0;
 			virtual ElementIndex GetElementIndex() const = 0;
-			virtual Scalar GetHeight() const = 0;
 			virtual NumberDof GetNumberDof() const = 0;
 
 			virtual IGaussPtr IntegralVolume() const = 0;

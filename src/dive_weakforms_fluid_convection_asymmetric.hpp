@@ -23,8 +23,6 @@ namespace dive
 		protected:
 			ConvectionAsymmetricFluid() = default;
 
-
-			Matrix FormMomentum(IElementPtr element, const Vector& local) const;
 			Scalar FormDivergence(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const;
 			Matrix FormMatrix_N(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const;
 			Matrix FormMatrix_dN(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const;

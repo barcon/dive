@@ -270,18 +270,18 @@ namespace dive {
 
 			return res;
 		}
-		Scalar Mesh::GetElementHeightMinium() const
+		Scalar Mesh::GetElementSizeMinium() const
 		{
-			Scalar h{ 0.0 };
+			Scalar size{ 0.0 };
 			Scalar res{ std::numeric_limits<Scalar>::infinity() };
 
-			for (auto element : elements_)
+			for (auto& element : elements_)
 			{
-				h = element->CalculateHeight();
+				size = element->Size();
 
-				if (h < res)
+				if (size < res)
 				{
-					res = h;
+					res = size;
 				}
 			}
 
