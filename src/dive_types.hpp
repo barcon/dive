@@ -180,13 +180,9 @@ namespace dive
 		using StiffnessFluidPtr = std::shared_ptr<StiffnessFluid>;
 		using ConstStiffnessFluidPtr = std::shared_ptr<const StiffnessFluid>;
 
-		class ConvectionSymmetricFluid;
-		using ConvectionSymmetricFluidPtr = std::shared_ptr<ConvectionSymmetricFluid>;
-		using ConstConvectionSymmetricFluidPtr = std::shared_ptr<const ConvectionSymmetricFluid>;
-
-		class ConvectionAsymmetricFluid;
-		using ConvectionAsymmetricFluidPtr = std::shared_ptr<ConvectionAsymmetricFluid>;
-		using ConstConvectionAsymmetricFluidPtr = std::shared_ptr<const ConvectionAsymmetricFluid>;
+		class ConvectionFluid;
+		using ConvectionFluidPtr = std::shared_ptr<ConvectionFluid>;
+		using ConstConvectionFluidPtr = std::shared_ptr<const ConvectionFluid>;
 
 		class StabilizationFluid;
 		using StabilizationFluidPtr = std::shared_ptr<StabilizationFluid>;

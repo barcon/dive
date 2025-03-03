@@ -36,7 +36,7 @@ namespace dive
 			IElementPtr	GetElement(Tag tag, Status& status) const override;
 			IElementPtr	GetElementIndex(ElementIndex index, Status& status) const override;
 			IElementPtr	GetElementSorted(Tag tag, Status& status) const override;
-			Scalar		GetElementSizeMinium() const override;
+			Scalar		GetElementSizeMinimum() const override;
 
 			NumberDof	GetTotalDof() override;
 			NumberDof	GetPivot() override;

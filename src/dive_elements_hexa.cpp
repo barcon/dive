@@ -534,10 +534,6 @@ namespace dive
 		{
 			return elementIndex_;
 		}
-		Scalar ElementHexa::GetSize() const
-		{
-			return size_;
-		}
 		NumberDof ElementHexa::GetNumberDof() const
 		{
 			return numberDof_;

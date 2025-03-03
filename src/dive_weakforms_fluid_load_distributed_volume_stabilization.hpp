@@ -23,7 +23,7 @@ namespace dive
 		protected:
 			LoadDistributedVolumeStabilizationFluid() = default;
 
-			Matrix FormMomentum(IElementPtr element, const Vector& point) const;
+			Matrix FormVelocity(IElementPtr element, const Vector& point) const;
 			Scalar FormDivergence(IElementPtr element, const Vector& point) const;
 			Matrix FormMatrix_N(IElementPtr element, const Vector& point) const;
 			Matrix FormMatrix_udN(IElementPtr element, const Vector& point) const;

@@ -118,7 +118,7 @@ namespace dive {
 
 			if (mesh != nullptr)
 			{
-				momentum_ = values::CreateValueMatrix3DCongruent(mesh_);
+				velocity_ = values::CreateValueMatrix3DCongruent(mesh_);
 			}
 		}
 		void ProblemFluid::SetTag(Tag tag)
@@ -202,25 +202,11 @@ namespace dive {
 
 			return res;
 		}
-		Sparse ProblemFluid::ConvectionSymmetric() const
+		Sparse ProblemFluid::Convection() const
 		{
 			TimerStart();
 
-			auto convectionWeak = weakforms::CreateWeakFormConvectionSymmetricFluid();
-
-			auto problemFluid = std::make_shared<ProblemFluid>(*this);
-
-			auto res = IntegralForm(convectionWeak, problemFluid, problemFluid);
-
-			TimerElapsed(__FUNCTION__);
-
-			return res;
-		}
-		Sparse ProblemFluid::ConvectionAsymmetric() const
-		{
-			TimerStart();
-
-			auto convectionWeak = weakforms::CreateWeakFormConvectionAsymmetricFluid();
+			auto convectionWeak = weakforms::CreateWeakFormConvectionFluid();
 
 			auto problemFluid = std::make_shared<ProblemFluid>(*this);
 
