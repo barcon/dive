@@ -37,13 +37,13 @@ def Iterative(A, x, b):
 def ForwardMethod(timer, y0, equation):
     t = timer.GetCurrentTime()
     dt = timer.GetStepSize()
-    y1 = [dive.Vector(y0[0]), dive.Vector(y0[1])]
-    dydt = dive.Vector(y0[1].GetRows())
+    y1 = dive.Vector(y0)
+    dydt = dive.Vector(y0)
 
     M, f = equation(t, y0)
     monitor = Iterative(M, dydt, f)
     
-    y1[1] = y0[1] + dt * dydt
+    y1 = y0 + dt * dydt
 
     return y1
 
@@ -51,19 +51,19 @@ def BackwardMethod(timer, y0, equation):
     tolerance = 1.0e-3
     t = timer.GetCurrentTime()
     dt = timer.GetStepSize()
-    y1 = [dive.Vector(y0[0]), dive.Vector(y0[1])]
-    y2 = [dive.Vector(y0[0]), dive.Vector(y0[1])]
-    dydt = dive.Vector(y0[1].GetRows())    
+    y1 = dive.Vector(y0)
+    y2 = dive.Vector(y0)
+    dydt = dive.Vector(y0)
   
     norm = math.inf
     while (norm > tolerance):
         M, f = equation(t + dt, y1)
         monitor = Iterative(M, dydt, f)
     
-        y2[1] = y0[1] + dt * dydt
+        y2 = y0 + dt * dydt
 
-        norm = dive.NormP2(y2[1] - y1[1]) / dive.NormP2(y2[1])
-        y1[1] = y2[1]
+        norm = dive.NormP2(y2 - y1) / dive.NormP2(y2)
+        y1 = y2
        
     return y1
 
@@ -71,10 +71,10 @@ def CrankNicolsonMethod(timer, y0, equation):
     tolerance = 1.0e-3
     t = timer.GetCurrentTime()
     dt = timer.GetStepSize()
-    y1 = [dive.Vector(y0[0]), dive.Vector(y0[1])]
-    y2 = [dive.Vector(y0[0]), dive.Vector(y0[1])]
-    dydt0 = dive.Vector(y0[1].GetRows())    
-    dydt1 = dive.Vector(y0[1].GetRows())    
+    y1 = dive.Vector(y0)
+    y2 = dive.Vector(y0)
+    dydt0 = dive.Vector(y0)    
+    dydt1 = dive.Vector(y0)    
 
     M, f = equation(t, y0)
     monitor = Iterative(M, dydt0, f)
@@ -84,9 +84,9 @@ def CrankNicolsonMethod(timer, y0, equation):
         M, f = equation(t + dt, y1)
         monitor = Iterative(M, dydt1, f)
     
-        y2[1] = y0[1] + dt * 0.5* (dydt1 + dydt0)
+        y2 = y0 + dt * 0.5* (dydt1 + dydt0)
 
-        norm = dive.NormP2(y2[1] - y1[1]) / dive.NormP2(y2[1])
-        y1[1] = y2[1]
+        norm = dive.NormP2(y2 - y1) / dive.NormP2(y2)
+        y1 = y2
         
     return y1

@@ -11,7 +11,7 @@ from prettytable import PrettyTable
 T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
 basis       = fluid.CreateBasisCartesian(1)
-timer       = fluid.CreateTimerStepped(1, 0.0, 1e+5, 50.0)
+timer       = fluid.CreateTimerStationary(1, 0.0)
 pressure    = fluid.CreateValueScalar3D(p_ref)
 material    = materials.fluid.water.Create(1, T_ref)
 meshFile    = 'cavity.msh'
@@ -39,7 +39,7 @@ kinematicViscosity = mu / rho
 reynolds = 100.0
 speed =  reynolds * mu / (rho * sizeDomain)
 
-dt = timer.GetStepSize()
+dt = 0.5 * sizeElement ** 2
 dt1 = sizeElement**2.0 / kinematicViscosity
 dt2 = sizeElement / (speed)
 
@@ -58,7 +58,7 @@ tableSummary.add_row(["Diffusion Time Ratio", "{:.4f}".format(dt / dt1), "[--]"]
 tableSummary.add_row(["Convection Time Ratio", "{:.4f}".format(dt / dt2), "[--]"])
 print(tableSummary)
 #--------------------------------------------------------------------------------------------------
-#quit()
+
 tolerance   = sizeElement/10.0
 nodesTop    = fluid.FilterNodesByCoordinate(meshVelocity.GetNodes(), basis, fluid.axis_y, meshes.cavity.y, tolerance)
 nodesLeft   = fluid.FilterNodesByCoordinate(meshVelocity.GetNodes(), basis, fluid.axis_x, 0.0, tolerance)
@@ -92,28 +92,33 @@ fluid.pressure.Initialize()
 M = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Mass())
 K = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Stiffness())
 C = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Convection())
+S = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Stabilization())
 
 H = fluid.pressure.PartitionMatrix(fluid.pressure.GetProblem().Stiffness())
 G = fluid.pressure.GetProblem().Crossed(fluid.momentum.GetProblem()).Transpose()
 D = fluid.pressure.GetProblem().DistributedVolumeDivergence(fluid.momentum.GetProblem())
 
-while(True): 
-    print("Time step = ", timer.GetCurrentTime())
-
+#while(True): 
+for i in range(0, 500):
     p = fluid.pressure.PartitionVector(fluid.pressure.GetProblem().Pressure())
     q0 = fluid.momentum.PartitionVector(fluid.momentum.GetProblem().Momentum())
-    q1 = fluid.momentum.PartitionVector(fluid.Vector(fluid.momentum.GetProblem().GetTotalDof(), 0.0))
+    q1 = fluid.momentum.PartitionVector(fluid.momentum.GetProblem().Momentum())
+    q2 = fluid.momentum.PartitionVector(fluid.Vector(fluid.momentum.GetProblem().GetTotalDof(), 0.0))
     dq = fluid.momentum.PartitionVector(fluid.Vector(fluid.momentum.GetProblem().GetTotalDof(), 0.0))
     dqq = fluid.momentum.PartitionVector(fluid.Vector(fluid.momentum.GetProblem().GetTotalDof(), 0.0))
 
     C = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Convection())
-    monitor = solvers.dive.DiagonalLinearSystem(M[3], dq[1], -dt * (K[2] * q0[0] + K[3] * q0[1] + C[2] * q0[0] + C[3] * q0[1]))
-    #monitor = solvers.Iterative(M[3], dq[1], -dt * (K[2] * q0[0] + K[3] * q0[1]))
+    S = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Stabilization())
+    #monitor = solvers.Iterative(K[3] + C[3] - dt * S[3], dq[1], -(K[2] * q0[0] + K[3] * q0[1] + C[2] * q0[0] + C[3] * q0[1] - dt * (S[2] * q0[0] + S[3] * q0[1])))
+    monitor = solvers.Iterative( 0.05 * M[3] + K[3] + C[3], dq[1], -(K[2] * q0[0] + K[3] * q0[1] + C[2] * q0[0] + C[3] * q0[1]))
+    #monitor = solvers.Iterative(K[3] + C[3] - dt * S[3], q1[1], -(K[2] * q0[0] + C[2] * q0[0] - dt * S[2] * q0[0]))
+
     q1[0] = q0[0] + dq[0]
     q1[1] = q0[1] + dq[1]
-    fluid.momentum.UpdateMeshValuesMomentum(q1)
 
-    q= fluid.momentum.GetProblem().Momentum()
+    fluid.momentum.UpdateMeshValuesMomentum(q1)
+    
+    q = fluid.momentum.GetProblem().Momentum()
     fd = fluid.pressure.PartitionVector(D * q)
     monitor = solvers.Iterative(H[3], p[1], -H[2] * p[0] - (1.0 / dt) * (fd[1]))
     fluid.pressure.UpdateMeshValues(p)
@@ -122,15 +127,17 @@ while(True):
     fc = fluid.momentum.PartitionVector(G * p)
     monitor = solvers.Iterative(M[3], dqq[1], -dt * (fc[1]))
 
-    q1[0] = q0[0] + dq[0] + dqq[0]
-    q1[1] = q0[1] + dq[1] + dqq[1]
+    q2[0] = q1[0] + dqq[0]
+    q2[1] = q1[1] + dqq[1]
 
-    fluid.momentum.UpdateMeshValuesMomentum(q1)
+    fluid.momentum.UpdateMeshValuesMomentum(q2)
 
-    if(timer.GetCurrentTime() == timer.GetEndTime()):
-        break
-    else:
-        timer.SetNextStep()
+    norm = fluid.NormP2(q2[1] - q0[1])
+    print("Iteration = ", norm)
+
+    q0[0] = q2[0]
+    q0[1] = q2[1]
+
 
 plots.HeatMapNorm(meshPressure.GetNodes())
 plots.HeatMapNorm(meshVelocity.GetNodes())

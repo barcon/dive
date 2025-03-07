@@ -28,6 +28,7 @@ namespace dive
 
 			Matrix FormMatrix_Id(IElementPtr element, const Vector& local) const;
 			Matrix FormMatrix_B(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const;
+			Vector FormVector_Z(IElementPtr element, const Vector& local) const;
 
 			IScalar3DPtr temperature_{ nullptr };
 			IScalar3DPtr pressure_{ nullptr };

@@ -65,6 +65,7 @@
     <ClInclude Include="..\src\dive_elements_hexa.hpp" />
     <ClInclude Include="..\src\dive_loads.hpp" />
     <ClInclude Include="..\src\dive_loads_dirichlet.hpp" />
+    <ClInclude Include="..\src\dive_loads_distributed_edge.hpp" />
     <ClInclude Include="..\src\dive_loads_distributed_face.hpp" />
     <ClInclude Include="..\src\dive_loads_distributed_volume.hpp" />
     <ClInclude Include="..\src\dive_meshes.hpp" />
@@ -106,6 +107,7 @@
     <ClCompile Include="..\src\dive_elements_hexa.cpp" />
     <ClCompile Include="..\src\dive_export_python.cpp" />
     <ClCompile Include="..\src\dive_loads_dirichlet.cpp" />
+    <ClCompile Include="..\src\dive_loads_distributed_edge.cpp" />
     <ClCompile Include="..\src\dive_loads_distributed_face.cpp" />
     <ClCompile Include="..\src\dive_loads_distributed_volume.cpp" />
     <ClCompile Include="..\src\dive_meshes_basic.cpp" />

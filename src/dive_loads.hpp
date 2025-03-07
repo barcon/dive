@@ -9,17 +9,15 @@ namespace dive
 	namespace loads
 	{
 		static const Type load_dirichlet			= 1;
-		static const Type load_dirichletFunction	= 2;
-		static const Type load_distributedVolume	= 3;
-		static const Type load_distributedFace		= 4;
-		static const Type load_distributedEdge		= 5;
-		static const Type load_forceNode			= 6;
-		static const Type load_initialStrain		= 7;
-		static const Type load_temperatureStrain	= 8;
-		static const Type load_heatSourceVolume		= 9;
-		static const Type load_heatConductionFace	= 10;
-		static const Type load_couplingEquation		= 11;
-		static const Type load_problemPressure		= 12;
+		static const Type load_distributedVolume	= 2;
+		static const Type load_distributedFace		= 3;
+		static const Type load_distributedEdge		= 4;
+		static const Type load_forceNode			= 5;
+		static const Type load_initialStrain		= 6;
+		static const Type load_temperatureStrain	= 7;
+		static const Type load_heatSourceVolume		= 8;
+		static const Type load_heatConductionFace	= 9;
+		static const Type load_couplingEquation		= 10;
 		
 		class IDirichlet
 		{
