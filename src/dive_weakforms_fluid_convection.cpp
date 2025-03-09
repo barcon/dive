@@ -81,13 +81,15 @@ namespace dive {
 
 			Matrix res(numberDof, numberNodes * numberDof, 0.0);
 
-			for (DofIndex m = 0; m < numberDof; ++m)
+			for (DofIndex i = 0; i < numberDof; ++i)
 			{
-				for (NodeIndex n = 0; n < numberNodes; ++n)
+				for (NodeIndex j = 0; j < numberNodes; ++j)
 				{
+					//res(i, j * numberDof + i) = u(0) * dN(0, j) + u(1) * dN(1, j) + u(2) * dN(2, j);
+
 					for (Dimension k = 0; k < dimension; ++k)
 					{
-						res(k, n * numberDof + m) += u(k) * dN(k, n);
+						res(i, j * numberDof + i) += u(k) * dN(k, j);
 					}
 				}
 			}
@@ -97,3 +99,29 @@ namespace dive {
 
 	} // namespace problems
 } // namespace dive
+
+/*
+Matrix ConvectionFluid::FormMatrix_udN(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const
+{
+	auto numberNodes = element->GetNumberNodes();
+	auto numberDof = element->GetNumberDof();
+	auto dimension = element->GetDimension();
+	auto u = FormVelocity(element, local);
+	auto dN = element->InvJ(local, cacheIndex) * element->dN(local, cacheIndex);
+
+	Matrix res(numberDof, numberNodes * numberDof, 0.0);
+
+	for (DofIndex i = 0; i < numberDof; ++i)
+	{
+		for (NodeIndex j = 0; j < numberNodes; ++j)
+		{
+			for (Dimension k = 0; k < dimension; ++k)
+			{
+				res(k, j * numberDof + k) += u(k) * dN(k, j);
+			}
+		}
+	}
+
+	return res;
+}
+*/
