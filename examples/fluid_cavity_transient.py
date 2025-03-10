@@ -12,7 +12,7 @@ from prettytable import PrettyTable
 T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
 basis       = fluid.CreateBasisCartesian(1)
-timer       = fluid.CreateTimerStepped(1, 0.0, 100.0, 2.0)
+timer       = fluid.CreateTimerStepped(1, 0.0, 50000.0, 2.0)
 pressure    = fluid.CreateValueScalar3D(p_ref)
 material    = materials.fluid.water.Create(1, T_ref)
 meshFile    = 'cavity.msh'

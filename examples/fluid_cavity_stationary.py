@@ -38,7 +38,7 @@ kinematicViscosity = mu / rho
 
 reynolds = 400.0
 speed = reynolds * mu /(rho * sizeDomain)
-material.SetDynamicViscosity(fluid.CreateValueScalar2D(mu, 'Dynamic Viscosity', 'mu')) 
+#material.SetDynamicViscosity(fluid.CreateValueScalar2D(mu, 'Dynamic Viscosity', 'mu')) 
 
 dt = 0.5 * sizeElement ** 2
 dt1 = sizeElement**2.0 / kinematicViscosity
@@ -99,7 +99,7 @@ H = fluid.pressure.PartitionMatrix(fluid.pressure.GetProblem().Stiffness())
 G = fluid.pressure.GetProblem().Crossed(fluid.momentum.GetProblem()).Transpose()
 D = fluid.pressure.GetProblem().DistributedVolumeDivergence(fluid.momentum.GetProblem())
 
-omega = 0.4
+omega = 0.5
 
 for i in range(0, 2000):
     print("Iteration = ", i)
@@ -115,6 +115,7 @@ for i in range(0, 2000):
     #S = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Stabilization())
     #monitor = solvers.Iterative(K[3] + C[3] - dt * S[3], dq[1], -(K[2] * q0[0] + K[3] * q0[1] + C[2] * q0[0] + C[3] * q0[1] - dt * (S[2] * q0[0] + S[3] * q0[1])))
     monitor = solvers.Iterative(K[3] + C[3], q1[1], -(K[2] * q0[0] + C[2] * q0[0]))
+    #monitor = solvers.Iterative(K[3], q1[1], -(K[2] * q0[0]))
 
     q2[0] = omega * q1[0] + (1.0 - omega) * q0[0]
     q2[1] = omega * q1[1] + (1.0 - omega) * q0[1]
