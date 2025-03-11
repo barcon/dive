@@ -62,6 +62,8 @@ namespace dive
 			virtual Sparse Mass() const = 0;
 			virtual Sparse Stiffness() const = 0;
 			virtual Sparse Convection() const = 0;
+			virtual Sparse ConvectionSymmetric() const = 0;
+			virtual Sparse ConvectionAsymmetric() const = 0;
 			virtual Sparse Stabilization() const = 0;
 			virtual Vector LoadDistributedVolume() const = 0;
 			virtual Vector LoadDistributedVolumeStabilization() const = 0;
