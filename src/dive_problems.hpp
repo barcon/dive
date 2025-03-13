@@ -70,6 +70,8 @@ namespace dive
 			
 			virtual Vector Momentum() const = 0;
 			virtual Vector Velocity() const = 0;
+			virtual Vector Vorticity() const = 0;
+			virtual Vector Divergence() const = 0;
 		};
 
 		class IPressure : public IProblem
