@@ -1,4 +1,3 @@
-import materials.fluid.unit
 import meshes
 import fluid.momentum
 import fluid.pressure
@@ -12,8 +11,7 @@ from prettytable import PrettyTable
 T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
 basis       = fluid.CreateBasisCartesian(1)
-timer       = fluid.CreateTimerStepped(1, 0.0, 12000.0, 1.0)
-pressure    = fluid.CreateValueScalar3D(p_ref)
+timer       = fluid.CreateTimerStepped(1, 0.0, 20000.0, 10.0)
 material    = materials.fluid.water.Create(1, T_ref)
 meshFile    = 'cavity.msh'
 
@@ -37,7 +35,7 @@ cp = material.GetSpecificHeat(T_ref, p_ref)
 mu = material.GetDynamicViscosity(T_ref, p_ref)
 kinematicViscosity = mu / rho
 
-reynolds = 3200.0
+reynolds = 1000.0
 speed = reynolds * mu /(rho * sizeDomain)
 
 dt = timer.GetStepSize()

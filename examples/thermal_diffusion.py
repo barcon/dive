@@ -27,7 +27,7 @@ thermal.CreateProblem(1, timer, mesh, pressure, None)
 thermal.ApplyDirichlet(nodesTop, 100.0)
 thermal.ApplyDirichlet(nodesBottom, 0.0)
 thermal.ApplyDirichlet(nodesLeft, 0.0)
-thermal.ApplyDirichlet(nodesRight, 0.0)
+thermal.ApplyDirichlet(nodesRight, 100.0)
 thermal.Initialize()
 #--------------------------------------------------------------------------------------------------
 
