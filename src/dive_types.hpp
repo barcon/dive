@@ -39,7 +39,7 @@
 
 #ifdef NOTIMER
 	#define TimerStart() ((void)0)
-	#define TimerElapsed() ((void)0)
+	#define TimerElapsed(function) ((void)0)
 #else
 	#define TimerStart() Timer timer
 	#define TimerElapsed(function) logger::Info(headerDive, "Elapsed time = %.1f (%s)", timer.Elapsed(), function)

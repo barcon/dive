@@ -47,18 +47,18 @@ namespace dive {
 			{
 				for (NodeIndex j = 0; j < numberNodes; ++j)
 				{
-					res(i, j * numberDof + i) = N(j);
+					//res(i, j * numberDof + i) = N(j);
 				}
 			}
 
 			return res;
 
-			for (Index i = 0; (i < du.GetRows()) && (i < du.GetCols()); ++i)
-			{
-				divergence += du(i, i);
-			}
+			//for (Index i = 0; (i < du.GetRows()) && (i < du.GetCols()); ++i)
+			//{
+			//	divergence += du(i, i);
+			//}
 
-			return divergence;
+			return res;
 		}
 		Matrix ConvectionSymmetricFluid::FormMatrix_N(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const
 		{

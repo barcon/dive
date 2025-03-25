@@ -13,16 +13,25 @@ def Create(tag):
     valueElasticModulus     = dive.CreateValueScalar2D(2.07e+11, 'Elastic Modulus', 'E')
     valueSpecificHeat       = dive.CreateValueScalar2D(490.0, 'Specific Heat', 'cp')
     valueConductivity       = dive.CreateValueScalar2D(51.0, 'Thermal Conductivity', 'k')
- 
+    
     material.SetClass(valueClass)
     material.SetGroup(valueGroup)
     material.SetDescription(valueDescription)
     material.SetName(valueName)
+    
     material.SetDensity(valueDensity)
     material.SetPoissonRatio(valuePoissonRatio)
     material.SetThermalExpansion(valueThermalExpansion)
     material.SetElasticModulus(valueElasticModulus)
     material.SetSpecificHeat(valueSpecificHeat)
     material.SetThermalConductivity(valueConductivity)
+
+    valueFlag   = dive.CreateValueBool(True, 'Flag', 'flag')
+    valueScalar = dive.CreateValueScalar(1.2345, 'Scalar', 'scalar')
+    valueMatrix = dive.CreateValueMatrix(dive.Matrix(3, 3, 1.234), 'Matrix', 'matrix')
+    
+    material.SetProperty(valueFlag)
+    material.SetProperty(valueScalar)
+    material.SetProperty(valueMatrix)
 
     return material

@@ -3,12 +3,13 @@
 	#include "values_types.hpp"
 	#include "values_base.hpp"
 	#include "values_bool.hpp"
+	#include "values_string.hpp"	
 	#include "values_scalar.hpp"
 	#include "values_scalar_function.hpp"
 	#include "values_scalar_interpolation.hpp"
 	#include "values_vector.hpp"
+	#include "values_matrix.hpp"
 	#include "values_matrix_interpolation.hpp"
-	#include "values_string.hpp"
 
 	#include "dive_values_scalar_congruent.hpp"
 	#include "dive_values_matrix_congruent.hpp"
@@ -16,15 +17,23 @@
 
 	typedef std::shared_ptr<values::IValue> IValuePtr;
 	typedef std::shared_ptr<values::IBool> IBoolPtr;
+	typedef std::shared_ptr<values::IString> IStringPtr;
+	
 	typedef std::shared_ptr<values::IScalar> IScalarPtr;
 	typedef std::shared_ptr<values::IScalar1D> IScalar1DPtr;
 	typedef std::shared_ptr<values::IScalar2D> IScalar2DPtr;
 	typedef std::shared_ptr<values::IScalar3D> IScalar3DPtr;
+	typedef std::shared_ptr<values::IVector> IVector;
+	typedef std::shared_ptr<values::IVector1D> IVector1DPtr;
+	typedef std::shared_ptr<values::IVector2D> IVector2DPtr;
 	typedef std::shared_ptr<values::IVector3D> IVector3DPtr;
+	typedef std::shared_ptr<values::IMatrix> IMatrix;
+	typedef std::shared_ptr<values::IMatrix1D> IMatrix1DPtr;
+	typedef std::shared_ptr<values::IMatrix2D> IMatrix2DPtr;
 	typedef std::shared_ptr<values::IMatrix3D> IMatrix3DPtr;
-	typedef std::shared_ptr<values::IString> IStringPtr;
 	
 	typedef std::shared_ptr<values::ValueBool> ValueBoolPtr;
+	typedef std::shared_ptr<values::ValueString> ValueStringPtr;	
 	typedef std::shared_ptr<values::ValueScalar> ValueScalarPtr;
 	typedef std::shared_ptr<values::ValueScalar> ValueScalarPtr;
 	typedef std::shared_ptr<values::ValueScalar1D> ValueScalar1DPtr;
@@ -35,24 +44,37 @@
 	typedef std::shared_ptr<values::ValueScalar3DFunction> ValueScalar3DFunctionPtr;
 	typedef std::shared_ptr<values::ValueScalar3DInterpolation> ValueScalar3DInterpolationPtr;
 	typedef std::shared_ptr<values::ValueScalar3DCongruent> ValueScalar3DCongruentPtr;	
+	typedef std::shared_ptr<values::ValueVector> ValueVectorPtr;
+	typedef std::shared_ptr<values::ValueVector1D> ValueVector1DPtr;
+	typedef std::shared_ptr<values::ValueVector2D> ValueVector2DPtr;
 	typedef std::shared_ptr<values::ValueVector3D> ValueVector3DPtr;
 	typedef std::shared_ptr<values::ValueVector3DCongruent> ValueVector3DCongruentPtr;
+	typedef std::shared_ptr<values::ValueMatrix> ValueMatrixPtr;
+	typedef std::shared_ptr<values::ValueMatrix1D> ValueMatrix1DPtr;
+	typedef std::shared_ptr<values::ValueMatrix2D> ValueMatrix2DPtr;
+	typedef std::shared_ptr<values::ValueMatrix3D> ValueMatrix3DPtr;
 	typedef std::shared_ptr<values::ValueMatrix3DInterpolation> ValueMatrix3DInterpolationPtr;
 	typedef std::shared_ptr<values::ValueMatrix3DCongruent> ValueMatrix3DCongruentPtr;	
-	typedef std::shared_ptr<values::ValueString> ValueStringPtr;
 %}
 
 %shared_ptr(values::IValue);
 %shared_ptr(values::IBool);
+%shared_ptr(values::IString);
 %shared_ptr(values::IScalar);
 %shared_ptr(values::IScalar1D);
 %shared_ptr(values::IScalar2D);
 %shared_ptr(values::IScalar3D);
+%shared_ptr(values::IVector);
+%shared_ptr(values::IVector1D);
+%shared_ptr(values::IVector2D);
 %shared_ptr(values::IVector3D);
+%shared_ptr(values::IMatrix);
+%shared_ptr(values::IMatrix1D);
+%shared_ptr(values::IMatrix2D);
 %shared_ptr(values::IMatrix3D);
-%shared_ptr(values::IString);
 
 %shared_ptr(values::ValueBool);
+%shared_ptr(values::ValueString);
 
 %shared_ptr(values::ValueScalar);
 %shared_ptr(values::ValueScalar1D);
@@ -64,23 +86,29 @@
 %shared_ptr(values::ValueScalar3DInterpolation);
 %shared_ptr(values::ValueScalar3DCongruent);
 
+%shared_ptr(values::ValueVector);
+%shared_ptr(values::ValueVector1D);
+%shared_ptr(values::ValueVector2D);
 %shared_ptr(values::ValueVector3D);
 %shared_ptr(values::ValueVector3DCongruent);
 
+%shared_ptr(values::ValueMatrix);
+%shared_ptr(values::ValueMatrix1D);
+%shared_ptr(values::ValueMatrix2D);
+%shared_ptr(values::ValueMatrix3D);
 %shared_ptr(values::ValueMatrix3DInterpolation);
 %shared_ptr(values::ValueMatrix3DCongruent);
-
-%shared_ptr(values::ValueString);
 
 %include "..\..\values\src\values_types.hpp"
 %include "..\..\values\src\values_base.hpp"
 %include "..\..\values\src\values_bool.hpp"
+%include "..\..\values\src\values_string.hpp"
 %include "..\..\values\src\values_scalar.hpp"
 %include "..\..\values\src\values_scalar_function.hpp"
 %include "..\..\values\src\values_scalar_interpolation.hpp"
 %include "..\..\values\src\values_vector.hpp"
+%include "..\..\values\src\values_matrix.hpp"
 %include "..\..\values\src\values_matrix_interpolation.hpp"
-%include "..\..\values\src\values_string.hpp"
 %include "dive_values_scalar_congruent.hpp"
 %include "dive_values_vector_congruent.hpp"
 %include "dive_values_matrix_congruent.hpp"

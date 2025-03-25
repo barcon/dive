@@ -88,6 +88,7 @@
     <ClInclude Include="..\src\dive_weakforms.hpp" />
     <ClInclude Include="..\src\dive_weakforms_basic.hpp" />
     <ClInclude Include="..\src\dive_weakforms_fluid_convection.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_fluid_convection_asymmetric.hpp" />
     <ClInclude Include="..\src\dive_weakforms_fluid_convection_symmetric.hpp" />
     <ClInclude Include="..\src\dive_weakforms_fluid_load_distributed_volume.hpp" />
     <ClInclude Include="..\src\dive_weakforms_fluid_load_distributed_volume_stabilization.hpp" />
@@ -125,6 +126,7 @@
     <ClCompile Include="..\src\dive_values_vector_congruent.cpp" />
     <ClCompile Include="..\src\dive_weakforms_basic.cpp" />
     <ClCompile Include="..\src\dive_weakforms_fluid_convection.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_fluid_convection_asymmetric.cpp" />
     <ClCompile Include="..\src\dive_weakforms_fluid_convection_symmetric.cpp" />
     <ClCompile Include="..\src\dive_weakforms_fluid_load_distributed_volume.cpp" />
     <ClCompile Include="..\src\dive_weakforms_fluid_load_distributed_volume_stabilization.cpp" />

@@ -16,8 +16,14 @@ timer   = fluid.CreateTimerStepped(1, 0.0, 20000.0, 10.0)
 oil     = materials.fluid.oil.Create(1, ISO = 46, temperature = T_oil_bath)
 steel   = materials.solid.steel.Create(2)
 
-meshSegment = 'gleiter_segment.msh'
-meshRunner  = 'gleiter_runner.msh'
+flag    = fluid.CastToBool(steel.GetProperty('flag'))
+scalar  = fluid.CastToScalar(steel.GetProperty('scalar'))
+matrix  = fluid.CastToMatrix(steel.GetProperty('matrix'))
+
+print(flag.GetValue())
+print(scalar.GetValue())
+print(matrix.GetValue())
+
 meshFluid   = 'gleiter_fluid.msh'
 
 #temperature = fluid.CreateValueScalar3DCongruent(meshTemperature)
