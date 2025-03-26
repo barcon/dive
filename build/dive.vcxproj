@@ -40,7 +40,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>NDEBUG;NOTIMER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\utils\src;..\..\logger\src;..\..\eilig\src;..\..\basis\src;..\..\quadrature\src;..\..\nodes\src;..\..\kdtree\src;..\..\interpolation\src;..\..\values\src;..\..\material\src;..\..\python\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>

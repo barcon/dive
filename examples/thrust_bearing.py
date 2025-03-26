@@ -13,18 +13,10 @@ D_inner     = 1000.0
 
 basis   = fluid.CreateBasisCartesian(1)
 timer   = fluid.CreateTimerStepped(1, 0.0, 20000.0, 10.0)
-oil     = materials.fluid.oil.Create(1, ISO = 46, temperature = T_oil_bath)
+oil     = materials.fluid.oil.Create(1, ISO = 46, temperature = T_oil_bath, viscosityConstant = False)
 steel   = materials.solid.steel.Create(2)
 
-flag    = fluid.CastToBool(steel.GetProperty('flag'))
-scalar  = fluid.CastToScalar(steel.GetProperty('scalar'))
-vector  = fluid.CastToVector(steel.GetProperty('vector'))
-matrix  = fluid.CastToMatrix(steel.GetProperty('matrix'))
-
-print(flag.GetValue())
-print(scalar.GetValue())
-print(vector.GetValue())
-print(matrix.GetValue())
+viscosity  = fluid.CastToMatrix(oil.GetProperty('matrix'))
 
 meshFluid   = 'gleiter_fluid.msh'
 

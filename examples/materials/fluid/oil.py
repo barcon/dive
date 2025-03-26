@@ -29,13 +29,23 @@ def Viscosity_Oil_VDI2204(ISO, temperature):
     rho = Density_Oil_VDI2204(temperature)
     return nx * (rho * ISO / (nx * 1.0E6))**((159.56 / ((temperature - T_ref) + 95.0)) - 0.181913)
 
+def Viscosity_Oil_VG46(temperature, pressure):
+    """
+    Calculate dynamic viscosity [Pa.s] depending on the temperature [K]
+    """     
+    ISO = 46
+    T_ref = 273.15
+    nx = 1.8E-4
+    rho = Density_Oil_VDI2204(temperature)
+    return nx * (rho * ISO / (nx * 1.0E6))**((159.56 / ((temperature - T_ref) + 95.0)) - 0.181913)
+
 def ThermalConductivity_Oil(temperature):
     """
     Calculate thermal conductivity [W/(m.K)]
     """     
     return 0.129
 
-def Create(tag, ISO, temperature):
+def Create(tag, ISO, temperature, viscosityConstant = True):
     """
     Create material with a tag at a fixed temperature [K]
     """    
@@ -48,7 +58,11 @@ def Create(tag, ISO, temperature):
     valueDensity        = dive.CreateValueScalar2D(Density_Oil_VDI2204(temperature), 'Density', 'rho')
     valueSpecificHeat   = dive.CreateValueScalar2D(SpecificHeat_Oil_VDI2204(temperature), 'Specific Heat', 'cp')
     valueConductivity   = dive.CreateValueScalar2D(ThermalConductivity_Oil(temperature), 'Thermal Conductivity', 'k')    
-    valueViscosity      = dive.CreateValueScalar2D(Viscosity_Oil_VDI2204(ISO, temperature), 'Dynamic Viscosity', 'mu')    
+    
+    if (viscosityConstant):
+        valueViscosity  = dive.CreateValueScalar2D(Viscosity_Oil_VDI2204(ISO, temperature), 'Dynamic Viscosity', 'mu')    
+    else:
+        valueViscosity  = dive.CreateValueScalar2DFunction(Viscosity_Oil_VG46)  
  
     material.SetClass(valueClass)
     material.SetGroup(valueGroup)
