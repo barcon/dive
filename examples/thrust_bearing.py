@@ -18,10 +18,12 @@ steel   = materials.solid.steel.Create(2)
 
 flag    = fluid.CastToBool(steel.GetProperty('flag'))
 scalar  = fluid.CastToScalar(steel.GetProperty('scalar'))
+vector  = fluid.CastToVector(steel.GetProperty('vector'))
 matrix  = fluid.CastToMatrix(steel.GetProperty('matrix'))
 
 print(flag.GetValue())
 print(scalar.GetValue())
+print(vector.GetValue())
 print(matrix.GetValue())
 
 meshFluid   = 'gleiter_fluid.msh'

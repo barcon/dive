@@ -28,10 +28,12 @@ def Create(tag):
 
     valueFlag   = dive.CreateValueBool(True, 'Flag', 'flag')
     valueScalar = dive.CreateValueScalar(1.2345, 'Scalar', 'scalar')
+    valueVector = dive.CreateValueVector(dive.Vector(3, 1.234), 'Vector', 'vector')
     valueMatrix = dive.CreateValueMatrix(dive.Matrix(3, 3, 1.234), 'Matrix', 'matrix')
     
     material.SetProperty(valueFlag)
     material.SetProperty(valueScalar)
+    material.SetProperty(valueVector)
     material.SetProperty(valueMatrix)
 
     return material
