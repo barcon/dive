@@ -1,4 +1,4 @@
-import materials.fluid.oil
+import materials.fluid.oil_VG46
 import materials.solid.steel
 
 import fluid.momentum
@@ -7,16 +7,16 @@ import fluid.pressure
 #import thermal
 
 T_oil_bath  = 323.15    #[K]      = 50 [°C]
+p_oil_ref   = 101325.1  #[N/m²]   =  1 [atm]
+
 F_axial     = 1000.0    #[kN]
 D_outer     = 2000.0
 D_inner     = 1000.0
 
 basis   = fluid.CreateBasisCartesian(1)
 timer   = fluid.CreateTimerStepped(1, 0.0, 20000.0, 10.0)
-oil     = materials.fluid.oil.Create(1, ISO = 46, temperature = T_oil_bath, viscosityConstant = False)
+oil     = materials.fluid.oil_VG46.Create(1, T_oil_bath, p_oil_ref, False)
 steel   = materials.solid.steel.Create(2)
-
-viscosity  = fluid.CastToMatrix(oil.GetProperty('matrix'))
 
 meshFluid   = 'gleiter_fluid.msh'
 

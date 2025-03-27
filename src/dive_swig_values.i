@@ -18,7 +18,6 @@
 	typedef std::shared_ptr<values::IValue> IValuePtr;
 	typedef std::shared_ptr<values::IBool> IBoolPtr;
 	typedef std::shared_ptr<values::IString> IStringPtr;
-	
 	typedef std::shared_ptr<values::IScalar> IScalarPtr;
 	typedef std::shared_ptr<values::IScalar1D> IScalar1DPtr;
 	typedef std::shared_ptr<values::IScalar2D> IScalar2DPtr;
@@ -75,7 +74,6 @@
 
 %shared_ptr(values::ValueBool);
 %shared_ptr(values::ValueString);
-
 %shared_ptr(values::ValueScalar);
 %shared_ptr(values::ValueScalar1D);
 %shared_ptr(values::ValueScalar1DFunction);
@@ -85,13 +83,11 @@
 %shared_ptr(values::ValueScalar3DFunction);
 %shared_ptr(values::ValueScalar3DInterpolation);
 %shared_ptr(values::ValueScalar3DCongruent);
-
 %shared_ptr(values::ValueVector);
 %shared_ptr(values::ValueVector1D);
 %shared_ptr(values::ValueVector2D);
 %shared_ptr(values::ValueVector3D);
 %shared_ptr(values::ValueVector3DCongruent);
-
 %shared_ptr(values::ValueMatrix);
 %shared_ptr(values::ValueMatrix1D);
 %shared_ptr(values::ValueMatrix2D);
@@ -112,3 +108,32 @@
 %include "dive_values_scalar_congruent.hpp"
 %include "dive_values_vector_congruent.hpp"
 %include "dive_values_matrix_congruent.hpp"
+
+%pythoncode
+%{
+
+import ctypes
+
+py_function_D_D = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double)
+py_function_D_DD = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double, ctypes.c_double)
+py_function_D_DDD = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double)
+
+def CreateValueScalar1DFunction(function, name, key):
+	f = py_function_D_D(function)
+	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
+	
+	return _dive.CreateValueScalar1DFunction(f_ptr, name, key)
+
+def CreateValueScalar2DFunction(function, name, key):
+	f = py_function_D_DD(function)
+	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
+	
+	return _dive.CreateValueScalar2DFunction(f_ptr, name, key)
+
+def CreateValueScalar3DFunction(function, name, key):
+	f = py_function_D_DDD(function)
+	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
+	
+	return _dive.CreateValueScalar3DFunction(f_ptr, name, key)
+
+%}

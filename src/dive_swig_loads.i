@@ -46,10 +46,10 @@
 
 #import ctypes
 
-#py_cfunction_type1 = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double)
-#py_cfunction_type2 = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double, ctypes.c_double)
-#py_cfunction_type3 = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double)
-#py_cfunction_type4 = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double)
+#py_cfunction_loads1 = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double)
+#py_cfunction_loads2 = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double, ctypes.c_double)
+#py_cfunction_loads3 = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double)
+#py_cfunction_loads4 = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double)
 
 #def CreateDirichletByFunction(node, dofIndex, function):
 #	f = py_cfunction_type1(function)

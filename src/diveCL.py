@@ -2821,6 +2821,33 @@ class ValueMatrix3DCongruent(IMatrix3D):
 
 # Register ValueMatrix3DCongruent in _diveCL:
 _diveCL.ValueMatrix3DCongruent_swigregister(ValueMatrix3DCongruent)
+
+
+import ctypes
+
+py_function_D_D = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double)
+py_function_D_DD = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double, ctypes.c_double)
+py_function_D_DDD = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double)
+
+def CreateValueScalar1DFunction(function, name, key):
+	f = py_function_D_D(function)
+	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
+
+	return _dive.CreateValueScalar1DFunction(f_ptr, name, key)
+
+def CreateValueScalar2DFunction(function, name, key):
+	f = py_function_D_DD(function)
+	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
+
+	return _dive.CreateValueScalar2DFunction(f_ptr, name, key)
+
+def CreateValueScalar3DFunction(function, name, key):
+	f = py_function_D_DDD(function)
+	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
+
+	return _dive.CreateValueScalar3DFunction(f_ptr, name, key)
+
+
 class IGauss(object):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
@@ -4603,10 +4630,10 @@ _diveCL.LoadDistributedFace_swigregister(LoadDistributedFace)
 
 #import ctypes
 
-#py_cfunction_type1 = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double)
-#py_cfunction_type2 = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double, ctypes.c_double)
-#py_cfunction_type3 = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double)
-#py_cfunction_type4 = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double)
+#py_cfunction_loads1 = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double)
+#py_cfunction_loads2 = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double, ctypes.c_double)
+#py_cfunction_loads3 = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double)
+#py_cfunction_loads4 = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double)
 
 #def CreateDirichletByFunction(node, dofIndex, function):
 #	f = py_cfunction_type1(function)
