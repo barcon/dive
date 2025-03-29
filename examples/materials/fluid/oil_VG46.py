@@ -24,10 +24,11 @@ def Viscosity(temperature, pressure):
     """
     Calculate dynamic viscosity [Pa.s] depending on the temperature [K]
     """     
-    ISO = 46
+    ISO = 46.0
     T_ref = 273.15
     nx = 1.8E-4
     rho = Density(temperature, pressure)
+    
     return nx * (rho * ISO / (nx * 1.0E6))**((159.56 / ((temperature - T_ref) + 95.0)) - 0.181913)
 
 def ThermalConductivity(temperature, pressure):
@@ -53,7 +54,7 @@ def Create(tag, temperature, pressure, viscosityConstant = False):
     if (viscosityConstant):
         valueViscosity  = dive.CreateValueScalar2D(Viscosity(temperature, pressure), 'Dynamic Viscosity', 'mu')    
     else:
-        valueViscosity  = dive.CreateValueScalar2DFunction(Viscosity, 'Dynamic Viscosity', 'mu')
+        valueViscosity  = dive.CreateValueScalar2DFunctionTest(Viscosity, 'Dynamic Viscosity', 'mu')
  
     material.SetClass(valueClass)
     material.SetGroup(valueGroup)

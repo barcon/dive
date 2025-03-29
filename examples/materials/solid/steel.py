@@ -1,11 +1,11 @@
 import dive
 
 def Create(tag):
-    material            = dive.CreateMaterialSolid(tag)
-    valueClass          = dive.CreateValueString('Solid', 'Solid', 'Class')
-    valueGroup          = dive.CreateValueString('Steel', 'Group', 'group')
-    valueDescription    = dive.CreateValueString('Structural Steel', 'Description', 'description')
-    valueName           = dive.CreateValueString('Structural Steel', 'Name', 'name')
+    material                = dive.CreateMaterialSolid(tag)
+    valueClass              = dive.CreateValueString('Solid', 'Solid', 'Class')
+    valueGroup              = dive.CreateValueString('Steel', 'Group', 'group')
+    valueDescription        = dive.CreateValueString('Structural Steel', 'Description', 'description')
+    valueName               = dive.CreateValueString('Structural Steel', 'Name', 'name')
 
     valueDensity            = dive.CreateValueScalar2D(7850.0, 'Density', 'rho')
     valuePoissonRatio       = dive.CreateValueScalar2D(0.30, 'Poisson Ratio', 'nu')
