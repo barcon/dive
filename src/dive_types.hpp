@@ -87,34 +87,9 @@ namespace dive
 	using String = utils::String;
 	static const String headerDive = "DIVE";
 
-	using ShapePtr = Scalar(*)(const Vector&);
-
-	using Function_S_S = Scalar (*)(Scalar);
-	using Function_S_SS = Scalar (*)(Scalar, Scalar);
-	using Function_S_SSS = Scalar (*)(Scalar, Scalar, Scalar);
-	using Function_S_SSSS = Scalar (*)(Scalar, Scalar, Scalar, Scalar);
-
-	using Function_V_S = Vector (*)(Scalar);
-	using Function_V_SS = Vector (*)(Scalar, Scalar);
-	using Function_V_SSS = Vector (*)(Scalar, Scalar, Scalar);
-	using Function_V_SSSS = Vector (*)(Scalar, Scalar, Scalar, Scalar);
-
-	using Function_V_V = Vector (*)(const Vector&);
-
-	using Function_S_V = Scalar (*)(const Vector&);
-	using Function_S_VRaw = void (*)(const Scalar*, std::size_t, Scalar*);
-
-	using Function_S_VS = Scalar (*)(const Vector&, Scalar);
-	using Function_S_VSRaw = void (*)(const Scalar*, std::size_t, Scalar, Scalar*);
-
-	using Function_V_VS = Vector (*)(const Vector&, Scalar);
-	using Function_V_VSRaw = void (*)(const Scalar*, std::size_t, Scalar, Scalar*, std::size_t*);
-
-	using Function_M_V = Matrix (*)(const Vector&);
-	using Function_M_VRaw = void (*)(const Scalar*, std::size_t, Scalar*, std::size_t*, std::size_t*);
-
-	using Function_M_VS = Matrix (*)(const Vector&, Scalar);
-	using Function_M_VSRaw = void (*)(const Scalar*, std::size_t, Scalar, Scalar*, std::size_t*, std::size_t*);
+	using Function_Pointer_D_D	= values::Function_Pointer_D_D;
+	using Function_Pointer_D_DD	= values::Function_Pointer_D_DD;
+	using Function_Pointer_D_DDD= values::Function_Pointer_D_DDD;
 
 	namespace timers
 	{

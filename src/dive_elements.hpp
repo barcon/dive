@@ -10,6 +10,7 @@ namespace dive
 {
 	namespace elements
 	{
+		using ShapePtr = Scalar(*)(const Vector&);
 		using Parametric = std::size_t;
 
 		using Order = std::size_t;
