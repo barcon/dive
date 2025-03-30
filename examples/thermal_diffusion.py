@@ -1,7 +1,7 @@
 import meshes
 import thermal
 import solvers
-import materials.fluid.oil_VG46
+import materials.fluid.oil_vg46
 import plots
 
 T_ref       = 313.15      #[K]      = 40 [°C]
@@ -9,7 +9,7 @@ p_ref       = 101325.1    #[N/m²]   =  1 [atm]
 basis       = thermal.CreateBasisCartesian(1)
 timer       = thermal.CreateTimerStationary(1, 0.0)
 pressure    = thermal.CreateValueScalar3D(p_ref)
-material    = materials.fluid.oil_VG46.Create(1, 68, T_ref)
+material    = materials.fluid.oil_vg46.Create(1, 68, T_ref)
 meshFile    = 'cavity.msh'
 
 meshes.cavity.quadratic = True

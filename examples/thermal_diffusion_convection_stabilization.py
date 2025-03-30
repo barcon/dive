@@ -1,7 +1,7 @@
 import meshes
 import thermal
 import solvers
-import materials.fluid.oil_VG46
+import materials.fluid.oil_vg46
 import plots.residual
 import plots.routines
 

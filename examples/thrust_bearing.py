@@ -1,4 +1,4 @@
-import materials.fluid.oil_VG46
+import materials.fluid.oil_vg46
 import materials.solid.steel
 
 import fluid.momentum
@@ -15,7 +15,11 @@ D_inner     = 1000.0
 
 basis   = fluid.CreateBasisCartesian(1)
 timer   = fluid.CreateTimerStepped(1, 0.0, 20000.0, 10.0)
-oil     = materials.fluid.oil_VG46.Create(1, T_oil_bath, p_oil_bath, False)
+
+materials.fluid.oil_vg46.configuration.ISO = 46.0
+materials.fluid.oil_vg46.configuration.viscosityConstant = False
+
+oil     = materials.fluid.oil_vg46.Create(1, T_oil_bath, p_oil_bath)
 steel   = materials.solid.steel.Create(2)
 
 meshFluid   = 'gleiter_fluid.msh'

@@ -1,5 +1,16 @@
 import dive
 
+from dataclasses import dataclass, field
+
+@dataclass
+class Configuration:
+    densityConstant : bool = True
+    specificHeatConstant : bool = True
+    viscosityConstant : bool = True
+
+configuration = Configuration()
+ISO = 46.0
+
 def Density(temperature, pressure):
     """
     Calculate density [kg/m³] depending on the temperature [K]
@@ -24,7 +35,7 @@ def Viscosity(temperature, pressure):
     """
     Calculate dynamic viscosity [Pa.s] depending on the temperature [K]
     """     
-    ISO = 46.0
+    global ISO
     T_ref = 273.15
     nx = 1.8E-4
     rho = Density(temperature, pressure)
@@ -47,15 +58,23 @@ def Create(tag, temperature, pressure, viscosityConstant = False):
     valueDescription    = dive.CreateValueString('Oil ISO VG 46', 'Description', 'description')
     valueName           = dive.CreateValueString('ISO VG 46', 'Name', 'name')
 
-    valueDensity        = dive.CreateValueScalar2D(Density(temperature, pressure), 'Density', 'rho')
-    valueSpecificHeat   = dive.CreateValueScalar2D(SpecificHeat(temperature, pressure), 'Specific Heat', 'cp')
-    valueConductivity   = dive.CreateValueScalar2D(ThermalConductivity(temperature, pressure), 'Thermal Conductivity', 'k') 
-    
-    if (viscosityConstant):
-        valueViscosity  = dive.CreateValueScalar2D(Viscosity(temperature, pressure), 'Dynamic Viscosity', 'mu')    
+    if (configuration.specificHeatConstant):
+        valueSpecificHeat = dive.CreateValueScalar2D(SpecificHeat(temperature, pressure), 'Specific Heat', 'cp')
     else:
-        valueViscosity  = dive.CreateValueScalar2DFunction(Viscosity, 'Dynamic Viscosity', 'mu')
- 
+        valueSpecificHeat = dive.CreateValueScalar2DFunction(SpecificHeat, 'Specific Heat', 'cp') 
+
+    if (configuration.densityConstant):
+        valueDensity = dive.CreateValueScalar2D(Density(temperature, pressure), 'Density', 'rho')    
+    else:
+        valueDensity = dive.CreateValueScalar2DFunction(Density, 'Density', 'rho')   
+
+    if (configuration.viscosityConstant):
+        valueViscosity = dive.CreateValueScalar2D(Viscosity(temperature, pressure), 'Dynamic Viscosity', 'mu')    
+    else:
+        valueViscosity = dive.CreateValueScalar2DFunction(Viscosity, 'Dynamic Viscosity', 'mu')
+
+    valueConductivity   = dive.CreateValueScalar2D(ThermalConductivity(temperature, pressure), 'Thermal Conductivity', 'k') 
+
     material.SetClass(valueClass)
     material.SetGroup(valueGroup)
     material.SetDescription(valueDescription)

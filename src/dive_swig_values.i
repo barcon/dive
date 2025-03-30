@@ -1,12 +1,12 @@
-%typemap(in) double (*function_Value_D_D)(double) {
+%typemap(in) double (*function_Pointer_D_D)(double) {
     $1 = (double (*)(double))PyLong_AsVoidPtr($input);
 }
 
-%typemap(in) double (*function_Value_D_DD)(double, double) {
+%typemap(in) double (*function_Pointer_D_DD)(double, double) {
     $1 = (double (*)(double, double))PyLong_AsVoidPtr($input);
 }
 
-%typemap(in) double (*function_Value_D_DDD)(double, double, double) {
+%typemap(in) double (*function_Pointer_D_DDD)(double, double, double) {
     $1 = (double (*)(double, double, double))PyLong_AsVoidPtr($input);
 }
 
@@ -126,24 +126,24 @@
 
 import ctypes
 
-py_function_value_D_D = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double)
-py_function_value_D_DD = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double, ctypes.c_double)
-py_function_value_D_DDD = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double)
+py_function_pointer_D_D = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double)
+py_function_pointer_D_DD = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double, ctypes.c_double)
+py_function_pointer_D_DDD = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double)
 
 def CreateValueScalar1DFunction(function, name, key):
-	f = py_function_value_D_D(function)
+	f = py_function_pointer_D_D(function)
 	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
 	
 	return _dive.CreateValueScalar1DFunction(f_ptr, name, key)
 
 def CreateValueScalar2DFunction(function, name, key):
-	f = py_function_value_D_DD(function)
+	f = py_function_pointer_D_DD(function)
 	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
 	
 	return _dive.CreateValueScalar2DFunction(f_ptr, name, key)
 
 def CreateValueScalar3DFunction(function, name, key):
-	f = py_function_value_D_DDD(function)
+	f = py_function_pointer_D_DDD(function)
 	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
 	
 	return _dive.CreateValueScalar3DFunction(f_ptr, name, key)
