@@ -1557,8 +1557,8 @@ class IMatrix3D(IValue):
 # Register IMatrix3D in _dive:
 _dive.IMatrix3D_swigregister(IMatrix3D)
 
-def CreateValueBool(*args):
-    return _dive.CreateValueBool(*args)
+def CreateValueBool(value, name, key):
+    return _dive.CreateValueBool(value, name, key)
 
 def CastToBool(value):
     return _dive.CastToBool(value)
@@ -1598,8 +1598,8 @@ class ValueBool(IBool):
 # Register ValueBool in _dive:
 _dive.ValueBool_swigregister(ValueBool)
 
-def CreateValueString(*args):
-    return _dive.CreateValueString(*args)
+def CreateValueString(value, name, key):
+    return _dive.CreateValueString(value, name, key)
 
 def CastToString(value):
     return _dive.CastToString(value)
@@ -1639,8 +1639,8 @@ class ValueString(IString):
 # Register ValueString in _dive:
 _dive.ValueString_swigregister(ValueString)
 
-def CreateValueScalar(*args):
-    return _dive.CreateValueScalar(*args)
+def CreateValueScalar(value, name, key):
+    return _dive.CreateValueScalar(value, name, key)
 
 def CastToScalar(value):
     return _dive.CastToScalar(value)
@@ -1680,8 +1680,8 @@ class ValueScalar(IScalar):
 # Register ValueScalar in _dive:
 _dive.ValueScalar_swigregister(ValueScalar)
 
-def CreateValueScalar1D(*args):
-    return _dive.CreateValueScalar1D(*args)
+def CreateValueScalar1D(value, name, key):
+    return _dive.CreateValueScalar1D(value, name, key)
 
 def CastToScalar1D(value):
     return _dive.CastToScalar1D(value)
@@ -1721,8 +1721,8 @@ class ValueScalar1D(IScalar1D):
 # Register ValueScalar1D in _dive:
 _dive.ValueScalar1D_swigregister(ValueScalar1D)
 
-def CreateValueScalar2D(*args):
-    return _dive.CreateValueScalar2D(*args)
+def CreateValueScalar2D(value, name, key):
+    return _dive.CreateValueScalar2D(value, name, key)
 
 def CastToScalar2D(value):
     return _dive.CastToScalar2D(value)
@@ -1762,8 +1762,8 @@ class ValueScalar2D(IScalar2D):
 # Register ValueScalar2D in _dive:
 _dive.ValueScalar2D_swigregister(ValueScalar2D)
 
-def CreateValueScalar3D(*args):
-    return _dive.CreateValueScalar3D(*args)
+def CreateValueScalar3D(value, name, key):
+    return _dive.CreateValueScalar3D(value, name, key)
 
 def CastToScalar3D(value):
     return _dive.CastToScalar3D(value)
@@ -1803,8 +1803,8 @@ class ValueScalar3D(IScalar3D):
 # Register ValueScalar3D in _dive:
 _dive.ValueScalar3D_swigregister(ValueScalar3D)
 
-def CreateValueScalar1DFunction(*args):
-    return _dive.CreateValueScalar1DFunction(*args)
+def CreateValueScalar1DFunction(function_Value_D_D, name, key):
+    return _dive.CreateValueScalar1DFunction(function_Value_D_D, name, key)
 
 def CastToScalar1DFunction(value):
     return _dive.CastToScalar1DFunction(value)
@@ -1838,17 +1838,14 @@ class ValueScalar1DFunction(IScalar1D):
     def SetKey(self, key):
         return _dive.ValueScalar1DFunction_SetKey(self, key)
 
-    def SetFunction(self, function):
-        return _dive.ValueScalar1DFunction_SetFunction(self, function)
+    def SetFunction(self, function_Value_D_D):
+        return _dive.ValueScalar1DFunction_SetFunction(self, function_Value_D_D)
 
 # Register ValueScalar1DFunction in _dive:
 _dive.ValueScalar1DFunction_swigregister(ValueScalar1DFunction)
 
-def CreateValueScalar2DFunction(function):
-    return _dive.CreateValueScalar2DFunction(function)
-
-def CreateValueScalar2DFunctionTest(function, name, key):
-    return _dive.CreateValueScalar2DFunctionTest(function, name, key)
+def CreateValueScalar2DFunction(function_Value_D_DD, name, key):
+    return _dive.CreateValueScalar2DFunction(function_Value_D_DD, name, key)
 
 def CastToScalar2DFunction(value):
     return _dive.CastToScalar2DFunction(value)
@@ -1882,14 +1879,14 @@ class ValueScalar2DFunction(IScalar2D):
     def SetKey(self, key):
         return _dive.ValueScalar2DFunction_SetKey(self, key)
 
-    def SetFunction(self, function):
-        return _dive.ValueScalar2DFunction_SetFunction(self, function)
+    def SetFunction(self, function_Value_D_DD):
+        return _dive.ValueScalar2DFunction_SetFunction(self, function_Value_D_DD)
 
 # Register ValueScalar2DFunction in _dive:
 _dive.ValueScalar2DFunction_swigregister(ValueScalar2DFunction)
 
-def CreateValueScalar3DFunction(*args):
-    return _dive.CreateValueScalar3DFunction(*args)
+def CreateValueScalar3DFunction(function_Value_D_DDD, name, key):
+    return _dive.CreateValueScalar3DFunction(function_Value_D_DDD, name, key)
 
 def CastToScalar3DFunction(value):
     return _dive.CastToScalar3DFunction(value)
@@ -1923,14 +1920,14 @@ class ValueScalar3DFunction(IScalar3D):
     def SetKey(self, key):
         return _dive.ValueScalar3DFunction_SetKey(self, key)
 
-    def SetFunction(self, function):
-        return _dive.ValueScalar3DFunction_SetFunction(self, function)
+    def SetFunction(self, function_Value_D_DDD):
+        return _dive.ValueScalar3DFunction_SetFunction(self, function_Value_D_DDD)
 
 # Register ValueScalar3DFunction in _dive:
 _dive.ValueScalar3DFunction_swigregister(ValueScalar3DFunction)
 
-def CreateValueScalar3DInterpolation(*args):
-    return _dive.CreateValueScalar3DInterpolation(*args)
+def CreateValueScalar3DInterpolation(nodes, interpolationType, name, key):
+    return _dive.CreateValueScalar3DInterpolation(nodes, interpolationType, name, key)
 
 def CastToScalar3DInterpolation(value):
     return _dive.CastToScalar3DInterpolation(value)
@@ -1973,8 +1970,8 @@ class ValueScalar3DInterpolation(IScalar3D):
 # Register ValueScalar3DInterpolation in _dive:
 _dive.ValueScalar3DInterpolation_swigregister(ValueScalar3DInterpolation)
 
-def CreateValueVector(*args):
-    return _dive.CreateValueVector(*args)
+def CreateValueVector(value, name, key):
+    return _dive.CreateValueVector(value, name, key)
 
 def CastToVector(value):
     return _dive.CastToVector(value)
@@ -2014,8 +2011,8 @@ class ValueVector(IVector):
 # Register ValueVector in _dive:
 _dive.ValueVector_swigregister(ValueVector)
 
-def CreateValueVector1D(*args):
-    return _dive.CreateValueVector1D(*args)
+def CreateValueVector1D(value, name, key):
+    return _dive.CreateValueVector1D(value, name, key)
 
 def CastToVector1D(value):
     return _dive.CastToVector1D(value)
@@ -2055,8 +2052,8 @@ class ValueVector1D(IVector1D):
 # Register ValueVector1D in _dive:
 _dive.ValueVector1D_swigregister(ValueVector1D)
 
-def CreateValueVector2D(*args):
-    return _dive.CreateValueVector2D(*args)
+def CreateValueVector2D(value, name, key):
+    return _dive.CreateValueVector2D(value, name, key)
 
 def CastToVector2D(value):
     return _dive.CastToVector2D(value)
@@ -2096,8 +2093,8 @@ class ValueVector2D(IVector2D):
 # Register ValueVector2D in _dive:
 _dive.ValueVector2D_swigregister(ValueVector2D)
 
-def CreateValueVector3D(*args):
-    return _dive.CreateValueVector3D(*args)
+def CreateValueVector3D(value, name, key):
+    return _dive.CreateValueVector3D(value, name, key)
 
 def CastToVector3D(value):
     return _dive.CastToVector3D(value)
@@ -2137,8 +2134,8 @@ class ValueVector3D(IVector3D):
 # Register ValueVector3D in _dive:
 _dive.ValueVector3D_swigregister(ValueVector3D)
 
-def CreateValueMatrix(*args):
-    return _dive.CreateValueMatrix(*args)
+def CreateValueMatrix(value, name, key):
+    return _dive.CreateValueMatrix(value, name, key)
 
 def CastToMatrix(value):
     return _dive.CastToMatrix(value)
@@ -2178,8 +2175,8 @@ class ValueMatrix(IMatrix):
 # Register ValueMatrix in _dive:
 _dive.ValueMatrix_swigregister(ValueMatrix)
 
-def CreateValueMatrix1D(*args):
-    return _dive.CreateValueMatrix1D(*args)
+def CreateValueMatrix1D(value, name, key):
+    return _dive.CreateValueMatrix1D(value, name, key)
 
 def CastToMatrix1D(value):
     return _dive.CastToMatrix1D(value)
@@ -2219,8 +2216,8 @@ class ValueMatrix1D(IMatrix1D):
 # Register ValueMatrix1D in _dive:
 _dive.ValueMatrix1D_swigregister(ValueMatrix1D)
 
-def CreateValueMatrix2D(*args):
-    return _dive.CreateValueMatrix2D(*args)
+def CreateValueMatrix2D(value, name, key):
+    return _dive.CreateValueMatrix2D(value, name, key)
 
 def CastToMatrix2D(value):
     return _dive.CastToMatrix2D(value)
@@ -2260,8 +2257,8 @@ class ValueMatrix2D(IMatrix2D):
 # Register ValueMatrix2D in _dive:
 _dive.ValueMatrix2D_swigregister(ValueMatrix2D)
 
-def CreateValueMatrix3D(*args):
-    return _dive.CreateValueMatrix3D(*args)
+def CreateValueMatrix3D(value, name, key):
+    return _dive.CreateValueMatrix3D(value, name, key)
 
 def CastToMatrix3D(value):
     return _dive.CastToMatrix3D(value)
@@ -2301,8 +2298,8 @@ class ValueMatrix3D(IMatrix3D):
 # Register ValueMatrix3D in _dive:
 _dive.ValueMatrix3D_swigregister(ValueMatrix3D)
 
-def CreateValueMatrix3DInterpolation(*args):
-    return _dive.CreateValueMatrix3DInterpolation(*args)
+def CreateValueMatrix3DInterpolation(nodes, interpolationType, name, key):
+    return _dive.CreateValueMatrix3DInterpolation(nodes, interpolationType, name, key)
 
 def CastToMatrix3DInterpolation(value):
     return _dive.CastToMatrix3DInterpolation(value)

@@ -1,3 +1,15 @@
+%typemap(in) double (*function_Value_D_D)(double) {
+    $1 = (double (*)(double))PyLong_AsVoidPtr($input);
+}
+
+%typemap(in) double (*function_Value_D_DD)(double, double) {
+    $1 = (double (*)(double, double))PyLong_AsVoidPtr($input);
+}
+
+%typemap(in) double (*function_Value_D_DDD)(double, double, double) {
+    $1 = (double (*)(double, double, double))PyLong_AsVoidPtr($input);
+}
+
 %inline
 %{
 	#include "values_types.hpp"
@@ -54,10 +66,6 @@
 	typedef std::shared_ptr<values::ValueMatrix3D> ValueMatrix3DPtr;
 	typedef std::shared_ptr<values::ValueMatrix3DInterpolation> ValueMatrix3DInterpolationPtr;
 	typedef std::shared_ptr<values::ValueMatrix3DCongruent> ValueMatrix3DCongruentPtr;	
-	
-	using Function_Value_D_D = double(*)(double);
-	using Function_Value_D_DD = double(*)(double, double);
-	using Function_Value_D_DDD = double(*)(double, double, double);
 %}
 
 %shared_ptr(values::IValue);

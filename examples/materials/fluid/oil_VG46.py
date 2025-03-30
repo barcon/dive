@@ -54,7 +54,7 @@ def Create(tag, temperature, pressure, viscosityConstant = False):
     if (viscosityConstant):
         valueViscosity  = dive.CreateValueScalar2D(Viscosity(temperature, pressure), 'Dynamic Viscosity', 'mu')    
     else:
-        valueViscosity  = dive.CreateValueScalar2DFunctionTest(Viscosity, 'Dynamic Viscosity', 'mu')
+        valueViscosity  = dive.CreateValueScalar2DFunction(Viscosity, 'Dynamic Viscosity', 'mu')
  
     material.SetClass(valueClass)
     material.SetGroup(valueGroup)

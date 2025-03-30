@@ -6,7 +6,7 @@ import fluid.pressure
 #import structural
 #import thermal
 
-T_oil_bath  = 323.15    #[K]      = 50 [°C]
+T_oil_bath  = 313.15    #[K]      = 50 [°C]
 p_oil_bath  = 101325.1  #[N/m²]   =  1 [atm]
 
 F_axial     = 1000.0    #[kN]

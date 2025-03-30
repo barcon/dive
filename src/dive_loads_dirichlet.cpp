@@ -10,7 +10,7 @@ namespace dive
 
 			res->SetNode(node);
 			res->SetDofIndex(dofIndex);
-			res->SetValue(values::CreateValueScalar3D(value));
+			res->SetValue(values::CreateValueScalar3D(value, "", ""));
 
 			return res;
 		}
@@ -20,7 +20,7 @@ namespace dive
 
 			res->SetNode(node);
 			res->SetDofIndex(dofIndex);
-			res->SetValue(values::CreateValueScalar3DFunction(function));
+			res->SetValue(values::CreateValueScalar3DFunction(function, "", ""));
 
 			return res;
 		}
