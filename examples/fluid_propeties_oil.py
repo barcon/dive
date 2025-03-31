@@ -19,8 +19,8 @@ for temperature in temperatures:
     densities.append(oil.GetDensity(temperature + T_ref, pressure))
     viscosities.append(1000.0 * oil.GetDynamicViscosity(temperature + T_ref, pressure))
 
-f, x = zip(*sorted(zip(viscosities, temperatures)))
-plt.plot(x, f)  
+x, f = zip(*sorted(zip(temperatures, viscosities)))
+plt.plot(x, f)
 plt.xlim(0.0, 100.0)
 plt.xlabel("Temperature [°C]")
 plt.grid(visible = True, which = "both")

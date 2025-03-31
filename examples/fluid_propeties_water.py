@@ -17,9 +17,11 @@ viscosities = []
 
 for temperature in temperatures:
     densities.append(oil.GetDensity(temperature + T_ref, pressure))
+    specificHeats.append(oil.GetSpecificHeat(temperature + T_ref, pressure))
     viscosities.append(1000.0 * oil.GetDynamicViscosity(temperature + T_ref, pressure))
 
-f, x = zip(*sorted(zip(viscosities, temperatures)))
+plt.subplot(1, 3, 1)
+x, f = zip(*sorted(zip(temperatures, viscosities)))
 plt.plot(x, f)  
 plt.xlim(0.0, 100.0)
 plt.xlabel("Temperature [°C]")
@@ -27,5 +29,23 @@ plt.grid(visible = True, which = "both")
 plt.ylim(0.1, 10.0)
 plt.ylabel("Dynamic Viscosity [mPa.s]")
 plt.yscale('log',base=10) 
-plt.show()    
 
+plt.subplot(1, 3, 2)
+x, f = zip(*sorted(zip(temperatures, densities)))
+plt.plot(x, f)  
+plt.xlim(0.0, 100.0)
+plt.xlabel("Temperature [°C]")
+plt.grid(visible = True, which = "both")
+plt.ylim(900.0, 1100.0)
+plt.ylabel("Density [kg/m³]")
+
+plt.subplot(1, 3, 3)
+x, f = zip(*sorted(zip(temperatures, specificHeats)))
+plt.plot(x, f)  
+plt.xlim(0.0, 100.0)
+plt.xlabel("Temperature [°C]")
+plt.grid(visible = True, which = "both")
+plt.ylim(4150.0, 4250.0)
+plt.ylabel("specific heat [J/(kg.K)]")
+
+plt.show()
