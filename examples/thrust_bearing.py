@@ -17,6 +17,7 @@ segment.size = 675.0
 segment.number = 12
 segment.groove = 145.0
 segment.angle = 30.0
+segment.thickness = 150.0
 
 meshFluid   = 'fluid.msh'
 meshSegment = 'segment.msh'
