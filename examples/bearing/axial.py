@@ -1,15 +1,8 @@
 import dive
+import math
 
 from dataclasses import dataclass, field
 from enum import Enum
-
-#@dataclass
-#class Project:
-#    name : str = ""
-#    user : str = ""
-#    revision : str = ""
-#    workspace: str = ""
-#    date : None
 
 class Shape(Enum):
     sectorParallel = 1
@@ -21,29 +14,81 @@ class Chamfer(Enum):
     radial = 2
 
 @dataclass
-class Segment:
-    shape = None
+class SegmentSectorParallel:
+    type = Shape.sectorParallel
     chamfer = None
+    chamferDepth = 0.0
+    chamferSize = 0.0
+    chamferAngle = 0.0
     unidirectional: bool = True
-    number : int = 4
+    number : int = 1
     diameter : float = 0.0
     size : float = 0.0
     thickness: float = 0.0
     groove: float = 0.0
-    angle: float = 0.0
-
-    def SetShape(self, shape):
-        if shape == Shape.sectorParallel.value:
-            self.shape = Shape.sectorParallel
-        elif shape == Shape.sectorRadial.value:
-            self.shape = Shape.sectorRadial
+ 
+    def SetChamferNone(self):
+        self.chamfer = Chamfer.none
         return
     
-    def SetChamfer(self, chamfer):
-        if chamfer == Chamfer.none.value:
-            self.chamfer = Chamfer.none
-        elif chamfer == Chamfer.parallel.value:
-            self.chamfer = Chamfer.parallel
-        elif chamfer == Chamfer.radial.value:
-            self.chamfer = Chamfer.radial
+    def SetChamferParallel(self, chamfer, size, depth):
+        self.chamfer = Chamfer.radial
+        self.chamferDepth = depth
+        self.chamferSize = size 
         return
+
+    def SetChamferRadial(self, chamfer, angle, depth):
+        self.chamfer = Chamfer.radial
+        self.chamferDepth = depth
+        self.chamferAngle = angle
+        return
+
+    def GetArea(self):
+        area = 0.0
+
+        if self.number > 0:
+            Do = self.diameter + self.size
+            Di = self.diameter - self.size            
+            area = (math.pi * (Do**2 - Di**2) / 4.0 ) / self.number - self.groove * self.size
+
+        return area 
+    
+@dataclass
+class SegmentSectorRadial:
+    type = Shape.sectorRadial
+    chamfer = None
+    chamferDepth = 0.0
+    chamferSize = 0.0
+    chamferAngle = 0.0
+    unidirectional: bool = True
+    number : int = 1
+    diameter : float = 0.0
+    size : float = 0.0
+    thickness: float = 0.0
+    angle: float = 0.0
+ 
+    def SetChamferNone(self):
+        self.chamfer = Chamfer.none
+        return
+    
+    def SetChamferParallel(self, chamfer, size, depth):
+        self.chamfer = Chamfer.radial
+        self.chamferDepth = depth
+        self.chamferSize = size 
+        return
+
+    def SetChamferRadial(self, chamfer, angle, depth):
+        self.chamfer = Chamfer.radial
+        self.chamferDepth = depth
+        self.chamferAngle = angle
+        return
+
+    def GetArea(self):
+        area = 0.0
+
+        if self.number > 0:
+            Do = self.diameter + self.size
+            Di = self.diameter - self.size
+            area = (math.pi * (Do**2 - Di**2) / 4.0) * (self.angle / (2.0 * math.pi))
+
+        return area
