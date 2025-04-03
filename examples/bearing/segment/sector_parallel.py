@@ -1,3 +1,4 @@
+import dive
 import math
 
 from dataclasses import dataclass, field
@@ -52,8 +53,8 @@ class Create:
 
         return area 
     
-    def GetCorners(self):
-        corners = []
+    def GetPoints(self):
+        points = []
 
         radiusInner = (self.diameter - self.size) / 2.0
         radiusOuter = (self.diameter + self.size) / 2.0
@@ -120,7 +121,7 @@ class Create:
             y12 = radiusInner * math.sin(alpha3)
 
             x13 = radiusOuter * math.cos(alpha3)
-            y13 = radiusOuter * math.Sin(alpha3)
+            y13 = radiusOuter * math.sin(alpha3)
 
             x14 = x12
             y14 = -y12
@@ -172,73 +173,73 @@ class Create:
             x15 = x13
             y15 = -y13
 
-        if self.rotation == False:
-            corners.append(TCorner.Create(x0, y0, -FThickness))
-            corners.append(TCorner.Create(x1, y1, -FThickness))
-            corners.append(TCorner.Create(x2, y2, -FThickness))
-            corners.append(TCorner.Create(x3, y3, -FThickness))
-            corners.append(TCorner.Create(x4, y4, -FThickness))
-            corners.append(TCorner.Create(x5, y5, -FThickness))
-            corners.append(TCorner.Create(x6, y6, -FThickness))
-            corners.append(TCorner.Create(x7, y7, -FThickness))
-            corners.append(TCorner.Create(x8, y8, -FThickness))
-            corners.append(TCorner.Create(x9, y9, -FThickness))
-            corners.append(TCorner.Create(x10, y10, -FThickness))
-            corners.append(TCorner.Create(x11, y11, -FThickness))
-            corners.append(TCorner.Create(x12, y12, -FThickness))
-            corners.append(TCorner.Create(x13, y13, -FThickness))
-            corners.append(TCorner.Create(x14, y14, -FThickness))
-            corners.append(TCorner.Create(x15, y15, -FThickness))
+        if self.unidirectional == False:
+            points.append(dive.CreateNode(0, x0, y0, -self.thickness))
+            points.append(dive.CreateNode(1, x1, y1, -self.thickness))
+            points.append(dive.CreateNode(2, x2, y2, -self.thickness))
+            points.append(dive.CreateNode(3, x3, y3, -self.thickness))
+            points.append(dive.CreateNode(4, x4, y4, -self.thickness))
+            points.append(dive.CreateNode(5, x5, y5, -self.thickness))
+            points.append(dive.CreateNode(6, x6, y6, -self.thickness))
+            points.append(dive.CreateNode(7, x7, y7, -self.thickness))
+            points.append(dive.CreateNode(8, x8, y8, -self.thickness))
+            points.append(dive.CreateNode(9, x9, y9, -self.thickness))
+            points.append(dive.CreateNode(10, x10, y10, -self.thickness))
+            points.append(dive.CreateNode(11, x11, y11, -self.thickness))
+            points.append(dive.CreateNode(12, x12, y12, -self.thickness))
+            points.append(dive.CreateNode(13, x13, y13, -self.thickness))
+            points.append(dive.CreateNode(14, x14, y14, -self.thickness))
+            points.append(dive.CreateNode(15, x15, y15, -self.thickness))
 
-            corners.append(TCorner.Create(X0, Y0, 0.0))
-            corners.append(TCorner.Create(X1, Y1, 0.0))
-            corners.append(TCorner.Create(X2, Y2, 0.0))
-            corners.append(TCorner.Create(X3, Y3, 0.0))
-            corners.append(TCorner.Create(X4, Y4, 0.0))
-            corners.append(TCorner.Create(X5, Y5, -FChamfer.Depth))
-            corners.append(TCorner.Create(X6, Y6, 0.0))
-            corners.append(TCorner.Create(X7, Y7, 0.0))
-            corners.append(TCorner.Create(X8, Y8, 0.0))
-            corners.append(TCorner.Create(X9, Y9, 0.0))
-            corners.append(TCorner.Create(X10, Y10, -FChamfer.Depth))
-            corners.append(TCorner.Create(X11, Y11, 0.0))
-            corners.append(TCorner.Create(X12, Y12, 0.0))
-            corners.append(TCorner.Create(X13, Y13, 0.0))
-            corners.append(TCorner.Create(X14, Y14, 0.0))
-            corners.append(TCorner.Create(X15, Y15, 0.0))
+            points.append(dive.CreateNode(0, x0, y0, 0.0))
+            points.append(dive.CreateNode(1, x1, y1, 0.0))
+            points.append(dive.CreateNode(2, x2, y2, 0.0))
+            points.append(dive.CreateNode(3, x3, y3, 0.0))
+            points.append(dive.CreateNode(4, x4, y4, 0.0))
+            points.append(dive.CreateNode(5, x5, y5, -self.chamferDepth))
+            points.append(dive.CreateNode(6, x6, y6, 0.0))
+            points.append(dive.CreateNode(7, x7, y7, 0.0))
+            points.append(dive.CreateNode(8, x8, y8, 0.0))
+            points.append(dive.CreateNode(9, x9, y9, 0.0))
+            points.append(dive.CreateNode(10, x10, y10, -self.chamferDepth))
+            points.append(dive.CreateNode(11, x11, y11, 0.0))
+            points.append(dive.CreateNode(12, x12, y12, 0.0))
+            points.append(dive.CreateNode(13, x13, y13, 0.0))
+            points.append(dive.CreateNode(14, x14, y14, 0.0))
+            points.append(dive.CreateNode(15, x15, y15, 0.0))
         else:
-            corners.append(TCorner.Create(X0, Y0, -FThickness))
-            corners.append(TCorner.Create(X1, Y1, -FThickness))
-            corners.append(TCorner.Create(X2, Y2, -FThickness))
-            corners.append(TCorner.Create(X3, Y3, -FThickness))
-            corners.append(TCorner.Create(X4, Y4, -FThickness))
-            corners.append(TCorner.Create(X5, Y5, -FThickness))
-            corners.append(TCorner.Create(X6, Y6, -FThickness))
-            corners.append(TCorner.Create(X7, Y7, -FThickness))
-            corners.append(TCorner.Create(X8, Y8, -FThickness))
-            corners.append(TCorner.Create(X9, Y9, -FThickness))
-            corners.append(TCorner.Create(X10, Y10, -FThickness))
-            corners.append(TCorner.Create(X11, Y11, -FThickness))
-            corners.append(TCorner.Create(X12, Y12, -FThickness))
-            corners.append(TCorner.Create(X13, Y13, -FThickness))
-            corners.append(TCorner.Create(X14, Y14, -FThickness))
-            corners.append(TCorner.Create(X15, Y15, -FThickness))
+            points.append(dive.CreateNode(0, x0, y0, -self.thickness))
+            points.append(dive.CreateNode(1, x1, y1, -self.thickness))
+            points.append(dive.CreateNode(2, x2, y2, -self.thickness))
+            points.append(dive.CreateNode(3, x3, y3, -self.thickness))
+            points.append(dive.CreateNode(4, x4, y4, -self.thickness))
+            points.append(dive.CreateNode(5, x5, y5, -self.thickness))
+            points.append(dive.CreateNode(6, x6, y6, -self.thickness))
+            points.append(dive.CreateNode(7, x7, y7, -self.thickness))
+            points.append(dive.CreateNode(8, x8, y8, -self.thickness))
+            points.append(dive.CreateNode(9, x9, y9, -self.thickness))
+            points.append(dive.CreateNode(10, x10, y10, -self.thickness))
+            points.append(dive.CreateNode(11, x11, y11, -self.thickness))
+            points.append(dive.CreateNode(12, x12, y12, -self.thickness))
+            points.append(dive.CreateNode(13, x13, y13, -self.thickness))
+            points.append(dive.CreateNode(14, x14, y14, -self.thickness))
+            points.append(dive.CreateNode(15, x15, y15, -self.thickness))
 
-            corners.append(TCorner.Create(X0, Y0, 0.0))
-            corners.append(TCorner.Create(X1, Y1, 0.0))
-            corners.append(TCorner.Create(X2, Y2, 0.0))
-            corners.append(TCorner.Create(X3, Y3, -FChamfer.Depth))
-            corners.append(TCorner.Create(X4, Y4, 0.0))
-            corners.append(TCorner.Create(X5, Y5, -FChamfer.Depth))
-            corners.append(TCorner.Create(X6, Y6, 0.0))
-            corners.append(TCorner.Create(X7, Y7, 0.0))
-            corners.append(TCorner.Create(X8, Y8, -FChamfer.Depth))
-            corners.append(TCorner.Create(X9, Y9, 0.0))
-            corners.append(TCorner.Create(X10, Y10, -FChamfer.Depth))
-            corners.append(TCorner.Create(X11, Y11, 0.0))
-            corners.append(TCorner.Create(X12, Y12, 0.0))
-            corners.append(TCorner.Create(X13, Y13, 0.0))
-            corners.append(TCorner.Create(X14, Y14, 0.0))
-            corners.append(TCorner.Create(X15, Y15, 0.0))
+            points.append(dive.CreateNode(0, x0, y0, 0.0))
+            points.append(dive.CreateNode(1, x1, y1, 0.0))
+            points.append(dive.CreateNode(2, x2, y2, 0.0))
+            points.append(dive.CreateNode(3, x3, y3, -self.chamferDepth))
+            points.append(dive.CreateNode(4, x4, y4, 0.0))
+            points.append(dive.CreateNode(5, x5, y5, -self.chamferDepth))
+            points.append(dive.CreateNode(6, x6, y6, 0.0))
+            points.append(dive.CreateNode(7, x7, y7, 0.0))
+            points.append(dive.CreateNode(8, x8, y8, -self.chamferDepth))
+            points.append(dive.CreateNode(9, x9, y9, 0.0))
+            points.append(dive.CreateNode(10, x10, y10, -self.chamferDepth))
+            points.append(dive.CreateNode(11, x11, y11, 0.0))
+            points.append(dive.CreateNode(12, x12, y12, 0.0))
+            points.append(dive.CreateNode(13, x13, y13, 0.0))
+            points.append(dive.CreateNode(14, x14, y14, 0.0))
+            points.append(dive.CreateNode(15, x15, y15, 0.0))
                         
-        return corners
+        return points

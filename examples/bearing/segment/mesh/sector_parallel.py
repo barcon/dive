@@ -5,22 +5,24 @@ segment_mesh_size1 = 1
 segment_mesh_size2 = 1
 segment_mesh_size3 = 1
 
-def segment_mesh_sector_gmsh_points(segment_corners):
-    aux1 = len(segment_corners)
-    
-    #Point(1) = {X, Y, Z, 0}; 
-
-    for i in range(0, aux1):
-        print("Point(", i + 1, ") = {", segment_corners[i][0], ",", segment_corners[i][1], ",",segment_corners[i][2], ", 0};")
-
-def segment_mesh_sector_size(size1, size2, size3):
+def SetSize(size1, size2, size3):
     global segment_mesh_size1
     global segment_mesh_size2
     global segment_mesh_size3
     
     segment_mesh_size1 = size1
     segment_mesh_size2 = size2
-    segment_mesh_size3 = size3    
+    segment_mesh_size3 = size3
+
+    return
+
+def Print(segment):
+    points = segment.GetPoints()
+    
+    for i, point in enumerate(points):
+        print("Point(", i + 1, ") = {", point.GetPoint()(0), ",", point.GetPoint()(1), ",",point.GetPoint()(2), "};") 
+
+    return
    
 def segment_mesh_sector(segment_fileName, segment_corners, fluid_thickness):
     global segment_mesh_size1
@@ -216,3 +218,5 @@ def segment_mesh_sector(segment_fileName, segment_corners, fluid_thickness):
     gmsh.finalize()
     
     print("[INFO]: Mesh generated. Filename:", segment_fileName) 
+
+    return

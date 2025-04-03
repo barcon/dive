@@ -1,6 +1,6 @@
 import sys
 import math
-from gleitermeshrunnerrectangular import *
+from bearing.segment.mesh.runner_rectangular import *
 
 runner_file_name = "runner.msh"
 runner_mesh_size_length = 100
