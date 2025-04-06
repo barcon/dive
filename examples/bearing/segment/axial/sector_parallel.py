@@ -2,21 +2,12 @@ import dive
 import math
 
 from dataclasses import dataclass, field
-from enum import Enum
-
-class Shape(Enum):
-    sectorParallel = 1
-    sectorRadial = 2
-
-class Chamfer(Enum):
-    none = 0
-    parallel = 1
-    radial = 2
 
 @dataclass
-class Create:
-    type = Shape.sectorParallel
-    chamfer = None
+class SectorParallel:
+    type = "axial"
+    shape = "sector"
+    chamfer = "none"
     chamferDepth = 0.0
     chamferLength = 0.0
     chamferAngle = 0.0
@@ -28,17 +19,17 @@ class Create:
     groove: float = 0.0
  
     def SetChamferNone(self):
-        self.chamfer = Chamfer.none
+        self.chamfer = "none"
         return
     
     def SetChamferParallel(self, chamfer, length, depth):
-        self.chamfer = Chamfer.radial
+        self.chamfer = "parallel"
         self.chamferDepth = depth
         self.chamferLength = length 
         return
 
     def SetChamferRadial(self, chamfer, angle, depth):
-        self.chamfer = Chamfer.radial
+        self.chamfer = "radial"
         self.chamferDepth = depth
         self.chamferAngle = angle
         return
@@ -106,7 +97,7 @@ class Create:
         x1 = 0.0
         y1 = 0.0
 
-        if self.chamfer == Chamfer.none:
+        if self.chamfer == "none":
             xt = (x8 + x3) / 2.0
             yt = (y8 + y3) / 2.0
 
@@ -128,7 +119,7 @@ class Create:
 
             x15 = x13
             y15 = -y13
-        elif self.chamfer == Chamfer.parallel:
+        elif self.chamfer == "parallel":
             aux =  radiusInner * radiusInner - (self.chamferLength + self.groove / 2.0) * (self.chamferLength + self.groove / 2.0)
             if (aux >= 0):
                 xt = math.sqrt(aux)
@@ -150,7 +141,7 @@ class Create:
 
             x15 = x13
             y15 = -y13
-        elif self.chamfer == Chamfer.radial:
+        elif self.chamfer == "radial":
             xt = (x8 + x3) / 2.0
             yt = (y8 + y3) / 2.0
 

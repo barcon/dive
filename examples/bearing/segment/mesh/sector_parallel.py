@@ -1,42 +1,25 @@
 import gmsh
 import math
 
-segment_mesh_size1 = 1
-segment_mesh_size2 = 1
-segment_mesh_size3 = 1
+segment_mesh_size1 = 5
+segment_mesh_size2 = 5
+segment_mesh_size3 = 5
 
-def SetSize(size1, size2, size3):
-    global segment_mesh_size1
-    global segment_mesh_size2
-    global segment_mesh_size3
-    
-    segment_mesh_size1 = size1
-    segment_mesh_size2 = size2
-    segment_mesh_size3 = size3
-
-    return
-
-def Print(segment):
-    points = segment.GetPoints()
-    
-    for i, point in enumerate(points):
-        print("Point(", i + 1, ") = {", point.GetPoint()(0), ",", point.GetPoint()(1), ",",point.GetPoint()(2), "};") 
-
-    return
-   
-def segment_mesh_sector(segment_fileName, segment_corners, fluid_thickness):
+def SectorParallel(fileName, segment, fluid_thickness):
     global segment_mesh_size1
     global segment_mesh_size2
     global segment_mesh_size3
 
     gmsh.initialize()
     gmsh.option.setNumber("General.Terminal", 1)
-    gmsh.model.add(segment_fileName)
+    gmsh.model.add(fileName)
     
-    aux1 = len(segment_corners)
+    points = segment.GetPoints()
+    length = len(points)
 
-    for i in range(0, aux1):
-        print("[INFO]: Adding node", gmsh.model.geo.addPoint(segment_corners[i][0], segment_corners[i][1], segment_corners[i][2] - fluid_thickness, 0, i + 1))
+    for i in range(0, length):
+        point = points[i].GetPoint()
+        print("[INFO]: Adding node", gmsh.model.geo.addPoint(point(0), point(1), point(2) - fluid_thickness, 0, i + 1))
  
     print("[INFO]: Adding line", gmsh.model.geo.addLine( 6, 11,  1))
     print("[INFO]: Adding line", gmsh.model.geo.addLine(15, 16,  2))
@@ -114,20 +97,20 @@ def segment_mesh_sector(segment_fileName, segment_corners, fluid_thickness):
 
     gmsh.model.geo.synchronize()
     
-    Xt = (segment_corners[8][0] + segment_corners[3][0]) / 2.0
-    Yt = (segment_corners[8][1] + segment_corners[3][1]) / 2.0
-    Xa = (segment_corners[13][0] + segment_corners[12][0]) / 2.0
-    Ya = (segment_corners[13][1] + segment_corners[12][1]) / 2.0
-    Aux1 = (Xt * Xa + Yt * Ya) / (math.sqrt(Xt * Xt + Yt * Yt) * math.sqrt(Xa * Xa + Ya * Ya))
+    Xt = (points(8).GetPoint()(0) + points(3).GetPoint()(0)) / 2.0
+    Yt = (points(8).GetPoint()(1) + points(3).GetPoint()(1)) / 2.0
+    Xa = (points(13).GetPoint()(0) + points(12).GetPoint()(0)) / 2.0
+    Ya = (points(13).GetPoint()(1) + points(12).GetPoint()(0)) / 2.0
+    aux1 = (Xt * Xa + Yt * Ya) / (math.sqrt(Xt * Xt + Yt * Yt) * math.sqrt(Xa * Xa + Ya * Ya))
 
     Xt = (segment_corners[13][0] + segment_corners[12][0]) / 2.0
     Yt = (segment_corners[13][1] + segment_corners[12][1]) / 2.0
     Xa = (segment_corners[15][0] + segment_corners[14][0]) / 2.0
     Ya = (segment_corners[15][1] + segment_corners[14][1]) / 2.0
-    Aux2 = (Xt * Xa + Yt * Ya) / (math.sqrt(Xt * Xt + Yt * Yt) * math.sqrt(Xa * Xa + Ya * Ya))    
+    aux2 = (Xt * Xa + Yt * Ya) / (math.sqrt(Xt * Xt + Yt * Yt) * math.sqrt(Xa * Xa + Ya * Ya))    
 
-    segment_alpha1 = math.acos(Aux1)    
-    segment_alpha2 = math.acos(Aux2)    
+    segment_alpha1 = math.acos(aux1)    
+    segment_alpha2 = math.acos(aux2)    
     segment_radius = (segment_corners[9][0] + segment_corners[4][0]) / 2.0 
     segment_length1 = segment_alpha1 * segment_radius 
     segment_length2 = segment_alpha2 * segment_radius     
@@ -214,9 +197,9 @@ def segment_mesh_sector(segment_fileName, segment_corners, fluid_thickness):
     gmsh.model.mesh.generate(3)       
     gmsh.model.mesh.setOrder(2)    
     
-    gmsh.write(segment_fileName)
+    gmsh.write(fileName)
     gmsh.finalize()
     
-    print("[INFO]: Mesh generated. Filename:", segment_fileName) 
+    print("[INFO]: Mesh generated. Filename:", fileName) 
 
     return
