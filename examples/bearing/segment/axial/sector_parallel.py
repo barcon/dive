@@ -11,7 +11,7 @@ class SectorParallel:
     chamferDepth = 0.0
     chamferLength = 0.0
     chamferAngle = 0.0
-    unidirectional: bool = True
+    bidirectional: bool = True
     number : int = 1
     diameter : float = 0.0
     size : float = 0.0
@@ -22,13 +22,13 @@ class SectorParallel:
         self.chamfer = "none"
         return
     
-    def SetChamferParallel(self, chamfer, length, depth):
+    def SetChamferParallel(self, length, depth):
         self.chamfer = "parallel"
         self.chamferDepth = depth
         self.chamferLength = length 
         return
 
-    def SetChamferRadial(self, chamfer, angle, depth):
+    def SetChamferRadial(self, angle, depth):
         self.chamfer = "radial"
         self.chamferDepth = depth
         self.chamferAngle = angle
@@ -164,7 +164,7 @@ class SectorParallel:
             x15 = x13
             y15 = -y13
 
-        if self.unidirectional == False:
+        if self.bidirectional == False:
             points.append(dive.CreateNode(0, x0, y0, -self.thickness))
             points.append(dive.CreateNode(1, x1, y1, -self.thickness))
             points.append(dive.CreateNode(2, x2, y2, -self.thickness))

@@ -11,11 +11,12 @@ oil     = materials.fluid.VG46.Create(1, T_oil_bath, p_oil_bath)
 steel   = materials.solid.steel.Create(2)
 
 segment = bearing.segment.axial.SectorParallel()
-segment.SetChamferNone()
+segment.SetChamferParallel(30, 0.2)
+segment.bidirectional = False
 segment.diameter = 2860.0
 segment.size = 675.0
 segment.number = 12
 segment.groove = 145.0
 segment.thickness = 150.0
 
-bearing.segment.mesh.SectorParallel('segment.msh', segment, 0.1)
+bearing.segment.mesh.Sector('segment.msh', segment, 0.1)

@@ -1,1 +1,1 @@
-from .sector_parallel import *
+from .sector import *

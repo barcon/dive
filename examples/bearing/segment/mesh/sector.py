@@ -1,15 +1,12 @@
 import gmsh
 import math
 
-segment_mesh_size1 = 5
-segment_mesh_size2 = 5
-segment_mesh_size3 = 5
+mesh_size_chamfer = 100
+mesh_size_width = 20
+mesh_size_radial = 20
+mesh_size_heigth = 20
 
-def SectorParallel(fileName, segment, fluid_thickness):
-    global segment_mesh_size1
-    global segment_mesh_size2
-    global segment_mesh_size3
-
+def Sector(fileName, segment, fluid_thickness):
     gmsh.initialize()
     gmsh.option.setNumber("General.Terminal", 1)
     gmsh.model.add(fileName)
@@ -97,42 +94,43 @@ def SectorParallel(fileName, segment, fluid_thickness):
 
     gmsh.model.geo.synchronize()
     
-    Xt = (points(8).GetPoint()(0) + points(3).GetPoint()(0)) / 2.0
-    Yt = (points(8).GetPoint()(1) + points(3).GetPoint()(1)) / 2.0
-    Xa = (points(13).GetPoint()(0) + points(12).GetPoint()(0)) / 2.0
-    Ya = (points(13).GetPoint()(1) + points(12).GetPoint()(0)) / 2.0
-    aux1 = (Xt * Xa + Yt * Ya) / (math.sqrt(Xt * Xt + Yt * Yt) * math.sqrt(Xa * Xa + Ya * Ya))
+    xt = (points[8].GetPoint()(0) + points[3].GetPoint()(0)) / 2.0
+    yt = (points[8].GetPoint()(1) + points[3].GetPoint()(1)) / 2.0
+    xa = (points[13].GetPoint()(0) + points[12].GetPoint()(0)) / 2.0
+    ya = (points[13].GetPoint()(1) + points[12].GetPoint()(0)) / 2.0
+    aux1 = (xt * xa + yt * ya) / (math.sqrt(xt * xt + yt * yt) * math.sqrt(xa * xa + ya * ya))
 
-    Xt = (segment_corners[13][0] + segment_corners[12][0]) / 2.0
-    Yt = (segment_corners[13][1] + segment_corners[12][1]) / 2.0
-    Xa = (segment_corners[15][0] + segment_corners[14][0]) / 2.0
-    Ya = (segment_corners[15][1] + segment_corners[14][1]) / 2.0
-    aux2 = (Xt * Xa + Yt * Ya) / (math.sqrt(Xt * Xt + Yt * Yt) * math.sqrt(Xa * Xa + Ya * Ya))    
+    xt = (points[13].GetPoint()(0) + points[12].GetPoint()(0)) / 2.0
+    yt = (points[13].GetPoint()(1) + points[12].GetPoint()(1)) / 2.0
+    xa = (points[15].GetPoint()(0) + points[14].GetPoint()(0)) / 2.0
+    ya = (points[15].GetPoint()(1) + points[14].GetPoint()(1)) / 2.0
+    aux2 = (xt * xa + yt * ya) / (math.sqrt(xt * xt + yt * yt) * math.sqrt(xa * xa + ya * ya))    
 
     segment_alpha1 = math.acos(aux1)    
     segment_alpha2 = math.acos(aux2)    
-    segment_radius = (segment_corners[9][0] + segment_corners[4][0]) / 2.0 
+    segment_radius = (points[9].GetPoint()(0) + points[4].GetPoint()(0)) / 2.0 
     segment_length1 = segment_alpha1 * segment_radius 
     segment_length2 = segment_alpha2 * segment_radius     
-    segment_width = segment_corners[9][0] - segment_corners[4][0]
-    segment_height = segment_corners[20][2] - segment_corners[4][2]
+    segment_width = points[9].GetPoint()(0) - points[4].GetPoint()(0)
+    segment_height = points[20].GetPoint()(2) - points[4].GetPoint()(2)
      
-    divisions_length1 = int(math.ceil(segment_length1 / segment_mesh_size1))
-    divisions_length2 = int(math.ceil(segment_length2 / segment_mesh_size1))
-    divisions_width = int(math.ceil(segment_width / segment_mesh_size2))
-    divisions_height = int(math.ceil(segment_height / segment_mesh_size3))
+    #divisions_width1 = int(math.ceil(segment_length1 / mesh_size_chamfer))
+    divisions_width1 = 5
+    divisions_width2 = int(math.ceil(segment_length2 / mesh_size_width))
+    divisions_radial = int(math.ceil(segment_width / mesh_size_radial))
+    divisions_height = int(math.ceil(segment_height / mesh_size_heigth))
     
     gmsh.option.setNumber('Mesh.SecondOrderIncomplete', 1)      
     gmsh.option.setNumber('Mesh.SecondOrderIncomplete', 1)      
     
-    gmsh.model.mesh.setTransfiniteCurve( 1, divisions_width, "Progression", 1.00)
-    gmsh.model.mesh.setTransfiniteCurve( 2, divisions_width, "Progression", 1.00)
-    gmsh.model.mesh.setTransfiniteCurve( 5, divisions_width, "Progression", 1.00)
-    gmsh.model.mesh.setTransfiniteCurve( 6, divisions_width, "Progression", 1.00)
-    gmsh.model.mesh.setTransfiniteCurve( 3, divisions_width, "Progression", 1.00)
-    gmsh.model.mesh.setTransfiniteCurve( 7, divisions_width, "Progression", 1.00)
-    gmsh.model.mesh.setTransfiniteCurve( 4, divisions_width, "Progression", 1.00)
-    gmsh.model.mesh.setTransfiniteCurve( 8, divisions_width, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve( 1, divisions_radial, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve( 2, divisions_radial, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve( 5, divisions_radial, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve( 6, divisions_radial, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve( 3, divisions_radial, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve( 7, divisions_radial, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve( 4, divisions_radial, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve( 8, divisions_radial, "Progression", 1.00)
 
     gmsh.model.mesh.setTransfiniteCurve( 9, divisions_height, "Progression", 1.00)
     gmsh.model.mesh.setTransfiniteCurve(10, divisions_height, "Progression", 1.00)
@@ -143,19 +141,19 @@ def SectorParallel(fileName, segment, fluid_thickness):
     gmsh.model.mesh.setTransfiniteCurve(15, divisions_height, "Progression", 1.00)
     gmsh.model.mesh.setTransfiniteCurve(16, divisions_height, "Progression", 1.00)
         
-    gmsh.model.mesh.setTransfiniteCurve(17, divisions_length1, "Progression", 1.00)
-    gmsh.model.mesh.setTransfiniteCurve(25, divisions_length1, "Progression", 1.00)
-    gmsh.model.mesh.setTransfiniteCurve(19, divisions_length1, "Progression", 1.00)
-    gmsh.model.mesh.setTransfiniteCurve(26, divisions_length1, "Progression", 1.00)
-    gmsh.model.mesh.setTransfiniteCurve(20, divisions_length1, "Progression", 1.00)
-    gmsh.model.mesh.setTransfiniteCurve(27, divisions_length1, "Progression", 1.00)
-    gmsh.model.mesh.setTransfiniteCurve(22, divisions_length1, "Progression", 1.00)
-    gmsh.model.mesh.setTransfiniteCurve(28, divisions_length1, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve(17, divisions_width1, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve(25, divisions_width1, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve(19, divisions_width1, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve(26, divisions_width1, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve(20, divisions_width1, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve(27, divisions_width1, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve(22, divisions_width1, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve(28, divisions_width1, "Progression", 1.00)
     
-    gmsh.model.mesh.setTransfiniteCurve(18, divisions_length2, "Progression", 1.00)
-    gmsh.model.mesh.setTransfiniteCurve(23, divisions_length2, "Progression", 1.00)
-    gmsh.model.mesh.setTransfiniteCurve(21, divisions_length2, "Progression", 1.00)
-    gmsh.model.mesh.setTransfiniteCurve(24, divisions_length2, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve(18, divisions_width2, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve(23, divisions_width2, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve(21, divisions_width2, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve(24, divisions_width2, "Progression", 1.00)
 
     gmsh.model.mesh.setTransfiniteSurface( 1, "Left", [ 6, 11, 27, 22])
     gmsh.model.mesh.setTransfiniteSurface( 2, "Left", [15, 16, 32, 31])
