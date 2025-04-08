@@ -8,9 +8,9 @@ class SectorParallel:
     type = "axial"
     shape = "sector"
     chamfer = "none"
-    chamferDepth = 0.0
-    chamferLength = 0.0
-    chamferAngle = 0.0
+    chamferDepth: float = 0.0
+    chamferLength: float = 0.0
+    chamferAngle: float = 0.0
     bidirectional: bool = True
     number : int = 1
     diameter : float = 0.0
@@ -182,22 +182,22 @@ class SectorParallel:
             points.append(dive.CreateNode(14, x14, y14, -self.thickness))
             points.append(dive.CreateNode(15, x15, y15, -self.thickness))
 
-            points.append(dive.CreateNode(0, x0, y0, 0.0))
-            points.append(dive.CreateNode(1, x1, y1, 0.0))
-            points.append(dive.CreateNode(2, x2, y2, 0.0))
-            points.append(dive.CreateNode(3, x3, y3, 0.0))
-            points.append(dive.CreateNode(4, x4, y4, 0.0))
-            points.append(dive.CreateNode(5, x5, y5, -self.chamferDepth))
-            points.append(dive.CreateNode(6, x6, y6, 0.0))
-            points.append(dive.CreateNode(7, x7, y7, 0.0))
-            points.append(dive.CreateNode(8, x8, y8, 0.0))
-            points.append(dive.CreateNode(9, x9, y9, 0.0))
-            points.append(dive.CreateNode(10, x10, y10, -self.chamferDepth))
-            points.append(dive.CreateNode(11, x11, y11, 0.0))
-            points.append(dive.CreateNode(12, x12, y12, 0.0))
-            points.append(dive.CreateNode(13, x13, y13, 0.0))
-            points.append(dive.CreateNode(14, x14, y14, 0.0))
-            points.append(dive.CreateNode(15, x15, y15, 0.0))
+            points.append(dive.CreateNode(16, x0, y0, 0.0))
+            points.append(dive.CreateNode(17, x1, y1, 0.0))
+            points.append(dive.CreateNode(18, x2, y2, 0.0))
+            points.append(dive.CreateNode(19, x3, y3, 0.0))
+            points.append(dive.CreateNode(20, x4, y4, 0.0))
+            points.append(dive.CreateNode(21, x5, y5, -self.chamferDepth))
+            points.append(dive.CreateNode(22, x6, y6, 0.0))
+            points.append(dive.CreateNode(23, x7, y7, 0.0))
+            points.append(dive.CreateNode(24, x8, y8, 0.0))
+            points.append(dive.CreateNode(25, x9, y9, 0.0))
+            points.append(dive.CreateNode(26, x10, y10, -self.chamferDepth))
+            points.append(dive.CreateNode(27, x11, y11, 0.0))
+            points.append(dive.CreateNode(28, x12, y12, 0.0))
+            points.append(dive.CreateNode(29, x13, y13, 0.0))
+            points.append(dive.CreateNode(30, x14, y14, 0.0))
+            points.append(dive.CreateNode(31, x15, y15, 0.0))
         else:
             points.append(dive.CreateNode(0, x0, y0, -self.thickness))
             points.append(dive.CreateNode(1, x1, y1, -self.thickness))
@@ -216,21 +216,21 @@ class SectorParallel:
             points.append(dive.CreateNode(14, x14, y14, -self.thickness))
             points.append(dive.CreateNode(15, x15, y15, -self.thickness))
 
-            points.append(dive.CreateNode(0, x0, y0, 0.0))
-            points.append(dive.CreateNode(1, x1, y1, 0.0))
-            points.append(dive.CreateNode(2, x2, y2, 0.0))
-            points.append(dive.CreateNode(3, x3, y3, -self.chamferDepth))
-            points.append(dive.CreateNode(4, x4, y4, 0.0))
-            points.append(dive.CreateNode(5, x5, y5, -self.chamferDepth))
-            points.append(dive.CreateNode(6, x6, y6, 0.0))
-            points.append(dive.CreateNode(7, x7, y7, 0.0))
-            points.append(dive.CreateNode(8, x8, y8, -self.chamferDepth))
-            points.append(dive.CreateNode(9, x9, y9, 0.0))
-            points.append(dive.CreateNode(10, x10, y10, -self.chamferDepth))
-            points.append(dive.CreateNode(11, x11, y11, 0.0))
-            points.append(dive.CreateNode(12, x12, y12, 0.0))
-            points.append(dive.CreateNode(13, x13, y13, 0.0))
-            points.append(dive.CreateNode(14, x14, y14, 0.0))
-            points.append(dive.CreateNode(15, x15, y15, 0.0))
+            points.append(dive.CreateNode(16, x0, y0, 0.0))
+            points.append(dive.CreateNode(17, x1, y1, 0.0))
+            points.append(dive.CreateNode(18, x2, y2, 0.0))
+            points.append(dive.CreateNode(19, x3, y3, -self.chamferDepth))
+            points.append(dive.CreateNode(20, x4, y4, 0.0))
+            points.append(dive.CreateNode(21, x5, y5, -self.chamferDepth))
+            points.append(dive.CreateNode(22, x6, y6, 0.0))
+            points.append(dive.CreateNode(23, x7, y7, 0.0))
+            points.append(dive.CreateNode(24, x8, y8, -self.chamferDepth))
+            points.append(dive.CreateNode(25, x9, y9, 0.0))
+            points.append(dive.CreateNode(26, x10, y10, -self.chamferDepth))
+            points.append(dive.CreateNode(27, x11, y11, 0.0))
+            points.append(dive.CreateNode(28, x12, y12, 0.0))
+            points.append(dive.CreateNode(29, x13, y13, 0.0))
+            points.append(dive.CreateNode(30, x14, y14, 0.0))
+            points.append(dive.CreateNode(31, x15, y15, 0.0))
                         
         return points

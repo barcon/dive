@@ -1,10 +1,10 @@
 import gmsh
 import math
 
-mesh_size_chamfer = 100
-mesh_size_width = 20
-mesh_size_radial = 20
-mesh_size_heigth = 20
+divisions_chamfer = 3
+divisions_width = 20
+divisions_radial = 20
+divisions_height = 10
 
 def Sector(fileName, segment, fluid_thickness):
     gmsh.initialize()
@@ -115,10 +115,10 @@ def Sector(fileName, segment, fluid_thickness):
     segment_height = points[20].GetPoint()(2) - points[4].GetPoint()(2)
      
     #divisions_width1 = int(math.ceil(segment_length1 / mesh_size_chamfer))
-    divisions_width1 = 5
-    divisions_width2 = int(math.ceil(segment_length2 / mesh_size_width))
-    divisions_radial = int(math.ceil(segment_width / mesh_size_radial))
-    divisions_height = int(math.ceil(segment_height / mesh_size_heigth))
+    #divisions_width1 = 5
+    #divisions_width2 = int(math.ceil(segment_length2 / mesh_size_width))
+    #divisions_radial = int(math.ceil(segment_width / mesh_size_radial))
+    #divisions_height = int(math.ceil(segment_height / mesh_size_heigth))
     
     gmsh.option.setNumber('Mesh.SecondOrderIncomplete', 1)      
     gmsh.option.setNumber('Mesh.SecondOrderIncomplete', 1)      
@@ -141,19 +141,19 @@ def Sector(fileName, segment, fluid_thickness):
     gmsh.model.mesh.setTransfiniteCurve(15, divisions_height, "Progression", 1.00)
     gmsh.model.mesh.setTransfiniteCurve(16, divisions_height, "Progression", 1.00)
         
-    gmsh.model.mesh.setTransfiniteCurve(17, divisions_width1, "Progression", 1.00)
-    gmsh.model.mesh.setTransfiniteCurve(25, divisions_width1, "Progression", 1.00)
-    gmsh.model.mesh.setTransfiniteCurve(19, divisions_width1, "Progression", 1.00)
-    gmsh.model.mesh.setTransfiniteCurve(26, divisions_width1, "Progression", 1.00)
-    gmsh.model.mesh.setTransfiniteCurve(20, divisions_width1, "Progression", 1.00)
-    gmsh.model.mesh.setTransfiniteCurve(27, divisions_width1, "Progression", 1.00)
-    gmsh.model.mesh.setTransfiniteCurve(22, divisions_width1, "Progression", 1.00)
-    gmsh.model.mesh.setTransfiniteCurve(28, divisions_width1, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve(17, divisions_chamfer, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve(25, divisions_chamfer, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve(19, divisions_chamfer, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve(26, divisions_chamfer, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve(20, divisions_chamfer, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve(27, divisions_chamfer, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve(22, divisions_chamfer, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve(28, divisions_chamfer, "Progression", 1.00)
     
-    gmsh.model.mesh.setTransfiniteCurve(18, divisions_width2, "Progression", 1.00)
-    gmsh.model.mesh.setTransfiniteCurve(23, divisions_width2, "Progression", 1.00)
-    gmsh.model.mesh.setTransfiniteCurve(21, divisions_width2, "Progression", 1.00)
-    gmsh.model.mesh.setTransfiniteCurve(24, divisions_width2, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve(18, divisions_width, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve(23, divisions_width, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve(21, divisions_width, "Progression", 1.00)
+    gmsh.model.mesh.setTransfiniteCurve(24, divisions_width, "Progression", 1.00)
 
     gmsh.model.mesh.setTransfiniteSurface( 1, "Left", [ 6, 11, 27, 22])
     gmsh.model.mesh.setTransfiniteSurface( 2, "Left", [15, 16, 32, 31])

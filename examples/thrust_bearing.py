@@ -19,4 +19,11 @@ segment.number = 12
 segment.groove = 145.0
 segment.thickness = 150.0
 
-bearing.segment.mesh.Sector('segment.msh', segment, 0.1)
+film = bearing.film.axial.Sector(segment)
+film.initialThickness = 0.1
+
+runner = bearing.runner.axial.Sector(segment)
+
+bearing.segment.mesh.Sector('segment.msh', segment, film.initialThickness)
+bearing.segment.mesh.Film('film.msh', film)
+bearing.segment.mesh.Runner('runner.msh', segment, film.initialThickness)
