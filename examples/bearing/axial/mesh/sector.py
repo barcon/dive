@@ -6,7 +6,7 @@ divisions_width = 20
 divisions_radial = 20
 divisions_height = 10
 
-def Sector(fileName, segment, fluid_thickness):
+def Sector(fileName, segment):
     gmsh.initialize()
     gmsh.option.setNumber("General.Terminal", 1)
     gmsh.model.add(fileName)
@@ -16,7 +16,7 @@ def Sector(fileName, segment, fluid_thickness):
 
     for i in range(0, length):
         point = points[i].GetPoint()
-        print("[INFO]: Adding node", gmsh.model.geo.addPoint(point(0), point(1), point(2) - fluid_thickness, 0, i + 1))
+        print("[INFO]: Adding node", gmsh.model.geo.addPoint(point(0), point(1), point(2), 0, i + 1))
  
     print("[INFO]: Adding line", gmsh.model.geo.addLine( 6, 11,  1))
     print("[INFO]: Adding line", gmsh.model.geo.addLine(15, 16,  2))
