@@ -21,8 +21,8 @@ segment.number = 12
 segment.groove = 145.0
 segment.thickness = 150.0
 
-film = bearing.axial.film.Sector(segment)
+film = bearing.axial.film.SectorParallel(segment)
 film.initialThickness = 0.1
 
 bearing.axial.mesh.Sector('segment.msh', segment)
-#bearing.axial.mesh.Film('film.msh', film)
+bearing.axial.mesh.Sector('film.msh', film)
