@@ -24,5 +24,13 @@ segment.thickness = 150.0
 film = bearing.axial.film.SectorParallel(segment)
 film.initialThickness = 0.1
 
-bearing.axial.mesh.Sector('segment.msh', segment)
-bearing.axial.mesh.Sector('film.msh', film)
+#bearing.axial.mesh.Sector('segment.inp', segment, bearing.axial.mesh.sectorParameters)
+#bearing.axial.mesh.Sector('film.inp', film, bearing.axial.mesh.filmParameters)
+
+import h5py 
+#import numpy as np    
+file = h5py.File("cube.cgns",'r+') 
+
+print("Keys: %s" % file.keys())
+print(file["cube.cgns"].keys())
+print(list(file["cube.cgns"][" data"]))
