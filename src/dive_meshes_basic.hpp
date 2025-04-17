@@ -64,6 +64,7 @@ namespace dive
 		};
 
 		IMeshPtr LoadGmsh(Tag meshTag, String fileName, NumberDof numberDof, Status& status);
+		IMeshPtr LoadAbaqus(Tag meshTag, String fileName, NumberDof numberDof, Status& status);
 
 		void DeformByInterpolation(IMeshPtr mesh, IInterpolationPtr interpolation);
 

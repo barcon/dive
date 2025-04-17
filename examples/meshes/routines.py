@@ -2,10 +2,21 @@ import dive
 
 def LoadMesh(tag, fileName, dof = 1):
     error = 0
-    mesh, error  = dive.LoadGmsh(tag, fileName, 1, error)
+    extension = GetFileExtension(fileName)
+
+    if(extension == 'msh'):
+        mesh, error  = dive.LoadGmsh(tag, fileName, 1, error)
+    elif (extension == 'inp'):
+        mesh, error  = dive.LoadAbaqus(tag, fileName, 1, error)
+    else:
+        return None   
 
     SetNumberDof(mesh.GetElements(), dof)
     return mesh
+
+def GetFileExtension(filename):
+    
+    return extension
 
 def SetNumberDof(elements, dof):
     for element in elements:
