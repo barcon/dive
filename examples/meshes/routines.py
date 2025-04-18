@@ -1,22 +1,19 @@
 import dive
+import os
 
 def LoadMesh(tag, fileName, dof = 1):
     error = 0
-    extension = GetFileExtension(fileName)
+    extension = os.path.splitext('segment.msh')[1].upper()
 
-    if(extension == 'msh'):
+    if(extension == 'MSH'):
         mesh, error  = dive.LoadGmsh(tag, fileName, 1, error)
-    elif (extension == 'inp'):
+    elif (extension == 'INP'):
         mesh, error  = dive.LoadAbaqus(tag, fileName, 1, error)
     else:
         return None   
 
     SetNumberDof(mesh.GetElements(), dof)
     return mesh
-
-def GetFileExtension(filename):
-    
-    return extension
 
 def SetNumberDof(elements, dof):
     for element in elements:

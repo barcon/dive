@@ -74,6 +74,7 @@
     <ClInclude Include="..\src\dive_problems_basic.hpp" />
     <ClInclude Include="..\src\dive_problems_fluid.hpp" />
     <ClInclude Include="..\src\dive_problems_pressure.hpp" />
+    <ClInclude Include="..\src\dive_problems_structural.hpp" />
     <ClInclude Include="..\src\dive_problems_thermal.hpp" />
     <ClInclude Include="..\src\dive_routines.hpp" />
     <ClInclude Include="..\src\dive_selection.hpp" />
@@ -100,6 +101,10 @@
     <ClInclude Include="..\src\dive_weakforms_pressure_mass.hpp" />
     <ClInclude Include="..\src\dive_weakforms_pressure_stabilization.hpp" />
     <ClInclude Include="..\src\dive_weakforms_pressure_stiffness.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_structural_load_distributed_face.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_structural_load_distributed_volume.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_structural_mass.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_structural_stiffness.hpp" />
     <ClInclude Include="..\src\dive_weakforms_thermal_convection.hpp" />
     <ClInclude Include="..\src\dive_weakforms_thermal_mass.hpp" />
     <ClInclude Include="..\src\dive_weakforms_thermal_stabilization.hpp" />
@@ -116,6 +121,7 @@
     <ClCompile Include="..\src\dive_problems_basic.cpp" />
     <ClCompile Include="..\src\dive_problems_fluid.cpp" />
     <ClCompile Include="..\src\dive_problems_pressure.cpp" />
+    <ClCompile Include="..\src\dive_problems_structural.cpp" />
     <ClCompile Include="..\src\dive_problems_thermal.cpp" />
     <ClCompile Include="..\src\dive_routines.cpp" />
     <ClCompile Include="..\src\dive_selection.cpp" />
@@ -138,6 +144,10 @@
     <ClCompile Include="..\src\dive_weakforms_pressure_mass.cpp" />
     <ClCompile Include="..\src\dive_weakforms_pressure_stabilization.cpp" />
     <ClCompile Include="..\src\dive_weakforms_pressure_stiffness.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_structural_load_distributed_face.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_structural_load_distributed_volume.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_structural_mass.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_structural_stiffness.cpp" />
     <ClCompile Include="..\src\dive_weakforms_themal_convection.cpp" />
     <ClCompile Include="..\src\dive_weakforms_thermal_mass.cpp" />
     <ClCompile Include="..\src\dive_weakforms_thermal_stabilization.cpp" />

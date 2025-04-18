@@ -11,9 +11,9 @@ namespace dive
 {
 	namespace problems
 	{
-		static const Type problem_thermal	= 1;
-		static const Type problem_fluid		= 2;
-		static const Type problem_pressure	= 3;
+		static const Type problem_fluid		= 1;
+		static const Type problem_pressure	= 2;
+		static const Type problem_thermal	= 3;
 		static const Type problem_structural= 4;
 
 		class IProblem
@@ -114,6 +114,27 @@ namespace dive
 
 			virtual Vector Energy() const = 0;
 		};
+
+		class IStructural : public IProblem
+		{
+		public:
+			virtual ~IStructural() = default;
+
+			virtual IScalar3DPtr GetTemperature() const = 0;
+			virtual IScalar3DPtr GetPressure() const = 0;
+
+			virtual void SetTemperature(IScalar3DPtr temperature) = 0;
+			virtual void SetPressure(IScalar3DPtr pressure) = 0;
+
+			virtual Sparse Mass() const = 0;
+			virtual Sparse Stiffness() const = 0;
+			virtual Vector LoadDistributedVolume() const = 0;
+			virtual Vector LoadDistributedFace() const = 0;
+			virtual Vector LoadDistributedEdge() const = 0;
+
+			virtual Vector Displacement() const = 0;
+		};
+
 	} //namespace problems
 } //namespace dive
 

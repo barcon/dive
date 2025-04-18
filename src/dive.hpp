@@ -44,12 +44,18 @@
 #include "dive_weakforms_pressure_crossed.hpp"
 #include "dive_weakforms_pressure_stabilization.hpp"
 #include "dive_weakforms_pressure_distributed_volume_divergence.hpp"
+#include "dive_weakforms_structural_mass.hpp"
+#include "dive_weakforms_structural_stiffness.hpp"
+#include "dive_weakforms_structural_load_distributed_volume.hpp"
+#include "dive_weakforms_structural_load_distributed_face.hpp"
+#include "dive_weakforms_structural_load_distributed_edge.hpp"
 
 #include "dive_problems.hpp"
 #include "dive_problems_basic.hpp"
 #include "dive_problems_fluid.hpp"
 #include "dive_problems_pressure.hpp"
 #include "dive_problems_thermal.hpp"
+#include "dive_problems_structural.hpp"
 #include "dive_routines.hpp"
 
 #endif /* DIVE_HPP_ */

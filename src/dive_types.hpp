@@ -216,6 +216,27 @@ namespace dive
 		class StabilizationThermal;
 		using StabilizationThermalPtr = std::shared_ptr<StabilizationThermal>;
 		using ConstStabilizationThermalPtr = std::shared_ptr<const StabilizationThermal>;
+
+		//---------------------------------------------------------------------
+		class MassStructural;
+		using MassStructuralPtr = std::shared_ptr<MassStructural>;
+		using ConstMassStructuralPtr = std::shared_ptr<const MassStructural>;
+
+		class StiffnessStructural;
+		using StiffnessStructuralPtr = std::shared_ptr<StiffnessStructural>;
+		using ConstStiffnessStructuralPtr = std::shared_ptr<const StiffnessStructural>;
+
+		class LoadDistributedVolumeStructural;
+		using LoadDistributedVolumeStructuralPtr = std::shared_ptr<LoadDistributedVolumeStructural>;
+		using ConstLoadDistributedVolumeStructuralPtr = std::shared_ptr<const LoadDistributedVolumeStructural>;
+
+		class LoadDistributedFaceStructural;
+		using LoadDistributedFaceStructuralPtr = std::shared_ptr<LoadDistributedFaceStructural>;
+		using ConstLoadDistributedFaceStructuralPtr = std::shared_ptr<const LoadDistributedFaceStructural>;
+
+		class LoadDistributedEdgeStructural;
+		using LoadDistributedEdgeStructuralPtr = std::shared_ptr<LoadDistributedEdgeStructural>;
+		using ConstLoadDistributedEdgeStructuralPtr = std::shared_ptr<const LoadDistributedEdgeStructural>;
 	}
 
 	namespace loads
@@ -278,6 +299,10 @@ namespace dive
 		class ProblemPressure;
 		using ProblemPressurePtr = std::shared_ptr<ProblemPressure>;
 		using ConstProblemPressurePtr = std::shared_ptr<const ProblemPressure>;
+
+		class ProblemStructural;
+		using ProblemStructuralPtr = std::shared_ptr<ProblemStructural>;
+		using ConstProblemStructuralPtr = std::shared_ptr<const ProblemStructural>;
 	}
 
 	using ITimerPtr = timers::ITimerPtr;
