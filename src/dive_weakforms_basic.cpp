@@ -2,6 +2,7 @@
 #include "dive_loads.hpp"
 #include "dive_loads_distributed_volume.hpp"
 #include "dive_loads_distributed_face.hpp"
+#include "dive_loads_distributed_edge.hpp"
 
 namespace dive {
 	namespace weakforms {		
@@ -83,7 +84,6 @@ namespace dive {
 		}
 		void WeakFormLoad::IntegrationEdge(ILoadPtr load, Vector& output) const
 		{
-			/*
 			auto force = std::static_pointer_cast<loads::LoadDistributedEdge>(load);
 			auto element = force->GetElement();
 			Vector local;
@@ -91,17 +91,20 @@ namespace dive {
 
 			Vector point(element->GetDimension());
 
-			auto gauss = element->IntegralArea();
-
+			const auto& gauss = element->IntegralEdge();
 			const auto& points = gauss->GetPoints();
 			const auto& weights = gauss->GetWeights();
 			const auto& quadrature = gauss->GetQuadrature();
 
 			auto edgeIndex = force->GetEdgeIndex();
-
-			output.Fill(0.0);
-
 			auto helper = element->GetIntegralEdgeHelper(edgeIndex);
+
+			point(helper.dim1) = points[0](0);
+			point(helper.dim2) = points[0](1);
+			point(helper.dim3) = helper.coord3;
+
+			WeakFormulation(load, point, local);
+			output = output + weights[0] * element->DelL(point, helper.dim1, helper.dim2) * local;
 
 			for (integral::Quadrature i = 0; i < quadrature; ++i)
 			{
@@ -115,7 +118,6 @@ namespace dive {
 
 				++counter;
 			}
-			*/
 		}
 	} // namespace weakforms
 } // namespace dive
