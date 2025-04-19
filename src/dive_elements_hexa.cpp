@@ -407,7 +407,7 @@ namespace dive
 		}
 		Vector ElementHexa::LocalCoordinates(const NodeIndex& nodeIndex) const
 		{
-			Vector local(3, 0.0);
+			Vector local(3);
 
 			local(0) = localCoordinates_[nodeIndex][0];
 			local(1) = localCoordinates_[nodeIndex][1];

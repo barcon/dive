@@ -1,5 +1,5 @@
 #include "dive_weakforms_structural_load_distributed_face.hpp"
-#include "dive_loads_distributed_volume.hpp"
+#include "dive_loads_distributed_face.hpp"
 
 namespace dive {
 	namespace weakforms {
