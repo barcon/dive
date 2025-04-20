@@ -6,12 +6,12 @@ namespace values
     {
         Matrix res;
 
-        switch (field->GetType())
+        if (field->GetType() == values::value_matrix3D_congruent)
         {
-        case values::value_matrix3D_congruent:
             res = std::static_pointer_cast<values::ValueMatrix3DCongruent>(field)->GetValue(point, element->GetElementIndex());
-            break;
-        default:
+        }
+        else
+        { 
             res = field->GetValue(element->GlobalCoordinates(point));
         }
 

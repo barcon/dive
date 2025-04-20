@@ -40,10 +40,58 @@ namespace dive
 			virtual ~ILoad() = default;
 
 			virtual Type GetType() const = 0;
+			virtual Vector GetValue(const Vector& point) = 0;
+
+			virtual void SetValue(IVector3DPtr value) = 0;
+
+		};
+
+		class ILoadDistributedVolume: public ILoad
+		{
+		public:
+			virtual ~ILoadDistributedVolume() = default;
+
 			virtual IElementPtr GetElement() const = 0;
 
 			virtual void SetElement(IElementPtr element) = 0;
 		};
+
+		class ILoadDistributedFace : public ILoad
+		{
+		public:
+			virtual ~ILoadDistributedFace() = default;
+
+			virtual IElementPtr GetElement() const = 0;
+			virtual FaceIndex GetFaceIndex() const = 0;
+
+			virtual void SetElement(IElementPtr element) = 0;
+			virtual void SetFaceIndex(FaceIndex faceIndex) = 0;
+		};
+
+		class ILoadDistributedEdge : public ILoad
+		{
+		public:
+			virtual ~ILoadDistributedEdge() = default;
+
+			virtual IElementPtr GetElement() const = 0;
+			virtual FaceIndex GetFaceIndex() const = 0;
+			virtual FaceIndex GetEdgeIndex() const = 0;
+
+			virtual void SetElement(IElementPtr element) = 0;
+			virtual void SetFaceIndex(FaceIndex faceIndex) = 0;
+			virtual void SetEdgeIndex(EdgeIndex edgeIndex) = 0;
+		};
+
+		class ILoadForceNode : public ILoad
+		{
+		public:
+			virtual ~ILoadForceNode() = default;
+
+			virtual INodePtr GetNode() const = 0;
+
+			virtual void SetNode(INodePtr node) = 0;
+		};
+
 	} //namespace loads
 } //namespace dive
 

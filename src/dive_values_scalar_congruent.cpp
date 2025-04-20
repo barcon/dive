@@ -7,12 +7,12 @@ namespace values
     {
         Scalar res{ 0.0 };
 
-        switch (field->GetType())
+        if (field->GetType() == values::value_scalar3D_congruent)
         {
-        case values::value_scalar3D_congruent:
             res = std::static_pointer_cast<values::ValueScalar3DCongruent>(field)->GetValue(point, element->GetElementIndex());
-            break;
-        default:
+        }
+        else
+        {
             res = field->GetValue(element->GlobalCoordinates(point));
         }
 

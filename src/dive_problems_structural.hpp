@@ -10,6 +10,7 @@
 #include "dive_weakforms_structural_load_distributed_volume.hpp"
 #include "dive_weakforms_structural_load_distributed_face.hpp"
 #include "dive_weakforms_structural_load_distributed_edge.hpp"
+#include "dive_weakforms_structural_load_nodal.hpp"
 
 namespace dive
 {
@@ -61,6 +62,7 @@ namespace dive
 			Vector LoadDistributedVolume() const override;
 			Vector LoadDistributedFace() const override;
 			Vector LoadDistributedEdge() const override;
+			Vector LoadNodal() const override;
 			
 			Vector Displacement() const override;
 

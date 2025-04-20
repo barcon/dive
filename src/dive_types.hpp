@@ -237,6 +237,10 @@ namespace dive
 		class LoadDistributedEdgeStructural;
 		using LoadDistributedEdgeStructuralPtr = std::shared_ptr<LoadDistributedEdgeStructural>;
 		using ConstLoadDistributedEdgeStructuralPtr = std::shared_ptr<const LoadDistributedEdgeStructural>;
+
+		class LoadForceNodeStructural;
+		using LoadForceNodeStructuralPtr = std::shared_ptr<LoadForceNodeStructural>;
+		using ConstLoadForceNodeStructuralPtr = std::shared_ptr<const LoadForceNodeStructural>;
 	}
 
 	namespace loads
@@ -276,6 +280,10 @@ namespace dive
 		class LoadDistributedEdge;
 		using LoadDistributedEdgePtr = std::shared_ptr<LoadDistributedEdge>;
 		using ConstLoadDistributedEdgePtr = std::shared_ptr<const LoadDistributedEdge>;
+
+		class LoadForceNode;
+		using LoadForceNodePtr = std::shared_ptr<LoadForceNode>;
+		using ConstLoadForceNodePtr = std::shared_ptr<const LoadForceNode>;
 	}
 
 	namespace problems

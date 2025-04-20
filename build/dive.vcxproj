@@ -101,6 +101,7 @@
     <ClInclude Include="..\src\dive_weakforms_pressure_mass.hpp" />
     <ClInclude Include="..\src\dive_weakforms_pressure_stabilization.hpp" />
     <ClInclude Include="..\src\dive_weakforms_pressure_stiffness.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_structural_load_distributed_edge.hpp" />
     <ClInclude Include="..\src\dive_weakforms_structural_load_distributed_face.hpp" />
     <ClInclude Include="..\src\dive_weakforms_structural_load_distributed_volume.hpp" />
     <ClInclude Include="..\src\dive_weakforms_structural_mass.hpp" />
@@ -144,6 +145,7 @@
     <ClCompile Include="..\src\dive_weakforms_pressure_mass.cpp" />
     <ClCompile Include="..\src\dive_weakforms_pressure_stabilization.cpp" />
     <ClCompile Include="..\src\dive_weakforms_pressure_stiffness.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_structural_load_distributed_edge.cpp" />
     <ClCompile Include="..\src\dive_weakforms_structural_load_distributed_face.cpp" />
     <ClCompile Include="..\src\dive_weakforms_structural_load_distributed_volume.cpp" />
     <ClCompile Include="..\src\dive_weakforms_structural_mass.cpp" />

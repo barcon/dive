@@ -216,6 +216,20 @@ namespace dive {
 
 			return res;
 		}
+		Vector ProblemStructural::LoadNodal() const
+		{
+			TimerStart();
+
+			auto loadNodalWeak = weakforms::CreateWeakFormLoadNodalStructural();
+
+			auto problemStructural = std::make_shared<ProblemStructural>(*this);
+
+			auto res = Vector(IntegralForm(loadNodalWeak, problemStructural, loads_), 0);
+
+			TimerElapsed(__FUNCTION__);
+
+			return res;
+		}
 		Vector ProblemStructural::Displacement() const
 		{
 			Vector res(totalDof_, 0.0);

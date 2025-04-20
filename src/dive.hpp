@@ -13,6 +13,7 @@
 
 #include "dive_loads.hpp"
 #include "dive_loads_dirichlet.hpp"
+#include "dive_loads_force_node.hpp"
 #include "dive_loads_distributed_edge.hpp"
 #include "dive_loads_distributed_face.hpp"
 #include "dive_loads_distributed_volume.hpp"
@@ -49,6 +50,7 @@
 #include "dive_weakforms_structural_load_distributed_volume.hpp"
 #include "dive_weakforms_structural_load_distributed_face.hpp"
 #include "dive_weakforms_structural_load_distributed_edge.hpp"
+#include "dive_weakforms_structural_load_force_node.hpp"
 
 #include "dive_problems.hpp"
 #include "dive_problems_basic.hpp"
