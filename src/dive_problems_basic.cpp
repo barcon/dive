@@ -1,8 +1,10 @@
 #include "dive_problems_basic.hpp"
 
 #include "dive_loads_dirichlet.hpp"
-#include "dive_loads_distributed_face.hpp"
 #include "dive_loads_distributed_volume.hpp"
+#include "dive_loads_distributed_face.hpp"
+#include "dive_loads_distributed_edge.hpp"
+#include "dive_loads_node.hpp"
 #include "dive_selection.hpp"
 #include "dive_status.hpp"
 
@@ -64,47 +66,65 @@ namespace dive
 			Vector global(problem1->GetTotalDof(), 0.0);
 			Vector local;
 			Scalar aux{ 0 };
+			NumberDof numberDof{ 0 };
+			NumberNodes numberNodes{ 0 };
+			ElementIndex elementIndex{ 0 };
 
 			const auto& nodeMeshIndices = problem1->GetNodeMeshIndices();
 
 			for (auto& load : loads)
 			{
-				auto numberDof = problem1->GetNumberDof();
-				auto numberNodes = load->GetElement()->GetNumberNodes();
-				auto elementIndex = load->GetElement()->GetElementIndex();
-
-				if (local.GetRows() != numberNodes * numberDof)
+				if (load->GetType() == loads::load_node)
 				{
-					local.Resize(numberNodes * numberDof);
+
 				}
-
-				switch (load->GetType())
+				else
 				{
-					case(loads::load_distributedVolume):
+					if (load->GetType() == loads::load_distributedVolume)
 					{
 						weakForm->IntegrationVolume(load, local);
-						break;
+
+						const auto& element = std::static_pointer_cast<loads::ILoadDistributedVolume>(load)->GetElement();
+
+						numberDof = element->GetNumberDof();
+						numberNodes = element->GetNumberNodes();
+						elementIndex = element->GetElementIndex();
 					}
-					case(loads::load_distributedFace):
-					{			
+					else if (load->GetType() == loads::load_distributedFace)
+					{
 						weakForm->IntegrationFace(load, local);
-						break;
+
+						const auto& element = std::static_pointer_cast<loads::ILoadDistributedFace>(load)->GetElement();
+
+						numberDof = element->GetNumberDof();
+						numberNodes = element->GetNumberNodes();
+						elementIndex = element->GetElementIndex();
 					}
-					case(loads::load_distributedEdge):
+					else if (load->GetType() == loads::load_distributedEdge)
 					{
 						weakForm->IntegrationEdge(load, local);
-						break;
+
+						const auto& element = std::static_pointer_cast<loads::ILoadDistributedEdge>(load)->GetElement();
+
+						numberDof = element->GetNumberDof();
+						numberNodes = element->GetNumberNodes();
+						elementIndex = element->GetElementIndex();
 					}
-				}
 
-				for (NodeIndex i = 0; i < numberNodes; ++i)
-				{
-					for (DofIndex j = 0; j < numberDof; ++j)
+					if (local.GetRows() != numberNodes * numberDof)
 					{
-						aux = global.GetValue(nodeMeshIndices[elementIndex][i].dofIndices[j]);
-						aux += local.GetValue(i * numberDof + j);
+						local.Resize(numberNodes * numberDof);
+					}
 
-						global.SetValue(nodeMeshIndices[elementIndex][i].dofIndices[j], aux);
+					for (NodeIndex i = 0; i < numberNodes; ++i)
+					{
+						for (DofIndex j = 0; j < numberDof; ++j)
+						{
+							aux = global.GetValue(nodeMeshIndices[elementIndex][i].dofIndices[j]);
+							aux += local.GetValue(i * numberDof + j);
+
+							global.SetValue(nodeMeshIndices[elementIndex][i].dofIndices[j], aux);
+						}
 					}
 				}
 			}

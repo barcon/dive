@@ -9,7 +9,7 @@ namespace dive
 	{
 		LoadDistributedFacePtr CreateLoadDistributedFace(IElementPtr element, FaceIndex faceIndex, IVector3DPtr value);
 
-		class LoadDistributedFace : public ILoad, virtual public std::enable_shared_from_this<LoadDistributedFace>
+		class LoadDistributedFace : public ILoadDistributedFace, virtual public std::enable_shared_from_this<LoadDistributedFace>
 		{
 		public:
 			virtual ~LoadDistributedFace() = default;

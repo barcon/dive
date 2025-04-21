@@ -50,7 +50,7 @@ namespace dive {
 		}
 		void WeakFormLoad::IntegrationFace(ILoadPtr load, Vector& output) const
 		{
-			auto force = std::static_pointer_cast<loads::LoadDistributedFace>(load);
+			/*auto force = std::static_pointer_cast<loads::LoadDistributedFace>(load);
 			auto element = force->GetElement();
 			Vector local;
 
@@ -80,11 +80,11 @@ namespace dive {
 				WeakFormulation(load, point, local);
 
 				output = output + weights[i] * element->DelA(point, helper.dim1, helper.dim2) * local;
-			}
+			}*/
 		}
 		void WeakFormLoad::IntegrationEdge(ILoadPtr load, Vector& output) const
 		{
-			auto force = std::static_pointer_cast<loads::LoadDistributedEdge>(load);
+			/*auto force = std::static_pointer_cast<loads::LoadDistributedEdge>(load);
 			auto element = force->GetElement();
 			Vector local;
 			Index counter = 0;
@@ -117,7 +117,7 @@ namespace dive {
 				output = output + weights[counter] * element->DelL(point, helper.dim1) * local;
 
 				++counter;
-			}
+			}*/
 		}
 	} // namespace weakforms
 } // namespace dive

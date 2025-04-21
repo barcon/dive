@@ -4480,7 +4480,7 @@ load_dirichlet = cvar.load_dirichlet
 load_distributedVolume = cvar.load_distributedVolume
 load_distributedFace = cvar.load_distributedFace
 load_distributedEdge = cvar.load_distributedEdge
-load_forceNode = cvar.load_forceNode
+load_node = cvar.load_node
 load_initialStrain = cvar.load_initialStrain
 load_temperatureStrain = cvar.load_temperatureStrain
 load_heatSourceVolume = cvar.load_heatSourceVolume
@@ -4498,14 +4498,108 @@ class ILoad(object):
     def GetType(self):
         return _diveCL.ILoad_GetType(self)
 
-    def GetElement(self):
-        return _diveCL.ILoad_GetElement(self)
-
-    def SetElement(self, element):
-        return _diveCL.ILoad_SetElement(self, element)
-
 # Register ILoad in _diveCL:
 _diveCL.ILoad_swigregister(ILoad)
+class ILoadDistributedVolume(ILoad):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+
+    def __init__(self, *args, **kwargs):
+        raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _diveCL.delete_ILoadDistributedVolume
+
+    def GetElement(self):
+        return _diveCL.ILoadDistributedVolume_GetElement(self)
+
+    def GetValue(self, point):
+        return _diveCL.ILoadDistributedVolume_GetValue(self, point)
+
+    def SetElement(self, element):
+        return _diveCL.ILoadDistributedVolume_SetElement(self, element)
+
+    def SetValue(self, value):
+        return _diveCL.ILoadDistributedVolume_SetValue(self, value)
+
+# Register ILoadDistributedVolume in _diveCL:
+_diveCL.ILoadDistributedVolume_swigregister(ILoadDistributedVolume)
+class ILoadDistributedFace(ILoad):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+
+    def __init__(self, *args, **kwargs):
+        raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _diveCL.delete_ILoadDistributedFace
+
+    def GetElement(self):
+        return _diveCL.ILoadDistributedFace_GetElement(self)
+
+    def GetFaceIndex(self):
+        return _diveCL.ILoadDistributedFace_GetFaceIndex(self)
+
+    def GetValue(self, point):
+        return _diveCL.ILoadDistributedFace_GetValue(self, point)
+
+    def SetElement(self, element):
+        return _diveCL.ILoadDistributedFace_SetElement(self, element)
+
+    def SetFaceIndex(self, faceIndex):
+        return _diveCL.ILoadDistributedFace_SetFaceIndex(self, faceIndex)
+
+    def SetValue(self, value):
+        return _diveCL.ILoadDistributedFace_SetValue(self, value)
+
+# Register ILoadDistributedFace in _diveCL:
+_diveCL.ILoadDistributedFace_swigregister(ILoadDistributedFace)
+class ILoadDistributedEdge(ILoad):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+
+    def __init__(self, *args, **kwargs):
+        raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _diveCL.delete_ILoadDistributedEdge
+
+    def GetElement(self):
+        return _diveCL.ILoadDistributedEdge_GetElement(self)
+
+    def GetEdgeIndex(self):
+        return _diveCL.ILoadDistributedEdge_GetEdgeIndex(self)
+
+    def GetValue(self, point):
+        return _diveCL.ILoadDistributedEdge_GetValue(self, point)
+
+    def SetElement(self, element):
+        return _diveCL.ILoadDistributedEdge_SetElement(self, element)
+
+    def SetEdgeIndex(self, edgeIndex):
+        return _diveCL.ILoadDistributedEdge_SetEdgeIndex(self, edgeIndex)
+
+    def SetValue(self, value):
+        return _diveCL.ILoadDistributedEdge_SetValue(self, value)
+
+# Register ILoadDistributedEdge in _diveCL:
+_diveCL.ILoadDistributedEdge_swigregister(ILoadDistributedEdge)
+class ILoadNode(ILoad):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+
+    def __init__(self, *args, **kwargs):
+        raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _diveCL.delete_ILoadNode
+
+    def GetNode(self):
+        return _diveCL.ILoadNode_GetNode(self)
+
+    def GetValue(self):
+        return _diveCL.ILoadNode_GetValue(self)
+
+    def SetNode(self, node):
+        return _diveCL.ILoadNode_SetNode(self, node)
+
+    def SetValue(self, value):
+        return _diveCL.ILoadNode_SetValue(self, value)
+
+# Register ILoadNode in _diveCL:
+_diveCL.ILoadNode_swigregister(ILoadNode)
 
 def CreateDirichletByValue(node, dofIndex, value):
     return _diveCL.CreateDirichletByValue(node, dofIndex, value)
@@ -4553,7 +4647,7 @@ _diveCL.Dirichlet_swigregister(Dirichlet)
 
 def CreateLoadDistributedVolume(element, value):
     return _diveCL.CreateLoadDistributedVolume(element, value)
-class LoadDistributedVolume(ILoad):
+class LoadDistributedVolume(ILoadDistributedVolume):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
     def __init__(self, *args, **kwargs):
@@ -4588,7 +4682,7 @@ _diveCL.LoadDistributedVolume_swigregister(LoadDistributedVolume)
 
 def CreateLoadDistributedFace(element, faceIndex, value):
     return _diveCL.CreateLoadDistributedFace(element, faceIndex, value)
-class LoadDistributedFace(ILoad):
+class LoadDistributedFace(ILoadDistributedFace):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
     def __init__(self, *args, **kwargs):
@@ -4627,26 +4721,81 @@ class LoadDistributedFace(ILoad):
 # Register LoadDistributedFace in _diveCL:
 _diveCL.LoadDistributedFace_swigregister(LoadDistributedFace)
 
+def CreateLoadDistributedEdge(element, edgeIndex, value):
+    return _diveCL.CreateLoadDistributedEdge(element, edgeIndex, value)
+class LoadDistributedEdge(ILoadDistributedEdge):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
-#import ctypes
+    def __init__(self, *args, **kwargs):
+        raise AttributeError("No constructor defined")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _diveCL.delete_LoadDistributedEdge
 
-#py_cfunction_loads1 = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double)
-#py_cfunction_loads2 = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double, ctypes.c_double)
-#py_cfunction_loads3 = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double)
-#py_cfunction_loads4 = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double)
+    @staticmethod
+    def Create():
+        return _diveCL.LoadDistributedEdge_Create()
 
-#def CreateDirichletByFunction(node, dofIndex, function):
-#	f = py_cfunction_type1(function)
-#	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
+    def GetPtr(self, *args):
+        return _diveCL.LoadDistributedEdge_GetPtr(self, *args)
 
-#	return _dive.CreateDirichletByFunction(node, dofIndex, f_ptr)
+    def GetType(self):
+        return _diveCL.LoadDistributedEdge_GetType(self)
 
-#def CreateLoadDistributedVolume(element, dofIndex, function):
-#	f = py_cfunction_type4(function)
-#	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
+    def GetElement(self):
+        return _diveCL.LoadDistributedEdge_GetElement(self)
 
-#	return _dive.CreateLoadDistributedVolume(element, dofIndex, f_ptr)
+    def GetValue(self, point):
+        return _diveCL.LoadDistributedEdge_GetValue(self, point)
 
+    def GetEdgeIndex(self):
+        return _diveCL.LoadDistributedEdge_GetEdgeIndex(self)
+
+    def SetElement(self, element):
+        return _diveCL.LoadDistributedEdge_SetElement(self, element)
+
+    def SetEdgeIndex(self, edgeIndex):
+        return _diveCL.LoadDistributedEdge_SetEdgeIndex(self, edgeIndex)
+
+    def SetValue(self, value):
+        return _diveCL.LoadDistributedEdge_SetValue(self, value)
+
+# Register LoadDistributedEdge in _diveCL:
+_diveCL.LoadDistributedEdge_swigregister(LoadDistributedEdge)
+
+def CreateLoadNode(node, value):
+    return _diveCL.CreateLoadNode(node, value)
+class LoadNode(ILoadNode):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+
+    def __init__(self, *args, **kwargs):
+        raise AttributeError("No constructor defined")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _diveCL.delete_LoadNode
+
+    @staticmethod
+    def Create():
+        return _diveCL.LoadNode_Create()
+
+    def GetPtr(self, *args):
+        return _diveCL.LoadNode_GetPtr(self, *args)
+
+    def GetType(self):
+        return _diveCL.LoadNode_GetType(self)
+
+    def GetNode(self):
+        return _diveCL.LoadNode_GetNode(self)
+
+    def GetValue(self):
+        return _diveCL.LoadNode_GetValue(self)
+
+    def SetNode(self, node):
+        return _diveCL.LoadNode_SetNode(self, node)
+
+    def SetValue(self, value):
+        return _diveCL.LoadNode_SetValue(self, value)
+
+# Register LoadNode in _diveCL:
+_diveCL.LoadNode_swigregister(LoadNode)
 class vecMeshes(object):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr
@@ -5636,6 +5785,15 @@ class IStructural(IProblem):
     def LoadDistributedVolume(self):
         return _diveCL.IStructural_LoadDistributedVolume(self)
 
+    def LoadDistributedFace(self):
+        return _diveCL.IStructural_LoadDistributedFace(self)
+
+    def LoadDistributedEdge(self):
+        return _diveCL.IStructural_LoadDistributedEdge(self)
+
+    def LoadNodal(self):
+        return _diveCL.IStructural_LoadNodal(self)
+
     def Displacement(self):
         return _diveCL.IStructural_Displacement(self)
 
@@ -5990,7 +6148,7 @@ class ProblemStructural(IStructural):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
     def __init__(self, *args, **kwargs):
-        raise AttributeError("No constructor defined")
+        raise AttributeError("No constructor defined - class is abstract")
     __repr__ = _swig_repr
     __swig_destroy__ = _diveCL.delete_ProblemStructural
 
@@ -6078,6 +6236,15 @@ class ProblemStructural(IStructural):
 
     def LoadDistributedVolume(self):
         return _diveCL.ProblemStructural_LoadDistributedVolume(self)
+
+    def LoadDistributedFace(self):
+        return _diveCL.ProblemStructural_LoadDistributedFace(self)
+
+    def LoadDistributedEdge(self):
+        return _diveCL.ProblemStructural_LoadDistributedEdge(self)
+
+    def LoadNode(self):
+        return _diveCL.ProblemStructural_LoadNode(self)
 
     def Displacement(self):
         return _diveCL.ProblemStructural_Displacement(self)

@@ -12,7 +12,7 @@ namespace dive
 		static const Type load_distributedVolume	= 2;
 		static const Type load_distributedFace		= 3;
 		static const Type load_distributedEdge		= 4;
-		static const Type load_forceNode			= 5;
+		static const Type load_node					= 5;
 		static const Type load_initialStrain		= 6;
 		static const Type load_temperatureStrain	= 7;
 		static const Type load_heatSourceVolume		= 8;
@@ -40,20 +40,18 @@ namespace dive
 			virtual ~ILoad() = default;
 
 			virtual Type GetType() const = 0;
-			virtual Vector GetValue(const Vector& point) = 0;
-
-			virtual void SetValue(IVector3DPtr value) = 0;
-
 		};
 
-		class ILoadDistributedVolume: public ILoad
+		class ILoadDistributedVolume : public ILoad
 		{
 		public:
 			virtual ~ILoadDistributedVolume() = default;
 
 			virtual IElementPtr GetElement() const = 0;
+			virtual Vector GetValue(const Vector& point) const = 0;
 
 			virtual void SetElement(IElementPtr element) = 0;
+			virtual void SetValue(IVector3DPtr value) = 0;
 		};
 
 		class ILoadDistributedFace : public ILoad
@@ -63,9 +61,11 @@ namespace dive
 
 			virtual IElementPtr GetElement() const = 0;
 			virtual FaceIndex GetFaceIndex() const = 0;
+			virtual Vector GetValue(const Vector& point) const = 0;
 
 			virtual void SetElement(IElementPtr element) = 0;
 			virtual void SetFaceIndex(FaceIndex faceIndex) = 0;
+			virtual void SetValue(IVector3DPtr value) = 0;
 		};
 
 		class ILoadDistributedEdge : public ILoad
@@ -74,22 +74,24 @@ namespace dive
 			virtual ~ILoadDistributedEdge() = default;
 
 			virtual IElementPtr GetElement() const = 0;
-			virtual FaceIndex GetFaceIndex() const = 0;
-			virtual FaceIndex GetEdgeIndex() const = 0;
+			virtual EdgeIndex GetEdgeIndex() const = 0;
+			virtual Vector GetValue(const Vector& point) const = 0;
 
 			virtual void SetElement(IElementPtr element) = 0;
-			virtual void SetFaceIndex(FaceIndex faceIndex) = 0;
 			virtual void SetEdgeIndex(EdgeIndex edgeIndex) = 0;
+			virtual void SetValue(IVector3DPtr value) = 0;
 		};
 
-		class ILoadForceNode : public ILoad
+		class ILoadNode : public ILoad
 		{
 		public:
-			virtual ~ILoadForceNode() = default;
+			virtual ~ILoadNode() = default;
 
 			virtual INodePtr GetNode() const = 0;
+			virtual Vector GetValue() const = 0;
 
 			virtual void SetNode(INodePtr node) = 0;
+			virtual void SetValue(IVector3DPtr value) = 0;
 		};
 
 	} //namespace loads

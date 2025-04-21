@@ -9,7 +9,7 @@ namespace dive
 	{
 		LoadDistributedEdgePtr CreateLoadDistributedEdge(IElementPtr element, EdgeIndex edgeIndex, IVector3DPtr value);
 
-		class LoadDistributedEdge : public ILoad, virtual public std::enable_shared_from_this<LoadDistributedEdge>
+		class LoadDistributedEdge : public ILoadDistributedEdge, virtual public std::enable_shared_from_this<LoadDistributedEdge>
 		{
 		public:
 			virtual ~LoadDistributedEdge() = default;
@@ -21,7 +21,7 @@ namespace dive
 			Type GetType() const override;
 			IElementPtr GetElement() const override;
 			Vector GetValue(const Vector& point) const;
-			FaceIndex GetEdgeIndex() const;
+			EdgeIndex GetEdgeIndex() const;
 
 			void SetElement(IElementPtr element) override;
 			void SetEdgeIndex(EdgeIndex edgeIndex);
