@@ -50,7 +50,7 @@ namespace dive {
 		}
 		void WeakFormLoad::IntegrationFace(ILoadPtr load, Vector& output) const
 		{
-			/*auto force = std::static_pointer_cast<loads::LoadDistributedFace>(load);
+			auto force = std::static_pointer_cast<loads::LoadDistributedFace>(load);
 			auto element = force->GetElement();
 			Vector local;
 
@@ -80,11 +80,11 @@ namespace dive {
 				WeakFormulation(load, point, local);
 
 				output = output + weights[i] * element->DelA(point, helper.dim1, helper.dim2) * local;
-			}*/
+			}
 		}
 		void WeakFormLoad::IntegrationEdge(ILoadPtr load, Vector& output) const
 		{
-			/*auto force = std::static_pointer_cast<loads::LoadDistributedEdge>(load);
+			auto force = std::static_pointer_cast<loads::LoadDistributedEdge>(load);
 			auto element = force->GetElement();
 			Vector local;
 			Index counter = 0;
@@ -100,13 +100,13 @@ namespace dive {
 			auto helper = element->GetIntegralEdgeHelper(edgeIndex);
 
 			point(helper.dim1) = points[0](0);
-			point(helper.dim2) = points[0](1);
+			point(helper.dim2) = helper.coord2;
 			point(helper.dim3) = helper.coord3;
 
 			WeakFormulation(load, point, local);
-			output = output + weights[0] * element->DelL(point, helper.dim1, helper.dim2) * local;
+			output = output + weights[0] * element->DelL(point, helper.dim1) * local;
 
-			for (integral::Quadrature i = 0; i < quadrature; ++i)
+			for (quadrature::Counter i = 1; i < counter; ++i)
 			{
 				point(helper.dim1) = points[counter](0);
 				point(helper.dim2) = helper.coord2;
@@ -117,7 +117,7 @@ namespace dive {
 				output = output + weights[counter] * element->DelL(point, helper.dim1) * local;
 
 				++counter;
-			}*/
+			}
 		}
 	} // namespace weakforms
 } // namespace dive

@@ -216,11 +216,11 @@ namespace dive {
 
 			return res;
 		}
-		Vector ProblemStructural::LoadNodal() const
+		Vector ProblemStructural::LoadNode() const
 		{
 			TimerStart();
 
-			auto loadNodalWeak = weakforms::CreateWeakFormLoadNodalStructural();
+			auto loadNodalWeak = weakforms::CreateWeakFormLoadNodeStructural();
 
 			auto problemStructural = std::make_shared<ProblemStructural>(*this);
 
