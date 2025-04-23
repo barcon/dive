@@ -5791,8 +5791,8 @@ class IStructural(IProblem):
     def LoadDistributedEdge(self):
         return _diveCL.IStructural_LoadDistributedEdge(self)
 
-    def LoadNodal(self):
-        return _diveCL.IStructural_LoadNodal(self)
+    def LoadNode(self):
+        return _diveCL.IStructural_LoadNode(self)
 
     def Displacement(self):
         return _diveCL.IStructural_Displacement(self)
@@ -6148,7 +6148,7 @@ class ProblemStructural(IStructural):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
     def __init__(self, *args, **kwargs):
-        raise AttributeError("No constructor defined - class is abstract")
+        raise AttributeError("No constructor defined")
     __repr__ = _swig_repr
     __swig_destroy__ = _diveCL.delete_ProblemStructural
 
