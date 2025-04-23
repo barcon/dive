@@ -3,16 +3,13 @@ import os
 
 def LoadMesh(tag, fileName, dof = 1):
     error = 0
-    extension = os.path.splitext('segment.msh')[1].upper()
+    extension = os.path.splitext(fileName)[1].upper()
 
-    if(extension == 'MSH'):
-        mesh, error  = dive.LoadGmsh(tag, fileName, 1, error)
-    elif (extension == 'INP'):
-        mesh, error  = dive.LoadAbaqus(tag, fileName, 1, error)
+    if(extension == '.MSH'):
+        mesh, error  = dive.LoadGmsh(tag, fileName, dof, error)
     else:
         return None   
-
-    SetNumberDof(mesh.GetElements(), dof)
+    
     return mesh
 
 def SetNumberDof(elements, dof):

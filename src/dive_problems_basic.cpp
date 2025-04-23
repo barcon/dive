@@ -66,11 +66,13 @@ namespace dive
 			Vector global(problem1->GetTotalDof(), 0.0);
 			Vector local;
 			Scalar aux{ 0 };
+			Tag nodeTag{ 0 };
 			NumberDof numberDof{ 0 };
 			NumberNodes numberNodes{ 0 };
 			ElementIndex elementIndex{ 0 };
 
 			const auto& nodeMeshIndices = problem1->GetNodeMeshIndices();
+			const auto& dofMeshIndices = problem1->GetDofMeshIndices();
 
 			for (auto& load : loads)
 			{
@@ -78,6 +80,22 @@ namespace dive
 				{
 					const auto& forceNode = std::static_pointer_cast<loads::ILoadNode>(load);
 
+					nodeTag = forceNode->GetNode()->GetTag();
+					numberDof = forceNode->GetNode()->GetNumberDof();
+
+					auto dofIndex = std::lower_bound(dofMeshIndices.begin(), dofMeshIndices.end(), nodeTag,
+						[&](DofMeshIndex dofMeshIndex, Tag tag) -> bool
+						{
+							return (dofMeshIndex.node->GetTag() < tag);
+						});
+
+					for (DofIndex j = 0; j < numberDof; ++j)
+					{
+						aux = global.GetValue((dofIndex + j)->globalIndex);
+						aux += local.GetValue(numberDof);
+
+						global.SetValue((dofIndex + j)->globalIndex, aux);
+					}
 				}
 				else
 				{
@@ -208,9 +226,9 @@ namespace dive
 					node = elements[i]->GetNode(j);
 					nodeTag = node->GetTag();
 
-					nodeMeshIndex.dofIndices.clear();
 					nodeMeshIndex.node = node;
 					nodeMeshIndex.index = node->GetNodeIndex();
+					nodeMeshIndex.dofIndices.clear();
 
 					auto dofIndex = std::lower_bound(dofMeshIndices.begin(), dofMeshIndices.end(), nodeTag,
 						[&](DofMeshIndex dofMeshIndex, Tag tag) -> bool
