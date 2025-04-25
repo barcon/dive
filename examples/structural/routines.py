@@ -2,14 +2,14 @@ from dive import *
 
 problem = None
 
-def CreateProblem(tag, timer, mesh, pressure, velocity):
+def CreateProblem(tag, timer, mesh, temperature, pressure):
     global problem
 
-    problem = CreateProblemThermal(tag)
+    problem = CreateProblemStructural(tag)
     problem.SetTimer(timer)
     problem.SetMesh(mesh)
+    problem.SetTemperature(temperature)
     problem.SetPressure(pressure)
-    problem.SetVelocity(velocity) 
     
     return problem
 
@@ -49,20 +49,20 @@ def ApplyDirichlet(nodes, value, dof = None):
             problem.AddDirichlet(dirichlet)
     return
 
-def Energy():
+def Displacement():
     global problem
 
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
 
-    y = problem.Energy()
+    y = problem.Displacement()
 
     y0 = y.Region(0, pivot - 1)  
     y1 = y.Region(pivot, totalDof - 1) 
 
     return [y0, y1]
 
-def EnergyDerivative():
+def DisplacementDerivative():
     global problem
 
     totalDof = problem.GetTotalDof()
@@ -99,26 +99,21 @@ def Mass():
 
     return [M21, M22]
 
-def Convection():
+def LoadNode():
     global problem
 
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
     
-    C = problem.Convection()
-    C21 = C.Region(pivot, 0, totalDof - 1, pivot - 1)
-    C22 = C.Region(pivot, pivot, totalDof - 1, totalDof - 1)
+    f = problem.LoadNode()
 
-    return [C21, C22]
+    f0 = f.Region(0, pivot - 1)  
+    f1 = f.Region(pivot, totalDof - 1) 
 
-def Stabilization():
+    #return [f0, f1]
+    return f
+
+def AddLoad(load):
     global problem
-
-    totalDof = problem.GetTotalDof()
-    pivot = problem.GetPivot()
-    
-    S = problem.Stabilization()
-    S21 = S.Region(pivot, 0, totalDof - 1, pivot - 1)
-    S22 = S.Region(pivot, pivot, totalDof - 1, totalDof - 1)
-
-    return [S21, S22]
+    problem.AddLoad(load)
+    return

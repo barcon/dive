@@ -589,7 +589,14 @@ namespace dive
 		{
 			if (node == nullptr)
 			{
-				nodes_[nodeIndex]->RemoveElement(this->GetPtr());
+				auto& elements = nodes_[nodeIndex]->GetConnectivity().elements;
+				auto it = std::find(elements.begin(), elements.end(), this->GetPtr());
+
+				if (it != elements.end())
+				{
+					elements.erase(it);
+				}
+
 				nodes_[nodeIndex] = nullptr;
 
 				return;
@@ -597,12 +604,25 @@ namespace dive
 
 			if (nodes_[nodeIndex] != nullptr)
 			{
-				nodes_[nodeIndex]->RemoveElement(this->GetPtr());
+				auto& elements = nodes_[nodeIndex]->GetConnectivity().elements;
+				auto it = std::find(elements.begin(), elements.end(), this->GetPtr());
+
+				if (it != elements.end())
+				{
+					elements.erase(it);
+				}
 			}
 
 			nodes_[nodeIndex] = node;
 			nodes_[nodeIndex]->SetNumberDof(numberDof_);
-			nodes_[nodeIndex]->AddElement(this->GetPtr());
+
+			auto& elements = nodes_[nodeIndex]->GetConnectivity().elements;
+			auto it = std::find(elements.begin(), elements.end(), this->GetPtr());
+
+			if (it == elements.end())
+			{
+				elements.push_back(this->GetPtr());
+			}
 		}
 		void ElementHexa::SetOrder(const Order& order)
 		{

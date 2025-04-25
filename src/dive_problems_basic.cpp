@@ -178,7 +178,8 @@ namespace dive
 
 			for (NodeIndex i = 0; i < nodes.size(); ++i)
 			{
-				nodes[i]->SetNodeIndex(i);
+				nodes[i]->GetConnectivity().nodeIndex = i;
+				nodes[i]->GetConnectivity().globalDofIndices.clear();
 
 				for (Index j = 0; j < nodes[i]->GetNumberDof(); ++j)
 				{
@@ -191,6 +192,8 @@ namespace dive
 					dofMeshIndex.dirichlet = nullptr;
 					dofMeshIndex.dirichletIndex = 0;
 					dofMeshIndex.dirichletReordered = false;
+
+					nodes[i]->GetConnectivity().globalDofIndices.push_back(totalDof);
 
 					dofMeshIndices.push_back(dofMeshIndex);
 					totalDof++;
@@ -227,7 +230,7 @@ namespace dive
 					nodeTag = node->GetTag();
 
 					nodeMeshIndex.node = node;
-					nodeMeshIndex.index = node->GetNodeIndex();
+					nodeMeshIndex.index = node->GetConnectivity().nodeIndex;
 					nodeMeshIndex.dofIndices.clear();
 
 					auto dofIndex = std::lower_bound(dofMeshIndices.begin(), dofMeshIndices.end(), nodeTag,

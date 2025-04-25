@@ -1557,8 +1557,8 @@ class IMatrix3D(IValue):
 # Register IMatrix3D in _dive:
 _dive.IMatrix3D_swigregister(IMatrix3D)
 
-def CreateValueBool(value, name, key):
-    return _dive.CreateValueBool(value, name, key)
+def CreateValueBool(*args):
+    return _dive.CreateValueBool(*args)
 
 def CastToBool(value):
     return _dive.CastToBool(value)
@@ -1598,8 +1598,8 @@ class ValueBool(IBool):
 # Register ValueBool in _dive:
 _dive.ValueBool_swigregister(ValueBool)
 
-def CreateValueString(value, name, key):
-    return _dive.CreateValueString(value, name, key)
+def CreateValueString(*args):
+    return _dive.CreateValueString(*args)
 
 def CastToString(value):
     return _dive.CastToString(value)
@@ -1639,8 +1639,8 @@ class ValueString(IString):
 # Register ValueString in _dive:
 _dive.ValueString_swigregister(ValueString)
 
-def CreateValueScalar(value, name, key):
-    return _dive.CreateValueScalar(value, name, key)
+def CreateValueScalar(*args):
+    return _dive.CreateValueScalar(*args)
 
 def CastToScalar(value):
     return _dive.CastToScalar(value)
@@ -1680,8 +1680,8 @@ class ValueScalar(IScalar):
 # Register ValueScalar in _dive:
 _dive.ValueScalar_swigregister(ValueScalar)
 
-def CreateValueScalar1D(value, name, key):
-    return _dive.CreateValueScalar1D(value, name, key)
+def CreateValueScalar1D(*args):
+    return _dive.CreateValueScalar1D(*args)
 
 def CastToScalar1D(value):
     return _dive.CastToScalar1D(value)
@@ -1721,8 +1721,8 @@ class ValueScalar1D(IScalar1D):
 # Register ValueScalar1D in _dive:
 _dive.ValueScalar1D_swigregister(ValueScalar1D)
 
-def CreateValueScalar2D(value, name, key):
-    return _dive.CreateValueScalar2D(value, name, key)
+def CreateValueScalar2D(*args):
+    return _dive.CreateValueScalar2D(*args)
 
 def CastToScalar2D(value):
     return _dive.CastToScalar2D(value)
@@ -1762,8 +1762,8 @@ class ValueScalar2D(IScalar2D):
 # Register ValueScalar2D in _dive:
 _dive.ValueScalar2D_swigregister(ValueScalar2D)
 
-def CreateValueScalar3D(value, name, key):
-    return _dive.CreateValueScalar3D(value, name, key)
+def CreateValueScalar3D(*args):
+    return _dive.CreateValueScalar3D(*args)
 
 def CastToScalar3D(value):
     return _dive.CastToScalar3D(value)
@@ -1803,8 +1803,8 @@ class ValueScalar3D(IScalar3D):
 # Register ValueScalar3D in _dive:
 _dive.ValueScalar3D_swigregister(ValueScalar3D)
 
-def CreateValueScalar1DFunction(function_Pointer_D_D, name, key):
-    return _dive.CreateValueScalar1DFunction(function_Pointer_D_D, name, key)
+def CreateValueScalar1DFunction(*args):
+    return _dive.CreateValueScalar1DFunction(*args)
 
 def CastToScalar1DFunction(value):
     return _dive.CastToScalar1DFunction(value)
@@ -1926,8 +1926,8 @@ class ValueScalar3DFunction(IScalar3D):
 # Register ValueScalar3DFunction in _dive:
 _dive.ValueScalar3DFunction_swigregister(ValueScalar3DFunction)
 
-def CreateValueScalar3DInterpolation(nodes, interpolationType, name, key):
-    return _dive.CreateValueScalar3DInterpolation(nodes, interpolationType, name, key)
+def CreateValueScalar3DInterpolation(*args):
+    return _dive.CreateValueScalar3DInterpolation(*args)
 
 def CastToScalar3DInterpolation(value):
     return _dive.CastToScalar3DInterpolation(value)
@@ -1970,8 +1970,8 @@ class ValueScalar3DInterpolation(IScalar3D):
 # Register ValueScalar3DInterpolation in _dive:
 _dive.ValueScalar3DInterpolation_swigregister(ValueScalar3DInterpolation)
 
-def CreateValueVector(value, name, key):
-    return _dive.CreateValueVector(value, name, key)
+def CreateValueVector(*args):
+    return _dive.CreateValueVector(*args)
 
 def CastToVector(value):
     return _dive.CastToVector(value)
@@ -2011,8 +2011,8 @@ class ValueVector(IVector):
 # Register ValueVector in _dive:
 _dive.ValueVector_swigregister(ValueVector)
 
-def CreateValueVector1D(value, name, key):
-    return _dive.CreateValueVector1D(value, name, key)
+def CreateValueVector1D(*args):
+    return _dive.CreateValueVector1D(*args)
 
 def CastToVector1D(value):
     return _dive.CastToVector1D(value)
@@ -2052,8 +2052,8 @@ class ValueVector1D(IVector1D):
 # Register ValueVector1D in _dive:
 _dive.ValueVector1D_swigregister(ValueVector1D)
 
-def CreateValueVector2D(value, name, key):
-    return _dive.CreateValueVector2D(value, name, key)
+def CreateValueVector2D(*args):
+    return _dive.CreateValueVector2D(*args)
 
 def CastToVector2D(value):
     return _dive.CastToVector2D(value)
@@ -2093,8 +2093,8 @@ class ValueVector2D(IVector2D):
 # Register ValueVector2D in _dive:
 _dive.ValueVector2D_swigregister(ValueVector2D)
 
-def CreateValueVector3D(value, name, key):
-    return _dive.CreateValueVector3D(value, name, key)
+def CreateValueVector3D(*args):
+    return _dive.CreateValueVector3D(*args)
 
 def CastToVector3D(value):
     return _dive.CastToVector3D(value)
@@ -2134,8 +2134,8 @@ class ValueVector3D(IVector3D):
 # Register ValueVector3D in _dive:
 _dive.ValueVector3D_swigregister(ValueVector3D)
 
-def CreateValueMatrix(value, name, key):
-    return _dive.CreateValueMatrix(value, name, key)
+def CreateValueMatrix(*args):
+    return _dive.CreateValueMatrix(*args)
 
 def CastToMatrix(value):
     return _dive.CastToMatrix(value)
@@ -2298,8 +2298,8 @@ class ValueMatrix3D(IMatrix3D):
 # Register ValueMatrix3D in _dive:
 _dive.ValueMatrix3D_swigregister(ValueMatrix3D)
 
-def CreateValueMatrix3DInterpolation(nodes, interpolationType, name, key):
-    return _dive.CreateValueMatrix3DInterpolation(nodes, interpolationType, name, key)
+def CreateValueMatrix3DInterpolation(*args):
+    return _dive.CreateValueMatrix3DInterpolation(*args)
 
 def CastToMatrix3DInterpolation(value):
     return _dive.CastToMatrix3DInterpolation(value)
@@ -3271,6 +3271,21 @@ class vecNodes(object):
 
 # Register vecNodes in _dive:
 _dive.vecNodes_swigregister(vecNodes)
+class Connectivity(object):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+    __repr__ = _swig_repr
+    nodeIndex = property(_dive.Connectivity_nodeIndex_get, _dive.Connectivity_nodeIndex_set)
+    globalDofIndices = property(_dive.Connectivity_globalDofIndices_get, _dive.Connectivity_globalDofIndices_set)
+    elements = property(_dive.Connectivity_elements_get, _dive.Connectivity_elements_set)
+
+    def __init__(self):
+        _dive.Connectivity_swiginit(self, _dive.new_Connectivity())
+    __swig_destroy__ = _dive.delete_Connectivity
+
+# Register Connectivity in _dive:
+_dive.Connectivity_swigregister(Connectivity)
+headerNode = cvar.headerNode
+
 class INode(object):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
@@ -3297,34 +3312,17 @@ class INode(object):
     def SetTag(self, tag):
         return _dive.INode_SetTag(self, tag)
 
-    def SetNodeIndex(self, index):
-        return _dive.INode_SetNodeIndex(self, index)
-
     def SetNumberDof(self, numberDof):
         return _dive.INode_SetNumberDof(self, numberDof)
-
-    def GetNodeIndex(self):
-        return _dive.INode_GetNodeIndex(self)
 
     def GetNumberDof(self):
         return _dive.INode_GetNumberDof(self)
 
-    def GetElements(self):
-        return _dive.INode_GetElements(self)
-
-    def AddElement(self, element):
-        return _dive.INode_AddElement(self, element)
-
-    def RemoveElement(self, element):
-        return _dive.INode_RemoveElement(self, element)
-
-    def ClearElements(self):
-        return _dive.INode_ClearElements(self)
+    def GetConnectivity(self):
+        return _dive.INode_GetConnectivity(self)
 
 # Register INode in _dive:
 _dive.INode_swigregister(INode)
-headerNode = cvar.headerNode
-
 
 def CreateNode(*args):
     return _dive.CreateNode(*args)
@@ -3364,29 +3362,14 @@ class Node(INode):
     def SetTag(self, tag):
         return _dive.Node_SetTag(self, tag)
 
-    def SetNodeIndex(self, index):
-        return _dive.Node_SetNodeIndex(self, index)
-
     def SetNumberDof(self, numberDof):
         return _dive.Node_SetNumberDof(self, numberDof)
-
-    def GetNodeIndex(self):
-        return _dive.Node_GetNodeIndex(self)
 
     def GetNumberDof(self):
         return _dive.Node_GetNumberDof(self)
 
-    def GetElements(self):
-        return _dive.Node_GetElements(self)
-
-    def AddElement(self, element):
-        return _dive.Node_AddElement(self, element)
-
-    def RemoveElement(self, element):
-        return _dive.Node_RemoveElement(self, element)
-
-    def ClearElements(self):
-        return _dive.Node_ClearElements(self)
+    def GetConnectivity(self):
+        return _dive.Node_GetConnectivity(self)
 
 # Register Node in _dive:
 _dive.Node_swigregister(Node)

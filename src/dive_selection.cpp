@@ -107,7 +107,7 @@ namespace dive
 
 			for (auto& node : input)
 			{
-				for (auto& element : node->GetElements())
+				for (auto& element : node->GetConnectivity().elements)
 				{
 					res.insert(element);
 				}

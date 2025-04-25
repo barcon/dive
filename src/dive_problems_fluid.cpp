@@ -161,7 +161,7 @@ namespace dive {
 				auto dofIndex = dofMeshIndices_[i].dofIndex;
 
 				auto node = dofMeshIndices_[i].node;
-				auto element = node->GetElements()[0];
+				auto element = node->GetConnectivity().elements[0];
 				auto point = element->LocalCoordinates(node);
 				auto material = std::static_pointer_cast<material::IMaterialFluid>(element->GetMaterial());
 
@@ -276,7 +276,7 @@ namespace dive {
 			for (Index i = 0; i < dofMeshIndices_.size(); ++i)
 			{
 				auto node = dofMeshIndices_[i].node;
-				auto element = node->GetElements()[0];
+				auto element = node->GetConnectivity().elements[0];
 				auto point = element->LocalCoordinates(node);
 				auto material = std::static_pointer_cast<material::IMaterialFluid>(element->GetMaterial());
 
