@@ -13,9 +13,11 @@ def CreateProblem(tag, timer, mesh, temperature, pressure):
     
     return problem
 
+def GetProblem():
+    return problem
+
 def Initialize(): 
     global problem
-
     problem.Initialize()
     
     return
@@ -26,7 +28,7 @@ def UpdateMeshValues(y):
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
 
-    y0 = problem.Energy()
+    y0 = problem.Displacement()
 
     y0.Region(0, pivot - 1, y[0])
     y0.Region(pivot, totalDof - 1, y[1])
@@ -49,71 +51,35 @@ def ApplyDirichlet(nodes, value, dof = None):
             problem.AddDirichlet(dirichlet)
     return
 
-def Displacement():
+def PartitionVector(vector):
     global problem
 
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
 
-    y = problem.Displacement()
+    v0 = vector.Region(0, pivot - 1)  
+    v1 = vector.Region(pivot, totalDof - 1) 
 
-    y0 = y.Region(0, pivot - 1)  
-    y1 = y.Region(pivot, totalDof - 1) 
+    return [v0, v1]
 
-    return [y0, y1]
-
-def DisplacementDerivative():
+def PartitionMatrix(matrix):
     global problem
 
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
+        
+    m00 = matrix.Region(0, 0, pivot - 1, pivot - 1)
+    m01 = matrix.Region(0, pivot, pivot - 1, totalDof - 1)        
+    m10 = matrix.Region(pivot, 0, totalDof - 1, pivot - 1)
+    m11 = matrix.Region(pivot, pivot, totalDof - 1, totalDof - 1)
 
-    dy = Vector(totalDof)
+    return [m00, m01, m10, m11]  
 
-    dy0 = dy.Region(0, pivot - 1)  
-    dy1 = dy.Region(pivot, totalDof - 1) 
-
-    return [dy0, dy1]
-
-def Stiffness():
+def ApplyLoadNode(nodes, force):
     global problem
 
-    totalDof = problem.GetTotalDof()
-    pivot = problem.GetPivot()
+    for node in nodes:
+        load = CreateLoadNode(node, force)
+        problem.AddLoad(load)
     
-    K = problem.Stiffness()
-    K21 = K.Region(pivot, 0, totalDof - 1, pivot - 1)
-    K22 = K.Region(pivot, pivot, totalDof - 1, totalDof - 1)
-
-    return [K21, K22]
-
-def Mass():
-    global problem    
-    
-    totalDof = problem.GetTotalDof()
-    pivot = problem.GetPivot()
-    
-    M = problem.Mass()
-    M21 = M.Region(pivot, 0, totalDof - 1, pivot - 1)
-    M22 = M.Region(pivot, pivot, totalDof - 1, totalDof - 1)
-
-    return [M21, M22]
-
-def LoadNode():
-    global problem
-
-    totalDof = problem.GetTotalDof()
-    pivot = problem.GetPivot()
-    
-    f = problem.LoadNode()
-
-    f0 = f.Region(0, pivot - 1)  
-    f1 = f.Region(pivot, totalDof - 1) 
-
-    #return [f0, f1]
-    return f
-
-def AddLoad(load):
-    global problem
-    problem.AddLoad(load)
     return

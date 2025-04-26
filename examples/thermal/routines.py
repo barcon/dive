@@ -13,25 +13,26 @@ def CreateProblem(tag, timer, mesh, pressure, velocity):
     
     return problem
 
+def GetProblem():
+    return problem
+
 def Initialize(): 
     global problem
-
     problem.Initialize()
-    
+       
     return
 
-def UpdateMeshValues(y): 
+def UpdateMeshValues(q): 
     global problem
 
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
 
-    y0 = problem.Energy()
-
-    y0.Region(0, pivot - 1, y[0])
-    y0.Region(pivot, totalDof - 1, y[1])
-
-    problem.UpdateMeshValues(y0)
+    y = problem.Energy()
+    y.Region(0, pivot - 1, q[0])
+    y.Region(pivot, totalDof - 1, q[1])    
+    
+    problem.UpdateMeshValues(y)
     
     return
 
@@ -49,76 +50,26 @@ def ApplyDirichlet(nodes, value, dof = None):
             problem.AddDirichlet(dirichlet)
     return
 
-def Energy():
+def PartitionVector(vector):
     global problem
 
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
 
-    y = problem.Energy()
+    v0 = vector.Region(0, pivot - 1)  
+    v1 = vector.Region(pivot, totalDof - 1) 
 
-    y0 = y.Region(0, pivot - 1)  
-    y1 = y.Region(pivot, totalDof - 1) 
+    return [v0, v1]
 
-    return [y0, y1]
-
-def EnergyDerivative():
+def PartitionMatrix(matrix):
     global problem
 
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
+        
+    m00 = matrix.Region(0, 0, pivot - 1, pivot - 1)
+    m01 = matrix.Region(0, pivot, pivot - 1, totalDof - 1)        
+    m10 = matrix.Region(pivot, 0, totalDof - 1, pivot - 1)
+    m11 = matrix.Region(pivot, pivot, totalDof - 1, totalDof - 1)
 
-    dy = Vector(totalDof)
-
-    dy0 = dy.Region(0, pivot - 1)  
-    dy1 = dy.Region(pivot, totalDof - 1) 
-
-    return [dy0, dy1]
-
-def Stiffness():
-    global problem
-
-    totalDof = problem.GetTotalDof()
-    pivot = problem.GetPivot()
-    
-    K = problem.Stiffness()
-    K21 = K.Region(pivot, 0, totalDof - 1, pivot - 1)
-    K22 = K.Region(pivot, pivot, totalDof - 1, totalDof - 1)
-
-    return [K21, K22]
-
-def Mass():
-    global problem    
-    
-    totalDof = problem.GetTotalDof()
-    pivot = problem.GetPivot()
-    
-    M = problem.Mass()
-    M21 = M.Region(pivot, 0, totalDof - 1, pivot - 1)
-    M22 = M.Region(pivot, pivot, totalDof - 1, totalDof - 1)
-
-    return [M21, M22]
-
-def Convection():
-    global problem
-
-    totalDof = problem.GetTotalDof()
-    pivot = problem.GetPivot()
-    
-    C = problem.Convection()
-    C21 = C.Region(pivot, 0, totalDof - 1, pivot - 1)
-    C22 = C.Region(pivot, pivot, totalDof - 1, totalDof - 1)
-
-    return [C21, C22]
-
-def Stabilization():
-    global problem
-
-    totalDof = problem.GetTotalDof()
-    pivot = problem.GetPivot()
-    
-    S = problem.Stabilization()
-    S21 = S.Region(pivot, 0, totalDof - 1, pivot - 1)
-    S22 = S.Region(pivot, pivot, totalDof - 1, totalDof - 1)
-
-    return [S21, S22]
+    return [m00, m01, m10, m11]

@@ -31,12 +31,11 @@ thermal.ApplyDirichlet(nodesRight, 100.0)
 thermal.Initialize()
 #--------------------------------------------------------------------------------------------------
 
-K = thermal.Stiffness()
-y = thermal.Energy()
+K = thermal.PartitionMatrix(thermal.GetProblem().Stiffness())
+y = thermal.PartitionVector(thermal.GetProblem().Energy())
 
-monitor = solvers.Iterative(K[1], y[1], -K[0] * y[0])
+monitor = solvers.Iterative(K[3], y[1], -K[2] * y[0])
 
 thermal.UpdateMeshValues(y)
 
-#plots.residual.HeatMapNorm(monitor)
 plots.HeatMapNorm(mesh.GetNodes())

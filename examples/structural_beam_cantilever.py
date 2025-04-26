@@ -1,6 +1,8 @@
 import meshes
 import materials.solid.steel
 import structural
+import solvers
+import plots
 
 T_ref = 293.15    #[K]      = 20 [°C]
 p_ref = 101325.1  #[N/m²]   =  1 [atm]
@@ -17,19 +19,29 @@ pressure = structural.CreateValueScalar3D(p_ref)
 
 nodesLeft = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structural.axis_x, 0.0, 0.001)
 nodesRight = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structural.axis_x, meshes.beam.x, 0.001)
+nodesRight = structural.FilterNodesByCoordinate(nodesRight, basis, structural.axis_y, meshes.beam.y / 2.0, 0.001)
+nodesRight = structural.FilterNodesByCoordinate(nodesRight, basis, structural.axis_z, meshes.beam.z / 2.0, 0.001)
 
-structural.CreateProblem(1, timer, mesh, pressure, None)
+structural.CreateProblem(1, timer, mesh, temperature, pressure)
 structural.ApplyDirichlet(nodesLeft, 0.0)
 structural.Initialize()
 
 forceVector = structural.Vector(3)
 forceVector[0] = 0.0
 forceVector[1] = 0.0
-forceVector[2] = -1.0
+forceVector[2] = -10000.0
 force = structural.CreateValueVector3D(forceVector)
 
-for node in nodesRight:
-    load = structural.CreateLoadNode(node, force)    
-    structural.AddLoad(load)
+structural.ApplyLoadNode(nodesRight, force)
 
-print(structural.LoadNode())
+#--------------------------------------------------------------------------------------------------
+
+K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
+y = structural.PartitionVector(structural.GetProblem().Displacement())
+f = structural.PartitionVector(structural.GetProblem().LoadNode())
+
+monitor = solvers.Iterative(K[3], y[1], -K[2] * y[0] + f[1])
+
+plots.residual.Show(monitor)
+structural.UpdateMeshValues(y)
+print(nodesRight)

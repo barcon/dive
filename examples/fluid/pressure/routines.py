@@ -18,27 +18,27 @@ def GetProblem():
 
 def Initialize(): 
     global problem
-
     problem.Initialize()
     
     return
 
-def UpdateMeshValues(y): 
+def UpdateMeshValues(q): 
     global problem
 
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
 
-    y0 = problem.Pressure()
-
-    y0.Region(0, pivot - 1, y[0])
-    y0.Region(pivot, totalDof - 1, y[1])
-
-    problem.UpdateMeshValues(y0)
+    y = problem.Pressure()
+    y.Region(0, pivot - 1, q[0])
+    y.Region(pivot, totalDof - 1, q[1])    
+    
+    problem.UpdateMeshValues(y)
     
     return
 
 def ApplyDirichlet(nodes, value, dof = None):
+    global problem
+    
     for node in nodes:
         if (dof == None):
             numberDof = node.GetNumberDof()
@@ -48,12 +48,6 @@ def ApplyDirichlet(nodes, value, dof = None):
         else:
             dirichlet = CreateDirichletByValue(node, dof, value)
             problem.AddDirichlet(dirichlet)
-    return
-
-def ApplyLoadDistributedVolumeDivergence(elements):
-    for element in elements:
-        load = CreateLoadDistributedVolume(element, None)
-        problem.AddLoad(load)
     return
 
 def PartitionVector(vector):
@@ -79,3 +73,9 @@ def PartitionMatrix(matrix):
     m11 = matrix.Region(pivot, pivot, totalDof - 1, totalDof - 1)
 
     return [m00, m01, m10, m11]  
+
+def ApplyLoadDistributedVolumeDivergence(elements):
+    for element in elements:
+        load = CreateLoadDistributedVolume(element, None)
+        problem.AddLoad(load)
+    return

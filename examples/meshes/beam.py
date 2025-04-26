@@ -4,9 +4,9 @@ x = 1.0
 y = 0.1
 z = 0.1
 
-nx = 3
-ny = 3
-nz = 3
+nx = 101
+ny = 5
+nz = 5
 
 quadratic = False
 

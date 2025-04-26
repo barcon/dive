@@ -80,21 +80,18 @@ namespace dive
 				{
 					const auto& forceNode = std::static_pointer_cast<loads::ILoadNode>(load);
 
+					local = forceNode->GetValue();
 					nodeTag = forceNode->GetNode()->GetTag();
 					numberDof = forceNode->GetNode()->GetNumberDof();
 
-					auto dofIndex = std::lower_bound(dofMeshIndices.begin(), dofMeshIndices.end(), nodeTag,
-						[&](DofMeshIndex dofMeshIndex, Tag tag) -> bool
-						{
-							return (dofMeshIndex.node->GetTag() < tag);
-						});
-
 					for (DofIndex j = 0; j < numberDof; ++j)
 					{
-						aux = global.GetValue((dofIndex + j)->globalIndex);
-						aux += local.GetValue(numberDof);
+						auto globalIndex = forceNode->GetNode()->GetConnectivity().globalDofIndices[j];
 
-						global.SetValue((dofIndex + j)->globalIndex, aux);
+						aux = global.GetValue(globalIndex);
+						aux += local.GetValue(j);
+
+						global.SetValue(globalIndex, aux);
 					}
 				}
 				else

@@ -149,6 +149,8 @@ namespace dive {
 			TimerStart();
 
 			auto massWeak = weakforms::CreateWeakFormMassStructural();
+			massWeak->SetTemperature(temperature_);
+			massWeak->SetPressure(pressure_);
 
 			auto problemStructural = std::make_shared<ProblemStructural>(*this);
 			

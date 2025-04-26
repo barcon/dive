@@ -18,9 +18,8 @@ def GetProblem():
 
 def Initialize(): 
     global problem
-
     problem.Initialize()
-    
+       
     return
 
 def UpdateMeshValuesMomentum(q): 
