@@ -6,7 +6,96 @@ namespace dive
 {
 	namespace selection
 	{
-		Nodes FilterNodes(Specification<INodePtr>& spec, const Nodes& input)
+
+		SpecNodesByCoordinate::SpecNodesByCoordinate(IBasisPtr basis, Axis axis, Scalar pos, Scalar tol)
+		{
+			basis_ = basis;
+			axis_ = axis;
+			pos_ = pos;
+			tol_ = tol;
+		}
+		bool SpecNodesByCoordinate::IsSatisfied(INodePtr item)
+		{
+			auto local = basis_->GlobalToLocal(item->GetPoint());
+
+			if (std::fabs(local(axis_) - pos_) <= tol_)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		SpecNodesByRange::SpecNodesByRange(IBasisPtr basis, Axis axis, Scalar min, Scalar max, Scalar tol)
+		{
+			basis_ = basis;
+			axis_ = axis;
+			min_ = min;
+			max_ = max;
+			tol_ = tol;
+		}
+		bool SpecNodesByRange::IsSatisfied(INodePtr item)
+		{
+			auto local = basis_->GlobalToLocal(item->GetPoint());
+
+			if ((local(axis_) >= (min_ - tol_)) && (local(axis_) <= (max_ + tol_)))
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		SpecNodesByTag::SpecNodesByTag(Tag min, Tag max)
+		{
+			min_ = min;
+			max_ = max;
+		}
+		bool SpecNodesByTag::IsSatisfied(INodePtr item)
+		{
+			auto tag = item->GetTag();
+
+			if (tag >= min_ && tag <= max_)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		SpecElementsByTag::SpecElementsByTag(Tag min, Tag max)
+		{
+			min_ = min;
+			max_ = max;
+		}
+		bool SpecElementsByTag::IsSatisfied(IElementPtr item)
+		{
+			auto tag = item->GetTag();
+
+			if (tag >= min_ && tag <= max_)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		SpecElementsByType::SpecElementsByType()
+		{
+		}
+		bool SpecElementsByType::IsSatisfied(IElementPtr item)
+		{
+			if (selectionTypes_.find(item->GetType()) != selectionTypes_.end())
+			{
+				return false;
+			}
+
+			selectionTypes_.insert(item->GetType());
+
+			return true;
+		}
+
+		Nodes FilterNodes(SpecificationFilter<INodePtr>& spec, const Nodes& input)
 		{
 			SelectionNodes res;
 
@@ -63,8 +152,8 @@ namespace dive
 
 			return Nodes(res.begin(), res.end());
 		}
-		
-		Elements FilterElements(Specification<IElementPtr>& spec, const Elements& input)
+
+		Elements FilterElements(SpecificationFilter<IElementPtr>& spec, const Elements& input)
 		{
 			SelectionElements res;
 
@@ -115,94 +204,37 @@ namespace dive
 
 			return  Elements(res.begin(), res.end());
 		}
-		
-		SpecNodesByCoordinate::SpecNodesByCoordinate(IBasisPtr basis, Axis axis, Scalar pos, Scalar tol)
+
+		SpecSortNodesByCoordinate::SpecSortNodesByCoordinate(IBasisPtr basis, Axis axis)
 		{
 			basis_ = basis;
 			axis_ = axis;
-			pos_ = pos;
-			tol_ = tol;
 		}
-		bool SpecNodesByCoordinate::IsSatisfied(INodePtr item)
+		bool SpecSortNodesByCoordinate::IsSatisfied(INodePtr item1, INodePtr item2)
 		{
-			auto local = basis_->GlobalToLocal(item->GetPoint());
+			auto local1 = basis_->GlobalToLocal(item1->GetPoint());
+			auto local2 = basis_->GlobalToLocal(item2->GetPoint());
 
-			if (std::fabs(local(axis_) - pos_) <= tol_ )
+			return local1(axis_) < local2(axis_);
+		}
+
+		Nodes SortNodes(SpecificationSort<INodePtr>& spec, const Nodes& input)
+		{
+			auto res = input;
+
+			std::sort(res.begin(), res.end(),
+			[&](INodePtr node1, INodePtr node2) -> bool 
 			{
-				return true;
-			}
+				return spec.IsSatisfied(node1, node2);
+			});
 
-			return false;
+			return res;
 		}
-
-		SpecNodesByRange::SpecNodesByRange(IBasisPtr basis, Axis axis, Scalar min, Scalar max, Scalar tol)
+		Nodes SortNodesByCoordinate(const Nodes& input, IBasisPtr basis, Axis axis)
 		{
-			basis_ = basis;
-			axis_ = axis;
-			min_ = min;
-			max_ = max;
-			tol_ = tol;
+			SpecSortNodesByCoordinate spec(basis, axis);
+
+			return SortNodes(spec, input);
 		}
-		bool SpecNodesByRange::IsSatisfied(INodePtr item)
-		{
-			auto local = basis_->GlobalToLocal(item->GetPoint());
-
-			if ( (local(axis_) >= (min_ - tol_))  && (local(axis_) <= (max_ + tol_)))
-			{
-				return true;
-			}
-
-			return false;
-		}
-
-		SpecNodesByTag::SpecNodesByTag(Tag min, Tag max)
-		{
-			min_ = min;
-			max_ = max;
-		}
-		bool SpecNodesByTag::IsSatisfied(INodePtr item)
-		{
-			auto tag = item->GetTag();
-
-			if ( tag >= min_ && tag <= max_ )
-			{
-				return true;
-			}
-
-			return false;
-		}
-
-		SpecElementsByTag::SpecElementsByTag(Tag min, Tag max)
-		{
-			min_ = min;
-			max_ = max;
-		}
-		bool SpecElementsByTag::IsSatisfied(IElementPtr item)
-		{
-			auto tag = item->GetTag();
-
-			if (tag >= min_ && tag <= max_)
-			{
-				return true;
-			}
-
-			return false;
-		}
-		
-		SpecElementsByType::SpecElementsByType()
-		{
-		}
-		bool SpecElementsByType::IsSatisfied(IElementPtr item)
-		{
-			if (selectionTypes_.find(item->GetType()) != selectionTypes_.end())
-			{
-				return false;
-			}
-
-			selectionTypes_.insert(item->GetType());
-
-			return true;
-		}
-
 	} // namespace selection
 } //namespace dive

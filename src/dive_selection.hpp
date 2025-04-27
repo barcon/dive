@@ -56,12 +56,12 @@ namespace dive
 		using SelectionFaces = std::set<Face, FaceCmp>;
 		using SelectionTypes = std::set<Type, TypeCmp>;
 
-		template <typename T> struct Specification
+		template <typename T> struct SpecificationFilter
 		{
 			virtual bool IsSatisfied(T item) = 0;
 		};
 
-		struct SpecNodesByCoordinate : Specification<INodePtr>
+		struct SpecNodesByCoordinate : SpecificationFilter<INodePtr>
 		{
 			Axis axis_;
 			Scalar pos_;
@@ -72,7 +72,7 @@ namespace dive
 			bool IsSatisfied(INodePtr item) override;
 		};
 
-		struct SpecNodesByRange : Specification<INodePtr>
+		struct SpecNodesByRange : SpecificationFilter<INodePtr>
 		{
 			Axis axis_;
 			Scalar min_;
@@ -84,7 +84,7 @@ namespace dive
 			bool IsSatisfied(INodePtr item) override;
 		};
 
-		struct SpecNodesByTag : Specification<INodePtr>
+		struct SpecNodesByTag : SpecificationFilter<INodePtr>
 		{
 			Tag min_;
 			Tag max_;
@@ -93,7 +93,7 @@ namespace dive
 			bool IsSatisfied(INodePtr item) override;
 		};
 
-		struct SpecElementsByTag : Specification<IElementPtr>
+		struct SpecElementsByTag : SpecificationFilter<IElementPtr>
 		{
 			Tag min_;
 			Tag max_;
@@ -102,7 +102,7 @@ namespace dive
 			bool IsSatisfied(IElementPtr item) override;
 		};
 
-		struct SpecElementsByType : Specification<IElementPtr>
+		struct SpecElementsByType : SpecificationFilter<IElementPtr>
 		{
 			SelectionTypes selectionTypes_;
 
@@ -110,18 +110,35 @@ namespace dive
 			bool IsSatisfied(IElementPtr item) override;
 		};
 
-		Nodes FilterNodes(Specification<INodePtr>& spec, const Nodes& input);
+		Nodes FilterNodes(SpecificationFilter<INodePtr>& spec, const Nodes& input);
 		Nodes FilterNodesRemoveDuplicates(const Nodes& input);
 		Nodes FilterNodesByCoordinate(const Nodes& input, IBasisPtr basis, Axis axis, Scalar pos, Scalar tol);
 		Nodes FilterNodesByRange(const Nodes& input, IBasisPtr basis, Axis axis, Scalar min, Scalar max, Scalar tol);
 		Nodes FilterNodesByTag(const Nodes& input, Tag min, Tag max);
 		Nodes FilterNodesByElements(const Elements& input);
-		
-		Elements FilterElements(Specification<IElementPtr>& spec, const Elements& input);
+
+		Elements FilterElements(SpecificationFilter<IElementPtr>& spec, const Elements& input);
 		Elements FilterElementsRemoveDuplicates(const Elements& input);
 		Elements FilterElementsByTag(const Elements& input, Tag min, Tag max);
 		Elements FilterElementsByType(const Elements& input);
 		Elements FilterElementsByNodes(const Nodes& input);
+
+		template <typename T> struct SpecificationSort
+		{
+			virtual bool IsSatisfied(T item1, T item2) = 0;
+		};
+
+		struct SpecSortNodesByCoordinate : SpecificationSort<INodePtr>
+		{
+			Axis axis_;
+			IBasisPtr basis_;
+
+			explicit SpecSortNodesByCoordinate(IBasisPtr basis, Axis axis);
+			bool IsSatisfied(INodePtr item1, INodePtr item2) override;
+		};
+
+		Nodes SortNodes(SpecificationSort<INodePtr>& spec, const Nodes& input);;
+		Nodes SortNodesByCoordinate(const Nodes& input, IBasisPtr basis, Axis axis);
 
 	} //namespace selection
 } //namespace dive

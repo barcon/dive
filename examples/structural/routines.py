@@ -75,11 +75,34 @@ def PartitionMatrix(matrix):
 
     return [m00, m01, m10, m11]  
 
-def ApplyLoadNode(nodes, force):
+def ApplyLoadNode(nodes, load):
     global problem
 
     for node in nodes:
-        load = CreateLoadNode(node, force)
-        problem.AddLoad(load)
+        problem.AddLoad(CreateLoadNode(node, load))
+    
+    return
+
+def ApplyLoadDistributedVolume(elements, load):
+    global problem
+
+    for element in elements:
+        problem.AddLoad(CreateLoadDistributedVolume(element, load))
+    
+    return
+
+def ApplyLoadDistributedFace(elements, load, face):
+    global problem
+
+    for element in elements:
+        problem.AddLoad(CreateLoadDistributedFace(element, face, load))
+    
+    return
+
+def ApplyLoadDistributedEdge(elements, load, edge):
+    global problem
+
+    for element in elements:
+        problem.AddLoad(CreateLoadDistributedEdge(element, edge, load))
     
     return
