@@ -19,11 +19,9 @@ temperature = structural.CreateValueScalar3D(T_ref)
 pressure = structural.CreateValueScalar3D(p_ref)
 
 nodesLeft = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structural.axis_x, 0.0, 0.001)
-#nodesRight = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structural.axis_x, meshes.beam.x, 0.001)
 
 structural.CreateProblem(1, timer, mesh, temperature, pressure)
 structural.ApplyDirichlet(nodesLeft, 0.0)
-#structural.ApplyDirichlet(nodesRight, 0.0)
 structural.Initialize()
 
 gravity = structural.Vector(3)

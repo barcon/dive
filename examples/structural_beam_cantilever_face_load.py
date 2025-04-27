@@ -20,8 +20,7 @@ pressure = structural.CreateValueScalar3D(p_ref)
 
 nodesLeft = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structural.axis_x, 0.0, 0.001)
 nodesRight = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structural.axis_x, meshes.beam.x, 0.001)
-nodesRight = structural.FilterNodesByCoordinate(nodesRight, basis, structural.axis_y, meshes.beam.y / 2.0, 0.001)
-nodesRight = structural.FilterNodesByCoordinate(nodesRight, basis, structural.axis_z, meshes.beam.z / 2.0, 0.001)
+elementsRight = structural.FilterElementsByNodes(nodesRight)
 
 structural.CreateProblem(1, timer, mesh, temperature, pressure)
 structural.ApplyDirichlet(nodesLeft, 0.0)
@@ -33,7 +32,7 @@ pressureVector[1] = 0.0
 pressureVector[2] = -1000000
 pressureLoad = structural.CreateValueVector3D(pressureVector)
 
-structural.ApplyLoadDistributedFace(mesh.GetElements(), pressureLoad, 0)
+structural.ApplyLoadDistributedFace(elementsRight, pressureLoad, 0)
 
 #--------------------------------------------------------------------------------------------------
 

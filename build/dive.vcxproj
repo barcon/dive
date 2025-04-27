@@ -63,6 +63,7 @@
     <ClInclude Include="..\src\dive.hpp" />
     <ClInclude Include="..\src\dive_elements.hpp" />
     <ClInclude Include="..\src\dive_elements_hexa.hpp" />
+    <ClInclude Include="..\src\dive_elements_spring.hpp" />
     <ClInclude Include="..\src\dive_loads.hpp" />
     <ClInclude Include="..\src\dive_loads_dirichlet.hpp" />
     <ClInclude Include="..\src\dive_loads_distributed_edge.hpp" />

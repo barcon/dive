@@ -41,6 +41,59 @@ namespace dive
 
 		static const NodeIndex nodeIndexInvalid = 0xFFFFFFFF;
 
+		class IBasic
+		{
+		public:
+			virtual ~IBasic() = default;
+
+			virtual Matrix u() const = 0;
+			virtual Matrix u(const Vector& local) const = 0;
+
+			virtual Matrix N(const Vector& local) const = 0;
+			virtual const Matrix& N(const Vector& local, CacheIndex cacheIndex) const = 0;
+
+			virtual Scalar Length(const EdgeIndex& edge) const = 0;
+			virtual Scalar Size() const = 0;
+
+			virtual Vector LocalCoordinates(INodePtr node) const = 0;
+			virtual Vector LocalCoordinates(const NodeIndex& nodeIndex) const = 0;
+
+			virtual Vector GlobalCoordinates(INodePtr node) const = 0;
+			virtual Vector GlobalCoordinates(const NodeIndex& nodeIndex) const = 0;
+			virtual Vector GlobalCoordinates(const Vector& local) const = 0;
+			virtual Vector GlobalDerivatives(const Vector& local, const Dimension& dim) const = 0;
+
+			virtual INodePtr GetNode(const NodeIndex& nodeIndex) const = 0;
+			virtual const Nodes& GetNodes() const = 0;
+			virtual Parametric GetParametric() const = 0;
+			virtual Type GetType() const = 0;
+			virtual NodeIndex GetNodeIndex(INodePtr node) const = 0;
+			virtual NumberNodes GetNumberNodes() const = 0;
+			virtual Dimension GetDimension() const = 0;
+			virtual Vector GetCenter() const = 0;
+			virtual Tag GetTag() const = 0;
+			virtual ElementIndex GetElementIndex() const = 0;
+			virtual NumberDof GetNumberDof() const = 0;
+
+			virtual void SetNumberDof(NumberDof numberDof) = 0;
+			virtual void SetNode(const NodeIndex& nodeIndex, INodePtr node) = 0;
+			virtual void SetParametric(const Parametric& order) = 0;
+			virtual void SetTag(Tag elementTag) = 0;
+			virtual void SetElementIndex(ElementIndex index) = 0;
+
+			virtual bool IsUsed(INodePtr node) const = 0;
+			virtual void InitializeCache() = 0;
+		};
+
+		class ISpring
+		{
+		public:
+			virtual ~ISpring() = default;
+
+			virtual void SetStiffness(IScalar1DPtr stiffness) = 0;
+			virtual IScalar1DPtr GetStiffness() const = 0;
+		};
+
 		class IElement
 		{
 		public:
