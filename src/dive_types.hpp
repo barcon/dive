@@ -83,7 +83,7 @@ namespace dive
 	using NumberElements = Number;
 
 	using Timer = utils::Timer;
-
+	
 	using String = utils::String;
 	static const String headerDive = "DIVE";
 
@@ -108,17 +108,37 @@ namespace dive
 
 	namespace elements
 	{
+		class IShape;
+		using IShapePtr = std::shared_ptr<IShape>;
+		using ConstIShapePtr = std::shared_ptr<const IShape>;
+
+		class IElementMass;
+		using IElementMassPtr = std::shared_ptr<IElementMass>;
+		using ConstIElementMassPtr = std::shared_ptr<const IElementMass>;
+
+		class IElementSpring;
+		using IElementSpringPtr = std::shared_ptr<IElementSpring>;
+		using ConstIElementSpringPtr = std::shared_ptr<const IElementSpring>;
+
 		class IElement;
 		using IElementPtr = std::shared_ptr<IElement>;
-		using ConstIBasePtr = std::shared_ptr<const IElement>;
+		using ConstIElementPtr = std::shared_ptr<const IElement>;
+
+		class IElement1D;
+		using IElement1DPtr = std::shared_ptr<IElement1D>;
+		using ConstIElement1DPtr = std::shared_ptr<const IElement1D>;
+
+		class IElement2D;
+		using IElement2DPtr = std::shared_ptr<IElement2D>;
+		using ConstIElement2DPtr = std::shared_ptr<const IElement2D>;
+
+		class IElement3D;
+		using IElement3DPtr = std::shared_ptr<IElement3D>;
+		using ConstIElement3DPtr = std::shared_ptr<const IElement3D>;
 
 		class ElementHexa;
 		using ElementHexaPtr = std::shared_ptr<ElementHexa>;
 		using ConstElementHexaPtr = std::shared_ptr<const ElementHexa>;
-
-		class ElementSpring;
-		using ElementSpringPtr = std::shared_ptr<ElementSpring>;
-		using ConstElementSpringPtr = std::shared_ptr<const ElementSpring>;
 	}
 
 	namespace meshes
@@ -357,6 +377,7 @@ namespace dive
 	using Materials = std::vector<IMaterialPtr>;
 	using Meshes = std::vector<IMeshPtr>;
 	using Problems = std::vector<IProblemPtr>;
+	using Properties = std::unordered_map<String, IValuePtr>;
 }
 
 #endif

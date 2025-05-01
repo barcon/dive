@@ -80,8 +80,8 @@ namespace dive
 			gaussRect_ = quadrature::CreateGaussRect();
 			gaussLine_ = quadrature::CreateGaussLine();
 
-			SetOrder(linear);
-			SetParametric(linear);
+			SetOrder(order_linear);
+			SetParametric(parametric_linear);
 		}
 		Matrix ElementHexa::u() const
 		{
@@ -626,9 +626,9 @@ namespace dive
 		}
 		void ElementHexa::SetOrder(const Order& order)
 		{
-			if (order == linear)
+			if (order == order_linear)
 			{
-				order_ = linear;
+				order_ = order_linear;
 
 				shape_ = &linearFunctions_.Shape[0];
 				shapeD_ = &linearFunctions_.ShapeD[0];
@@ -645,9 +645,9 @@ namespace dive
 				gaussRect_->SetQuadrature(2);
 				gaussLine_->SetQuadrature(2);
 			}
-			else if (order == quadratic)
+			else if (order == order_quadratic)
 			{
-				order_ = quadratic;
+				order_ = order_quadratic;
 
 				shape_ = &quadraticFunctions_.Shape[0];
 				shapeD_ = &quadraticFunctions_.ShapeD[0];
@@ -667,9 +667,9 @@ namespace dive
 		}
 		void ElementHexa::SetParametric(const Parametric& parametric)
 		{
-			if (parametric == linear)
+			if (parametric == parametric_linear)
 			{
-				parametric_ = linear;
+				parametric_ = parametric_linear;
 
 				param_ = &linearFunctions_.Shape[0];
 				paramD_ = &linearFunctions_.ShapeD[0];
@@ -677,9 +677,9 @@ namespace dive
 				numberNodesParametric_ = 8;
 				numberNodesFaceParametric_ = 4;
 			}
-			else if (parametric == quadratic)
+			else if (parametric == parametric_quadratic)
 			{
-				parametric_ = quadratic;
+				parametric_ = parametric_quadratic;
 
 				param_ = &quadraticFunctions_.Shape[0];
 				paramD_ = &quadraticFunctions_.ShapeD[0];

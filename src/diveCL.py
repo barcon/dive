@@ -3852,10 +3852,14 @@ class IntegralAreaHelper(object):
 
 # Register IntegralAreaHelper in _diveCL:
 _diveCL.IntegralAreaHelper_swigregister(IntegralAreaHelper)
-linear = cvar.linear
-quadratic = cvar.quadratic
+parametric_linear = cvar.parametric_linear
+parametric_quadratic = cvar.parametric_quadratic
+order_linear = cvar.order_linear
+order_quadratic = cvar.order_quadratic
 element_hexa8 = cvar.element_hexa8
 element_hexa20 = cvar.element_hexa20
+element_mass = cvar.element_mass
+element_spring = cvar.element_spring
 
 class IntegralEdgeHelper(object):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
@@ -3872,6 +3876,63 @@ class IntegralEdgeHelper(object):
 
 # Register IntegralEdgeHelper in _diveCL:
 _diveCL.IntegralEdgeHelper_swigregister(IntegralEdgeHelper)
+class IShape(object):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+
+    def __init__(self, *args, **kwargs):
+        raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _diveCL.delete_IShape
+
+    def u(self, *args):
+        return _diveCL.IShape_u(self, *args)
+
+    def du(self, *args):
+        return _diveCL.IShape_du(self, *args)
+
+    def J(self, *args):
+        return _diveCL.IShape_J(self, *args)
+
+    def InvJ(self, *args):
+        return _diveCL.IShape_InvJ(self, *args)
+
+    def N(self, *args):
+        return _diveCL.IShape_N(self, *args)
+
+    def dN(self, *args):
+        return _diveCL.IShape_dN(self, *args)
+
+    def DetJ(self, *args):
+        return _diveCL.IShape_DetJ(self, *args)
+
+    def LocalCoordinates(self, *args):
+        return _diveCL.IShape_LocalCoordinates(self, *args)
+
+    def GlobalCoordinates(self, *args):
+        return _diveCL.IShape_GlobalCoordinates(self, *args)
+
+    def GlobalDerivatives(self, local, dim):
+        return _diveCL.IShape_GlobalDerivatives(self, local, dim)
+
+    def GetOrder(self):
+        return _diveCL.IShape_GetOrder(self)
+
+    def GetParametric(self):
+        return _diveCL.IShape_GetParametric(self)
+
+    def SetOrder(self, order):
+        return _diveCL.IShape_SetOrder(self, order)
+
+    def SetParametric(self, order):
+        return _diveCL.IShape_SetParametric(self, order)
+
+    def InitializeCache(self):
+        return _diveCL.IShape_InitializeCache(self)
+
+# Register IShape in _diveCL:
+_diveCL.IShape_swigregister(IShape)
+nodeIndexInvalid = cvar.nodeIndexInvalid
+
 class IElement(object):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
@@ -3880,71 +3941,11 @@ class IElement(object):
     __repr__ = _swig_repr
     __swig_destroy__ = _diveCL.delete_IElement
 
-    def u(self, *args):
-        return _diveCL.IElement_u(self, *args)
-
-    def du(self, *args):
-        return _diveCL.IElement_du(self, *args)
-
-    def J(self, *args):
-        return _diveCL.IElement_J(self, *args)
-
-    def InvJ(self, *args):
-        return _diveCL.IElement_InvJ(self, *args)
-
-    def N(self, *args):
-        return _diveCL.IElement_N(self, *args)
-
-    def dN(self, *args):
-        return _diveCL.IElement_dN(self, *args)
-
-    def DelA(self, local, dim1, dim2):
-        return _diveCL.IElement_DelA(self, local, dim1, dim2)
-
-    def DelL(self, local, dim1):
-        return _diveCL.IElement_DelL(self, local, dim1)
-
-    def DetJ(self, *args):
-        return _diveCL.IElement_DetJ(self, *args)
-
-    def Volume(self):
-        return _diveCL.IElement_Volume(self)
-
-    def Area(self, face):
-        return _diveCL.IElement_Area(self, face)
-
-    def Length(self, edge):
-        return _diveCL.IElement_Length(self, edge)
-
-    def Size(self):
-        return _diveCL.IElement_Size(self)
-
-    def LocalCoordinates(self, *args):
-        return _diveCL.IElement_LocalCoordinates(self, *args)
-
-    def GlobalCoordinates(self, *args):
-        return _diveCL.IElement_GlobalCoordinates(self, *args)
-
-    def GlobalDerivatives(self, local, dim):
-        return _diveCL.IElement_GlobalDerivatives(self, local, dim)
-
-    def GetNodeFace(self, faceIndex, nodeIndex):
-        return _diveCL.IElement_GetNodeFace(self, faceIndex, nodeIndex)
-
-    def GetNodeEdge(self, edgeIndex, nodeIndex):
-        return _diveCL.IElement_GetNodeEdge(self, edgeIndex, nodeIndex)
-
     def GetNode(self, nodeIndex):
         return _diveCL.IElement_GetNode(self, nodeIndex)
 
     def GetNodes(self):
         return _diveCL.IElement_GetNodes(self)
-
-    def GetOrder(self):
-        return _diveCL.IElement_GetOrder(self)
-
-    def GetParametric(self):
-        return _diveCL.IElement_GetParametric(self)
 
     def GetType(self):
         return _diveCL.IElement_GetType(self)
@@ -3952,20 +3953,8 @@ class IElement(object):
     def GetNodeIndex(self, node):
         return _diveCL.IElement_GetNodeIndex(self, node)
 
-    def GetNumberNodesFace(self, faceIndex):
-        return _diveCL.IElement_GetNumberNodesFace(self, faceIndex)
-
-    def GetNumberNodesEdge(self, edgeIndex):
-        return _diveCL.IElement_GetNumberNodesEdge(self, edgeIndex)
-
     def GetNumberNodes(self):
         return _diveCL.IElement_GetNumberNodes(self)
-
-    def GetNumberFaces(self):
-        return _diveCL.IElement_GetNumberFaces(self)
-
-    def GetNumberEdges(self):
-        return _diveCL.IElement_GetNumberEdges(self)
 
     def GetDimension(self):
         return _diveCL.IElement_GetDimension(self)
@@ -3976,29 +3965,17 @@ class IElement(object):
     def GetTag(self):
         return _diveCL.IElement_GetTag(self)
 
-    def GetMaterial(self):
-        return _diveCL.IElement_GetMaterial(self)
-
     def GetElementIndex(self):
         return _diveCL.IElement_GetElementIndex(self)
 
     def GetNumberDof(self):
         return _diveCL.IElement_GetNumberDof(self)
 
-    def IntegralVolume(self):
-        return _diveCL.IElement_IntegralVolume(self)
+    def GetMaterial(self):
+        return _diveCL.IElement_GetMaterial(self)
 
-    def IntegralArea(self):
-        return _diveCL.IElement_IntegralArea(self)
-
-    def IntegralEdge(self):
-        return _diveCL.IElement_IntegralEdge(self)
-
-    def GetIntegralAreaHelper(self, faceIndex):
-        return _diveCL.IElement_GetIntegralAreaHelper(self, faceIndex)
-
-    def GetIntegralEdgeHelper(self, edgeIndex):
-        return _diveCL.IElement_GetIntegralEdgeHelper(self, edgeIndex)
+    def GetProperty(self, key):
+        return _diveCL.IElement_GetProperty(self, key)
 
     def SetNumberDof(self, numberDof):
         return _diveCL.IElement_SetNumberDof(self, numberDof)
@@ -4006,39 +3983,192 @@ class IElement(object):
     def SetNode(self, nodeIndex, node):
         return _diveCL.IElement_SetNode(self, nodeIndex, node)
 
-    def SetOrder(self, order):
-        return _diveCL.IElement_SetOrder(self, order)
-
-    def SetParametric(self, order):
-        return _diveCL.IElement_SetParametric(self, order)
-
     def SetTag(self, elementTag):
         return _diveCL.IElement_SetTag(self, elementTag)
-
-    def SetMaterial(self, material):
-        return _diveCL.IElement_SetMaterial(self, material)
 
     def SetElementIndex(self, index):
         return _diveCL.IElement_SetElementIndex(self, index)
 
+    def SetMaterial(self, material):
+        return _diveCL.IElement_SetMaterial(self, material)
+
+    def SetProperty(self, value):
+        return _diveCL.IElement_SetProperty(self, value)
+
     def IsUsed(self, node):
         return _diveCL.IElement_IsUsed(self, node)
 
-    def InitializeCache(self):
-        return _diveCL.IElement_InitializeCache(self)
+    def IsIntegrable(self):
+        return _diveCL.IElement_IsIntegrable(self)
 
 # Register IElement in _diveCL:
 _diveCL.IElement_swigregister(IElement)
-nodeIndexInvalid = cvar.nodeIndexInvalid
-
-
-def CreateElementHexa(*args):
-    return _diveCL.CreateElementHexa(*args)
-class ElementHexa(IElement):
+class IElementMass(IElement):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
     def __init__(self, *args, **kwargs):
-        raise AttributeError("No constructor defined")
+        raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _diveCL.delete_IElementMass
+
+    def SetMass(self, mass):
+        return _diveCL.IElementMass_SetMass(self, mass)
+
+    def GetMass(self):
+        return _diveCL.IElementMass_GetMass(self)
+
+# Register IElementMass in _diveCL:
+_diveCL.IElementMass_swigregister(IElementMass)
+class IElementSpring(IElement):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+
+    def __init__(self, *args, **kwargs):
+        raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _diveCL.delete_IElementSpring
+
+    def SetStiffness(self, stiffness):
+        return _diveCL.IElementSpring_SetStiffness(self, stiffness)
+
+    def GetStiffness(self):
+        return _diveCL.IElementSpring_GetStiffness(self)
+
+# Register IElementSpring in _diveCL:
+_diveCL.IElementSpring_swigregister(IElementSpring)
+class IElement1D(IElement, IShape):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+
+    def __init__(self, *args, **kwargs):
+        raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _diveCL.delete_IElement1D
+
+    def DelL(self, local):
+        return _diveCL.IElement1D_DelL(self, local)
+
+    def Length(self):
+        return _diveCL.IElement1D_Length(self)
+
+    def Size(self):
+        return _diveCL.IElement1D_Size(self)
+
+    def IntegralEdge(self):
+        return _diveCL.IElement1D_IntegralEdge(self)
+
+# Register IElement1D in _diveCL:
+_diveCL.IElement1D_swigregister(IElement1D)
+class IElement2D(IElement, IShape):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+
+    def __init__(self, *args, **kwargs):
+        raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _diveCL.delete_IElement2D
+
+    def DelA(self, local):
+        return _diveCL.IElement2D_DelA(self, local)
+
+    def DelL(self, local, dim1):
+        return _diveCL.IElement2D_DelL(self, local, dim1)
+
+    def Area(self):
+        return _diveCL.IElement2D_Area(self)
+
+    def Length(self, edge):
+        return _diveCL.IElement2D_Length(self, edge)
+
+    def Size(self):
+        return _diveCL.IElement2D_Size(self)
+
+    def GetNodeEdge(self, edgeIndex, nodeIndex):
+        return _diveCL.IElement2D_GetNodeEdge(self, edgeIndex, nodeIndex)
+
+    def GetNumberNodesEdge(self, edgeIndex):
+        return _diveCL.IElement2D_GetNumberNodesEdge(self, edgeIndex)
+
+    def GetNumberEdges(self):
+        return _diveCL.IElement2D_GetNumberEdges(self)
+
+    def IntegralArea(self):
+        return _diveCL.IElement2D_IntegralArea(self)
+
+    def IntegralEdge(self):
+        return _diveCL.IElement2D_IntegralEdge(self)
+
+    def GetIntegralEdgeHelper(self, edgeIndex):
+        return _diveCL.IElement2D_GetIntegralEdgeHelper(self, edgeIndex)
+
+# Register IElement2D in _diveCL:
+_diveCL.IElement2D_swigregister(IElement2D)
+class IElement3D(IElement, IShape):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+
+    def __init__(self, *args, **kwargs):
+        raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _diveCL.delete_IElement3D
+
+    def DelA(self, local, dim1, dim2):
+        return _diveCL.IElement3D_DelA(self, local, dim1, dim2)
+
+    def DelL(self, local, dim1):
+        return _diveCL.IElement3D_DelL(self, local, dim1)
+
+    def Volume(self):
+        return _diveCL.IElement3D_Volume(self)
+
+    def Area(self, face):
+        return _diveCL.IElement3D_Area(self, face)
+
+    def Length(self, edge):
+        return _diveCL.IElement3D_Length(self, edge)
+
+    def Size(self):
+        return _diveCL.IElement3D_Size(self)
+
+    def GetNodeFace(self, faceIndex, nodeIndex):
+        return _diveCL.IElement3D_GetNodeFace(self, faceIndex, nodeIndex)
+
+    def GetNodeEdge(self, edgeIndex, nodeIndex):
+        return _diveCL.IElement3D_GetNodeEdge(self, edgeIndex, nodeIndex)
+
+    def GetNumberNodesFace(self, faceIndex):
+        return _diveCL.IElement3D_GetNumberNodesFace(self, faceIndex)
+
+    def GetNumberNodesEdge(self, edgeIndex):
+        return _diveCL.IElement3D_GetNumberNodesEdge(self, edgeIndex)
+
+    def GetNumberFaces(self):
+        return _diveCL.IElement3D_GetNumberFaces(self)
+
+    def GetNumberEdges(self):
+        return _diveCL.IElement3D_GetNumberEdges(self)
+
+    def IntegralVolume(self):
+        return _diveCL.IElement3D_IntegralVolume(self)
+
+    def IntegralArea(self):
+        return _diveCL.IElement3D_IntegralArea(self)
+
+    def IntegralEdge(self):
+        return _diveCL.IElement3D_IntegralEdge(self)
+
+    def GetIntegralAreaHelper(self, faceIndex):
+        return _diveCL.IElement3D_GetIntegralAreaHelper(self, faceIndex)
+
+    def GetIntegralEdgeHelper(self, edgeIndex):
+        return _diveCL.IElement3D_GetIntegralEdgeHelper(self, edgeIndex)
+
+# Register IElement3D in _diveCL:
+_diveCL.IElement3D_swigregister(IElement3D)
+
+def CreateElementHexa(*args):
+    return _diveCL.CreateElementHexa(*args)
+class ElementHexa(IElement3D):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+
+    def __init__(self, *args, **kwargs):
+        raise AttributeError("No constructor defined - class is abstract")
     __repr__ = _swig_repr
     __swig_destroy__ = _diveCL.delete_ElementHexa
 

@@ -11,7 +11,7 @@ namespace dive
 		ElementHexaPtr CreateElementHexa();
 		ElementHexaPtr CreateElementHexa(Tag elementTag);
 
-		class ElementHexa : public IElement, virtual public std::enable_shared_from_this<ElementHexa>
+		class ElementHexa : public IElement3D, virtual public std::enable_shared_from_this<ElementHexa>
 		{
 		public:
 			virtual ~ElementHexa() = default;
@@ -327,11 +327,11 @@ namespace dive
 			NodeIndex* lookUpTable10_{ &linearFunctions_.NodeIndexFace[0] };
 			NodeIndex* lookUpTable11_{ &linearFunctions_.NodeIndexFace[0] };
 
-			Order	order_{ linear };
+			Order	order_{ order_linear };
 			ShapePtr* shape_{ &linearFunctions_.Shape[0] };
 			ShapePtr* shapeD_{ &linearFunctions_.ShapeD[0] };	
 
-			Parametric	parametric_{ linear };
+			Parametric	parametric_{ parametric_linear };
 			ShapePtr*	param_ = { &linearFunctions_.Shape[0] };
 			ShapePtr*	paramD_ = { &linearFunctions_.ShapeD[0] };
 
