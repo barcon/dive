@@ -538,6 +538,17 @@ namespace dive
 		{
 			return numberDof_;
 		}
+		IValuePtr ElementHexa::GetProperty(String key) const
+		{
+			auto property = properties_.find(key);
+
+			if (property == properties_.end())
+			{
+				return nullptr;
+			}
+
+			return property->second;
+		}
 		IGaussPtr ElementHexa::IntegralVolume() const
 		{
 			return gaussHexa_;
@@ -700,6 +711,10 @@ namespace dive
 		{
 			elementIndex_ = index;
 		}
+		void ElementHexa::SetProperty(IValuePtr value)
+		{
+			properties_.insert({ value->GetKey(), value });
+		}
 		bool ElementHexa::IsUsed(INodePtr node) const
 		{
 			auto it = std::find_if(nodes_.begin(), nodes_.end(), [&](INodePtr ptr) -> bool
@@ -713,6 +728,10 @@ namespace dive
 			}
 
 			return false;
+		}
+		bool ElementHexa::IsIntegrable() const
+		{
+			return true;
 		}
 		void ElementHexa::InitializeCache()
 		{

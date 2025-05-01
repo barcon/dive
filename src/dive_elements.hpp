@@ -20,10 +20,10 @@ namespace dive
 		static const Order order_linear = 1;
 		static const Order order_quadratic = 2;
 
-		static const Type element_hexa8 = 5;
-		static const Type element_hexa20 = 17;
-		static const Type element_mass = 100;
-		static const Type element_spring = 101;
+		static const Type element_mass = 1;
+		static const Type element_spring = 2;
+		static const Type element_hexa8 = 3;
+		static const Type element_hexa20 = 4;
 
 		struct IntegralAreaHelper
 		{
@@ -115,6 +115,8 @@ namespace dive
 
 			virtual bool IsUsed(INodePtr node) const = 0;
 			virtual bool IsIntegrable() const = 0;
+
+			virtual Scalar Size() const = 0;
 		};
 
 		class IElementMass : virtual public IElement
@@ -143,7 +145,6 @@ namespace dive
 			virtual Scalar DelL(const Vector& local) const = 0;
 
 			virtual Scalar Length() const = 0;
-			virtual Scalar Size() const = 0;
 
 			virtual IGaussPtr IntegralEdge() const = 0;
 		};
@@ -158,7 +159,6 @@ namespace dive
 
 			virtual Scalar Area() const = 0;
 			virtual Scalar Length(const EdgeIndex& edge) const = 0;
-			virtual Scalar Size() const = 0;
 
 			virtual INodePtr GetNodeEdge(const EdgeIndex& edgeIndex, const NodeIndex& nodeIndex) const = 0;
 
@@ -182,7 +182,6 @@ namespace dive
 			virtual Scalar Volume() const = 0;
 			virtual Scalar Area(const FaceIndex& face) const = 0;
 			virtual Scalar Length(const EdgeIndex& edge) const = 0;
-			virtual Scalar Size() const = 0;
 
 			virtual INodePtr GetNodeFace(const FaceIndex& faceIndex, const NodeIndex& nodeIndex) const = 0;
 			virtual INodePtr GetNodeEdge(const EdgeIndex& edgeIndex, const NodeIndex& nodeIndex) const = 0;

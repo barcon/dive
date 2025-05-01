@@ -75,6 +75,7 @@ namespace dive
 			IMaterialPtr GetMaterial() const override;
 			ElementIndex GetElementIndex() const override;
 			NumberDof GetNumberDof() const override;
+			IValuePtr GetProperty(String key) const override;
 
 			IGaussPtr IntegralVolume() const override;
 			IGaussPtr IntegralArea() const override;
@@ -90,8 +91,10 @@ namespace dive
 			void SetTag(Tag elementTag) override;
 			void SetMaterial(IMaterialPtr material) override;
 			void SetElementIndex(ElementIndex index) override;
+			void SetProperty(IValuePtr value) override;
 
 			bool IsUsed(INodePtr node) const override;
+			bool IsIntegrable() const override;
 			void InitializeCache() override;
 
 			struct LinearFunctions {
@@ -300,7 +303,8 @@ namespace dive
 			Nodes	nodes_;
 			Nodes	nodesLocal_;
 
-			ElementIndex	elementIndex_;
+			ElementIndex elementIndex_;
+			Properties properties_;
 
 			NumberDof	numberDof_{ 1 };
 			NumberNodes numberNodes_;

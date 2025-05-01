@@ -486,11 +486,11 @@ namespace dive {
 
 					switch (elementType)
 					{
-					case  elements::element_hexa8:
+					case 5: // element_hexa8
 					{
 						element = elements::CreateElementHexa(elementTag);
-						element->SetOrder(elements::linear);
-						element->SetParametric(elements::linear);
+						std::dynamic_pointer_cast<elements::IShape>(element)->SetOrder(elements::order_linear);
+						std::dynamic_pointer_cast<elements::IShape>(element)->SetParametric(elements::parametric_linear);
 						element->SetNumberDof(numberDof);
 
 						for (NumberNodes k = 0; k < element->GetNumberNodes(); ++k)
@@ -503,11 +503,11 @@ namespace dive {
 
 						break;
 					}
-					case elements::element_hexa20:
+					case 17: //element_hexa20
 					{
 						element = elements::CreateElementHexa(elementTag);
-						element->SetOrder(elements::quadratic);
-						element->SetParametric(elements::quadratic);
+						std::dynamic_pointer_cast<elements::IShape>(element)->SetOrder(elements::order_quadratic);
+						std::dynamic_pointer_cast<elements::IShape>(element)->SetParametric(elements::parametric_quadratic);
 						element->SetNumberDof(numberDof);
 
 						for (NumberNodes k = 0; k < element->GetNumberNodes(); ++k)
