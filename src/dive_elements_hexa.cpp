@@ -1,14 +1,17 @@
 #include "dive_elements_hexa.hpp"
-#include "dive_timers_stationary.hpp"
+#include "dive_weakforms.hpp"
+#include "dive_loads.hpp"
+#include "dive_loads_distributed_volume.hpp"
+#include "dive_loads_distributed_face.hpp"
+#include "dive_loads_distributed_edge.hpp"
 
 namespace dive
 {
 	namespace elements
 	{
-
-		const Dimension		ElementHexa::dimension_{ 3 };
-		const NumberFaces	ElementHexa::numberFaces_{ 6 };
-		const NumberEdges	ElementHexa::numberEdges_{ 12 };
+		const NumberFaces		ElementHexa::numberFaces_{ 6 };
+		const NumberEdges		ElementHexa::numberEdges_{ 12 };
+		const NumberDimensions	ElementHexa::numberDimensions_{ 3 };
 
 		const Scalar		ElementHexa::localCoordinates_[20][3] = {	{ -1.0, -1.0, -1.0 },
 																		{  1.0, -1.0, -1.0 },
@@ -115,9 +118,9 @@ namespace dive
 		}
 		Matrix ElementHexa::du() const
 		{
-			Matrix res(dimension_, numberDof_ * numberNodes_, 0.0);
+			Matrix res(numberDimensions_, numberDof_ * numberNodes_, 0.0);
 
-			for (Dimension k = 0; k < dimension_; ++k)
+			for (Dimension k = 0; k < numberDimensions_; ++k)
 			{
 				for (NodeIndex i = 0; i < numberNodes_; ++i)
 				{
@@ -136,9 +139,9 @@ namespace dive
 		}
 		Matrix ElementHexa::du(const Vector& local) const
 		{
-			Matrix res(dimension_, numberDof_, 0.0);
+			Matrix res(numberDimensions_, numberDof_, 0.0);
 
-			for (Dimension k = 0; k < dimension_; ++k)
+			for (Dimension k = 0; k < numberDimensions_; ++k)
 			{
 				for (NodeIndex i = 0; i < numberNodes_; ++i)
 				{
@@ -174,11 +177,11 @@ namespace dive
 		}
 		Matrix ElementHexa::J(const Vector& local) const
 		{
-			Matrix output(dimension_, dimension_, 0.0);
+			Matrix output(numberDimensions_, numberDimensions_, 0.0);
 
-			for (Dimension i = 0; i < dimension_; ++i)
+			for (Dimension i = 0; i < numberDimensions_; ++i)
 			{
-				for (Dimension j = 0; j < dimension_; ++j)
+				for (Dimension j = 0; j < numberDimensions_; ++j)
 				{
 					for (NodeIndex k = 0; k < numberNodesParametric_; ++k)
 					{
@@ -208,9 +211,9 @@ namespace dive
 		}
 		Matrix ElementHexa::dN(const Vector& local) const
 		{
-			Matrix res(dimension_, numberNodes_, 0.0);
+			Matrix res(numberDimensions_, numberNodes_, 0.0);
 
-			for (Dimension i = 0; i < dimension_; ++i)
+			for (Dimension i = 0; i < numberDimensions_; ++i)
 			{
 				for (NumberNodes j = 0; j < numberNodes_; ++j)
 				{
@@ -290,7 +293,7 @@ namespace dive
 			Scalar res{ 0. };
 
 			std::size_t counter{ 0 };
-			Vector point(dimension_);
+			Vector point(numberDimensions_);
 
 			const auto& points = gaussRect_->GetPoints();
 			const auto& weights = gaussRect_->GetWeights();
@@ -325,7 +328,7 @@ namespace dive
 			Dimension dim1;
 			Dimension dim2;
 			Dimension dim3;
-			Vector point(dimension_);
+			Vector point(numberDimensions_);
 
 			const auto& points = gaussLine_->GetPoints();
 			const auto& weights = gaussLine_->GetWeights();
@@ -425,9 +428,9 @@ namespace dive
 		}
 		Vector ElementHexa::GlobalCoordinates(const Vector& local) const
 		{
-			Vector output(dimension_);
+			Vector output(numberDimensions_);
 
-			for (Dimension i = 0; i < dimension_; ++i)
+			for (Dimension i = 0; i < numberDimensions_; ++i)
 			{
 				for (NodeIndex j = 0; j < numberNodesParametric_; ++j)
 				{
@@ -439,9 +442,9 @@ namespace dive
 		}
 		Vector ElementHexa::GlobalDerivatives(const Vector& local, const Dimension& dim) const
 		{
-			Vector output(dimension_);
+			Vector output(numberDimensions_);
 
-			for (Dimension i = 0; i < dimension_; ++i)
+			for (Dimension i = 0; i < numberDimensions_; ++i)
 			{
 				for (NodeIndex j = 0; j < numberNodesParametric_; ++j)
 				{
@@ -512,9 +515,9 @@ namespace dive
 		{
 			return numberEdges_;
 		}
-		Dimension ElementHexa::GetDimension() const
+		NumberDimensions ElementHexa::GetNumberDimensions() const
 		{
-			return dimension_;
+			return numberDimensions_;
 		}
 		Vector ElementHexa::GetCenter() const
 		{
@@ -548,18 +551,6 @@ namespace dive
 			}
 
 			return property->second;
-		}
-		IGaussPtr ElementHexa::IntegralVolume() const
-		{
-			return gaussHexa_;
-		}
-		IGaussPtr ElementHexa::IntegralArea() const
-		{
-			return gaussRect_;
-		}
-		IGaussPtr ElementHexa::IntegralEdge() const
-		{
-			return gaussLine_;
 		}
 		IntegralAreaHelper ElementHexa::GetIntegralAreaHelper(FaceIndex faceIndex) const
 		{
@@ -729,15 +720,121 @@ namespace dive
 
 			return false;
 		}
-		bool ElementHexa::IsIntegrable() const
+		bool ElementHexa::IsCacheable() const
 		{
 			return true;
 		}
+		bool ElementHexa::IsMapped() const
+		{
+			return true;
+		}
+		void ElementHexa::IntegralWeakFormElement(IWeakFormElementPtr weakForm, Matrix& output) const
+		{
+			Matrix local;
+
+			const auto& points = gaussHexa_->GetPoints();
+			const auto& weights = gaussHexa_->GetWeights();
+			const auto& counter = gaussHexa_->GetCounter();
+
+			auto element = std::make_shared<ElementHexa>(*this);
+
+			weakForm->WeakFormulation(element, 0, points[0], local);
+			output = weights[0] * DetJ(points[0], 0) * local;
+
+			for (quadrature::Counter i = 1; i < counter; ++i)
+			{
+				weakForm->WeakFormulation(element, i, points[i], local);
+
+				output = output + weights[i] * DetJ(points[i], i) * local;
+			}
+
+		}
+		void ElementHexa::IntegralWeakFormLoad(IWeakFormLoadPtr weakForm, ILoadPtr load, Matrix& output) const
+		{
+			Vector local;
+			Vector point(numberDimensions_);
+
+			if (load->GetType() == loads::load_distributedVolume)
+			{
+				const auto& force = std::static_pointer_cast<loads::LoadDistributedVolume>(load);
+
+				const auto& points = gaussHexa_->GetPoints();
+				const auto& weights = gaussHexa_->GetWeights();
+				const auto& counter = gaussHexa_->GetCounter();
+
+				weakForm->WeakFormulation(load, points[0], local);
+				output = weights[0] * DetJ(points[0], 0) * local;
+
+				for (quadrature::Counter i = 1; i < counter; ++i)
+				{
+					weakForm->WeakFormulation(load, points[i], local);
+
+					output = output + weights[i] * DetJ(points[i], i) * local;
+				}
+			}
+			else if(load->GetType() == loads::load_distributedFace)
+			{ 
+				auto force = std::static_pointer_cast<loads::LoadDistributedFace>(load);
+
+				const auto& points = gaussRect_->GetPoints();
+				const auto& weights = gaussRect_->GetWeights();
+				const auto& counter = gaussRect_->GetCounter();
+
+				auto faceIndex = force->GetFaceIndex();
+				auto helper = GetIntegralAreaHelper(faceIndex);
+
+				point(helper.dim1) = points[0](0);
+				point(helper.dim2) = points[0](1);
+				point(helper.dim3) = helper.coord3;
+
+				weakForm->WeakFormulation(load, point, local);
+				output = output + weights[0] * DelA(point, helper.dim1, helper.dim2) * local;
+
+				for (quadrature::Counter i = 1; i < counter; ++i)
+				{
+					point(helper.dim1) = points[i](0);
+					point(helper.dim2) = points[i](1);
+					point(helper.dim3) = helper.coord3;
+
+					weakForm->WeakFormulation(load, point, local);
+
+					output = output + weights[i] * DelA(point, helper.dim1, helper.dim2) * local;
+				}
+			}
+			else if (load->GetType() == loads::load_distributedEdge)
+			{
+				auto force = std::static_pointer_cast<loads::LoadDistributedEdge>(load);
+
+				const auto& points = gaussLine_->GetPoints();
+				const auto& weights = gaussLine_->GetWeights();
+				const auto& counter = gaussLine_->GetCounter();
+
+				auto edgeIndex = force->GetEdgeIndex();
+				auto helper = GetIntegralEdgeHelper(edgeIndex);
+
+				point(helper.dim1) = points[0](0);
+				point(helper.dim2) = helper.coord2;
+				point(helper.dim3) = helper.coord3;
+
+				weakForm->WeakFormulation(load, point, local);
+				output = output + weights[0] * DelL(point, helper.dim1) * local;
+
+				for (quadrature::Counter i = 1; i < counter; ++i)
+				{
+					point(helper.dim1) = points[counter](0);
+					point(helper.dim2) = helper.coord2;
+					point(helper.dim3) = helper.coord3;
+
+					weakForm->WeakFormulation(load, point, local);
+
+					output = output + weights[counter] * DelL(point, helper.dim1) * local;
+				}
+			}
+		}
 		void ElementHexa::InitializeCache()
 		{
-			const auto& gauss = IntegralVolume();
-			const auto& points = gauss->GetPoints();
-			const auto& counter = gauss->GetCounter();
+			const auto& points = gaussHexa_->GetPoints();
+			const auto& counter = gaussHexa_->GetCounter();
 
 			cacheJ_.resize(counter);
 			cacheN_.resize(counter);

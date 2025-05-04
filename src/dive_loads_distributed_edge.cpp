@@ -5,7 +5,7 @@ namespace dive
 {
 	namespace loads
 	{
-		LoadDistributedEdgePtr CreateLoadDistributedEdge(IElementPtr element, EdgeIndex edgeIndex, IVector3DPtr value)
+		LoadDistributedEdgePtr CreateLoadDistributedEdge(IElementMappedPtr element, EdgeIndex edgeIndex, IVector3DPtr value)
 		{
 			auto res = LoadDistributedEdge::Create();
 
@@ -37,7 +37,7 @@ namespace dive
 		{
 			return type_;
 		}
-		IElementPtr LoadDistributedEdge::GetElement() const
+		IElementMappedPtr LoadDistributedEdge::GetElement() const
 		{
 			return element_;
 		}
@@ -49,7 +49,7 @@ namespace dive
 		{
 			return edgeIndex_;
 		}
-		void LoadDistributedEdge::SetElement(IElementPtr element)
+		void LoadDistributedEdge::SetElement(IElementMappedPtr element)
 		{
 			element_ = element;
 		}

@@ -5,7 +5,7 @@ namespace dive
 {
 	namespace loads
 	{
-		LoadDistributedVolumePtr CreateLoadDistributedVolume(IElementPtr element, IVector3DPtr value)
+		LoadDistributedVolumePtr CreateLoadDistributedVolume(IElementMappedPtr element, IVector3DPtr value)
 		{
 			auto res = LoadDistributedVolume::Create();
 
@@ -36,7 +36,7 @@ namespace dive
 		{
 			return type_;
 		}
-		IElementPtr LoadDistributedVolume::GetElement() const
+		IElementMappedPtr LoadDistributedVolume::GetElement() const
 		{
 			return element_;
 		}
@@ -44,7 +44,7 @@ namespace dive
 		{
 			return values::GetValueVector3D(value_, point, element_);
 		}
-		void LoadDistributedVolume::SetElement(IElementPtr element)
+		void LoadDistributedVolume::SetElement(IElementMappedPtr element)
 		{
 			element_ = element;
 		}

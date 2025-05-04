@@ -2,9 +2,7 @@
 #define DIVE_PROBLEMS_STRUCTURAL_HPP_
 
 #include "dive_problems.hpp"
-#include "dive_problems_basic.hpp"
 #include "dive_weakforms.hpp"
-#include "dive_weakforms_basic.hpp"
 #include "dive_weakforms_structural_mass.hpp"
 #include "dive_weakforms_structural_stiffness.hpp"
 #include "dive_weakforms_structural_load_distributed_volume.hpp"

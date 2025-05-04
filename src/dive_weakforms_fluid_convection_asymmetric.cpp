@@ -27,14 +27,14 @@ namespace dive {
 		{
 			return const_cast<ConvectionAsymmetricFluid*>(this)->GetPtr();
 		}
-		void ConvectionAsymmetricFluid::WeakFormulation(IElementPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const
+		void ConvectionAsymmetricFluid::WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const
 		{
 			auto N = FormMatrix_N(element, local, cacheIndex);
 			auto div = FormDivergence(element, local, cacheIndex);
 
 			output = N.Transpose() * N * div;
 		}
-		Matrix ConvectionAsymmetricFluid::FormDivergence(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const
+		Matrix ConvectionAsymmetricFluid::FormDivergence(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const
 		{
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNumberDof();
@@ -60,7 +60,7 @@ namespace dive {
 
 			return res;
 		}
-		Matrix ConvectionAsymmetricFluid::FormMatrix_N(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const
+		Matrix ConvectionAsymmetricFluid::FormMatrix_N(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const
 		{
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNumberDof();

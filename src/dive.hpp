@@ -14,7 +14,6 @@
 
 #include "dive_elements.hpp"
 #include "dive_elements_hexa.hpp"
-#include "dive_elements_spring.hpp"
 
 #include "dive_meshes.hpp"
 #include "dive_meshes_basic.hpp"
@@ -28,7 +27,6 @@
 #include "dive_loads_node.hpp"
 
 #include "dive_weakforms.hpp"
-#include "dive_weakforms_basic.hpp"
 #include "dive_weakforms_thermal_mass.hpp"
 #include "dive_weakforms_thermal_stiffness.hpp"
 #include "dive_weakforms_thermal_convection.hpp"
@@ -54,7 +52,6 @@
 #include "dive_weakforms_structural_load_node.hpp"
 
 #include "dive_problems.hpp"
-#include "dive_problems_basic.hpp"
 #include "dive_problems_fluid.hpp"
 #include "dive_problems_pressure.hpp"
 #include "dive_problems_thermal.hpp"

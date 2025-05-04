@@ -1,7 +1,7 @@
 #ifndef DIVE_WEAKFORMS_FLUID_MASS_HPP_
 #define DIVE_WEAKFORMS_FLUID_MASS_HPP_
 
-#include "dive_weakforms_basic.hpp"
+#include "dive_weakforms.hpp"
 
 namespace dive
 {
@@ -9,7 +9,7 @@ namespace dive
     {
 		MassFluidPtr CreateWeakFormMassFluid();
 
-		class MassFluid : public WeakFormElement, virtual public std::enable_shared_from_this<MassFluid>
+		class MassFluid : public IWeakFormElement, virtual public std::enable_shared_from_this<MassFluid>
 		{
 		public:
 			virtual ~MassFluid() = default;
@@ -18,12 +18,12 @@ namespace dive
 			MassFluidPtr GetPtr();
 			ConstMassFluidPtr GetPtr() const;
 
-			void WeakFormulation(IElementPtr element, CacheIndex cacheIndex, const Vector& point, Matrix& output) const override;
+			void WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& point, Matrix& output) const override;
 
 		protected:
 			MassFluid() = default;
 
-			Matrix FormMatrix_N(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const;
+			Matrix FormMatrix_N(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const;
 
 			using std::enable_shared_from_this<MassFluid>::shared_from_this;
 		};

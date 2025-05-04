@@ -26,7 +26,7 @@ namespace dive {
 		{
 			return const_cast<DistributedVolumeDivergencePressure*>(this)->GetPtr();
 		}
-		void DistributedVolumeDivergencePressure::WeakFormulation(IElementPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const
+		void DistributedVolumeDivergencePressure::WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const
 		{
 			auto N = FormMatrix_N(element, local, cacheIndex);
 			auto div = FormMatrix_Div(element, local);
@@ -37,13 +37,13 @@ namespace dive {
 		{
 			problemMomentum_ = problemMomentum;
 		}
-		Matrix DistributedVolumeDivergencePressure::FormMatrix_N(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const
+		Matrix DistributedVolumeDivergencePressure::FormMatrix_N(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const
 		{
 			return element->N(local, cacheIndex);
 		}
-		Matrix DistributedVolumeDivergencePressure::FormMatrix_Div(IElementPtr element, const Vector& local) const
+		Matrix DistributedVolumeDivergencePressure::FormMatrix_Div(IElementMappedPtr element, const Vector& local) const
 		{
-			const auto& elementMomentum = problemMomentum_->GetMesh()->GetElements()[element->GetElementIndex()];
+			const auto& elementMomentum = std::dynamic_pointer_cast<elements::IElementMapped>(problemMomentum_->GetMesh()->GetElements()[element->GetElementIndex()]);
 
 			auto numberNodes = elementMomentum->GetNumberNodes();
 			auto numberDof = elementMomentum->GetNumberDof();

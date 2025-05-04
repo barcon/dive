@@ -19,11 +19,11 @@ namespace dive
 			ConstLoadDistributedEdgePtr GetPtr() const;
 
 			Type GetType() const override;
-			IElementPtr GetElement() const override;
+			IElementMappedPtr GetElement() const override;
 			Vector GetValue(const Vector& point) const;
 			EdgeIndex GetEdgeIndex() const;
 
-			void SetElement(IElementPtr element) override;
+			void SetElement(IElementMappedPtr element) override;
 			void SetEdgeIndex(EdgeIndex edgeIndex);
 			void SetValue(IVector3DPtr value);
 
@@ -34,7 +34,7 @@ namespace dive
 
 			EdgeIndex edgeIndex_{ 0 };
 			IVector3DPtr value_{ nullptr };
-			IElementPtr element_{ nullptr };
+			IElementMappedPtr element_{ nullptr };
 		};
 
 	} //namespace loads

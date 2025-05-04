@@ -26,7 +26,7 @@ namespace dive {
 		{
 			return const_cast<CrossedPressure*>(this)->GetPtr();
 		}
-		void CrossedPressure::WeakFormulation(IElementPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const
+		void CrossedPressure::WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const
 		{
 			auto N = FormMatrix_N(element, local);
 			auto dN = FormMatrix_dN(element, local, cacheIndex);
@@ -37,9 +37,9 @@ namespace dive {
 		{
 			problemMomentum_ = problemMomentum;
 		}
-		Matrix CrossedPressure::FormMatrix_N(IElementPtr element, const Vector& local) const
+		Matrix CrossedPressure::FormMatrix_N(IElementMappedPtr element, const Vector& local) const
 		{
-			const auto& elementMomentum = problemMomentum_->GetMesh()->GetElements()[element->GetElementIndex()];
+			const auto& elementMomentum = std::dynamic_pointer_cast<elements::IElementMapped>(problemMomentum_->GetMesh()->GetElements()[element->GetElementIndex()]);
 
 			auto numberNodes = elementMomentum->GetNumberNodes();
 			auto numberDof = elementMomentum->GetNumberDof();
@@ -57,7 +57,7 @@ namespace dive {
 
 			return res;
 		}
-		Matrix CrossedPressure::FormMatrix_dN(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const
+		Matrix CrossedPressure::FormMatrix_dN(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const
 		{
 			return element->InvJ(local, cacheIndex) * element->dN(local, cacheIndex);
 		}

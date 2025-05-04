@@ -7,7 +7,7 @@ namespace dive
 {
 	namespace loads
 	{
-		LoadDistributedVolumePtr CreateLoadDistributedVolume(IElementPtr element, IVector3DPtr value);
+		LoadDistributedVolumePtr CreateLoadDistributedVolume(IElementMappedPtr element, IVector3DPtr value);
 
 		class LoadDistributedVolume : public ILoadDistributedVolume, virtual public std::enable_shared_from_this<LoadDistributedVolume>
 		{
@@ -19,10 +19,10 @@ namespace dive
 			ConstLoadDistributedVolumePtr GetPtr() const;
 
 			Type GetType() const override;
-			IElementPtr GetElement() const override;
+			IElementMappedPtr GetElement() const override;
 			Vector GetValue(const Vector& point) const;
 
-			void SetElement(IElementPtr element) override;
+			void SetElement(IElementMappedPtr element) override;
 			void SetValue(IVector3DPtr value);
 
 		protected:
@@ -31,7 +31,7 @@ namespace dive
 			const Type type_{ load_distributedVolume };
 
 			IVector3DPtr value_{ nullptr };
-			IElementPtr element_{ nullptr };
+			IElementMappedPtr element_{ nullptr };
 		};
 
 	} //namespace loads

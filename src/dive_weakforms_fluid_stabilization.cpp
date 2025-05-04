@@ -27,7 +27,7 @@ namespace dive {
 		{
 			return const_cast<StabilizationFluid*>(this)->GetPtr();
 		}
-		void StabilizationFluid::WeakFormulation(IElementPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const
+		void StabilizationFluid::WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const
 		{
 			auto N = FormMatrix_N(element, local, cacheIndex);
 			auto udN = FormMatrix_udN(element, local, cacheIndex);
@@ -37,11 +37,11 @@ namespace dive {
 
 			output = -(1.0 / 2.0) * dNu.Transpose() * dNu;
 		}
-		Matrix StabilizationFluid::FormMomentum(IElementPtr element, const Vector& local) const
+		Matrix StabilizationFluid::FormMomentum(IElementMappedPtr element, const Vector& local) const
 		{
 			return element->u(local);
 		}
-		Scalar StabilizationFluid::FormDivergence(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const
+		Scalar StabilizationFluid::FormDivergence(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const
 		{
 			auto du = eilig::Inverse(element->J(local, cacheIndex)) * element->du(local);
 
@@ -54,7 +54,7 @@ namespace dive {
 
 			return divergence;
 		}
-		Matrix StabilizationFluid::FormMatrix_N(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const
+		Matrix StabilizationFluid::FormMatrix_N(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const
 		{
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNode(0)->GetNumberDof();
@@ -72,12 +72,12 @@ namespace dive {
 
 			return res;
 		}
-		Matrix StabilizationFluid::FormMatrix_udN(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const
+		Matrix StabilizationFluid::FormMatrix_udN(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const
 		{
 			auto u = FormMomentum(element, local);
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNode(0)->GetNumberDof();
-			auto dimension = element->GetDimension();
+			auto numberDimensions = element->GetNumberDimensions();
 			auto dN = element->InvJ(local, cacheIndex) * element->dN(local, cacheIndex);
 
 			Matrix res(numberDof, numberNodes * numberDof, 0.0);
@@ -86,7 +86,7 @@ namespace dive {
 			{
 				for (NodeIndex n = 0; n < numberNodes; ++n)
 				{
-					for (Dimension k = 0; k < dimension; ++k)
+					for (DimensionIndex k = 0; k < numberDimensions; ++k)
 					{
 						res(k, n * numberDof + m) += u(k) * dN(k, n);
 					}

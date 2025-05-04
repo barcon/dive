@@ -1,7 +1,7 @@
 #ifndef DIVE_WEAKFORMS_STRUCTURAL_LOAD_DISTRIBUTED_FACE_HPP_
 #define DIVE_WEAKFORMS_STRUCTURAL_LOAD_DISTRIBUTED_FACE_HPP_
 
-#include "dive_weakforms_basic.hpp"
+#include "dive_weakforms.hpp"
 
 namespace dive
 {
@@ -9,7 +9,7 @@ namespace dive
     {
 		LoadDistributedFaceStructuralPtr CreateWeakFormLoadDistributedFaceStructural();
 
-		class LoadDistributedFaceStructural : public WeakFormLoad, virtual public std::enable_shared_from_this<LoadDistributedFaceStructural>
+		class LoadDistributedFaceStructural : public IWeakFormLoad, virtual public std::enable_shared_from_this<LoadDistributedFaceStructural>
 		{
 		public:
 			virtual ~LoadDistributedFaceStructural() = default;
@@ -23,7 +23,7 @@ namespace dive
 		protected:
 			LoadDistributedFaceStructural() = default;
 
-			Matrix FormMatrix_N(IElementPtr element, const Vector& point) const;
+			Matrix FormMatrix_N(IElementMappedPtr element, const Vector& point) const;
 
 			using std::enable_shared_from_this<LoadDistributedFaceStructural>::shared_from_this;
 		};

@@ -27,7 +27,7 @@ namespace dive {
 		{
 			return const_cast<ConvectionFluid*>(this)->GetPtr();
 		}
-		void ConvectionFluid::WeakFormulation(IElementPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const
+		void ConvectionFluid::WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const
 		{
 			auto N = FormMatrix_N(element, local, cacheIndex);
 			auto udN = FormMatrix_udN(element, local, cacheIndex);
@@ -36,11 +36,11 @@ namespace dive {
 
 			output = N.Transpose() * (du * N + udN);
 		}
-		Matrix ConvectionFluid::FormVelocity(IElementPtr element, const Vector& local) const
+		Matrix ConvectionFluid::FormVelocity(IElementMappedPtr element, const Vector& local) const
 		{
 			return element->u(local);
 		}
-		Scalar ConvectionFluid::FormDivergence(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const
+		Scalar ConvectionFluid::FormDivergence(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const
 		{
 			auto du = eilig::Inverse(element->J(local, cacheIndex)) * element->du(local);
 
@@ -53,7 +53,7 @@ namespace dive {
 
 			return divergence;
 		}
-		Matrix ConvectionFluid::FormMatrix_N(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const
+		Matrix ConvectionFluid::FormMatrix_N(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const
 		{
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNumberDof();
@@ -71,11 +71,11 @@ namespace dive {
 
 			return res;
 		}
-		Matrix ConvectionFluid::FormMatrix_udN(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const
+		Matrix ConvectionFluid::FormMatrix_udN(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const
 		{
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNumberDof();
-			auto dimension = element->GetDimension();
+			auto numberDimensions = element->GetNumberDimensions();
 			auto u = FormVelocity(element, local);
 			auto dN = element->InvJ(local, cacheIndex) * element->dN(local, cacheIndex);
 
@@ -85,9 +85,7 @@ namespace dive {
 			{
 				for (NodeIndex j = 0; j < numberNodes; ++j)
 				{
-					//res(i, j * numberDof + i) = u(0) * dN(0, j) + u(1) * dN(1, j) + u(2) * dN(2, j);
-
-					for (Dimension k = 0; k < dimension; ++k)
+					for (DimensionIndex k = 0; k < numberDimensions; ++k)
 					{
 						res(i, j * numberDof + i) += u(k) * dN(k, j);
 					}

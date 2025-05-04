@@ -1,7 +1,7 @@
 #ifndef DIVE_WEAKFORMS_PRESSURE_MASS_HPP_
 #define DIVE_WEAKFORMS_PRESSURE_MASS_HPP_
 
-#include "dive_weakforms_basic.hpp"
+#include "dive_weakforms.hpp"
 
 namespace dive
 {
@@ -9,7 +9,7 @@ namespace dive
     {
 		MassPressurePtr CreateWeakFormMassPressure();
 
-		class MassPressure : public WeakFormElement, virtual public std::enable_shared_from_this<MassPressure>
+		class MassPressure : public IWeakFormElement, virtual public std::enable_shared_from_this<MassPressure>
 		{
 		public:
 			virtual ~MassPressure() = default;
@@ -18,7 +18,7 @@ namespace dive
 			MassPressurePtr GetPtr();
 			ConstMassPressurePtr GetPtr() const;
 
-			void WeakFormulation(IElementPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const override;
+			void WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const override;
 
 			void SetTemperature(IScalar3DPtr temperature);
 			void SetPressure(IScalar3DPtr pressure);
@@ -27,9 +27,9 @@ namespace dive
 		protected:
 			MassPressure() = default;
 
-			Matrix FormVelocity(IElementPtr element, const Vector& local) const;
-			Scalar FormKineticViscosity(IElementPtr element, const Vector& local) const;
-			Matrix FormMatrix_N(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const;
+			Matrix FormVelocity(IElementMappedPtr element, const Vector& local) const;
+			Scalar FormKineticViscosity(IElementMappedPtr element, const Vector& local) const;
+			Matrix FormMatrix_N(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const;
 
 			IScalar3DPtr temperature_{ nullptr };
 			IScalar3DPtr pressure_{ nullptr };

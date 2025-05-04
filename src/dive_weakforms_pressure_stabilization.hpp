@@ -1,7 +1,7 @@
 #ifndef DIVE_WEAKFORMS_PRESSURE_STABILIZATION_HPP_
 #define DIVE_WEAKFORMS_PRESSURE_STABILIZATION_HPP_
 
-#include "dive_weakforms_basic.hpp"
+#include "dive_weakforms.hpp"
 
 namespace dive
 {
@@ -9,7 +9,7 @@ namespace dive
     {
 		StabilizationPressurePtr CreateWeakFormStabilizationPressure();
 
-		class StabilizationPressure : public WeakFormElement, virtual public std::enable_shared_from_this<StabilizationPressure>
+		class StabilizationPressure : public IWeakFormElement, virtual public std::enable_shared_from_this<StabilizationPressure>
 		{
 		public:
 			virtual ~StabilizationPressure() = default;
@@ -18,18 +18,18 @@ namespace dive
 			StabilizationPressurePtr GetPtr();
 			ConstStabilizationPressurePtr GetPtr() const;
 
-			void WeakFormulation(IElementPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const override;
+			void WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const override;
 
 			void SetProblemMomentum(IProblemPtr problemMomentum);
 
 		protected:
 			StabilizationPressure() = default;
 
-			Matrix FormMomentum(IElementPtr element, const Vector& local) const;
-			Scalar FormDivergence(IElementPtr element, const Vector& local) const;
-			Matrix FormMatrix_N(IElementPtr element, const Vector& local) const;
-			Matrix FormMatrix_udN(IElementPtr element, const Vector& local) const;
-			Matrix FormMatrix_dNp(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const;
+			Matrix FormMomentum(IElementMappedPtr element, const Vector& local) const;
+			Scalar FormDivergence(IElementMappedPtr element, const Vector& local) const;
+			Matrix FormMatrix_N(IElementMappedPtr element, const Vector& local) const;
+			Matrix FormMatrix_udN(IElementMappedPtr element, const Vector& local) const;
+			Matrix FormMatrix_dNp(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const;
 
 			IProblemPtr problemMomentum_{ nullptr };
 

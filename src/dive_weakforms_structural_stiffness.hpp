@@ -1,7 +1,7 @@
 #ifndef DIVE_WEAKFORMS_STRUCTURAL_STIFFNESS_HPP_
 #define DIVE_WEAKFORMS_STRUCTURAL_STIFFNESS_HPP_
 
-#include "dive_weakforms_basic.hpp"
+#include "dive_weakforms.hpp"
 
 namespace dive
 {
@@ -9,7 +9,7 @@ namespace dive
     {
 		StiffnessStructuralPtr CreateWeakFormStiffnessStructural();
 
-		class StiffnessStructural : public WeakFormElement, virtual public std::enable_shared_from_this<StiffnessStructural>
+		class StiffnessStructural : public IWeakFormElement, virtual public std::enable_shared_from_this<StiffnessStructural>
 		{
 		public:
 			virtual ~StiffnessStructural() = default;
@@ -18,7 +18,7 @@ namespace dive
 			StiffnessStructuralPtr GetPtr();
 			ConstStiffnessStructuralPtr GetPtr() const;
 
-			void WeakFormulation(IElementPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const override;
+			void WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const override;
 
 			void SetTemperature(IScalar3DPtr temperature);
 			void SetPressure(IScalar3DPtr pressure);
@@ -26,8 +26,8 @@ namespace dive
 		protected:
 			StiffnessStructural() = default;
 
-			Matrix FormMatrix_D(IElementPtr element, const Vector& local) const;
-			Matrix FormMatrix_B(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const;
+			Matrix FormMatrix_D(IElementMappedPtr element, const Vector& local) const;
+			Matrix FormMatrix_B(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const;
 
 			IScalar3DPtr temperature_{ nullptr };
 			IScalar3DPtr pressure_{ nullptr };

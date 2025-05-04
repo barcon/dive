@@ -1,7 +1,7 @@
 #ifndef DIVE_WEAKFORMS_PRESSURE_STIFFNESS_HPP_
 #define DIVE_WEAKFORMS_PRESSURE_STIFFNESS_HPP_
 
-#include "dive_weakforms_basic.hpp"
+#include "dive_weakforms.hpp"
 
 namespace dive
 {
@@ -9,7 +9,7 @@ namespace dive
     {
 		StiffnessPressurePtr CreateWeakFormStiffnessPressure();
 
-		class StiffnessPressure : public WeakFormElement, virtual public std::enable_shared_from_this<StiffnessPressure>
+		class StiffnessPressure : public IWeakFormElement, virtual public std::enable_shared_from_this<StiffnessPressure>
 		{
 		public:
 			virtual ~StiffnessPressure() = default;
@@ -18,12 +18,12 @@ namespace dive
 			StiffnessPressurePtr GetPtr();
 			ConstStiffnessPressurePtr GetPtr() const;
 
-			void WeakFormulation(IElementPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const override;
+			void WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const override;
 
 		protected:
 			StiffnessPressure() = default;
 
-			Matrix FormMatrix_dN(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const;
+			Matrix FormMatrix_dN(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const;
 
 			using std::enable_shared_from_this<StiffnessPressure>::shared_from_this;
 		};

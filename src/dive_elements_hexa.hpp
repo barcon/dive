@@ -7,11 +7,10 @@ namespace dive
 {
 	namespace elements
 	{
-
 		ElementHexaPtr CreateElementHexa();
 		ElementHexaPtr CreateElementHexa(Tag elementTag);
 
-		class ElementHexa : public IElement3D, virtual public std::enable_shared_from_this<ElementHexa>
+		class ElementHexa : public IElementSolid, virtual public std::enable_shared_from_this<ElementHexa>
 		{
 		public:
 			virtual ~ElementHexa() = default;
@@ -54,7 +53,6 @@ namespace dive
 			Vector GlobalCoordinates(INodePtr node) const override;
 			Vector GlobalCoordinates(const NodeIndex& nodeIndex) const override;
 			Vector GlobalCoordinates(const Vector& local) const override;
-			Vector GlobalDerivatives(const Vector& local, const Dimension& dim) const override;
 
 			INodePtr GetNodeFace(const FaceIndex& faceNumber, const NodeIndex& nodeNumber) const override;
 			INodePtr GetNodeEdge(const EdgeIndex& edgeNumber, const NodeIndex& nodeNumber) const override;
@@ -69,20 +67,13 @@ namespace dive
 			NumberNodes GetNumberNodes() const override;
 			NumberFaces GetNumberFaces() const override;
 			NumberEdges GetNumberEdges() const override;
-			Dimension GetDimension() const override;
+			NumberDimensions GetNumberDimensions() const override;
 			Vector GetCenter() const override;
 			Tag GetTag() const override;
 			IMaterialPtr GetMaterial() const override;
 			ElementIndex GetElementIndex() const override;
 			NumberDof GetNumberDof() const override;
 			IValuePtr GetProperty(String key) const override;
-
-			IGaussPtr IntegralVolume() const override;
-			IGaussPtr IntegralArea() const override;
-			IGaussPtr IntegralEdge() const override;
-
-			IntegralAreaHelper GetIntegralAreaHelper(FaceIndex faceIndex) const override;
-			IntegralEdgeHelper GetIntegralEdgeHelper(EdgeIndex edgeIndex) const override;
 
 			void SetNumberDof(NumberDof numberDof) override;
 			void SetNode(const NodeIndex& nodeNumber, INodePtr node) override;
@@ -94,8 +85,12 @@ namespace dive
 			void SetProperty(IValuePtr value) override;
 
 			bool IsUsed(INodePtr node) const override;
-			bool IsIntegrable() const override;
+			bool IsMapped() const override;
+			bool IsCacheable() const override;
+
 			void InitializeCache() override;
+			void IntegralWeakFormElement(IWeakFormElementPtr weakForm, Matrix& output) const override;
+			void IntegralWeakFormLoad(IWeakFormLoadPtr weakForm, ILoadPtr load, Matrix& output) const override;
 
 			struct LinearFunctions {
 				static Scalar N0(const Vector& arg);
@@ -298,6 +293,11 @@ namespace dive
 		protected:
 			ElementHexa();
 
+			Vector GlobalDerivatives(const Vector& local, const Dimension& dim) const;
+			
+			IntegralAreaHelper GetIntegralAreaHelper(FaceIndex faceIndex) const;
+			IntegralEdgeHelper GetIntegralEdgeHelper(EdgeIndex edgeIndex) const;
+
 			Tag		tag_{ 0 };
 			Type	type_{ element_hexa8 };
 			Nodes	nodes_;
@@ -313,7 +313,7 @@ namespace dive
 			NumberNodes numberNodesParametric_;
 			NumberNodes numberNodesFaceParametric_;
 
-			static const Dimension dimension_;
+			static const NumberDimensions numberDimensions_;
 			static const NumberFaces numberFaces_;
 			static const NumberEdges numberEdges_;
 			static const Scalar localCoordinates_[20][3];

@@ -43,7 +43,7 @@ namespace dive {
 
 			output = -(1.0 / 2.0) * dNu.Transpose() * f;
 		}
-		Matrix LoadDistributedVolumeStabilizationFluid::FormMatrix_N(IElementPtr element, const Vector& point) const
+		Matrix LoadDistributedVolumeStabilizationFluid::FormMatrix_N(IElementMappedPtr element, const Vector& point) const
 		{
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNumberDof();
@@ -61,12 +61,12 @@ namespace dive {
 
 			return res;
 		}
-		Matrix LoadDistributedVolumeStabilizationFluid::FormMatrix_udN(IElementPtr element, const Vector& point) const
+		Matrix LoadDistributedVolumeStabilizationFluid::FormMatrix_udN(IElementMappedPtr element, const Vector& point) const
 		{
 			auto u = FormVelocity(element, point);
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNumberDof();
-			auto dimension = element->GetDimension();
+			auto numberDimensions = element->GetNumberDimensions();
 			auto dN = eilig::Inverse(element->J(point)) * element->dN(point);
 
 			Matrix res(numberDof, numberNodes * numberDof, 0.0);
@@ -75,7 +75,7 @@ namespace dive {
 			{
 				for (NodeIndex n = 0; n < numberNodes; ++n)
 				{
-					for (Dimension k = 0; k < dimension; ++k)
+					for (DimensionIndex k = 0; k < numberDimensions; ++k)
 					{
 						res(k, n * numberDof + m) += u(k) * dN(k, n);
 					}
@@ -84,11 +84,11 @@ namespace dive {
 
 			return res;
 		}
-		Matrix LoadDistributedVolumeStabilizationFluid::FormVelocity(IElementPtr element, const Vector& point) const
+		Matrix LoadDistributedVolumeStabilizationFluid::FormVelocity(IElementMappedPtr element, const Vector& point) const
 		{
 			return element->u(point);
 		}
-		Scalar LoadDistributedVolumeStabilizationFluid::FormDivergence(IElementPtr element, const Vector& point) const
+		Scalar LoadDistributedVolumeStabilizationFluid::FormDivergence(IElementMappedPtr element, const Vector& point) const
 		{
 			auto du = eilig::Inverse(element->J(point)) * element->du(point);
 

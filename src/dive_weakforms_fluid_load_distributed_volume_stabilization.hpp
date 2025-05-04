@@ -1,7 +1,7 @@
 #ifndef DIVE_WEAKFORMS_FLUID_LOAD_DISTRIBUTED_VOLUME_STABILIZATION_HPP_
 #define DIVE_WEAKFORMS_FLUID_LOAD_DISTRIBUTED_VOLUME_STABILIZATION_HPP_
 
-#include "dive_weakforms_basic.hpp"
+#include "dive_weakforms.hpp"
 
 namespace dive
 {
@@ -9,7 +9,7 @@ namespace dive
     {
 		LoadDistributedVolumeStabilizationFluidPtr CreateWeakFormLoadDistributedVolumeStabilizationFluid();
 
-		class LoadDistributedVolumeStabilizationFluid : public WeakFormLoad, virtual public std::enable_shared_from_this<LoadDistributedVolumeStabilizationFluid>
+		class LoadDistributedVolumeStabilizationFluid : public IWeakFormLoad, virtual public std::enable_shared_from_this<LoadDistributedVolumeStabilizationFluid>
 		{
 		public:
 			virtual ~LoadDistributedVolumeStabilizationFluid() = default;
@@ -23,10 +23,10 @@ namespace dive
 		protected:
 			LoadDistributedVolumeStabilizationFluid() = default;
 
-			Matrix FormVelocity(IElementPtr element, const Vector& point) const;
-			Scalar FormDivergence(IElementPtr element, const Vector& point) const;
-			Matrix FormMatrix_N(IElementPtr element, const Vector& point) const;
-			Matrix FormMatrix_udN(IElementPtr element, const Vector& point) const;
+			Matrix FormVelocity(IElementMappedPtr element, const Vector& point) const;
+			Scalar FormDivergence(IElementMappedPtr element, const Vector& point) const;
+			Matrix FormMatrix_N(IElementMappedPtr element, const Vector& point) const;
+			Matrix FormMatrix_udN(IElementMappedPtr element, const Vector& point) const;
 
 			using std::enable_shared_from_this<LoadDistributedVolumeStabilizationFluid>::shared_from_this;
 		};

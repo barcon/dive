@@ -16,6 +16,17 @@ namespace dive
 		static const Type problem_thermal	= 3;
 		static const Type problem_structural= 4;
 
+		Sparse IntegralForm(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2);
+		Vector IntegralForm(IWeakFormLoadPtr weakForm, IProblemPtr problem1, const Loads& loads);
+
+		void UpdateMeshElements(IMeshPtr mesh, NumberDof numberDof);
+		void UpdateDofMeshIndices(IMeshPtr mesh, NumberDof& totalDof, DofMeshIndices& dofMeshIndices);
+		void UpdateNodeMeshIndices(IMeshPtr mesh, const DofMeshIndices& dofMeshIndices, NodeMeshIndices& nodeMeshIndices);
+		void UpdateDirichletIndices(Dirichlets& dirichlets, DofIndex& pivot, DofMeshIndices& dofMeshIndices, DirichletMeshIndices& dirichletMeshIndices);
+		void UpdateDirichletLoads(const DofMeshIndices& dofMeshIndices);
+		void Reorder(IMeshPtr mesh, NumberDof numberDof, NodeMeshIndices& nodeMeshIndices, DofMeshIndices& dofMeshIndices);
+		void SortDofMeshIndices(DofMeshIndices& dofMeshIndices);
+
 		class IProblem
 		{
 		public:
@@ -133,7 +144,6 @@ namespace dive
 
 			virtual Vector Displacement() const = 0;
 		};
-
 	} //namespace problems
 } //namespace dive
 

@@ -47,10 +47,10 @@ namespace dive
 		public:
 			virtual ~ILoadDistributedVolume() = default;
 
-			virtual IElementPtr GetElement() const = 0;
+			virtual IElementMappedPtr GetElement() const = 0;
 			virtual Vector GetValue(const Vector& point) const = 0;
 
-			virtual void SetElement(IElementPtr element) = 0;
+			virtual void SetElement(IElementMappedPtr element) = 0;
 			virtual void SetValue(IVector3DPtr value) = 0;
 		};
 
@@ -59,11 +59,11 @@ namespace dive
 		public:
 			virtual ~ILoadDistributedFace() = default;
 
-			virtual IElementPtr GetElement() const = 0;
+			virtual IElementMappedPtr GetElement() const = 0;
 			virtual FaceIndex GetFaceIndex() const = 0;
 			virtual Vector GetValue(const Vector& point) const = 0;
 
-			virtual void SetElement(IElementPtr element) = 0;
+			virtual void SetElement(IElementMappedPtr element) = 0;
 			virtual void SetFaceIndex(FaceIndex faceIndex) = 0;
 			virtual void SetValue(IVector3DPtr value) = 0;
 		};
@@ -73,11 +73,11 @@ namespace dive
 		public:
 			virtual ~ILoadDistributedEdge() = default;
 
-			virtual IElementPtr GetElement() const = 0;
+			virtual IElementMappedPtr GetElement() const = 0;
 			virtual EdgeIndex GetEdgeIndex() const = 0;
 			virtual Vector GetValue(const Vector& point) const = 0;
 
-			virtual void SetElement(IElementPtr element) = 0;
+			virtual void SetElement(IElementMappedPtr element) = 0;
 			virtual void SetEdgeIndex(EdgeIndex edgeIndex) = 0;
 			virtual void SetValue(IVector3DPtr value) = 0;
 		};

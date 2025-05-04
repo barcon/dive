@@ -2,9 +2,7 @@
 #define DIVE_PROBLEMS_THERMAL_HPP_
 
 #include "dive_problems.hpp"
-#include "dive_problems_basic.hpp"
 #include "dive_weakforms.hpp"
-#include "dive_weakforms_basic.hpp"
 #include "dive_weakforms_thermal_mass.hpp"
 #include "dive_weakforms_thermal_stiffness.hpp"
 #include "dive_weakforms_thermal_convection.hpp"

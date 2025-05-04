@@ -37,7 +37,7 @@ namespace dive {
 
 			output = N.Transpose() * f;
 		}
-		Matrix LoadDistributedVolumeStructural::FormMatrix_N(IElementPtr element, const Vector& point) const
+		Matrix LoadDistributedVolumeStructural::FormMatrix_N(IElementMappedPtr element, const Vector& point) const
 		{
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNumberDof();

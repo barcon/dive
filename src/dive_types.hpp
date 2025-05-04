@@ -70,17 +70,18 @@ namespace dive
 	using FaceIndex = Index;
 	using EdgeIndex = Index;
 	using DirichletIndex = Index;
+	using DimensionIndex = Index;
+	using CacheIndex = Index;
 
 	using Cache = std::unordered_map<Type, Matrices>;
-	using CacheIndex = Index;
 
 	using Number = std::size_t;
 	using NumberDof = Number;
-	using NumberElements = Number;
 	using NumberNodes = Number;
 	using NumberFaces = Number;
 	using NumberEdges = Number;
 	using NumberElements = Number;
+	using NumberDimensions = Number;
 
 	using Timer = utils::Timer;
 	
@@ -108,33 +109,25 @@ namespace dive
 
 	namespace elements
 	{
-		class IShape;
-		using IShapePtr = std::shared_ptr<IShape>;
-		using ConstIShapePtr = std::shared_ptr<const IShape>;
-
-		class IElementMass;
-		using IElementMassPtr = std::shared_ptr<IElementMass>;
-		using ConstIElementMassPtr = std::shared_ptr<const IElementMass>;
-
-		class IElementSpring;
-		using IElementSpringPtr = std::shared_ptr<IElementSpring>;
-		using ConstIElementSpringPtr = std::shared_ptr<const IElementSpring>;
-
 		class IElement;
 		using IElementPtr = std::shared_ptr<IElement>;
 		using ConstIElementPtr = std::shared_ptr<const IElement>;
 
-		class IElement1D;
-		using IElement1DPtr = std::shared_ptr<IElement1D>;
-		using ConstIElement1DPtr = std::shared_ptr<const IElement1D>;
+		class IElementMapped;
+		using IElementMappedPtr = std::shared_ptr<IElementMapped>;
+		using ConstIElementMappedPtr = std::shared_ptr<const IElementMapped>;
 
-		class IElement2D;
-		using IElement2DPtr = std::shared_ptr<IElement2D>;
-		using ConstIElement2DPtr = std::shared_ptr<const IElement2D>;
+		class IElementBeam;
+		using IElementBeamPtr = std::shared_ptr<IElementBeam>;
+		using ConstIElementBeamPtr = std::shared_ptr<const IElementBeam>;
 
-		class IElement3D;
-		using IElement3DPtr = std::shared_ptr<IElement3D>;
-		using ConstIElement3DPtr = std::shared_ptr<const IElement3D>;
+		class IElementShell;
+		using IElementShellPtr = std::shared_ptr<IElementShell>;
+		using ConstIElementShellPtr = std::shared_ptr<const IElementShell>;
+
+		class IElementSolid;
+		using IElementSolidPtr = std::shared_ptr<IElementSolid>;
+		using ConstIElementSolidPtr = std::shared_ptr<const IElementSolid>;
 
 		class ElementHexa;
 		using ElementHexaPtr = std::shared_ptr<ElementHexa>;
@@ -161,14 +154,6 @@ namespace dive
 		class IWeakFormLoad;
 		using IWeakFormLoadPtr = std::shared_ptr<IWeakFormLoad>;
 		using ConstIWeakFormLoadPtr = std::shared_ptr<const IWeakFormLoad>;
-
-		class WeakFormElement;
-		using WeakFormElementPtr = std::shared_ptr<WeakFormElement>;
-		using ConstWeakFormElementPtr = std::shared_ptr<const WeakFormElement>;
-
-		class WeakFormLoad;
-		using WeakFormLoadPtr = std::shared_ptr<WeakFormLoad>;
-		using ConstWeakFormLoadPtr = std::shared_ptr<const WeakFormLoad>;
 
 		//---------------------------------------------------------------------
 		class MassFluid;
@@ -351,6 +336,7 @@ namespace dive
 
 	using INodePtr = nodes::INodePtr;
 	using IElementPtr = elements::IElementPtr;
+	using IElementMappedPtr = elements::IElementMappedPtr;
 	using IMeshPtr = meshes::IMeshPtr;
 	using IWeakFormElementPtr = weakforms::IWeakFormElementPtr;
 	using IWeakFormLoadPtr = weakforms::IWeakFormLoadPtr;

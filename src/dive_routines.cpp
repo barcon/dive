@@ -98,17 +98,20 @@ namespace dive
 
         logger::Info(dive::headerDive, "Number of selected elements: %u", elements.size());
 
-        for (auto& element : elements)
+        for (const auto& element : elements)
         {
             if (element == nullptr)
             {
                 continue;
             }
 
-            auto tag = element->GetTag();
-
-            output += utils::string::Format("%8u\t", tag);
-            output += utils::string::Format("%12.4e\n", element->Volume());
+            auto element3D = std::dynamic_pointer_cast<elements::IElementSolid>(element);
+            
+            if (element3D != nullptr)
+            {
+                output += utils::string::Format("%8u\t", element3D->GetTag());
+                output += utils::string::Format("%12.4e\n", element3D->Volume());
+            }
         }
 
         return output;

@@ -28,7 +28,7 @@ namespace dive {
 		{
 			return const_cast<ConvectionThermal*>(this)->GetPtr();
 		}
-		void ConvectionThermal::WeakFormulation(IElementPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const
+		void ConvectionThermal::WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const
 		{
 			auto N = FormMatrix_N(element, local, cacheIndex);
 			auto dN = FormMatrix_dN(element, local, cacheIndex);
@@ -52,25 +52,25 @@ namespace dive {
 		{
 			velocity_ = velocity;
 		}
-		Scalar ConvectionThermal::FormDensity(IElementPtr element, const Vector& local) const
+		Scalar ConvectionThermal::FormDensity(IElementMappedPtr element, const Vector& local) const
 		{
 			auto temperature = values::GetValue(temperature_, local, element);
 			auto pressure = values::GetValue(pressure_, local, element);
 
 			return element->GetMaterial()->GetDensity(temperature, pressure);
 		}
-		Scalar ConvectionThermal::FormSpecificHeat(IElementPtr element, const Vector& local) const
+		Scalar ConvectionThermal::FormSpecificHeat(IElementMappedPtr element, const Vector& local) const
 		{
 			auto temperature = values::GetValue(temperature_, local, element);
 			auto pressure = values::GetValue(pressure_, local, element);
 
 			return element->GetMaterial()->GetSpecificHeat(temperature, pressure);
 		}
-		Matrix ConvectionThermal::FormVelocity(IElementPtr element, const Vector& local) const
+		Matrix ConvectionThermal::FormVelocity(IElementMappedPtr element, const Vector& local) const
 		{
 			return values::GetValueMatrix3D(velocity_, local, element);
 		}
-		Scalar ConvectionThermal::FormDivergence(IElementPtr element, const Vector& local) const
+		Scalar ConvectionThermal::FormDivergence(IElementMappedPtr element, const Vector& local) const
 		{
 			auto& elementVelocity = std::static_pointer_cast<values::ValueMatrix3DCongruent>(velocity_)->GetMesh()->GetElements()[element->GetElementIndex()];
 			auto du = eilig::Inverse(elementVelocity->J(local)) * elementVelocity->du(local);
@@ -84,11 +84,11 @@ namespace dive {
 
 			return divergence;
 		}
-		Matrix ConvectionThermal::FormMatrix_N(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const
+		Matrix ConvectionThermal::FormMatrix_N(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const
 		{	
 			return element->N(local, cacheIndex);
 		}
-		Matrix ConvectionThermal::FormMatrix_dN(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const
+		Matrix ConvectionThermal::FormMatrix_dN(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const
 		{		
 			return element->InvJ(local, cacheIndex) * element->dN(local, cacheIndex);
 		}

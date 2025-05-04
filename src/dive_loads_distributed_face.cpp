@@ -5,7 +5,7 @@ namespace dive
 {
 	namespace loads
 	{
-		LoadDistributedFacePtr CreateLoadDistributedFace(IElementPtr element, FaceIndex faceIndex, IVector3DPtr value)
+		LoadDistributedFacePtr CreateLoadDistributedFace(IElementMappedPtr element, FaceIndex faceIndex, IVector3DPtr value)
 		{
 			auto res = LoadDistributedFace::Create();
 
@@ -37,7 +37,7 @@ namespace dive
 		{
 			return type_;
 		}
-		IElementPtr LoadDistributedFace::GetElement() const
+		IElementMappedPtr LoadDistributedFace::GetElement() const
 		{
 			return element_;
 		}
@@ -49,7 +49,7 @@ namespace dive
 		{
 			return faceIndex_;
 		}
-		void LoadDistributedFace::SetElement(IElementPtr element)
+		void LoadDistributedFace::SetElement(IElementMappedPtr element)
 		{
 			element_ = element;
 		}

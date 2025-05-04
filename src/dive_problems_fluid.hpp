@@ -2,9 +2,7 @@
 #define DIVE_PROBLEMS_FLUID_HPP_
 
 #include "dive_problems.hpp"
-#include "dive_problems_basic.hpp"
 #include "dive_weakforms.hpp"
-#include "dive_weakforms_basic.hpp"
 #include "dive_weakforms_fluid_mass.hpp"
 #include "dive_weakforms_fluid_stiffness.hpp"
 #include "dive_weakforms_fluid_convection.hpp"

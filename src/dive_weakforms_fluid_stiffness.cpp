@@ -27,7 +27,7 @@ namespace dive {
 		{
 			return const_cast<StiffnessFluid*>(this)->GetPtr();
 		}
-		void StiffnessFluid::WeakFormulation(IElementPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const
+		void StiffnessFluid::WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const
 		{		
 			auto B = FormMatrix_B(element, local, cacheIndex);
 			auto Id = FormMatrix_Id(element, local);
@@ -43,7 +43,7 @@ namespace dive {
 		{
 			pressure_ = pressure;
 		}
-		Matrix StiffnessFluid::FormMatrix_Id(IElementPtr element, const Vector& local) const
+		Matrix StiffnessFluid::FormMatrix_Id(IElementMappedPtr element, const Vector& local) const
 		{
 			auto material = std::static_pointer_cast<material::IMaterialFluid>(element->GetMaterial());
 			auto temperature = values::GetValue(temperature_, local, element);
@@ -51,7 +51,7 @@ namespace dive {
 
 			return material->D(temperature, pressure);
 		}
-		Matrix StiffnessFluid::FormMatrix_B(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const
+		Matrix StiffnessFluid::FormMatrix_B(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const
 		{
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNumberDof();
@@ -77,7 +77,7 @@ namespace dive {
 
 			return res;
 		}
-		Vector StiffnessFluid::FormVector_Z(IElementPtr element, const Vector& local) const
+		Vector StiffnessFluid::FormVector_Z(IElementMappedPtr element, const Vector& local) const
 		{
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNumberDof();

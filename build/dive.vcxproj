@@ -63,7 +63,6 @@
     <ClInclude Include="..\src\dive.hpp" />
     <ClInclude Include="..\src\dive_elements.hpp" />
     <ClInclude Include="..\src\dive_elements_hexa.hpp" />
-    <ClInclude Include="..\src\dive_elements_spring.hpp" />
     <ClInclude Include="..\src\dive_loads.hpp" />
     <ClInclude Include="..\src\dive_loads_dirichlet.hpp" />
     <ClInclude Include="..\src\dive_loads_distributed_edge.hpp" />
@@ -73,7 +72,6 @@
     <ClInclude Include="..\src\dive_meshes.hpp" />
     <ClInclude Include="..\src\dive_meshes_basic.hpp" />
     <ClInclude Include="..\src\dive_problems.hpp" />
-    <ClInclude Include="..\src\dive_problems_basic.hpp" />
     <ClInclude Include="..\src\dive_problems_fluid.hpp" />
     <ClInclude Include="..\src\dive_problems_pressure.hpp" />
     <ClInclude Include="..\src\dive_problems_structural.hpp" />
@@ -89,7 +87,6 @@
     <ClInclude Include="..\src\dive_values_scalar_congruent.hpp" />
     <ClInclude Include="..\src\dive_values_vector_congruent.hpp" />
     <ClInclude Include="..\src\dive_weakforms.hpp" />
-    <ClInclude Include="..\src\dive_weakforms_basic.hpp" />
     <ClInclude Include="..\src\dive_weakforms_fluid_convection.hpp" />
     <ClInclude Include="..\src\dive_weakforms_fluid_convection_asymmetric.hpp" />
     <ClInclude Include="..\src\dive_weakforms_fluid_convection_symmetric.hpp" />
@@ -122,7 +119,7 @@
     <ClCompile Include="..\src\dive_loads_distributed_volume.cpp" />
     <ClCompile Include="..\src\dive_loads_node.cpp" />
     <ClCompile Include="..\src\dive_meshes_basic.cpp" />
-    <ClCompile Include="..\src\dive_problems_basic.cpp" />
+    <ClCompile Include="..\src\dive_problems.cpp" />
     <ClCompile Include="..\src\dive_problems_fluid.cpp" />
     <ClCompile Include="..\src\dive_problems_pressure.cpp" />
     <ClCompile Include="..\src\dive_problems_structural.cpp" />
@@ -134,7 +131,6 @@
     <ClCompile Include="..\src\dive_values_matrix_congruent.cpp" />
     <ClCompile Include="..\src\dive_values_scalar_congruent.cpp" />
     <ClCompile Include="..\src\dive_values_vector_congruent.cpp" />
-    <ClCompile Include="..\src\dive_weakforms_basic.cpp" />
     <ClCompile Include="..\src\dive_weakforms_fluid_convection.cpp" />
     <ClCompile Include="..\src\dive_weakforms_fluid_convection_asymmetric.cpp" />
     <ClCompile Include="..\src\dive_weakforms_fluid_convection_symmetric.cpp" />

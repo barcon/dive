@@ -160,10 +160,10 @@ namespace dive {
 				auto globalIndex = dofMeshIndices_[i].globalIndex;
 				auto dofIndex = dofMeshIndices_[i].dofIndex;
 
-				auto node = dofMeshIndices_[i].node;
-				auto element = node->GetConnectivity().elements[0];
-				auto point = element->LocalCoordinates(node);
-				auto material = std::static_pointer_cast<material::IMaterialFluid>(element->GetMaterial());
+				const auto& node = dofMeshIndices_[i].node;
+				const auto& element = node->GetConnectivity().elements[0];
+				const auto& point = element->LocalCoordinates(node);
+				const auto& material = element->GetMaterial();
 
 				auto temperature = values::GetValue(temperature_, point, element);
 				auto pressure = values::GetValue(pressure_, point, element);
@@ -275,10 +275,10 @@ namespace dive {
 
 			for (Index i = 0; i < dofMeshIndices_.size(); ++i)
 			{
-				auto node = dofMeshIndices_[i].node;
-				auto element = node->GetConnectivity().elements[0];
-				auto point = element->LocalCoordinates(node);
-				auto material = std::static_pointer_cast<material::IMaterialFluid>(element->GetMaterial());
+				const auto& node = dofMeshIndices_[i].node;
+				const auto& element = node->GetConnectivity().elements[0];
+				const auto& point = element->LocalCoordinates(node);
+				const auto& material = element->GetMaterial();
 
 				auto temperature = values::GetValue(temperature_, point, element);
 				auto pressure = values::GetValue(pressure_, point, element);

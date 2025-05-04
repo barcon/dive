@@ -459,7 +459,6 @@ namespace dive {
 			Status status{ dive::DIVE_SUCCESS };
 
 			Tag	elementTag;
-			IElementPtr element{ nullptr };
 
 			unsigned int counter{ 0 };
 
@@ -488,9 +487,9 @@ namespace dive {
 					{
 					case 5: // element_hexa8
 					{
-						element = elements::CreateElementHexa(elementTag);
-						std::dynamic_pointer_cast<elements::IShape>(element)->SetOrder(elements::order_linear);
-						std::dynamic_pointer_cast<elements::IShape>(element)->SetParametric(elements::parametric_linear);
+						auto element = elements::CreateElementHexa(elementTag);
+						element->SetOrder(elements::order_linear);
+						element->SetParametric(elements::parametric_linear);
 						element->SetNumberDof(numberDof);
 
 						for (NumberNodes k = 0; k < element->GetNumberNodes(); ++k)
@@ -501,13 +500,15 @@ namespace dive {
 							element->SetNode(k, node);
 						}
 
+						mesh->AddElement(element, status, false);
+
 						break;
 					}
 					case 17: //element_hexa20
 					{
-						element = elements::CreateElementHexa(elementTag);
-						std::dynamic_pointer_cast<elements::IShape>(element)->SetOrder(elements::order_quadratic);
-						std::dynamic_pointer_cast<elements::IShape>(element)->SetParametric(elements::parametric_quadratic);
+						auto element = elements::CreateElementHexa(elementTag);
+						element->SetOrder(elements::order_quadratic);
+						element->SetParametric(elements::parametric_quadratic);
 						element->SetNumberDof(numberDof);
 
 						for (NumberNodes k = 0; k < element->GetNumberNodes(); ++k)
@@ -518,13 +519,14 @@ namespace dive {
 							element->SetNode(k, node);
 						}
 
+						mesh->AddElement(element, status, false);
+
 						break;
 					}
 					default:
 						continue;
 					}
 
-					mesh->AddElement(element, status, false);
 					if (status != dive::DIVE_SUCCESS)
 					{
 						logger::Error(dive::headerDive, "Element could not be added: " + dive::messages.at(status));
