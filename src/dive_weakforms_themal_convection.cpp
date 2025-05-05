@@ -1,4 +1,5 @@
 #include "dive_weakforms_thermal_convection.hpp"
+#include "dive_problems.hpp"
 #include "dive_values_scalar_congruent.hpp"
 #include "dive_values_matrix_congruent.hpp"
 
@@ -48,9 +49,9 @@ namespace dive {
 		{
 			pressure_ = pressure;
 		}
-		void ConvectionThermal::SetVelocity(IMatrix3DPtr velocity)
+		void ConvectionThermal::SetProblemMomentum(IProblemPtr problemMomentum)
 		{
-			velocity_ = velocity;
+			problemMomentum_ = problemMomentum;
 		}
 		Scalar ConvectionThermal::FormDensity(IElementMappedPtr element, const Vector& local) const
 		{
@@ -68,11 +69,15 @@ namespace dive {
 		}
 		Matrix ConvectionThermal::FormVelocity(IElementMappedPtr element, const Vector& local) const
 		{
-			return values::GetValueMatrix3D(velocity_, local, element);
+			const auto& elementIndex = element->GetElementIndex();
+			const auto& elementVelocity = std::dynamic_pointer_cast<elements::IElementMapped>(problemMomentum_->GetMesh()->GetElements()[elementIndex]);
+
+			return elementVelocity->u(local);
 		}
 		Scalar ConvectionThermal::FormDivergence(IElementMappedPtr element, const Vector& local) const
 		{
-			auto& elementVelocity = std::static_pointer_cast<values::ValueMatrix3DCongruent>(velocity_)->GetMesh()->GetElements()[element->GetElementIndex()];
+			const auto& elementIndex = element->GetElementIndex();
+			const auto& elementVelocity = std::dynamic_pointer_cast<elements::IElementMapped>(problemMomentum_->GetMesh()->GetElements()[elementIndex]);
 			auto du = eilig::Inverse(elementVelocity->J(local)) * elementVelocity->du(local);
 
 			Scalar divergence{ 0.0 };

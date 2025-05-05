@@ -22,7 +22,8 @@ namespace dive
 
 			void SetTemperature(IScalar3DPtr temperature);
 			void SetPressure(IScalar3DPtr pressure);
-			void SetVelocity(IMatrix3DPtr velocity);
+			
+			void SetProblemMomentum(IProblemPtr problemMomentum);
 
 		protected:
 			StabilizationThermal() = default;
@@ -36,7 +37,7 @@ namespace dive
 
 			IScalar3DPtr temperature_{ nullptr };
 			IScalar3DPtr pressure_{ nullptr };
-			IMatrix3DPtr velocity_{ nullptr };
+			IProblemPtr problemMomentum_{ nullptr };
 
 			using std::enable_shared_from_this<StabilizationThermal>::shared_from_this;
 		};

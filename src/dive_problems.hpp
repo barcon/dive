@@ -114,12 +114,11 @@ namespace dive
 			virtual IMatrix3DPtr GetVelocity() const = 0;
 
 			virtual void SetPressure(IScalar3DPtr pressure) = 0;
-			virtual void SetVelocity(IMatrix3DPtr velocity) = 0;
 
 			virtual Sparse Mass() const = 0;
 			virtual Sparse Stiffness() const = 0;
-			virtual Sparse Convection() const = 0;
-			virtual Sparse Stabilization() const = 0;
+			virtual Sparse Convection(IProblemPtr problemMomentum) const = 0;
+			virtual Sparse Stabilization(IProblemPtr problemMomentum) const = 0;
 
 			virtual Vector Energy() const = 0;
 		};

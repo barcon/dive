@@ -39,7 +39,8 @@ namespace dive
 				{
 					local.Resize(numberNodes1 * numberDof1, numberNodes2 * numberDof2);
 				}
-				weakForm->IntegrationVolume(elements1[i], local);
+
+				std::dynamic_pointer_cast<elements::IElementMapped>(elements1[i])->IntegralWeakFormElement(weakForm, local);
 
 				for (NodeIndex m = 0; m < numberNodes1; ++m)
 				{
@@ -98,8 +99,9 @@ namespace dive
 				{
 					if (load->GetType() == loads::load_distributedVolume)
 					{
-						const auto& element = std::static_pointer_cast<loads::ILoadDistributedVolume>(load)->GetElement();
+						const auto& element = std::dynamic_pointer_cast<loads::ILoadDistributedVolume>(load)->GetElement();
 
+						element->IntegralWeakFormLoad(weakForm, load, local);
 						numberDof = element->GetNumberDof();
 						numberNodes = element->GetNumberNodes();
 						elementIndex = element->GetElementIndex();
@@ -108,6 +110,7 @@ namespace dive
 					{
 						const auto& element = std::static_pointer_cast<loads::ILoadDistributedFace>(load)->GetElement();
 
+						element->IntegralWeakFormLoad(weakForm, load, local);
 						numberDof = element->GetNumberDof();
 						numberNodes = element->GetNumberNodes();
 						elementIndex = element->GetElementIndex();
@@ -116,18 +119,12 @@ namespace dive
 					{
 						const auto& element = std::static_pointer_cast<loads::ILoadDistributedEdge>(load)->GetElement();
 
+						element->IntegralWeakFormLoad(weakForm, load, local);
 						numberDof = element->GetNumberDof();
 						numberNodes = element->GetNumberNodes();
 						elementIndex = element->GetElementIndex();
 					}
-
-					if (local.GetRows() != numberNodes * numberDof)
-					{
-						local.Resize(numberNodes * numberDof);
-					}
 					
-					weakForm->IntegrationVolume(load, local);
-
 					for (NodeIndex i = 0; i < numberNodes; ++i)
 					{
 						for (DofIndex j = 0; j < numberDof; ++j)

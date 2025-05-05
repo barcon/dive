@@ -79,7 +79,9 @@ namespace values
     }
     Scalar ValueScalar3DCongruent::GetValue(const Vector& point, ElementIndex elementIndex) const
     {
-        return mesh_->GetElements()[elementIndex]->u(point)(0);
+        const auto& element = std::dynamic_pointer_cast<dive::elements::IElementMapped>(mesh_->GetElements()[elementIndex]);
+
+        return element->u(point)(0);
     }
     IMeshPtr ValueScalar3DCongruent::GetMesh() const
     {

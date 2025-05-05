@@ -1,4 +1,5 @@
 #include "dive_values_matrix_congruent.hpp"
+#include "dive_elements.hpp"
 
 namespace values
 {
@@ -80,7 +81,9 @@ namespace values
     }
     Matrix ValueMatrix3DCongruent::GetValue(const Vector& point, ElementIndex elementIndex) const
     {
-        return mesh_->GetElements()[elementIndex]->u(point);
+        const auto& element = std::dynamic_pointer_cast<dive::elements::IElementMapped>(mesh_->GetElements()[elementIndex]);
+
+        return element->u(point);
     }
     IMeshPtr ValueMatrix3DCongruent::GetMesh() const
     {

@@ -47,7 +47,6 @@ namespace dive
 
 			void SetTimer(ITimerPtr timer) override;
 			void SetPressure(IScalar3DPtr pressure) override;
-			void SetVelocity(IMatrix3DPtr velocity) override;
 			void SetMesh(IMeshPtr mesh) override;
 			void SetTag(Tag tag) override;
 
@@ -58,8 +57,8 @@ namespace dive
 
 			Sparse Mass() const override;
 			Sparse Stiffness() const override;
-			Sparse Convection() const override;
-			Sparse Stabilization() const override;
+			Sparse Convection(IProblemPtr problemMomentum) const override;
+			Sparse Stabilization(IProblemPtr problemMomentum) const override;
 
 			Vector Energy() const override;
 

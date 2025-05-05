@@ -90,7 +90,7 @@ namespace dive
 
 			void InitializeCache() override;
 			void IntegralWeakFormElement(IWeakFormElementPtr weakForm, Matrix& output) const override;
-			void IntegralWeakFormLoad(IWeakFormLoadPtr weakForm, ILoadPtr load, Matrix& output) const override;
+			void IntegralWeakFormLoad(IWeakFormLoadPtr weakForm, ILoadPtr load, Vector& output) const override;
 
 			struct LinearFunctions {
 				static Scalar N0(const Vector& arg);

@@ -749,7 +749,7 @@ namespace dive
 			}
 
 		}
-		void ElementHexa::IntegralWeakFormLoad(IWeakFormLoadPtr weakForm, ILoadPtr load, Matrix& output) const
+		void ElementHexa::IntegralWeakFormLoad(IWeakFormLoadPtr weakForm, ILoadPtr load, Vector& output) const
 		{
 			Vector local;
 			Vector point(numberDimensions_);

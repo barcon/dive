@@ -107,10 +107,6 @@ namespace dive {
 		{
 			pressure_ = pressure;
 		}
-		void ProblemThermal::SetVelocity(IMatrix3DPtr velocity)
-		{
-			velocity_ = velocity;
-		}
 		void ProblemThermal::SetMesh(IMeshPtr mesh)
 		{
 			mesh_ = mesh;
@@ -180,14 +176,14 @@ namespace dive {
 
 			return res;
 		}
-		Sparse ProblemThermal::Convection() const
+		Sparse ProblemThermal::Convection(IProblemPtr problemMomentum) const
 		{
 			TimerStart();
 
 			auto convectionWeak = weakforms::CreateWeakFormConvectionThermal();
 			convectionWeak->SetTemperature(temperature_);
 			convectionWeak->SetPressure(pressure_);
-			convectionWeak->SetVelocity(velocity_);
+			convectionWeak->SetProblemMomentum(problemMomentum);
 
 			auto problemThermal = std::make_shared<ProblemThermal>(*this);
 
@@ -197,14 +193,14 @@ namespace dive {
 
 			return res;
 		}
-		Sparse ProblemThermal::Stabilization() const
+		Sparse ProblemThermal::Stabilization(IProblemPtr problemMomentum) const
 		{
 			TimerStart();
 
 			auto stabilizationWeak = weakforms::CreateWeakFormStabilizationThermal();
 			stabilizationWeak->SetTemperature(temperature_);
 			stabilizationWeak->SetPressure(pressure_);
-			stabilizationWeak->SetVelocity(velocity_);
+			stabilizationWeak->SetProblemMomentum(problemMomentum);
 
 			auto problemThermal = std::make_shared<ProblemThermal>(*this);
 

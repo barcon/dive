@@ -127,7 +127,7 @@ namespace dive
 			virtual void SetParametric(const Parametric& order) = 0;
 
 			virtual void IntegralWeakFormElement(IWeakFormElementPtr weakForm, Matrix& output) const = 0;
-			virtual void IntegralWeakFormLoad(IWeakFormLoadPtr weakForm, ILoadPtr load, Matrix& output) const = 0;
+			virtual void IntegralWeakFormLoad(IWeakFormLoadPtr weakForm, ILoadPtr load, Vector& output) const = 0;
 		};
 
 		class IElementBeam : virtual public IElementMapped
