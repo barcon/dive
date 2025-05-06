@@ -14,6 +14,7 @@
 
 #include "dive_elements.hpp"
 #include "dive_elements_hexa.hpp"
+#include "dive_elements_spring.hpp"
 
 #include "dive_meshes.hpp"
 #include "dive_meshes_basic.hpp"

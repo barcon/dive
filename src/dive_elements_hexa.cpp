@@ -243,6 +243,10 @@ namespace dive
 		{
 			return eilig::Determinant(J(local));
 		}
+		Scalar ElementHexa::DetJ(const Vector& local, CacheIndex cacheIndex) const
+		{
+			return cacheDetJ_[cacheIndex];
+		}
 		Scalar ElementHexa::DelA(const Vector& local, const Dimension& dim1, const Dimension& dim2) const
 		{
 			Vector du = GlobalDerivatives(local, dim1);
@@ -258,10 +262,6 @@ namespace dive
 			dw = GlobalDerivatives(local, dim1);
 
 			return eilig::NormP2(dw);
-		}
-		Scalar ElementHexa::DetJ(const Vector& local, CacheIndex cacheIndex) const
-		{
-			return cacheDetJ_[cacheIndex];
 		}
 		Scalar ElementHexa::Volume() const
 		{
@@ -720,11 +720,15 @@ namespace dive
 
 			return false;
 		}
+		bool ElementHexa::IsMapped() const
+		{
+			return true;
+		}
 		bool ElementHexa::IsCacheable() const
 		{
 			return true;
 		}
-		bool ElementHexa::IsMapped() const
+		bool ElementHexa::IsIntegrable() const
 		{
 			return true;
 		}

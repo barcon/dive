@@ -87,6 +87,7 @@ namespace dive
 			bool IsUsed(INodePtr node) const override;
 			bool IsMapped() const override;
 			bool IsCacheable() const override;
+			bool IsIntegrable() const override;
 
 			void InitializeCache() override;
 			void IntegralWeakFormElement(IWeakFormElementPtr weakForm, Matrix& output) const override;

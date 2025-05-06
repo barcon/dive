@@ -3975,8 +3975,17 @@ class IElement(object):
     def IsCacheable(self):
         return _diveCL.IElement_IsCacheable(self)
 
+    def IsIntegrable(self):
+        return _diveCL.IElement_IsIntegrable(self)
+
     def InitializeCache(self):
         return _diveCL.IElement_InitializeCache(self)
+
+    def IntegralWeakFormElement(self, weakForm, output):
+        return _diveCL.IElement_IntegralWeakFormElement(self, weakForm, output)
+
+    def IntegralWeakFormLoad(self, weakForm, load, output):
+        return _diveCL.IElement_IntegralWeakFormLoad(self, weakForm, load, output)
 
 # Register IElement in _diveCL:
 _diveCL.IElement_swigregister(IElement)
@@ -4026,12 +4035,6 @@ class IElementMapped(IElement):
 
     def SetParametric(self, order):
         return _diveCL.IElementMapped_SetParametric(self, order)
-
-    def IntegralWeakFormElement(self, weakForm, output):
-        return _diveCL.IElementMapped_IntegralWeakFormElement(self, weakForm, output)
-
-    def IntegralWeakFormLoad(self, weakForm, load, output):
-        return _diveCL.IElementMapped_IntegralWeakFormLoad(self, weakForm, load, output)
 
 # Register IElementMapped in _diveCL:
 _diveCL.IElementMapped_swigregister(IElementMapped)
@@ -4244,6 +4247,9 @@ class ElementHexa(IElementSolid):
 
     def IsCacheable(self):
         return _diveCL.ElementHexa_IsCacheable(self)
+
+    def IsIntegrable(self):
+        return _diveCL.ElementHexa_IsIntegrable(self)
 
     def InitializeCache(self):
         return _diveCL.ElementHexa_InitializeCache(self)

@@ -132,6 +132,10 @@ namespace dive
 		class ElementHexa;
 		using ElementHexaPtr = std::shared_ptr<ElementHexa>;
 		using ConstElementHexaPtr = std::shared_ptr<const ElementHexa>;
+
+		class ElementSpring;
+		using ElementSpringPtr = std::shared_ptr<ElementSpring>;
+		using ConstElementSpringPtr = std::shared_ptr<const ElementSpring>;
 	}
 
 	namespace meshes

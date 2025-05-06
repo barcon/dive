@@ -2,6 +2,7 @@
 %{
 	#include "dive_elements.hpp"
 	#include "dive_elements_hexa.hpp"
+	#include "dive_elements_spring.hpp"
 
 	typedef std::shared_ptr<dive::elements::IElement> IElementPtr;
 	typedef std::shared_ptr<const dive::elements::IElement> ConstIElementPtr;
@@ -20,6 +21,9 @@
 
 	typedef std::shared_ptr<dive::elements::ElementHexa> ElementHexaPtr;
 	typedef std::shared_ptr<const dive::elements::ElementHexa> ConstElementHexaPtr;
+
+	typedef std::shared_ptr<dive::elements::ElementSpring> ElementSpringPtr;
+	typedef std::shared_ptr<const dive::elements::ElementSpring> ConstElementSpringPtr;
 	
 	typedef std::vector<dive::elements::IElementPtr> Elements;	
 
@@ -32,11 +36,13 @@
 %shared_ptr(dive::elements::IElementShell);
 %shared_ptr(dive::elements::IElementSolid);
 %shared_ptr(dive::elements::ElementHexa);
+%shared_ptr(dive::elements::ElementSpring);
 
 %template(vecElements) std::vector<std::shared_ptr<dive::elements::IElement>>;
 
 %include "dive_elements.hpp"
 %include "dive_elements_hexa.hpp"
+%include "dive_elements_spring.hpp"
 
 %pythoncode
 %{
