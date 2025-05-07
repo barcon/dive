@@ -9,10 +9,6 @@ namespace dive
 {
 	namespace elements
 	{
-		const NumberFaces		ElementHexa::numberFaces_{ 6 };
-		const NumberEdges		ElementHexa::numberEdges_{ 12 };
-		const NumberDimensions	ElementHexa::numberDimensions_{ 3 };
-
 		const Scalar		ElementHexa::localCoordinates_[20][3] = {	{ -1.0, -1.0, -1.0 },
 																		{  1.0, -1.0, -1.0 },
 																		{  1.0,  1.0, -1.0 },
@@ -713,7 +709,7 @@ namespace dive
 					return ptr == node;
 				});
 
-			if (it == nodes_.end())
+			if (it != nodes_.end())
 			{
 				return true;
 			}

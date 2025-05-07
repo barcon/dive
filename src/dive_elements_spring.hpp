@@ -8,9 +8,9 @@ namespace dive
 	namespace elements
 	{
 		ElementSpringPtr CreateElementSpring();
-		ElementSpringPtr CreateElementSpring(Tag elementTag);
+		ElementSpringPtr CreateElementSpring(Tag elementTag, IScalar1DPtr stiffness);
 
-		class ElementSpring : public IElementMapped, virtual public std::enable_shared_from_this<ElementSpring>
+		class ElementSpring : public IElement, virtual public std::enable_shared_from_this<ElementSpring>
 		{
 		public:
 			virtual ~ElementSpring() = default;
@@ -19,66 +19,43 @@ namespace dive
 			ElementSpringPtr GetPtr();
 			ConstElementSpringPtr GetPtr() const;
 
-			Matrix u() const override;
-			Matrix u(const Vector& local) const override;
+			Tag GetTag() const override;
+			Type GetType() const override;
+			Vector GetCenter() const override;
+			IMaterialPtr GetMaterial() const override;
+			
+			NodeIndex GetNodeIndex(INodePtr node) const override;
+			ElementIndex GetElementIndex() const override;
 
-			Matrix du() const override;
-			Matrix du(const Vector& local) const override;
-			Matrix du(const Vector& local, const Dimension& dimension) const override;
+			NumberDof GetNumberDof() const override;
+			NumberNodes GetNumberNodes() const override;
+			NumberFaces GetNumberFaces() const override;
+			NumberEdges GetNumberEdges() const override;
+			NumberNodes GetNumberNodesFace(const FaceIndex& faceNumber) const override;
+			NumberNodes GetNumberNodesEdge(const EdgeIndex& edgeNode) const override;
+			NumberDimensions GetNumberDimensions() const override;
 
-			Matrix J(const Vector& local) const override;
-			Matrix InvJ(const Vector& local) const override;
-			Matrix N(const Vector& local) const override;
-			Matrix dN(const Vector& local) const override;
+			INodePtr GetNode(const NodeIndex& nodeNumber) const override;
+			INodePtr GetNodeFace(const FaceIndex& faceNumber, const NodeIndex& nodeNumber) const override;
+			INodePtr GetNodeEdge(const EdgeIndex& edgeNumber, const NodeIndex& nodeNumber) const override;
+			const Nodes& GetNodes() const override;
+			IValuePtr GetProperty(String key) const override;
 
-			const Matrix& J(const Vector& local, CacheIndex cacheIndex) const override;
-			const Matrix& InvJ(const Vector& local, CacheIndex cacheIndex) const override;
-			const Matrix& N(const Vector& local, CacheIndex cacheIndex) const override;
-			const Matrix& dN(const Vector& local, CacheIndex cacheIndex) const override;
-
-			Scalar DetJ(const Vector& local) const override;
-			Scalar DetJ(const Vector& local, CacheIndex cacheIndex) const override;
-			Scalar DelA(const Vector& local, const Dimension& dim1, const Dimension& dim2) const override;
-			Scalar DelL(const Vector& local, const Dimension& dim1) const override;
-
-			Scalar Size() const override;
+			void SetTag(Tag elementTag) override;
+			void SetNumberDof(NumberDof numberDof) override;
+			void SetNode(const NodeIndex& nodeNumber, INodePtr node) override;
+			void SetElementIndex(ElementIndex index) override;
+			void SetMaterial(IMaterialPtr material) override;
+			void SetProperty(IValuePtr value) override;
 
 			Vector LocalCoordinates(INodePtr node) const override;
 			Vector LocalCoordinates(const NodeIndex& nodeIndex) const override;
-			
+
 			Vector GlobalCoordinates(INodePtr node) const override;
 			Vector GlobalCoordinates(const NodeIndex& nodeIndex) const override;
 			Vector GlobalCoordinates(const Vector& local) const override;
 
-			INodePtr GetNodeFace(const FaceIndex& faceNumber, const NodeIndex& nodeNumber) const override;
-			INodePtr GetNodeEdge(const EdgeIndex& edgeNumber, const NodeIndex& nodeNumber) const override;
-			INodePtr GetNode(const NodeIndex& nodeNumber) const override;
-			const Nodes& GetNodes() const override;
-			Order GetOrder() const override;
-			Parametric GetParametric() const override;
-			Type GetType() const override;
-			NodeIndex GetNodeIndex(INodePtr node) const override;
-			NumberNodes GetNumberNodesFace(const FaceIndex& faceNumber) const override;
-			NumberNodes GetNumberNodesEdge(const EdgeIndex& edgeNode) const override;
-			NumberNodes GetNumberNodes() const override;
-			NumberFaces GetNumberFaces() const override;
-			NumberEdges GetNumberEdges() const override;
-			NumberDimensions GetNumberDimensions() const override;
-			Vector GetCenter() const override;
-			Tag GetTag() const override;
-			IMaterialPtr GetMaterial() const override;
-			ElementIndex GetElementIndex() const override;
-			NumberDof GetNumberDof() const override;
-			IValuePtr GetProperty(String key) const override;
-
-			void SetNumberDof(NumberDof numberDof) override;
-			void SetNode(const NodeIndex& nodeNumber, INodePtr node) override;
-			void SetOrder(const Order& order) override;
-			void SetParametric(const Parametric& order) override;
-			void SetTag(Tag elementTag) override;
-			void SetMaterial(IMaterialPtr material) override;
-			void SetElementIndex(ElementIndex index) override;
-			void SetProperty(IValuePtr value) override;
+			Scalar Size() const override;
 
 			bool IsUsed(INodePtr node) const override;
 			bool IsMapped() const override;
@@ -89,85 +66,11 @@ namespace dive
 			void IntegralWeakFormElement(IWeakFormElementPtr weakForm, Matrix& output) const override;
 			void IntegralWeakFormLoad(IWeakFormLoadPtr weakForm, ILoadPtr load, Vector& output) const override;
 
-			struct LinearFunctions {
-				static Scalar N0(const Vector& arg);
-				static Scalar N0d1(const Vector& arg);
-				static Scalar N0d2(const Vector& arg);
-				static Scalar N0d3(const Vector& arg);
-
-				static Scalar N1(const Vector& arg);
-				static Scalar N1d1(const Vector& arg);
-				static Scalar N1d2(const Vector& arg);
-				static Scalar N1d3(const Vector& arg);
-
-				static Scalar N2(const Vector& arg);
-				static Scalar N2d1(const Vector& arg);
-				static Scalar N2d2(const Vector& arg);
-				static Scalar N2d3(const Vector& arg);
-
-				static Scalar N3(const Vector& arg);
-				static Scalar N3d1(const Vector& arg);
-				static Scalar N3d2(const Vector& arg);
-				static Scalar N3d3(const Vector& arg);
-
-				static Scalar N4(const Vector& arg);
-				static Scalar N4d1(const Vector& arg);
-				static Scalar N4d2(const Vector& arg);
-				static Scalar N4d3(const Vector& arg);
-
-				static Scalar N5(const Vector& arg);
-				static Scalar N5d1(const Vector& arg);
-				static Scalar N5d2(const Vector& arg);
-				static Scalar N5d3(const Vector& arg);
-
-				static Scalar N6(const Vector& arg);
-				static Scalar N6d1(const Vector& arg);
-				static Scalar N6d2(const Vector& arg);
-				static Scalar N6d3(const Vector& arg);
-
-				static Scalar N7(const Vector& arg);
-				static Scalar N7d1(const Vector& arg);
-				static Scalar N7d2(const Vector& arg);
-				static Scalar N7d3(const Vector& arg);
-
-				ShapePtr Shape[8] = { &N0, &N1, &N2, &N3, &N4, &N5, &N6, &N7 };
-				ShapePtr ShapeD[3 * 8] = {	&N0d1, &N1d1, &N2d1, &N3d1, &N4d1, &N5d1, &N6d1, &N7d1,
-											&N0d2, &N1d2, &N2d2, &N3d2, &N4d2, &N5d2, &N6d2, &N7d2,
-											&N0d3, &N1d3, &N2d3, &N3d3, &N4d3, &N5d3, &N6d3, &N7d3 };
-
-				NodeIndex NodeIndexFace[6 * 4] = {  NodeIndex(6), NodeIndex(5), NodeIndex(1), NodeIndex(2),
-													NodeIndex(6), NodeIndex(2), NodeIndex(3), NodeIndex(7),
-													NodeIndex(6), NodeIndex(7), NodeIndex(4), NodeIndex(5),
-													NodeIndex(0), NodeIndex(4), NodeIndex(7), NodeIndex(3),
-													NodeIndex(0), NodeIndex(1), NodeIndex(5), NodeIndex(4),
-													NodeIndex(0), NodeIndex(3), NodeIndex(2), NodeIndex(1) };
-
-				NodeIndex NodeIndexEdge[12 * 2] = { NodeIndex(0), NodeIndex(1),
-													NodeIndex(1), NodeIndex(2),
-													NodeIndex(2), NodeIndex(3),
-													NodeIndex(3), NodeIndex(0),
-
-													NodeIndex(4), NodeIndex(5),
-													NodeIndex(5), NodeIndex(6),
-													NodeIndex(6), NodeIndex(7),
-													NodeIndex(7), NodeIndex(4),
-
-													NodeIndex(0), NodeIndex(4),
-													NodeIndex(1), NodeIndex(5),
-													NodeIndex(2), NodeIndex(6),
-													NodeIndex(3), NodeIndex(7) };
-			} linearFunctions_;
-
 		protected:
 			ElementSpring();
 
-			Vector GlobalDerivatives(const Vector& local, const Dimension& dim) const;
-			
-			IntegralAreaHelper GetIntegralAreaHelper(FaceIndex faceIndex) const;
-			IntegralEdgeHelper GetIntegralEdgeHelper(EdgeIndex edgeIndex) const;
-
 			Tag		tag_{ 0 };
-			Type	type_{ element_hexa8 };
+			Type	type_{ element_spring };
 			Nodes	nodes_;
 			Nodes	nodesLocal_;
 
@@ -175,40 +78,17 @@ namespace dive
 			Properties properties_;
 
 			NumberDof	numberDof_{ 1 };
-			NumberNodes numberNodes_{ 2 };
-			NumberNodes numberNodesFace_{ 0 };
-			NumberNodes numberNodesEdge_{ 2 };
-			NumberNodes numberNodesParametric_{ 2 };
-
-			static const NumberDimensions numberDimensions_{ 1 };
-			static const NumberFaces numberFaces_{ 0 };
-			static const NumberEdges numberEdges_{ 1 };
+			const NumberNodes numberNodes_{ 2 };
+			const NumberFaces numberFaces_{ 0 };
+			const NumberEdges numberEdges_{ 1 };
+			const NumberNodes numberNodesFace_{ 0 };
+			const NumberNodes numberNodesEdge_{ 2 };
+			const NumberDimensions numberDimensions_{ 1 };
+			
 			static const Scalar localCoordinates_[2][3];
+			static const NodeIndex lookUpTable11_[1 * 2];
 
-			static const Index lookUpTable1_[6];
-			static const Index lookUpTable2_[6];
-			static const Index lookUpTable3_[6];
-			static const Scalar lookUpTable4_[6];
-			static const Index lookUpTable5_[12];
-			static const Index lookUpTable6_[12];
-			static const Index lookUpTable7_[12];
-			static const Scalar lookUpTable8_[12];
-			static const Scalar lookUpTable9_[12];
-
-			NodeIndex* lookUpTable10_{ &linearFunctions_.NodeIndexFace[0] };
-			NodeIndex* lookUpTable11_{ &linearFunctions_.NodeIndexFace[0] };
-
-			Order	order_{ order_linear };
-			ShapePtr* shape_{ &linearFunctions_.Shape[0] };
-			ShapePtr* shapeD_{ &linearFunctions_.ShapeD[0] };	
-
-			Parametric	parametric_{ parametric_linear };
-			ShapePtr*	param_ = { &linearFunctions_.Shape[0] };
-			ShapePtr*	paramD_ = { &linearFunctions_.ShapeD[0] };
-
-			IMaterialPtr material_{ nullptr };
-
-			IGaussPtr gaussLine_{ nullptr };
+			IScalar1DPtr stiffness_{ nullptr };
 		};
 
 	} //namespace elements

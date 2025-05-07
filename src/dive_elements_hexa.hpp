@@ -314,11 +314,11 @@ namespace dive
 			NumberNodes numberNodesParametric_;
 			NumberNodes numberNodesFaceParametric_;
 
-			static const NumberDimensions numberDimensions_;
-			static const NumberFaces numberFaces_;
-			static const NumberEdges numberEdges_;
+			const NumberDimensions numberDimensions_{ 3 };
+			const NumberFaces numberFaces_{ 6 };
+			const NumberEdges numberEdges_{12};
+			
 			static const Scalar localCoordinates_[20][3];
-
 			static const Index lookUpTable1_[6];
 			static const Index lookUpTable2_[6];
 			static const Index lookUpTable3_[6];
