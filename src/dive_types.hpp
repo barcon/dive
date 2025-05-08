@@ -82,6 +82,7 @@ namespace dive
 	using NumberEdges = Number;
 	using NumberElements = Number;
 	using NumberDimensions = Number;
+	using NumberCoordinates = Number;
 
 	using Timer = utils::Timer;
 	

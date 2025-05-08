@@ -111,22 +111,27 @@ namespace dive
 		};
 
 		Nodes FilterNodes(SpecificationFilter<INodePtr>& spec, const Nodes& input);
-		Nodes FilterNodesRemoveDuplicates(const Nodes& input);
 		Nodes FilterNodesByCoordinate(const Nodes& input, IBasisPtr basis, Axis axis, Scalar pos, Scalar tol);
 		Nodes FilterNodesByRange(const Nodes& input, IBasisPtr basis, Axis axis, Scalar min, Scalar max, Scalar tol);
 		Nodes FilterNodesByTag(const Nodes& input, Tag min, Tag max);
 		Nodes FilterNodesByElements(const Elements& input);
+		Nodes FilterNodesRemoveDuplicates(const Nodes& input);
+
+		void FilterNodes(SpecificationFilter<INodePtr>& spec, Nodes& input);
+		void FilterNodesByCoordinate(Nodes& input, IBasisPtr basis, Axis axis, Scalar pos, Scalar tol);
+		void FilterNodesByRange(Nodes& input, IBasisPtr basis, Axis axis, Scalar min, Scalar max, Scalar tol);
+		void FilterNodesByTag(Nodes& input, Tag min, Tag max);
+		void FilterNodesRemoveDuplicates(Nodes& input);
 
 		Elements FilterElements(SpecificationFilter<IElementPtr>& spec, const Elements& input);
-		Elements FilterElementsRemoveDuplicates(const Elements& input);
 		Elements FilterElementsByTag(const Elements& input, Tag min, Tag max);
 		Elements FilterElementsByType(const Elements& input);
 		Elements FilterElementsByNodes(const Nodes& input);
+		Elements FilterElementsRemoveDuplicates(const Elements& input);
 
-		FilterElements(SpecificationFilter<IElementPtr>& spec, Elements& input);
-		FilterElementsRemoveDuplicates(Elements& input);
-		FilterElementsByTag(Elements& input, Tag min, Tag max);
-		FilterElementsByType(Elements& input);
+		void FilterElements(SpecificationFilter<IElementPtr>& spec, Elements& input);
+		void FilterElementsByTag(Elements& input, Tag min, Tag max);
+		void FilterElementsRemoveDuplicates(Elements& input);
 
 		template <typename T> struct SpecificationSort
 		{

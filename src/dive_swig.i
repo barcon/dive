@@ -67,6 +67,7 @@ namespace interpolation
 	using NumberEdges = Number;
 	using NumberElements = Number;	
 	using NumberDimensions = Number;	
+	using NumberCoordinates = Number;	
 	
 	using Indices = std::vector<size_t>;	
 	using String = std::string;

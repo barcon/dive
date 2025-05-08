@@ -50,7 +50,6 @@
 #include "dive_weakforms_structural_load_distributed_volume.hpp"
 #include "dive_weakforms_structural_load_distributed_face.hpp"
 #include "dive_weakforms_structural_load_distributed_edge.hpp"
-#include "dive_weakforms_structural_load_node.hpp"
 
 #include "dive_problems.hpp"
 #include "dive_problems_fluid.hpp"

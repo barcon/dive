@@ -109,17 +109,6 @@ namespace dive
 
 			return Nodes(res.begin(), res.end());
 		}
-		Nodes FilterNodesRemoveDuplicates(const Nodes& input)
-		{
-			SelectionNodes res;
-
-			for (auto& item : input)
-			{
-				res.insert(item);
-			}
-
-			return Nodes(res.begin(), res.end());
-		}
 		Nodes FilterNodesByCoordinate(const Nodes& input, IBasisPtr basis, Axis axis, Scalar pos, Scalar tol)
 		{
 			SpecNodesByCoordinate spec(basis, axis, pos, tol);
@@ -152,6 +141,55 @@ namespace dive
 
 			return Nodes(res.begin(), res.end());
 		}
+		Nodes FilterNodesRemoveDuplicates(const Nodes& input)
+		{
+			SelectionNodes res;
+
+			for (auto& item : input)
+			{
+				res.insert(item);
+			}
+
+			return Nodes(res.begin(), res.end());
+		}
+
+		void FilterNodes(SpecificationFilter<INodePtr>& spec, Nodes& input)
+		{
+			SelectionNodes res;
+
+			for (auto& item : input)
+			{
+				if (spec.IsSatisfied(item))
+				{
+					res.insert(item);
+				}
+			}
+
+			input = Nodes(res.begin(), res.end());
+		}
+		void FilterNodesByCoordinate(Nodes& input, IBasisPtr basis, Axis axis, Scalar pos, Scalar tol)
+		{
+			SpecNodesByCoordinate spec(basis, axis, pos, tol);
+
+			FilterNodes(spec, input);
+		}
+		void FilterNodesByRange(Nodes& input, IBasisPtr basis, Axis axis, Scalar min, Scalar max, Scalar tol)
+		{
+			SpecNodesByRange spec(basis, axis, min, max, tol);
+
+			FilterNodes(spec, input);
+		}
+		void FilterNodesRemoveDuplicates(Nodes& input)
+		{
+			SelectionNodes res;
+
+			for (auto& item : input)
+			{
+				res.insert(item);
+			}
+
+			input = Nodes(res.begin(), res.end());
+		}
 
 		Elements FilterElements(SpecificationFilter<IElementPtr>& spec, const Elements& input)
 		{
@@ -163,17 +201,6 @@ namespace dive
 				{
 					res.insert(item);
 				}
-			}
-
-			return Elements(res.begin(), res.end());
-		}
-		Elements FilterElementsRemoveDuplicates(const Elements& input)
-		{
-			SelectionElements res;
-
-			for (auto& item : input)
-			{
-				res.insert(item);
 			}
 
 			return Elements(res.begin(), res.end());
@@ -204,8 +231,19 @@ namespace dive
 
 			return  Elements(res.begin(), res.end());
 		}
+		Elements FilterElementsRemoveDuplicates(const Elements& input)
+		{
+			SelectionElements res;
 
-		FilterElements(SpecificationFilter<IElementPtr>& spec, Elements& input)
+			for (auto& item : input)
+			{
+				res.insert(item);
+			}
+
+			return Elements(res.begin(), res.end());
+		}
+
+		void FilterElements(SpecificationFilter<IElementPtr>& spec, Elements& input)
 		{
 			SelectionElements res;
 
@@ -216,8 +254,25 @@ namespace dive
 					res.insert(item);
 				}
 			}
+			
+			input = Elements(res.begin(), res.end());
+		}
+		void FilterElementsByTag(Elements& input, Tag min, Tag max)
+		{
+			SpecElementsByTag spec(min, max);
 
-			Elements(res.begin(), res.end());
+			FilterElements(spec, input);
+		}
+		void FilterElementsRemoveDuplicates(Elements& input)
+		{
+			SelectionElements res;
+
+			for (auto& item : input)
+			{
+				res.insert(item);
+			}
+
+			input = Elements(res.begin(), res.end());
 		}
 
 		SpecSortNodesByCoordinate::SpecSortNodesByCoordinate(IBasisPtr basis, Axis axis)

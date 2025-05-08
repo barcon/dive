@@ -68,6 +68,7 @@ namespace dive
 			NumberFaces GetNumberFaces() const override;
 			NumberEdges GetNumberEdges() const override;
 			NumberDimensions GetNumberDimensions() const override;
+			NumberCoordinates GetNumberCoordinates() const override;
 			Vector GetCenter() const override;
 			Tag GetTag() const override;
 			IMaterialPtr GetMaterial() const override;
@@ -314,9 +315,10 @@ namespace dive
 			NumberNodes numberNodesParametric_;
 			NumberNodes numberNodesFaceParametric_;
 
-			const NumberDimensions numberDimensions_{ 3 };
 			const NumberFaces numberFaces_{ 6 };
 			const NumberEdges numberEdges_{12};
+			const NumberDimensions numberDimensions_{ dimension_solid };
+			const NumberCoordinates numberCoordinates_{ 3 };
 			
 			static const Scalar localCoordinates_[20][3];
 			static const Index lookUpTable1_[6];

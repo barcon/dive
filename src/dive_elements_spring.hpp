@@ -34,6 +34,7 @@ namespace dive
 			NumberNodes GetNumberNodesFace(const FaceIndex& faceNumber) const override;
 			NumberNodes GetNumberNodesEdge(const EdgeIndex& edgeNode) const override;
 			NumberDimensions GetNumberDimensions() const override;
+			NumberCoordinates GetNumberCoordinates() const override;
 
 			INodePtr GetNode(const NodeIndex& nodeNumber) const override;
 			INodePtr GetNodeFace(const FaceIndex& faceNumber, const NodeIndex& nodeNumber) const override;
@@ -83,7 +84,8 @@ namespace dive
 			const NumberEdges numberEdges_{ 1 };
 			const NumberNodes numberNodesFace_{ 0 };
 			const NumberNodes numberNodesEdge_{ 2 };
-			const NumberDimensions numberDimensions_{ 1 };
+			const NumberDimensions numberDimensions_{ dimension_beam };
+			const NumberCoordinates numberCoordinates_{ 3 };
 			
 			static const Scalar localCoordinates_[2][3];
 			static const NodeIndex lookUpTable11_[1 * 2];

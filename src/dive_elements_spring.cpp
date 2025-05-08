@@ -1,13 +1,12 @@
 #include "dive_elements_spring.hpp"
+#include "dive_selection.hpp"
 #include "dive_weakforms.hpp"
 
 namespace dive
 {
 	namespace elements
 	{
-		const Scalar		ElementSpring::localCoordinates_[2][3] = { {-1.0,  0.0, 0.0 },
-																	 {	1.0,  0.0, 0.0 } };
-
+		const Scalar		ElementSpring::localCoordinates_[2][3] = { {-1.0,  0.0, 0.0 }, { 1.0,  0.0, 0.0 } };
 		const NodeIndex		ElementSpring::lookUpTable11_[1 * 2] = { NodeIndex(0), NodeIndex(1) };
 
 		ElementSpringPtr CreateElementSpring()
@@ -108,6 +107,10 @@ namespace dive
 		{
 			return numberDimensions_;
 		}
+		NumberCoordinates ElementSpring::GetNumberCoordinates() const
+		{
+			return numberCoordinates_;
+		}
 
 		INodePtr ElementSpring::GetNode(const NodeIndex& nodeIndex) const
 		{
@@ -155,41 +158,39 @@ namespace dive
 		}
 		void ElementSpring::SetNode(const NodeIndex& nodeIndex, INodePtr node)
 		{
-			if (node == nullptr)
+			if (nodes_[nodeIndex] == nullptr)
 			{
-				auto& elements = nodes_[nodeIndex]->GetConnectivity().elements;
-				auto it = std::find(elements.begin(), elements.end(), this->GetPtr());
-
-				if (it != elements.end())
+				if (node != nullptr)
 				{
-					elements.erase(it);
+					nodes_[nodeIndex] = node;
+					nodes_[nodeIndex]->SetNumberDof(numberDof_);
+					nodes_[nodeIndex]->GetConnectivity().elements.push_back(this->GetPtr());
 				}
-
-				nodes_[nodeIndex] = nullptr;
-
+				
 				return;
 			}
-
-			if (nodes_[nodeIndex] != nullptr)
+			else
 			{
 				auto& elements = nodes_[nodeIndex]->GetConnectivity().elements;
-				auto it = std::find(elements.begin(), elements.end(), this->GetPtr());
+				auto it = std::find(elements.begin(), elements.end(), [&](IElementPtr element) -> bool
+					{
+						return element->GetTag() == tag_;
+					});
 
 				if (it != elements.end())
 				{
 					elements.erase(it);
 				}
-			}
 
-			nodes_[nodeIndex] = node;
-			nodes_[nodeIndex]->SetNumberDof(numberDof_);
+				nodes_[nodeIndex] = node;
 
-			auto& elements = nodes_[nodeIndex]->GetConnectivity().elements;
-			auto it = std::find(elements.begin(), elements.end(), this->GetPtr());
-
-			if (it == elements.end())
-			{
-				elements.push_back(this->GetPtr());
+				if (node != nullptr)
+				{
+					nodes_[nodeIndex]->SetNumberDof(numberDof_);
+					nodes_[nodeIndex]->GetConnectivity().elements.push_back(this->GetPtr());
+				}
+				
+				return;
 			}
 		}
 		void ElementSpring::SetElementIndex(ElementIndex index)
@@ -228,9 +229,9 @@ namespace dive
 		}
 		Vector ElementSpring::GlobalCoordinates(const Vector& local) const
 		{
-			Vector output(numberDimensions_);
+			Vector output(numberCoordinates_);
 
-			for (Dimension i = 0; i < numberDimensions_; ++i)
+			for (Dimension i = 0; i < numberCoordinates_; ++i)
 			{
 				for (NodeIndex j = 0; j < numberNodesParametric_; ++j)
 				{
@@ -253,7 +254,7 @@ namespace dive
 		{
 			auto it = std::find_if(nodes_.begin(), nodes_.end(), [&](INodePtr ptr) -> bool
 				{
-					return ptr == node;
+					return ptr->GetTag() == node->GetTag();
 				});
 
 			if (it != nodes_.end())

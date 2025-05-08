@@ -22,6 +22,10 @@ namespace dive
 		static const Type element_hexa8 = 3;
 		static const Type element_hexa20 = 4;
 
+		static const Dimension dimension_beam = 1;
+		static const Dimension dimension_shell = 2;
+		static const Dimension dimension_solid = 3;
+
 		static const NodeIndex nodeIndexInvalid = 0xFFFFFFFF;
 
 		struct IntegralAreaHelper
@@ -64,6 +68,7 @@ namespace dive
 			virtual NumberNodes GetNumberNodesFace(const FaceIndex& faceIndex) const = 0;
 			virtual NumberNodes GetNumberNodesEdge(const EdgeIndex& edgeIndex) const = 0;
 			virtual NumberDimensions GetNumberDimensions() const = 0;
+			virtual NumberCoordinates GetNumberCoordinates() const = 0;
 
 			virtual INodePtr GetNode(const NodeIndex& nodeIndex) const = 0;
 			virtual INodePtr GetNodeFace(const FaceIndex& faceIndex, const NodeIndex& nodeIndex) const = 0;

@@ -114,9 +114,9 @@ namespace dive
 		}
 		Matrix ElementHexa::du() const
 		{
-			Matrix res(numberDimensions_, numberDof_ * numberNodes_, 0.0);
+			Matrix res(numberCoordinates_, numberDof_ * numberNodes_, 0.0);
 
-			for (Dimension k = 0; k < numberDimensions_; ++k)
+			for (Dimension k = 0; k < numberCoordinates_; ++k)
 			{
 				for (NodeIndex i = 0; i < numberNodes_; ++i)
 				{
@@ -135,9 +135,9 @@ namespace dive
 		}
 		Matrix ElementHexa::du(const Vector& local) const
 		{
-			Matrix res(numberDimensions_, numberDof_, 0.0);
+			Matrix res(numberCoordinates_, numberDof_, 0.0);
 
-			for (Dimension k = 0; k < numberDimensions_; ++k)
+			for (Dimension k = 0; k < numberCoordinates_; ++k)
 			{
 				for (NodeIndex i = 0; i < numberNodes_; ++i)
 				{
@@ -173,11 +173,11 @@ namespace dive
 		}
 		Matrix ElementHexa::J(const Vector& local) const
 		{
-			Matrix output(numberDimensions_, numberDimensions_, 0.0);
+			Matrix output(numberCoordinates_, numberCoordinates_, 0.0);
 
-			for (Dimension i = 0; i < numberDimensions_; ++i)
+			for (Dimension i = 0; i < numberCoordinates_; ++i)
 			{
-				for (Dimension j = 0; j < numberDimensions_; ++j)
+				for (Dimension j = 0; j < numberCoordinates_; ++j)
 				{
 					for (NodeIndex k = 0; k < numberNodesParametric_; ++k)
 					{
@@ -207,9 +207,9 @@ namespace dive
 		}
 		Matrix ElementHexa::dN(const Vector& local) const
 		{
-			Matrix res(numberDimensions_, numberNodes_, 0.0);
+			Matrix res(numberCoordinates_, numberNodes_, 0.0);
 
-			for (Dimension i = 0; i < numberDimensions_; ++i)
+			for (Dimension i = 0; i < numberCoordinates_; ++i)
 			{
 				for (NumberNodes j = 0; j < numberNodes_; ++j)
 				{
@@ -289,7 +289,7 @@ namespace dive
 			Scalar res{ 0. };
 
 			std::size_t counter{ 0 };
-			Vector point(numberDimensions_);
+			Vector point(numberCoordinates_);
 
 			const auto& points = gaussRect_->GetPoints();
 			const auto& weights = gaussRect_->GetWeights();
@@ -324,7 +324,7 @@ namespace dive
 			Dimension dim1;
 			Dimension dim2;
 			Dimension dim3;
-			Vector point(numberDimensions_);
+			Vector point(numberCoordinates_);
 
 			const auto& points = gaussLine_->GetPoints();
 			const auto& weights = gaussLine_->GetWeights();
@@ -424,9 +424,9 @@ namespace dive
 		}
 		Vector ElementHexa::GlobalCoordinates(const Vector& local) const
 		{
-			Vector output(numberDimensions_);
+			Vector output(numberCoordinates_);
 
-			for (Dimension i = 0; i < numberDimensions_; ++i)
+			for (Dimension i = 0; i < numberCoordinates_; ++i)
 			{
 				for (NodeIndex j = 0; j < numberNodesParametric_; ++j)
 				{
@@ -438,9 +438,9 @@ namespace dive
 		}
 		Vector ElementHexa::GlobalDerivatives(const Vector& local, const Dimension& dim) const
 		{
-			Vector output(numberDimensions_);
+			Vector output(numberCoordinates_);
 
-			for (Dimension i = 0; i < numberDimensions_; ++i)
+			for (Dimension i = 0; i < numberCoordinates_; ++i)
 			{
 				for (NodeIndex j = 0; j < numberNodesParametric_; ++j)
 				{
@@ -515,6 +515,10 @@ namespace dive
 		{
 			return numberDimensions_;
 		}
+		NumberCoordinates ElementHexa::GetNumberCoordinates() const
+		{
+			return numberCoordinates_;
+		}
 		Vector ElementHexa::GetCenter() const
 		{
 			Vector center(3, 0.0);
@@ -585,41 +589,39 @@ namespace dive
 		}
 		void ElementHexa::SetNode(const NodeIndex& nodeIndex, INodePtr node)
 		{
-			if (node == nullptr)
+			if (nodes_[nodeIndex] == nullptr)
 			{
-				auto& elements = nodes_[nodeIndex]->GetConnectivity().elements;
-				auto it = std::find(elements.begin(), elements.end(), this->GetPtr());
-
-				if (it != elements.end())
+				if (node != nullptr)
 				{
-					elements.erase(it);
+					nodes_[nodeIndex] = node;
+					nodes_[nodeIndex]->SetNumberDof(numberDof_);
+					nodes_[nodeIndex]->GetConnectivity().elements.push_back(this->GetPtr());
 				}
-
-				nodes_[nodeIndex] = nullptr;
 
 				return;
 			}
-
-			if (nodes_[nodeIndex] != nullptr)
+			else
 			{
 				auto& elements = nodes_[nodeIndex]->GetConnectivity().elements;
-				auto it = std::find(elements.begin(), elements.end(), this->GetPtr());
+				auto it = std::find(elements.begin(), elements.end(), [&](IElementPtr element) -> bool
+					{
+						return element->GetTag() == tag_;
+					});
 
 				if (it != elements.end())
 				{
 					elements.erase(it);
 				}
-			}
 
-			nodes_[nodeIndex] = node;
-			nodes_[nodeIndex]->SetNumberDof(numberDof_);
+				nodes_[nodeIndex] = node;
 
-			auto& elements = nodes_[nodeIndex]->GetConnectivity().elements;
-			auto it = std::find(elements.begin(), elements.end(), this->GetPtr());
+				if (node != nullptr)
+				{
+					nodes_[nodeIndex]->SetNumberDof(numberDof_);
+					nodes_[nodeIndex]->GetConnectivity().elements.push_back(this->GetPtr());
+				}
 
-			if (it == elements.end())
-			{
-				elements.push_back(this->GetPtr());
+				return;
 			}
 		}
 		void ElementHexa::SetOrder(const Order& order)
@@ -706,7 +708,7 @@ namespace dive
 		{
 			auto it = std::find_if(nodes_.begin(), nodes_.end(), [&](INodePtr ptr) -> bool
 				{
-					return ptr == node;
+					return ptr->GetTag() == node->GetTag();
 				});
 
 			if (it != nodes_.end())
@@ -752,7 +754,7 @@ namespace dive
 		void ElementHexa::IntegralWeakFormLoad(IWeakFormLoadPtr weakForm, ILoadPtr load, Vector& output) const
 		{
 			Vector local;
-			Vector point(numberDimensions_);
+			Vector point(numberCoordinates_);
 
 			if (load->GetType() == loads::load_distributedVolume)
 			{
