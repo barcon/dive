@@ -123,6 +123,11 @@ namespace dive
 		Elements FilterElementsByType(const Elements& input);
 		Elements FilterElementsByNodes(const Nodes& input);
 
+		FilterElements(SpecificationFilter<IElementPtr>& spec, Elements& input);
+		FilterElementsRemoveDuplicates(Elements& input);
+		FilterElementsByTag(Elements& input, Tag min, Tag max);
+		FilterElementsByType(Elements& input);
+
 		template <typename T> struct SpecificationSort
 		{
 			virtual bool IsSatisfied(T item1, T item2) = 0;

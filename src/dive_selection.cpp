@@ -205,6 +205,21 @@ namespace dive
 			return  Elements(res.begin(), res.end());
 		}
 
+		FilterElements(SpecificationFilter<IElementPtr>& spec, Elements& input)
+		{
+			SelectionElements res;
+
+			for (auto& item : input)
+			{
+				if (spec.IsSatisfied(item))
+				{
+					res.insert(item);
+				}
+			}
+
+			Elements(res.begin(), res.end());
+		}
+
 		SpecSortNodesByCoordinate::SpecSortNodesByCoordinate(IBasisPtr basis, Axis axis)
 		{
 			basis_ = basis;

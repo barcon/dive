@@ -67,7 +67,7 @@ namespace dive
 			void IntegralWeakFormLoad(IWeakFormLoadPtr weakForm, ILoadPtr load, Vector& output) const override;
 
 		protected:
-			ElementSpring();
+			ElementSpring() = default;
 
 			Tag		tag_{ 0 };
 			Type	type_{ element_spring };

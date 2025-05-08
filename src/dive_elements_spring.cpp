@@ -43,9 +43,6 @@ namespace dive
 		{
 			return const_cast<ElementSpring*>(this)->GetPtr();
 		}
-		ElementSpring::ElementSpring()
-		{
-		}
 		
 		Tag ElementSpring::GetTag() const
 		{
