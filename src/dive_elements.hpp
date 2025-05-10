@@ -30,18 +30,18 @@ namespace dive
 
 		struct IntegralAreaHelper
 		{
-			Dimension dim1;
-			Dimension dim2;
-			Dimension dim3;
+			CoordinateIndex index1;
+			CoordinateIndex index2;
+			CoordinateIndex index3;
 
 			Scalar coord3;
 		};
 
 		struct IntegralEdgeHelper
 		{
-			Dimension dim1;
-			Dimension dim2;
-			Dimension dim3;
+			CoordinateIndex index1;
+			CoordinateIndex index2;
+			CoordinateIndex index3;
 
 			Scalar coord2;
 			Scalar coord3;

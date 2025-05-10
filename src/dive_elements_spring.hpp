@@ -48,7 +48,7 @@ namespace dive
 			void SetElementIndex(ElementIndex index) override;
 			void SetMaterial(IMaterialPtr material) override;
 			void SetProperty(IValuePtr value) override;
-
+			
 			Vector LocalCoordinates(INodePtr node) const override;
 			Vector LocalCoordinates(const NodeIndex& nodeIndex) const override;
 
@@ -66,6 +66,9 @@ namespace dive
 			void InitializeCache() override;
 			void IntegralWeakFormElement(IWeakFormElementPtr weakForm, Matrix& output) const override;
 			void IntegralWeakFormLoad(IWeakFormLoadPtr weakForm, ILoadPtr load, Vector& output) const override;
+
+			IScalar1DPtr GetStiffness() const;
+			void SetStiffness(IScalar1DPtr stiffness);
 
 		protected:
 			ElementSpring() = default;

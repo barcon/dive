@@ -1,4 +1,5 @@
 #include "dive_elements_hexa.hpp"
+#include "dive_status.hpp"
 #include "dive_weakforms.hpp"
 #include "dive_loads.hpp"
 #include "dive_loads_distributed_volume.hpp"
@@ -402,6 +403,14 @@ namespace dive
 		}
 		Vector ElementHexa::LocalCoordinates(INodePtr node) const
 		{
+			auto nodeIndex = GetNodeIndex(node);
+
+			if (nodeIndex == nodeIndexInvalid)
+			{
+				logger::Error(headerDive, "Invalid node: " + dive::messages.at(dive::DIVE_NOT_FOUND);
+				return Vector();
+			}
+
 			return LocalCoordinates(GetNodeIndex(node));
 		}
 		Vector ElementHexa::LocalCoordinates(const NodeIndex& nodeIndex) const
@@ -483,9 +492,12 @@ namespace dive
 		{
 			for (NodeIndex i = 0; i < numberNodes_; ++i)
 			{
-				if (nodes_[i] == node)
+				if (nodes_[i] != nullptr)
 				{
-					return i;
+					if (nodes_[i]->GetTag() == node->GetTag())
+					{
+						return i;
+					}
 				}
 			}
 
@@ -556,9 +568,9 @@ namespace dive
 		{
 			IntegralAreaHelper res;
 
-			res.dim1 = lookUpTable1_[faceIndex];
-			res.dim2 = lookUpTable2_[faceIndex];
-			res.dim3 = lookUpTable3_[faceIndex];
+			res.index1 = lookUpTable1_[faceIndex];
+			res.index2 = lookUpTable2_[faceIndex];
+			res.index3 = lookUpTable3_[faceIndex];
 			res.coord3 = lookUpTable4_[faceIndex];
 
 			return res;
@@ -567,9 +579,9 @@ namespace dive
 		{
 			IntegralEdgeHelper res;
 
-			res.dim1 = lookUpTable5_[edgeIndex];
-			res.dim2 = lookUpTable6_[edgeIndex];
-			res.dim3 = lookUpTable7_[edgeIndex];
+			res.index1 = lookUpTable5_[edgeIndex];
+			res.index2 = lookUpTable6_[edgeIndex];
+			res.index3 = lookUpTable7_[edgeIndex];
 			res.coord2 = lookUpTable8_[edgeIndex];
 			res.coord3 = lookUpTable9_[edgeIndex];
 
@@ -785,22 +797,22 @@ namespace dive
 				auto faceIndex = force->GetFaceIndex();
 				auto helper = GetIntegralAreaHelper(faceIndex);
 
-				point(helper.dim1) = points[0](0);
-				point(helper.dim2) = points[0](1);
-				point(helper.dim3) = helper.coord3;
+				point(helper.index1) = points[0](0);
+				point(helper.index2) = points[0](1);
+				point(helper.index3) = helper.coord3;
 
 				weakForm->WeakFormulation(load, point, local);
-				output = output + weights[0] * DelA(point, helper.dim1, helper.dim2) * local;
+				output = output + weights[0] * DelA(point, helper.index1, helper.index2) * local;
 
 				for (quadrature::Counter i = 1; i < counter; ++i)
 				{
-					point(helper.dim1) = points[i](0);
-					point(helper.dim2) = points[i](1);
-					point(helper.dim3) = helper.coord3;
+					point(helper.index1) = points[i](0);
+					point(helper.index2) = points[i](1);
+					point(helper.index3) = helper.coord3;
 
 					weakForm->WeakFormulation(load, point, local);
 
-					output = output + weights[i] * DelA(point, helper.dim1, helper.dim2) * local;
+					output = output + weights[i] * DelA(point, helper.index1, helper.index2) * local;
 				}
 			}
 			else if (load->GetType() == loads::load_distributedEdge)
@@ -814,22 +826,22 @@ namespace dive
 				auto edgeIndex = force->GetEdgeIndex();
 				auto helper = GetIntegralEdgeHelper(edgeIndex);
 
-				point(helper.dim1) = points[0](0);
-				point(helper.dim2) = helper.coord2;
-				point(helper.dim3) = helper.coord3;
+				point(helper.index1) = points[0](0);
+				point(helper.index2) = helper.coord2;
+				point(helper.index3) = helper.coord3;
 
 				weakForm->WeakFormulation(load, point, local);
-				output = output + weights[0] * DelL(point, helper.dim1) * local;
+				output = output + weights[0] * DelL(point, helper.index1) * local;
 
 				for (quadrature::Counter i = 1; i < counter; ++i)
 				{
-					point(helper.dim1) = points[counter](0);
-					point(helper.dim2) = helper.coord2;
-					point(helper.dim3) = helper.coord3;
+					point(helper.index1) = points[counter](0);
+					point(helper.index2) = helper.coord2;
+					point(helper.index3) = helper.coord3;
 
 					weakForm->WeakFormulation(load, point, local);
 
-					output = output + weights[counter] * DelL(point, helper.dim1) * local;
+					output = output + weights[counter] * DelL(point, helper.index1) * local;
 				}
 			}
 		}

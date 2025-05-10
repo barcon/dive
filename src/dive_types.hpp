@@ -71,8 +71,10 @@ namespace dive
 	using EdgeIndex = Index;
 	using DirichletIndex = Index;
 	using DimensionIndex = Index;
+	using CoordinateIndex = Index;
 	using CacheIndex = Index;
 
+	using Timer = utils::Timer;
 	using Cache = std::unordered_map<Type, Matrices>;
 
 	using Number = std::size_t;
@@ -84,8 +86,6 @@ namespace dive
 	using NumberDimensions = Number;
 	using NumberCoordinates = Number;
 
-	using Timer = utils::Timer;
-	
 	using String = utils::String;
 	static const String headerDive = "DIVE";
 

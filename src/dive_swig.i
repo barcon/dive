@@ -58,6 +58,7 @@ namespace interpolation
 	using EdgeIndex = Index;
 	using DirichletIndex = Index;
 	using DimensionIndex = Index;
+	using CoordinateIndex = Index;
 	using CacheIndex = Index;
 
 	using Number = std::size_t;

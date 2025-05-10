@@ -1,5 +1,5 @@
 #include "dive_elements_spring.hpp"
-#include "dive_selection.hpp"
+#include "dive_status.hpp"
 #include "dive_weakforms.hpp"
 
 namespace dive
@@ -66,9 +66,12 @@ namespace dive
 		{
 			for (NodeIndex i = 0; i < numberNodes_; ++i)
 			{
-				if (nodes_[i] == node)
+				if (nodes_[i] != nullptr)
 				{
-					return i;
+					if (nodes_[i]->GetTag() == node->GetTag())
+					{
+						return i;
+					}
 				}
 			}
 
@@ -207,6 +210,14 @@ namespace dive
 
 		Vector ElementSpring::LocalCoordinates(INodePtr node) const
 		{
+			auto nodeIndex = GetNodeIndex(node);
+
+			if (nodeIndex == nodeIndexInvalid)
+			{
+				logger::Error(headerDive, "Invalid node: " + dive::messages.at(dive::DIVE_NOT_FOUND);
+				return Vector();
+			}
+
 			return LocalCoordinates(GetNodeIndex(node));
 		}
 		Vector ElementSpring::LocalCoordinates(const NodeIndex& nodeIndex) const
@@ -277,14 +288,23 @@ namespace dive
 			return false;
 		}
 
+		void ElementSpring::InitializeCache()
+		{
+		}
 		void ElementSpring::IntegralWeakFormElement(IWeakFormElementPtr weakForm, Matrix& output) const
 		{
 		}
 		void ElementSpring::IntegralWeakFormLoad(IWeakFormLoadPtr weakForm, ILoadPtr load, Vector& output) const
 		{
 		}
-		void ElementSpring::InitializeCache()
+
+		IScalar1DPtr ElementSpring::GetStiffness() const
 		{
+			return stiffness_;
+		}
+		void ElementSpring::SetStiffness(IScalar1DPtr stiffness)
+		{
+			stiffness_ = stiffness;
 		}
 	} //namespace elements
 } //namespace dive
