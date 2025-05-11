@@ -179,6 +179,12 @@ namespace dive
 
 			FilterNodes(spec, input);
 		}
+		void FilterNodesByTag(Nodes& input, Tag min, Tag max)
+		{
+			SpecNodesByTag spec(min, max);
+
+			FilterNodes(spec, input);
+		}
 		void FilterNodesRemoveDuplicates(Nodes& input)
 		{
 			SelectionNodes res;

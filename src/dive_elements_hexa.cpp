@@ -407,7 +407,7 @@ namespace dive
 
 			if (nodeIndex == nodeIndexInvalid)
 			{
-				logger::Error(headerDive, "Invalid node: " + dive::messages.at(dive::DIVE_NOT_FOUND);
+				logger::Error(headerDive, "Invalid node: " + dive::messages.at(dive::DIVE_NOT_FOUND));
 				return Vector();
 			}
 
@@ -615,7 +615,7 @@ namespace dive
 			else
 			{
 				auto& elements = nodes_[nodeIndex]->GetConnectivity().elements;
-				auto it = std::find(elements.begin(), elements.end(), [&](IElementPtr element) -> bool
+				auto it = std::find_if(elements.begin(), elements.end(), [&](IElementPtr element) -> bool
 					{
 						return element->GetTag() == tag_;
 					});
@@ -718,6 +718,11 @@ namespace dive
 		}
 		bool ElementHexa::IsUsed(INodePtr node) const
 		{
+			if (node == nullptr)
+			{
+				return false;
+			}
+
 			auto it = std::find_if(nodes_.begin(), nodes_.end(), [&](INodePtr ptr) -> bool
 				{
 					return ptr->GetTag() == node->GetTag();

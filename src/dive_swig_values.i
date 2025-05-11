@@ -51,6 +51,7 @@
 	typedef std::shared_ptr<values::ValueString> ValueStringPtr;	
 	typedef std::shared_ptr<values::ValueScalar> ValueScalarPtr;
 	typedef std::shared_ptr<values::ValueScalar> ValueScalarPtr;
+	typedef std::shared_ptr<values::ValueScalarFunction> ValueScalarFunctionPtr;	
 	typedef std::shared_ptr<values::ValueScalar1D> ValueScalar1DPtr;
 	typedef std::shared_ptr<values::ValueScalar1DFunction> ValueScalar1DFunctionPtr;	
 	typedef std::shared_ptr<values::ValueScalar2D> ValueScalar2DPtr;
@@ -91,6 +92,7 @@
 %shared_ptr(values::ValueBool);
 %shared_ptr(values::ValueString);
 %shared_ptr(values::ValueScalar);
+%shared_ptr(values::ValueScalarFunction);
 %shared_ptr(values::ValueScalar1D);
 %shared_ptr(values::ValueScalar1DFunction);
 %shared_ptr(values::ValueScalar2D);
@@ -158,5 +160,4 @@ def CreateValueScalar3DFunction(function, name, key):
 	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
 	
 	return _dive.CreateValueScalar3DFunction(f_ptr, name, key)
-
 %}

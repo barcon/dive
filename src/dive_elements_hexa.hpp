@@ -305,7 +305,7 @@ namespace dive
 			Nodes	nodes_;
 			Nodes	nodesLocal_;
 
-			ElementIndex elementIndex_;
+			ElementIndex elementIndex_{ 0 };
 			Properties properties_;
 
 			NumberDof	numberDof_{ 1 };

@@ -70,6 +70,8 @@ namespace dive
 			IScalar1DPtr GetStiffness() const;
 			void SetStiffness(IScalar1DPtr stiffness);
 
+			Matrix	K() const;
+
 		protected:
 			ElementSpring() = default;
 
@@ -78,7 +80,7 @@ namespace dive
 			Nodes	nodes_;
 			Nodes	nodesLocal_;
 
-			ElementIndex elementIndex_;
+			ElementIndex elementIndex_{ 0 };
 			Properties properties_;
 
 			NumberDof	numberDof_{ 1 };
@@ -94,6 +96,8 @@ namespace dive
 			static const NodeIndex lookUpTable11_[1 * 2];
 
 			IScalar1DPtr stiffness_{ nullptr };
+
+			Matrix K;
 		};
 
 	} //namespace elements

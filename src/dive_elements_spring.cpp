@@ -158,6 +158,12 @@ namespace dive
 					nodes_[i]->SetNumberDof(numberDof_);
 				}
 			}
+
+			K = Matrix(numberDof * numberNodes_, numberDof * numberNodes_);
+			K(0, 0) =  1.0;
+			K(0, numberNodes_ * numberDof_) = -1.0;
+			K(numberNodes_ * numberDof_, 0) = -1.0;
+			K(numberNodes_ * numberDof_, numberNodes_ * numberDof_) =  1.0;
 		}
 		void ElementSpring::SetNode(const NodeIndex& nodeIndex, INodePtr node)
 		{
@@ -175,7 +181,7 @@ namespace dive
 			else
 			{
 				auto& elements = nodes_[nodeIndex]->GetConnectivity().elements;
-				auto it = std::find(elements.begin(), elements.end(), [&](IElementPtr element) -> bool
+				auto it = std::find_if(elements.begin(), elements.end(), [&](IElementPtr element) -> bool
 					{
 						return element->GetTag() == tag_;
 					});
@@ -214,7 +220,7 @@ namespace dive
 
 			if (nodeIndex == nodeIndexInvalid)
 			{
-				logger::Error(headerDive, "Invalid node: " + dive::messages.at(dive::DIVE_NOT_FOUND);
+				logger::Error(headerDive, "Invalid node: " + dive::messages.at(dive::DIVE_NOT_FOUND));
 				return Vector();
 			}
 
@@ -240,17 +246,9 @@ namespace dive
 		}
 		Vector ElementSpring::GlobalCoordinates(const Vector& local) const
 		{
-			Vector output(numberCoordinates_);
+			Scalar s = local(0);
 
-			for (Dimension i = 0; i < numberCoordinates_; ++i)
-			{
-				for (NodeIndex j = 0; j < numberNodesParametric_; ++j)
-				{
-					output(i) += param_[j](local) * nodes_[j]->GetPoint()(i);
-				}
-			}
-
-			return output;
+			return 0.5 * (nodes_[0]->GetPoint() * (1.0 - s) + nodes_[1]->GetPoint() * (1.0 + s));
 		}
 
 		Scalar ElementSpring::Size() const
@@ -263,6 +261,11 @@ namespace dive
 
 		bool ElementSpring::IsUsed(INodePtr node) const
 		{
+			if (node == nullptr)
+			{
+				return false;
+			}
+
 			auto it = std::find_if(nodes_.begin(), nodes_.end(), [&](INodePtr ptr) -> bool
 				{
 					return ptr->GetTag() == node->GetTag();
