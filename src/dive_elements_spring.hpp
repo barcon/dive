@@ -97,7 +97,7 @@ namespace dive
 
 			IScalar1DPtr stiffness_{ nullptr };
 
-			Matrix K;
+			Matrix K_;
 		};
 
 	} //namespace elements

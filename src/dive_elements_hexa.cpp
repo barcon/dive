@@ -490,6 +490,11 @@ namespace dive
 		}
 		NodeIndex ElementHexa::GetNodeIndex(const INodePtr node) const
 		{
+			if (node == nullptr)
+			{
+				return nodeIndexInvalid;
+			}
+
 			for (NodeIndex i = 0; i < numberNodes_; ++i)
 			{
 				if (nodes_[i] != nullptr)

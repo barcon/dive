@@ -64,6 +64,11 @@ namespace dive
 
 		NodeIndex ElementSpring::GetNodeIndex(const INodePtr node) const
 		{
+			if (node == nullptr)
+			{
+				return nodeIndexInvalid;
+			}
+
 			for (NodeIndex i = 0; i < numberNodes_; ++i)
 			{
 				if (nodes_[i] != nullptr)
@@ -159,11 +164,11 @@ namespace dive
 				}
 			}
 
-			K = Matrix(numberDof * numberNodes_, numberDof * numberNodes_);
-			K(0, 0) =  1.0;
-			K(0, numberNodes_ * numberDof_) = -1.0;
-			K(numberNodes_ * numberDof_, 0) = -1.0;
-			K(numberNodes_ * numberDof_, numberNodes_ * numberDof_) =  1.0;
+			K_ = Matrix(numberDof * numberNodes_, numberDof * numberNodes_);
+			K_(0, 0) =  1.0;
+			K_(0, numberNodes_ * numberDof_) = -1.0;
+			K_(numberNodes_ * numberDof_, 0) = -1.0;
+			K_(numberNodes_ * numberDof_, numberNodes_ * numberDof_) =  1.0;
 		}
 		void ElementSpring::SetNode(const NodeIndex& nodeIndex, INodePtr node)
 		{
@@ -308,6 +313,10 @@ namespace dive
 		void ElementSpring::SetStiffness(IScalar1DPtr stiffness)
 		{
 			stiffness_ = stiffness;
+		}
+		Matrix ElementSpring::K() const
+		{
+			return K_;
 		}
 	} //namespace elements
 } //namespace dive
