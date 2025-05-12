@@ -164,11 +164,11 @@ namespace dive
 				}
 			}
 
-			K_ = Matrix(numberDof * numberNodes_, numberDof * numberNodes_);
-			K_(0, 0) =  1.0;
-			K_(0, numberNodes_ * numberDof_) = -1.0;
-			K_(numberNodes_ * numberDof_, 0) = -1.0;
-			K_(numberNodes_ * numberDof_, numberNodes_ * numberDof_) =  1.0;
+			I_ = Matrix(numberDof * numberNodes_, numberDof * numberNodes_);
+			I_(0, 0) =  1.0;
+			I_(0, numberNodes_ * numberDof_) = -1.0;
+			I_(numberNodes_ * numberDof_, 0) = -1.0;
+			I_(numberNodes_ * numberDof_, numberNodes_ * numberDof_) =  1.0;
 		}
 		void ElementSpring::SetNode(const NodeIndex& nodeIndex, INodePtr node)
 		{
@@ -316,7 +316,16 @@ namespace dive
 		}
 		Matrix ElementSpring::K() const
 		{
-			return K_;
+			auto du1 = Vector(nodes_[1]->GetValue(), 0);
+			auto du0 = Vector(nodes_[0]->GetValue(), 0);
+			
+			auto p1 = nodes_[1]->GetPoint() + du1;
+			auto p0 = nodes_[0]->GetPoint() + du0;
+
+			auto l1 = eilig::NormP2(p1 - p0);
+			auto l0 = Size();
+
+			return stiffness_->GetValue(l1 - l0) * I_;
 		}
 	} //namespace elements
 } //namespace dive

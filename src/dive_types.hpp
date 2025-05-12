@@ -134,6 +134,10 @@ namespace dive
 		using ElementHexaPtr = std::shared_ptr<ElementHexa>;
 		using ConstElementHexaPtr = std::shared_ptr<const ElementHexa>;
 
+		class ElementMass;
+		using ElementMassPtr = std::shared_ptr<ElementMass>;
+		using ConstElementMassPtr = std::shared_ptr<const ElementMass>;
+
 		class ElementSpring;
 		using ElementSpringPtr = std::shared_ptr<ElementSpring>;
 		using ConstElementSpringPtr = std::shared_ptr<const ElementSpring>;
