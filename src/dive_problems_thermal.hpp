@@ -33,7 +33,6 @@ namespace dive
 			ITimerPtr GetTimer() const override;
 			IScalar3DPtr GetTemperature() const override;
 			IScalar3DPtr GetPressure() const override;
-			IMatrix3DPtr GetVelocity() const override;
 			IMeshPtr GetMesh() const override;
 			Type GetType() const override;
 			Tag	GetTag() const override;
@@ -74,7 +73,6 @@ namespace dive
 			ITimerPtr timer_{ nullptr };
 			IScalar3DPtr temperature_{ nullptr };
 			IScalar3DPtr pressure_{ nullptr };
-			IMatrix3DPtr velocity_{ nullptr };
 			IMeshPtr mesh_{ nullptr };
 
 			Loads loads_;

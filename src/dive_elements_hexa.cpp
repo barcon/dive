@@ -411,7 +411,7 @@ namespace dive
 				return Vector();
 			}
 
-			return LocalCoordinates(GetNodeIndex(node));
+			return LocalCoordinates(nodeIndex);
 		}
 		Vector ElementHexa::LocalCoordinates(const NodeIndex& nodeIndex) const
 		{

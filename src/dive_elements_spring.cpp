@@ -6,8 +6,8 @@ namespace dive
 {
 	namespace elements
 	{
-		const Scalar		ElementSpring::localCoordinates_[2][3] = { {-1.0,  0.0, 0.0 }, { 1.0,  0.0, 0.0 } };
-		const NodeIndex		ElementSpring::lookUpTable11_[1 * 2] = { NodeIndex(0), NodeIndex(1) };
+		const Scalar	ElementSpring::localCoordinates_[2][3] = { {-1.0,  0.0, 0.0 }, { 1.0,  0.0, 0.0 } };
+		const NodeIndex	ElementSpring::lookUpTable11_[1 * 2] = { NodeIndex(0), NodeIndex(1) };
 
 		ElementSpringPtr CreateElementSpring()
 		{
@@ -20,7 +20,7 @@ namespace dive
 			auto res = ElementSpring::Create();
 
 			res->SetTag(elementTag);
-			res->SetProperty(stiffness);
+			res->SetStiffness(stiffness);
 
 			return res;
 		}
@@ -229,7 +229,7 @@ namespace dive
 				return Vector();
 			}
 
-			return LocalCoordinates(GetNodeIndex(node));
+			return LocalCoordinates(nodeIndex);
 		}
 		Vector ElementSpring::LocalCoordinates(const NodeIndex& nodeIndex) const
 		{

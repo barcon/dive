@@ -111,7 +111,6 @@ namespace dive
 
 			virtual IScalar3DPtr GetTemperature() const = 0;
 			virtual IScalar3DPtr GetPressure() const = 0;
-			virtual IMatrix3DPtr GetVelocity() const = 0;
 
 			virtual void SetPressure(IScalar3DPtr pressure) = 0;
 

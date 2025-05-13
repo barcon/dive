@@ -2,14 +2,13 @@ from dive import *
 
 problem = None
 
-def CreateProblem(tag, timer, mesh, pressure, velocity):
+def CreateProblem(tag, timer, mesh, pressure):
     global problem
 
     problem = CreateProblemThermal(tag)
     problem.SetTimer(timer)
     problem.SetMesh(mesh)
     problem.SetPressure(pressure)
-    problem.SetVelocity(velocity) 
     
     return problem
 

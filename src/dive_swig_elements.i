@@ -2,6 +2,7 @@
 %{
 	#include "dive_elements.hpp"
 	#include "dive_elements_hexa.hpp"
+	#include "dive_elements_mass.hpp"
 	#include "dive_elements_spring.hpp"
 
 	typedef std::shared_ptr<dive::elements::IElement> IElementPtr;

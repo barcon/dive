@@ -63,10 +63,6 @@ namespace dive {
 		{
 			return pressure_;
 		}
-		IMatrix3DPtr ProblemThermal::GetVelocity() const
-		{
-			return velocity_;
-		}
 		IMeshPtr ProblemThermal::GetMesh() const
 		{
 			return mesh_;

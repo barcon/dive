@@ -63,6 +63,7 @@
     <ClInclude Include="..\src\dive.hpp" />
     <ClInclude Include="..\src\dive_elements.hpp" />
     <ClInclude Include="..\src\dive_elements_hexa.hpp" />
+    <ClInclude Include="..\src\dive_elements_mass.hpp" />
     <ClInclude Include="..\src\dive_elements_spring.hpp" />
     <ClInclude Include="..\src\dive_loads.hpp" />
     <ClInclude Include="..\src\dive_loads_dirichlet.hpp" />
@@ -113,6 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\dive_elements_hexa.cpp" />
+    <ClCompile Include="..\src\dive_elements_mass.cpp" />
     <ClCompile Include="..\src\dive_elements_spring.cpp" />
     <ClCompile Include="..\src\dive_export_python.cpp" />
     <ClCompile Include="..\src\dive_loads_dirichlet.cpp" />
