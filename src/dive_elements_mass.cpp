@@ -163,11 +163,7 @@ namespace dive
 				}
 			}
 
-			I_ = Matrix(numberDof * numberNodes_, numberDof * numberNodes_);
-			for (Index i = 0; i < I_.GetRows() && i < I_.GetCols(); i++)
-			{
-				I_(i, i) =  1.0;
-			}
+			I_ = Matrix(numberDof * numberNodes_, numberDof * numberNodes_, 1.0).Diagonal();
 		}
 		void ElementMass::SetNode(const NodeIndex& nodeIndex, INodePtr node)
 		{

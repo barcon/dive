@@ -314,18 +314,57 @@ namespace dive
 		{
 			stiffness_ = stiffness;
 		}
-		Matrix ElementSpring::K() const
+		Matrix ElementSpring::K(Scalar dx) const
 		{
-			auto du1 = Vector(nodes_[1]->GetValue(), 0);
-			auto du0 = Vector(nodes_[0]->GetValue(), 0);
+			return stiffness_->GetValue(dx) * I_;
+		}
+		Vector ElementSpring::GetBaseVector0() const
+		{
+			const auto& p1 = nodes_[1]->GetPoint();
+			const auto& p0 = nodes_[0]->GetPoint();
 			
-			auto p1 = nodes_[1]->GetPoint() + du1;
-			auto p0 = nodes_[0]->GetPoint() + du0;
+			auto l0 = eilig::NormP2(p1 - p0);			
+			auto v0 = (1.0 / l0) * (p1 - p0);
 
-			auto l1 = eilig::NormP2(p1 - p0);
-			auto l0 = Size();
+			return v0;
+		}
+		Vector ElementSpring::GetBaseVector1() const
+		{			 
+			Vector v1;
+			Scalars dots;
 
-			return stiffness_->GetValue(l1 - l0) * I_;
+			auto v0 = GetBaseVector0();
+
+			dots.push_back(std::abs(eilig::Dot(v0, e0)));
+			dots.push_back(std::abs(eilig::Dot(v0, e1)));
+			dots.push_back(std::abs(eilig::Dot(v0, e2)));
+
+			auto minimum = std::min_element(dots.begin(), dots.end());
+			auto index = std::distance(dots.begin(), minimum);
+
+			switch (index)
+			{
+			case 0:
+				v1 = eilig::Cross(v0, e0);
+				break;
+			case 1:
+				v1 = eilig::Cross(v0, e1);
+				break;
+			case 2:
+				v1 = eilig::Cross(v0, e2);
+				break;
+			}
+
+			auto l1 = eilig::NormP2(v1);
+
+			return (1.0 / l1) * v1;
+		}
+		Vector ElementSpring::GetBaseVector2() const
+		{
+			auto v0 = GetBaseVector0();
+			auto v1 = GetBaseVector1();
+
+			return eilig::Cross(v0, v1);
 		}
 	} //namespace elements
 } //namespace dive

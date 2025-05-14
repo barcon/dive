@@ -70,10 +70,14 @@ namespace dive
 			IScalar1DPtr GetStiffness() const;
 			void SetStiffness(IScalar1DPtr stiffness);
 
-			Matrix	K() const;
+			Matrix	K(Scalar dx = 0.0) const;
 
 		protected:
 			ElementSpring() = default;
+
+			Vector GetBaseVector0() const;
+			Vector GetBaseVector1() const;
+			Vector GetBaseVector2() const;
 
 			Tag		tag_{ 0 };
 			Type	type_{ element_spring };
