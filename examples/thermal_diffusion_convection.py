@@ -1,7 +1,7 @@
 import meshes
 import thermal
 import solvers
-import materials.fluid.oil_vg46
+import materials.fluid.VG46
 import plots.residual
 import plots.routines
 
@@ -19,7 +19,7 @@ p_ref       = 101325.1    #[N/m²]   =  1 [atm]
 basis       = thermal.CreateBasisCartesian(1)
 timer       = thermal.CreateTimerStationary(1, 0.0)
 pressure    = thermal.CreateValueScalar3D(p_ref)
-material    = materials.fluid.oil_vg46.Create(1, 68, T_ref)
+material    = materials.fluid.VG46.Create(1, 68, T_ref)
 meshFile    = 'beam.msh'
 
 meshes.beam.quadratic = True

@@ -75,9 +75,15 @@ namespace dive
 		protected:
 			ElementSpring() = default;
 
-			Vector GetBaseVector0() const;
-			Vector GetBaseVector1() const;
-			Vector GetBaseVector2() const;
+			Vector GetGlobalVector0() const;
+			Vector GetGlobalVector1() const;
+			Vector GetGlobalVector2() const;
+
+			Vector GetLocalVector0() const;
+			Vector GetLocalVector1() const;
+			Vector GetLocalVector2() const;
+
+			Matrix FormMatrix_Transform() const;
 
 			Tag		tag_{ 0 };
 			Type	type_{ element_spring };

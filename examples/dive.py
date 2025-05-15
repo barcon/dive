@@ -4245,8 +4245,8 @@ class ElementSpring(IElement):
     def SetStiffness(self, stiffness):
         return _dive.ElementSpring_SetStiffness(self, stiffness)
 
-    def K(self):
-        return _dive.ElementSpring_K(self)
+    def K(self, dx=0.0):
+        return _dive.ElementSpring_K(self, dx)
 
 # Register ElementSpring in _dive:
 _dive.ElementSpring_swigregister(ElementSpring)
@@ -6466,23 +6466,29 @@ class SpecElementsByType(object):
 # Register SpecElementsByType in _dive:
 _dive.SpecElementsByType_swigregister(SpecElementsByType)
 
+def FilterNodes(spec, input):
+    return _dive.FilterNodes(spec, input)
+
+def FilterNodesByCoordinate(input, basis, axis, pos, tol):
+    return _dive.FilterNodesByCoordinate(input, basis, axis, pos, tol)
+
+def FilterNodesByRange(input, basis, axis, min, max, tol):
+    return _dive.FilterNodesByRange(input, basis, axis, min, max, tol)
+
+def FilterNodesByTag(input, min, max):
+    return _dive.FilterNodesByTag(input, min, max)
+
 def FilterNodesByElements(input):
     return _dive.FilterNodesByElements(input)
 
-def FilterNodes(*args):
-    return _dive.FilterNodes(*args)
+def FilterNodesRemoveDuplicates(input):
+    return _dive.FilterNodesRemoveDuplicates(input)
 
-def FilterNodesByCoordinate(*args):
-    return _dive.FilterNodesByCoordinate(*args)
+def FilterElements(spec, input):
+    return _dive.FilterElements(spec, input)
 
-def FilterNodesByRange(*args):
-    return _dive.FilterNodesByRange(*args)
-
-def FilterNodesByTag(*args):
-    return _dive.FilterNodesByTag(*args)
-
-def FilterNodesRemoveDuplicates(*args):
-    return _dive.FilterNodesRemoveDuplicates(*args)
+def FilterElementsByTag(input, min, max):
+    return _dive.FilterElementsByTag(input, min, max)
 
 def FilterElementsByType(input):
     return _dive.FilterElementsByType(input)
@@ -6490,14 +6496,8 @@ def FilterElementsByType(input):
 def FilterElementsByNodes(input):
     return _dive.FilterElementsByNodes(input)
 
-def FilterElements(*args):
-    return _dive.FilterElements(*args)
-
-def FilterElementsByTag(*args):
-    return _dive.FilterElementsByTag(*args)
-
-def FilterElementsRemoveDuplicates(*args):
-    return _dive.FilterElementsRemoveDuplicates(*args)
+def FilterElementsRemoveDuplicates(input):
+    return _dive.FilterElementsRemoveDuplicates(input)
 class SpecSortNodesByCoordinate(object):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
     __repr__ = _swig_repr

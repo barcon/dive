@@ -316,9 +316,36 @@ namespace dive
 		}
 		Matrix ElementSpring::K(Scalar dx) const
 		{
-			return stiffness_->GetValue(dx) * I_;
+			auto T = FormMatrix_Transform();
+
+			return stiffness_->GetValue(dx) * I_ * T;
 		}
-		Vector ElementSpring::GetBaseVector0() const
+
+		Vector ElementSpring::GetGlobalVector0() const
+		{
+			Vector e0(3);
+			
+			e0(0) = 1.0;
+
+			return e0;
+		}
+		Vector ElementSpring::GetGlobalVector1() const
+		{
+			Vector e1(3);
+
+			e1(1) = 1.0;
+
+			return e1;
+		}
+		Vector ElementSpring::GetGlobalVector2() const
+		{
+			Vector e2(3);
+
+			e2(2) = 1.0;
+
+			return e2;
+		}
+		Vector ElementSpring::GetLocalVector0() const
 		{
 			const auto& p1 = nodes_[1]->GetPoint();
 			const auto& p0 = nodes_[0]->GetPoint();
@@ -328,12 +355,15 @@ namespace dive
 
 			return v0;
 		}
-		Vector ElementSpring::GetBaseVector1() const
+		Vector ElementSpring::GetLocalVector1() const
 		{			 
+			Vector v0 = GetLocalVector0();
 			Vector v1;
 			Scalars dots;
-
-			auto v0 = GetBaseVector0();
+			
+			auto e0 = GetGlobalVector0();
+			auto e1 = GetGlobalVector1();
+			auto e2 = GetGlobalVector2();
 
 			dots.push_back(std::abs(eilig::Dot(v0, e0)));
 			dots.push_back(std::abs(eilig::Dot(v0, e1)));
@@ -359,12 +389,38 @@ namespace dive
 
 			return (1.0 / l1) * v1;
 		}
-		Vector ElementSpring::GetBaseVector2() const
+		Vector ElementSpring::GetLocalVector2() const
 		{
-			auto v0 = GetBaseVector0();
-			auto v1 = GetBaseVector1();
+			Vector v0 = GetLocalVector0();
+			Vector v1 = GetLocalVector1();
 
 			return eilig::Cross(v0, v1);
+		}
+
+		Matrix ElementSpring::FormMatrix_Transform() const
+		{
+			Matrix res(numberDof_ * numberNodes_, numberDof_ * numberNodes_);
+			
+			Vectors local;
+			Vectors global;
+
+			local.push_back(GetLocalVector0());
+			local.push_back(GetLocalVector1());
+			local.push_back(GetLocalVector2());
+			
+			global.push_back(GetGlobalVector0());
+			global.push_back(GetGlobalVector1());
+			global.push_back(GetGlobalVector2());
+
+			for (Index i = 0; i < numberNodes_; i++)
+			{
+				for (Index j = 0; j < numberDof_; j++)
+				{
+					res(i, j) = eilig::Dot(local[j], global[i]);
+				}
+			}
+
+			return res;
 		}
 	} //namespace elements
 } //namespace dive
