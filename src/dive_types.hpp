@@ -63,6 +63,7 @@ namespace dive
 	using Type = std::size_t;
 
 	using Dimension = std::size_t;
+	using Coordinate = std::size_t;
 	using Index = std::size_t;
 	using DofIndex = Index;
 	using NodeIndex = Index;

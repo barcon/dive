@@ -39,6 +39,7 @@
 %shared_ptr(dive::elements::IElementBeam);
 %shared_ptr(dive::elements::IElementShell);
 %shared_ptr(dive::elements::IElementSolid);
+
 %shared_ptr(dive::elements::ElementHexa);
 %shared_ptr(dive::elements::ElementMass);
 %shared_ptr(dive::elements::ElementSpring);

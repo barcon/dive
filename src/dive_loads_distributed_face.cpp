@@ -1,15 +1,22 @@
 #include "dive_loads_distributed_face.hpp"
 #include "dive_values_vector_congruent.hpp"
+#include "dive_status.hpp"
 
 namespace dive
 {
 	namespace loads
 	{
-		LoadDistributedFacePtr CreateLoadDistributedFace(IElementMappedPtr element, FaceIndex faceIndex, IVector3DPtr value)
+		LoadDistributedFacePtr CreateLoadDistributedFace(IElementPtr element, FaceIndex faceIndex, IVector3DPtr value)
 		{
+			if (!element->IsMapped())
+			{
+				logger::Error(headerDive, "Element is not mapped: " + dive::messages.at(dive::DIVE_INVALID_TYPE));
+				return nullptr;
+			}
+
 			auto res = LoadDistributedFace::Create();
 
-			res->SetElement(element);
+			res->SetElement(std::dynamic_pointer_cast<elements::IElementMapped>(element));
 			res->SetFaceIndex(faceIndex);
 			res->SetValue(value);
 

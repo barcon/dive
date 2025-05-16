@@ -90,7 +90,7 @@ namespace dive
 			const NumberNodes numberNodesFace_{ 0 };
 			const NumberNodes numberNodesEdge_{ 0 };
 			const NumberDimensions numberDimensions_{ dimension_point };
-			const NumberCoordinates numberCoordinates_{ 3 };
+			const NumberCoordinates numberCoordinates_{ coordinate_three };
 
 			static const Scalar localCoordinates_[1][3];
 			

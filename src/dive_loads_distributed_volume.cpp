@@ -1,15 +1,21 @@
 #include "dive_loads_distributed_volume.hpp"
 #include "dive_values_vector_congruent.hpp"
+#include "dive_status.hpp"
 
 namespace dive
 {
 	namespace loads
 	{
-		LoadDistributedVolumePtr CreateLoadDistributedVolume(IElementMappedPtr element, IVector3DPtr value)
+		LoadDistributedVolumePtr CreateLoadDistributedVolume(IElementPtr element, IVector3DPtr value)
 		{
-			auto res = LoadDistributedVolume::Create();
+			if (!element->IsMapped())
+			{
+				logger::Error(headerDive, "Element is not mapped: " + dive::messages.at(dive::DIVE_INVALID_TYPE));
+				return nullptr;
+			}
 
-			res->SetElement(element);
+			auto res = LoadDistributedVolume::Create();
+			res->SetElement(std::dynamic_pointer_cast<elements::IElementMapped>(element));
 			res->SetValue(value);
 
 			return res;

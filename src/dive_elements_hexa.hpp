@@ -318,7 +318,7 @@ namespace dive
 			const NumberFaces numberFaces_{ 6 };
 			const NumberEdges numberEdges_{12};
 			const NumberDimensions numberDimensions_{ dimension_solid };
-			const NumberCoordinates numberCoordinates_{ 3 };
+			const NumberCoordinates numberCoordinates_{ coordinate_three };
 			
 			static const Scalar localCoordinates_[20][3];
 			static const Index lookUpTable1_[6];

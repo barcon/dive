@@ -1,15 +1,21 @@
 #include "dive_loads_distributed_edge.hpp"
 #include "dive_values_vector_congruent.hpp"
+#include "dive_status.hpp"
 
 namespace dive
 {
 	namespace loads
 	{
-		LoadDistributedEdgePtr CreateLoadDistributedEdge(IElementMappedPtr element, EdgeIndex edgeIndex, IVector3DPtr value)
+		LoadDistributedEdgePtr CreateLoadDistributedEdge(IElementPtr element, EdgeIndex edgeIndex, IVector3DPtr value)
 		{
-			auto res = LoadDistributedEdge::Create();
+			if (!element->IsMapped())
+			{
+				logger::Error(headerDive, "Element is not mapped: " + dive::messages.at(dive::DIVE_INVALID_TYPE));
+				return nullptr;
+			}
 
-			res->SetElement(element);
+			auto res = LoadDistributedEdge::Create();
+			res->SetElement(std::dynamic_pointer_cast<elements::IElementMapped>(element));
 			res->SetEdgeIndex(edgeIndex);
 			res->SetValue(value);
 

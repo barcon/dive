@@ -26,6 +26,10 @@ namespace dive
 		static const Dimension dimension_beam = 1;
 		static const Dimension dimension_shell = 2;
 		static const Dimension dimension_solid = 3;
+		
+		static const Coordinate coordinate_one = 1;
+		static const Coordinate coordinate_two = 2;
+		static const Coordinate coordinate_three = 2;
 
 		static const NodeIndex nodeIndexInvalid = 0xFFFFFFFF;
 
