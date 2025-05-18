@@ -1,0 +1,4 @@
+{
+    "python.analysis.typeCheckingMode": "basic",
+    "C_Cpp.vcFormat.space.removeAroundMemberOperators": true
+}

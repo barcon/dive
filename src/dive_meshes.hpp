@@ -57,7 +57,6 @@ namespace dive
 			virtual IElementPtr	GetElement(Tag tag, Status& status) const = 0;
 			virtual IElementPtr	GetElementIndex(ElementIndex index, Status& status) const = 0;
 			virtual IElementPtr	GetElementSorted(Tag tag, Status& status) const = 0;
-			virtual Scalar		GetElementSizeMinimum() const = 0;
 
 			virtual NumberDof	GetTotalDof() = 0;
 			virtual NumberDof	GetPivot() = 0;

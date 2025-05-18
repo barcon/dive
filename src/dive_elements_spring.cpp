@@ -24,6 +24,11 @@ namespace dive
 
 			return res;
 		}
+		ElementSpringPtr CastToElementSpring(IElementPtr element)
+		{
+			return std::dynamic_pointer_cast<ElementSpring>(element);
+		}
+
 		ElementSpringPtr ElementSpring::Create()
 		{
 			class MakeSharedEnabler : public ElementSpring
@@ -256,7 +261,14 @@ namespace dive
 			return 0.5 * (nodes_[0]->GetPoint() * (1.0 - s) + nodes_[1]->GetPoint() * (1.0 + s));
 		}
 
-		Scalar ElementSpring::Size() const
+		Scalar ElementSpring::SizeMinimum() const
+		{
+			const auto& point0 = nodes_[0]->GetPoint();
+			const auto& point1 = nodes_[1]->GetPoint();
+
+			return eilig::NormP2(point1 - point0);
+		}
+		Scalar ElementSpring::SizeMaximum() const
 		{
 			const auto& point0 = nodes_[0]->GetPoint();
 			const auto& point1 = nodes_[1]->GetPoint();

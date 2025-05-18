@@ -29,7 +29,7 @@ namespace dive
 		
 		static const Coordinate coordinate_one = 1;
 		static const Coordinate coordinate_two = 2;
-		static const Coordinate coordinate_three = 2;
+		static const Coordinate coordinate_three = 3;
 
 		static const NodeIndex nodeIndexInvalid = 0xFFFFFFFF;
 
@@ -94,7 +94,8 @@ namespace dive
 			virtual Vector GlobalCoordinates(const NodeIndex& nodeIndex) const = 0;
 			virtual Vector GlobalCoordinates(const Vector& local) const = 0;
 
-			virtual Scalar Size() const = 0;
+			virtual Scalar SizeMinimum() const = 0;
+			virtual Scalar SizeMaximum() const = 0;
 
 			virtual bool IsUsed(INodePtr node) const = 0;
 			virtual bool IsMapped() const = 0;

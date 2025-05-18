@@ -56,6 +56,11 @@ namespace dive
 
 			return res;
 		}
+		ElementHexaPtr CastToElementHexa(IElementPtr element)
+		{
+			return std::dynamic_pointer_cast<ElementHexa>(element);
+		}
+
 		ElementHexaPtr ElementHexa::Create()
 		{
 			class MakeSharedEnabler : public ElementHexa
@@ -348,7 +353,63 @@ namespace dive
 
 			return res;
 		}
-		Scalar ElementHexa::Size() const
+		Scalar ElementHexa::SizeMinimum() const
+		{
+			Vector local1(3, 0.0);
+			Vector local2(3, 0.0);
+
+			Vector global1(3, 0.0);
+			Vector global2(3, 0.0);
+
+			Scalar h1{ 0.0 };
+			Scalar h2{ 0.0 };
+			Scalar h3{ 0.0 };
+
+			local1(0) = 1.0;
+			local1(1) = 0.0;
+			local1(2) = 0.0;
+
+			local2(0) = -1.0;
+			local2(1) = 0.0;
+			local2(2) = 0.0;
+
+			global1 = GlobalCoordinates(local1);
+			global2 = GlobalCoordinates(local2);
+
+			h1 = eilig::NormP2(global1 - global2);
+			std::cout << h1 << std::endl;
+
+			local1(0) = 0.0;
+			local1(1) = 1.0;
+			local1(2) = 0.0;
+
+			local2(0) = 0.0;
+			local2(1) = -1.0;
+			local2(2) = 0.0;
+
+			global1 = GlobalCoordinates(local1);
+			global2 = GlobalCoordinates(local2);
+
+			h2 = eilig::NormP2(global1 - global2);
+			std::cout << h2 << std::endl;
+
+			local1(0) = 0.0;
+			local1(1) = 0.0;
+			local1(2) = 1.0;
+
+			local2(0) = 0.0;
+			local2(1) = 0.0;
+			local2(2) = -1.0;
+
+			global1 = GlobalCoordinates(local1);
+			global2 = GlobalCoordinates(local2);
+
+			h3 = eilig::NormP2(global1 - global2);
+			std::cout << h3 << std::endl;
+
+			return std::min({ h1, h2, h3 });
+		}
+		Scalar ElementHexa::SizeMaximum() const
 		{
 			Vector local1(3, 0.0);
 			Vector local2(3, 0.0);
@@ -399,7 +460,7 @@ namespace dive
 
 			h3 = eilig::NormP2(global1 - global2);
 
-			return std::min({ h1, h2, h3 });
+			return std::max({ h1, h2, h3 });
 		}
 		Vector ElementHexa::LocalCoordinates(INodePtr node) const
 		{
@@ -433,14 +494,11 @@ namespace dive
 		}
 		Vector ElementHexa::GlobalCoordinates(const Vector& local) const
 		{
-			Vector output(numberCoordinates_);
+			Vector output = param_[0](local) * nodes_[0]->GetPoint();
 
-			for (Dimension i = 0; i < numberCoordinates_; ++i)
+			for (NodeIndex j = 1; j < numberNodesParametric_; ++j)
 			{
-				for (NodeIndex j = 0; j < numberNodesParametric_; ++j)
-				{
-					output(i) += param_[j](local) * nodes_[j]->GetPoint()(i);
-				}
+				output = output + param_[j](local) * nodes_[j]->GetPoint();
 			}
 
 			return output;
@@ -449,7 +507,7 @@ namespace dive
 		{
 			Vector output(numberCoordinates_);
 
-			for (Dimension i = 0; i < numberCoordinates_; ++i)
+			for (CoordinateIndex i = 0; i < numberCoordinates_; ++i)
 			{
 				for (NodeIndex j = 0; j < numberNodesParametric_; ++j)
 				{

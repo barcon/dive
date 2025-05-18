@@ -9,6 +9,7 @@ namespace dive
 	{
 		ElementSpringPtr CreateElementSpring();
 		ElementSpringPtr CreateElementSpring(Tag elementTag, IScalar1DPtr stiffness);
+		ElementSpringPtr CastToElementSpring(IElementPtr element);
 
 		class ElementSpring : public IElement, virtual public std::enable_shared_from_this<ElementSpring>
 		{
@@ -56,7 +57,8 @@ namespace dive
 			Vector GlobalCoordinates(const NodeIndex& nodeIndex) const override;
 			Vector GlobalCoordinates(const Vector& local) const override;
 
-			Scalar Size() const override;
+			Scalar SizeMinimum() const override;
+			Scalar SizeMaximum() const override;
 
 			bool IsUsed(INodePtr node) const override;
 			bool IsMapped() const override;

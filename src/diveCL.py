@@ -4020,8 +4020,11 @@ class IElement(object):
     def GlobalCoordinates(self, *args):
         return _diveCL.IElement_GlobalCoordinates(self, *args)
 
-    def Size(self):
-        return _diveCL.IElement_Size(self)
+    def SizeMinimum(self):
+        return _diveCL.IElement_SizeMinimum(self)
+
+    def SizeMaximum(self):
+        return _diveCL.IElement_SizeMaximum(self)
 
     def IsUsed(self, node):
         return _diveCL.IElement_IsUsed(self, node)
@@ -4152,6 +4155,9 @@ _diveCL.IElementSolid_swigregister(IElementSolid)
 
 def CreateElementHexa(*args):
     return _diveCL.CreateElementHexa(*args)
+
+def CastToElementHexa(element):
+    return _diveCL.CastToElementHexa(element)
 class ElementHexa(IElementSolid):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
@@ -4203,8 +4209,11 @@ class ElementHexa(IElementSolid):
     def Length(self, edge):
         return _diveCL.ElementHexa_Length(self, edge)
 
-    def Size(self):
-        return _diveCL.ElementHexa_Size(self)
+    def SizeMinimum(self):
+        return _diveCL.ElementHexa_SizeMinimum(self)
+
+    def SizeMaximum(self):
+        return _diveCL.ElementHexa_SizeMaximum(self)
 
     def LocalCoordinates(self, *args):
         return _diveCL.ElementHexa_LocalCoordinates(self, *args)
@@ -4327,6 +4336,9 @@ _diveCL.ElementHexa_swigregister(ElementHexa)
 
 def CreateElementMass(*args):
     return _diveCL.CreateElementMass(*args)
+
+def CastToElementMass(element):
+    return _diveCL.CastToElementMass(element)
 class ElementMass(IElement):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
@@ -4423,8 +4435,11 @@ class ElementMass(IElement):
     def GlobalCoordinates(self, *args):
         return _diveCL.ElementMass_GlobalCoordinates(self, *args)
 
-    def Size(self):
-        return _diveCL.ElementMass_Size(self)
+    def SizeMinimum(self):
+        return _diveCL.ElementMass_SizeMinimum(self)
+
+    def SizeMaximum(self):
+        return _diveCL.ElementMass_SizeMaximum(self)
 
     def IsUsed(self, node):
         return _diveCL.ElementMass_IsUsed(self, node)
@@ -4461,6 +4476,9 @@ _diveCL.ElementMass_swigregister(ElementMass)
 
 def CreateElementSpring(*args):
     return _diveCL.CreateElementSpring(*args)
+
+def CastToElementSpring(element):
+    return _diveCL.CastToElementSpring(element)
 class ElementSpring(IElement):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
@@ -4557,8 +4575,11 @@ class ElementSpring(IElement):
     def GlobalCoordinates(self, *args):
         return _diveCL.ElementSpring_GlobalCoordinates(self, *args)
 
-    def Size(self):
-        return _diveCL.ElementSpring_Size(self)
+    def SizeMinimum(self):
+        return _diveCL.ElementSpring_SizeMinimum(self)
+
+    def SizeMaximum(self):
+        return _diveCL.ElementSpring_SizeMaximum(self)
 
     def IsUsed(self, node):
         return _diveCL.ElementSpring_IsUsed(self, node)
@@ -5791,9 +5812,6 @@ class IMesh(object):
     def GetElementSorted(self, tag, status):
         return _diveCL.IMesh_GetElementSorted(self, tag, status)
 
-    def GetElementSizeMinimum(self):
-        return _diveCL.IMesh_GetElementSizeMinimum(self)
-
     def GetTotalDof(self):
         return _diveCL.IMesh_GetTotalDof(self)
 
@@ -5880,9 +5898,6 @@ class Mesh(IMesh):
     def GetElementSorted(self, tag, status):
         return _diveCL.Mesh_GetElementSorted(self, tag, status)
 
-    def GetElementSizeMinimum(self):
-        return _diveCL.Mesh_GetElementSizeMinimum(self)
-
     def GetTotalDof(self):
         return _diveCL.Mesh_GetTotalDof(self)
 
@@ -5915,6 +5930,12 @@ class Mesh(IMesh):
 
 # Register Mesh in _diveCL:
 _diveCL.Mesh_swigregister(Mesh)
+
+def GetSizeMinimum(elements):
+    return _diveCL.GetSizeMinimum(elements)
+
+def GetSizeMaximum(elements):
+    return _diveCL.GetSizeMaximum(elements)
 
 def LoadGmsh(meshTag, fileName, numberDof, status):
     return _diveCL.LoadGmsh(meshTag, fileName, numberDof, status)

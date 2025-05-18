@@ -270,23 +270,6 @@ namespace dive {
 
 			return res;
 		}
-		Scalar Mesh::GetElementSizeMinimum() const
-		{
-			Scalar size{ 0.0 };
-			Scalar res{ std::numeric_limits<Scalar>::infinity() };
-
-			for (auto& element : elements_)
-			{
-				size = element->Size();
-
-				if (size < res)
-				{
-					res = size;
-				}
-			}
-
-			return res;
-		}
 		NumberDof Mesh::GetTotalDof()
 		{
 			return totalDof_;
@@ -387,7 +370,42 @@ namespace dive {
 			status = DIVE_SUCCESS;
 			return std::distance(elements_.begin(), it);
 		}
-	
+
+		Scalar GetSizeMinimum(const Elements& elements)
+		{
+			Scalar size{ 0.0 };
+			Scalar res{ std::numeric_limits<Scalar>::infinity() };
+
+			for (const auto& element : elements)
+			{
+				size = element->SizeMinimum();
+
+				if (size < res)
+				{
+					res = size;
+				}
+			}
+
+			return res;
+		}
+		Scalar GetSizeMaximum(const Elements& elements)
+		{
+			Scalar size{ 0.0 };
+			Scalar res{ 0.0 };
+
+			for (const auto& element : elements)
+			{
+				size = element->SizeMaximum();
+
+				if (size > res)
+				{
+					res = size;
+				}
+			}
+
+			return res;
+		}
+
 		const NodeIndex	lookUpTableType5[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };
 		const NodeIndex	lookUpTableType17[20] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 11, 13, 9, 16, 18, 19, 17, 10, 12, 14, 15 };
 

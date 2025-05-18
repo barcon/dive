@@ -23,6 +23,11 @@ namespace dive
 
 			return res;
 		}
+		ElementMassPtr CastToElementMass(IElementPtr element)
+		{
+			return std::dynamic_pointer_cast<ElementMass>(element);
+		}
+
 		ElementMassPtr ElementMass::Create()
 		{
 			class MakeSharedEnabler : public ElementMass
@@ -249,7 +254,11 @@ namespace dive
 			return nodes_[0]->GetPoint();
 		}
 
-		Scalar ElementMass::Size() const
+		Scalar ElementMass::SizeMinimum() const
+		{
+			return 0.0;
+		}
+		Scalar ElementMass::SizeMaximum() const
 		{
 			return 0.0;
 		}

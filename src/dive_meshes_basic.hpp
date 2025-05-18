@@ -36,7 +36,6 @@ namespace dive
 			IElementPtr	GetElement(Tag tag, Status& status) const override;
 			IElementPtr	GetElementIndex(ElementIndex index, Status& status) const override;
 			IElementPtr	GetElementSorted(Tag tag, Status& status) const override;
-			Scalar		GetElementSizeMinimum() const override;
 
 			NumberDof	GetTotalDof() override;
 			NumberDof	GetPivot() override;
@@ -62,6 +61,9 @@ namespace dive
 			Nodes 		nodes_;
 			Elements	elements_;
 		};
+
+		Scalar GetSizeMinimum(const Elements& elements);
+		Scalar GetSizeMaximum(const Elements& elements);
 
 		IMeshPtr LoadGmsh(Tag meshTag, String fileName, NumberDof numberDof, Status& status);
 		//IMeshPtr LoadAbaqus(Tag meshTag, String fileName, NumberDof numberDof, Status& status);

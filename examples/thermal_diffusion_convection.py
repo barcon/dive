@@ -1,5 +1,6 @@
 import meshes
 import thermal
+import fluid.momentum
 import solvers
 import materials.fluid.VG46
 import plots.residual
@@ -22,26 +23,28 @@ pressure    = thermal.CreateValueScalar3D(p_ref)
 material    = materials.fluid.VG46.Create(1, 68, T_ref)
 meshFile    = 'beam.msh'
 
-meshes.beam.quadratic = True
+meshes.beam.quadratic = False
 meshes.beam.Create(meshFile)
+
 meshThermal = meshes.routines.LoadMesh(1, meshFile)
-meshVelocity = meshes.routines.LoadMesh(2, meshFile)
+meshMomentum = meshes.routines.LoadMesh(2, meshFile)
 meshes.routines.ApplyMaterial(meshThermal.GetElements(), material)
-meshes.routines.ApplyMaterial(meshVelocity.GetElements(), material)
+meshes.routines.ApplyMaterial(meshMomentum.GetElements(), material)
 
 pressure = thermal.CreateValueScalar3D(p_ref)
-velocity = thermal.CreateValueMatrix3DCongruent(meshVelocity)
+temperature = thermal.CreateValueScalar3D(T_ref)
 
 #--------------------------------------------------------------------------------------------------
 rho = material.GetDensity(T_ref, p_ref)
 k = material.GetThermalConductivity(T_ref, p_ref)
 cp = material.GetSpecificHeat(T_ref, p_ref)
 
-heightElement = meshThermal.GetElementHeightMinium()
+heightElement = thermal.GetSizeMinimum(meshThermal.GetElements())
+
 lenghtDomain = meshes.beam.x
 diffusity = k / (cp * rho)
 
-peclet = 3.5
+peclet = 0.5
 speed = (2 * peclet * diffusity) / heightElement
 
 dt1 = lenghtDomain**2.0 / diffusity
@@ -71,8 +74,6 @@ tableSummary.add_row(["Convection Element Time", "{:.2g}".format(dt4), "[s]"])
 print(tableSummary)
 #--------------------------------------------------------------------------------------------------
 
-meshes.routines.ApplyField(meshVelocity, dof = 3, function = FunctionVelocity)
-
 tolerance = heightElement/10.0
 nodesLeft = thermal.FilterNodesByCoordinate(meshThermal.GetNodes(), basis, thermal.axis_x, 0.0, tolerance)
 nodesRight = thermal.FilterNodesByCoordinate(meshThermal.GetNodes(), basis, thermal.axis_x, meshes.beam.x, tolerance)
@@ -80,15 +81,19 @@ nodesRight = thermal.FilterNodesByCoordinate(meshThermal.GetNodes(), basis, ther
 nodesCurve = thermal.FilterNodesByCoordinate(meshThermal.GetNodes(), basis, thermal.axis_y, 0.0, tolerance)
 nodesCurve = thermal.FilterNodesByCoordinate(nodesCurve, basis, thermal.axis_z, 0.0, tolerance)
 
-thermal.CreateProblem(1, timer, meshThermal, pressure, velocity)
+thermal.CreateProblem(1, timer, meshThermal, pressure)
 thermal.ApplyDirichlet(nodesLeft, 100.0)
 thermal.ApplyDirichlet(nodesRight, 0.0)
 thermal.Initialize()
+
+fluid.momentum.CreateProblem(1, timer, meshMomentum, temperature, pressure)
+meshes.routines.ApplyField(meshMomentum, dof = 3, function = FunctionVelocity)
+fluid.momentum.Initialize()
 #--------------------------------------------------------------------------------------------------
 
-K = thermal.Stiffness()
-C = thermal.Convection()
-y = thermal.Energy()
+K = thermal.PartitionMatrix(thermal.GetProblem().Stiffness())
+C = thermal.PartitionMatrix(thermal.GetProblem().Convection(fluid.momentum.GetProblem()))
+y = thermal.PartitionVector(thermal.GetProblem().Energy())
 
 monitor = solvers.Iterative(K[1] + C[1], y[1], -(K[0] + C[0])*y[0])
 

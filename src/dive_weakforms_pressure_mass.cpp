@@ -37,7 +37,7 @@ namespace dive {
 			auto N = FormMatrix_N(element, local, cacheIndex);
 			auto u = FormVelocity(element, local);
 			auto nu = FormKineticViscosity(element, local);
-			auto h = element->Size();
+			auto h = element->SizeMinimum();
 
 			uconv = nu / h;
 			udiff = eilig::NormP2(u);
