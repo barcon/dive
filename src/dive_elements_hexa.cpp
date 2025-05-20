@@ -122,7 +122,7 @@ namespace dive
 		{
 			Matrix res(numberCoordinates_, numberDof_ * numberNodes_, 0.0);
 
-			for (Dimension k = 0; k < numberCoordinates_; ++k)
+			for (CoordinateIndex k = 0; k < numberCoordinates_; ++k)
 			{
 				for (NodeIndex i = 0; i < numberNodes_; ++i)
 				{
@@ -143,7 +143,7 @@ namespace dive
 		{
 			Matrix res(numberCoordinates_, numberDof_, 0.0);
 
-			for (Dimension k = 0; k < numberCoordinates_; ++k)
+			for (CoordinateIndex k = 0; k < numberCoordinates_; ++k)
 			{
 				for (NodeIndex i = 0; i < numberNodes_; ++i)
 				{
@@ -181,9 +181,9 @@ namespace dive
 		{
 			Matrix output(numberCoordinates_, numberCoordinates_, 0.0);
 
-			for (Dimension i = 0; i < numberCoordinates_; ++i)
+			for (CoordinateIndex i = 0; i < numberCoordinates_; ++i)
 			{
-				for (Dimension j = 0; j < numberCoordinates_; ++j)
+				for (CoordinateIndex j = 0; j < numberCoordinates_; ++j)
 				{
 					for (NodeIndex k = 0; k < numberNodesParametric_; ++k)
 					{
@@ -204,7 +204,7 @@ namespace dive
 		{
 			Matrix res(1, numberNodes_, 0.0);
 
-			for (NumberNodes i = 0; i < numberNodes_; ++i)
+			for (NodeIndex i = 0; i < numberNodes_; ++i)
 			{
 				res(0, i) = shape_[i](local);
 			}
@@ -215,9 +215,9 @@ namespace dive
 		{
 			Matrix res(numberCoordinates_, numberNodes_, 0.0);
 
-			for (Dimension i = 0; i < numberCoordinates_; ++i)
+			for (CoordinateIndex i = 0; i < numberCoordinates_; ++i)
 			{
-				for (NumberNodes j = 0; j < numberNodes_; ++j)
+				for (NodeIndex j = 0; j < numberNodes_; ++j)
 				{
 					res(i, j) = shapeD_[i * numberNodes_ + j](local);
 				}

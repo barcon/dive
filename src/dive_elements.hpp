@@ -22,14 +22,14 @@ namespace dive
 		static const Type element_hexa8 = 3;
 		static const Type element_hexa20 = 4;
 
-		static const Dimension dimension_point = 0;
-		static const Dimension dimension_beam = 1;
-		static const Dimension dimension_shell = 2;
-		static const Dimension dimension_solid = 3;
+		static const NumberDimensions dimension_point = 0;
+		static const NumberDimensions dimension_beam = 1;
+		static const NumberDimensions dimension_shell = 2;
+		static const NumberDimensions dimension_solid = 3;
 		
-		static const Coordinate coordinate_one = 1;
-		static const Coordinate coordinate_two = 2;
-		static const Coordinate coordinate_three = 3;
+		static const NumberCoordinates coordinate_one = 1;
+		static const NumberCoordinates coordinate_two = 2;
+		static const NumberCoordinates coordinate_three = 3;
 
 		static const NodeIndex nodeIndexInvalid = 0xFFFFFFFF;
 

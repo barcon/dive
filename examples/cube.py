@@ -1,21 +1,22 @@
-import materials.solid.steel
+import materials.fluid.unit
 import structural
 import meshes
 
-T_oil_bath  = 313.15    #[K]      = 40 [°C]
-p_oil_bath  = 101325.1  #[N/m²]   =  1 [atm]
+T_ref       = 313.15      #[K]      = 40 [°C]
+p_ref       = 101325.1    #[N/m²]   =  1 [atm]
+basis       = structural.CreateBasisCartesian(1)
+timer       = structural.CreateTimerStationary(1, 0.0)
+temperature = structural.CreateValueScalar3D(T_ref)
+pressure    = structural.CreateValueScalar3D(p_ref)
 
-steel = materials.solid.steel.Create(1)
+material = materials.fluid.unit.Create(1)
 meshFile = 'cube.msh'
 
 meshes.cube.Create(meshFile)
 mesh = meshes.routines.LoadMesh(1, meshFile)
-meshes.routines.ApplyMaterial(mesh.GetElements(), steel)
+meshes.routines.ApplyMaterial(mesh.GetElements(), material)
 
-print(mesh.GetNodes())
-print(mesh.GetElements())
-for element in mesh.GetElements():
-    elementHexa = structural.CastToElementHexa(element)
-    print(elementHexa.Volume())
+structural.CreateProblem(1, timer, mesh, temperature, pressure)
+structural.Initialize()
 
-quit()
+print(structural.GetProblem().Stiffness())
