@@ -1,4 +1,4 @@
-import materials.fluid.unit
+import materials.solid.steel
 import structural
 import meshes
 
@@ -9,7 +9,7 @@ timer       = structural.CreateTimerStationary(1, 0.0)
 temperature = structural.CreateValueScalar3D(T_ref)
 pressure    = structural.CreateValueScalar3D(p_ref)
 
-material = materials.fluid.unit.Create(1)
+material = materials.solid.steel.Create(1)
 meshFile = 'cube.msh'
 
 meshes.cube.Create(meshFile)
@@ -19,4 +19,5 @@ meshes.routines.ApplyMaterial(mesh.GetElements(), material)
 structural.CreateProblem(1, timer, mesh, temperature, pressure)
 structural.Initialize()
 
+print(structural.GetProblem().Mass())
 print(structural.GetProblem().Stiffness())

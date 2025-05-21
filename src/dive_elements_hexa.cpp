@@ -377,7 +377,6 @@ namespace dive
 			global2 = GlobalCoordinates(local2);
 
 			h1 = eilig::NormP2(global1 - global2);
-			std::cout << h1 << std::endl;
 
 			local1(0) = 0.0;
 			local1(1) = 1.0;
@@ -391,7 +390,6 @@ namespace dive
 			global2 = GlobalCoordinates(local2);
 
 			h2 = eilig::NormP2(global1 - global2);
-			std::cout << h2 << std::endl;
 
 			local1(0) = 0.0;
 			local1(1) = 0.0;
@@ -405,7 +403,6 @@ namespace dive
 			global2 = GlobalCoordinates(local2);
 
 			h3 = eilig::NormP2(global1 - global2);
-			std::cout << h3 << std::endl;
 
 			return std::min({ h1, h2, h3 });
 		}
