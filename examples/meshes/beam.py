@@ -4,8 +4,8 @@ x = 1.0
 y = 0.1
 z = 0.1
 
-nx = 3
-ny = 2
+nx = 20
+ny = 3
 nz = 3
 
 quadratic = False

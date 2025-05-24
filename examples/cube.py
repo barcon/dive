@@ -19,5 +19,7 @@ meshes.routines.ApplyMaterial(mesh.GetElements(), material)
 structural.CreateProblem(1, timer, mesh, temperature, pressure)
 structural.Initialize()
 
-print(structural.GetProblem().Mass())
-print(structural.GetProblem().Stiffness())
+print(structural.CastToElementHexa(mesh.GetElements()[0]).Volume())
+
+#print(structural.GetProblem().Mass())
+#print(structural.GetProblem().Stiffness())

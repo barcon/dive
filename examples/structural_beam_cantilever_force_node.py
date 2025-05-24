@@ -30,7 +30,7 @@ structural.Initialize()
 forceVector = structural.Vector(3)
 forceVector[0] = 0.0
 forceVector[1] = 0.0
-forceVector[2] = -10000.0
+forceVector[2] = -1.0
 force = structural.CreateValueVector3D(forceVector)
 
 structural.ApplyLoadNode(nodesRight, force)
@@ -41,10 +41,14 @@ K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
 y = structural.PartitionVector(structural.GetProblem().Displacement())
 f = structural.PartitionVector(structural.GetProblem().LoadNode())
 
+#print(mesh.GetNodes())
+#print(mesh.GetElements())
+#print(structural.GetProblem().LoadNode())
+
 monitor = solvers.Iterative(K[3], y[1], -K[2] * y[0] + f[1])
 structural.UpdateMeshValues(y)
 
-plots.residual.Show(monitor)
+#plots.residual.Show(monitor)
 nodesPlot = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structural.axis_y, meshes.beam.y / 2.0, 0.001)
 nodesPlot = structural.FilterNodesByCoordinate(nodesPlot, basis, structural.axis_z, meshes.beam.z / 2.0, 0.001)
 plots.beam.Deflection(nodesPlot)

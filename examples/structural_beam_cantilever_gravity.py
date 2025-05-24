@@ -33,16 +33,19 @@ structural.ApplyLoadDistributedVolume(mesh.GetElements(), weight)
 
 #--------------------------------------------------------------------------------------------------
 
-K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
-y = structural.PartitionVector(structural.GetProblem().Displacement())
-f = structural.PartitionVector(structural.GetProblem().LoadDistributedVolume())
+print(mesh.GetNodes())
+print(mesh.GetElements())
 
-monitor = solvers.Iterative(K[3], y[1], -K[2] * y[0] + f[1])
-structural.UpdateMeshValues(y)
+#K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
+#y = structural.PartitionVector(structural.GetProblem().Displacement())
+#f = structural.PartitionVector(structural.GetProblem().LoadDistributedVolume())
 
-plots.residual.Show(monitor)
-nodesPlot = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structural.axis_y, meshes.beam.y / 2.0, 0.001)
-nodesPlot = structural.FilterNodesByCoordinate(nodesPlot, basis, structural.axis_z, meshes.beam.z / 2.0, 0.001)
-plots.beam.Deflection(nodesPlot)
+#monitor = solvers.Iterative(K[3], y[1], -K[2] * y[0] + f[1])
+#structural.UpdateMeshValues(y)
 
-print(nodesPlot)
+#plots.residual.Show(monitor)
+#nodesPlot = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structural.axis_y, meshes.beam.y / 2.0, 0.001)
+#nodesPlot = structural.FilterNodesByCoordinate(nodesPlot, basis, structural.axis_z, meshes.beam.z / 2.0, 0.001)
+#plots.beam.Deflection(nodesPlot)
+
+#print(nodesPlot)
