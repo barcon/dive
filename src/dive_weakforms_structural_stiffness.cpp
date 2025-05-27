@@ -32,8 +32,7 @@ namespace dive {
 			auto B = FormMatrix_B(element, local, cacheIndex);
 			auto D = FormMatrix_D(element, local);
 
-			//output = B.Transpose() * D * B;
-			output = B.Transpose() * B;
+			output = B.Transpose() * D * B;
 		}
 		void StiffnessStructural::SetTemperature(IScalar3DPtr temperature)
 		{

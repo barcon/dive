@@ -1,5 +1,5 @@
-import meshes
 import materials.solid.steel
+import meshes
 import structural
 import solvers
 import plots

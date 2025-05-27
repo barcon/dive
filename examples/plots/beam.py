@@ -16,7 +16,7 @@ def Deflection(nodes):
     fig, ax = plt.subplots()
     ax.grid(True)    
     ax.set_title("Beam Deflection")
-    plt.ylim(min(f), max(f))
+    #plt.ylim(min(f), max(f))
     plt.xlim(min(x), max(x))
     #ax.grid(which = "both", linestyle = "dashed")
     #ax.grid(which = "major", linewidth = 1)

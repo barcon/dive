@@ -1,5 +1,5 @@
-import meshes
 import materials.solid.steel
+import meshes
 import structural
 import solvers
 import plots
@@ -29,7 +29,7 @@ structural.Initialize()
 pressureVector = structural.Vector(3)
 pressureVector[0] = 0.0
 pressureVector[1] = 0.0
-pressureVector[2] = -1000000
+pressureVector[2] = 1000000
 pressureLoad = structural.CreateValueVector3D(pressureVector)
 
 structural.ApplyLoadDistributedFace(elementsRight, pressureLoad, 0)
@@ -47,5 +47,3 @@ structural.UpdateMeshValues(y)
 nodesPlot = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structural.axis_y, meshes.beam.y / 2.0, 0.001)
 nodesPlot = structural.FilterNodesByCoordinate(nodesPlot, basis, structural.axis_z, meshes.beam.z / 2.0, 0.001)
 plots.beam.Deflection(nodesPlot)
-
-print(f[1])

@@ -32,8 +32,7 @@ namespace dive {
 			auto N = FormMatrix_N(element, point, cacheIndex);
 			auto rho = FormDensity(element, point);
 
-			//output = N.Transpose() * rho * N;
-			output = N.Transpose() * N;
+			output = N.Transpose() * rho * N;
 		}
 		void MassStructural::SetTemperature(IScalar3DPtr temperature)
 		{
