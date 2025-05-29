@@ -14,6 +14,14 @@ namespace dive
 
 			return res;
 		}
+		ElementMassPtr CreateElementMass(Tag elementTag)
+		{
+			auto res = ElementMass::Create();
+
+			res->SetTag(elementTag);
+
+			return res;
+		}
 		ElementMassPtr CreateElementMass(Tag elementTag, IScalarPtr mass)
 		{
 			auto res = ElementMass::Create();

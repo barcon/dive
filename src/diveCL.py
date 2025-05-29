@@ -6196,14 +6196,14 @@ class IStructural(IProblem):
     def Stiffness(self):
         return _diveCL.IStructural_Stiffness(self)
 
-    def LoadDistributedVolume(self):
-        return _diveCL.IStructural_LoadDistributedVolume(self)
+    def LoadDistributedEdge(self):
+        return _diveCL.IStructural_LoadDistributedEdge(self)
 
     def LoadDistributedFace(self):
         return _diveCL.IStructural_LoadDistributedFace(self)
 
-    def LoadDistributedEdge(self):
-        return _diveCL.IStructural_LoadDistributedEdge(self)
+    def LoadDistributedVolume(self):
+        return _diveCL.IStructural_LoadDistributedVolume(self)
 
     def LoadNode(self):
         return _diveCL.IStructural_LoadNode(self)
@@ -6642,14 +6642,14 @@ class ProblemStructural(IStructural):
     def Stiffness(self):
         return _diveCL.ProblemStructural_Stiffness(self)
 
-    def LoadDistributedVolume(self):
-        return _diveCL.ProblemStructural_LoadDistributedVolume(self)
+    def LoadDistributedEdge(self):
+        return _diveCL.ProblemStructural_LoadDistributedEdge(self)
 
     def LoadDistributedFace(self):
         return _diveCL.ProblemStructural_LoadDistributedFace(self)
 
-    def LoadDistributedEdge(self):
-        return _diveCL.ProblemStructural_LoadDistributedEdge(self)
+    def LoadDistributedVolume(self):
+        return _diveCL.ProblemStructural_LoadDistributedVolume(self)
 
     def LoadNode(self):
         return _diveCL.ProblemStructural_LoadNode(self)

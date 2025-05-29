@@ -15,6 +15,14 @@ namespace dive
 
 			return res;
 		}
+		ElementSpringPtr CreateElementSpring(Tag elementTag)
+		{
+			auto res = ElementSpring::Create();
+
+			res->SetTag(elementTag);
+
+			return res;
+		}
 		ElementSpringPtr CreateElementSpring(Tag elementTag, IScalar1DPtr stiffness)
 		{
 			auto res = ElementSpring::Create();
