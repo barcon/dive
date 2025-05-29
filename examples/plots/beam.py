@@ -3,7 +3,7 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 
-def Deflection(nodes):
+def Cantilever(nodes) -> None:
     x = []   
     f = []
 
@@ -15,11 +15,15 @@ def Deflection(nodes):
 
     fig, ax = plt.subplots()
     ax.grid(True)    
-    ax.set_title("Beam Deflection")
-    #plt.ylim(min(f), max(f))
+    ax.set_title("Cantilever Beam Deflection")
+
+    y0 = f[0] if f[-1] > f[0] else f[-1]
+    y1 = f[-1] if f[-1] > f[0] else f[0]
+
+    plt.ylim(y0, y1)
     plt.xlim(min(x), max(x))
     #ax.grid(which = "both", linestyle = "dashed")
-    #ax.grid(which = "major", linewidth = 1)
+    ax.grid(which = "major", linewidth = 1)
     #ax.grid(which = "minor", linewidth = 0.2)
     #ax.minorticks_on()
     plt.plot(x, f)   

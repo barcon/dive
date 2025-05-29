@@ -56,9 +56,9 @@ namespace dive
 
 			Sparse Mass() const override;
 			Sparse Stiffness() const override;
-			Vector LoadDistributedVolume() const override;
-			Vector LoadDistributedFace() const override;
 			Vector LoadDistributedEdge() const override;
+			Vector LoadDistributedFace() const override;
+			Vector LoadDistributedVolume() const override;
 			Vector LoadNode() const override;
 			
 			Vector Displacement() const override;

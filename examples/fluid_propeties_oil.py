@@ -1,13 +1,13 @@
-import materials.fluid.oil_vg46
+import materials.fluid.VG46
 import matplotlib.pyplot as plt
 
 T_ref  = 273.15    #[K]      =  0 [°C]
 p_ref  = 101325.1  #[N/m²]   =  1 [atm]
 
-materials.fluid.oil_vg46.configuration.densityConstant = False
-materials.fluid.oil_vg46.configuration.specificHeatConstant = False
-materials.fluid.oil_vg46.configuration.viscosityConstant = False
-oil = materials.fluid.oil_vg46.Create(1, T_ref, p_ref)
+materials.fluid.VG46.configuration.densityConstant = False
+materials.fluid.VG46.configuration.specificHeatConstant = False
+materials.fluid.VG46.configuration.viscosityConstant = False
+oil = materials.fluid.VG46.Create(1, T_ref, p_ref)
 
 temperatures = [x for x in range(0, 101)]
 pressure = p_ref

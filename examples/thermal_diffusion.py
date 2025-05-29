@@ -1,8 +1,8 @@
 import meshes
 import thermal
 import solvers
-import materials.fluid.VG46
 import plots
+import materials.fluid.VG46
 
 T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
@@ -28,7 +28,7 @@ thermal.CreateProblem(1, timer, mesh, pressure)
 thermal.ApplyDirichlet(nodesTop, 100.0)
 thermal.ApplyDirichlet(nodesBottom, 0.0)
 thermal.ApplyDirichlet(nodesLeft, 0.0)
-thermal.ApplyDirichlet(nodesRight, 100.0)
+thermal.ApplyDirichlet(nodesRight, 0.0)
 thermal.Initialize()
 
 #--------------------------------------------------------------------------------------------------

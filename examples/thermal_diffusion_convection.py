@@ -2,15 +2,14 @@ import meshes
 import thermal
 import fluid.momentum
 import solvers
-import materials.fluid.VG46
 import plots.residual
 import plots.routines
+import materials.fluid.VG46
 
 from prettytable import PrettyTable
 
-def FunctionVelocity(point):
+def FunctionVelocity(point) -> thermal.Matrix:
     global speed
-
     res = thermal.Matrix(3, 1, 0.0)
     res[0, 0] = speed
     return res
@@ -23,11 +22,11 @@ pressure    = thermal.CreateValueScalar3D(p_ref)
 material    = materials.fluid.VG46.Create(1, 68, T_ref)
 meshFile    = 'beam.msh'
 
-meshes.beam.quadratic = False
+meshes.beam.quadratic = True
 meshes.beam.Create(meshFile)
 
-meshThermal = meshes.routines.LoadMesh(1, meshFile)
-meshMomentum = meshes.routines.LoadMesh(2, meshFile)
+meshThermal = meshes.routines.LoadMesh(1, meshFile, dof = 1)
+meshMomentum = meshes.routines.LoadMesh(2, meshFile, dof = 3)
 meshes.routines.ApplyMaterial(meshThermal.GetElements(), material)
 meshes.routines.ApplyMaterial(meshMomentum.GetElements(), material)
 
@@ -40,14 +39,10 @@ k = material.GetThermalConductivity(T_ref, p_ref)
 cp = material.GetSpecificHeat(T_ref, p_ref)
 
 heightElement = thermal.GetSizeMinimum(meshThermal.GetElements())
-
-print(type(heightElement))
-quit()
-
 lenghtDomain = meshes.beam.x
 diffusity = k / (cp * rho)
 
-peclet = 0.5
+peclet = 1.0
 speed = (2.0 * peclet * diffusity) / heightElement
 
 dt1 = lenghtDomain**2.0 / diffusity
@@ -85,7 +80,7 @@ nodesCurve = thermal.FilterNodesByCoordinate(meshThermal.GetNodes(), basis, ther
 nodesCurve = thermal.FilterNodesByCoordinate(nodesCurve, basis, thermal.axis_z, 0.0, tolerance)
 
 thermal.CreateProblem(1, timer, meshThermal, pressure)
-thermal.ApplyDirichlet(nodesLeft, 100.0)
+thermal.ApplyDirichlet(nodesLeft, 1.0)
 thermal.ApplyDirichlet(nodesRight, 0.0)
 thermal.Initialize()
 
@@ -98,7 +93,7 @@ K = thermal.PartitionMatrix(thermal.GetProblem().Stiffness())
 C = thermal.PartitionMatrix(thermal.GetProblem().Convection(fluid.momentum.GetProblem()))
 y = thermal.PartitionVector(thermal.GetProblem().Energy())
 
-monitor = solvers.Iterative(K[1] + C[1], y[1], -(K[0] + C[0])*y[0])
+monitor = solvers.Iterative(K[3] + C[3], y[1], -(K[2] + C[2]) * y[0])
 
 thermal.UpdateMeshValues(y)
 plots.Curve(nodesCurve)

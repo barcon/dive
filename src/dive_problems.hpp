@@ -135,9 +135,9 @@ namespace dive
 
 			virtual Sparse Mass() const = 0;
 			virtual Sparse Stiffness() const = 0;
-			virtual Vector LoadDistributedVolume() const = 0;
-			virtual Vector LoadDistributedFace() const = 0;
 			virtual Vector LoadDistributedEdge() const = 0;
+			virtual Vector LoadDistributedFace() const = 0;
+			virtual Vector LoadDistributedVolume() const = 0;
 			virtual Vector LoadNode() const = 0;
 
 			virtual Vector Displacement() const = 0;

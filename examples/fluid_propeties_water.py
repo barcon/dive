@@ -22,7 +22,7 @@ for temperature in temperatures:
 
 plt.subplot(1, 3, 1)
 x, f = zip(*sorted(zip(temperatures, viscosities)))
-plt.plot(x, f)  
+plt.plot(x, f)
 plt.xlim(0.0, 100.0)
 plt.xlabel("Temperature [°C]")
 plt.grid(visible = True, which = "both")

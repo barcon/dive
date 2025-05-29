@@ -1,9 +1,9 @@
-import materials.solid.steel
 import meshes
 import structural
 import solvers
 import plots
 import plots.beam
+import materials.solid.steel
 
 T_ref = 293.15    #[K]      = 20 [°C]
 p_ref = 101325.1  #[N/m²]   =  1 [atm]
@@ -22,17 +22,16 @@ nodesLeft = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structura
 nodesRight = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structural.axis_x, meshes.beam.x, 0.001)
 elementsRight = structural.FilterElementsByNodes(nodesRight)
 
-structural.CreateProblem(1, timer, mesh, temperature, pressure)
-structural.ApplyDirichlet(nodesLeft, 0.0)
-structural.Initialize()
-
 pressureVector = structural.Vector(3)
 pressureVector[0] = 0.0
 pressureVector[1] = 0.0
-pressureVector[2] = 1000000
+pressureVector[2] = 10000000
 pressureLoad = structural.CreateValueVector3D(pressureVector)
 
+structural.CreateProblem(1, timer, mesh, temperature, pressure)
+structural.ApplyDirichlet(nodesLeft, 0.0)
 structural.ApplyLoadDistributedFace(elementsRight, pressureLoad, 0)
+structural.Initialize()
 
 #--------------------------------------------------------------------------------------------------
 
@@ -46,4 +45,4 @@ structural.UpdateMeshValues(y)
 #plots.residual.Show(monitor)
 nodesPlot = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structural.axis_y, meshes.beam.y / 2.0, 0.001)
 nodesPlot = structural.FilterNodesByCoordinate(nodesPlot, basis, structural.axis_z, meshes.beam.z / 2.0, 0.001)
-plots.beam.Deflection(nodesPlot)
+plots.beam.Cantilever(nodesPlot)

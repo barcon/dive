@@ -836,7 +836,6 @@ namespace dive
 			if (load->GetType() == loads::load_distributedVolume)
 			{
 				const auto& force = std::static_pointer_cast<loads::LoadDistributedVolume>(load);
-
 				const auto& points = gaussHexa_->GetPoints();
 				const auto& weights = gaussHexa_->GetWeights();
 				const auto& counter = gaussHexa_->GetCounter();
@@ -853,8 +852,7 @@ namespace dive
 			}
 			else if(load->GetType() == loads::load_distributedFace)
 			{ 
-				auto force = std::static_pointer_cast<loads::LoadDistributedFace>(load);
-
+				const auto& force = std::static_pointer_cast<loads::LoadDistributedFace>(load);
 				const auto& points = gaussRect_->GetPoints();
 				const auto& weights = gaussRect_->GetWeights();
 				const auto& counter = gaussRect_->GetCounter();
@@ -867,7 +865,7 @@ namespace dive
 				point(helper.index3) = helper.coord3;
 
 				weakForm->WeakFormulation(load, point, local);
-				output = output + weights[0] * DelA(point, helper.index1, helper.index2) * local;
+				output = weights[0] * DelA(point, helper.index1, helper.index2) * local;
 
 				for (quadrature::Counter i = 1; i < counter; ++i)
 				{
@@ -882,8 +880,7 @@ namespace dive
 			}
 			else if (load->GetType() == loads::load_distributedEdge)
 			{
-				auto force = std::static_pointer_cast<loads::LoadDistributedEdge>(load);
-
+				const auto& force = std::static_pointer_cast<loads::LoadDistributedEdge>(load);
 				const auto& points = gaussLine_->GetPoints();
 				const auto& weights = gaussLine_->GetWeights();
 				const auto& counter = gaussLine_->GetCounter();
@@ -896,7 +893,7 @@ namespace dive
 				point(helper.index3) = helper.coord3;
 
 				weakForm->WeakFormulation(load, point, local);
-				output = output + weights[0] * DelL(point, helper.index1) * local;
+				output = weights[0] * DelL(point, helper.index1) * local;
 
 				for (quadrature::Counter i = 1; i < counter; ++i)
 				{

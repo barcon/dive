@@ -176,15 +176,15 @@ namespace dive {
 
 			return res;
 		}
-		Vector ProblemStructural::LoadDistributedVolume() const
+		Vector ProblemStructural::LoadDistributedEdge() const
 		{
 			TimerStart();
 
-			auto loadDistributedVolumeWeak = weakforms::CreateWeakFormLoadDistributedVolumeStructural();
+			auto loadDistributedEdgeWeak = weakforms::CreateWeakFormLoadDistributedEdgeStructural();
 
 			auto problemStructural = std::make_shared<ProblemStructural>(*this);
 
-			auto res = IntegralForm(loadDistributedVolumeWeak, problemStructural, loads_);
+			auto res = IntegralForm(loadDistributedEdgeWeak, problemStructural, loads_);
 
 			TimerElapsed(__FUNCTION__);
 
@@ -204,15 +204,15 @@ namespace dive {
 
 			return res;
 		}
-		Vector ProblemStructural::LoadDistributedEdge() const
+		Vector ProblemStructural::LoadDistributedVolume() const
 		{
 			TimerStart();
 
-			auto loadDistributedEdgeWeak = weakforms::CreateWeakFormLoadDistributedEdgeStructural();
+			auto loadDistributedVolumeWeak = weakforms::CreateWeakFormLoadDistributedVolumeStructural();
 
 			auto problemStructural = std::make_shared<ProblemStructural>(*this);
 
-			auto res = IntegralForm(loadDistributedEdgeWeak, problemStructural, loads_);
+			auto res = IntegralForm(loadDistributedVolumeWeak, problemStructural, loads_);
 
 			TimerElapsed(__FUNCTION__);
 

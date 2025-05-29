@@ -30,7 +30,7 @@ structural.Initialize()
 forceVector = structural.Vector(3)
 forceVector[0] = 0.0
 forceVector[1] = 0.0
-forceVector[2] = -1.0
+forceVector[2] = -10000000
 force = structural.CreateValueVector3D(forceVector)
 
 structural.ApplyLoadNode(nodesRight, force)
@@ -51,4 +51,4 @@ structural.UpdateMeshValues(y)
 #plots.residual.Show(monitor)
 nodesPlot = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structural.axis_y, meshes.beam.y / 2.0, 0.001)
 nodesPlot = structural.FilterNodesByCoordinate(nodesPlot, basis, structural.axis_z, meshes.beam.z / 2.0, 0.001)
-plots.beam.Deflection(nodesPlot)
+plots.beam.Cantilever(nodesPlot)
