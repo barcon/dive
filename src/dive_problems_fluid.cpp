@@ -1,5 +1,4 @@
 #include "dive_problems_fluid.hpp"
-#include "dive_selection.hpp"
 #include "dive_values_scalar_congruent.hpp"
 #include "dive_values_matrix_congruent.hpp"
 

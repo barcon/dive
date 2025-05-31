@@ -3,7 +3,6 @@
 
 #include "dive_types.hpp"
 #include "dive_elements.hpp"
-
 #include "nodes.hpp"
 
 #include <set>

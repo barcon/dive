@@ -36,6 +36,10 @@ namespace dive
 			return std::dynamic_pointer_cast<ElementMass>(element);
 		}
 
+		ElementMass::ElementMass()
+		{
+			nodes_.resize(numberNodes_);
+		}
 		ElementMassPtr ElementMass::Create()
 		{
 			class MakeSharedEnabler : public ElementMass
@@ -298,18 +302,8 @@ namespace dive
 		{
 			return false;
 		}
-		bool ElementMass::IsIntegrable() const
-		{
-			return false;
-		}
 
 		void ElementMass::InitializeCache()
-		{
-		}
-		void ElementMass::IntegralWeakFormElement(IWeakFormElementPtr weakForm, Matrix& output) const
-		{
-		}
-		void ElementMass::IntegralWeakFormLoad(IWeakFormLoadPtr weakForm, ILoadPtr load, Vector& output) const
 		{
 		}
 

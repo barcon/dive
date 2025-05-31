@@ -803,10 +803,6 @@ namespace dive
 		{
 			return true;
 		}
-		bool ElementHexa::IsIntegrable() const
-		{
-			return true;
-		}
 		void ElementHexa::IntegralWeakFormElement(IWeakFormElementPtr weakForm, Matrix& output) const
 		{
 			Matrix local;

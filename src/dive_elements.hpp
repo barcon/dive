@@ -100,11 +100,8 @@ namespace dive
 			virtual bool IsUsed(INodePtr node) const = 0;
 			virtual bool IsMapped() const = 0;
 			virtual bool IsCacheable() const = 0;
-			virtual bool IsIntegrable() const = 0;
 
 			virtual void InitializeCache() = 0;
-			virtual void IntegralWeakFormElement(IWeakFormElementPtr weakForm, Matrix& output) const = 0;
-			virtual void IntegralWeakFormLoad(IWeakFormLoadPtr weakForm, ILoadPtr load, Vector& output) const = 0;
 		};
 
 		class IElementMapped: virtual public IElement
@@ -139,6 +136,9 @@ namespace dive
 
 			virtual void SetOrder(const Order& order) = 0;
 			virtual void SetParametric(const Parametric& order) = 0;
+
+			virtual void IntegralWeakFormElement(IWeakFormElementPtr weakForm, Matrix& output) const = 0;
+			virtual void IntegralWeakFormLoad(IWeakFormLoadPtr weakForm, ILoadPtr load, Vector& output) const = 0;
 		};
 
 		class IElementBeam : virtual public IElementMapped

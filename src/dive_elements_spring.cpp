@@ -23,7 +23,7 @@ namespace dive
 
 			return res;
 		}
-		ElementSpringPtr CreateElementSpring(Tag elementTag, IScalar1DPtr stiffness)
+		ElementSpringPtr CreateElementSpring(Tag elementTag, IScalarPtr stiffness)
 		{
 			auto res = ElementSpring::Create();
 
@@ -37,6 +37,12 @@ namespace dive
 			return std::dynamic_pointer_cast<ElementSpring>(element);
 		}
 
+		ElementSpring::ElementSpring()
+		{
+			nodes_.resize(numberNodes_);
+
+			SetNumberDof(numberDof_);
+		}
 		ElementSpringPtr ElementSpring::Create()
 		{
 			class MakeSharedEnabler : public ElementSpring
@@ -311,34 +317,24 @@ namespace dive
 		{
 			return false;
 		}
-		bool ElementSpring::IsIntegrable() const
-		{
-			return false;
-		}
 
 		void ElementSpring::InitializeCache()
 		{
 		}
-		void ElementSpring::IntegralWeakFormElement(IWeakFormElementPtr weakForm, Matrix& output) const
-		{
-		}
-		void ElementSpring::IntegralWeakFormLoad(IWeakFormLoadPtr weakForm, ILoadPtr load, Vector& output) const
-		{
-		}
 
-		IScalar1DPtr ElementSpring::GetStiffness() const
+		IScalarPtr ElementSpring::GetStiffness() const
 		{
 			return stiffness_;
 		}
-		void ElementSpring::SetStiffness(IScalar1DPtr stiffness)
+		void ElementSpring::SetStiffness(IScalarPtr stiffness)
 		{
 			stiffness_ = stiffness;
 		}
-		Matrix ElementSpring::K(Scalar dx) const
+		void ElementSpring::Stiffness(Matrix& output) const
 		{
 			auto T = FormMatrix_Transform();
 
-			return stiffness_->GetValue(dx) * I_ * T;
+			output = stiffness_->GetValue() * I_ * T;
 		}
 
 		Vector ElementSpring::GetGlobalVector0() const

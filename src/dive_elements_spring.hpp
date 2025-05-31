@@ -9,7 +9,7 @@ namespace dive
 	{
 		ElementSpringPtr CreateElementSpring();
 		ElementSpringPtr CreateElementSpring(Tag elementTag);
-		ElementSpringPtr CreateElementSpring(Tag elementTag, IScalar1DPtr stiffness);
+		ElementSpringPtr CreateElementSpring(Tag elementTag, IScalarPtr stiffness);
 
 		ElementSpringPtr CastToElementSpring(IElementPtr element);
 
@@ -65,19 +65,16 @@ namespace dive
 			bool IsUsed(INodePtr node) const override;
 			bool IsMapped() const override;
 			bool IsCacheable() const override;
-			bool IsIntegrable() const override;
 
 			void InitializeCache() override;
-			void IntegralWeakFormElement(IWeakFormElementPtr weakForm, Matrix& output) const override;
-			void IntegralWeakFormLoad(IWeakFormLoadPtr weakForm, ILoadPtr load, Vector& output) const override;
 
-			IScalar1DPtr GetStiffness() const;
-			void SetStiffness(IScalar1DPtr stiffness);
+			IScalarPtr GetStiffness() const;
+			void SetStiffness(IScalarPtr stiffness);
 
-			Matrix	K(Scalar dx = 0.0) const;
+			void Stiffness(Matrix& output) const;
 
 		protected:
-			ElementSpring() = default;
+			ElementSpring();
 
 			Vector GetGlobalVector0() const;
 			Vector GetGlobalVector1() const;
@@ -92,12 +89,11 @@ namespace dive
 			Tag		tag_{ 0 };
 			Type	type_{ element_spring };
 			Nodes	nodes_;
-			Nodes	nodesLocal_;
 
 			ElementIndex elementIndex_{ 0 };
 			Properties properties_;
 
-			NumberDof	numberDof_{ 1 };
+			NumberDof numberDof_{ 1 };
 			const NumberNodes numberNodes_{ 2 };
 			const NumberFaces numberFaces_{ 0 };
 			const NumberEdges numberEdges_{ 1 };
@@ -109,7 +105,7 @@ namespace dive
 			static const Scalar localCoordinates_[2][3];
 			static const NodeIndex lookUpTable11_[1 * 2];
 
-			IScalar1DPtr stiffness_{ nullptr };
+			IScalarPtr stiffness_{ nullptr };
 
 			Matrix I_;
 		};

@@ -3696,17 +3696,8 @@ class IElement(object):
     def IsCacheable(self):
         return _dive.IElement_IsCacheable(self)
 
-    def IsIntegrable(self):
-        return _dive.IElement_IsIntegrable(self)
-
     def InitializeCache(self):
         return _dive.IElement_InitializeCache(self)
-
-    def IntegralWeakFormElement(self, weakForm, output):
-        return _dive.IElement_IntegralWeakFormElement(self, weakForm, output)
-
-    def IntegralWeakFormLoad(self, weakForm, load, output):
-        return _dive.IElement_IntegralWeakFormLoad(self, weakForm, load, output)
 
 # Register IElement in _dive:
 _dive.IElement_swigregister(IElement)
@@ -3756,6 +3747,12 @@ class IElementMapped(IElement):
 
     def SetParametric(self, order):
         return _dive.IElementMapped_SetParametric(self, order)
+
+    def IntegralWeakFormElement(self, weakForm, output):
+        return _dive.IElementMapped_IntegralWeakFormElement(self, weakForm, output)
+
+    def IntegralWeakFormLoad(self, weakForm, load, output):
+        return _dive.IElementMapped_IntegralWeakFormLoad(self, weakForm, load, output)
 
 # Register IElementMapped in _dive:
 _dive.IElementMapped_swigregister(IElementMapped)
@@ -3978,9 +3975,6 @@ class ElementHexa(IElementSolid):
     def IsCacheable(self):
         return _dive.ElementHexa_IsCacheable(self)
 
-    def IsIntegrable(self):
-        return _dive.ElementHexa_IsIntegrable(self)
-
     def InitializeCache(self):
         return _dive.ElementHexa_InitializeCache(self)
 
@@ -4111,17 +4105,8 @@ class ElementMass(IElement):
     def IsCacheable(self):
         return _dive.ElementMass_IsCacheable(self)
 
-    def IsIntegrable(self):
-        return _dive.ElementMass_IsIntegrable(self)
-
     def InitializeCache(self):
         return _dive.ElementMass_InitializeCache(self)
-
-    def IntegralWeakFormElement(self, weakForm, output):
-        return _dive.ElementMass_IntegralWeakFormElement(self, weakForm, output)
-
-    def IntegralWeakFormLoad(self, weakForm, load, output):
-        return _dive.ElementMass_IntegralWeakFormLoad(self, weakForm, load, output)
 
     def GetMass(self):
         return _dive.ElementMass_GetMass(self)
@@ -4251,17 +4236,8 @@ class ElementSpring(IElement):
     def IsCacheable(self):
         return _dive.ElementSpring_IsCacheable(self)
 
-    def IsIntegrable(self):
-        return _dive.ElementSpring_IsIntegrable(self)
-
     def InitializeCache(self):
         return _dive.ElementSpring_InitializeCache(self)
-
-    def IntegralWeakFormElement(self, weakForm, output):
-        return _dive.ElementSpring_IntegralWeakFormElement(self, weakForm, output)
-
-    def IntegralWeakFormLoad(self, weakForm, load, output):
-        return _dive.ElementSpring_IntegralWeakFormLoad(self, weakForm, load, output)
 
     def GetStiffness(self):
         return _dive.ElementSpring_GetStiffness(self)
@@ -4269,8 +4245,8 @@ class ElementSpring(IElement):
     def SetStiffness(self, stiffness):
         return _dive.ElementSpring_SetStiffness(self, stiffness)
 
-    def K(self, dx=0.0):
-        return _dive.ElementSpring_K(self, dx)
+    def Stiffness(self, output):
+        return _dive.ElementSpring_Stiffness(self, output)
 
 # Register ElementSpring in _dive:
 _dive.ElementSpring_swigregister(ElementSpring)

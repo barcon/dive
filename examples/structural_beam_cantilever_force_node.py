@@ -30,7 +30,7 @@ structural.Initialize()
 forceVector = structural.Vector(3)
 forceVector[0] = 0.0
 forceVector[1] = 0.0
-forceVector[2] = -10000000
+forceVector[2] = 10000000
 force = structural.CreateValueVector3D(forceVector)
 
 structural.ApplyLoadNode(nodesRight, force)

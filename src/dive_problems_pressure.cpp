@@ -1,5 +1,4 @@
 #include "dive_problems_pressure.hpp"
-#include "dive_selection.hpp"
 #include "dive_values_scalar_congruent.hpp"
 
 namespace dive {

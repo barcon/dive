@@ -65,11 +65,8 @@ namespace dive
 			bool IsUsed(INodePtr node) const override;
 			bool IsMapped() const override;
 			bool IsCacheable() const override;
-			bool IsIntegrable() const override;
 
 			void InitializeCache() override;
-			void IntegralWeakFormElement(IWeakFormElementPtr weakForm, Matrix& output) const override;
-			void IntegralWeakFormLoad(IWeakFormLoadPtr weakForm, ILoadPtr load, Vector& output) const override;
 
 			IScalarPtr GetMass() const;
 			void SetMass(IScalarPtr mass);
@@ -77,12 +74,11 @@ namespace dive
 			Matrix	M() const;
 
 		protected:
-			ElementMass() = default;
+			ElementMass();
 
 			Tag		tag_{ 0 };
 			Type	type_{ element_mass };
 			Nodes	nodes_;
-			Nodes	nodesLocal_;
 
 			ElementIndex elementIndex_{ 0 };
 			Properties properties_;
