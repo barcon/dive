@@ -107,6 +107,8 @@ namespace dive {
 		{
 			mesh_ = mesh;
 			temperature_ = values::CreateValueScalar3DCongruent(mesh_);
+
+			UpdateMeshElements(mesh_, numberDof_);
 		}
 		void ProblemThermal::SetTag(Tag tag)
 		{
@@ -122,7 +124,6 @@ namespace dive {
 		}
 		void ProblemThermal::Initialize()
 		{
-			UpdateMeshElements(mesh_, numberDof_);
 			UpdateDofMeshIndices(mesh_, totalDof_, dofMeshIndices_);
 			UpdateNodeMeshIndices(mesh_, dofMeshIndices_, nodeMeshIndices_);
 			UpdateDirichletIndices(dirichlets_, pivot_, dofMeshIndices_, dirichletMeshIndices_);

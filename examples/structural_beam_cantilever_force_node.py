@@ -23,17 +23,16 @@ nodesRight = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structur
 nodesRight = structural.FilterNodesByCoordinate(nodesRight, basis, structural.axis_y, meshes.beam.y / 2.0, 0.001)
 nodesRight = structural.FilterNodesByCoordinate(nodesRight, basis, structural.axis_z, meshes.beam.z / 2.0, 0.001)
 
-structural.CreateProblem(1, timer, mesh, temperature, pressure)
-structural.ApplyDirichlet(nodesLeft, 0.0)
-structural.Initialize()
-
 forceVector = structural.Vector(3)
 forceVector[0] = 0.0
 forceVector[1] = 0.0
 forceVector[2] = 10000000
 force = structural.CreateValueVector3D(forceVector)
 
+structural.CreateProblem(1, timer, mesh, temperature, pressure)
+structural.ApplyDirichlet(nodesLeft, 0.0)
 structural.ApplyLoadNode(nodesRight, force)
+structural.Initialize()
 
 #--------------------------------------------------------------------------------------------------
 

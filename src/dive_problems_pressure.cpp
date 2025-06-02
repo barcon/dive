@@ -114,6 +114,8 @@ namespace dive {
 		{
 			mesh_ = mesh;
 			pressure_ = values::CreateValueScalar3DCongruent(mesh_);
+			
+			UpdateMeshElements(mesh_, numberDof_);
 		}
 		void ProblemPressure::SetTag(Tag tag)
 		{
@@ -129,7 +131,6 @@ namespace dive {
 		}
 		void ProblemPressure::Initialize()
 		{
-			UpdateMeshElements(mesh_, numberDof_);
 			UpdateDofMeshIndices(mesh_, totalDof_, dofMeshIndices_);
 			UpdateNodeMeshIndices(mesh_, dofMeshIndices_, nodeMeshIndices_);
 			UpdateDirichletIndices(dirichlets_, pivot_, dofMeshIndices_, dirichletMeshIndices_);

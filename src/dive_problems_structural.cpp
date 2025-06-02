@@ -111,6 +111,8 @@ namespace dive {
 		void ProblemStructural::SetMesh(IMeshPtr mesh)
 		{
 			mesh_ = mesh;
+
+			UpdateMeshElements(mesh_, numberDof_);
 		}
 		void ProblemStructural::SetTag(Tag tag)
 		{
@@ -126,7 +128,6 @@ namespace dive {
 		}
 		void ProblemStructural::Initialize()
 		{
-			UpdateMeshElements(mesh_, numberDof_);
 			UpdateDofMeshIndices(mesh_, totalDof_, dofMeshIndices_);
 			UpdateNodeMeshIndices(mesh_, dofMeshIndices_, nodeMeshIndices_);
 			UpdateDirichletIndices(dirichlets_, pivot_, dofMeshIndices_, dirichletMeshIndices_);

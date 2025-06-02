@@ -20,16 +20,17 @@ pressure = structural.CreateValueScalar3D(p_ref)
 
 nodesLeft = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structural.axis_x, 0.0, 0.001)
 
-structural.CreateProblem(1, timer, mesh, temperature, pressure)
-structural.ApplyDirichlet(nodesLeft, 0.0)
-structural.Initialize()
-
 gravity = structural.Vector(3)
 gravity[0] = 0.0
 gravity[1] = 0.0
 gravity[2] = 1000000.0
 weight = structural.CreateValueVector3D(steel.GetDensity(T_ref, p_ref) * gravity)
+
+structural.CreateProblem(1, timer, mesh, temperature, pressure)
+structural.ApplyDirichlet(nodesLeft, 0.0)
 structural.ApplyLoadDistributedVolume(mesh.GetElements(), weight)
+structural.Initialize()
+
 
 #--------------------------------------------------------------------------------------------------
 
