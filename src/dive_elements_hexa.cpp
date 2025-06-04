@@ -525,6 +525,12 @@ namespace dive
 		}
 		INodePtr ElementHexa::GetNode(const NodeIndex& nodeIndex) const
 		{
+			if (nodeIndex >= numberNodes_)
+			{
+				logger::Error(headerDive, "Invalide node index: " + dive::messages.at(dive::DIVE_OUT_OF_RANGE));
+				return nullptr;
+			}
+
 			return nodes_[nodeIndex];
 		}
 		const Nodes& ElementHexa::GetNodes() const
@@ -655,18 +661,29 @@ namespace dive
 			{
 				if (nodes_[i] != nullptr)
 				{
-					nodes_[i]->SetNumberDof(numberDof_);
+					if (nodes_[i]->GetNumberDof() != numberDof_)
+					{
+						nodes_[i]->SetNumberDof(numberDof_);
+						nodes_[i]->GetConnectivity().globalDofIndices.resize(numberDof_);
+					}
 				}
 			}
 		}
 		void ElementHexa::SetNode(const NodeIndex& nodeIndex, INodePtr node)
 		{
+			if (nodeIndex >= numberNodes_)
+			{
+				logger::Error(headerDive, "Invalid node index: " + dive::messages.at(dive::DIVE_OUT_OF_RANGE));
+				return;
+			}
+
 			if (nodes_[nodeIndex] == nullptr)
 			{
 				if (node != nullptr)
 				{
 					nodes_[nodeIndex] = node;
 					nodes_[nodeIndex]->SetNumberDof(numberDof_);
+					nodes_[nodeIndex]->GetConnectivity().globalDofIndices.resize(numberDof_);
 					nodes_[nodeIndex]->GetConnectivity().elements.push_back(this->GetPtr());
 				}
 
@@ -690,6 +707,7 @@ namespace dive
 				if (node != nullptr)
 				{
 					nodes_[nodeIndex]->SetNumberDof(numberDof_);
+					nodes_[nodeIndex]->GetConnectivity().globalDofIndices.resize(numberDof_);
 					nodes_[nodeIndex]->GetConnectivity().elements.push_back(this->GetPtr());
 				}
 

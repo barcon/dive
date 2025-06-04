@@ -82,7 +82,6 @@ namespace dive
 					const auto& forceNode = std::static_pointer_cast<loads::ILoadNode>(load);
 
 					local = forceNode->GetValue();
-					nodeTag = forceNode->GetNode()->GetTag();
 					numberDof = forceNode->GetNode()->GetNumberDof();
 
 					for (DofIndex j = 0; j < numberDof; ++j)
@@ -179,7 +178,6 @@ namespace dive
 			for (NodeIndex i = 0; i < nodes.size(); ++i)
 			{
 				nodes[i]->GetConnectivity().nodeIndex = i;
-				nodes[i]->GetConnectivity().globalDofIndices.clear();
 
 				for (Index j = 0; j < nodes[i]->GetNumberDof(); ++j)
 				{
@@ -192,8 +190,6 @@ namespace dive
 					dofMeshIndex.dirichlet = nullptr;
 					dofMeshIndex.dirichletIndex = 0;
 					dofMeshIndex.dirichletReordered = false;
-
-					nodes[i]->GetConnectivity().globalDofIndices.push_back(totalDof);
 
 					dofMeshIndices.push_back(dofMeshIndex);
 					totalDof++;
@@ -338,6 +334,7 @@ namespace dive
 			TimerStart();
 
 			Index counter{ 0 };
+			
 
 			for (Index i = 0; i < dofMeshIndices.size(); ++i)
 			{
@@ -357,9 +354,17 @@ namespace dive
 
 			SortDofMeshIndices(dofMeshIndices);
 
+			for (Index i = 0; i < dofMeshIndices.size(); ++i)
+			{
+				auto dofIndex = dofMeshIndices[i].dofIndex;
+				auto globalIndex = dofMeshIndices[i].globalIndex;
+
+				dofMeshIndices[i].node->GetConnectivity().globalDofIndices[dofIndex] = globalIndex;
+			}
+
 			const auto& elements = mesh->GetElements();
 
-			for (size_t i = 0; i < elements.size(); ++i)
+			for (ElementIndex i = 0; i < elements.size(); ++i)
 			{
 				for (NodeIndex j = 0; j < elements[i]->GetNumberNodes(); ++j)
 				{

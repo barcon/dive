@@ -189,6 +189,10 @@ namespace dive {
 				{
 					std::dynamic_pointer_cast<elements::ElementSpring>(elements[i])->Stiffness(local);
 				}
+				else
+				{
+					continue;
+				}
 
 				for (NodeIndex m = 0; m < numberNodes; ++m)
 				{
