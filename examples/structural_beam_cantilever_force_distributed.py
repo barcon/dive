@@ -38,7 +38,7 @@ K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
 y = structural.PartitionVector(structural.GetProblem().Displacement())
 f = structural.PartitionVector(structural.GetProblem().LoadDistributedVolume())
 
-monitor = solvers.Iterative(K[3], y[1], -K[2] * y[0] + f[1])
+monitor = solvers.IterativeBiCGStab(K[3], y[1], -K[2] * y[0] + f[1])
 structural.UpdateMeshValues(y)
 
 #plots.residual.Show(monitor)

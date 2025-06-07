@@ -14,7 +14,7 @@ class Monitor:
         self.residual.append(residual)
         return
 
-def Iterative(A, x, b):
+def IterativeBiCGStab(A, x, b):
     tolerance = 1.0e-5
     monitor = Monitor()
 
@@ -31,6 +31,25 @@ def Iterative(A, x, b):
         return dive.EILIG_CONTINUE
 
     monitor.status = dive.IterativeBiCGStab(A, x, b, CallbackIterative)
+
+    return monitor
+
+def IterativeCG(A, x, b):
+    tolerance = 1.0e-5
+    monitor = Monitor()
+
+    def CallbackIterative(iteration, residual):
+        if(math.isnan(residual)):
+            return dive.EILIG_NOT_CONVERGED
+
+        monitor.Add(iteration, residual)
+
+        if(residual < tolerance):
+            return dive.EILIG_SUCCESS
+        
+        return dive.EILIG_CONTINUE
+
+    monitor.status = dive.IterativeCG(A, x, b, CallbackIterative)
 
     return monitor
 

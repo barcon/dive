@@ -1,5 +1,6 @@
 import structural
 import solvers
+import plots
 
 T_ref   = 313.15      #[K]      = 40 [°C]
 p_ref   = 101325.1    #[N/m²]   =  1 [atm]
@@ -56,25 +57,9 @@ K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
 y = structural.PartitionVector(structural.GetProblem().Displacement())
 f = structural.PartitionVector(structural.GetProblem().LoadNode())
 
-#output = structural.Matrix()
-#spring1.Stiffness(output)
-#print(output)
-
-#print(structural.GetProblem().Stiffness())
-#print(K[0])
-#print(K[1])
-#print(K[2])
-print(K[3])
-
-#print(y[0])
-print(y[1])
-
-#print(f[0])
-print(f[1])
-
-monitor = solvers.Iterative(K[3], y[1], -K[2] * y[0] + f[1])
-
-if(monitor != structural.EILIG_SUCCESS):
-    print("Not converged!")
+#monitor = solvers.IterativeCG(K[3], y[1], -K[2] * y[0] + f[1])
+monitor = solvers.IterativeBiCGStab(K[3], y[1], -K[2] * y[0] + f[1])
 
 structural.UpdateMeshValues(y)
+
+print(y[1])

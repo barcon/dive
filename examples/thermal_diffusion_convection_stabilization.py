@@ -95,7 +95,7 @@ S = thermal.PartitionMatrix(thermal.GetProblem().Stabilization(fluid.momentum.Ge
 y = thermal.PartitionVector(thermal.GetProblem().Energy())
 dt = 0.05
 
-monitor = solvers.Iterative(K[3] + C[3] - dt * S[3], y[1], -(K[2] + C[2] - dt * S[2]) * y[0])
+monitor = solvers.IterativeBiCGStab(K[3] + C[3] - dt * S[3], y[1], -(K[2] + C[2] - dt * S[2]) * y[0])
 
 thermal.UpdateMeshValues(y)
 plots.Curve(nodesCurve)

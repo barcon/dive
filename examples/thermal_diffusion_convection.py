@@ -93,7 +93,7 @@ K = thermal.PartitionMatrix(thermal.GetProblem().Stiffness())
 C = thermal.PartitionMatrix(thermal.GetProblem().Convection(fluid.momentum.GetProblem()))
 y = thermal.PartitionVector(thermal.GetProblem().Energy())
 
-monitor = solvers.Iterative(K[3] + C[3], y[1], -(K[2] + C[2]) * y[0])
+monitor = solvers.IterativeBiCGStab(K[3] + C[3], y[1], -(K[2] + C[2]) * y[0])
 
 thermal.UpdateMeshValues(y)
 plots.Curve(nodesCurve)
