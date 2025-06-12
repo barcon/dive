@@ -14,6 +14,22 @@
     $1 = (double (*)(double, double, double))PyLong_AsVoidPtr($input);
 }
 
+%typemap(in) Vector (*function_Pointer_V)() {
+    $1 = (Vector (*)())PyLong_AsVoidPtr($input);
+}
+
+%typemap(in) Vector (*function_Pointer_V_D)(double) {
+    $1 = (Vector (*)(double))PyLong_AsVoidPtr($input);
+}
+
+%typemap(in) Vector (*function_Pointer_V_DD)(double, double) {
+    $1 = (Vector (*)(double, double))PyLong_AsVoidPtr($input);
+}
+
+%typemap(in) Vector (*function_Pointer_V_DDD)(double, double, double) {
+    $1 = (Vector (*)(double, double, double))PyLong_AsVoidPtr($input);
+}
+
 %inline
 %{
 	#include "values_types.hpp"
