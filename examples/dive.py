@@ -2207,6 +2207,170 @@ class ValueVector3D(IVector3D):
 # Register ValueVector3D in _dive:
 _dive.ValueVector3D_swigregister(ValueVector3D)
 
+def CreateValueVectorFunction(*args):
+    return _dive.CreateValueVectorFunction(*args)
+
+def CastToValueVectorFunction(value):
+    return _dive.CastToValueVectorFunction(value)
+class ValueVectorFunction(IVector):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+
+    def __init__(self, *args, **kwargs):
+        raise AttributeError("No constructor defined")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _dive.delete_ValueVectorFunction
+
+    @staticmethod
+    def Create():
+        return _dive.ValueVectorFunction_Create()
+
+    def GetType(self):
+        return _dive.ValueVectorFunction_GetType(self)
+
+    def GetName(self):
+        return _dive.ValueVectorFunction_GetName(self)
+
+    def GetKey(self):
+        return _dive.ValueVectorFunction_GetKey(self)
+
+    def GetValue(self):
+        return _dive.ValueVectorFunction_GetValue(self)
+
+    def SetName(self, name):
+        return _dive.ValueVectorFunction_SetName(self, name)
+
+    def SetKey(self, key):
+        return _dive.ValueVectorFunction_SetKey(self, key)
+
+    def SetFunctions(self, functions):
+        return _dive.ValueVectorFunction_SetFunctions(self, functions)
+
+# Register ValueVectorFunction in _dive:
+_dive.ValueVectorFunction_swigregister(ValueVectorFunction)
+
+def CreateValueVector1DFunction(*args):
+    return _dive.CreateValueVector1DFunction(*args)
+
+def CastToValueVector1DFunction(value):
+    return _dive.CastToValueVector1DFunction(value)
+class ValueVector1DFunction(IVector1D):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+
+    def __init__(self, *args, **kwargs):
+        raise AttributeError("No constructor defined")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _dive.delete_ValueVector1DFunction
+
+    @staticmethod
+    def Create():
+        return _dive.ValueVector1DFunction_Create()
+
+    def GetType(self):
+        return _dive.ValueVector1DFunction_GetType(self)
+
+    def GetName(self):
+        return _dive.ValueVector1DFunction_GetName(self)
+
+    def GetKey(self):
+        return _dive.ValueVector1DFunction_GetKey(self)
+
+    def GetValue(self, *args):
+        return _dive.ValueVector1DFunction_GetValue(self, *args)
+
+    def SetName(self, name):
+        return _dive.ValueVector1DFunction_SetName(self, name)
+
+    def SetKey(self, key):
+        return _dive.ValueVector1DFunction_SetKey(self, key)
+
+    def SetFunctions(self, functions):
+        return _dive.ValueVector1DFunction_SetFunctions(self, functions)
+
+# Register ValueVector1DFunction in _dive:
+_dive.ValueVector1DFunction_swigregister(ValueVector1DFunction)
+
+def CreateValueVector2DFunction(*args):
+    return _dive.CreateValueVector2DFunction(*args)
+
+def CastToValueVector2DFunction(value):
+    return _dive.CastToValueVector2DFunction(value)
+class ValueVector2DFunction(IVector2D):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+
+    def __init__(self, *args, **kwargs):
+        raise AttributeError("No constructor defined")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _dive.delete_ValueVector2DFunction
+
+    @staticmethod
+    def Create():
+        return _dive.ValueVector2DFunction_Create()
+
+    def GetType(self):
+        return _dive.ValueVector2DFunction_GetType(self)
+
+    def GetName(self):
+        return _dive.ValueVector2DFunction_GetName(self)
+
+    def GetKey(self):
+        return _dive.ValueVector2DFunction_GetKey(self)
+
+    def GetValue(self, *args):
+        return _dive.ValueVector2DFunction_GetValue(self, *args)
+
+    def SetName(self, name):
+        return _dive.ValueVector2DFunction_SetName(self, name)
+
+    def SetKey(self, key):
+        return _dive.ValueVector2DFunction_SetKey(self, key)
+
+    def SetFunctions(self, functions):
+        return _dive.ValueVector2DFunction_SetFunctions(self, functions)
+
+# Register ValueVector2DFunction in _dive:
+_dive.ValueVector2DFunction_swigregister(ValueVector2DFunction)
+
+def CreateValueVector3DFunction(*args):
+    return _dive.CreateValueVector3DFunction(*args)
+
+def CastToValueVector3DFunction(value):
+    return _dive.CastToValueVector3DFunction(value)
+class ValueVector3DFunction(IVector3D):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+
+    def __init__(self, *args, **kwargs):
+        raise AttributeError("No constructor defined")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _dive.delete_ValueVector3DFunction
+
+    @staticmethod
+    def Create():
+        return _dive.ValueVector3DFunction_Create()
+
+    def GetType(self):
+        return _dive.ValueVector3DFunction_GetType(self)
+
+    def GetName(self):
+        return _dive.ValueVector3DFunction_GetName(self)
+
+    def GetKey(self):
+        return _dive.ValueVector3DFunction_GetKey(self)
+
+    def GetValue(self, *args):
+        return _dive.ValueVector3DFunction_GetValue(self, *args)
+
+    def SetName(self, name):
+        return _dive.ValueVector3DFunction_SetName(self, name)
+
+    def SetKey(self, key):
+        return _dive.ValueVector3DFunction_SetKey(self, key)
+
+    def SetFunctions(self, functions):
+        return _dive.ValueVector3DFunction_SetFunctions(self, functions)
+
+# Register ValueVector3DFunction in _dive:
+_dive.ValueVector3DFunction_swigregister(ValueVector3DFunction)
+
 def CreateValueMatrix(*args):
     return _dive.CreateValueMatrix(*args)
 
@@ -2564,25 +2728,25 @@ py_function_pointer_D_D = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double)
 py_function_pointer_D_DD = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double, ctypes.c_double)
 py_function_pointer_D_DDD = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double)
 
-def CreateValueScalarFunction(function, name, key):
+def CreateValueScalarFunction(function, name = "", key = ""):
 	f = py_function_pointer_D(function)
 	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
 
 	return _dive.CreateValueScalarFunction(f_ptr, name, key)
 
-def CreateValueScalar1DFunction(function, name, key):
+def CreateValueScalar1DFunction(function, name = "", key = ""):
 	f = py_function_pointer_D_D(function)
 	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
 
 	return _dive.CreateValueScalar1DFunction(f_ptr, name, key)
 
-def CreateValueScalar2DFunction(function, name, key):
+def CreateValueScalar2DFunction(function, name = "", key = ""):
 	f = py_function_pointer_D_DD(function)
 	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
 
 	return _dive.CreateValueScalar2DFunction(f_ptr, name, key)
 
-def CreateValueScalar3DFunction(function, name, key):
+def CreateValueScalar3DFunction(function, name = "", key = ""):
 	f = py_function_pointer_D_DDD(function)
 	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
 

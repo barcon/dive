@@ -14,22 +14,6 @@
     $1 = (double (*)(double, double, double))PyLong_AsVoidPtr($input);
 }
 
-%typemap(in) Vector (*function_Pointer_V)() {
-    $1 = (Vector (*)())PyLong_AsVoidPtr($input);
-}
-
-%typemap(in) Vector (*function_Pointer_V_D)(double) {
-    $1 = (Vector (*)(double))PyLong_AsVoidPtr($input);
-}
-
-%typemap(in) Vector (*function_Pointer_V_DD)(double, double) {
-    $1 = (Vector (*)(double, double))PyLong_AsVoidPtr($input);
-}
-
-%typemap(in) Vector (*function_Pointer_V_DDD)(double, double, double) {
-    $1 = (Vector (*)(double, double, double))PyLong_AsVoidPtr($input);
-}
-
 %inline
 %{
 	#include "values_types.hpp"
@@ -40,6 +24,7 @@
 	#include "values_scalar_function.hpp"
 	#include "values_scalar_interpolation.hpp"
 	#include "values_vector.hpp"
+	#include "values_vector_function.hpp"
 	#include "values_matrix.hpp"
 	#include "values_matrix_interpolation.hpp"
 
@@ -77,9 +62,13 @@
 	typedef std::shared_ptr<values::ValueScalar3DInterpolation> ValueScalar3DInterpolationPtr;
 	typedef std::shared_ptr<values::ValueScalar3DCongruent> ValueScalar3DCongruentPtr;	
 	typedef std::shared_ptr<values::ValueVector> ValueVectorPtr;
+	typedef std::shared_ptr<values::ValueVectorFunction> ValueVectorFunctionPtr;
 	typedef std::shared_ptr<values::ValueVector1D> ValueVector1DPtr;
+	typedef std::shared_ptr<values::ValueVector1DFunction> ValueVector1DFunctionPtr;
 	typedef std::shared_ptr<values::ValueVector2D> ValueVector2DPtr;
+	typedef std::shared_ptr<values::ValueVector2DFunction> ValueVector2DFunctionPtr;
 	typedef std::shared_ptr<values::ValueVector3D> ValueVector3DPtr;
+	typedef std::shared_ptr<values::ValueVector3DFunction> ValueVector3DFunctionPtr;
 	typedef std::shared_ptr<values::ValueVector3DCongruent> ValueVector3DCongruentPtr;
 	typedef std::shared_ptr<values::ValueMatrix> ValueMatrixPtr;
 	typedef std::shared_ptr<values::ValueMatrix1D> ValueMatrix1DPtr;
@@ -87,6 +76,11 @@
 	typedef std::shared_ptr<values::ValueMatrix3D> ValueMatrix3DPtr;
 	typedef std::shared_ptr<values::ValueMatrix3DInterpolation> ValueMatrix3DInterpolationPtr;
 	typedef std::shared_ptr<values::ValueMatrix3DCongruent> ValueMatrix3DCongruentPtr;	
+	
+	typedef std::vector<values::ValueScalarFunctionPtr> ValueScalarFunctions;	
+	typedef std::vector<values::ValueScalar1DFunctionPtr> ValueScalar1DFunctions;	
+	typedef std::vector<values::ValueScalar2DFunctionPtr> ValueScalar2DFunctions;	
+	typedef std::vector<values::ValueScalar3DFunctionPtr> ValueScalar3DFunctions;	
 %}
 
 %shared_ptr(values::IValue);
@@ -118,9 +112,13 @@
 %shared_ptr(values::ValueScalar3DInterpolation);
 %shared_ptr(values::ValueScalar3DCongruent);
 %shared_ptr(values::ValueVector);
+%shared_ptr(values::ValueVectorFunction);
 %shared_ptr(values::ValueVector1D);
+%shared_ptr(values::ValueVector1DFunction);
 %shared_ptr(values::ValueVector2D);
+%shared_ptr(values::ValueVector2DFunction);
 %shared_ptr(values::ValueVector3D);
+%shared_ptr(values::ValueVector3DFunction);
 %shared_ptr(values::ValueVector3DCongruent);
 %shared_ptr(values::ValueMatrix);
 %shared_ptr(values::ValueMatrix1D);
@@ -137,6 +135,7 @@
 %include "..\..\values\src\values_scalar_function.hpp"
 %include "..\..\values\src\values_scalar_interpolation.hpp"
 %include "..\..\values\src\values_vector.hpp"
+%include "..\..\values\src\values_vector_function.hpp"
 %include "..\..\values\src\values_matrix.hpp"
 %include "..\..\values\src\values_matrix_interpolation.hpp"
 %include "dive_values_scalar_congruent.hpp"
@@ -153,25 +152,25 @@ py_function_pointer_D_D = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double)
 py_function_pointer_D_DD = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double, ctypes.c_double)
 py_function_pointer_D_DDD = ctypes.CFUNCTYPE(ctypes.c_double, ctypes.c_double, ctypes.c_double, ctypes.c_double)
 
-def CreateValueScalarFunction(function, name, key):
+def CreateValueScalarFunction(function, name = "", key = ""):
 	f = py_function_pointer_D(function)
 	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
 	
 	return _dive.CreateValueScalarFunction(f_ptr, name, key)
 
-def CreateValueScalar1DFunction(function, name, key):
+def CreateValueScalar1DFunction(function, name = "", key = ""):
 	f = py_function_pointer_D_D(function)
 	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
 	
 	return _dive.CreateValueScalar1DFunction(f_ptr, name, key)
 
-def CreateValueScalar2DFunction(function, name, key):
+def CreateValueScalar2DFunction(function, name = "", key = ""):
 	f = py_function_pointer_D_DD(function)
 	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
 	
 	return _dive.CreateValueScalar2DFunction(f_ptr, name, key)
 
-def CreateValueScalar3DFunction(function, name, key):
+def CreateValueScalar3DFunction(function, name = "", key = ""):
 	f = py_function_pointer_D_DDD(function)
 	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
 	
