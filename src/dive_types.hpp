@@ -9,7 +9,7 @@
 #define DLL_API __declspec(dllimport)
 #endif
 
-#define DLL_CALL __cdecl
+#define DLL_CALL __cdeclcd 
 #else
 #define DLL_API
 #define DLL_CALL

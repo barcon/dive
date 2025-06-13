@@ -1176,14 +1176,14 @@ class ITimer(object):
     __repr__ = _swig_repr
     __swig_destroy__ = _dive.delete_ITimer
 
-    def GetCurrentTime(self):
-        return _dive.ITimer_GetCurrentTime(self)
+    def GetCurrent(self):
+        return _dive.ITimer_GetCurrent(self)
 
-    def GetInitialTime(self):
-        return _dive.ITimer_GetInitialTime(self)
+    def GetInitial(self):
+        return _dive.ITimer_GetInitial(self)
 
-    def GetEndTime(self):
-        return _dive.ITimer_GetEndTime(self)
+    def GetEnd(self):
+        return _dive.ITimer_GetEnd(self)
 
     def GetStepSize(self):
         return _dive.ITimer_GetStepSize(self)
@@ -1200,11 +1200,11 @@ class ITimer(object):
     def SetNextStep(self):
         return _dive.ITimer_SetNextStep(self)
 
-    def SetInitialTime(self, initialTime):
-        return _dive.ITimer_SetInitialTime(self, initialTime)
+    def SetInitial(self, initialTime):
+        return _dive.ITimer_SetInitial(self, initialTime)
 
-    def SetEndTime(self, endTime):
-        return _dive.ITimer_SetEndTime(self, endTime)
+    def SetEnd(self, endTime):
+        return _dive.ITimer_SetEnd(self, endTime)
 
     def SetStepSize(self, stepSize):
         return _dive.ITimer_SetStepSize(self, stepSize)
@@ -1235,14 +1235,14 @@ class TimerStationary(ITimer):
     def GetPtr(self, *args):
         return _dive.TimerStationary_GetPtr(self, *args)
 
-    def GetCurrentTime(self):
-        return _dive.TimerStationary_GetCurrentTime(self)
+    def GetCurrent(self):
+        return _dive.TimerStationary_GetCurrent(self)
 
-    def GetInitialTime(self):
-        return _dive.TimerStationary_GetInitialTime(self)
+    def GetInitial(self):
+        return _dive.TimerStationary_GetInitial(self)
 
-    def GetEndTime(self):
-        return _dive.TimerStationary_GetEndTime(self)
+    def GetEnd(self):
+        return _dive.TimerStationary_GetEnd(self)
 
     def GetStepSize(self):
         return _dive.TimerStationary_GetStepSize(self)
@@ -1259,11 +1259,11 @@ class TimerStationary(ITimer):
     def SetNextStep(self):
         return _dive.TimerStationary_SetNextStep(self)
 
-    def SetInitialTime(self, initialTime):
-        return _dive.TimerStationary_SetInitialTime(self, initialTime)
+    def SetInitial(self, initialTime):
+        return _dive.TimerStationary_SetInitial(self, initialTime)
 
-    def SetEndTime(self, endTime):
-        return _dive.TimerStationary_SetEndTime(self, endTime)
+    def SetEnd(self, endTime):
+        return _dive.TimerStationary_SetEnd(self, endTime)
 
     def SetStepSize(self, stepSize):
         return _dive.TimerStationary_SetStepSize(self, stepSize)
@@ -1291,14 +1291,14 @@ class TimerStepped(ITimer):
     def GetPtr(self, *args):
         return _dive.TimerStepped_GetPtr(self, *args)
 
-    def GetCurrentTime(self):
-        return _dive.TimerStepped_GetCurrentTime(self)
+    def GetCurrent(self):
+        return _dive.TimerStepped_GetCurrent(self)
 
-    def GetInitialTime(self):
-        return _dive.TimerStepped_GetInitialTime(self)
+    def GetInitial(self):
+        return _dive.TimerStepped_GetInitial(self)
 
-    def GetEndTime(self):
-        return _dive.TimerStepped_GetEndTime(self)
+    def GetEnd(self):
+        return _dive.TimerStepped_GetEnd(self)
 
     def GetStepSize(self):
         return _dive.TimerStepped_GetStepSize(self)
@@ -1315,11 +1315,11 @@ class TimerStepped(ITimer):
     def SetNextStep(self):
         return _dive.TimerStepped_SetNextStep(self)
 
-    def SetInitialTime(self, initialTime):
-        return _dive.TimerStepped_SetInitialTime(self, initialTime)
+    def SetInitial(self, initialTime):
+        return _dive.TimerStepped_SetInitial(self, initialTime)
 
-    def SetEndTime(self, endTime):
-        return _dive.TimerStepped_SetEndTime(self, endTime)
+    def SetEnd(self, endTime):
+        return _dive.TimerStepped_SetEnd(self, endTime)
 
     def SetStepSize(self, stepSize):
         return _dive.TimerStepped_SetStepSize(self, stepSize)
@@ -1354,7 +1354,7 @@ class IValue(object):
 
 # Register IValue in _dive:
 _dive.IValue_swigregister(IValue)
-valuesLogger = cvar.valuesLogger
+headerValues = cvar.headerValues
 value_bool = cvar.value_bool
 value_string = cvar.value_string
 value_scalar = cvar.value_scalar
@@ -1374,35 +1374,35 @@ value_scalar3D_function = cvar.value_scalar3D_function
 value_scalar3D_interpolation = cvar.value_scalar3D_interpolation
 value_scalar3D_congruent = cvar.value_scalar3D_congruent
 value_vector = cvar.value_vector
-value_vector_function = cvar.value_vector_function
+value_vector_scalars = cvar.value_vector_scalars
 value_vector_interpolation = cvar.value_vector_interpolation
 value_vector_congruent = cvar.value_vector_congruent
 value_vector1D = cvar.value_vector1D
-value_vector1D_function = cvar.value_vector1D_function
+value_vector1D_scalars = cvar.value_vector1D_scalars
 value_vector1D_interpolation = cvar.value_vector1D_interpolation
 value_vector1D_congruent = cvar.value_vector1D_congruent
 value_vector2D = cvar.value_vector2D
-value_vector2D_function = cvar.value_vector2D_function
+value_vector2D_scalars = cvar.value_vector2D_scalars
 value_vector2D_interpolation = cvar.value_vector2D_interpolation
 value_vector2D_congruent = cvar.value_vector2D_congruent
 value_vector3D = cvar.value_vector3D
-value_vector3D_function = cvar.value_vector3D_function
+value_vector3D_scalars = cvar.value_vector3D_scalars
 value_vector3D_interpolation = cvar.value_vector3D_interpolation
 value_vector3D_congruent = cvar.value_vector3D_congruent
 value_matrix = cvar.value_matrix
-value_matrix_function = cvar.value_matrix_function
+value_matrix_scalars = cvar.value_matrix_scalars
 value_matrix_interpolation = cvar.value_matrix_interpolation
 value_matrix_congruent = cvar.value_matrix_congruent
 value_matrix1D = cvar.value_matrix1D
-value_matrix1D_function = cvar.value_matrix1D_function
+value_matrix1D_scalars = cvar.value_matrix1D_scalars
 value_matrix1D_interpolaiton = cvar.value_matrix1D_interpolaiton
 value_matrix1D_congruent = cvar.value_matrix1D_congruent
 value_matrix2D = cvar.value_matrix2D
-value_matrix2D_function = cvar.value_matrix2D_function
+value_matrix2D_scalars = cvar.value_matrix2D_scalars
 value_matrix2D_interpolation = cvar.value_matrix2D_interpolation
 value_matrix2D_congruent = cvar.value_matrix2D_congruent
 value_matrix3D = cvar.value_matrix3D
-value_matrix3D_function = cvar.value_matrix3D_function
+value_matrix3D_scalars = cvar.value_matrix3D_scalars
 value_matrix3D_interpolation = cvar.value_matrix3D_interpolation
 value_matrix3D_congruent = cvar.value_matrix3D_congruent
 
@@ -2207,169 +2207,181 @@ class ValueVector3D(IVector3D):
 # Register ValueVector3D in _dive:
 _dive.ValueVector3D_swigregister(ValueVector3D)
 
-def CreateValueVectorFunction(*args):
-    return _dive.CreateValueVectorFunction(*args)
+def CreateValueVectorScalars(*args):
+    return _dive.CreateValueVectorScalars(*args)
 
-def CastToValueVectorFunction(value):
-    return _dive.CastToValueVectorFunction(value)
-class ValueVectorFunction(IVector):
+def CastToValueVectorScalars(value):
+    return _dive.CastToValueVectorScalars(value)
+class ValueVectorScalars(IVector):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
     def __init__(self, *args, **kwargs):
         raise AttributeError("No constructor defined")
     __repr__ = _swig_repr
-    __swig_destroy__ = _dive.delete_ValueVectorFunction
+    __swig_destroy__ = _dive.delete_ValueVectorScalars
 
     @staticmethod
     def Create():
-        return _dive.ValueVectorFunction_Create()
+        return _dive.ValueVectorScalars_Create()
 
     def GetType(self):
-        return _dive.ValueVectorFunction_GetType(self)
+        return _dive.ValueVectorScalars_GetType(self)
 
     def GetName(self):
-        return _dive.ValueVectorFunction_GetName(self)
+        return _dive.ValueVectorScalars_GetName(self)
 
     def GetKey(self):
-        return _dive.ValueVectorFunction_GetKey(self)
+        return _dive.ValueVectorScalars_GetKey(self)
 
     def GetValue(self):
-        return _dive.ValueVectorFunction_GetValue(self)
+        return _dive.ValueVectorScalars_GetValue(self)
 
     def SetName(self, name):
-        return _dive.ValueVectorFunction_SetName(self, name)
+        return _dive.ValueVectorScalars_SetName(self, name)
 
     def SetKey(self, key):
-        return _dive.ValueVectorFunction_SetKey(self, key)
+        return _dive.ValueVectorScalars_SetKey(self, key)
 
-    def SetFunctions(self, functions):
-        return _dive.ValueVectorFunction_SetFunctions(self, functions)
+    def SetNumberRows(self, numberRows):
+        return _dive.ValueVectorScalars_SetNumberRows(self, numberRows)
 
-# Register ValueVectorFunction in _dive:
-_dive.ValueVectorFunction_swigregister(ValueVectorFunction)
+    def SetScalar(self, row, scalar):
+        return _dive.ValueVectorScalars_SetScalar(self, row, scalar)
 
-def CreateValueVector1DFunction(*args):
-    return _dive.CreateValueVector1DFunction(*args)
+# Register ValueVectorScalars in _dive:
+_dive.ValueVectorScalars_swigregister(ValueVectorScalars)
 
-def CastToValueVector1DFunction(value):
-    return _dive.CastToValueVector1DFunction(value)
-class ValueVector1DFunction(IVector1D):
+def CreateValueVector1DScalars(*args):
+    return _dive.CreateValueVector1DScalars(*args)
+
+def CastToValueVector1DScalars(value):
+    return _dive.CastToValueVector1DScalars(value)
+class ValueVector1DScalars(IVector1D):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
     def __init__(self, *args, **kwargs):
         raise AttributeError("No constructor defined")
     __repr__ = _swig_repr
-    __swig_destroy__ = _dive.delete_ValueVector1DFunction
+    __swig_destroy__ = _dive.delete_ValueVector1DScalars
 
     @staticmethod
     def Create():
-        return _dive.ValueVector1DFunction_Create()
+        return _dive.ValueVector1DScalars_Create()
 
     def GetType(self):
-        return _dive.ValueVector1DFunction_GetType(self)
+        return _dive.ValueVector1DScalars_GetType(self)
 
     def GetName(self):
-        return _dive.ValueVector1DFunction_GetName(self)
+        return _dive.ValueVector1DScalars_GetName(self)
 
     def GetKey(self):
-        return _dive.ValueVector1DFunction_GetKey(self)
+        return _dive.ValueVector1DScalars_GetKey(self)
 
     def GetValue(self, *args):
-        return _dive.ValueVector1DFunction_GetValue(self, *args)
+        return _dive.ValueVector1DScalars_GetValue(self, *args)
 
     def SetName(self, name):
-        return _dive.ValueVector1DFunction_SetName(self, name)
+        return _dive.ValueVector1DScalars_SetName(self, name)
 
     def SetKey(self, key):
-        return _dive.ValueVector1DFunction_SetKey(self, key)
+        return _dive.ValueVector1DScalars_SetKey(self, key)
 
-    def SetFunctions(self, functions):
-        return _dive.ValueVector1DFunction_SetFunctions(self, functions)
+    def SetNumberRows(self, numberRows):
+        return _dive.ValueVector1DScalars_SetNumberRows(self, numberRows)
 
-# Register ValueVector1DFunction in _dive:
-_dive.ValueVector1DFunction_swigregister(ValueVector1DFunction)
+    def SetScalar(self, row, scalar):
+        return _dive.ValueVector1DScalars_SetScalar(self, row, scalar)
 
-def CreateValueVector2DFunction(*args):
-    return _dive.CreateValueVector2DFunction(*args)
+# Register ValueVector1DScalars in _dive:
+_dive.ValueVector1DScalars_swigregister(ValueVector1DScalars)
 
-def CastToValueVector2DFunction(value):
-    return _dive.CastToValueVector2DFunction(value)
-class ValueVector2DFunction(IVector2D):
+def CreateValueVector2DScalars(*args):
+    return _dive.CreateValueVector2DScalars(*args)
+
+def CastToValueVector2DScalars(value):
+    return _dive.CastToValueVector2DScalars(value)
+class ValueVector2DScalars(IVector2D):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
     def __init__(self, *args, **kwargs):
         raise AttributeError("No constructor defined")
     __repr__ = _swig_repr
-    __swig_destroy__ = _dive.delete_ValueVector2DFunction
+    __swig_destroy__ = _dive.delete_ValueVector2DScalars
 
     @staticmethod
     def Create():
-        return _dive.ValueVector2DFunction_Create()
+        return _dive.ValueVector2DScalars_Create()
 
     def GetType(self):
-        return _dive.ValueVector2DFunction_GetType(self)
+        return _dive.ValueVector2DScalars_GetType(self)
 
     def GetName(self):
-        return _dive.ValueVector2DFunction_GetName(self)
+        return _dive.ValueVector2DScalars_GetName(self)
 
     def GetKey(self):
-        return _dive.ValueVector2DFunction_GetKey(self)
+        return _dive.ValueVector2DScalars_GetKey(self)
 
     def GetValue(self, *args):
-        return _dive.ValueVector2DFunction_GetValue(self, *args)
+        return _dive.ValueVector2DScalars_GetValue(self, *args)
 
     def SetName(self, name):
-        return _dive.ValueVector2DFunction_SetName(self, name)
+        return _dive.ValueVector2DScalars_SetName(self, name)
 
     def SetKey(self, key):
-        return _dive.ValueVector2DFunction_SetKey(self, key)
+        return _dive.ValueVector2DScalars_SetKey(self, key)
 
-    def SetFunctions(self, functions):
-        return _dive.ValueVector2DFunction_SetFunctions(self, functions)
+    def SetNumberRows(self, numberRows):
+        return _dive.ValueVector2DScalars_SetNumberRows(self, numberRows)
 
-# Register ValueVector2DFunction in _dive:
-_dive.ValueVector2DFunction_swigregister(ValueVector2DFunction)
+    def SetScalar(self, row, scalar):
+        return _dive.ValueVector2DScalars_SetScalar(self, row, scalar)
 
-def CreateValueVector3DFunction(*args):
-    return _dive.CreateValueVector3DFunction(*args)
+# Register ValueVector2DScalars in _dive:
+_dive.ValueVector2DScalars_swigregister(ValueVector2DScalars)
 
-def CastToValueVector3DFunction(value):
-    return _dive.CastToValueVector3DFunction(value)
-class ValueVector3DFunction(IVector3D):
+def CreateValueVector3DScalars(*args):
+    return _dive.CreateValueVector3DScalars(*args)
+
+def CastToValueVector3DScalars(value):
+    return _dive.CastToValueVector3DScalars(value)
+class ValueVector3DScalars(IVector3D):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
     def __init__(self, *args, **kwargs):
         raise AttributeError("No constructor defined")
     __repr__ = _swig_repr
-    __swig_destroy__ = _dive.delete_ValueVector3DFunction
+    __swig_destroy__ = _dive.delete_ValueVector3DScalars
 
     @staticmethod
     def Create():
-        return _dive.ValueVector3DFunction_Create()
+        return _dive.ValueVector3DScalars_Create()
 
     def GetType(self):
-        return _dive.ValueVector3DFunction_GetType(self)
+        return _dive.ValueVector3DScalars_GetType(self)
 
     def GetName(self):
-        return _dive.ValueVector3DFunction_GetName(self)
+        return _dive.ValueVector3DScalars_GetName(self)
 
     def GetKey(self):
-        return _dive.ValueVector3DFunction_GetKey(self)
+        return _dive.ValueVector3DScalars_GetKey(self)
 
     def GetValue(self, *args):
-        return _dive.ValueVector3DFunction_GetValue(self, *args)
+        return _dive.ValueVector3DScalars_GetValue(self, *args)
 
     def SetName(self, name):
-        return _dive.ValueVector3DFunction_SetName(self, name)
+        return _dive.ValueVector3DScalars_SetName(self, name)
 
     def SetKey(self, key):
-        return _dive.ValueVector3DFunction_SetKey(self, key)
+        return _dive.ValueVector3DScalars_SetKey(self, key)
 
-    def SetFunctions(self, functions):
-        return _dive.ValueVector3DFunction_SetFunctions(self, functions)
+    def SetNumberRows(self, numberRows):
+        return _dive.ValueVector3DScalars_SetNumberRows(self, numberRows)
 
-# Register ValueVector3DFunction in _dive:
-_dive.ValueVector3DFunction_swigregister(ValueVector3DFunction)
+    def SetScalar(self, row, scalar):
+        return _dive.ValueVector3DScalars_SetScalar(self, row, scalar)
+
+# Register ValueVector3DScalars in _dive:
+_dive.ValueVector3DScalars_swigregister(ValueVector3DScalars)
 
 def CreateValueMatrix(*args):
     return _dive.CreateValueMatrix(*args)

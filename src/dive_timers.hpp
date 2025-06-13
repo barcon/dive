@@ -15,17 +15,17 @@ namespace dive
 		public:
 			virtual ~ITimer() = default;
 
-			virtual Scalar GetCurrentTime() const = 0;
-			virtual Scalar GetInitialTime() const = 0;
-			virtual Scalar GetEndTime() const = 0;
+			virtual Scalar GetCurrent() const = 0;
+			virtual Scalar GetInitial() const = 0;
+			virtual Scalar GetEnd() const = 0;
 			virtual Scalar GetStepSize() const = 0;
 			virtual Number GetStepNumber() const = 0;
 			virtual Type GetType() const = 0;
 			virtual Tag	GetTag() const = 0;
 
 			virtual void SetNextStep() = 0;
-			virtual void SetInitialTime(Scalar initialTime) = 0;
-			virtual void SetEndTime(Scalar endTime) = 0;
+			virtual void SetInitial(Scalar initialTime) = 0;
+			virtual void SetEnd(Scalar endTime) = 0;
 			virtual void SetStepSize(Scalar stepSize) = 0;
 			virtual void SetTag(Tag tag) = 0;
 		};

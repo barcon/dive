@@ -17,14 +17,13 @@
 %inline
 %{
 	#include "values_types.hpp"
-	#include "values_base.hpp"
 	#include "values_bool.hpp"
 	#include "values_string.hpp"	
 	#include "values_scalar.hpp"
 	#include "values_scalar_function.hpp"
 	#include "values_scalar_interpolation.hpp"
 	#include "values_vector.hpp"
-	#include "values_vector_function.hpp"
+	#include "values_vector_scalars.hpp"
 	#include "values_matrix.hpp"
 	#include "values_matrix_interpolation.hpp"
 
@@ -62,13 +61,13 @@
 	typedef std::shared_ptr<values::ValueScalar3DInterpolation> ValueScalar3DInterpolationPtr;
 	typedef std::shared_ptr<values::ValueScalar3DCongruent> ValueScalar3DCongruentPtr;	
 	typedef std::shared_ptr<values::ValueVector> ValueVectorPtr;
-	typedef std::shared_ptr<values::ValueVectorFunction> ValueVectorFunctionPtr;
+	typedef std::shared_ptr<values::ValueVectorScalars> ValueVectorScalarsPtr;
 	typedef std::shared_ptr<values::ValueVector1D> ValueVector1DPtr;
-	typedef std::shared_ptr<values::ValueVector1DFunction> ValueVector1DFunctionPtr;
+	typedef std::shared_ptr<values::ValueVector1DScalars> ValueVector1DScalarsPtr;
 	typedef std::shared_ptr<values::ValueVector2D> ValueVector2DPtr;
-	typedef std::shared_ptr<values::ValueVector2DFunction> ValueVector2DFunctionPtr;
+	typedef std::shared_ptr<values::ValueVector2DScalars> ValueVector2DScalarsPtr;
 	typedef std::shared_ptr<values::ValueVector3D> ValueVector3DPtr;
-	typedef std::shared_ptr<values::ValueVector3DFunction> ValueVector3DFunctionPtr;
+	typedef std::shared_ptr<values::ValueVector3DScalars> ValueVector3DScalarsPtr;
 	typedef std::shared_ptr<values::ValueVector3DCongruent> ValueVector3DCongruentPtr;
 	typedef std::shared_ptr<values::ValueMatrix> ValueMatrixPtr;
 	typedef std::shared_ptr<values::ValueMatrix1D> ValueMatrix1DPtr;
@@ -76,11 +75,6 @@
 	typedef std::shared_ptr<values::ValueMatrix3D> ValueMatrix3DPtr;
 	typedef std::shared_ptr<values::ValueMatrix3DInterpolation> ValueMatrix3DInterpolationPtr;
 	typedef std::shared_ptr<values::ValueMatrix3DCongruent> ValueMatrix3DCongruentPtr;	
-	
-	typedef std::vector<values::ValueScalarFunctionPtr> ValueScalarFunctions;	
-	typedef std::vector<values::ValueScalar1DFunctionPtr> ValueScalar1DFunctions;	
-	typedef std::vector<values::ValueScalar2DFunctionPtr> ValueScalar2DFunctions;	
-	typedef std::vector<values::ValueScalar3DFunctionPtr> ValueScalar3DFunctions;	
 %}
 
 %shared_ptr(values::IValue);
@@ -112,13 +106,13 @@
 %shared_ptr(values::ValueScalar3DInterpolation);
 %shared_ptr(values::ValueScalar3DCongruent);
 %shared_ptr(values::ValueVector);
-%shared_ptr(values::ValueVectorFunction);
+%shared_ptr(values::ValueVectorScalars);
 %shared_ptr(values::ValueVector1D);
-%shared_ptr(values::ValueVector1DFunction);
+%shared_ptr(values::ValueVector1DScalars);
 %shared_ptr(values::ValueVector2D);
-%shared_ptr(values::ValueVector2DFunction);
+%shared_ptr(values::ValueVector2DScalars);
 %shared_ptr(values::ValueVector3D);
-%shared_ptr(values::ValueVector3DFunction);
+%shared_ptr(values::ValueVector3DScalars);
 %shared_ptr(values::ValueVector3DCongruent);
 %shared_ptr(values::ValueMatrix);
 %shared_ptr(values::ValueMatrix1D);
@@ -128,14 +122,13 @@
 %shared_ptr(values::ValueMatrix3DCongruent);
 
 %include "..\..\values\src\values_types.hpp"
-%include "..\..\values\src\values_base.hpp"
 %include "..\..\values\src\values_bool.hpp"
 %include "..\..\values\src\values_string.hpp"
 %include "..\..\values\src\values_scalar.hpp"
 %include "..\..\values\src\values_scalar_function.hpp"
 %include "..\..\values\src\values_scalar_interpolation.hpp"
 %include "..\..\values\src\values_vector.hpp"
-%include "..\..\values\src\values_vector_function.hpp"
+%include "..\..\values\src\values_vector_scalars.hpp"
 %include "..\..\values\src\values_matrix.hpp"
 %include "..\..\values\src\values_matrix_interpolation.hpp"
 %include "dive_values_scalar_congruent.hpp"

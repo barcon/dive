@@ -20,17 +20,17 @@ namespace dive
 			TimerStationaryPtr GetPtr();
 			ConstTimerStationaryPtr GetPtr() const;
 
-			Scalar GetCurrentTime() const override;
-			Scalar GetInitialTime() const override;
-			Scalar GetEndTime() const override;
+			Scalar GetCurrent() const override;
+			Scalar GetInitial() const override;
+			Scalar GetEnd() const override;
 			Scalar GetStepSize() const override;
 			Number GetStepNumber() const override;
 			Type GetType() const override;
 			Tag	GetTag() const override;
 
 			void SetNextStep() override;
-			void SetInitialTime(Scalar initialTime) override;
-			void SetEndTime(Scalar endTime) override;
+			void SetInitial(Scalar initialTime) override;
+			void SetEnd(Scalar endTime) override;
 			void SetStepSize(Scalar stepSize) override;
 			void SetTag(Tag tag) override;
 

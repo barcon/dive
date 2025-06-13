@@ -15,7 +15,7 @@ namespace dive
 			auto res = TimerStationary::Create();
 
 			res->SetTag(timerTag);
-			res->SetInitialTime(t0);
+			res->SetInitial(t0);
 
 			return res;
 		}
@@ -37,15 +37,15 @@ namespace dive
 		{
 			return const_cast<TimerStationary*>(this)->GetPtr();
 		}
-		Scalar TimerStationary::GetCurrentTime() const
+		Scalar TimerStationary::GetCurrent() const
 		{
 			return t_;
 		}
-		Scalar TimerStationary::GetInitialTime() const
+		Scalar TimerStationary::GetInitial() const
 		{
 			return t0_;
 		}
-		Scalar TimerStationary::GetEndTime() const
+		Scalar TimerStationary::GetEnd() const
 		{
 			return t1_;
 		}
@@ -68,13 +68,13 @@ namespace dive
 		void TimerStationary::SetNextStep()
 		{
 		}
-		void TimerStationary::SetInitialTime(Scalar initialTime)
+		void TimerStationary::SetInitial(Scalar initialTime)
 		{
 			t_ = initialTime;
 			t0_ = t_;
 			t1_ = t_;
 		}
-		void TimerStationary::SetEndTime(Scalar endTime)
+		void TimerStationary::SetEnd(Scalar endTime)
 		{
 			t_ = endTime;
 			t0_ = t_;

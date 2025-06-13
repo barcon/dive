@@ -15,8 +15,8 @@ namespace dive
 			auto res = TimerStepped::Create();
 
 			res->SetTag(timerTag);
-			res->SetInitialTime(t0);
-			res->SetEndTime(t1);
+			res->SetInitial(t0);
+			res->SetEnd(t1);
 			res->SetStepSize(dt);
 
 			return res;
@@ -39,15 +39,15 @@ namespace dive
 		{
 			return const_cast<TimerStepped*>(this)->GetPtr();
 		}
-		Scalar TimerStepped::GetCurrentTime() const
+		Scalar TimerStepped::GetCurrent() const
 		{
 			return t_;
 		}
-		Scalar TimerStepped::GetInitialTime() const
+		Scalar TimerStepped::GetInitial() const
 		{
 			return t0_;
 		}
-		Scalar TimerStepped::GetEndTime() const
+		Scalar TimerStepped::GetEnd() const
 		{
 			return t1_;
 		}
@@ -85,12 +85,12 @@ namespace dive
 
 			counter_++;
 		}
-		void TimerStepped::SetInitialTime(Scalar initialTime)
+		void TimerStepped::SetInitial(Scalar initialTime)
 		{
 			t_ = initialTime;
 			t0_ = t_;
 		}
-		void TimerStepped::SetEndTime(Scalar endTime)
+		void TimerStepped::SetEnd(Scalar endTime)
 		{
 			if (t1_ < t0_)
 			{
