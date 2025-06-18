@@ -4322,8 +4322,8 @@ class ElementMass(IElement):
     def SetMass(self, mass):
         return _dive.ElementMass_SetMass(self, mass)
 
-    def M(self):
-        return _dive.ElementMass_M(self)
+    def Mass(self, output):
+        return _dive.ElementMass_Mass(self, output)
 
 # Register ElementMass in _dive:
 _dive.ElementMass_swigregister(ElementMass)

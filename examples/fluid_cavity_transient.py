@@ -97,7 +97,7 @@ G = fluid.pressure.GetProblem().Crossed(fluid.momentum.GetProblem()).Transpose()
 D = fluid.pressure.GetProblem().DistributedVolumeDivergence(fluid.momentum.GetProblem())
 
 while(True): 
-    print("Time step = ", timer.GetCurrentTime())
+    print("Time step = ", timer.GetCurrent())
 
     p = fluid.pressure.PartitionVector(fluid.pressure.GetProblem().Pressure())
     q0 = fluid.momentum.PartitionVector(fluid.momentum.GetProblem().Momentum())
@@ -125,7 +125,7 @@ while(True):
 
     fluid.momentum.UpdateMeshValuesMomentum(q1)
 
-    if(timer.GetCurrentTime() == timer.GetEndTime()):
+    if(timer.GetCurrent() == timer.GetEnd()):
         break
     else:
         timer.SetNextStep()

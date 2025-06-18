@@ -9,7 +9,7 @@ def Harmonic(x, y, z):
     omega = 1.0
     amplitude = 20.0
 
-    return amplitude * math.sin(omega * t)
+    return amplitude * math.cos(omega * t)
 
 T_ref   = 313.15      #[K]      = 40 [°C]
 p_ref   = 101325.1    #[N/m²]   =  1 [atm]
@@ -52,11 +52,23 @@ structural.Initialize()
 
 #--------------------------------------------------------------------------------------------------
 
-#M = structural.PartitionMatrix(structural.GetProblem().Mass())
+M = structural.PartitionMatrix(structural.GetProblem().Mass())
 K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
 y = structural.PartitionVector(structural.GetProblem().Displacement())
 f = structural.PartitionVector(structural.GetProblem().LoadNode())
 
+def Equation(t, y0):
+    global M
+    global K
+    global y
+    global f
+
+    return [M[3], -(K[2] * y[0] + K[3] * y[1]) + f[1]]
+
+print(Equation(timer.GetCurrent(), y)[0])
+
+#solvers.ForwardMethod(timer, M[3], )
+
 #monitor = solvers.IterativeBiCGStab(K[3], y[1], -K[2] * y[0] + f[1])
 #structural.UpdateMeshValues(y)
-print(y[1])
+#print(y[1])

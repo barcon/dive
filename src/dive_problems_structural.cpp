@@ -1,4 +1,5 @@
 #include "dive_problems_structural.hpp"
+#include "dive_elements_mass.hpp"
 #include "dive_elements_spring.hpp"
 #include "dive_values_scalar_congruent.hpp"
 #include "dive_values_matrix_congruent.hpp"
@@ -153,13 +154,66 @@ namespace dive {
 			massWeak->SetTemperature(temperature_);
 			massWeak->SetPressure(pressure_);
 
+			const auto& problemStructural = std::make_shared<ProblemStructural>(*this);
+			const auto& elements = mesh_->GetElements();
+			const auto& nodeMeshIndices = GetNodeMeshIndices();
+
+			Sparse global(totalDof_, totalDof_);
+			Matrix local;
+
+			for (ElementIndex i = 0; i < elements.size(); ++i)
+			{
+				auto numberNodes = elements[i]->GetNumberNodes();
+				auto numberDof = elements[i]->GetNumberDof();
+
+				if (elements[i]->IsMapped())
+				{
+					std::dynamic_pointer_cast<elements::IElementMapped>(elements[i])->IntegralWeakFormElement(massWeak, local);
+				}
+				else if (elements[i]->GetType() == elements::element_mass)
+				{
+					std::dynamic_pointer_cast<elements::ElementMass>(elements[i])->Mass(local);
+				}
+				else
+				{
+					continue;
+				}
+
+				for (NodeIndex m = 0; m < numberNodes; ++m)
+				{
+					for (NodeIndex n = 0; n < numberNodes; ++n)
+					{
+						for (DofIndex dof1 = 0; dof1 < numberDof; ++dof1)
+						{
+							for (DofIndex dof2 = 0; dof2 < numberDof; ++dof2)
+							{
+								auto aux = global.GetValue(nodeMeshIndices[i][m].dofIndices[dof1], nodeMeshIndices[i][n].dofIndices[dof2]);
+								aux += local.GetValue(m * numberDof + dof1, n * numberDof + dof2);
+
+								global.SetValue(nodeMeshIndices[i][m].dofIndices[dof1], nodeMeshIndices[i][n].dofIndices[dof2], aux);
+							}
+						}
+					}
+				}
+			}
+
+			TimerElapsed(__FUNCTION__);
+
+			/*
+			TimerStart();
+
+			auto massWeak = weakforms::CreateWeakFormMassStructural();
+			massWeak->SetTemperature(temperature_);
+			massWeak->SetPressure(pressure_);
+
 			auto problemStructural = std::make_shared<ProblemStructural>(*this);
 			
 			auto res = IntegralForm(massWeak, problemStructural, problemStructural);
 
 			TimerElapsed(__FUNCTION__);
+			*/
 
-			return res;
+			return global;
 		}
 		Sparse ProblemStructural::Stiffness() const
 		{
@@ -211,14 +265,6 @@ namespace dive {
 					}
 				}
 			}
-
-			/*auto stiffnessWeak = weakforms::CreateWeakFormStiffnessStructural();
-			stiffnessWeak->SetTemperature(temperature_);
-			stiffnessWeak->SetPressure(pressure_);
-
-			auto problemStructural = std::make_shared<ProblemStructural>(*this);
-
-			auto res = IntegralForm(stiffnessWeak, problemStructural, problemStructural);*/
 
 			TimerElapsed(__FUNCTION__);
 			

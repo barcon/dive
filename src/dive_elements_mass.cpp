@@ -333,9 +333,9 @@ namespace dive
 		{
 			mass_ = mass;
 		}
-		Matrix ElementMass::M() const
+		void ElementMass::Mass(Matrix& output) const
 		{
-			return mass_->GetValue() * I_;
+			output = mass_->GetValue() * I_;
 		}
 	} //namespace elements
 } //namespace dive

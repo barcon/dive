@@ -71,7 +71,7 @@ namespace dive
 			IScalarPtr GetMass() const;
 			void SetMass(IScalarPtr mass);
 
-			Matrix	M() const;
+			void Mass(Matrix& output) const;
 
 		protected:
 			ElementMass();
