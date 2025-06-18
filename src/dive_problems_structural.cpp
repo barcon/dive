@@ -199,20 +199,6 @@ namespace dive {
 
 			TimerElapsed(__FUNCTION__);
 
-			/*
-			TimerStart();
-
-			auto massWeak = weakforms::CreateWeakFormMassStructural();
-			massWeak->SetTemperature(temperature_);
-			massWeak->SetPressure(pressure_);
-
-			auto problemStructural = std::make_shared<ProblemStructural>(*this);
-			
-			auto res = IntegralForm(massWeak, problemStructural, problemStructural);
-
-			TimerElapsed(__FUNCTION__);
-			*/
-
 			return global;
 		}
 		Sparse ProblemStructural::Stiffness() const

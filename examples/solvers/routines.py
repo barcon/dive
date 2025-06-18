@@ -53,57 +53,54 @@ def IterativeCG(A, x, b):
 
     return monitor
 
-def ForwardMethod(timer, y0, equation):
+def ForwardMethod(timer, y, equation):
     t = timer.GetCurrent()
     dt = timer.GetStepSize()
-    y1 = dive.Vector(y0)
-    dydt = dive.Vector(y0)
+    dydt = dive.Vector(y)
 
-    M, f = equation(t, y0)
-    monitor = Iterative(M, dydt, f)
-    
-    y1 = y0 + dt * dydt
+    M, f = equation(t, y)
+    monitor = IterativeCG(M, dydt, f)
 
-    return y1
+    return y + dt * dydt
 
-def BackwardMethod(timer, y0, equation):
+def BackwardMethod(timer, y, equation):
     tolerance = 1.0e-3
     t = timer.GetCurrent()
     dt = timer.GetStepSize()
-    y1 = dive.Vector(y0)
-    y2 = dive.Vector(y0)
-    dydt = dive.Vector(y0)
+    y1 = dive.Vector(y)
+    y2 = dive.Vector(y)
+    dydt = dive.Vector(y)
   
     norm = math.inf
     while (norm > tolerance):
         M, f = equation(t + dt, y1)
-        monitor = Iterative(M, dydt, f)
+        monitor = IterativeCG(M, dydt, f)
     
-        y2 = y0 + dt * dydt
+        y2 = y + dt * dydt
 
         norm = dive.NormP2(y2 - y1) / dive.NormP2(y2)
         y1 = y2
        
     return y1
 
-def CrankNicolsonMethod(timer, y0, equation):
+def CrankNicolsonMethod(timer, y, equation):
     tolerance = 1.0e-3
     t = timer.GetCurrent()
     dt = timer.GetStepSize()
-    y1 = dive.Vector(y0)
-    y2 = dive.Vector(y0)
-    dydt0 = dive.Vector(y0)    
-    dydt1 = dive.Vector(y0)    
+    y1 = dive.Vector(y)
+    y2 = dive.Vector(y)
+    dydt0 = dive.Vector(y)
+    dydt1 = dive.Vector(y)    
 
-    M, f = equation(t, y0)
+    M, f = equation(t, y)
     monitor = Iterative(M, dydt0, f)
 
     norm = math.inf
     while (norm > tolerance):
         M, f = equation(t + dt, y1)
-        monitor = Iterative(M, dydt1, f)
+        monitor = IterativeCG(M, dydt1, f)
     
-        y2 = y0 + dt * 0.5* (dydt1 + dydt0)
+        y2 = y + dt * 0.5* (dydt1 + dydt0)
 
         norm = dive.NormP2(y2 - y1) / dive.NormP2(y2)
         y1 = y2

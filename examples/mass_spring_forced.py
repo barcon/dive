@@ -54,21 +54,21 @@ structural.Initialize()
 
 M = structural.PartitionMatrix(structural.GetProblem().Mass())
 K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
-y = structural.PartitionVector(structural.GetProblem().Displacement())
+x = structural.PartitionVector(structural.GetProblem().Displacement())
+v = structural.PartitionVector(structural.GetProblem().Velocity())
 f = structural.PartitionVector(structural.GetProblem().LoadNode())
 
-def Equation(t, y0):
+def ODE1(t, x):
     global M
     global K
-    global y
+    global x
     global f
 
-    return [M[3], -(K[2] * y[0] + K[3] * y[1]) + f[1]]
+    return [M[3], -(K[2] * x[0] + K[3] * x[1]) + f[1]]
 
-print(Equation(timer.GetCurrent(), y)[0])
 
-#solvers.ForwardMethod(timer, M[3], )
-
+v = solvers.ForwardMethod(timer, v[1], ODE1)
+x = solvers.BackwardMethod(timer, x[1], ODE2)
+print(v)
 #monitor = solvers.IterativeBiCGStab(K[3], y[1], -K[2] * y[0] + f[1])
 #structural.UpdateMeshValues(y)
-#print(y[1])
