@@ -1,6 +1,6 @@
 #include "dive_problems.hpp"
 
-#include "dive_loads_dirichlet.hpp"
+#include "dive_loads_boundary_condition.hpp"
 #include "dive_loads_distributed_volume.hpp"
 #include "dive_loads_distributed_face.hpp"
 #include "dive_loads_distributed_edge.hpp"
@@ -96,7 +96,7 @@ namespace dive
 				}
 				else
 				{
-					if (load->GetType() == loads::load_distributedVolume)
+					if (load->GetType() == loads::load_distributed_volume)
 					{
 						const auto& element = std::dynamic_pointer_cast<loads::ILoadDistributedVolume>(load)->GetElement();
 
@@ -105,7 +105,7 @@ namespace dive
 						numberNodes = element->GetNumberNodes();
 						elementIndex = element->GetElementIndex();
 					}
-					else if (load->GetType() == loads::load_distributedFace)
+					else if (load->GetType() == loads::load_distributed_face)
 					{
 						const auto& element = std::static_pointer_cast<loads::ILoadDistributedFace>(load)->GetElement();
 
@@ -114,7 +114,7 @@ namespace dive
 						numberNodes = element->GetNumberNodes();
 						elementIndex = element->GetElementIndex();
 					}
-					else if (load->GetType() == loads::load_distributedEdge)
+					else if (load->GetType() == loads::load_distributed_edge)
 					{
 						const auto& element = std::static_pointer_cast<loads::ILoadDistributedEdge>(load)->GetElement();
 
@@ -248,7 +248,7 @@ namespace dive
 
 			TimerElapsed(__FUNCTION__);
 		}
-		void UpdateDirichletIndices(Dirichlets& dirichlets, DofIndex& pivot, DofMeshIndices& dofMeshIndices, DirichletMeshIndices& dirichletMeshIndices)
+		void UpdateDirichletIndices(BoundaryConditions& dirichlets, DofIndex& pivot, DofMeshIndices& dofMeshIndices, DirichletMeshIndices& dirichletMeshIndices)
 		{
 			TimerStart();
 

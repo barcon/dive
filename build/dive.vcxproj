@@ -66,7 +66,7 @@
     <ClInclude Include="..\src\dive_elements_mass.hpp" />
     <ClInclude Include="..\src\dive_elements_spring.hpp" />
     <ClInclude Include="..\src\dive_loads.hpp" />
-    <ClInclude Include="..\src\dive_loads_dirichlet.hpp" />
+    <ClInclude Include="..\src\dive_loads_boundary_condition.hpp" />
     <ClInclude Include="..\src\dive_loads_distributed_edge.hpp" />
     <ClInclude Include="..\src\dive_loads_distributed_face.hpp" />
     <ClInclude Include="..\src\dive_loads_distributed_volume.hpp" />
@@ -117,7 +117,7 @@
     <ClCompile Include="..\src\dive_elements_mass.cpp" />
     <ClCompile Include="..\src\dive_elements_spring.cpp" />
     <ClCompile Include="..\src\dive_export_python.cpp" />
-    <ClCompile Include="..\src\dive_loads_dirichlet.cpp" />
+    <ClCompile Include="..\src\dive_loads_boundary_condition.cpp" />
     <ClCompile Include="..\src\dive_loads_distributed_edge.cpp" />
     <ClCompile Include="..\src\dive_loads_distributed_face.cpp" />
     <ClCompile Include="..\src\dive_loads_distributed_volume.cpp" />

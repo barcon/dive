@@ -44,10 +44,10 @@ def ApplyDirichlet(nodes, value, dof = None):
         if (dof == None):
             numberDof = node.GetNumberDof()
             for i in range(0, numberDof):
-                dirichlet = CreateDirichletByValue(node, i, value)
+                dirichlet = CreateBoundaryCondition(node, i, CreateValueScalar3D(value))
                 problem.AddDirichlet(dirichlet)
         else:
-            dirichlet = CreateDirichletByValue(node, dof, value)
+            dirichlet = CreateBoundaryCondition(node, dof, CreateValueScalar3D(value))
             problem.AddDirichlet(dirichlet)
     return
 

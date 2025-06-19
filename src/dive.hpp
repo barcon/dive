@@ -22,7 +22,7 @@
 #include "dive_selection.hpp"
 
 #include "dive_loads.hpp"
-#include "dive_loads_dirichlet.hpp"
+#include "dive_loads_boundary_condition.hpp"
 #include "dive_loads_distributed_edge.hpp"
 #include "dive_loads_distributed_face.hpp"
 #include "dive_loads_distributed_volume.hpp"

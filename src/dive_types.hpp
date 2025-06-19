@@ -70,7 +70,7 @@ namespace dive
 	using ElementIndex = Index;
 	using FaceIndex = Index;
 	using EdgeIndex = Index;
-	using DirichletIndex = Index;
+	using BoundaryConditionIndex = Index;
 	using DimensionIndex = Index;
 	using CoordinateIndex = Index;
 	using CacheIndex = Index;
@@ -89,10 +89,6 @@ namespace dive
 
 	using String = utils::String;
 	static const String headerDive = "DIVE";
-
-	using Function_Pointer_D_D	= values::Function_Pointer_D_D;
-	using Function_Pointer_D_DD	= values::Function_Pointer_D_DD;
-	using Function_Pointer_D_DDD= values::Function_Pointer_D_DDD;
 
 	namespace timers
 	{
@@ -264,25 +260,13 @@ namespace dive
 
 	namespace loads
 	{
-		class IDirichlet;
-		using IDirichletPtr = std::shared_ptr<IDirichlet>;
-		using ConstIDirichletPtr = std::shared_ptr<const IDirichlet>;
+		class IBoundaryCondition;
+		using IBoundaryConditionPtr = std::shared_ptr<IBoundaryCondition>;
+		using ConstIBoundaryConditionPtr = std::shared_ptr<const IBoundaryCondition>;
 
-		class Dirichlet;
-		using DirichletPtr = std::shared_ptr<Dirichlet>;
-		using ConstDirichletPtr = std::shared_ptr<const Dirichlet>;
-
-		class DirichletFunction;
-		using DirichletFunctionPtr = std::shared_ptr<DirichletFunction>;
-		using ConstDirichletFunctionPtr = std::shared_ptr<const DirichletFunction>;
-
-		class INeumann;
-		using INeumannPtr = std::shared_ptr<INeumann>;
-		using ConstINeumannPtr = std::shared_ptr<const INeumann>;
-
-		class NeumannHeatConductionFace;
-		using NeumannHeatConductionFacePtr = std::shared_ptr<NeumannHeatConductionFace>;
-		using ConstNeumannHeatConductionFacePtr = std::shared_ptr<const NeumannHeatConductionFace>;
+		class BoundaryCondition;
+		using BoundaryConditionPtr = std::shared_ptr<BoundaryCondition>;
+		using ConstBoundaryConditionPtr = std::shared_ptr<const BoundaryCondition>;
 
 		class ILoad;
 		using ILoadPtr = std::shared_ptr<ILoad>;
@@ -353,8 +337,7 @@ namespace dive
 	using IMaterialPtr = material::IMaterialPtr;
 	using IGaussPtr = quadrature::IGaussPtr;
 	using IInterpolationPtr = interpolation::IInterpolationPtr;
-	using IDirichletPtr = loads::IDirichletPtr;
-	using INeumannPtr = loads::INeumannPtr;
+	using IBoundaryConditionPtr = loads::IBoundaryConditionPtr;
 	using ILoadPtr = loads::ILoadPtr;
 	using IProblemPtr = problems::IProblemPtr;
 
@@ -367,8 +350,7 @@ namespace dive
 	using Values = std::vector<IValuePtr>;
 	using Nodes = std::vector<INodePtr>;
 	using Elements = std::vector<IElementPtr>;
-	using Dirichlets = std::vector<IDirichletPtr>;
-	using Neumanns = std::vector<INeumannPtr>;
+	using BoundaryConditions = std::vector<IBoundaryConditionPtr>;
 	using Loads = std::vector<ILoadPtr>;
 	using Materials = std::vector<IMaterialPtr>;
 	using Meshes = std::vector<IMeshPtr>;

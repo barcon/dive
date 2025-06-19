@@ -847,7 +847,7 @@ namespace dive
 			Vector local;
 			Vector point(numberCoordinates_);
 
-			if (load->GetType() == loads::load_distributedVolume)
+			if (load->GetType() == loads::load_distributed_volume)
 			{
 				const auto& force = std::static_pointer_cast<loads::LoadDistributedVolume>(load);
 				const auto& points = gaussHexa_->GetPoints();
@@ -864,7 +864,7 @@ namespace dive
 					output = output + weights[i] * DetJ(points[i], i) * local;
 				}
 			}
-			else if(load->GetType() == loads::load_distributedFace)
+			else if(load->GetType() == loads::load_distributed_face)
 			{ 
 				const auto& force = std::static_pointer_cast<loads::LoadDistributedFace>(load);
 				const auto& points = gaussRect_->GetPoints();
@@ -892,7 +892,7 @@ namespace dive
 					output = output + weights[i] * DelA(point, helper.index1, helper.index2) * local;
 				}
 			}
-			else if (load->GetType() == loads::load_distributedEdge)
+			else if (load->GetType() == loads::load_distributed_edge)
 			{
 				const auto& force = std::static_pointer_cast<loads::LoadDistributedEdge>(load);
 				const auto& points = gaussLine_->GetPoints();

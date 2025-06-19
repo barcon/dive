@@ -79,7 +79,7 @@ namespace dive {
 		{
 			return tag_;
 		}
-		const Dirichlets& ProblemFluid::GetDirichlets() const
+		const BoundaryConditions& ProblemFluid::GetDirichlets() const
 		{
 			return dirichlets_;
 		}
@@ -126,7 +126,7 @@ namespace dive {
 		{
 			tag_ = tag;
 		}
-		void ProblemFluid::AddDirichlet(IDirichletPtr dirichlet)
+		void ProblemFluid::AddDirichlet(IBoundaryConditionPtr dirichlet)
 		{
 			dirichlets_.push_back(dirichlet);
 		}

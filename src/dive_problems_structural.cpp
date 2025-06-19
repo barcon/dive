@@ -77,9 +77,13 @@ namespace dive {
 		{
 			return tag_;
 		}
-		const Dirichlets& ProblemStructural::GetDirichlets() const
+		const BoundaryConditions& ProblemStructural::GetDirichlets() const
 		{
 			return dirichlets_;
+		}
+		const BoundaryConditions& ProblemStructural::GetVelocity() const
+		{
+			return velocities_;
 		}
 		const Loads& ProblemStructural::GetLoads() const
 		{
@@ -119,9 +123,13 @@ namespace dive {
 		{
 			tag_ = tag;
 		}
-		void ProblemStructural::AddDirichlet(IDirichletPtr dirichlet)
+		void ProblemStructural::AddDirichlet(IBoundaryConditionPtr dirichlet)
 		{
 			dirichlets_.push_back(dirichlet);
+		}
+		void ProblemStructural::AddVelocity(IBoundaryConditionPtr velocity)
+		{
+			velocities_.push_back(velocity);
 		}
 		void ProblemStructural::AddLoad(ILoadPtr load)
 		{
@@ -314,15 +322,45 @@ namespace dive {
 		{
 			Vector res(totalDof_, 0.0);
 
-			for (Index i = 0; i < dofMeshIndices_.size(); ++i)
+			for (Index i = 0; i < velocities_.size(); ++i)
 			{
-				auto globalIndex = dofMeshIndices_[i].globalIndex;
-				auto dofIndex = dofMeshIndices_[i].dofIndex;
+				auto dofIndex = dirichlets_[i]->GetDofIndex();
+				auto globalIndex = dirichlets_[i]->GetNode()->GetConnectivity().globalDofIndices[dofIndex];
 
-				res(globalIndex) = dofMeshIndices_[i].node->GetValue(dofIndex);
+				res(globalIndex) = dirichlets_[i]->GetValue();
+			}
+
+			return res;
+		}
+		Vector ProblemStructural::Velocity() const
+		{
+			Vector res(totalDof_, 0.0);
+
+			for (Index i = 0; i < velocities_.size(); ++i)
+			{
+				auto dofIndex = velocities_[i]->GetDofIndex();
+				auto globalIndex = velocities_[i]->GetNode()->GetConnectivity().globalDofIndices[dofIndex];
+				
+				res(globalIndex) = velocities_[i]->GetValue();
 			}
 
 			return res;
 		}
 	} // namespace problems
 } // namespace dive
+
+/*
+
+Vector res(totalDof_, 0.0);
+
+for (Index i = 0; i < dofMeshIndices_.size(); ++i)
+{
+	auto globalIndex = dofMeshIndices_[i].globalIndex;
+	auto dofIndex = dofMeshIndices_[i].dofIndex;
+
+	res(globalIndex) = dofMeshIndices_[i].node->GetValue(dofIndex);
+}
+
+return res;
+
+*/

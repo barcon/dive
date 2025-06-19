@@ -8,21 +8,21 @@ namespace dive
 {
 	namespace loads
 	{
-		static const Type load_dirichlet			= 1;
-		static const Type load_distributedVolume	= 2;
-		static const Type load_distributedFace		= 3;
-		static const Type load_distributedEdge		= 4;
+		static const Type load_boundary_condition	= 1;
+		static const Type load_distributed_volume	= 2;
+		static const Type load_distributed_face		= 3;
+		static const Type load_distributed_edge		= 4;
 		static const Type load_node					= 5;
-		static const Type load_initialStrain		= 6;
-		static const Type load_temperatureStrain	= 7;
-		static const Type load_heatSourceVolume		= 8;
-		static const Type load_heatConductionFace	= 9;
-		static const Type load_couplingEquation		= 10;
+		static const Type load_initial_strain		= 6;
+		static const Type load_temperature_strain	= 7;
+		static const Type load_heat_source_volume	= 8;
+		static const Type load_heat_conduction_face	= 9;
+		static const Type load_coupling_equation	= 10;
 		
-		class IDirichlet
+		class IBoundaryCondition
 		{
 		public:
-			virtual ~IDirichlet() = default;
+			virtual ~IBoundaryCondition() = default;
 
 			virtual Type GetType() const = 0;
 			virtual INodePtr GetNode() const = 0;

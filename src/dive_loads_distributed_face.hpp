@@ -30,7 +30,7 @@ namespace dive
 		protected:
 			LoadDistributedFace() = default;
 
-			const Type type_{ load_distributedFace };
+			const Type type_{ load_distributed_face };
 
 			FaceIndex faceIndex_{ 0 };
 			IVector3DPtr value_{ nullptr };

@@ -68,7 +68,7 @@ def ODE1(t, x):
 
 
 v = solvers.ForwardMethod(timer, v[1], ODE1)
-x = solvers.BackwardMethod(timer, x[1], ODE2)
+x = solvers.ForwardMethod(timer, x[1], ODE2)
 print(v)
 #monitor = solvers.IterativeBiCGStab(K[3], y[1], -K[2] * y[0] + f[1])
 #structural.UpdateMeshValues(y)

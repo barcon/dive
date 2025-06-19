@@ -28,7 +28,7 @@ namespace dive
 		protected:
 			LoadDistributedVolume() = default;
 
-			const Type type_{ load_distributedVolume };
+			const Type type_{ load_distributed_volume };
 
 			IVector3DPtr value_{ nullptr };
 			IElementMappedPtr element_{ nullptr };

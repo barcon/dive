@@ -57,7 +57,7 @@ namespace interpolation
 	using ElementIndex = Index;
 	using FaceIndex = Index;
 	using EdgeIndex = Index;
-	using DirichletIndex = Index;
+	using BoundaryConditionIndex = Index;
 	using DimensionIndex = Index;
 	using CoordinateIndex = Index;
 	using CacheIndex = Index;

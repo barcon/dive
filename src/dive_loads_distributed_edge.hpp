@@ -30,7 +30,7 @@ namespace dive
 		protected:
 			LoadDistributedEdge() = default;
 
-			const Type type_{ load_distributedEdge };
+			const Type type_{ load_distributed_edge };
 
 			EdgeIndex edgeIndex_{ 0 };
 			IVector3DPtr value_{ nullptr };

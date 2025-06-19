@@ -1,6 +1,5 @@
 #include "dive_problems_thermal.hpp"
 #include "dive_values_scalar_congruent.hpp"
-#include <limits>
 
 namespace dive {
 	namespace problems {
@@ -75,7 +74,7 @@ namespace dive {
 		{
 			return tag_;
 		}
-		const Dirichlets& ProblemThermal::GetDirichlets() const
+		const BoundaryConditions& ProblemThermal::GetDirichlets() const
 		{
 			return dirichlets_;
 		}
@@ -114,7 +113,7 @@ namespace dive {
 		{
 			tag_ = tag;
 		}
-		void ProblemThermal::AddDirichlet(IDirichletPtr dirichlet)
+		void ProblemThermal::AddDirichlet(IBoundaryConditionPtr dirichlet)
 		{
 			dirichlets_.push_back(dirichlet);
 		}
