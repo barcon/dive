@@ -54,21 +54,34 @@ structural.Initialize()
 
 M = structural.PartitionMatrix(structural.GetProblem().Mass())
 K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
-x = structural.PartitionVector(structural.GetProblem().Displacement())
-v = structural.PartitionVector(structural.GetProblem().Velocity())
 f = structural.PartitionVector(structural.GetProblem().LoadNode())
+u = structural.PartitionVector(structural.GetProblem().Displacement())
+v = structural.PartitionVector(structural.GetProblem().Velocity())
 
-def ODE1(t, x):
+def ODE1():
     global M
     global K
-    global x
+    global u
     global f
 
-    return [M[3], -(K[2] * x[0] + K[3] * x[1]) + f[1]]
+    u = structural.PartitionVector(structural.GetProblem().Displacement())
 
+    return [M[3], -(K[2] * u[0] + K[3] * u[1]) + f[1]]
 
-v = solvers.ForwardMethod(timer, v[1], ODE1)
-x = solvers.ForwardMethod(timer, x[1], ODE2)
-print(v)
+def ODE2():
+    totalDof = structural.GetProblem().GetTotalDof()
+    pivot = structural.GetProblem().GetPivot()
+    
+    D = structural.PartitionMatrix(structural.Ellpack(totalDof, totalDof, 1.0).Diagonal())
+    v = structural.PartitionVector(structural.GetProblem().Velocity())
+
+    return [D[3], v]
+
+v[1] = solvers.ForwardMethod(timer, v[1], ODE1)
+structural.UpdateVelocity(v)
+
+u[1] = solvers.ForwardMethod(timer, u[1], ODE2)
+structural.UpdateDisplacement(u)
+
 #monitor = solvers.IterativeBiCGStab(K[3], y[1], -K[2] * y[0] + f[1])
 #structural.UpdateMeshValues(y)

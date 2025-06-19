@@ -51,6 +51,20 @@ def ApplyDirichlet(nodes, value, dof = None):
             problem.AddDirichlet(dirichlet)
     return
 
+def ApplyVelocity(nodes, value, dof = None):
+    global problem
+
+    for node in nodes:
+        if (dof == None):
+            numberDof = node.GetNumberDof()
+            for i in range(0, numberDof):
+                velocity = CreateBoundaryCondition(node, i, CreateValueScalar3D(value))
+                problem.AddVelocity(velocity)
+        else:
+            velocity = CreateBoundaryCondition(node, dof, CreateValueScalar3D(value))
+            problem.AddVelocity(velocity)
+    return
+
 def PartitionVector(vector):
     global problem
 
