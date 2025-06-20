@@ -81,6 +81,8 @@ namespace dive
 			
 			virtual Vector Momentum() const = 0;
 			virtual Vector Velocity() const = 0;
+
+			virtual void UpdateMeshValuesMomentum(const Vector& q) = 0;
 		};
 
 		class IPressure : public IProblem
@@ -144,8 +146,9 @@ namespace dive
 			virtual Vector Velocity() const = 0;
 			
 			virtual void AddVelocity(IBoundaryConditionPtr velocity) = 0;
-			
+
 			virtual const BoundaryConditions& GetVelocity() const = 0;
+
 		};
 	} //namespace problems
 } //namespace dive

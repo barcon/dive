@@ -5959,6 +5959,9 @@ class IFluid(IProblem):
     def Velocity(self):
         return _dive.IFluid_Velocity(self)
 
+    def UpdateMeshValuesMomentum(self, q):
+        return _dive.IFluid_UpdateMeshValuesMomentum(self, q)
+
 # Register IFluid in _dive:
 _dive.IFluid_swigregister(IFluid)
 class IPressure(IProblem):

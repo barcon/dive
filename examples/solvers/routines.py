@@ -53,15 +53,15 @@ def IterativeCG(A, x, b):
 
     return monitor
 
-def ForwardMethod(timer, y0, equation):
+def ForwardMethod(timer, y, equation):
     t = timer.GetCurrent()
     dt = timer.GetStepSize()
-    dydt = dive.Vector(y0)
+    dydt = dive.Vector(y)
 
-    A, b = equation()
+    A, b = equation(t)
     monitor = IterativeCG(A, dydt, b)
 
-    return y0 + dt * dydt
+    return y + dt * dydt
 
 def BackwardMethod(timer, y, equation):
     tolerance = 1.0e-3
@@ -73,7 +73,7 @@ def BackwardMethod(timer, y, equation):
   
     norm = math.inf
     while (norm > tolerance):
-        M, f = equation(t + dt, y1)
+        M, f = equation(t + dt)
         monitor = IterativeCG(M, dydt, f)
     
         y2 = y + dt * dydt
@@ -92,12 +92,12 @@ def CrankNicolsonMethod(timer, y, equation):
     dydt0 = dive.Vector(y)
     dydt1 = dive.Vector(y)    
 
-    M, f = equation(t, y)
+    M, f = equation(t)
     monitor = IterativeCG(M, dydt0, f)
 
     norm = math.inf
     while (norm > tolerance):
-        M, f = equation(t + dt, y1)
+        M, f = equation(t + dt)
         monitor = IterativeCG(M, dydt1, f)
     
         y2 = y + dt * 0.5* (dydt1 + dydt0)
