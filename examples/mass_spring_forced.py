@@ -3,9 +3,7 @@ import solvers
 import plots
 import math
 
-def Harmonic(x, y, z):
-    global timer
-    t = timer.GetCurrent() 
+def Harmonic(t, x, y, z):
     omega = 1.0
     amplitude = 20.0
 
@@ -58,7 +56,7 @@ f = structural.PartitionVector(structural.GetProblem().LoadNode())
 u = structural.PartitionVector(structural.GetProblem().Displacement())
 v = structural.PartitionVector(structural.GetProblem().Velocity())
 
-def ODE1(t):
+def ODE1():
     global M
     global K
     global u
@@ -66,7 +64,7 @@ def ODE1(t):
 
     return [M[3], -(K[2] * u[0] + K[3] * u[1]) + f[1]]
 
-def ODE2(t):
+def ODE2():
     global v
 
     totalDof = structural.GetProblem().GetTotalDof()
