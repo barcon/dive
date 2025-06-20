@@ -58,8 +58,8 @@ def ForwardMethod(timer, y, equation):
     dt = timer.GetStepSize()
     dydt = dive.Vector(y)
 
-    A, b = equation(t)
-    monitor = IterativeCG(A, dydt, b)
+    M, f = equation(t)
+    monitor = IterativeCG(M, dydt, f)
 
     return y + dt * dydt
 
