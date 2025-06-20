@@ -210,12 +210,12 @@ namespace dive {
 		{
 			Vector res(totalDof_, 0.0);
 
-			for (Index i = 0; i < dofMeshIndices_.size(); ++i)
+			for (Index i = 0; i < dirichlets_.size(); ++i)
 			{
-				auto globalIndex = dofMeshIndices_[i].globalIndex;
-				auto dofIndex = dofMeshIndices_[i].dofIndex;
+				auto dofIndex = dirichlets_[i]->GetDofIndex();
+				auto globalIndex = dirichlets_[i]->GetNode()->GetConnectivity().globalDofIndices[dofIndex];
 
-				res(globalIndex) = dofMeshIndices_[i].node->GetValue(dofIndex);
+				res(globalIndex) = dirichlets_[i]->GetValue();
 			}
 
 			return res;

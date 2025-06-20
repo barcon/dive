@@ -18,7 +18,10 @@
     $1 = (double (*)(double, double, double, double))PyLong_AsVoidPtr($input);
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 46afc5bd19b2cee55a896136f2916b4b9013c6a3
 %inline
 %{
 	#include "values_types.hpp"
@@ -226,6 +229,7 @@ def CreateValueScalar3DFunction(function, name = "", key = ""):
 	f = py_function_pointer_D_DDD(function)
 	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
 	
+<<<<<<< HEAD
 	return _dive.CreateValueScalar3DFunction(f_ptr, name, key)	
 	
 def CreateValueScalarFunctionTime(function, name = "", key = ""):
@@ -251,4 +255,13 @@ def CreateValueScalar3DFunctionTime(function, name = "", key = ""):
 	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
 	
 	return _dive.CreateValueScalar3DFunctionTime(f_ptr, name, key)		
+=======
+	return _dive.CreateValueScalar3DFunction(f_ptr, name, key)
+	
+def CreateValueScalar4DFunction(function, name = "", key = ""):
+	f = py_function_pointer_D_DDDD(function)
+	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
+	
+	return _dive.CreateValueScalar4DFunction(f_ptr, name, key)	
+>>>>>>> 46afc5bd19b2cee55a896136f2916b4b9013c6a3
 %}

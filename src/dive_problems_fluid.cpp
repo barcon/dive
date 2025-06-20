@@ -269,14 +269,16 @@ namespace dive {
 		Vector ProblemFluid::Momentum() const
 		{
 			Vector res(totalDof_, 0.0);
-			Vector velocity = Velocity();
+			
+			const auto& elements = mesh_->GetElements();
 
-			auto& elements = mesh_->GetElements();
-
-			for (Index i = 0; i < dofMeshIndices_.size(); ++i)
+			for (Index i = 0; i < dirichlets_.size(); ++i)
 			{
-				const auto& node = dofMeshIndices_[i].node;
-				const auto& element = node->GetConnectivity().elements[0];
+				auto dofIndex = dirichlets_[i]->GetDofIndex();
+				auto globalIndex = dirichlets_[i]->GetNode()->GetConnectivity().globalDofIndices[dofIndex];
+				
+				const auto& node = dirichlets_[i]->GetNode();
+				const auto& element = dirichlets_[i]->GetNode()->GetConnectivity().elements[0];
 				const auto& point = element->LocalCoordinates(node);
 				const auto& material = element->GetMaterial();
 
@@ -284,7 +286,7 @@ namespace dive {
 				auto pressure = values::GetValue(pressure_, point, element);
 				auto density = material->GetDensity(temperature, pressure);
 
-				res(dofMeshIndices_[i].globalIndex) = density * velocity(dofMeshIndices_[i].globalIndex);
+				res(globalIndex) = density * dirichlets_[i]->GetValue();
 			}
 
 			return res;
@@ -293,12 +295,12 @@ namespace dive {
 		{
 			Vector res(totalDof_, 0.0);
 
-			for (Index i = 0; i < dofMeshIndices_.size(); ++i)
+			for (Index i = 0; i < dirichlets_.size(); ++i)
 			{
-				auto globalIndex = dofMeshIndices_[i].globalIndex;
-				auto dofIndex = dofMeshIndices_[i].dofIndex;
+				auto dofIndex = dirichlets_[i]->GetDofIndex();
+				auto globalIndex = dirichlets_[i]->GetNode()->GetConnectivity().globalDofIndices[dofIndex];
 
-				res(globalIndex) = dofMeshIndices_[i].node->GetValue(dofIndex);
+				res(globalIndex) = dirichlets_[i]->GetValue();
 			}
 
 			return res;

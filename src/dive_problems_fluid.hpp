@@ -57,7 +57,7 @@ namespace dive
 			void AddLoad(ILoadPtr load) override;
 			void Initialize() override;
 			void UpdateMeshValues(const Vector& u) override;
-			void UpdateMeshValuesMomentum(const Vector& q);
+			void UpdateMeshValuesMomentum(const Vector& q) override;
 
 			Sparse Mass() const override;
 			Sparse Stiffness() const override;

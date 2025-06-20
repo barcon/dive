@@ -322,7 +322,7 @@ namespace dive {
 		{
 			Vector res(totalDof_, 0.0);
 
-			for (Index i = 0; i < velocities_.size(); ++i)
+			for (Index i = 0; i < dirichlets_.size(); ++i)
 			{
 				auto dofIndex = dirichlets_[i]->GetDofIndex();
 				auto globalIndex = dirichlets_[i]->GetNode()->GetConnectivity().globalDofIndices[dofIndex];
@@ -348,19 +348,3 @@ namespace dive {
 		}
 	} // namespace problems
 } // namespace dive
-
-/*
-
-Vector res(totalDof_, 0.0);
-
-for (Index i = 0; i < dofMeshIndices_.size(); ++i)
-{
-	auto globalIndex = dofMeshIndices_[i].globalIndex;
-	auto dofIndex = dofMeshIndices_[i].dofIndex;
-
-	res(globalIndex) = dofMeshIndices_[i].node->GetValue(dofIndex);
-}
-
-return res;
-
-*/

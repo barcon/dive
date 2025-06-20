@@ -3,9 +3,7 @@ import solvers
 import plots
 import math
 
-def Harmonic(x, y, z):
-    global timer
-    t = timer.GetCurrent() 
+def Harmonic(t, x, y, z):
     omega = 1.0
     amplitude = 20.0
 
@@ -64,24 +62,24 @@ def ODE1():
     global u
     global f
 
-    u = structural.PartitionVector(structural.GetProblem().Displacement())
-
     return [M[3], -(K[2] * u[0] + K[3] * u[1]) + f[1]]
 
 def ODE2():
+    global v
+
     totalDof = structural.GetProblem().GetTotalDof()
     pivot = structural.GetProblem().GetPivot()
     
     D = structural.PartitionMatrix(structural.Ellpack(totalDof, totalDof, 1.0).Diagonal())
-    v = structural.PartitionVector(structural.GetProblem().Velocity())
 
-    return [D[3], v]
+    return [D[3], v[1]]
 
-v[1] = solvers.ForwardMethod(timer, v[1], ODE1)
-structural.UpdateVelocity(v)
+while(timer.GetCurrent() != timer.GetEnd()):
 
-u[1] = solvers.ForwardMethod(timer, u[1], ODE2)
-structural.UpdateDisplacement(u)
+    print("{:.3f}".format(timer.GetCurrent()), "{:.3f}".format(u[1](0)))
 
-#monitor = solvers.IterativeBiCGStab(K[3], y[1], -K[2] * y[0] + f[1])
-#structural.UpdateMeshValues(y)
+    v[1] = solvers.ForwardMethod(timer, v[1], ODE1)
+    u[1] = solvers.ForwardMethod(timer, u[1], ODE2)
+    structural.UpdateMeshValues(u)    
+    
+    timer.SetNextStep()

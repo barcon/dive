@@ -335,7 +335,6 @@ namespace dive
 
 			Index counter{ 0 };
 			
-
 			for (Index i = 0; i < dofMeshIndices.size(); ++i)
 			{
 				if (dofMeshIndices[i].dirichlet != nullptr)
