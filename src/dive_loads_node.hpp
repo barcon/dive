@@ -1,5 +1,5 @@
-#ifndef DIVE_LOADS_DISTRIBUTED_NODE_HPP_
-#define DIVE_LOADS_DISTRIBUTED_NODE_HPP_
+#ifndef DIVE_LOADS_NODE_HPP_
+#define DIVE_LOADS_NODE_HPP_
 
 #include "dive_loads.hpp"
 
@@ -37,4 +37,4 @@ namespace dive
 	} //namespace loads
 } //namespace dive
 
-#endif /* DIVE_LOADS_DISTRIBUTED_NODE_HPP_ */
+#endif /* DIVE_LOADS_NODE_HPP_ */

@@ -316,18 +316,27 @@ namespace dive
 		using ConstProblemStructuralPtr = std::shared_ptr<const ProblemStructural>;
 	}
 
-	using ITimerPtr = timers::ITimerPtr;
-	using IBasisPtr = basis::IBasisPtr;
-
 	using IValuePtr = values::IValuePtr;
+	using IBoolPtr = values::IBoolPtr;
+	using IStringPtr = values::IStringPtr;
+	
 	using IScalarPtr = values::IScalarPtr;
 	using IScalar1DPtr = values::IScalar1DPtr;
 	using IScalar2DPtr = values::IScalar2DPtr;
 	using IScalar3DPtr = values::IScalar3DPtr;
+	
+	using IVectorPtr = values::IVectorPtr;
+	using IVector1DPtr = values::IVector1DPtr;
+	using IVector2DPtr = values::IVector2DPtr;
 	using IVector3DPtr = values::IVector3DPtr;
+	
+	using IMatrixPtr = values::IMatrixPtr;
+	using IMatrix1DPtr = values::IMatrix1DPtr;
+	using IMatrix2DPtr = values::IMatrix2DPtr;
 	using IMatrix3DPtr = values::IMatrix3DPtr;
-	using IStringPtr = values::IStringPtr;
 
+	using ITimerPtr = timers::ITimerPtr;
+	using IBasisPtr = basis::IBasisPtr;
 	using INodePtr = nodes::INodePtr;
 	using IElementPtr = elements::IElementPtr;
 	using IElementMappedPtr = elements::IElementMappedPtr;
