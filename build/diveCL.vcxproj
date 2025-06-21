@@ -33,9 +33,6 @@
     <TargetName>_diveCL</TargetName>
     <TargetExt>.pyd</TargetExt>
   </PropertyGroup>
-  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='PythonCL|x64'">
-    <VcpkgConfiguration>Release</VcpkgConfiguration>
-  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='PythonCL|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -63,15 +60,18 @@
     <ClInclude Include="..\src\dive.hpp" />
     <ClInclude Include="..\src\dive_elements.hpp" />
     <ClInclude Include="..\src\dive_elements_hexa.hpp" />
+    <ClInclude Include="..\src\dive_elements_mass.hpp" />
+    <ClInclude Include="..\src\dive_elements_spring.hpp" />
     <ClInclude Include="..\src\dive_loads.hpp" />
-    <ClInclude Include="..\src\dive_loads_dirichlet.hpp" />
+    <ClInclude Include="..\src\dive_loads_boundary_condition.hpp" />
     <ClInclude Include="..\src\dive_loads_distributed_edge.hpp" />
     <ClInclude Include="..\src\dive_loads_distributed_face.hpp" />
     <ClInclude Include="..\src\dive_loads_distributed_volume.hpp" />
+    <ClInclude Include="..\src\dive_loads_node.hpp" />
+    <ClInclude Include="..\src\dive_loads_node_transient.hpp" />
     <ClInclude Include="..\src\dive_meshes.hpp" />
     <ClInclude Include="..\src\dive_meshes_basic.hpp" />
     <ClInclude Include="..\src\dive_problems.hpp" />
-    <ClInclude Include="..\src\dive_problems_basic.hpp" />
     <ClInclude Include="..\src\dive_problems_fluid.hpp" />
     <ClInclude Include="..\src\dive_problems_pressure.hpp" />
     <ClInclude Include="..\src\dive_problems_structural.hpp" />
@@ -87,7 +87,6 @@
     <ClInclude Include="..\src\dive_values_scalar_congruent.hpp" />
     <ClInclude Include="..\src\dive_values_vector_congruent.hpp" />
     <ClInclude Include="..\src\dive_weakforms.hpp" />
-    <ClInclude Include="..\src\dive_weakforms_basic.hpp" />
     <ClInclude Include="..\src\dive_weakforms_fluid_convection.hpp" />
     <ClInclude Include="..\src\dive_weakforms_fluid_convection_asymmetric.hpp" />
     <ClInclude Include="..\src\dive_weakforms_fluid_convection_symmetric.hpp" />
@@ -101,6 +100,8 @@
     <ClInclude Include="..\src\dive_weakforms_pressure_mass.hpp" />
     <ClInclude Include="..\src\dive_weakforms_pressure_stabilization.hpp" />
     <ClInclude Include="..\src\dive_weakforms_pressure_stiffness.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_structural_load_distributed_edge.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_structural_load_distributed_face.hpp" />
     <ClInclude Include="..\src\dive_weakforms_structural_load_distributed_volume.hpp" />
     <ClInclude Include="..\src\dive_weakforms_structural_mass.hpp" />
     <ClInclude Include="..\src\dive_weakforms_structural_stiffness.hpp" />
@@ -111,13 +112,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\dive_elements_hexa.cpp" />
+    <ClCompile Include="..\src\dive_elements_mass.cpp" />
+    <ClCompile Include="..\src\dive_elements_spring.cpp" />
     <ClCompile Include="..\src\dive_export_python_OpenCL.cpp" />
-    <ClCompile Include="..\src\dive_loads_dirichlet.cpp" />
+    <ClCompile Include="..\src\dive_loads_boundary_condition.cpp" />
     <ClCompile Include="..\src\dive_loads_distributed_edge.cpp" />
     <ClCompile Include="..\src\dive_loads_distributed_face.cpp" />
     <ClCompile Include="..\src\dive_loads_distributed_volume.cpp" />
+    <ClCompile Include="..\src\dive_loads_node.cpp" />
+    <ClCompile Include="..\src\dive_loads_node_transient.cpp" />
     <ClCompile Include="..\src\dive_meshes_basic.cpp" />
-    <ClCompile Include="..\src\dive_problems_basic.cpp" />
+    <ClCompile Include="..\src\dive_problems.cpp" />
     <ClCompile Include="..\src\dive_problems_fluid.cpp" />
     <ClCompile Include="..\src\dive_problems_pressure.cpp" />
     <ClCompile Include="..\src\dive_problems_structural.cpp" />
@@ -129,7 +134,6 @@
     <ClCompile Include="..\src\dive_values_matrix_congruent.cpp" />
     <ClCompile Include="..\src\dive_values_scalar_congruent.cpp" />
     <ClCompile Include="..\src\dive_values_vector_congruent.cpp" />
-    <ClCompile Include="..\src\dive_weakforms_basic.cpp" />
     <ClCompile Include="..\src\dive_weakforms_fluid_convection.cpp" />
     <ClCompile Include="..\src\dive_weakforms_fluid_convection_asymmetric.cpp" />
     <ClCompile Include="..\src\dive_weakforms_fluid_convection_symmetric.cpp" />
@@ -143,6 +147,8 @@
     <ClCompile Include="..\src\dive_weakforms_pressure_mass.cpp" />
     <ClCompile Include="..\src\dive_weakforms_pressure_stabilization.cpp" />
     <ClCompile Include="..\src\dive_weakforms_pressure_stiffness.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_structural_load_distributed_edge.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_structural_load_distributed_face.cpp" />
     <ClCompile Include="..\src\dive_weakforms_structural_load_distributed_volume.cpp" />
     <ClCompile Include="..\src\dive_weakforms_structural_mass.cpp" />
     <ClCompile Include="..\src\dive_weakforms_structural_stiffness.cpp" />

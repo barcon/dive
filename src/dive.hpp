@@ -27,6 +27,7 @@
 #include "dive_loads_distributed_face.hpp"
 #include "dive_loads_distributed_volume.hpp"
 #include "dive_loads_node.hpp"
+#include "dive_loads_node_transient.hpp"
 
 #include "dive_weakforms.hpp"
 #include "dive_weakforms_thermal_mass.hpp"

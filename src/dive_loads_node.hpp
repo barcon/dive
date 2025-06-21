@@ -30,8 +30,8 @@ namespace dive
 
 			const Type type_{ load_node };
 
-			IVector3DPtr value_{ nullptr };
 			INodePtr node_{ nullptr };
+			IVector3DPtr value_{ nullptr };
 		};
 
 	} //namespace loads

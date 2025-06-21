@@ -18,10 +18,6 @@
     $1 = (double (*)(double, double, double, double))PyLong_AsVoidPtr($input);
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 46afc5bd19b2cee55a896136f2916b4b9013c6a3
 %inline
 %{
 	#include "values_types.hpp"
@@ -44,14 +40,17 @@
 	typedef std::shared_ptr<values::IValue> IValuePtr;
 	typedef std::shared_ptr<values::IBool> IBoolPtr;
 	typedef std::shared_ptr<values::IString> IStringPtr;
+	
 	typedef std::shared_ptr<values::IScalar> IScalarPtr;
 	typedef std::shared_ptr<values::IScalar1D> IScalar1DPtr;
 	typedef std::shared_ptr<values::IScalar2D> IScalar2DPtr;
 	typedef std::shared_ptr<values::IScalar3D> IScalar3DPtr;
+	
 	typedef std::shared_ptr<values::IVector> IVector;
 	typedef std::shared_ptr<values::IVector1D> IVector1DPtr;
 	typedef std::shared_ptr<values::IVector2D> IVector2DPtr;
 	typedef std::shared_ptr<values::IVector3D> IVector3DPtr;
+
 	typedef std::shared_ptr<values::IMatrix> IMatrix;
 	typedef std::shared_ptr<values::IMatrix1D> IMatrix1DPtr;
 	typedef std::shared_ptr<values::IMatrix2D> IMatrix2DPtr;
@@ -61,17 +60,20 @@
 	typedef std::shared_ptr<values::IScalar1DTime> IScalar1DTimePtr;
 	typedef std::shared_ptr<values::IScalar2DTime> IScalar2DTimePtr;
 	typedef std::shared_ptr<values::IScalar3DTime> IScalar3DTimePtr;
+	
 	typedef std::shared_ptr<values::IVectorTime> IVectorTime;
 	typedef std::shared_ptr<values::IVector1DTime> IVector1DTimePtr;
 	typedef std::shared_ptr<values::IVector2DTime> IVector2DTimePtr;
 	typedef std::shared_ptr<values::IVector3DTime> IVector3DTimePtr;
+	
 	typedef std::shared_ptr<values::IMatrixTime> IMatrixTime;
 	typedef std::shared_ptr<values::IMatrix1DTime> IMatrix1DTimePtr;
 	typedef std::shared_ptr<values::IMatrix2DTime> IMatrix2DTimePtr;
 	typedef std::shared_ptr<values::IMatrix3DTime> IMatrix3DTimePtr;
 	
 	typedef std::shared_ptr<values::ValueBool> ValueBoolPtr;
-	typedef std::shared_ptr<values::ValueString> ValueStringPtr;	
+	typedef std::shared_ptr<values::ValueString> ValueStringPtr;
+	
 	typedef std::shared_ptr<values::ValueScalar> ValueScalarPtr;
 	typedef std::shared_ptr<values::ValueScalarFunction> ValueScalarFunctionPtr;	
 	typedef std::shared_ptr<values::ValueScalarFunctionTime> ValueScalarFunctionTimePtr;	
@@ -86,6 +88,7 @@
 	typedef std::shared_ptr<values::ValueScalar3DFunctionTime> ValueScalar3DFunctionTimePtr;
 	typedef std::shared_ptr<values::ValueScalar3DInterpolation> ValueScalar3DInterpolationPtr;
 	typedef std::shared_ptr<values::ValueScalar3DCongruent> ValueScalar3DCongruentPtr;	
+	
 	typedef std::shared_ptr<values::ValueVector> ValueVectorPtr;
 	typedef std::shared_ptr<values::ValueVectorScalars> ValueVectorScalarsPtr;
 	typedef std::shared_ptr<values::ValueVectorScalarsTime> ValueVectorScalarsTimePtr;
@@ -99,6 +102,7 @@
 	typedef std::shared_ptr<values::ValueVector3DScalars> ValueVector3DScalarsPtr;
 	typedef std::shared_ptr<values::ValueVector3DScalarsTime> ValueVector3DScalarsTimePtr;
 	typedef std::shared_ptr<values::ValueVector3DCongruent> ValueVector3DCongruentPtr;
+	
 	typedef std::shared_ptr<values::ValueMatrix> ValueMatrixPtr;
 	typedef std::shared_ptr<values::ValueMatrix1D> ValueMatrix1DPtr;
 	typedef std::shared_ptr<values::ValueMatrix2D> ValueMatrix2DPtr;
@@ -228,9 +232,8 @@ def CreateValueScalar2DFunction(function, name = "", key = ""):
 def CreateValueScalar3DFunction(function, name = "", key = ""):
 	f = py_function_pointer_D_DDD(function)
 	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
-	
-<<<<<<< HEAD
-	return _dive.CreateValueScalar3DFunction(f_ptr, name, key)	
+
+#------------------------------------------------------------------------------
 	
 def CreateValueScalarFunctionTime(function, name = "", key = ""):
 	f = py_function_pointer_D_D(function)
@@ -252,16 +255,8 @@ def CreateValueScalar2DFunctionTime(function, name = "", key = ""):
 
 def CreateValueScalar3DFunctionTime(function, name = "", key = ""):
 	f = py_function_pointer_D_DDDD(function)
-	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
+	f_ptr = ctypes.cast(f, ctypes.c_void_p).value	
 	
-	return _dive.CreateValueScalar3DFunctionTime(f_ptr, name, key)		
-=======
-	return _dive.CreateValueScalar3DFunction(f_ptr, name, key)
-	
-def CreateValueScalar4DFunction(function, name = "", key = ""):
-	f = py_function_pointer_D_DDDD(function)
-	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
-	
-	return _dive.CreateValueScalar4DFunction(f_ptr, name, key)	
->>>>>>> 46afc5bd19b2cee55a896136f2916b4b9013c6a3
+	return _dive.CreateValueScalar3DFunctionTime(f_ptr, name, key)	
+
 %}

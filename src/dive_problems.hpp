@@ -141,6 +141,7 @@ namespace dive
 			virtual Vector LoadDistributedFace() const = 0;
 			virtual Vector LoadDistributedVolume() const = 0;
 			virtual Vector LoadNode() const = 0;
+			virtual Vector LoadNode(Scalar time) const = 0;
 
 			virtual Vector Displacement() const = 0;
 			virtual Vector Velocity() const = 0;

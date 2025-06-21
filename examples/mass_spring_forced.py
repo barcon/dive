@@ -9,6 +9,9 @@ def Harmonic(t, x, y, z):
 
     return amplitude * math.cos(omega * t)
 
+def Zero(t, x, y, z):
+    return 0.0
+
 T_ref   = 313.15      #[K]      = 40 [°C]
 p_ref   = 101325.1    #[N/m²]   =  1 [atm]
 basis   = structural.CreateBasisCartesian(1)
@@ -36,10 +39,10 @@ mesh.AddNode(node2, status, True)
 mesh.AddElement(spring, status)
 mesh.AddElement(mass, status)
 
-force = structural.CreateValueVector3DScalars(3)
-force.SetScalar(0, structural.CreateValueScalar3DFunction(Harmonic))
-force.SetScalar(1, structural.CreateValueScalar3D(0.0))
-force.SetScalar(2, structural.CreateValueScalar3D(0.0))
+force = structural.CreateValueVector3DScalarsTime(3)
+force.SetScalar(0, structural.CreateValueScalar3DFunctionTime(Harmonic))
+force.SetScalar(1, structural.CreateValueScalar3DFunctionTime(Zero))
+force.SetScalar(2, structural.CreateValueScalar3DFunctionTime(Zero))
 
 structural.CreateProblem(1, timer, mesh, temperature, pressure)
 structural.ApplyDirichlet([node1], 0.0)
@@ -49,7 +52,7 @@ structural.ApplyLoadNode([node2], force)
 structural.Initialize()
 
 #--------------------------------------------------------------------------------------------------
-
+quit()
 M = structural.PartitionMatrix(structural.GetProblem().Mass())
 K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
 f = structural.PartitionVector(structural.GetProblem().LoadNode())
