@@ -43,7 +43,7 @@ forceVector[1] = 0.0
 forceVector[2] = 0.0
 force = structural.CreateValueVector3D(forceVector)
 
-structural.CreateProblem(1, timer, mesh, temperature, pressure)
+structural.CreateProblem(1, mesh, temperature, pressure)
 structural.ApplyDirichlet([node1], 0.0)
 structural.ApplyDirichlet([node2], 0.0, dof = 1)
 structural.ApplyDirichlet([node2], 0.0, dof = 2)

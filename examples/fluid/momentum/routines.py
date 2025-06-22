@@ -2,11 +2,10 @@ from dive import *
 
 problem = None
 
-def CreateProblem(tag, timer, mesh, temperature, pressure):
+def CreateProblem(tag, mesh, temperature, pressure):
     global problem
 
     problem = CreateProblemFluid(tag)
-    problem.SetTimer(timer)
     problem.SetMesh(mesh)
     problem.SetTemperature(temperature)
     problem.SetPressure(pressure) 

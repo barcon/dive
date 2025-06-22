@@ -79,12 +79,12 @@ nodesRight = thermal.FilterNodesByCoordinate(meshThermal.GetNodes(), basis, ther
 nodesCurve = thermal.FilterNodesByCoordinate(meshThermal.GetNodes(), basis, thermal.axis_y, 0.0, tolerance)
 nodesCurve = thermal.FilterNodesByCoordinate(nodesCurve, basis, thermal.axis_z, 0.0, tolerance)
 
-thermal.CreateProblem(1, timer, meshThermal, pressure)
+thermal.CreateProblem(1, meshThermal, pressure)
 thermal.ApplyDirichlet(nodesLeft, 1.0)
 thermal.ApplyDirichlet(nodesRight, 0.0)
 thermal.Initialize()
 
-fluid.momentum.CreateProblem(1, timer, meshMomentum, temperature, pressure)
+fluid.momentum.CreateProblem(1, meshMomentum, temperature, pressure)
 meshes.routines.ApplyField(meshMomentum, dof = 3, function = FunctionVelocity)
 fluid.momentum.Initialize()
 #--------------------------------------------------------------------------------------------------

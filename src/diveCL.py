@@ -6751,9 +6751,6 @@ class IProblem(object):
     def GetPivot(self):
         return _diveCL.IProblem_GetPivot(self)
 
-    def GetTimer(self):
-        return _diveCL.IProblem_GetTimer(self)
-
     def GetMesh(self):
         return _diveCL.IProblem_GetMesh(self)
 
@@ -6777,9 +6774,6 @@ class IProblem(object):
 
     def GetDirichletMeshIndices(self):
         return _diveCL.IProblem_GetDirichletMeshIndices(self)
-
-    def SetTimer(self, timer):
-        return _diveCL.IProblem_SetTimer(self, timer)
 
     def SetMesh(self, mesh):
         return _diveCL.IProblem_SetMesh(self, mesh)
@@ -6976,14 +6970,11 @@ class IStructural(IProblem):
     def LoadDistributedVolume(self):
         return _diveCL.IStructural_LoadDistributedVolume(self)
 
-    def LoadNode(self):
-        return _diveCL.IStructural_LoadNode(self)
+    def LoadNode(self, *args):
+        return _diveCL.IStructural_LoadNode(self, *args)
 
     def Displacement(self):
         return _diveCL.IStructural_Displacement(self)
-
-    def Velocity(self):
-        return _diveCL.IStructural_Velocity(self)
 
     def AddVelocity(self, velocity):
         return _diveCL.IStructural_AddVelocity(self, velocity)
@@ -7020,9 +7011,6 @@ class ProblemThermal(IThermal):
     def GetPivot(self):
         return _diveCL.ProblemThermal_GetPivot(self)
 
-    def GetTimer(self):
-        return _diveCL.ProblemThermal_GetTimer(self)
-
     def GetTemperature(self):
         return _diveCL.ProblemThermal_GetTemperature(self)
 
@@ -7052,9 +7040,6 @@ class ProblemThermal(IThermal):
 
     def GetDirichletMeshIndices(self):
         return _diveCL.ProblemThermal_GetDirichletMeshIndices(self)
-
-    def SetTimer(self, timer):
-        return _diveCL.ProblemThermal_SetTimer(self, timer)
 
     def SetPressure(self, pressure):
         return _diveCL.ProblemThermal_SetPressure(self, pressure)
@@ -7121,9 +7106,6 @@ class ProblemFluid(IFluid):
     def GetPivot(self):
         return _diveCL.ProblemFluid_GetPivot(self)
 
-    def GetTimer(self):
-        return _diveCL.ProblemFluid_GetTimer(self)
-
     def GetTemperature(self):
         return _diveCL.ProblemFluid_GetTemperature(self)
 
@@ -7156,9 +7138,6 @@ class ProblemFluid(IFluid):
 
     def GetDirichletMeshIndices(self):
         return _diveCL.ProblemFluid_GetDirichletMeshIndices(self)
-
-    def SetTimer(self, timer):
-        return _diveCL.ProblemFluid_SetTimer(self, timer)
 
     def SetTemperature(self, temperature):
         return _diveCL.ProblemFluid_SetTemperature(self, temperature)
@@ -7246,9 +7225,6 @@ class ProblemPressure(IPressure):
     def GetPivot(self):
         return _diveCL.ProblemPressure_GetPivot(self)
 
-    def GetTimer(self):
-        return _diveCL.ProblemPressure_GetTimer(self)
-
     def GetTemperature(self):
         return _diveCL.ProblemPressure_GetTemperature(self)
 
@@ -7281,9 +7257,6 @@ class ProblemPressure(IPressure):
 
     def GetDirichletMeshIndices(self):
         return _diveCL.ProblemPressure_GetDirichletMeshIndices(self)
-
-    def SetTimer(self, timer):
-        return _diveCL.ProblemPressure_SetTimer(self, timer)
 
     def SetTemperature(self, temperature):
         return _diveCL.ProblemPressure_SetTemperature(self, temperature)
@@ -7356,9 +7329,6 @@ class ProblemStructural(IStructural):
     def GetPivot(self):
         return _diveCL.ProblemStructural_GetPivot(self)
 
-    def GetTimer(self):
-        return _diveCL.ProblemStructural_GetTimer(self)
-
     def GetTemperature(self):
         return _diveCL.ProblemStructural_GetTemperature(self)
 
@@ -7391,9 +7361,6 @@ class ProblemStructural(IStructural):
 
     def GetDirichletMeshIndices(self):
         return _diveCL.ProblemStructural_GetDirichletMeshIndices(self)
-
-    def SetTimer(self, timer):
-        return _diveCL.ProblemStructural_SetTimer(self, timer)
 
     def SetTemperature(self, temperature):
         return _diveCL.ProblemStructural_SetTemperature(self, temperature)
@@ -7437,14 +7404,11 @@ class ProblemStructural(IStructural):
     def LoadDistributedVolume(self):
         return _diveCL.ProblemStructural_LoadDistributedVolume(self)
 
-    def LoadNode(self):
-        return _diveCL.ProblemStructural_LoadNode(self)
+    def LoadNode(self, *args):
+        return _diveCL.ProblemStructural_LoadNode(self, *args)
 
     def Displacement(self):
         return _diveCL.ProblemStructural_Displacement(self)
-
-    def Velocity(self):
-        return _diveCL.ProblemStructural_Velocity(self)
 
 # Register ProblemStructural in _diveCL:
 _diveCL.ProblemStructural_swigregister(ProblemStructural)

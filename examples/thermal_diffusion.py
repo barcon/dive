@@ -24,7 +24,7 @@ nodesBottom = thermal.FilterNodesByCoordinate(mesh.GetNodes(), basis, thermal.ax
 nodesLeft = thermal.FilterNodesByCoordinate(mesh.GetNodes(), basis, thermal.axis_x, 0.0, 0.001)
 nodesRight = thermal.FilterNodesByCoordinate(mesh.GetNodes(), basis, thermal.axis_x, meshes.cavity.x, 0.001)
 
-thermal.CreateProblem(1, timer, mesh, pressure)
+thermal.CreateProblem(1, mesh, pressure)
 thermal.ApplyDirichlet(nodesTop, 100.0)
 thermal.ApplyDirichlet(nodesBottom, 0.0)
 thermal.ApplyDirichlet(nodesLeft, 0.0)

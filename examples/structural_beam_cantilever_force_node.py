@@ -29,7 +29,7 @@ forceVector[1] = 0.0
 forceVector[2] = 10000000
 force = structural.CreateValueVector3D(forceVector)
 
-structural.CreateProblem(1, timer, mesh, temperature, pressure)
+structural.CreateProblem(1, mesh, temperature, pressure)
 structural.ApplyDirichlet(nodesLeft, 0.0)
 structural.ApplyLoadNode(nodesRight, force)
 structural.Initialize()

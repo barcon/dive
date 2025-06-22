@@ -51,10 +51,6 @@ namespace dive {
 		{
 			return pivot_;
 		}
-		ITimerPtr ProblemFluid::GetTimer() const
-		{
-			return timer_;
-		}
 		IScalar3DPtr ProblemFluid::GetTemperature() const
 		{
 			return temperature_;
@@ -98,10 +94,6 @@ namespace dive {
 		const DirichletMeshIndices& ProblemFluid::GetDirichletMeshIndices() const
 		{
 			return dirichletMeshIndices_;
-		}
-		void ProblemFluid::SetTimer(ITimerPtr timer)
-		{
-			timer_ = timer;
 		}
 		void ProblemFluid::SetTemperature(IScalar3DPtr temperature)
 		{
@@ -246,7 +238,7 @@ namespace dive {
 
 			auto problemFluid = std::make_shared<ProblemFluid>(*this);
 
-			auto res = Vector(IntegralForm(loadDistributedVolumeWeak, problemFluid, loads_), 0);
+			auto res = Vector(IntegralForm(loadDistributedVolumeWeak, problemFluid, loads_, 0.0), 0);
 
 			TimerElapsed(__FUNCTION__);
 
@@ -260,7 +252,7 @@ namespace dive {
 
 			auto problemFluid = std::make_shared<ProblemFluid>(*this);
 
-			auto res = Vector(IntegralForm(loadDistributedVolumeStabilizationWeak, problemFluid, loads_), 0);
+			auto res = Vector(IntegralForm(loadDistributedVolumeStabilizationWeak, problemFluid, loads_, 0.0), 0);
 
 			TimerElapsed(__FUNCTION__);
 
@@ -272,21 +264,21 @@ namespace dive {
 			
 			const auto& elements = mesh_->GetElements();
 
-			for (Index i = 0; i < dirichlets_.size(); ++i)
+			for (Index i = 0; i < dofMeshIndices_.size(); ++i)
 			{
-				auto dofIndex = dirichlets_[i]->GetDofIndex();
-				auto globalIndex = dirichlets_[i]->GetNode()->GetConnectivity().globalDofIndices[dofIndex];
-				
-				const auto& node = dirichlets_[i]->GetNode();
-				const auto& element = dirichlets_[i]->GetNode()->GetConnectivity().elements[0];
-				const auto& point = element->LocalCoordinates(node);
-				const auto& material = element->GetMaterial();
+				auto globalIndex = dofMeshIndices_[i].globalIndex;
+				auto dofIndex = dofMeshIndices_[i].dofIndex;
 
+				const auto& node = dofMeshIndices_[i].node;
+				const auto& element = dofMeshIndices_[i].node->GetConnectivity().elements[0];
+				const auto& point = element->LocalCoordinates(node);
+				
+				auto material = std::static_pointer_cast<material::IMaterialFluid>(element->GetMaterial());
 				auto temperature = values::GetValue(temperature_, point, element);
 				auto pressure = values::GetValue(pressure_, point, element);
 				auto density = material->GetDensity(temperature, pressure);
 
-				res(globalIndex) = density * dirichlets_[i]->GetValue();
+				res(globalIndex) = density * dofMeshIndices_[i].node->GetValue(dofIndex);
 			}
 
 			return res;
@@ -295,12 +287,12 @@ namespace dive {
 		{
 			Vector res(totalDof_, 0.0);
 
-			for (Index i = 0; i < dirichlets_.size(); ++i)
+			for (Index i = 0; i < dofMeshIndices_.size(); ++i)
 			{
-				auto dofIndex = dirichlets_[i]->GetDofIndex();
-				auto globalIndex = dirichlets_[i]->GetNode()->GetConnectivity().globalDofIndices[dofIndex];
+				auto globalIndex = dofMeshIndices_[i].globalIndex;
+				auto dofIndex = dofMeshIndices_[i].dofIndex;
 
-				res(globalIndex) = dirichlets_[i]->GetValue();
+				res(globalIndex) = dofMeshIndices_[i].node->GetValue(dofIndex);
 			}
 
 			return res;

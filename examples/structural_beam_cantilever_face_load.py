@@ -28,7 +28,7 @@ pressureVector[1] = 0.0
 pressureVector[2] = 10000000
 pressureLoad = structural.CreateValueVector3D(pressureVector)
 
-structural.CreateProblem(1, timer, mesh, temperature, pressure)
+structural.CreateProblem(1, mesh, temperature, pressure)
 structural.ApplyDirichlet(nodesLeft, 0.0)
 structural.ApplyLoadDistributedFace(elementsRight, pressureLoad, 0)
 structural.Initialize()

@@ -30,7 +30,6 @@ namespace dive
 			NumberDof GetTotalDof() const override;
 			DofIndex GetPivot() const override;
 
-			ITimerPtr GetTimer() const override;
 			IScalar3DPtr GetTemperature() const override;
 			IScalar3DPtr GetPressure() const override;
 			IMeshPtr GetMesh() const override;
@@ -44,7 +43,6 @@ namespace dive
 			const NodeMeshIndices& GetNodeMeshIndices() const override;
 			const DirichletMeshIndices& GetDirichletMeshIndices() const override;
 
-			void SetTimer(ITimerPtr timer) override;
 			void SetPressure(IScalar3DPtr pressure) override;
 			void SetMesh(IMeshPtr mesh) override;
 			void SetTag(Tag tag) override;
@@ -70,7 +68,6 @@ namespace dive
 			NumberDof totalDof_{ 0 };
 			DofIndex pivot_{ 0 };
 
-			ITimerPtr timer_{ nullptr };
 			IScalar3DPtr temperature_{ nullptr };
 			IScalar3DPtr pressure_{ nullptr };
 			IMeshPtr mesh_{ nullptr };

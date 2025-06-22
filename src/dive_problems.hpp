@@ -17,7 +17,7 @@ namespace dive
 		static const Type problem_structural= 4;
 
 		Sparse IntegralForm(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2);
-		Vector IntegralForm(IWeakFormLoadPtr weakForm, IProblemPtr problem1, const Loads& loads);
+		Vector IntegralForm(IWeakFormLoadPtr weakForm, IProblemPtr problem1, const Loads& loads, Scalar time);
 
 		void UpdateMeshElements(IMeshPtr mesh, NumberDof numberDof);
 		void UpdateDofMeshIndices(IMeshPtr mesh, NumberDof& totalDof, DofMeshIndices& dofMeshIndices);
@@ -36,7 +36,6 @@ namespace dive
 			virtual NumberDof GetTotalDof() const = 0;
 			virtual DofIndex GetPivot() const = 0;
 
-			virtual ITimerPtr GetTimer() const = 0;
 			virtual IMeshPtr GetMesh() const = 0;
 			virtual Type GetType() const = 0;
 			virtual Tag	GetTag() const = 0;
@@ -48,7 +47,6 @@ namespace dive
 			virtual const NodeMeshIndices& GetNodeMeshIndices() const = 0;
 			virtual const DirichletMeshIndices& GetDirichletMeshIndices() const = 0;
 
-			virtual void SetTimer(ITimerPtr timer) = 0;
 			virtual void SetMesh(IMeshPtr mesh) = 0;
 			virtual void SetTag(Tag tag) = 0;
 
@@ -144,7 +142,6 @@ namespace dive
 			virtual Vector LoadNode(Scalar time) const = 0;
 
 			virtual Vector Displacement() const = 0;
-			virtual Vector Velocity() const = 0;
 			
 			virtual void AddVelocity(IBoundaryConditionPtr velocity) = 0;
 

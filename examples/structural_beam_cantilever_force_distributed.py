@@ -26,7 +26,7 @@ gravity[1] = 0.0
 gravity[2] = 1000000.0
 weight = structural.CreateValueVector3D(steel.GetDensity(T_ref, p_ref) * gravity)
 
-structural.CreateProblem(1, timer, mesh, temperature, pressure)
+structural.CreateProblem(1, mesh, temperature, pressure)
 structural.ApplyDirichlet(nodesLeft, 0.0)
 structural.ApplyLoadDistributedVolume(mesh.GetElements(), weight)
 structural.Initialize()

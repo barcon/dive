@@ -2,11 +2,10 @@ from dive import *
 
 problem = None
 
-def CreateProblem(tag, timer, mesh, temperature, pressure):
+def CreateProblem(tag, mesh, temperature, pressure):
     global problem
 
     problem = CreateProblemStructural(tag)
-    problem.SetTimer(timer)
     problem.SetMesh(mesh)
     problem.SetTemperature(temperature)
     problem.SetPressure(pressure)
@@ -94,6 +93,14 @@ def ApplyLoadNode(nodes, load):
 
     for node in nodes:
         problem.AddLoad(CreateLoadNode(node, load))
+    
+    return
+
+def ApplyLoadNodeTransient(nodes, load):
+    global problem
+
+    for node in nodes:
+        problem.AddLoad(CreateLoadNodeTransient(node, load))
     
     return
 

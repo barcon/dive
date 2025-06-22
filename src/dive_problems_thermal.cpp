@@ -50,10 +50,6 @@ namespace dive {
 		{
 			return pivot_;
 		}
-		ITimerPtr ProblemThermal::GetTimer() const
-		{
-			return timer_;
-		}
 		IScalar3DPtr ProblemThermal::GetTemperature() const
 		{
 			return temperature_;
@@ -93,10 +89,6 @@ namespace dive {
 		const DirichletMeshIndices& ProblemThermal::GetDirichletMeshIndices() const
 		{
 			return dirichletMeshIndices_;
-		}
-		void ProblemThermal::SetTimer(ITimerPtr timer)
-		{
-			timer_ = timer;
 		}
 		void ProblemThermal::SetPressure(IScalar3DPtr pressure)
 		{
@@ -210,12 +202,12 @@ namespace dive {
 		{
 			Vector res(totalDof_, 0.0);
 
-			for (Index i = 0; i < dirichlets_.size(); ++i)
+			for (Index i = 0; i < dofMeshIndices_.size(); ++i)
 			{
-				auto dofIndex = dirichlets_[i]->GetDofIndex();
-				auto globalIndex = dirichlets_[i]->GetNode()->GetConnectivity().globalDofIndices[dofIndex];
+				auto globalIndex = dofMeshIndices_[i].globalIndex;
+				auto dofIndex = dofMeshIndices_[i].dofIndex;
 
-				res(globalIndex) = dirichlets_[i]->GetValue();
+				res(globalIndex) = dofMeshIndices_[i].node->GetValue(dofIndex);
 			}
 
 			return res;

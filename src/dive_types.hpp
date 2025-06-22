@@ -37,6 +37,8 @@
 #include <limits>
 #include <variant>
 
+#define NOTIMER
+
 #ifdef NOTIMER
 	#define TimerStart() ((void)0)
 	#define TimerElapsed(function) ((void)0)

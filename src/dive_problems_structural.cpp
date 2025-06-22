@@ -53,10 +53,6 @@ namespace dive {
 		{
 			return pivot_;
 		}
-		ITimerPtr ProblemStructural::GetTimer() const
-		{
-			return timer_;
-		}
 		IScalar3DPtr ProblemStructural::GetTemperature() const
 		{
 			return temperature_;
@@ -100,10 +96,6 @@ namespace dive {
 		const DirichletMeshIndices& ProblemStructural::GetDirichletMeshIndices() const
 		{
 			return dirichletMeshIndices_;
-		}
-		void ProblemStructural::SetTimer(ITimerPtr timer)
-		{
-			timer_ = timer;
 		}
 		void ProblemStructural::SetTemperature(IScalar3DPtr temperature)
 		{
@@ -272,7 +264,7 @@ namespace dive {
 
 			auto problemStructural = std::make_shared<ProblemStructural>(*this);
 
-			auto res = IntegralForm(loadDistributedEdgeWeak, problemStructural, loads_);
+			auto res = IntegralForm(loadDistributedEdgeWeak, problemStructural, loads_, 0.0);
 
 			TimerElapsed(__FUNCTION__);
 
@@ -286,7 +278,7 @@ namespace dive {
 
 			auto problemStructural = std::make_shared<ProblemStructural>(*this);
 
-			auto res = IntegralForm(loadDistributedFaceWeak, problemStructural, loads_);
+			auto res = IntegralForm(loadDistributedFaceWeak, problemStructural, loads_, 0.0);
 
 			TimerElapsed(__FUNCTION__);
 
@@ -300,7 +292,7 @@ namespace dive {
 
 			auto problemStructural = std::make_shared<ProblemStructural>(*this);
 
-			auto res = IntegralForm(loadDistributedVolumeWeak, problemStructural, loads_);
+			auto res = IntegralForm(loadDistributedVolumeWeak, problemStructural, loads_, 0.0);
 
 			TimerElapsed(__FUNCTION__);
 
@@ -312,7 +304,19 @@ namespace dive {
 
 			auto problemStructural = std::make_shared<ProblemStructural>(*this);
 
-			auto res = Vector(IntegralForm(nullptr, problemStructural, loads_), 0);
+			auto res = Vector(IntegralForm(nullptr, problemStructural, loads_, 0.0), 0);
+
+			TimerElapsed(__FUNCTION__);
+
+			return res;
+		}
+		Vector ProblemStructural::LoadNode(Scalar time) const
+		{
+			TimerStart();
+
+			auto problemStructural = std::make_shared<ProblemStructural>(*this);
+
+			auto res = Vector(IntegralForm(nullptr, problemStructural, loads_, time), 0);
 
 			TimerElapsed(__FUNCTION__);
 
@@ -322,26 +326,12 @@ namespace dive {
 		{
 			Vector res(totalDof_, 0.0);
 
-			for (Index i = 0; i < dirichlets_.size(); ++i)
+			for (Index i = 0; i < dofMeshIndices_.size(); ++i)
 			{
-				auto dofIndex = dirichlets_[i]->GetDofIndex();
-				auto globalIndex = dirichlets_[i]->GetNode()->GetConnectivity().globalDofIndices[dofIndex];
+				auto globalIndex = dofMeshIndices_[i].globalIndex;
+				auto dofIndex = dofMeshIndices_[i].dofIndex;
 
-				res(globalIndex) = dirichlets_[i]->GetValue();
-			}
-
-			return res;
-		}
-		Vector ProblemStructural::Velocity() const
-		{
-			Vector res(totalDof_, 0.0);
-
-			for (Index i = 0; i < velocities_.size(); ++i)
-			{
-				auto dofIndex = velocities_[i]->GetDofIndex();
-				auto globalIndex = velocities_[i]->GetNode()->GetConnectivity().globalDofIndices[dofIndex];
-				
-				res(globalIndex) = velocities_[i]->GetValue();
+				res(globalIndex) = dofMeshIndices_[i].node->GetValue(dofIndex);
 			}
 
 			return res;
