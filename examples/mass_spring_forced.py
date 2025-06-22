@@ -61,16 +61,20 @@ M = structural.PartitionMatrix(structural.GetProblem().Mass())
 K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
 f = structural.PartitionVector(structural.GetProblem().LoadNode(timer.GetCurrent()))
 u = structural.PartitionVector(structural.GetProblem().Displacement())
+v = structural.PartitionVector(structural.Vector(totalDof, 0.0))
 
 def ODE1(time):
+    global D
     global M
     global K
     global u
+    global v
     global f
 
     u = structural.PartitionVector(structural.GetProblem().Displacement())
     f = structural.PartitionVector(structural.GetProblem().LoadNode(time))
-    
+
+    #print(-(K[2] * u[0] + K[3] * u[1]) + f[1])
     return [M[3], -(K[2] * u[0] + K[3] * u[1]) + f[1]]
 
 def ODE2(time):
@@ -79,18 +83,14 @@ def ODE2(time):
     
     return [D[3], v[1]]
 
-while(timer.GetCurrent() != timer.GetEnd()):
-
-    #print("{:.3f}".format(timer.GetCurrent()), "{:.3f}".format(u[1](0)))
+while(timer.GetCurrent() < timer.GetEnd()):
+    print("{:.2f}".format(timer.GetCurrent()), "{:.3f}".format(u[1](0)))
 
     #f = structural.PartitionVector(structural.GetProblem().LoadNode(timer.GetCurrent()))
     #print("{:.3f}".format(timer.GetCurrent()), "{:.3f}".format(f[1](0)))  
 
     v[1] = solvers.ForwardMethod(timer, v[1], ODE1)
     u[1] = solvers.ForwardMethod(timer, u[1], ODE2)
-    print(u[1])
     structural.UpdateMeshValues(u) 
-    u = structural.PartitionVector(structural.GetProblem().Displacement())       
-    print(u[1])
 
     timer.SetNextStep()

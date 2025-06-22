@@ -77,13 +77,12 @@ namespace dive
 			if (t_ + dt_ < t1_)
 			{
 				t_ = t_ + dt_;
+				counter_++;
 			}
 			else
 			{
 				t_ = t1_;
 			}
-
-			counter_++;
 		}
 		void TimerStepped::SetInitial(Scalar initialTime)
 		{
