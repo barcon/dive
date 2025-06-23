@@ -5,6 +5,7 @@
 #include "dive_loads_distributed_face.hpp"
 #include "dive_loads_distributed_edge.hpp"
 #include "dive_loads_node.hpp"
+#include "dive_loads_node_transient.hpp"
 #include "dive_selection.hpp"
 #include "dive_status.hpp"
 

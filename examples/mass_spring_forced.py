@@ -1,6 +1,6 @@
 import structural
 import solvers
-import plots
+import plots.oscillator
 import math
 
 def Harmonic(t, x, y, z):
@@ -15,7 +15,7 @@ def Zero(t, x, y, z):
 T_ref   = 313.15      #[K]      = 40 [°C]
 p_ref   = 101325.1    #[N/m²]   =  1 [atm]
 basis   = structural.CreateBasisCartesian(1)
-timer   = structural.CreateTimerStepped(1, 0.0, 10.0, 0.01)
+timer   = structural.CreateTimerStepped(1, 0.0, 20.0, 0.01)
 status  = 0
 
 temperature = structural.CreateValueScalar3D(T_ref)
@@ -63,6 +63,10 @@ f = structural.PartitionVector(structural.GetProblem().LoadNode(timer.GetCurrent
 u = structural.PartitionVector(structural.GetProblem().Displacement())
 v = structural.PartitionVector(structural.Vector(totalDof, 0.0))
 
+t = []
+y = []
+dydt = []
+
 def ODE1(time):
     global D
     global M
@@ -70,27 +74,40 @@ def ODE1(time):
     global u
     global v
     global f
+    
+    global t
+    global y
+    global dydt
 
     u = structural.PartitionVector(structural.GetProblem().Displacement())
-    f = structural.PartitionVector(structural.GetProblem().LoadNode(time))
+    #f = structural.PartitionVector(structural.GetProblem().LoadNode(time))
 
-    #print(-(K[2] * u[0] + K[3] * u[1]) + f[1])
+    f[1].SetValue(0, Harmonic(time, 0.0, 0.0, 0.0))
+
+    print(-(K[2] * u[0] + K[3] * u[1]))
     return [M[3], -(K[2] * u[0] + K[3] * u[1]) + f[1]]
 
 def ODE2(time):
     global D
-    global v 
-    
+    global v
+
+    #v[1][0] = Harmonic(time, 0.0, 0.0, 0.0)
+
     return [D[3], v[1]]
 
 while(timer.GetCurrent() < timer.GetEnd()):
-    print("{:.2f}".format(timer.GetCurrent()), "{:.3f}".format(u[1](0)))
+    #u[1] = solvers.ForwardMethod(timer, u[1], ODE2)
+    
+    t.append(timer.GetCurrent())
+    y.append(u[1][0])
+    dydt.append(v[1][0])
 
-    #f = structural.PartitionVector(structural.GetProblem().LoadNode(timer.GetCurrent()))
-    #print("{:.3f}".format(timer.GetCurrent()), "{:.3f}".format(f[1](0)))  
+    #print("{:.2f}".format(timer.GetCurrent()), "{:.3f}".format(u[1](0)))
 
     v[1] = solvers.ForwardMethod(timer, v[1], ODE1)
     u[1] = solvers.ForwardMethod(timer, u[1], ODE2)
     structural.UpdateMeshValues(u) 
 
     timer.SetNextStep()
+
+plots.oscillator.Show(t, y, y)
