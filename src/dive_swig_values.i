@@ -24,6 +24,7 @@
 	#include "values_bool.hpp"
 	#include "values_string.hpp"	
 	#include "values_scalar.hpp"
+	#include "values_scalar_time.hpp"
 	#include "values_scalar_function.hpp"
 	#include "values_scalar_function_time.hpp"
 	#include "values_scalar_interpolation.hpp"
@@ -75,15 +76,19 @@
 	typedef std::shared_ptr<values::ValueString> ValueStringPtr;
 	
 	typedef std::shared_ptr<values::ValueScalar> ValueScalarPtr;
+	typedef std::shared_ptr<values::ValueScalarTime> ValueScalarTimePtr;
 	typedef std::shared_ptr<values::ValueScalarFunction> ValueScalarFunctionPtr;	
 	typedef std::shared_ptr<values::ValueScalarFunctionTime> ValueScalarFunctionTimePtr;	
 	typedef std::shared_ptr<values::ValueScalar1D> ValueScalar1DPtr;
+	typedef std::shared_ptr<values::ValueScalar1DTime> ValueScalar1DTimePtr;
 	typedef std::shared_ptr<values::ValueScalar1DFunction> ValueScalar1DFunctionPtr;	
 	typedef std::shared_ptr<values::ValueScalar1DFunctionTime> ValueScalar1DFunctionTimePtr;	
 	typedef std::shared_ptr<values::ValueScalar2D> ValueScalar2DPtr;
+	typedef std::shared_ptr<values::ValueScalar2DTime> ValueScalar2DTimePtr;
 	typedef std::shared_ptr<values::ValueScalar2DFunction> ValueScalar2DFunctionPtr;
 	typedef std::shared_ptr<values::ValueScalar2DFunctionTime> ValueScalar2DFunctionTimePtr;
 	typedef std::shared_ptr<values::ValueScalar3D> ValueScalar3DPtr;
+	typedef std::shared_ptr<values::ValueScalar3DTime> ValueScalar3DTimePtr;
 	typedef std::shared_ptr<values::ValueScalar3DFunction> ValueScalar3DFunctionPtr;
 	typedef std::shared_ptr<values::ValueScalar3DFunctionTime> ValueScalar3DFunctionTimePtr;
 	typedef std::shared_ptr<values::ValueScalar3DInterpolation> ValueScalar3DInterpolationPtr;
@@ -149,15 +154,19 @@
 %shared_ptr(values::ValueString);
 
 %shared_ptr(values::ValueScalar);
+%shared_ptr(values::ValueScalarTime);
 %shared_ptr(values::ValueScalarFunction);
 %shared_ptr(values::ValueScalarFunctionTime);
 %shared_ptr(values::ValueScalar1D);
+%shared_ptr(values::ValueScalar1DTime);
 %shared_ptr(values::ValueScalar1DFunction);
 %shared_ptr(values::ValueScalar1DFunctionTime);
 %shared_ptr(values::ValueScalar2D);
+%shared_ptr(values::ValueScalar2DTime);
 %shared_ptr(values::ValueScalar2DFunction);
 %shared_ptr(values::ValueScalar2DFunctionTime);
 %shared_ptr(values::ValueScalar3D);
+%shared_ptr(values::ValueScalar3DTime);
 %shared_ptr(values::ValueScalar3DFunction);
 %shared_ptr(values::ValueScalar3DFunctionTime);
 %shared_ptr(values::ValueScalar3DInterpolation);
@@ -188,6 +197,7 @@
 %include "..\..\values\src\values_bool.hpp"
 %include "..\..\values\src\values_string.hpp"
 %include "..\..\values\src\values_scalar.hpp"
+%include "..\..\values\src\values_scalar_time.hpp"
 %include "..\..\values\src\values_scalar_function.hpp"
 %include "..\..\values\src\values_scalar_function_time.hpp"
 %include "..\..\values\src\values_scalar_interpolation.hpp"

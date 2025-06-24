@@ -80,11 +80,11 @@ def ODE1(time):
     global dydt
 
     u = structural.PartitionVector(structural.GetProblem().Displacement())
-    #f = structural.PartitionVector(structural.GetProblem().LoadNode(time))
+    f = structural.PartitionVector(structural.GetProblem().LoadNode(time))
 
     f[1].SetValue(0, Harmonic(time, 0.0, 0.0, 0.0))
 
-    print(-(K[2] * u[0] + K[3] * u[1]))
+    #print(-(K[2] * u[0] + K[3] * u[1]))
     return [M[3], -(K[2] * u[0] + K[3] * u[1]) + f[1]]
 
 def ODE2(time):
