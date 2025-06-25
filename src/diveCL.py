@@ -1698,26 +1698,26 @@ value_bool = cvar.value_bool
 value_string = cvar.value_string
 value_scalar = cvar.value_scalar
 value_scalar_time = cvar.value_scalar_time
+value_scalar_time_function = cvar.value_scalar_time_function
 value_scalar_function = cvar.value_scalar_function
-value_scalar_function_time = cvar.value_scalar_function_time
 value_scalar_interpolation = cvar.value_scalar_interpolation
 value_scalar_congruent = cvar.value_scalar_congruent
 value_scalar1D = cvar.value_scalar1D
 value_scalar1D_time = cvar.value_scalar1D_time
+value_scalar1D_time_function = cvar.value_scalar1D_time_function
 value_scalar1D_function = cvar.value_scalar1D_function
-value_scalar1D_function_time = cvar.value_scalar1D_function_time
 value_scalar1D_interpolation = cvar.value_scalar1D_interpolation
 value_scalar1D_congruent = cvar.value_scalar1D_congruent
 value_scalar2D = cvar.value_scalar2D
 value_scalar2D_time = cvar.value_scalar2D_time
+value_scalar2D_time_function = cvar.value_scalar2D_time_function
 value_scalar2D_function = cvar.value_scalar2D_function
-value_scalar2D_function_time = cvar.value_scalar2D_function_time
 value_scalar2D_interpolation = cvar.value_scalar2D_interpolation
 value_scalar2D_congruent = cvar.value_scalar2D_congruent
 value_scalar3D = cvar.value_scalar3D
 value_scalar3D_time = cvar.value_scalar3D_time
+value_scalar3D_time_function = cvar.value_scalar3D_time_function
 value_scalar3D_function = cvar.value_scalar3D_function
-value_scalar3D_function_time = cvar.value_scalar3D_function_time
 value_scalar3D_interpolation = cvar.value_scalar3D_interpolation
 value_scalar3D_congruent = cvar.value_scalar3D_congruent
 value_vector = cvar.value_vector
@@ -2510,8 +2510,172 @@ class ValueScalar3DTime(IScalar3DTime):
 # Register ValueScalar3DTime in _diveCL:
 _diveCL.ValueScalar3DTime_swigregister(ValueScalar3DTime)
 
-def CreateValueScalarFunction(*args):
-    return _diveCL.CreateValueScalarFunction(*args)
+def CreateValueScalarTimeFunction(function_Pointer_D_D, name, key):
+    return _diveCL.CreateValueScalarTimeFunction(function_Pointer_D_D, name, key)
+
+def CastToValueScalarTimeFunction(value):
+    return _diveCL.CastToValueScalarTimeFunction(value)
+class ValueScalarTimeFunction(IScalarTime):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+
+    def __init__(self, *args, **kwargs):
+        raise AttributeError("No constructor defined")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _diveCL.delete_ValueScalarTimeFunction
+
+    @staticmethod
+    def Create():
+        return _diveCL.ValueScalarTimeFunction_Create()
+
+    def GetType(self):
+        return _diveCL.ValueScalarTimeFunction_GetType(self)
+
+    def GetName(self):
+        return _diveCL.ValueScalarTimeFunction_GetName(self)
+
+    def GetKey(self):
+        return _diveCL.ValueScalarTimeFunction_GetKey(self)
+
+    def GetValue(self, time):
+        return _diveCL.ValueScalarTimeFunction_GetValue(self, time)
+
+    def SetName(self, name):
+        return _diveCL.ValueScalarTimeFunction_SetName(self, name)
+
+    def SetKey(self, key):
+        return _diveCL.ValueScalarTimeFunction_SetKey(self, key)
+
+    def SetFunction(self, function_Pointer_D_D):
+        return _diveCL.ValueScalarTimeFunction_SetFunction(self, function_Pointer_D_D)
+
+# Register ValueScalarTimeFunction in _diveCL:
+_diveCL.ValueScalarTimeFunction_swigregister(ValueScalarTimeFunction)
+
+def CreateValueScalar1DTimeFunction(function_Pointer_D_DD, name, key):
+    return _diveCL.CreateValueScalar1DTimeFunction(function_Pointer_D_DD, name, key)
+
+def CastToValueScalar1DTimeFunction(value):
+    return _diveCL.CastToValueScalar1DTimeFunction(value)
+class ValueScalar1DTimeFunction(IScalar1DTime):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+
+    def __init__(self, *args, **kwargs):
+        raise AttributeError("No constructor defined")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _diveCL.delete_ValueScalar1DTimeFunction
+
+    @staticmethod
+    def Create():
+        return _diveCL.ValueScalar1DTimeFunction_Create()
+
+    def GetType(self):
+        return _diveCL.ValueScalar1DTimeFunction_GetType(self)
+
+    def GetName(self):
+        return _diveCL.ValueScalar1DTimeFunction_GetName(self)
+
+    def GetKey(self):
+        return _diveCL.ValueScalar1DTimeFunction_GetKey(self)
+
+    def GetValue(self, *args):
+        return _diveCL.ValueScalar1DTimeFunction_GetValue(self, *args)
+
+    def SetName(self, name):
+        return _diveCL.ValueScalar1DTimeFunction_SetName(self, name)
+
+    def SetKey(self, key):
+        return _diveCL.ValueScalar1DTimeFunction_SetKey(self, key)
+
+    def SetFunction(self, function_Pointer_D_DD):
+        return _diveCL.ValueScalar1DTimeFunction_SetFunction(self, function_Pointer_D_DD)
+
+# Register ValueScalar1DTimeFunction in _diveCL:
+_diveCL.ValueScalar1DTimeFunction_swigregister(ValueScalar1DTimeFunction)
+
+def CreateValueScalar2DTimeFunction(function_Pointer_D_DDD, name, key):
+    return _diveCL.CreateValueScalar2DTimeFunction(function_Pointer_D_DDD, name, key)
+
+def CastToValueScalar2DTimeFunction(value):
+    return _diveCL.CastToValueScalar2DTimeFunction(value)
+class ValueScalar2DTimeFunction(IScalar2DTime):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+
+    def __init__(self, *args, **kwargs):
+        raise AttributeError("No constructor defined")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _diveCL.delete_ValueScalar2DTimeFunction
+
+    @staticmethod
+    def Create():
+        return _diveCL.ValueScalar2DTimeFunction_Create()
+
+    def GetType(self):
+        return _diveCL.ValueScalar2DTimeFunction_GetType(self)
+
+    def GetName(self):
+        return _diveCL.ValueScalar2DTimeFunction_GetName(self)
+
+    def GetKey(self):
+        return _diveCL.ValueScalar2DTimeFunction_GetKey(self)
+
+    def GetValue(self, *args):
+        return _diveCL.ValueScalar2DTimeFunction_GetValue(self, *args)
+
+    def SetName(self, name):
+        return _diveCL.ValueScalar2DTimeFunction_SetName(self, name)
+
+    def SetKey(self, key):
+        return _diveCL.ValueScalar2DTimeFunction_SetKey(self, key)
+
+    def SetFunction(self, function_Pointer_D_DDD):
+        return _diveCL.ValueScalar2DTimeFunction_SetFunction(self, function_Pointer_D_DDD)
+
+# Register ValueScalar2DTimeFunction in _diveCL:
+_diveCL.ValueScalar2DTimeFunction_swigregister(ValueScalar2DTimeFunction)
+
+def CreateValueScalar3DTimeFunction(function_Pointer_D_DDDD, name, key):
+    return _diveCL.CreateValueScalar3DTimeFunction(function_Pointer_D_DDDD, name, key)
+
+def CastToValueScalar3DTimeFunction(value):
+    return _diveCL.CastToValueScalar3DTimeFunction(value)
+class ValueScalar3DTimeFunction(IScalar3DTime):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+
+    def __init__(self, *args, **kwargs):
+        raise AttributeError("No constructor defined")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _diveCL.delete_ValueScalar3DTimeFunction
+
+    @staticmethod
+    def Create():
+        return _diveCL.ValueScalar3DTimeFunction_Create()
+
+    def GetType(self):
+        return _diveCL.ValueScalar3DTimeFunction_GetType(self)
+
+    def GetName(self):
+        return _diveCL.ValueScalar3DTimeFunction_GetName(self)
+
+    def GetKey(self):
+        return _diveCL.ValueScalar3DTimeFunction_GetKey(self)
+
+    def GetValue(self, *args):
+        return _diveCL.ValueScalar3DTimeFunction_GetValue(self, *args)
+
+    def SetName(self, name):
+        return _diveCL.ValueScalar3DTimeFunction_SetName(self, name)
+
+    def SetKey(self, key):
+        return _diveCL.ValueScalar3DTimeFunction_SetKey(self, key)
+
+    def SetFunction(self, function_Pointer_D_DDDD):
+        return _diveCL.ValueScalar3DTimeFunction_SetFunction(self, function_Pointer_D_DDDD)
+
+# Register ValueScalar3DTimeFunction in _diveCL:
+_diveCL.ValueScalar3DTimeFunction_swigregister(ValueScalar3DTimeFunction)
+
+def CreateValueScalarFunction(function_Pointer_D, name, key):
+    return _diveCL.CreateValueScalarFunction(function_Pointer_D, name, key)
 
 def CastToValueScalarFunction(value):
     return _diveCL.CastToValueScalarFunction(value)
@@ -2551,8 +2715,8 @@ class ValueScalarFunction(IScalar):
 # Register ValueScalarFunction in _diveCL:
 _diveCL.ValueScalarFunction_swigregister(ValueScalarFunction)
 
-def CreateValueScalar1DFunction(*args):
-    return _diveCL.CreateValueScalar1DFunction(*args)
+def CreateValueScalar1DFunction(function_Pointer_D_D, name, key):
+    return _diveCL.CreateValueScalar1DFunction(function_Pointer_D_D, name, key)
 
 def CastToValueScalar1DFunction(value):
     return _diveCL.CastToValueScalar1DFunction(value)
@@ -2673,170 +2837,6 @@ class ValueScalar3DFunction(IScalar3D):
 
 # Register ValueScalar3DFunction in _diveCL:
 _diveCL.ValueScalar3DFunction_swigregister(ValueScalar3DFunction)
-
-def CreateValueScalarFunctionTime(*args):
-    return _diveCL.CreateValueScalarFunctionTime(*args)
-
-def CastToValueScalarFunctionTime(value):
-    return _diveCL.CastToValueScalarFunctionTime(value)
-class ValueScalarFunctionTime(IScalarTime):
-    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
-
-    def __init__(self, *args, **kwargs):
-        raise AttributeError("No constructor defined")
-    __repr__ = _swig_repr
-    __swig_destroy__ = _diveCL.delete_ValueScalarFunctionTime
-
-    @staticmethod
-    def Create():
-        return _diveCL.ValueScalarFunctionTime_Create()
-
-    def GetType(self):
-        return _diveCL.ValueScalarFunctionTime_GetType(self)
-
-    def GetName(self):
-        return _diveCL.ValueScalarFunctionTime_GetName(self)
-
-    def GetKey(self):
-        return _diveCL.ValueScalarFunctionTime_GetKey(self)
-
-    def GetValue(self, time):
-        return _diveCL.ValueScalarFunctionTime_GetValue(self, time)
-
-    def SetName(self, name):
-        return _diveCL.ValueScalarFunctionTime_SetName(self, name)
-
-    def SetKey(self, key):
-        return _diveCL.ValueScalarFunctionTime_SetKey(self, key)
-
-    def SetFunction(self, function_Pointer_D_D):
-        return _diveCL.ValueScalarFunctionTime_SetFunction(self, function_Pointer_D_D)
-
-# Register ValueScalarFunctionTime in _diveCL:
-_diveCL.ValueScalarFunctionTime_swigregister(ValueScalarFunctionTime)
-
-def CreateValueScalar1DFunctionTime(*args):
-    return _diveCL.CreateValueScalar1DFunctionTime(*args)
-
-def CastToValueScalar1DFunctionTime(value):
-    return _diveCL.CastToValueScalar1DFunctionTime(value)
-class ValueScalar1DFunctionTime(IScalar1DTime):
-    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
-
-    def __init__(self, *args, **kwargs):
-        raise AttributeError("No constructor defined")
-    __repr__ = _swig_repr
-    __swig_destroy__ = _diveCL.delete_ValueScalar1DFunctionTime
-
-    @staticmethod
-    def Create():
-        return _diveCL.ValueScalar1DFunctionTime_Create()
-
-    def GetType(self):
-        return _diveCL.ValueScalar1DFunctionTime_GetType(self)
-
-    def GetName(self):
-        return _diveCL.ValueScalar1DFunctionTime_GetName(self)
-
-    def GetKey(self):
-        return _diveCL.ValueScalar1DFunctionTime_GetKey(self)
-
-    def GetValue(self, *args):
-        return _diveCL.ValueScalar1DFunctionTime_GetValue(self, *args)
-
-    def SetName(self, name):
-        return _diveCL.ValueScalar1DFunctionTime_SetName(self, name)
-
-    def SetKey(self, key):
-        return _diveCL.ValueScalar1DFunctionTime_SetKey(self, key)
-
-    def SetFunction(self, function_Pointer_D_DD):
-        return _diveCL.ValueScalar1DFunctionTime_SetFunction(self, function_Pointer_D_DD)
-
-# Register ValueScalar1DFunctionTime in _diveCL:
-_diveCL.ValueScalar1DFunctionTime_swigregister(ValueScalar1DFunctionTime)
-
-def CreateValueScalar2DFunctionTime(*args):
-    return _diveCL.CreateValueScalar2DFunctionTime(*args)
-
-def CastToValueScalar2DFunctionTime(value):
-    return _diveCL.CastToValueScalar2DFunctionTime(value)
-class ValueScalar2DFunctionTime(IScalar2DTime):
-    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
-
-    def __init__(self, *args, **kwargs):
-        raise AttributeError("No constructor defined")
-    __repr__ = _swig_repr
-    __swig_destroy__ = _diveCL.delete_ValueScalar2DFunctionTime
-
-    @staticmethod
-    def Create():
-        return _diveCL.ValueScalar2DFunctionTime_Create()
-
-    def GetType(self):
-        return _diveCL.ValueScalar2DFunctionTime_GetType(self)
-
-    def GetName(self):
-        return _diveCL.ValueScalar2DFunctionTime_GetName(self)
-
-    def GetKey(self):
-        return _diveCL.ValueScalar2DFunctionTime_GetKey(self)
-
-    def GetValue(self, *args):
-        return _diveCL.ValueScalar2DFunctionTime_GetValue(self, *args)
-
-    def SetName(self, name):
-        return _diveCL.ValueScalar2DFunctionTime_SetName(self, name)
-
-    def SetKey(self, key):
-        return _diveCL.ValueScalar2DFunctionTime_SetKey(self, key)
-
-    def SetFunction(self, function_Pointer_D_DDD):
-        return _diveCL.ValueScalar2DFunctionTime_SetFunction(self, function_Pointer_D_DDD)
-
-# Register ValueScalar2DFunctionTime in _diveCL:
-_diveCL.ValueScalar2DFunctionTime_swigregister(ValueScalar2DFunctionTime)
-
-def CreateValueScalar3DFunctionTime(*args):
-    return _diveCL.CreateValueScalar3DFunctionTime(*args)
-
-def CastToValueScalar3DFunctionTime(value):
-    return _diveCL.CastToValueScalar3DFunctionTime(value)
-class ValueScalar3DFunctionTime(IScalar3DTime):
-    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
-
-    def __init__(self, *args, **kwargs):
-        raise AttributeError("No constructor defined")
-    __repr__ = _swig_repr
-    __swig_destroy__ = _diveCL.delete_ValueScalar3DFunctionTime
-
-    @staticmethod
-    def Create():
-        return _diveCL.ValueScalar3DFunctionTime_Create()
-
-    def GetType(self):
-        return _diveCL.ValueScalar3DFunctionTime_GetType(self)
-
-    def GetName(self):
-        return _diveCL.ValueScalar3DFunctionTime_GetName(self)
-
-    def GetKey(self):
-        return _diveCL.ValueScalar3DFunctionTime_GetKey(self)
-
-    def GetValue(self, *args):
-        return _diveCL.ValueScalar3DFunctionTime_GetValue(self, *args)
-
-    def SetName(self, name):
-        return _diveCL.ValueScalar3DFunctionTime_SetName(self, name)
-
-    def SetKey(self, key):
-        return _diveCL.ValueScalar3DFunctionTime_SetKey(self, key)
-
-    def SetFunction(self, function_Pointer_D_DDDD):
-        return _diveCL.ValueScalar3DFunctionTime_SetFunction(self, function_Pointer_D_DDDD)
-
-# Register ValueScalar3DFunctionTime in _diveCL:
-_diveCL.ValueScalar3DFunctionTime_swigregister(ValueScalar3DFunctionTime)
 
 def CreateValueScalar3DInterpolation(*args):
     return _diveCL.CreateValueScalar3DInterpolation(*args)
@@ -3780,30 +3780,29 @@ def CreateValueScalar3DFunction(function, name = "", key = ""):
 
 #------------------------------------------------------------------------------
 
-def CreateValueScalarFunctionTime(function, name = "", key = ""):
+def CreateValueScalarTimeFunction(function, name = "", key = ""):
 	f = py_function_pointer_D_D(function)
 	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
 
-	return _dive.CreateValueScalarFunctionTime(f_ptr, name, key)
+	return _dive.CreateValueScalarTimeFunction(f_ptr, name, key)
 
-def CreateValueScalar1DFunctionTime(function, name = "", key = ""):
+def CreateValueScalar1DTimeFunction(function, name = "", key = ""):
 	f = py_function_pointer_D_DD(function)
 	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
 
-	return _dive.CreateValueScalar1DFunctionTime(f_ptr, name, key)
+	return _dive.CreateValueScalar1DTimeFunction(f_ptr, name, key)
 
-def CreateValueScalar2DFunctionTime(function, name = "", key = ""):
+def CreateValueScalar2DTimeFunction(function, name = "", key = ""):
 	f = py_function_pointer_D_DDD(function)
 	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
 
-	return _dive.CreateValueScalar2DFunctionTime(f_ptr, name, key)
+	return _dive.CreateValueScalar2DTimeFunction(f_ptr, name, key)
 
-def CreateValueScalar3DFunctionTime(function, name = "", key = ""):
+def CreateValueScalar3DTimeFunction(function, name = "", key = ""):
 	f = py_function_pointer_D_DDDD(function)
 	f_ptr = ctypes.cast(f, ctypes.c_void_p).value	
 
-	return _dive.CreateValueScalar3DFunctionTime(f_ptr, name, key)	
-
+	return _dive.CreateValueScalar3DTimeFunction(f_ptr, name, key)
 
 class IGauss(object):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")

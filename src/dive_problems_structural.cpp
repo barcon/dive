@@ -304,7 +304,7 @@ namespace dive {
 
 			auto problemStructural = std::make_shared<ProblemStructural>(*this);
 
-			auto res = Vector(IntegralForm(nullptr, problemStructural, loads_, 0.0), 0);
+			auto res = IntegralForm(nullptr, problemStructural, loads_, 0.0);
 
 			TimerElapsed(__FUNCTION__);
 
@@ -316,7 +316,7 @@ namespace dive {
 
 			auto problemStructural = std::make_shared<ProblemStructural>(*this);
 
-			auto res = Vector(IntegralForm(nullptr, problemStructural, loads_, time), 0);
+			auto res = IntegralForm(nullptr, problemStructural, loads_, time);
 
 			TimerElapsed(__FUNCTION__);
 

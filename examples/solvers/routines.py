@@ -59,7 +59,8 @@ def ForwardMethod(timer, y, equation):
     dydt = dive.Vector(y)
 
     M, f = equation(t)
-    monitor = IterativeBiCGStab(M, dydt, f)
+    #monitor = IterativeBiCGStab(M, dydt, f)
+    dive.DiagonalLinearSystem(dydt, M, f)
 
     return y + dt * dydt
 

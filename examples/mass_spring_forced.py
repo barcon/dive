@@ -9,9 +9,6 @@ def Harmonic(t, x, y, z):
 
     return amplitude * math.cos(omega * t)
 
-def Zero(t, x, y, z):
-    return 0.0
-
 T_ref   = 313.15      #[K]      = 40 [°C]
 p_ref   = 101325.1    #[N/m²]   =  1 [atm]
 basis   = structural.CreateBasisCartesian(1)
@@ -40,9 +37,7 @@ mesh.AddElement(spring, status)
 mesh.AddElement(mass, status)
 
 force = structural.CreateValueVector3DScalarsTime(3)
-force.SetScalar(0, structural.CreateValueScalar3DFunctionTime(Harmonic))
-force.SetScalar(1, structural.CreateValueScalar3DFunctionTime(Zero))
-force.SetScalar(2, structural.CreateValueScalar3DFunctionTime(Zero))
+force.SetScalar(0, structural.CreateValueScalar3DTimeFunction(Harmonic))
 
 structural.CreateProblem(1, mesh, temperature, pressure)
 structural.ApplyDirichlet([node1], 0.0)
@@ -68,41 +63,26 @@ y = []
 dydt = []
 
 def ODE1(time):
-    global D
     global M
     global K
     global u
-    global v
     global f
     
-    global t
-    global y
-    global dydt
-
     u = structural.PartitionVector(structural.GetProblem().Displacement())
     f = structural.PartitionVector(structural.GetProblem().LoadNode(time))
 
-    f[1].SetValue(0, Harmonic(time, 0.0, 0.0, 0.0))
-
-    #print(-(K[2] * u[0] + K[3] * u[1]))
     return [M[3], -(K[2] * u[0] + K[3] * u[1]) + f[1]]
 
 def ODE2(time):
     global D
     global v
 
-    #v[1][0] = Harmonic(time, 0.0, 0.0, 0.0)
-
     return [D[3], v[1]]
 
 while(timer.GetCurrent() < timer.GetEnd()):
-    #u[1] = solvers.ForwardMethod(timer, u[1], ODE2)
-    
     t.append(timer.GetCurrent())
     y.append(u[1][0])
     dydt.append(v[1][0])
-
-    #print("{:.2f}".format(timer.GetCurrent()), "{:.3f}".format(u[1](0)))
 
     v[1] = solvers.ForwardMethod(timer, v[1], ODE1)
     u[1] = solvers.ForwardMethod(timer, u[1], ODE2)
@@ -110,4 +90,4 @@ while(timer.GetCurrent() < timer.GetEnd()):
 
     timer.SetNextStep()
 
-plots.oscillator.Show(t, y, y)
+plots.oscillator.Show(t, y, dydt)
