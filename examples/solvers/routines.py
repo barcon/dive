@@ -56,12 +56,14 @@ def IterativeCG(A, x, b):
 def ForwardMethod(timer, y, equation):
     t = timer.GetCurrent()
     dt = timer.GetStepSize()
-    dydt = dive.Vector(y)
+    dydt = dive.Vector(y.GetRows(), 1.0)
 
     M, f = equation(t)
-    #monitor = IterativeBiCGStab(M, dydt, f)
-    dive.DiagonalLinearSystem(dydt, M, f)
+    monitor = IterativeBiCGStab(M, dydt, f)
+    #print(monitor.iteration[-1], monitor.status, monitor.residual[-1])
+    #dive.DiagonalLinearSystem(dydt, M, f)
 
+    #print("{:.2e}".format(M.GetValue(0,0)), "{:.2e}".format(f.GetValue(0)), "{:.2e}".format(dydt.GetValue(0)))
     return y + dt * dydt
 
 def BackwardMethod(timer, y, equation):

@@ -5,14 +5,14 @@ import math
 
 def Harmonic(t, x, y, z):
     omega = 1.0
-    amplitude = 20.0
+    amplitude = 10.0
 
     return amplitude * math.cos(omega * t)
 
 T_ref   = 313.15      #[K]      = 40 [°C]
 p_ref   = 101325.1    #[N/m²]   =  1 [atm]
 basis   = structural.CreateBasisCartesian(1)
-timer   = structural.CreateTimerStepped(1, 0.0, 20.0, 0.01)
+timer   = structural.CreateTimerStepped(1, 0.0, 0.1, 0.01)
 status  = 0
 
 temperature = structural.CreateValueScalar3D(T_ref)
@@ -90,4 +90,4 @@ while(timer.GetCurrent() < timer.GetEnd()):
 
     timer.SetNextStep()
 
-plots.oscillator.Show(t, y, dydt)
+plots.oscillator.Show(t, y)
