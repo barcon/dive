@@ -60,10 +60,7 @@ def ForwardMethod(timer, y, equation):
 
     M, f = equation(t)
     monitor = IterativeBiCGStab(M, dydt, f)
-    #print(monitor.iteration[-1], monitor.status, monitor.residual[-1])
-    #dive.DiagonalLinearSystem(dydt, M, f)
-
-    #print("{:.2e}".format(M.GetValue(0,0)), "{:.2e}".format(f.GetValue(0)), "{:.2e}".format(dydt.GetValue(0)))
+    
     return y + dt * dydt
 
 def BackwardMethod(timer, y, equation):
@@ -77,7 +74,7 @@ def BackwardMethod(timer, y, equation):
     norm = math.inf
     while (norm > tolerance):
         M, f = equation(t + dt)
-        monitor = IterativeCG(M, dydt, f)
+        monitor = IterativeBiCGStab(M, dydt, f)
     
         y2 = y + dt * dydt
 
@@ -96,12 +93,12 @@ def CrankNicolsonMethod(timer, y, equation):
     dydt1 = dive.Vector(y)    
 
     M, f = equation(t)
-    monitor = IterativeCG(M, dydt0, f)
+    monitor = IterativeBiCGStab(M, dydt0, f)
 
     norm = math.inf
     while (norm > tolerance):
         M, f = equation(t + dt)
-        monitor = IterativeCG(M, dydt1, f)
+        monitor = IterativeBiCGStab(M, dydt1, f)
     
         y2 = y + dt * 0.5* (dydt1 + dydt0)
 
