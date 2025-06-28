@@ -53,54 +53,70 @@ def IterativeCG(A, x, b):
 
     return monitor
 
-def ForwardMethod(timer, y, equation):
+def ForwardMethod(timer, u0, equation):
     t = timer.GetCurrent()
     dt = timer.GetStepSize()
-    dydt = dive.Vector(y.GetRows(), 1.0)
+    dfdt = dive.Vector(u0)
 
-    M, f = equation(t)
-    monitor = IterativeBiCGStab(M, dydt, f)
+    M, f = equation(t, u0)
+    monitor = IterativeBiCGStab(M, dfdt, f)
     
-    return y + dt * dydt
+    return u0 + dt * dfdt
 
-def BackwardMethod(timer, y, equation):
+def ForwardMethod2(timer, u0, v0, equation1, equation2):
+    t = timer.GetCurrent()
+    dt = timer.GetStepSize()
+    dvdt = dive.Vector(v0)
+    dudt = dive.Vector(u0)
+
+    M, b = equation1(t, u0)
+    monitor = IterativeBiCGStab(M, dvdt, b)
+    v1 = v0 + dt * dvdt
+    
+    M, b = equation2(t, v1)
+    monitor = IterativeBiCGStab(M, dudt, b)
+    u1 = u0 + dt * dudt
+
+    return [u1, v1]
+
+def BackwardMethod(timer, y0, equation):
     tolerance = 1.0e-3
     t = timer.GetCurrent()
     dt = timer.GetStepSize()
-    y1 = dive.Vector(y)
-    y2 = dive.Vector(y)
-    dydt = dive.Vector(y)
+    y1 = dive.Vector(y0)
+    y2 = dive.Vector(y0)
+    dydt = dive.Vector(y0)
   
     norm = math.inf
     while (norm > tolerance):
-        M, f = equation(t + dt)
+        M, f = equation(t + dt, y1)
         monitor = IterativeBiCGStab(M, dydt, f)
     
-        y2 = y + dt * dydt
+        y2 = y0 + dt * dydt
 
         norm = dive.NormP2(y2 - y1) / dive.NormP2(y2)
         y1 = y2
        
     return y1
 
-def CrankNicolsonMethod(timer, y, equation):
+def CrankNicolsonMethod(timer, y0, equation):
     tolerance = 1.0e-3
     t = timer.GetCurrent()
     dt = timer.GetStepSize()
-    y1 = dive.Vector(y)
-    y2 = dive.Vector(y)
-    dydt0 = dive.Vector(y)
-    dydt1 = dive.Vector(y)    
+    y1 = dive.Vector(y0)
+    y2 = dive.Vector(y0)
+    dydt0 = dive.Vector(y0)
+    dydt1 = dive.Vector(y0)    
 
-    M, f = equation(t)
+    M, f = equation(t, y0)
     monitor = IterativeBiCGStab(M, dydt0, f)
 
     norm = math.inf
     while (norm > tolerance):
-        M, f = equation(t + dt)
+        M, f = equation(t + dt, y1)
         monitor = IterativeBiCGStab(M, dydt1, f)
     
-        y2 = y + dt * 0.5* (dydt1 + dydt0)
+        y2 = y0 + dt * 0.5* (dydt1 + dydt0)
 
         norm = dive.NormP2(y2 - y1) / dive.NormP2(y2)
         y1 = y2
