@@ -7,8 +7,8 @@ def Harmonic(t: float) -> float:
     amplitude = 1.0
     omega = 1.0
 
-    return amplitude
-    #return amplitude * math.cos(omega * t)
+    #return amplitude
+    return amplitude * math.cos(omega * t)
 
 mass = 1.0
 stiffness = 100.0
@@ -47,8 +47,8 @@ while(timer.GetCurrent() < timer.GetEnd()):
     velocity.append(u[1])
 
     #u = solvers.ForwardMethod(timer, u, ODE)
-    #u = solvers.BackwardMethod(timer, u, ODE)
-    u = solvers.CrankNicolsonMethod(timer, u, ODE)
+    u = solvers.BackwardMethod(timer, u, ODE)
+    #u = solvers.CrankNicolsonMethod(timer, u, ODE)
     timer.SetNextStep()
 
 plots.oscillator.Show(time, position, velocity)

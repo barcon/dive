@@ -82,7 +82,7 @@ def ForwardMethod2(timer, u0, v0, equation1, equation2):
     return [u1, v1]
 
 def BackwardMethod(timer, u0, equation):
-    tolerance = 1.0e-3
+    tolerance = 1.0e-5
     t = timer.GetCurrent()
     dt = timer.GetStepSize()
 
@@ -103,7 +103,7 @@ def BackwardMethod(timer, u0, equation):
     return u1
 
 def BackwardMethod2(timer, u0, v0, equation1, equation2):
-    tolerance = 1.0e-3
+    tolerance = 1.0e-5
     t = timer.GetCurrent()
     dt = timer.GetStepSize()
 
@@ -134,7 +134,7 @@ def BackwardMethod2(timer, u0, v0, equation1, equation2):
     return [u1, v1]
 
 def CrankNicolsonMethod(timer, u0, equation):
-    tolerance = 1.0e-3
+    tolerance = 1.0e-5
     t = timer.GetCurrent()
     dt = timer.GetStepSize()
     u1 = dive.Vector(u0)
@@ -157,7 +157,7 @@ def CrankNicolsonMethod(timer, u0, equation):
     return u1
 
 def CrankNicolsonMethod2(timer, u0, v0, equation1, equation2):
-    tolerance = 1.0e-3
+    tolerance = 1.0e-5
     t = timer.GetCurrent()
     dt = timer.GetStepSize()
 

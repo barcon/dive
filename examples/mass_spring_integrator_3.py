@@ -63,19 +63,23 @@ pivot = structural.GetProblem().GetPivot()
 
 D = structural.PartitionMatrix(structural.Ellpack(totalDof, totalDof, 1.0).Diagonal())
 M = structural.PartitionMatrix(structural.GetProblem().Mass())
+C = structural.PartitionMatrix(structural.Ellpack(totalDof, totalDof))
 K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
 f = structural.PartitionVector(structural.GetProblem().LoadNode(timer.GetCurrent()))
 u = structural.PartitionVector(structural.GetProblem().Displacement())
 v = structural.PartitionVector(structural.Vector(totalDof, 0.0))
 
+C[3][0, 0] = damping
+
 def ODE1(time, u, v):
     global M
+    global C
     global K
     global f
     
     f[1][0] = Harmonic(time, 0.0, 0.0, 0.0)
 
-    return [M[3], -(K[2] * u + K[3] * u) + f[1]]
+    return [M[3], -(C[3] * v + K[3] * u) + f[1]]
 
 def ODE2(time, v):
     global D
@@ -87,9 +91,9 @@ while(timer.GetCurrent() < timer.GetEnd()):
     position.append(u[1][0])
     velocity.append(v[1][0])
 
-    [u[1], v[1]] = solvers.ForwardMethod2(timer, u[1], v[1], ODE1, ODE2)
+    #[u[1], v[1]] = solvers.ForwardMethod2(timer, u[1], v[1], ODE1, ODE2)
     #[u[1], v[1]] = solvers.BackwardMethod2(timer, u[1], v[1], ODE1, ODE2)
-    #[u[1], v[1]] = solvers.CrankNicolsonMethod2(timer, u[1], v[1], ODE1, ODE2)
+    [u[1], v[1]] = solvers.CrankNicolsonMethod2(timer, u[1], v[1], ODE1, ODE2)
     timer.SetNextStep()
 
 plots.oscillator.Show(time, position, velocity)
