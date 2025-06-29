@@ -3,27 +3,28 @@ import solvers
 import plots.oscillator
 import math
 
-def Harmonic(t: float) -> float:
+def Harmonic(t: float, x: float, y: float, z: float) -> float:
     amplitude = 1.0
     omega = 1.0
 
-    #return amplitude
-    return amplitude * math.cos(omega * t)
+    return amplitude
+    #return amplitude * math.cos(omega * t)
 
-T_ref   = 313.15      #[K]      = 40 [°C]
-p_ref   = 101325.1    #[N/m²]   =  1 [atm]
 mass = 1.0
 stiffness = 100.0
 damping = 0.5
 omega = math.sqrt(stiffness / mass)
 period = 2.0 * math.pi / omega
 status  = 0
+
 basis   = structural.CreateBasisCartesian(1)
 timer   = structural.CreateTimerStepped(1, 0.0, 50.0 * period, 0.001)
 time = []
 position = []
 velocity = []
 
+T_ref   = 313.15      #[K]      = 40 [°C]
+p_ref   = 101325.1    #[N/m²]   =  1 [atm]
 temperature = structural.CreateValueScalar3D(T_ref)
 pressure = structural.CreateValueScalar3D(p_ref)
 
@@ -33,17 +34,17 @@ node2 = structural.CreateNode(2, 1.0, 0.0, 0.0)
 spring = structural.CreateElementSpring(1)
 spring.SetNode(0, node1)
 spring.SetNode(1, node2)
-spring.SetStiffness(structural.CreateValueScalar(100.0))
+spring.SetStiffness(structural.CreateValueScalar(stiffness))
 
-mass = structural.CreateElementMass(3)
-mass.SetNode(0, node2)
-mass.SetMass(structural.CreateValueScalar(1.0))
+body = structural.CreateElementMass(3)
+body.SetNode(0, node2)
+body.SetMass(structural.CreateValueScalar(mass))
 
 mesh = structural.CreateMesh(1)
 mesh.AddNode(node1, status, True)
 mesh.AddNode(node2, status, True)
 mesh.AddElement(spring, status)
-mesh.AddElement(mass, status)
+mesh.AddElement(body, status)
 
 force = structural.CreateValueVector3DScalarsTime(3)
 force.SetScalar(0, structural.CreateValueScalar3DTimeFunction(Harmonic))
@@ -67,36 +68,28 @@ f = structural.PartitionVector(structural.GetProblem().LoadNode(timer.GetCurrent
 u = structural.PartitionVector(structural.GetProblem().Displacement())
 v = structural.PartitionVector(structural.Vector(totalDof, 0.0))
 
-t = []
-y = []
-dydt = []
-
-def ODE1(time):
+def ODE1(time, u, v):
     global M
     global K
-    global u
     global f
     
-    u = structural.PartitionVector(structural.GetProblem().Displacement())
-    f = structural.PartitionVector(structural.GetProblem().LoadNode(time))
+    f[1][0] = Harmonic(time, 0.0, 0.0, 0.0)
 
-    return [M[3], -(K[2] * u[0] + K[3] * u[1]) + f[1]]
+    return [M[3], -(K[2] * u + K[3] * u) + f[1]]
 
-def ODE2(time):
+def ODE2(time, v):
     global D
-    global v
 
-    return [D[3], v[1]]
+    return [D[3], v]
 
 while(timer.GetCurrent() < timer.GetEnd()):
-    t.append(timer.GetCurrent())
-    y.append(u[1][0])
-    dydt.append(v[1][0])
+    time.append(timer.GetCurrent())
+    position.append(u[1][0])
+    velocity.append(v[1][0])
 
-    v[1] = solvers.ForwardMethod(timer, v[1], ODE1)
-    u[1] = solvers.ForwardMethod(timer, u[1], ODE2)
-    structural.UpdateMeshValues(u) 
-
+    [u[1], v[1]] = solvers.ForwardMethod2(timer, u[1], v[1], ODE1, ODE2)
+    #[u[1], v[1]] = solvers.BackwardMethod2(timer, u[1], v[1], ODE1, ODE2)
+    #[u[1], v[1]] = solvers.CrankNicolsonMethod2(timer, u[1], v[1], ODE1, ODE2)
     timer.SetNextStep()
 
-plots.oscillator.Show(t, y)
+plots.oscillator.Show(time, position, velocity)
