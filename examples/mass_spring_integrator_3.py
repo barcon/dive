@@ -3,17 +3,26 @@ import solvers
 import plots.oscillator
 import math
 
-def Harmonic(t, x, y, z):
+def Harmonic(t: float) -> float:
+    amplitude = 1.0
     omega = 1.0
-    amplitude = 10.0
 
+    #return amplitude
     return amplitude * math.cos(omega * t)
 
 T_ref   = 313.15      #[K]      = 40 [°C]
 p_ref   = 101325.1    #[N/m²]   =  1 [atm]
-basis   = structural.CreateBasisCartesian(1)
-timer   = structural.CreateTimerStepped(1, 0.0, 0.1, 0.01)
+mass = 1.0
+stiffness = 100.0
+damping = 0.5
+omega = math.sqrt(stiffness / mass)
+period = 2.0 * math.pi / omega
 status  = 0
+basis   = structural.CreateBasisCartesian(1)
+timer   = structural.CreateTimerStepped(1, 0.0, 50.0 * period, 0.001)
+time = []
+position = []
+velocity = []
 
 temperature = structural.CreateValueScalar3D(T_ref)
 pressure = structural.CreateValueScalar3D(p_ref)

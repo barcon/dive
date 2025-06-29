@@ -3,9 +3,9 @@ import solvers
 import plots.oscillator
 import math
 
-def Harmonic(t):
-    amplitude = 10.0
-    omega = 0.5
+def Harmonic(t: float) -> float:
+    amplitude = 1.0
+    omega = 1.0
 
     return amplitude
     #return amplitude * math.cos(omega * t)
@@ -21,13 +21,13 @@ position = []
 velocity = []
 
 M = structural.Ellpack(2, 2)
-M.SetValue(0, 0, 1.0)
-M.SetValue(1, 1, mass)
+M[0, 0] = 1.0
+M[1, 1] = mass
 
 K = structural.Ellpack(2, 2)
-K.SetValue(0, 1, -1.0)
-K.SetValue(1, 0, stiffness)
-K.SetValue(1, 1, damping)
+K[0, 1] = -1.0
+K[1, 0] = stiffness
+K[1, 1] = damping
 
 u = structural.Vector(2, 0.0)
 f = structural.Vector(2, 0.0)
@@ -37,7 +37,7 @@ def ODE(time, u):
     global K
     global f
     
-    f.SetValue(1, Harmonic(time))
+    f[1] = Harmonic(time)
 
     return [M, -K * u + f]
 
@@ -46,9 +46,9 @@ while(timer.GetCurrent() < timer.GetEnd()):
     position.append(u[0])
     velocity.append(u[1])
 
-    u = solvers.ForwardMethod(timer, u, ODE)
+    #u = solvers.ForwardMethod(timer, u, ODE)
     #u = solvers.BackwardMethod(timer, u, ODE)
-    #u = solvers.CrankNicolsonMethod(timer, u, ODE)
+    u = solvers.CrankNicolsonMethod(timer, u, ODE)
     timer.SetNextStep()
 
 plots.oscillator.Show(time, position, velocity)
