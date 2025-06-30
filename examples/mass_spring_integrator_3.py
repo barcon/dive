@@ -18,7 +18,7 @@ period = 2.0 * math.pi / omega
 status  = 0
 
 basis   = structural.CreateBasisCartesian(1)
-timer   = structural.CreateTimerStepped(1, 0.0, 50.0 * period, 0.001)
+timer   = structural.CreateTimerStepped(1, 0.0, 50.0 * period, 0.01)
 time = []
 position = []
 velocity = []
@@ -77,7 +77,8 @@ def ODE1(time, u, v):
     global K
     global f
     
-    f[1][0] = Harmonic(time, 0.0, 0.0, 0.0)
+    #f[1][0] = Harmonic(time, 0.0, 0.0, 0.0)
+    f = structural.PartitionVector(structural.GetProblem().LoadNode(time))
 
     return [M[3], -(C[3] * v + K[3] * u) + f[1]]
 
@@ -86,14 +87,19 @@ def ODE2(time, v):
 
     return [D[3], v]
 
+#print(f[0])
+#print(f[1])
+#quit()
+
 while(timer.GetCurrent() < timer.GetEnd()):
     time.append(timer.GetCurrent())
     position.append(u[1][0])
     velocity.append(v[1][0])
 
-    #[u[1], v[1]] = solvers.ForwardMethod2(timer, u[1], v[1], ODE1, ODE2)
+    [u[1], v[1]] = solvers.ForwardMethod2(timer, u[1], v[1], ODE1, ODE2)
     #[u[1], v[1]] = solvers.BackwardMethod2(timer, u[1], v[1], ODE1, ODE2)
-    [u[1], v[1]] = solvers.CrankNicolsonMethod2(timer, u[1], v[1], ODE1, ODE2)
+    #[u[1], v[1]] = solvers.CrankNicolsonMethod2(timer, u[1], v[1], ODE1, ODE2)
+    structural.UpdateMeshValues(u)
     timer.SetNextStep()
 
 plots.oscillator.Show(time, position, velocity)
