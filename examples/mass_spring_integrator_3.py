@@ -7,8 +7,8 @@ def Harmonic(t: float, x: float, y: float, z: float) -> float:
     amplitude = 10.0
     omega = 1.0
 
-    return amplitude
-    #return amplitude * math.cos(omega * t)
+    #return amplitude
+    return amplitude * math.cos(omega * t)
 
 mass = 1.0
 stiffness = 100.0
@@ -47,10 +47,8 @@ mesh.AddElement(spring, status)
 mesh.AddElement(body, status)
 
 force = structural.CreateValueVector3DScalarsTime(3)
-#force.SetScalar(0, structural.CreateValueScalar3DTimeFunction(Harmonic))
-force.SetScalar(0, structural.CreateValueScalar3DTime(10.0))
-force.SetScalar(1, structural.CreateValueScalar3DTime(0.0))
-force.SetScalar(2, structural.CreateValueScalar3DTime(0.0))
+force.SetScalar(0, structural.CreateValueScalar3DTimeFunction(Harmonic))
+#force.SetScalar(0, structural.CreateValueScalar3DTime(10.0))
 
 structural.CreateProblem(1, mesh, temperature, pressure)
 structural.ApplyDirichlet([node1], 0.0)
@@ -78,7 +76,6 @@ def ODE1(time, u, v):
     global C
     global K
     
-    #f[1][0] = Harmonic(time, 0.0, 0.0, 0.0)
     f = structural.PartitionVector(structural.GetProblem().LoadNode(time))
 
     return [M[3], -(C[3]*v + K[3]*u) + f[1]]
@@ -93,8 +90,8 @@ while(timer.GetCurrent() < timer.GetEnd()):
     position.append(u[1][0])
     velocity.append(v[1][0])
 
-    #[u[1], v[1]] = solvers.ForwardMethod2(timer, u[1], v[1], ODE1, ODE2)
-    [u[1], v[1]] = solvers.BackwardMethod2(timer, u[1], v[1], ODE1, ODE2)
+    [u[1], v[1]] = solvers.ForwardMethod2(timer, u[1], v[1], ODE1, ODE2)
+    #[u[1], v[1]] = solvers.BackwardMethod2(timer, u[1], v[1], ODE1, ODE2)
     #[u[1], v[1]] = solvers.CrankNicolsonMethod2(timer, u[1], v[1], ODE1, ODE2)
     structural.UpdateMeshValues(u)
     timer.SetNextStep()

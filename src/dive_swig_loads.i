@@ -26,7 +26,7 @@
 	typedef std::shared_ptr<dive::loads::ILoadNode> ILoadNodePtr;
 	typedef std::shared_ptr<const dive::loads::ILoadNode> ConstILoadNodePtr;
 	
-		typedef std::shared_ptr<dive::loads::ILoadNodeTransient> ILoadNodeTransientPtr;
+	typedef std::shared_ptr<dive::loads::ILoadNodeTransient> ILoadNodeTransientPtr;
 	typedef std::shared_ptr<const dive::loads::ILoadNodeTransient> ConstILoadNodeTransientPtr;
 
 	typedef std::shared_ptr<dive::loads::BoundaryCondition> BoundaryConditionPtr;
