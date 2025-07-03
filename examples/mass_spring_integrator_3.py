@@ -7,6 +7,7 @@ def Harmonic(t: float, x: float, y: float, z: float) -> float:
     amplitude = 10.0
     omega = 1.0
 
+    print(t, x, y, z)
     #return amplitude
     return amplitude * math.cos(omega * t)
 
@@ -46,6 +47,8 @@ mesh.AddNode(node2, status, True)
 mesh.AddElement(spring, status)
 mesh.AddElement(body, status)
 
+scalar1 = structural.CreateValueScalar3DTimeFunction(Harmonic)
+scalar2 = structural.CreateValueScalar3DTime(10.0)
 force = structural.CreateValueVector3DScalarsTime(3)
 force.SetScalar(0, structural.CreateValueScalar3DTimeFunction(Harmonic))
 #force.SetScalar(0, structural.CreateValueScalar3DTime(10.0))
@@ -68,6 +71,7 @@ C = structural.PartitionMatrix(structural.Ellpack(totalDof, totalDof))
 K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
 u = structural.PartitionVector(structural.GetProblem().Displacement())
 v = structural.PartitionVector(structural.Vector(totalDof, 0.0))
+f = structural.PartitionVector(structural.Vector(totalDof, 0.0))
 
 C[3][0, 0] = damping
 
@@ -75,8 +79,16 @@ def ODE1(time, u, v):
     global M
     global C
     global K
-    
-    f = structural.PartitionVector(structural.GetProblem().LoadNode(time))
+    global f
+  
+    #print(body.GetNode(0).GetPoint())
+
+    #f[1][0] = scalar1.GetValue(time, 1.0, 0.0, 0.0) 
+    f[1][0] = scalar1.GetValue(time, body.GetNode(0).GetPoint())
+    #f[1][0] = scalar2.GetValue(time, body.GetNode(0).GetPoint())
+    #f[1][0] = Harmonic(time, 0, 0, 0)
+    #f[1][0] = 10.0
+    #f = structural.PartitionVector(structural.GetProblem().LoadNode(time))
 
     return [M[3], -(C[3]*v + K[3]*u) + f[1]]
 
