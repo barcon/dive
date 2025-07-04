@@ -56,9 +56,9 @@ while(timer.GetCurrent() < timer.GetEnd()):
     position.append(u[0])
     velocity.append(v[0])
 
-    #[u, v] = solvers.ForwardMethod2(timer, u, v, ODE1, ODE2)
-    #[u, v] = solvers.BackwardMethod2(timer, u, v, ODE1, ODE2)
-    [u, v] = solvers.CrankNicolsonMethod2(timer, u, v, ODE1, ODE2)
+    #u, v = solvers.ForwardMethod2(timer, u, v, ODE1, ODE2)
+    #u, v = solvers.BackwardMethod2(timer, u, v, ODE1, ODE2)
+    u, v = solvers.CrankNicolsonMethod2(timer, u, v, ODE1, ODE2)
     timer.SetNextStep()
 
 plots.oscillator.Show(time, position, velocity)

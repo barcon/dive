@@ -41,7 +41,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\utils\src;..\..\logger\src;..\..\eilig\src;..\..\basis\src;..\..\quadrature\src;..\..\nodes\src;..\..\kdtree\src;..\..\interpolation\src;..\..\values\src;..\..\material\src;..\..\python\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\utils\src;..\..\logger\src;..\..\eilig\src;..\..\basis\src;..\..\quadrature\src;..\..\nodes\src;..\..\kdtree\src;..\..\interpolation\src;..\..\values\src;..\..\material\src;..\..\python\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -54,7 +54,7 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>utils.lib;logger.lib;eilig.lib;basis.lib;quadrature.lib;nodes.lib;kdtree.lib;interpolation.lib;values.lib;material.lib;python312.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>utils.lib;logger.lib;eilig.lib;basis.lib;quadrature.lib;nodes.lib;kdtree.lib;interpolation.lib;values.lib;material.lib;python313.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\utils\build\Release;..\..\logger\build\Release;..\..\eilig\build\Release;..\..\basis\build\Release;..\..\quadrature\build\Release;..\..\nodes\build\Release;..\..\kdtree\build\Release;..\..\interpolation\build\Release;..\..\values\build\Release;..\..\material\build\Release;..\..\python\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>Python\_dive.lib</ImportLibrary>
     </Link>

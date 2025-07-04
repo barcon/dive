@@ -22,7 +22,7 @@ project "dive"
 	includedirs { "../interpolation/src" }	
 	includedirs { "../values/src" }	
 	includedirs { "../material/src" }
-	includedirs { "../python/inc" }	
+	includedirs { "../python/include" }	
 
 	files { "src/**.hpp", "src/**.cpp" }
 
@@ -35,7 +35,7 @@ project "dive"
 		removefiles{"src/dive_export_python_OpenCL.cpp"}
 		
 		links { "utils", "logger", "eilig", "basis", "quadrature", "nodes", "kdtree",
-				"interpolation", "values", "material", "python312" }
+				"interpolation", "values", "material", "python313" }
 		
 		libdirs { "../utils/build/Release" }
 		libdirs { "../logger/build/Release" }
@@ -72,7 +72,7 @@ project "diveCL"
 	includedirs { "../interpolation/src" }	
 	includedirs { "../values/src" }	
 	includedirs { "../material/src" }
-	includedirs { "../python/inc" }	
+	includedirs { "../python/include" }	
 
 	files { "src/**.hpp", "src/**.cpp" }
 
@@ -88,7 +88,7 @@ project "diveCL"
 		includedirs { "../opencl/inc" }		
 		
 		links { "utils", "logger", "eilig", "basis", "quadrature", "nodes", "kdtree",
-				"interpolation", "values", "material", "club", "opencl", "python312" }		
+				"interpolation", "values", "material", "club", "opencl", "python313" }		
 		
 		libdirs { "../utils/build/Release" }
 		libdirs { "../logger/build/Release" }

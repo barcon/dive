@@ -1,3 +1,6 @@
+import os
+os.add_dll_directory(r"C:\devel\dive\examples")
+
 import structural
 import solvers
 import plots.oscillator
@@ -7,9 +10,8 @@ def Harmonic(t: float, x: float, y: float, z: float) -> float:
     amplitude = 10.0
     omega = 1.0
 
-    print(t, x, y, z)
-    #return amplitude
-    return amplitude * math.cos(omega * t)
+    return amplitude
+#    return amplitude * math.cos(omega * t)
 
 mass = 1.0
 stiffness = 100.0
@@ -47,10 +49,9 @@ mesh.AddNode(node2, status, True)
 mesh.AddElement(spring, status)
 mesh.AddElement(body, status)
 
-scalar1 = structural.CreateValueScalar3DTimeFunction(Harmonic)
-scalar2 = structural.CreateValueScalar3DTime(10.0)
+forceScalar = structural.CreateValueScalar3DTimeFunction(Harmonic)
 force = structural.CreateValueVector3DScalarsTime(3)
-force.SetScalar(0, structural.CreateValueScalar3DTimeFunction(Harmonic))
+force.SetScalar(0, forceScalar)
 #force.SetScalar(0, structural.CreateValueScalar3DTime(10.0))
 
 structural.CreateProblem(1, mesh, temperature, pressure)
@@ -71,7 +72,7 @@ C = structural.PartitionMatrix(structural.Ellpack(totalDof, totalDof))
 K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
 u = structural.PartitionVector(structural.GetProblem().Displacement())
 v = structural.PartitionVector(structural.Vector(totalDof, 0.0))
-f = structural.PartitionVector(structural.Vector(totalDof, 0.0))
+f = structural.PartitionVector(structural.GetProblem().LoadNode(timer.GetCurrent()))
 
 C[3][0, 0] = damping
 
@@ -83,8 +84,9 @@ def ODE1(time, u, v):
   
     #print(body.GetNode(0).GetPoint())
 
-    #f[1][0] = scalar1.GetValue(time, 1.0, 0.0, 0.0) 
-    f[1][0] = scalar1.GetValue(time, body.GetNode(0).GetPoint())
+    f[1][0] = forceScalar.GetValue(time, body.GetNode(0).GetPoint())
+    print(f[1][0])
+    #f[1][0] = scalar1.GetValue(time, body.GetNode(0).GetPoint())
     #f[1][0] = scalar2.GetValue(time, body.GetNode(0).GetPoint())
     #f[1][0] = Harmonic(time, 0, 0, 0)
     #f[1][0] = 10.0
@@ -97,14 +99,32 @@ def ODE2(time, v):
 
     return [D[3], v]
 
+M_Dense = structural.Matrix(1, 1)
+M_Dense[0, 0] = M[3][0, 0]
+
+D_Dense = structural.Matrix(1, 1)
+D_Dense[0, 0] = D[3][0, 0]
+
+
 while(timer.GetCurrent() < timer.GetEnd()):
     time.append(timer.GetCurrent())
     position.append(u[1][0])
     velocity.append(v[1][0])
 
-    [u[1], v[1]] = solvers.ForwardMethod2(timer, u[1], v[1], ODE1, ODE2)
-    #[u[1], v[1]] = solvers.BackwardMethod2(timer, u[1], v[1], ODE1, ODE2)
-    #[u[1], v[1]] = solvers.CrankNicolsonMethod2(timer, u[1], v[1], ODE1, ODE2)
+    dt = timer.GetStepSize()
+    dvdt = structural.Vector(v[1])
+    dudt = structural.Vector(u[1])
+
+    f = structural.PartitionVector(structural.GetProblem().LoadNode(timer.GetCurrent()))
+    #print(f[1])
+
+    #monitor = solvers.IterativeBiCGStab(M[3], dvdt, -(C[3]*v[1] + K[3]*u[1]) + f[1])
+    dvdt = structural.Solve(M_Dense, -(C[3]*v[1] + K[3]*u[1]) + f[1])
+    v[1] = v[1] + dt * dvdt
+     
+    dudt = structural.Solve(D_Dense, v[1])
+    u[1] = u[1] + dt * dudt
+
     structural.UpdateMeshValues(u)
     timer.SetNextStep()
 
