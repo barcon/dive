@@ -90,7 +90,7 @@ namespace dive
 		}
 		Matrix ElementHexa::u() const
 		{
-			Matrix res(numberDof_ * numberNodes_, 1, 0.0);
+			Matrix res(numberDof_ * numberNodes_, 1, eilig::matrix_zeros);
 
 			for (NodeIndex i = 0; i < numberNodes_; ++i)
 			{
@@ -104,7 +104,7 @@ namespace dive
 		}
 		Matrix ElementHexa::u(const Vector& local) const
 		{
-			Matrix res(numberDof_, 1, 0.0);
+			Matrix res(numberDof_, 1, eilig::matrix_zeros);
 
 			for (NodeIndex i = 0; i < numberNodes_; ++i)
 			{
@@ -120,7 +120,7 @@ namespace dive
 		}
 		Matrix ElementHexa::du() const
 		{
-			Matrix res(numberCoordinates_, numberDof_ * numberNodes_, 0.0);
+			Matrix res(numberCoordinates_, numberDof_ * numberNodes_, eilig::matrix_zeros);
 
 			for (CoordinateIndex k = 0; k < numberCoordinates_; ++k)
 			{
@@ -141,7 +141,7 @@ namespace dive
 		}
 		Matrix ElementHexa::du(const Vector& local) const
 		{
-			Matrix res(numberCoordinates_, numberDof_, 0.0);
+			Matrix res(numberCoordinates_, numberDof_, eilig::matrix_zeros);
 
 			for (CoordinateIndex k = 0; k < numberCoordinates_; ++k)
 			{
@@ -162,7 +162,7 @@ namespace dive
 		}
 		Matrix ElementHexa::du(const Vector& local, const Dimension& dimension) const
 		{
-			Matrix res(1, numberDof_, 0.0);
+			Matrix res(1, numberDof_, eilig::matrix_zeros);
 
 			for (NodeIndex i = 0; i < numberNodes_; ++i)
 			{
@@ -179,7 +179,7 @@ namespace dive
 		}
 		Matrix ElementHexa::J(const Vector& local) const
 		{
-			Matrix output(numberCoordinates_, numberCoordinates_, 0.0);
+			Matrix output(numberCoordinates_, numberCoordinates_, eilig::matrix_zeros);
 
 			for (CoordinateIndex i = 0; i < numberCoordinates_; ++i)
 			{
@@ -202,7 +202,7 @@ namespace dive
 		}
 		Matrix ElementHexa::N(const Vector& local) const
 		{
-			Matrix res(1, numberNodes_, 0.0);
+			Matrix res(1, numberNodes_, eilig::matrix_zeros);
 
 			for (NodeIndex i = 0; i < numberNodes_; ++i)
 			{
@@ -213,7 +213,7 @@ namespace dive
 		}
 		Matrix ElementHexa::dN(const Vector& local) const
 		{
-			Matrix res(numberCoordinates_, numberNodes_, 0.0);
+			Matrix res(numberCoordinates_, numberNodes_, eilig::matrix_zeros);
 
 			for (CoordinateIndex i = 0; i < numberCoordinates_; ++i)
 			{

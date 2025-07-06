@@ -70,7 +70,7 @@ namespace dive {
 			auto numberDof = elementMomentum->GetNode(0)->GetNumberDof();
 			auto N = elementMomentum->N(local);
 
-			Matrix res(numberDof, numberNodes * numberDof, 0.0);
+			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
 
 			for (DofIndex i = 0; i < numberDof; ++i)
 			{
@@ -92,7 +92,7 @@ namespace dive {
 			auto momentum = FormMomentum(elementMomentum, local);
 			auto dN = elementMomentum->InvJ(local) * elementMomentum->dN(local);
 
-			Matrix res(numberDimensions, numberNodes * numberDof, 0.0);
+			Matrix res(numberDimensions, numberNodes * numberDof, eilig::matrix_zeros);
 
 			for (NodeIndex i = 0; i < numberNodes; ++i)
 			{

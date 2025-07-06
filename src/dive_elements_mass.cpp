@@ -190,7 +190,7 @@ namespace dive
 				}
 			}
 
-			I_ = Matrix(numberDof * numberNodes_, numberDof * numberNodes_, 1.0).Diagonal();
+			I_ = Matrix(numberDof * numberNodes_, numberDof * numberNodes_, eilig::matrix_diagonal);
 		}
 		void ElementMass::SetNode(const NodeIndex& nodeIndex, INodePtr node)
 		{

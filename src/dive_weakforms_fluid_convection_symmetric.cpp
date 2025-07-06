@@ -41,7 +41,7 @@ namespace dive {
 
 			auto dN = eilig::Inverse(element->J(local, cacheIndex)) * element->dN(local);
 
-			Matrix res(numberDof, numberNodes * numberDof, 0.0);
+			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
 
 			for (DofIndex i = 0; i < numberDof; ++i)
 			{
@@ -66,7 +66,7 @@ namespace dive {
 			auto numberDof = element->GetNumberDof();
 			const auto& N = element->N(local, cacheIndex);
 
-			Matrix res(numberDof, numberNodes * numberDof, 0.0);
+			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
 
 			for (DofIndex i = 0; i < numberDof; ++i)
 			{

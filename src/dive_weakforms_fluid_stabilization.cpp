@@ -60,7 +60,7 @@ namespace dive {
 			auto numberDof = element->GetNode(0)->GetNumberDof();
 			const auto& N = element->N(local, cacheIndex);
 
-			Matrix res(numberDof, numberNodes * numberDof, 0.0);
+			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
 
 			for (DofIndex i = 0; i < numberDof; ++i)
 			{
@@ -80,7 +80,7 @@ namespace dive {
 			auto numberDimensions = element->GetNumberDimensions();
 			auto dN = element->InvJ(local, cacheIndex) * element->dN(local, cacheIndex);
 
-			Matrix res(numberDof, numberNodes * numberDof, 0.0);
+			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
 
 			for (DofIndex m = 0; m < numberDof; ++m)
 			{

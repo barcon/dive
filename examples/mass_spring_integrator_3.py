@@ -97,13 +97,10 @@ def ODE2(time, v):
 
     return [D[3], v]
 
-MD = structural.Matrix(1, 1)
-MD[0, 0] = M[3][0, 0]
-
-DD = structural.Matrix(1, 1)
-DD[0, 0] = D[3][0, 0]
-
+MD = structural.Matrix(M)
+DD = structural.Matrix(D)
 LU = structural.Matrix()
+
 permutation = structural.CreateIndices()
 
 while(timer.GetCurrent() < timer.GetEnd()):

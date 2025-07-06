@@ -49,7 +49,7 @@ namespace dive {
 			auto numberDof = element->GetNumberDof();
 			auto N = element->N(point);
 
-			Matrix res(numberDof, numberNodes * numberDof, 0.0);
+			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
 
 			for (DofIndex i = 0; i < numberDof; ++i)
 			{
@@ -69,7 +69,7 @@ namespace dive {
 			auto numberDimensions = element->GetNumberDimensions();
 			auto dN = eilig::Inverse(element->J(point)) * element->dN(point);
 
-			Matrix res(numberDof, numberNodes * numberDof, 0.0);
+			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
 
 			for (DofIndex m = 0; m < numberDof; ++m)
 			{
