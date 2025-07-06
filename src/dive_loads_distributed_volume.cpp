@@ -20,6 +20,10 @@ namespace dive
 
 			return res;
 		}
+		LoadDistributedVolumePtr CastToLoadDistributedVolume(ILoadPtr load)
+		{
+			return std::dynamic_pointer_cast<LoadDistributedVolume>(load);
+		}
 		LoadDistributedVolumePtr LoadDistributedVolume::Create()
 		{
 			class MakeSharedEnabler : public LoadDistributedVolume

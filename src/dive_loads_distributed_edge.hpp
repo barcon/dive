@@ -8,6 +8,7 @@ namespace dive
 	namespace loads
 	{
 		LoadDistributedEdgePtr CreateLoadDistributedEdge(IElementPtr element, EdgeIndex edgeIndex, IVector3DPtr value);
+		LoadDistributedEdgePtr CastToLoadDistributedEdge(ILoadPtr load);
 
 		class LoadDistributedEdge : public ILoadDistributedEdge, virtual public std::enable_shared_from_this<LoadDistributedEdge>
 		{

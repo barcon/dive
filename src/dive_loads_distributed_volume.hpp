@@ -8,6 +8,7 @@ namespace dive
 	namespace loads
 	{
 		LoadDistributedVolumePtr CreateLoadDistributedVolume(IElementPtr element, IVector3DPtr value);
+		LoadDistributedVolumePtr CastToLoadDistributedVolume(ILoadPtr load);
 
 		class LoadDistributedVolume : public ILoadDistributedVolume, virtual public std::enable_shared_from_this<LoadDistributedVolume>
 		{

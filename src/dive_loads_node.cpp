@@ -13,6 +13,10 @@ namespace dive
 
 			return res;
 		}
+		LoadNodePtr CastToLoadNode(ILoadPtr load)
+		{
+			return std::dynamic_pointer_cast<LoadNode>(load);
+		}
 		LoadNodePtr LoadNode::Create()
 		{
 			class MakeSharedEnabler : public LoadNode

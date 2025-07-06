@@ -717,6 +717,9 @@ class Ellpack(object):
 # Register Ellpack in _dive:
 _dive.Ellpack_swigregister(Ellpack)
 
+def CreateIndices():
+    return _dive.CreateIndices()
+
 def NormMax(_in):
     return _dive.NormMax(_in)
 
@@ -747,20 +750,20 @@ def ScaleByVector(A, alpha):
 def Solve(A, b):
     return _dive.Solve(A, b)
 
-def DecomposeLUP(LU, permutation, A):
-    return _dive.DecomposeLUP(LU, permutation, A)
-
-def InverseLUP(IA, LU, permutation):
-    return _dive.InverseLUP(IA, LU, permutation)
-
 def DiagonalLinearSystem(*args):
     return _dive.DiagonalLinearSystem(*args)
 
 def ForwardLinearSystem(*args):
     return _dive.ForwardLinearSystem(*args)
 
-def DirectLUP(x, LU, permutation, b):
-    return _dive.DirectLUP(x, LU, permutation, b)
+def DecomposeLUP(LU, A, permutation):
+    return _dive.DecomposeLUP(LU, A, permutation)
+
+def InverseLUP(IA, LU, permutation):
+    return _dive.InverseLUP(IA, LU, permutation)
+
+def DirectLUP(LU, x, b, permutation):
+    return _dive.DirectLUP(LU, x, b, permutation)
 
 def IterativeCG(A, x, b, callbackIterative):
     return _dive.IterativeCG(A, x, b, callbackIterative)
@@ -864,7 +867,7 @@ def IterativeCG(A, x, b, callback):
 
     return _dive.IterativeCG(A, x, b, f_ptr)
 
-def IterativeBiCGStab(A, b, callback):
+def IterativeBiCGStab(A, x, b, callback):
 
 # wrap the python callback with a ctypes function pointer
     f = py_callback_iterative(callback)
@@ -5604,6 +5607,9 @@ _dive.BoundaryCondition_swigregister(BoundaryCondition)
 
 def CreateLoadDistributedVolume(element, value):
     return _dive.CreateLoadDistributedVolume(element, value)
+
+def CastToLoadDistributedVolume(load):
+    return _dive.CastToLoadDistributedVolume(load)
 class LoadDistributedVolume(ILoadDistributedVolume):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
@@ -5639,6 +5645,9 @@ _dive.LoadDistributedVolume_swigregister(LoadDistributedVolume)
 
 def CreateLoadDistributedFace(element, faceIndex, value):
     return _dive.CreateLoadDistributedFace(element, faceIndex, value)
+
+def CastToLoadDistributedFace(load):
+    return _dive.CastToLoadDistributedFace(load)
 class LoadDistributedFace(ILoadDistributedFace):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
@@ -5680,6 +5689,9 @@ _dive.LoadDistributedFace_swigregister(LoadDistributedFace)
 
 def CreateLoadDistributedEdge(element, edgeIndex, value):
     return _dive.CreateLoadDistributedEdge(element, edgeIndex, value)
+
+def CastToLoadDistributedEdge(load):
+    return _dive.CastToLoadDistributedEdge(load)
 class LoadDistributedEdge(ILoadDistributedEdge):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
@@ -5721,6 +5733,9 @@ _dive.LoadDistributedEdge_swigregister(LoadDistributedEdge)
 
 def CreateLoadNode(node, value):
     return _dive.CreateLoadNode(node, value)
+
+def CastToLoadNode(load):
+    return _dive.CastToLoadNode(load)
 class LoadNode(ILoadNode):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
@@ -5756,6 +5771,9 @@ _dive.LoadNode_swigregister(LoadNode)
 
 def CreateLoadNodeTransient(node, value):
     return _dive.CreateLoadNodeTransient(node, value)
+
+def CastToLoadNodeTransient(load):
+    return _dive.CastToLoadNodeTransient(load)
 class LoadNodeTransient(ILoadNodeTransient):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 

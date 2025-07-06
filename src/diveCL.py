@@ -1038,6 +1038,9 @@ class EllpackCL(object):
 # Register EllpackCL in _diveCL:
 _diveCL.EllpackCL_swigregister(EllpackCL)
 
+def CreateIndices():
+    return _diveCL.CreateIndices()
+
 def Cross(in1, in2):
     return _diveCL.Cross(in1, in2)
 
@@ -1056,20 +1059,20 @@ def ScaleByVector(A, alpha):
 def Solve(A, b):
     return _diveCL.Solve(A, b)
 
-def DecomposeLUP(LU, permutation, A):
-    return _diveCL.DecomposeLUP(LU, permutation, A)
-
-def InverseLUP(IA, LU, permutation):
-    return _diveCL.InverseLUP(IA, LU, permutation)
-
 def DiagonalLinearSystem(*args):
     return _diveCL.DiagonalLinearSystem(*args)
 
 def ForwardLinearSystem(*args):
     return _diveCL.ForwardLinearSystem(*args)
 
-def DirectLUP(x, LU, permutation, b):
-    return _diveCL.DirectLUP(x, LU, permutation, b)
+def DecomposeLUP(LU, A, permutation):
+    return _diveCL.DecomposeLUP(LU, A, permutation)
+
+def InverseLUP(IA, LU, permutation):
+    return _diveCL.InverseLUP(IA, LU, permutation)
+
+def DirectLUP(LU, x, b, permutation):
+    return _diveCL.DirectLUP(LU, x, b, permutation)
 
 def NormMax(*args):
     return _diveCL.NormMax(*args)
@@ -5943,6 +5946,9 @@ _diveCL.BoundaryCondition_swigregister(BoundaryCondition)
 
 def CreateLoadDistributedVolume(element, value):
     return _diveCL.CreateLoadDistributedVolume(element, value)
+
+def CastToLoadDistributedVolume(load):
+    return _diveCL.CastToLoadDistributedVolume(load)
 class LoadDistributedVolume(ILoadDistributedVolume):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
@@ -5978,6 +5984,9 @@ _diveCL.LoadDistributedVolume_swigregister(LoadDistributedVolume)
 
 def CreateLoadDistributedFace(element, faceIndex, value):
     return _diveCL.CreateLoadDistributedFace(element, faceIndex, value)
+
+def CastToLoadDistributedFace(load):
+    return _diveCL.CastToLoadDistributedFace(load)
 class LoadDistributedFace(ILoadDistributedFace):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
@@ -6019,6 +6028,9 @@ _diveCL.LoadDistributedFace_swigregister(LoadDistributedFace)
 
 def CreateLoadDistributedEdge(element, edgeIndex, value):
     return _diveCL.CreateLoadDistributedEdge(element, edgeIndex, value)
+
+def CastToLoadDistributedEdge(load):
+    return _diveCL.CastToLoadDistributedEdge(load)
 class LoadDistributedEdge(ILoadDistributedEdge):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
@@ -6060,6 +6072,9 @@ _diveCL.LoadDistributedEdge_swigregister(LoadDistributedEdge)
 
 def CreateLoadNode(node, value):
     return _diveCL.CreateLoadNode(node, value)
+
+def CastToLoadNode(load):
+    return _diveCL.CastToLoadNode(load)
 class LoadNode(ILoadNode):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
@@ -6095,6 +6110,9 @@ _diveCL.LoadNode_swigregister(LoadNode)
 
 def CreateLoadNodeTransient(node, value):
     return _diveCL.CreateLoadNodeTransient(node, value)
+
+def CastToLoadNodeTransient(load):
+    return _diveCL.CastToLoadNodeTransient(load)
 class LoadNodeTransient(ILoadNodeTransient):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 

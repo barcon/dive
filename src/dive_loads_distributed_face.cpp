@@ -22,6 +22,10 @@ namespace dive
 
 			return res;
 		}
+		LoadDistributedFacePtr CastToLoadDistributedFace(ILoadPtr load)
+		{
+			return std::dynamic_pointer_cast<LoadDistributedFace>(load);
+		}
 		LoadDistributedFacePtr LoadDistributedFace::Create()
 		{
 			class MakeSharedEnabler : public LoadDistributedFace

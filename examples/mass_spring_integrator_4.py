@@ -33,21 +33,34 @@ pressure = structural.CreateValueScalar3D(p_ref)
 
 node1 = structural.CreateNode(1, 0.0, 0.0, 0.0)
 node2 = structural.CreateNode(2, 1.0, 0.0, 0.0)
+node3 = structural.CreateNode(3, 2.0, 0.0, 0.0)
 
-spring = structural.CreateElementSpring(1)
-spring.SetNode(0, node1)
-spring.SetNode(1, node2)
-spring.SetStiffness(structural.CreateValueScalar(stiffness))
+spring1 = structural.CreateElementSpring(1)
+spring1.SetNode(0, node1)
+spring1.SetNode(1, node2)
+spring1.SetStiffness(structural.CreateValueScalar(stiffness))
 
-body = structural.CreateElementMass(3)
-body.SetNode(0, node2)
-body.SetMass(structural.CreateValueScalar(mass))
+spring2 = structural.CreateElementSpring(2)
+spring2.SetNode(0, node2)
+spring2.SetNode(1, node3)
+spring2.SetStiffness(structural.CreateValueScalar(stiffness))
+
+body1 = structural.CreateElementMass(3)
+body1.SetNode(0, node2)
+body1.SetMass(structural.CreateValueScalar(mass))
+
+body2 = structural.CreateElementMass(3)
+body2.SetNode(0, node3)
+body2.SetMass(structural.CreateValueScalar(mass))
 
 mesh = structural.CreateMesh(1)
 mesh.AddNode(node1, status, True)
 mesh.AddNode(node2, status, True)
-mesh.AddElement(spring, status)
-mesh.AddElement(body, status)
+mesh.AddNode(node3, status, True)
+mesh.AddElement(spring1, status)
+mesh.AddElement(spring2, status)
+mesh.AddElement(body1, status)
+mesh.AddElement(body2, status)
 
 force = structural.CreateValueVector3DScalarsTime(3)
 force.SetScalar(0, structural.CreateValueScalar3DTimeFunction(Harmonic))
@@ -56,7 +69,9 @@ structural.CreateProblem(1, mesh, temperature, pressure)
 structural.ApplyDirichlet([node1], 0.0)
 structural.ApplyDirichlet([node2], 0.0, dof = 1)
 structural.ApplyDirichlet([node2], 0.0, dof = 2)
-structural.ApplyLoadNodeTransient([node2], force)
+structural.ApplyDirichlet([node3], 0.0, dof = 1)
+structural.ApplyDirichlet([node3], 0.0, dof = 2)
+structural.ApplyLoadNodeTransient([node3], force)
 structural.Initialize()
 
 #--------------------------------------------------------------------------------------------------
@@ -64,15 +79,15 @@ structural.Initialize()
 totalDof = structural.GetProblem().GetTotalDof()
 pivot = structural.GetProblem().GetPivot()
 
-D = structural.PartitionMatrix(structural.Ellpack(totalDof, totalDof, structural.matrix_diagonal))
+D = structural.PartitionMatrix(structural.Ellpack(totalDof, totalDof, 1.0).Diagonal())
 M = structural.PartitionMatrix(structural.GetProblem().Mass())
-C = structural.PartitionMatrix(structural.GetProblem().Damping())
+C = structural.PartitionMatrix(structural.Ellpack(totalDof, totalDof))
 K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
 u = structural.PartitionVector(structural.GetProblem().Displacement())
 v = structural.PartitionVector(structural.Vector(totalDof, 0.0))
 f = structural.PartitionVector(structural.GetProblem().LoadNode(timer.GetCurrent()))
 
-C[3][0, 0] = damping
+#C[3][0, 0] = damping
 
 def ODE1(time, u, v):
     global M
@@ -90,7 +105,8 @@ def ODE1(time, u, v):
     #f[1][0] = 10.0
     #f = structural.PartitionVector(structural.GetProblem().LoadNode(time))
 
-    return [M[3], -(C[3]*v + K[3]*u) + f[1]]
+    #return [M[3], -(C[3]*v + K[3]*u) + f[1]]
+    return [M[3], -(K[3]*u) + f[1]]
 
 def ODE2(time, v):
     global D

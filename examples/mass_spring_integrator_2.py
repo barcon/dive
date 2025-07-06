@@ -7,8 +7,8 @@ def Harmonic(t: float) -> float:
     amplitude = 1.0
     omega = 1.0
 
-    return amplitude
-    #return amplitude * math.cos(omega * t)
+    #return amplitude
+    return amplitude * math.cos(omega * t)
 
 mass = 1.0
 stiffness = 100.0

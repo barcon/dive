@@ -21,6 +21,10 @@ namespace dive
 
 			return res;
 		}
+		LoadDistributedEdgePtr CastToLoadDistributedEdge(ILoadPtr load)
+		{
+			return std::dynamic_pointer_cast<LoadDistributedEdge>(load);
+		}
 		LoadDistributedEdgePtr LoadDistributedEdge::Create()
 		{
 			class MakeSharedEnabler : public LoadDistributedEdge

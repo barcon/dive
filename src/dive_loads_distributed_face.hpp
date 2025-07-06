@@ -8,6 +8,7 @@ namespace dive
 	namespace loads
 	{
 		LoadDistributedFacePtr CreateLoadDistributedFace(IElementPtr element, FaceIndex faceIndex, IVector3DPtr value);
+		LoadDistributedFacePtr CastToLoadDistributedFace(ILoadPtr load);
 
 		class LoadDistributedFace : public ILoadDistributedFace, virtual public std::enable_shared_from_this<LoadDistributedFace>
 		{

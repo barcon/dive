@@ -8,6 +8,7 @@ namespace dive
 	namespace loads
 	{
 		LoadNodeTransientPtr CreateLoadNodeTransient(INodePtr node, IVector3DTimePtr value);
+		LoadNodeTransientPtr CastToLoadNodeTransient(ILoadPtr load);
 
 		class LoadNodeTransient : public ILoadNodeTransient, virtual public std::enable_shared_from_this<LoadNodeTransient>
 		{

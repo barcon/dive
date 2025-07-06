@@ -35,7 +35,6 @@ namespace std
 %template(vecDouble) std::vector<double>;
 %template(arrDouble) std::vector<std::vector<double>>;
 
-
 %include "..\..\eilig\src\eilig_types.hpp"
 %include "..\..\eilig\src\eilig_vector.hpp"
 %include "..\..\eilig\src\eilig_matrix.hpp"
@@ -154,7 +153,7 @@ def IterativeCG(A, x, b, callback):
 
     return _dive.IterativeCG(A, x, b, f_ptr)
 
-def IterativeBiCGStab(A, b, callback):
+def IterativeBiCGStab(A, x, b, callback):
 
     # wrap the python callback with a ctypes function pointer
     f = py_callback_iterative(callback)

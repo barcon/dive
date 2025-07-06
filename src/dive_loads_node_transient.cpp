@@ -13,6 +13,10 @@ namespace dive
 
 			return res;
 		}
+		LoadNodeTransientPtr CastToLoadNodeTransient(ILoadPtr load)
+		{
+			return std::dynamic_pointer_cast<LoadNodeTransient>(load);
+		}
 		LoadNodeTransientPtr LoadNodeTransient::Create()
 		{
 			class MakeSharedEnabler : public LoadNodeTransient

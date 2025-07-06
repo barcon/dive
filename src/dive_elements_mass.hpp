@@ -10,7 +10,6 @@ namespace dive
 		ElementMassPtr CreateElementMass();
 		ElementMassPtr CreateElementMass(Tag elementTag);
 		ElementMassPtr CreateElementMass(Tag elementTag, IScalarPtr mass);
-
 		ElementMassPtr CastToElementMass(IElementPtr element);
 
 		class ElementMass : public IElement, virtual public std::enable_shared_from_this<ElementMass>

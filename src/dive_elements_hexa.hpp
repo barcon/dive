@@ -9,7 +9,6 @@ namespace dive
 	{
 		ElementHexaPtr CreateElementHexa();
 		ElementHexaPtr CreateElementHexa(Tag elementTag);
-
 		ElementHexaPtr CastToElementHexa(IElementPtr element);
 
 		class ElementHexa : public IElementSolid, virtual public std::enable_shared_from_this<ElementHexa>

@@ -8,6 +8,7 @@ namespace dive
 	namespace loads
 	{
 		LoadNodePtr CreateLoadNode(INodePtr node, IVector3DPtr value);
+		LoadNodePtr CastToLoadNode(ILoadPtr load);
 
 		class LoadNode : public ILoadNode, virtual public std::enable_shared_from_this<LoadNode>
 		{
