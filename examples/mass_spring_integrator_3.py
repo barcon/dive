@@ -10,8 +10,8 @@ def Harmonic(t: float, x: float, y: float, z: float) -> float:
     amplitude = 10.0
     omega = 1.0
 
-    #return amplitude
-    return amplitude * math.cos(omega * t)
+    return amplitude
+    #return amplitude * math.cos(omega * t)
 
 mass = 1.0
 stiffness = 100.0
@@ -34,10 +34,11 @@ pressure = structural.CreateValueScalar3D(p_ref)
 node1 = structural.CreateNode(1, 0.0, 0.0, 0.0)
 node2 = structural.CreateNode(2, 1.0, 0.0, 0.0)
 
-spring = structural.CreateElementSpring(1)
+spring = structural.CreateElementCombined(1)
 spring.SetNode(0, node1)
 spring.SetNode(1, node2)
 spring.SetStiffness(structural.CreateValueScalar(stiffness))
+spring.SetDamping(structural.CreateValueScalar(damping))
 
 body = structural.CreateElementMass(3)
 body.SetNode(0, node2)
@@ -66,13 +67,11 @@ pivot = structural.GetProblem().GetPivot()
 
 D = structural.PartitionMatrix(structural.Ellpack(totalDof, totalDof, structural.matrix_diagonal))
 M = structural.PartitionMatrix(structural.GetProblem().Mass())
-C = structural.PartitionMatrix(structural.GetProblem().Damping())
 K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
+C = structural.PartitionMatrix(structural.GetProblem().Damping())
 u = structural.PartitionVector(structural.GetProblem().Displacement())
 v = structural.PartitionVector(structural.Vector(totalDof, 0.0))
 f = structural.PartitionVector(structural.GetProblem().LoadNode(timer.GetCurrent()))
-
-C[3][0, 0] = damping
 
 def ODE1(time, u, v):
     global M
@@ -97,8 +96,10 @@ def ODE2(time, v):
 
     return [D[3], v]
 
-MD = structural.Matrix(M)
-DD = structural.Matrix(D)
+MD = structural.Matrix(M[3])
+KD = structural.Matrix(K[3])
+CD = structural.Matrix(C[3])
+DD = structural.Matrix(D[3])
 LU = structural.Matrix()
 
 permutation = structural.CreateIndices()
@@ -115,7 +116,7 @@ while(timer.GetCurrent() < timer.GetEnd()):
     f = structural.PartitionVector(structural.GetProblem().LoadNode(timer.GetCurrent()))
 
     structural.DecomposeLUP(LU, MD, permutation)
-    structural.DirectLUP(LU, dvdt, -(C[3]*v[1] + K[3]*u[1]) + f[1], permutation)
+    structural.DirectLUP(LU, dvdt, -(CD*v[1] + KD*u[1]) + f[1], permutation)
     #monitor = solvers.IterativeBiCGStab(M[3], dvdt, -(C[3]*v[1] + K[3]*u[1]) + f[1])
     v[1] = v[1] + dt * dvdt
      

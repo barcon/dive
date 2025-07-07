@@ -1,4 +1,4 @@
-#include "dive_elements_spring.hpp"
+#include "dive_elements_combined.hpp"
 #include "dive_status.hpp"
 #include "dive_weakforms.hpp"
 
@@ -6,46 +6,49 @@ namespace dive
 {
 	namespace elements
 	{
-		const Scalar	ElementSpring::localCoordinates_[2][3] = { {-1.0,  0.0, 0.0 }, { 1.0,  0.0, 0.0 } };
-		const NodeIndex	ElementSpring::lookUpTable11_[1 * 2] = { NodeIndex(0), NodeIndex(1) };
+		const Scalar	ElementCombined::localCoordinates_[2][3] = { {-1.0,  0.0, 0.0 }, { 1.0,  0.0, 0.0 } };
+		const NodeIndex	ElementCombined::lookUpTable11_[1 * 2] = { NodeIndex(0), NodeIndex(1) };
 
-		ElementSpringPtr CreateElementSpring()
+		ElementCombinedPtr CreateElementCombined()
 		{
-			auto res = ElementSpring::Create();
+			auto res = ElementCombined::Create();
 
 			return res;
 		}
-		ElementSpringPtr CreateElementSpring(Tag elementTag)
+		ElementCombinedPtr CreateElementCombined(Tag elementTag)
 		{
-			auto res = ElementSpring::Create();
+			auto res = ElementCombined::Create();
 
 			res->SetTag(elementTag);
 
 			return res;
 		}
-		ElementSpringPtr CreateElementSpring(Tag elementTag, IScalarPtr stiffness)
+		ElementCombinedPtr CreateElementCombined(Tag elementTag, IScalarPtr stiffness, IScalarPtr damping)
 		{
-			auto res = ElementSpring::Create();
+			auto res = ElementCombined::Create();
 
 			res->SetTag(elementTag);
 			res->SetStiffness(stiffness);
+			res->SetDamping(damping);
 
 			return res;
 		}
-		ElementSpringPtr CastToElementSpring(IElementPtr element)
+		ElementCombinedPtr CastToElementCombined(IElementPtr element)
 		{
-			return std::dynamic_pointer_cast<ElementSpring>(element);
+			return std::dynamic_pointer_cast<ElementCombined>(element);
 		}
 
-		ElementSpring::ElementSpring()
+		ElementCombined::ElementCombined()
 		{
 			nodes_.resize(numberNodes_);
 
+			SetStiffness(values::CreateValueScalar(0.0));
+			SetDamping(values::CreateValueScalar(0.0));
 			SetNumberDof(numberDof_);
 		}
-		ElementSpringPtr ElementSpring::Create()
+		ElementCombinedPtr ElementCombined::Create()
 		{
-			class MakeSharedEnabler : public ElementSpring
+			class MakeSharedEnabler : public ElementCombined
 			{
 			};
 
@@ -53,35 +56,35 @@ namespace dive
 
 			return res;
 		}
-		ElementSpringPtr ElementSpring::GetPtr()
+		ElementCombinedPtr ElementCombined::GetPtr()
 		{
-			return std::dynamic_pointer_cast<ElementSpring>(shared_from_this());
+			return std::dynamic_pointer_cast<ElementCombined>(shared_from_this());
 		}
-		ConstElementSpringPtr ElementSpring::GetPtr() const
+		ConstElementCombinedPtr ElementCombined::GetPtr() const
 		{
-			return const_cast<ElementSpring*>(this)->GetPtr();
+			return const_cast<ElementCombined*>(this)->GetPtr();
 		}
 		
-		Tag ElementSpring::GetTag() const
+		Tag ElementCombined::GetTag() const
 		{
 			return tag_;
 		}
-		Type ElementSpring::GetType() const
+		Type ElementCombined::GetType() const
 		{
 			return type_;
 		}
-		Vector ElementSpring::GetCenter() const
+		Vector ElementCombined::GetCenter() const
 		{
 			Vector center(3, 0.0);
 
 			return 	GlobalCoordinates(center);;
 		}
-		IMaterialPtr ElementSpring::GetMaterial() const
+		IMaterialPtr ElementCombined::GetMaterial() const
 		{
 			return nullptr;
 		}
 
-		NodeIndex ElementSpring::GetNodeIndex(const INodePtr node) const
+		NodeIndex ElementCombined::GetNodeIndex(const INodePtr node) const
 		{
 			if (node == nullptr)
 			{
@@ -101,45 +104,45 @@ namespace dive
 
 			return nodeIndexInvalid;
 		}
-		ElementIndex ElementSpring::GetElementIndex() const
+		ElementIndex ElementCombined::GetElementIndex() const
 		{
 			return elementIndex_;
 		}
 
-		NumberDof ElementSpring::GetNumberDof() const
+		NumberDof ElementCombined::GetNumberDof() const
 		{
 			return numberDof_;
 		}
-		NumberNodes ElementSpring::GetNumberNodes() const
+		NumberNodes ElementCombined::GetNumberNodes() const
 		{
 			return numberNodes_;
 		}
-		NumberFaces ElementSpring::GetNumberFaces() const
+		NumberFaces ElementCombined::GetNumberFaces() const
 		{
 			return numberFaces_;
 		}
-		NumberEdges ElementSpring::GetNumberEdges() const
+		NumberEdges ElementCombined::GetNumberEdges() const
 		{
 			return numberEdges_;
 		}
-		NumberNodes ElementSpring::GetNumberNodesFace(const FaceIndex& faceIndex) const
+		NumberNodes ElementCombined::GetNumberNodesFace(const FaceIndex& faceIndex) const
 		{
 			return numberNodesFace_;
 		}
-		NumberNodes ElementSpring::GetNumberNodesEdge(const EdgeIndex& edgeNode) const
+		NumberNodes ElementCombined::GetNumberNodesEdge(const EdgeIndex& edgeNode) const
 		{
 			return numberNodesEdge_;
 		}
-		NumberDimensions ElementSpring::GetNumberDimensions() const
+		NumberDimensions ElementCombined::GetNumberDimensions() const
 		{
 			return numberDimensions_;
 		}
-		NumberCoordinates ElementSpring::GetNumberCoordinates() const
+		NumberCoordinates ElementCombined::GetNumberCoordinates() const
 		{
 			return numberCoordinates_;
 		}
 
-		INodePtr ElementSpring::GetNode(const NodeIndex& nodeIndex) const
+		INodePtr ElementCombined::GetNode(const NodeIndex& nodeIndex) const
 		{
 			if (nodeIndex >= numberNodes_)
 			{
@@ -149,19 +152,19 @@ namespace dive
 
 			return nodes_[nodeIndex];
 		}
-		INodePtr ElementSpring::GetNodeFace(const FaceIndex& faceIndex, const NodeIndex& nodeIndex) const
+		INodePtr ElementCombined::GetNodeFace(const FaceIndex& faceIndex, const NodeIndex& nodeIndex) const
 		{
 			return nullptr;
 		}
-		INodePtr ElementSpring::GetNodeEdge(const EdgeIndex& edgeIndex, const NodeIndex& nodeIndex) const
+		INodePtr ElementCombined::GetNodeEdge(const EdgeIndex& edgeIndex, const NodeIndex& nodeIndex) const
 		{
 			return GetNode(lookUpTable11_[numberNodesEdge_ * edgeIndex + nodeIndex]);
 		}
-		const Nodes& ElementSpring::GetNodes() const
+		const Nodes& ElementCombined::GetNodes() const
 		{
 			return nodes_;
 		}
-		IValuePtr ElementSpring::GetProperty(String key) const
+		IValuePtr ElementCombined::GetProperty(String key) const
 		{
 			auto property = properties_.find(key);
 
@@ -173,11 +176,11 @@ namespace dive
 			return property->second;
 		}
 
-		void ElementSpring::SetTag(Tag tag)
+		void ElementCombined::SetTag(Tag tag)
 		{
 			tag_ = tag;
 		}
-		void ElementSpring::SetNumberDof(NumberDof numberDof)
+		void ElementCombined::SetNumberDof(NumberDof numberDof)
 		{
 			numberDof_ = numberDof;
 
@@ -200,7 +203,7 @@ namespace dive
 			I_((numberNodes_ - 1) * numberDof_, 0) = -1.0;
 			I_((numberNodes_ - 1) * numberDof_, (numberNodes_ - 1) * numberDof_) = 1.0;
 		}
-		void ElementSpring::SetNode(const NodeIndex& nodeIndex, INodePtr node)
+		void ElementCombined::SetNode(const NodeIndex& nodeIndex, INodePtr node)
 		{
 			if (nodeIndex >= numberNodes_)
 			{
@@ -245,19 +248,19 @@ namespace dive
 				return;
 			}
 		}
-		void ElementSpring::SetElementIndex(ElementIndex index)
+		void ElementCombined::SetElementIndex(ElementIndex index)
 		{
 			elementIndex_ = index;
 		}
-		void ElementSpring::SetMaterial(IMaterialPtr material)
+		void ElementCombined::SetMaterial(IMaterialPtr material)
 		{
 		}
-		void ElementSpring::SetProperty(IValuePtr value)
+		void ElementCombined::SetProperty(IValuePtr value)
 		{
 			properties_.insert({ value->GetKey(), value });
 		}
 
-		Vector ElementSpring::LocalCoordinates(INodePtr node) const
+		Vector ElementCombined::LocalCoordinates(INodePtr node) const
 		{
 			auto nodeIndex = GetNodeIndex(node);
 
@@ -269,7 +272,7 @@ namespace dive
 
 			return LocalCoordinates(nodeIndex);
 		}
-		Vector ElementSpring::LocalCoordinates(const NodeIndex& nodeIndex) const
+		Vector ElementCombined::LocalCoordinates(const NodeIndex& nodeIndex) const
 		{
 			Vector local(3);
 
@@ -279,29 +282,29 @@ namespace dive
 
 			return local;
 		}
-		Vector ElementSpring::GlobalCoordinates(INodePtr node) const
+		Vector ElementCombined::GlobalCoordinates(INodePtr node) const
 		{
 			return GlobalCoordinates(GetNodeIndex(node));
 		}
-		Vector ElementSpring::GlobalCoordinates(const NodeIndex& nodeIndex) const
+		Vector ElementCombined::GlobalCoordinates(const NodeIndex& nodeIndex) const
 		{
 			return nodes_[nodeIndex]->GetPoint();
 		}
-		Vector ElementSpring::GlobalCoordinates(const Vector& local) const
+		Vector ElementCombined::GlobalCoordinates(const Vector& local) const
 		{
 			Scalar s = local(0);
 
 			return 0.5 * (nodes_[0]->GetPoint() * (1.0 - s) + nodes_[1]->GetPoint() * (1.0 + s));
 		}
 
-		Scalar ElementSpring::SizeMinimum() const
+		Scalar ElementCombined::SizeMinimum() const
 		{
 			const auto& point0 = nodes_[0]->GetPoint();
 			const auto& point1 = nodes_[1]->GetPoint();
 
 			return eilig::NormP2(point1 - point0);
 		}
-		Scalar ElementSpring::SizeMaximum() const
+		Scalar ElementCombined::SizeMaximum() const
 		{
 			const auto& point0 = nodes_[0]->GetPoint();
 			const auto& point1 = nodes_[1]->GetPoint();
@@ -309,7 +312,7 @@ namespace dive
 			return eilig::NormP2(point1 - point0);
 		}
 
-		bool ElementSpring::IsUsed(INodePtr node) const
+		bool ElementCombined::IsUsed(INodePtr node) const
 		{
 			if (node == nullptr)
 			{
@@ -328,36 +331,65 @@ namespace dive
 
 			return false;
 		}
-		bool ElementSpring::IsMapped() const
+		bool ElementCombined::IsMapped() const
 		{
 			return false;
 		}
-		bool ElementSpring::IsCacheable() const
+		bool ElementCombined::IsCacheable() const
 		{
 			return false;
 		}
 
-		void ElementSpring::InitializeCache()
+		void ElementCombined::InitializeCache()
 		{
 		}
 
-		IScalarPtr ElementSpring::GetStiffness() const
+		IScalarPtr ElementCombined::GetStiffness() const
 		{
 			return stiffness_;
 		}
-		void ElementSpring::SetStiffness(IScalarPtr stiffness)
+		IScalarPtr ElementCombined::GetDamping() const
 		{
+			return damping_;
+		}
+
+		void ElementCombined::SetStiffness(IScalarPtr stiffness)
+		{
+			if (stiffness == nullptr)
+			{
+				logger::Error(headerDive, "Invalid stiffness: " + dive::messages.at(dive::DIVE_NULL_POINTER));
+				return;
+			}
+
 			stiffness_ = stiffness;
 		}
-		void ElementSpring::Stiffness(Matrix& output) const
+		void ElementCombined::SetDamping(IScalarPtr damping)
+		{
+			if (damping == nullptr)
+			{
+				logger::Error(headerDive, "Invalid damping: " + dive::messages.at(dive::DIVE_NULL_POINTER));
+				return;
+			}
+
+			damping_ = damping;
+		}
+		
+		void ElementCombined::Stiffness(Matrix& output) const
 		{
 			auto T = FormMatrix_Transform();
 
 			//output = stiffness_->GetValue() * I_ * T;
 			output = stiffness_->GetValue() * I_;
 		}
+		void ElementCombined::Damping(Matrix& output) const
+		{
+			auto T = FormMatrix_Transform();
 
-		Vector ElementSpring::GetGlobalVector0() const
+			//output = stiffness_->GetValue() * I_ * T;
+			output = damping_->GetValue() * I_;
+		}
+
+		Vector ElementCombined::GetGlobalVector0() const
 		{
 			Vector e0(3);
 			
@@ -365,7 +397,7 @@ namespace dive
 
 			return e0;
 		}
-		Vector ElementSpring::GetGlobalVector1() const
+		Vector ElementCombined::GetGlobalVector1() const
 		{
 			Vector e1(3);
 
@@ -373,7 +405,7 @@ namespace dive
 
 			return e1;
 		}
-		Vector ElementSpring::GetGlobalVector2() const
+		Vector ElementCombined::GetGlobalVector2() const
 		{
 			Vector e2(3);
 
@@ -381,7 +413,7 @@ namespace dive
 
 			return e2;
 		}
-		Vector ElementSpring::GetLocalVector0() const
+		Vector ElementCombined::GetLocalVector0() const
 		{
 			const auto& p1 = nodes_[1]->GetPoint();
 			const auto& p0 = nodes_[0]->GetPoint();
@@ -391,7 +423,7 @@ namespace dive
 
 			return v0;
 		}
-		Vector ElementSpring::GetLocalVector1() const
+		Vector ElementCombined::GetLocalVector1() const
 		{			 
 			Vector v0 = GetLocalVector0();
 			Vector v1;
@@ -425,7 +457,7 @@ namespace dive
 
 			return (1.0 / l1) * v1;
 		}
-		Vector ElementSpring::GetLocalVector2() const
+		Vector ElementCombined::GetLocalVector2() const
 		{
 			Vector v0 = GetLocalVector0();
 			Vector v1 = GetLocalVector1();
@@ -433,7 +465,7 @@ namespace dive
 			return eilig::Cross(v0, v1);
 		}
 
-		Matrix ElementSpring::FormMatrix_Transform() const
+		Matrix ElementCombined::FormMatrix_Transform() const
 		{
 			Matrix res(numberDof_ * numberNodes_, numberDof_ * numberNodes_);
 			

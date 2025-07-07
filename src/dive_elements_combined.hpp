@@ -1,5 +1,5 @@
-#ifndef DIVE_ELEMENTS_SPRING_HPP_
-#define DIVE_ELEMENTS_SPRING_HPP_
+#ifndef DIVE_ELEMENTS_COMBINED_HPP_
+#define DIVE_ELEMENTS_COMBINED_HPP_
 
 #include "dive_elements.hpp"
 
@@ -7,19 +7,19 @@ namespace dive
 {
 	namespace elements
 	{
-		ElementSpringPtr CreateElementSpring();
-		ElementSpringPtr CreateElementSpring(Tag elementTag);
-		ElementSpringPtr CreateElementSpring(Tag elementTag, IScalarPtr stiffness);
-		ElementSpringPtr CastToElementSpring(IElementPtr element);
+		ElementCombinedPtr CreateElementCombined();
+		ElementCombinedPtr CreateElementCombined(Tag elementTag);
+		ElementCombinedPtr CreateElementCombined(Tag elementTag, IScalarPtr stiffness, IScalarPtr damping);
+		ElementCombinedPtr CastToElementCombined(IElementPtr element);
 
-		class ElementSpring : public IElement, virtual public std::enable_shared_from_this<ElementSpring>
+		class ElementCombined : public IElement, virtual public std::enable_shared_from_this<ElementCombined>
 		{
 		public:
-			virtual ~ElementSpring() = default;
+			virtual ~ElementCombined() = default;
 
-			static ElementSpringPtr Create();
-			ElementSpringPtr GetPtr();
-			ConstElementSpringPtr GetPtr() const;
+			static ElementCombinedPtr Create();
+			ElementCombinedPtr GetPtr();
+			ConstElementCombinedPtr GetPtr() const;
 
 			Tag GetTag() const override;
 			Type GetType() const override;
@@ -68,12 +68,16 @@ namespace dive
 			void InitializeCache() override;
 
 			IScalarPtr GetStiffness() const;
+			IScalarPtr GetDamping() const;
+
 			void SetStiffness(IScalarPtr stiffness);
+			void SetDamping(IScalarPtr damping);
 
 			void Stiffness(Matrix& output) const;
+			void Damping(Matrix& output) const;
 
 		protected:
-			ElementSpring();
+			ElementCombined();
 
 			Vector GetGlobalVector0() const;
 			Vector GetGlobalVector1() const;
@@ -86,7 +90,7 @@ namespace dive
 			Matrix FormMatrix_Transform() const;
 
 			Tag		tag_{ 0 };
-			Type	type_{ element_spring };
+			Type	type_{ element_combined };
 			Nodes	nodes_;
 
 			ElementIndex elementIndex_{ 0 };
@@ -105,6 +109,7 @@ namespace dive
 			static const NodeIndex lookUpTable11_[1 * 2];
 
 			IScalarPtr stiffness_{ nullptr };
+			IScalarPtr damping_{ nullptr };
 
 			Matrix I_;
 		};
@@ -112,4 +117,4 @@ namespace dive
 	} //namespace elements
 } //namespace dive
 
-#endif /* DIVE_ELEMENTS_SPRING_HPP_*/
+#endif /* DIVE_ELEMENTS_COMBINED_HPP_*/

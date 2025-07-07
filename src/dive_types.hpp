@@ -137,9 +137,9 @@ namespace dive
 		using ElementMassPtr = std::shared_ptr<ElementMass>;
 		using ConstElementMassPtr = std::shared_ptr<const ElementMass>;
 
-		class ElementSpring;
-		using ElementSpringPtr = std::shared_ptr<ElementSpring>;
-		using ConstElementSpringPtr = std::shared_ptr<const ElementSpring>;
+		class ElementCombined;
+		using ElementCombinedPtr = std::shared_ptr<ElementCombined>;
+		using ConstElementCombinedPtr = std::shared_ptr<const ElementCombined>;
 	}
 
 	namespace meshes

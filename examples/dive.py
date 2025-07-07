@@ -4480,7 +4480,7 @@ parametric_quadratic = cvar.parametric_quadratic
 order_linear = cvar.order_linear
 order_quadratic = cvar.order_quadratic
 element_mass = cvar.element_mass
-element_spring = cvar.element_spring
+element_combined = cvar.element_combined
 element_hexa8 = cvar.element_hexa8
 element_hexa20 = cvar.element_hexa20
 dimension_point = cvar.dimension_point
@@ -5035,136 +5035,145 @@ class ElementMass(IElement):
 # Register ElementMass in _dive:
 _dive.ElementMass_swigregister(ElementMass)
 
-def CreateElementSpring(*args):
-    return _dive.CreateElementSpring(*args)
+def CreateElementCombined(*args):
+    return _dive.CreateElementCombined(*args)
 
-def CastToElementSpring(element):
-    return _dive.CastToElementSpring(element)
-class ElementSpring(IElement):
+def CastToElementCombined(element):
+    return _dive.CastToElementCombined(element)
+class ElementCombined(IElement):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
     def __init__(self, *args, **kwargs):
         raise AttributeError("No constructor defined")
     __repr__ = _swig_repr
-    __swig_destroy__ = _dive.delete_ElementSpring
+    __swig_destroy__ = _dive.delete_ElementCombined
 
     @staticmethod
     def Create():
-        return _dive.ElementSpring_Create()
+        return _dive.ElementCombined_Create()
 
     def GetPtr(self, *args):
-        return _dive.ElementSpring_GetPtr(self, *args)
+        return _dive.ElementCombined_GetPtr(self, *args)
 
     def GetTag(self):
-        return _dive.ElementSpring_GetTag(self)
+        return _dive.ElementCombined_GetTag(self)
 
     def GetType(self):
-        return _dive.ElementSpring_GetType(self)
+        return _dive.ElementCombined_GetType(self)
 
     def GetCenter(self):
-        return _dive.ElementSpring_GetCenter(self)
+        return _dive.ElementCombined_GetCenter(self)
 
     def GetMaterial(self):
-        return _dive.ElementSpring_GetMaterial(self)
+        return _dive.ElementCombined_GetMaterial(self)
 
     def GetNodeIndex(self, node):
-        return _dive.ElementSpring_GetNodeIndex(self, node)
+        return _dive.ElementCombined_GetNodeIndex(self, node)
 
     def GetElementIndex(self):
-        return _dive.ElementSpring_GetElementIndex(self)
+        return _dive.ElementCombined_GetElementIndex(self)
 
     def GetNumberDof(self):
-        return _dive.ElementSpring_GetNumberDof(self)
+        return _dive.ElementCombined_GetNumberDof(self)
 
     def GetNumberNodes(self):
-        return _dive.ElementSpring_GetNumberNodes(self)
+        return _dive.ElementCombined_GetNumberNodes(self)
 
     def GetNumberFaces(self):
-        return _dive.ElementSpring_GetNumberFaces(self)
+        return _dive.ElementCombined_GetNumberFaces(self)
 
     def GetNumberEdges(self):
-        return _dive.ElementSpring_GetNumberEdges(self)
+        return _dive.ElementCombined_GetNumberEdges(self)
 
     def GetNumberNodesFace(self, faceNumber):
-        return _dive.ElementSpring_GetNumberNodesFace(self, faceNumber)
+        return _dive.ElementCombined_GetNumberNodesFace(self, faceNumber)
 
     def GetNumberNodesEdge(self, edgeNode):
-        return _dive.ElementSpring_GetNumberNodesEdge(self, edgeNode)
+        return _dive.ElementCombined_GetNumberNodesEdge(self, edgeNode)
 
     def GetNumberDimensions(self):
-        return _dive.ElementSpring_GetNumberDimensions(self)
+        return _dive.ElementCombined_GetNumberDimensions(self)
 
     def GetNumberCoordinates(self):
-        return _dive.ElementSpring_GetNumberCoordinates(self)
+        return _dive.ElementCombined_GetNumberCoordinates(self)
 
     def GetNode(self, nodeNumber):
-        return _dive.ElementSpring_GetNode(self, nodeNumber)
+        return _dive.ElementCombined_GetNode(self, nodeNumber)
 
     def GetNodeFace(self, faceNumber, nodeNumber):
-        return _dive.ElementSpring_GetNodeFace(self, faceNumber, nodeNumber)
+        return _dive.ElementCombined_GetNodeFace(self, faceNumber, nodeNumber)
 
     def GetNodeEdge(self, edgeNumber, nodeNumber):
-        return _dive.ElementSpring_GetNodeEdge(self, edgeNumber, nodeNumber)
+        return _dive.ElementCombined_GetNodeEdge(self, edgeNumber, nodeNumber)
 
     def GetNodes(self):
-        return _dive.ElementSpring_GetNodes(self)
+        return _dive.ElementCombined_GetNodes(self)
 
     def GetProperty(self, key):
-        return _dive.ElementSpring_GetProperty(self, key)
+        return _dive.ElementCombined_GetProperty(self, key)
 
     def SetTag(self, elementTag):
-        return _dive.ElementSpring_SetTag(self, elementTag)
+        return _dive.ElementCombined_SetTag(self, elementTag)
 
     def SetNumberDof(self, numberDof):
-        return _dive.ElementSpring_SetNumberDof(self, numberDof)
+        return _dive.ElementCombined_SetNumberDof(self, numberDof)
 
     def SetNode(self, nodeNumber, node):
-        return _dive.ElementSpring_SetNode(self, nodeNumber, node)
+        return _dive.ElementCombined_SetNode(self, nodeNumber, node)
 
     def SetElementIndex(self, index):
-        return _dive.ElementSpring_SetElementIndex(self, index)
+        return _dive.ElementCombined_SetElementIndex(self, index)
 
     def SetMaterial(self, material):
-        return _dive.ElementSpring_SetMaterial(self, material)
+        return _dive.ElementCombined_SetMaterial(self, material)
 
     def SetProperty(self, value):
-        return _dive.ElementSpring_SetProperty(self, value)
+        return _dive.ElementCombined_SetProperty(self, value)
 
     def LocalCoordinates(self, *args):
-        return _dive.ElementSpring_LocalCoordinates(self, *args)
+        return _dive.ElementCombined_LocalCoordinates(self, *args)
 
     def GlobalCoordinates(self, *args):
-        return _dive.ElementSpring_GlobalCoordinates(self, *args)
+        return _dive.ElementCombined_GlobalCoordinates(self, *args)
 
     def SizeMinimum(self):
-        return _dive.ElementSpring_SizeMinimum(self)
+        return _dive.ElementCombined_SizeMinimum(self)
 
     def SizeMaximum(self):
-        return _dive.ElementSpring_SizeMaximum(self)
+        return _dive.ElementCombined_SizeMaximum(self)
 
     def IsUsed(self, node):
-        return _dive.ElementSpring_IsUsed(self, node)
+        return _dive.ElementCombined_IsUsed(self, node)
 
     def IsMapped(self):
-        return _dive.ElementSpring_IsMapped(self)
+        return _dive.ElementCombined_IsMapped(self)
 
     def IsCacheable(self):
-        return _dive.ElementSpring_IsCacheable(self)
+        return _dive.ElementCombined_IsCacheable(self)
 
     def InitializeCache(self):
-        return _dive.ElementSpring_InitializeCache(self)
+        return _dive.ElementCombined_InitializeCache(self)
 
     def GetStiffness(self):
-        return _dive.ElementSpring_GetStiffness(self)
+        return _dive.ElementCombined_GetStiffness(self)
+
+    def GetDamping(self):
+        return _dive.ElementCombined_GetDamping(self)
 
     def SetStiffness(self, stiffness):
-        return _dive.ElementSpring_SetStiffness(self, stiffness)
+        return _dive.ElementCombined_SetStiffness(self, stiffness)
+
+    def SetDamping(self, damping):
+        return _dive.ElementCombined_SetDamping(self, damping)
 
     def Stiffness(self, output):
-        return _dive.ElementSpring_Stiffness(self, output)
+        return _dive.ElementCombined_Stiffness(self, output)
 
-# Register ElementSpring in _dive:
-_dive.ElementSpring_swigregister(ElementSpring)
+    def Damping(self, output):
+        return _dive.ElementCombined_Damping(self, output)
+
+# Register ElementCombined in _dive:
+_dive.ElementCombined_swigregister(ElementCombined)
 
 
 def AddVecElements(self, elements):
@@ -6836,6 +6845,9 @@ class IStructural(IProblem):
     def Stiffness(self):
         return _dive.IStructural_Stiffness(self)
 
+    def Damping(self):
+        return _dive.IStructural_Damping(self)
+
     def LoadDistributedEdge(self):
         return _dive.IStructural_LoadDistributedEdge(self)
 
@@ -7269,6 +7281,9 @@ class ProblemStructural(IStructural):
 
     def Stiffness(self):
         return _dive.ProblemStructural_Stiffness(self)
+
+    def Damping(self):
+        return _dive.ProblemStructural_Damping(self)
 
     def LoadDistributedEdge(self):
         return _dive.ProblemStructural_LoadDistributedEdge(self)

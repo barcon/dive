@@ -18,7 +18,7 @@ namespace dive
 		static const Order order_quadratic = 2;
 
 		static const Type element_mass = 1;
-		static const Type element_spring = 2;
+		static const Type element_combined = 2;
 		static const Type element_hexa8 = 3;
 		static const Type element_hexa20 = 4;
 

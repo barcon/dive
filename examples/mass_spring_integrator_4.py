@@ -23,8 +23,10 @@ status  = 0
 basis   = structural.CreateBasisCartesian(1)
 timer   = structural.CreateTimerStepped(1, 0.0, 50.0 * period, 0.01)
 time = []
-position = []
-velocity = []
+position1 = []
+position2 = []
+velocity1 = []
+velocity2 = []
 
 T_ref   = 313.15      #[K]      = 40 [°C]
 p_ref   = 101325.1    #[N/m²]   =  1 [atm]
@@ -35,21 +37,23 @@ node1 = structural.CreateNode(1, 0.0, 0.0, 0.0)
 node2 = structural.CreateNode(2, 1.0, 0.0, 0.0)
 node3 = structural.CreateNode(3, 2.0, 0.0, 0.0)
 
-spring1 = structural.CreateElementSpring(1)
+spring1 = structural.CreateElementCombined(1)
 spring1.SetNode(0, node1)
 spring1.SetNode(1, node2)
 spring1.SetStiffness(structural.CreateValueScalar(stiffness))
+spring1.SetDamping(structural.CreateValueScalar(damping))
 
-spring2 = structural.CreateElementSpring(2)
+spring2 = structural.CreateElementCombined(2)
 spring2.SetNode(0, node2)
 spring2.SetNode(1, node3)
 spring2.SetStiffness(structural.CreateValueScalar(stiffness))
+spring2.SetDamping(structural.CreateValueScalar(damping))
 
 body1 = structural.CreateElementMass(3)
 body1.SetNode(0, node2)
 body1.SetMass(structural.CreateValueScalar(mass))
 
-body2 = structural.CreateElementMass(3)
+body2 = structural.CreateElementMass(4)
 body2.SetNode(0, node3)
 body2.SetMass(structural.CreateValueScalar(mass))
 
@@ -66,12 +70,16 @@ force = structural.CreateValueVector3DScalarsTime(3)
 force.SetScalar(0, structural.CreateValueScalar3DTimeFunction(Harmonic))
 
 structural.CreateProblem(1, mesh, temperature, pressure)
-structural.ApplyDirichlet([node1], 0.0)
+structural.ApplyDirichlet([node1], 0.0, dof = 0)
+structural.ApplyDirichlet([node1], 0.0, dof = 1)
+structural.ApplyDirichlet([node1], 0.0, dof = 2)
+
 structural.ApplyDirichlet([node2], 0.0, dof = 1)
 structural.ApplyDirichlet([node2], 0.0, dof = 2)
+
 structural.ApplyDirichlet([node3], 0.0, dof = 1)
 structural.ApplyDirichlet([node3], 0.0, dof = 2)
-structural.ApplyLoadNodeTransient([node3], force)
+structural.ApplyLoadNodeTransient([node2], force)
 structural.Initialize()
 
 #--------------------------------------------------------------------------------------------------
@@ -79,15 +87,13 @@ structural.Initialize()
 totalDof = structural.GetProblem().GetTotalDof()
 pivot = structural.GetProblem().GetPivot()
 
-D = structural.PartitionMatrix(structural.Ellpack(totalDof, totalDof, 1.0).Diagonal())
+D = structural.PartitionMatrix(structural.Ellpack(totalDof, totalDof, structural.matrix_diagonal))
 M = structural.PartitionMatrix(structural.GetProblem().Mass())
-C = structural.PartitionMatrix(structural.Ellpack(totalDof, totalDof))
 K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
+C = structural.PartitionMatrix(structural.GetProblem().Damping())
 u = structural.PartitionVector(structural.GetProblem().Displacement())
 v = structural.PartitionVector(structural.Vector(totalDof, 0.0))
 f = structural.PartitionVector(structural.GetProblem().LoadNode(timer.GetCurrent()))
-
-#C[3][0, 0] = damping
 
 def ODE1(time, u, v):
     global M
@@ -105,28 +111,28 @@ def ODE1(time, u, v):
     #f[1][0] = 10.0
     #f = structural.PartitionVector(structural.GetProblem().LoadNode(time))
 
-    #return [M[3], -(C[3]*v + K[3]*u) + f[1]]
-    return [M[3], -(K[3]*u) + f[1]]
+    return [M[3], -(C[3]*v + K[3]*u) + f[1]]
 
 def ODE2(time, v):
     global D
 
     return [D[3], v]
 
-MD = structural.Matrix(1, 1)
-MD[0, 0] = M[3][0, 0]
-
-DD = structural.Matrix(1, 1)
-DD[0, 0] = D[3][0, 0]
-
+MD = structural.Matrix(M[3])
+KD = structural.Matrix(K[3])
+CD = structural.Matrix(C[3])
+DD = structural.Matrix(D[3])
 LU = structural.Matrix()
+
 permutation = structural.CreateIndices()
 
 while(timer.GetCurrent() < timer.GetEnd()):
     time.append(timer.GetCurrent())
-    position.append(u[1][0])
-    velocity.append(v[1][0])
- 
+    position1.append(u[1][0])
+    position2.append(u[1][1])
+    velocity1.append(v[1][0])
+    velocity2.append(v[1][1])
+
     dt = timer.GetStepSize()
     dvdt = structural.Vector(v[1])
     dudt = structural.Vector(u[1])
@@ -134,7 +140,7 @@ while(timer.GetCurrent() < timer.GetEnd()):
     f = structural.PartitionVector(structural.GetProblem().LoadNode(timer.GetCurrent()))
 
     structural.DecomposeLUP(LU, MD, permutation)
-    structural.DirectLUP(LU, dvdt, -(C[3]*v[1] + K[3]*u[1]) + f[1], permutation)
+    structural.DirectLUP(LU, dvdt, -(CD*v[1] + KD*u[1]) + f[1], permutation)
     #monitor = solvers.IterativeBiCGStab(M[3], dvdt, -(C[3]*v[1] + K[3]*u[1]) + f[1])
     v[1] = v[1] + dt * dvdt
      
@@ -147,4 +153,5 @@ while(timer.GetCurrent() < timer.GetEnd()):
     
     timer.SetNextStep()
 
-plots.oscillator.Show(time, position, velocity)
+plots.oscillator.Show(time, position1, velocity1)
+plots.oscillator.Show(time, position2, velocity2)
