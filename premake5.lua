@@ -102,4 +102,4 @@ project "diveCL"
 		libdirs { "../material/build/Release" }
 		libdirs { "../club/build/Release" }
 		libdirs { "../opencl/lib/x86_64" }
-		libdirs { "../python/lib" }		
+		libdirs { "../python/lib" }

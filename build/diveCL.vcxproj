@@ -59,9 +59,9 @@
   <ItemGroup>
     <ClInclude Include="..\src\dive.hpp" />
     <ClInclude Include="..\src\dive_elements.hpp" />
+    <ClInclude Include="..\src\dive_elements_combined.hpp" />
     <ClInclude Include="..\src\dive_elements_hexa.hpp" />
     <ClInclude Include="..\src\dive_elements_mass.hpp" />
-    <ClInclude Include="..\src\dive_elements_spring.hpp" />
     <ClInclude Include="..\src\dive_loads.hpp" />
     <ClInclude Include="..\src\dive_loads_boundary_condition.hpp" />
     <ClInclude Include="..\src\dive_loads_distributed_edge.hpp" />
@@ -111,9 +111,9 @@
     <ClInclude Include="..\src\dive_weakforms_thermal_stiffness.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\dive_elements_combined.cpp" />
     <ClCompile Include="..\src\dive_elements_hexa.cpp" />
     <ClCompile Include="..\src\dive_elements_mass.cpp" />
-    <ClCompile Include="..\src\dive_elements_spring.cpp" />
     <ClCompile Include="..\src\dive_export_python_OpenCL.cpp" />
     <ClCompile Include="..\src\dive_loads_boundary_condition.cpp" />
     <ClCompile Include="..\src\dive_loads_distributed_edge.cpp" />

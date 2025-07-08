@@ -10,8 +10,8 @@ def Harmonic(t: float, x: float, y: float, z: float) -> float:
     amplitude = 10.0
     omega = 1.0
 
-    return amplitude
-    #return amplitude * math.cos(omega * t)
+    #return amplitude
+    return amplitude * math.cos(omega * t)
 
 mass = 1.0
 stiffness = 100.0
@@ -103,30 +103,33 @@ DD = structural.Matrix(D[3])
 LU = structural.Matrix()
 
 permutation = structural.CreateIndices()
+dt = timer.GetStepSize()
+dvdt = structural.Vector(v[1])
+dudt = structural.Vector(u[1])
 
 while(timer.GetCurrent() < timer.GetEnd()):
     time.append(timer.GetCurrent())
     position.append(u[1][0])
     velocity.append(v[1][0])
  
-    dt = timer.GetStepSize()
-    dvdt = structural.Vector(v[1])
-    dudt = structural.Vector(u[1])
+    #f = structural.PartitionVector(structural.GetProblem().LoadNode(timer.GetCurrent()))
+    f[1][0] = Harmonic(timer.GetCurrent(), 0, 0, 0)
 
-    f = structural.PartitionVector(structural.GetProblem().LoadNode(timer.GetCurrent()))
-
-    structural.DecomposeLUP(LU, MD, permutation)
-    structural.DirectLUP(LU, dvdt, -(CD*v[1] + KD*u[1]) + f[1], permutation)
-    #monitor = solvers.IterativeBiCGStab(M[3], dvdt, -(C[3]*v[1] + K[3]*u[1]) + f[1])
+    #structural.DecomposeLUP(LU, MD, permutation)
+    #structural.DirectLUP(LU, dvdt, -(CD*v[1] + KD*u[1]) + f[1], permutation)
+    dvdt.SetValue(0, 0.0)
+    monitor = solvers.IterativeBiCGStab(M[3], dvdt, -(C[3]*v[1] + K[3]*u[1]) + f[1])
     v[1] = v[1] + dt * dvdt
+
+    #print(-(C[3]*v[1] + K[3]*u[1]) + f[1])
      
-    structural.DecomposeLUP(LU, DD, permutation)
-    structural.DirectLUP(LU, dudt, v[1], permutation)     
-    #monitor = solvers.IterativeBiCGStab(D[3], dudt, v[1])
+    #structural.DecomposeLUP(LU, DD, permutation)
+    #structural.DirectLUP(LU, dudt, v[1], permutation)     
+    dudt.SetValue(0, 0.0)
+    monitor = solvers.IterativeBiCGStab(D[3], dudt, v[1])
     u[1] = u[1] + dt * dudt
 
     structural.UpdateMeshValues(u)
-    
     timer.SetNextStep()
 
 plots.oscillator.Show(time, position, velocity)

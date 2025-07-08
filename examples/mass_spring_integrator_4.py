@@ -55,7 +55,7 @@ body1.SetMass(structural.CreateValueScalar(mass))
 
 body2 = structural.CreateElementMass(4)
 body2.SetNode(0, node3)
-body2.SetMass(structural.CreateValueScalar(mass))
+body2.SetMass(structural.CreateValueScalar(5 * mass))
 
 mesh = structural.CreateMesh(1)
 mesh.AddNode(node1, status, True)
@@ -124,6 +124,9 @@ CD = structural.Matrix(C[3])
 DD = structural.Matrix(D[3])
 LU = structural.Matrix()
 
+dt = timer.GetStepSize()
+dvdt = structural.Vector(v[1])
+dudt = structural.Vector(u[1])
 permutation = structural.CreateIndices()
 
 while(timer.GetCurrent() < timer.GetEnd()):
@@ -133,20 +136,21 @@ while(timer.GetCurrent() < timer.GetEnd()):
     velocity1.append(v[1][0])
     velocity2.append(v[1][1])
 
-    dt = timer.GetStepSize()
-    dvdt = structural.Vector(v[1])
-    dudt = structural.Vector(u[1])
+    a = structural.Vector(totalDof, 10.0)
+    f = structural.PartitionVector(a)
 
-    f = structural.PartitionVector(structural.GetProblem().LoadNode(timer.GetCurrent()))
+    #f[1][0] = Harmonic(timer.GetCurrent(), 0, 0, 0)
 
-    structural.DecomposeLUP(LU, MD, permutation)
-    structural.DirectLUP(LU, dvdt, -(CD*v[1] + KD*u[1]) + f[1], permutation)
+    #structural.DecomposeLUP(LU, MD, permutation)
+    #structural.DirectLUP(LU, dvdt, -(CD*v[1] + KD*u[1]) + f[1], permutation)
     #monitor = solvers.IterativeBiCGStab(M[3], dvdt, -(C[3]*v[1] + K[3]*u[1]) + f[1])
+    monitor = solvers.IterativeCG(M[3], dvdt, -(C[3]*v[1] + K[3]*u[1]) + f[1])
     v[1] = v[1] + dt * dvdt
      
-    structural.DecomposeLUP(LU, DD, permutation)
-    structural.DirectLUP(LU, dudt, v[1], permutation)     
+    #structural.DecomposeLUP(LU, DD, permutation)
+    #structural.DirectLUP(LU, dudt, v[1], permutation)     
     #monitor = solvers.IterativeBiCGStab(D[3], dudt, v[1])
+    monitor = solvers.IterativeCG(D[3], dudt, v[1])
     u[1] = u[1] + dt * dudt
 
     structural.UpdateMeshValues(u)

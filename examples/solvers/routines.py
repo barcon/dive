@@ -18,8 +18,7 @@ def IterativeBiCGStab(A, x, b):
     tolerance = 1.0e-5
     monitor = Monitor()
 
-    def CallbackIterative(iteration, residual):
-        
+    def CallbackIterative(iteration, residual):  
         if(math.isnan(residual)):
             return dive.EILIG_NOT_CONVERGED
 
