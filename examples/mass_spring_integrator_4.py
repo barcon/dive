@@ -55,7 +55,7 @@ body1.SetMass(structural.CreateValueScalar(mass))
 
 body2 = structural.CreateElementMass(4)
 body2.SetNode(0, node3)
-body2.SetMass(structural.CreateValueScalar(5 * mass))
+body2.SetMass(structural.CreateValueScalar(2.0 * mass))
 
 mesh = structural.CreateMesh(1)
 mesh.AddNode(node1, status, True)
@@ -68,6 +68,7 @@ mesh.AddElement(body2, status)
 
 force = structural.CreateValueVector3DScalarsTime(3)
 force.SetScalar(0, structural.CreateValueScalar3DTimeFunction(Harmonic))
+#force.SetScalar(0, structural.CreateValueScalar3DTime(10.0))
 
 structural.CreateProblem(1, mesh, temperature, pressure)
 structural.ApplyDirichlet([node1], 0.0, dof = 0)
@@ -136,10 +137,9 @@ while(timer.GetCurrent() < timer.GetEnd()):
     velocity1.append(v[1][0])
     velocity2.append(v[1][1])
 
-    a = structural.Vector(totalDof, 10.0)
-    f = structural.PartitionVector(a)
+    #f = structural.PartitionVector(structural.GetProblem().LoadNode(timer.GetCurrent()))
 
-    #f[1][0] = Harmonic(timer.GetCurrent(), 0, 0, 0)
+    f[1][0] = Harmonic(timer.GetCurrent(), 0, 0, 0)
 
     #structural.DecomposeLUP(LU, MD, permutation)
     #structural.DirectLUP(LU, dvdt, -(CD*v[1] + KD*u[1]) + f[1], permutation)

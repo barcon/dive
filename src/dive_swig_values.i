@@ -242,6 +242,8 @@ def CreateValueScalar2DFunction(function, name = "", key = ""):
 def CreateValueScalar3DFunction(function, name = "", key = ""):
 	f = py_function_pointer_D_DDD(function)
 	f_ptr = ctypes.cast(f, ctypes.c_void_p).value
+	
+	return _dive.CreateValueScalar3DFunction(f_ptr, name, key)
 
 #------------------------------------------------------------------------------
 	
