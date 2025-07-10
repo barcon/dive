@@ -22,15 +22,12 @@ nodesLeft = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structura
 nodesRight = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structural.axis_x, meshes.beam.x, 0.001)
 elementsRight = structural.FilterElementsByNodes(nodesRight)
 
-pressureVector = structural.Vector(3)
-pressureVector[0] = 0.0
-pressureVector[1] = 0.0
-pressureVector[2] = 10000000
-pressureLoad = structural.CreateValueVector3D(pressureVector)
+pressureFace = structural.CreateValueVector3DScalars(3)
+pressureFace.SetScalar(1, structural.CreateValueScalar3D(10000000))
 
 structural.CreateProblem(1, mesh, temperature, pressure)
 structural.ApplyDirichlet(nodesLeft, 0.0)
-structural.ApplyLoadDistributedFace(elementsRight, pressureLoad, 0)
+structural.ApplyLoadDistributedFace(elementsRight, 0, pressureFace)
 structural.Initialize()
 
 #--------------------------------------------------------------------------------------------------
@@ -39,10 +36,13 @@ K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
 y = structural.PartitionVector(structural.GetProblem().Displacement())
 f = structural.PartitionVector(structural.GetProblem().LoadDistributedFace())
 
+print(K[3])
+print(f[1])
+
 monitor = solvers.IterativeBiCGStab(K[3], y[1], -K[2] * y[0] + f[1])
 structural.UpdateMeshValues(y)
 
 #plots.residual.Show(monitor)
 nodesPlot = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structural.axis_y, meshes.beam.y / 2.0, 0.001)
 nodesPlot = structural.FilterNodesByCoordinate(nodesPlot, basis, structural.axis_z, meshes.beam.z / 2.0, 0.001)
-plots.beam.Cantilever(nodesPlot)
+plots.beam.Cantilever(nodesPlot, 1)

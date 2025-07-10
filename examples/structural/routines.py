@@ -112,7 +112,7 @@ def ApplyLoadDistributedVolume(elements, load):
     
     return
 
-def ApplyLoadDistributedFace(elements, load, face):
+def ApplyLoadDistributedFace(elements, face, load):
     global problem
 
     for element in elements:
@@ -120,7 +120,7 @@ def ApplyLoadDistributedFace(elements, load, face):
     
     return
 
-def ApplyLoadDistributedEdge(elements, load, edge):
+def ApplyLoadDistributedEdge(elements, edge, load):
     global problem
 
     for element in elements:

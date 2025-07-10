@@ -22,15 +22,14 @@ nodesLeft = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structura
 
 gravity = structural.Vector(3)
 gravity[0] = 0.0
-gravity[1] = 0.0
-gravity[2] = 1000000.0
+gravity[1] = 1000000.0
+gravity[2] = 0.0
 weight = structural.CreateValueVector3D(steel.GetDensity(T_ref, p_ref) * gravity)
 
 structural.CreateProblem(1, mesh, temperature, pressure)
 structural.ApplyDirichlet(nodesLeft, 0.0)
 structural.ApplyLoadDistributedVolume(mesh.GetElements(), weight)
 structural.Initialize()
-
 
 #--------------------------------------------------------------------------------------------------
 
@@ -44,4 +43,4 @@ structural.UpdateMeshValues(y)
 #plots.residual.Show(monitor)
 nodesPlot = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structural.axis_y, meshes.beam.y / 2.0, 0.001)
 nodesPlot = structural.FilterNodesByCoordinate(nodesPlot, basis, structural.axis_z, meshes.beam.z / 2.0, 0.001)
-plots.beam.Cantilever(nodesPlot)
+plots.beam.Cantilever(nodesPlot, 1)

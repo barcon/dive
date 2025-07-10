@@ -3,13 +3,13 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 
-def Cantilever(nodes) -> None:
+def Cantilever(nodes, dof) -> None:
     x = []   
     f = []
 
     for node in nodes:
         x.append(node.GetPoint()[0])
-        f.append(node.GetValue(2))  
+        f.append(node.GetValue(dof))  
 
     x, f = zip(*sorted(zip(x, f)))
 
