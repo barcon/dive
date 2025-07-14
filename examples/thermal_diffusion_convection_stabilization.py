@@ -10,7 +10,7 @@ from prettytable import PrettyTable
 
 def FunctionVelocity(point) -> thermal.Matrix:
     global speed
-    res = thermal.Matrix(3, 1, 0.0)
+    res = thermal.Matrix(3, 1)
     res[0, 0] = speed
     return res
 
