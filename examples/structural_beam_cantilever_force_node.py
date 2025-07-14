@@ -43,5 +43,5 @@ structural.UpdateMeshValues(y)
 nodesPlot = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structural.axis_y, 0.0, 0.001)
 nodesPlot = structural.FilterNodesByCoordinate(nodesPlot, basis, structural.axis_z, 0.0, 0.001)
 
-plots.residual.Show(monitor)
+#plots.residual.Show(monitor)
 plots.beam.Cantilever(nodesPlot, 1)

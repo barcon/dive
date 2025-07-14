@@ -12,12 +12,21 @@ pressure    = structural.CreateValueScalar3D(p_ref)
 material = materials.solid.unit.Create(1)
 meshFile = 'cube.msh'
 
-meshes.cube.Create(meshFile)
+#meshes.cube.Create(meshFile)
 mesh = meshes.routines.LoadMesh(1, meshFile)
 meshes.routines.ApplyMaterial(mesh.GetElements(), material)
 
 structural.CreateProblem(1, mesh, temperature, pressure)
 structural.Initialize()
 
+M = structural.GetProblem().Mass()
+
+point = structural.Vector(3)
+hexa8 = structural.CastToElementHexa(structural.GetProblem().GetMesh().GetElements()[0])
+
+print(hexa8.J(point))
+print(hexa8.DetJ(point))
+print(hexa8.Volume())
+print(hexa8.GetNodes())
 print(structural.GetProblem().Mass())
 print(structural.GetProblem().Stiffness())

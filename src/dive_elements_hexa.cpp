@@ -840,7 +840,6 @@ namespace dive
 
 				output = output + weights[i] * DetJ(points[i], i) * local;
 			}
-
 		}
 		void ElementHexa::IntegralWeakFormLoad(IWeakFormLoadPtr weakForm, ILoadPtr load, Vector& output) const
 		{

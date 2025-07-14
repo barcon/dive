@@ -81,7 +81,7 @@ def ODE1(time, u, v):
   
     #print(body.GetNode(0).GetPoint())
 
-    f[1][0] = forceScalar.GetValue(time, body.GetNode(0).GetPoint())
+    f[1][0] = force.GetValue(time, body.GetNode(0).GetPoint())
     print(f[1][0])
     #f[1][0] = scalar1.GetValue(time, body.GetNode(0).GetPoint())
     #f[1][0] = scalar2.GetValue(time, body.GetNode(0).GetPoint())
@@ -112,22 +112,22 @@ while(timer.GetCurrent() < timer.GetEnd()):
     position.append(u[1][0])
     velocity.append(v[1][0])
  
-    #f = structural.PartitionVector(structural.GetProblem().LoadNode(timer.GetCurrent()))
-    f[1][0] = Harmonic(timer.GetCurrent(), 0, 0, 0)
+    f = structural.PartitionVector(structural.GetProblem().LoadNode(timer.GetCurrent()))
+    #f[1][0] = Harmonic(timer.GetCurrent(), 0, 0, 0)
 
     #structural.DecomposeLUP(LU, MD, permutation)
     #structural.DirectLUP(LU, dvdt, -(CD*v[1] + KD*u[1]) + f[1], permutation)
-    dvdt.SetValue(0, 0.0)
-    monitor = solvers.IterativeBiCGStab(M[3], dvdt, -(C[3]*v[1] + K[3]*u[1]) + f[1])
-    v[1] = v[1] + dt * dvdt
+    #dvdt.SetValue(0, 0.0)
+    #monitor = solvers.IterativeBiCGStab(M[3], dvdt, -(C[3]*v[1] + K[3]*u[1]) + f[1])
+    #v[1] = v[1] + dt * dvdt
 
     #print(-(C[3]*v[1] + K[3]*u[1]) + f[1])
      
     #structural.DecomposeLUP(LU, DD, permutation)
     #structural.DirectLUP(LU, dudt, v[1], permutation)     
-    dudt.SetValue(0, 0.0)
-    monitor = solvers.IterativeBiCGStab(D[3], dudt, v[1])
-    u[1] = u[1] + dt * dudt
+    #dudt.SetValue(0, 0.0)
+    #monitor = solvers.IterativeBiCGStab(D[3], dudt, v[1])
+    #u[1] = u[1] + dt * dudt
 
     structural.UpdateMeshValues(u)
     timer.SetNextStep()
