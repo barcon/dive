@@ -52,6 +52,7 @@ mesh.AddElement(body, status)
 
 force = structural.CreateValueVector3DScalarsTime(3)
 force.SetScalar(0, structural.CreateValueScalar3DTimeFunction(Harmonic))
+#force.SetScalar(0, structural.CreateValueScalar3DTime(10.0))
 
 structural.CreateProblem(1, mesh, temperature, pressure)
 structural.ApplyDirichlet([node1], 0.0)
@@ -81,9 +82,12 @@ def ODE1(time, u, v):
   
     #print(body.GetNode(0).GetPoint())
 
-    f[1][0] = force.GetValue(time, body.GetNode(0).GetPoint())
-    print(f[1][0])
-    #f[1][0] = scalar1.GetValue(time, body.GetNode(0).GetPoint())
+    #print(force.GetValue(time, body.GetNode(0).GetPoint()))
+
+    f = structural.PartitionVector(structural.GetProblem().LoadNode(time))
+    #structural.GetProblem().LoadNode(time)
+
+    #f[1] = force.GetValue(time, body.GetNode(0).GetPoint())
     #f[1][0] = scalar2.GetValue(time, body.GetNode(0).GetPoint())
     #f[1][0] = Harmonic(time, 0, 0, 0)
     #f[1][0] = 10.0
@@ -96,40 +100,13 @@ def ODE2(time, v):
 
     return [D[3], v]
 
-MD = structural.Matrix(M[3])
-KD = structural.Matrix(K[3])
-CD = structural.Matrix(C[3])
-DD = structural.Matrix(D[3])
-LU = structural.Matrix()
-
-permutation = structural.CreateIndices()
-dt = timer.GetStepSize()
-dvdt = structural.Vector(v[1])
-dudt = structural.Vector(u[1])
-
 while(timer.GetCurrent() < timer.GetEnd()):
     time.append(timer.GetCurrent())
     position.append(u[1][0])
     velocity.append(v[1][0])
- 
-    f = structural.PartitionVector(structural.GetProblem().LoadNode(timer.GetCurrent()))
-    #f[1][0] = Harmonic(timer.GetCurrent(), 0, 0, 0)
 
-    #structural.DecomposeLUP(LU, MD, permutation)
-    #structural.DirectLUP(LU, dvdt, -(CD*v[1] + KD*u[1]) + f[1], permutation)
-    #dvdt.SetValue(0, 0.0)
-    #monitor = solvers.IterativeBiCGStab(M[3], dvdt, -(C[3]*v[1] + K[3]*u[1]) + f[1])
-    #v[1] = v[1] + dt * dvdt
+    u[1], v[1] = solvers.ForwardMethod2(timer, u[1], v[1], ODE1, ODE2)
 
-    #print(-(C[3]*v[1] + K[3]*u[1]) + f[1])
-     
-    #structural.DecomposeLUP(LU, DD, permutation)
-    #structural.DirectLUP(LU, dudt, v[1], permutation)     
-    #dudt.SetValue(0, 0.0)
-    #monitor = solvers.IterativeBiCGStab(D[3], dudt, v[1])
-    #u[1] = u[1] + dt * dudt
-
-    structural.UpdateMeshValues(u)
     timer.SetNextStep()
 
 plots.oscillator.Show(time, position, velocity)
