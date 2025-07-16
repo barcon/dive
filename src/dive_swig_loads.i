@@ -6,7 +6,6 @@
 	#include "dive_loads_distributed_face.hpp"
 	#include "dive_loads_distributed_edge.hpp"
 	#include "dive_loads_node.hpp"
-	#include "dive_loads_node_transient.hpp"
 
 	typedef std::shared_ptr<dive::loads::IBoundaryCondition> IBoundaryConditionPtr;
 	typedef std::shared_ptr<const dive::loads::IBoundaryCondition> ConstIBoundaryConditionPtr;
@@ -25,9 +24,6 @@
 
 	typedef std::shared_ptr<dive::loads::ILoadNode> ILoadNodePtr;
 	typedef std::shared_ptr<const dive::loads::ILoadNode> ConstILoadNodePtr;
-	
-	typedef std::shared_ptr<dive::loads::ILoadNodeTransient> ILoadNodeTransientPtr;
-	typedef std::shared_ptr<const dive::loads::ILoadNodeTransient> ConstILoadNodeTransientPtr;
 
 	typedef std::shared_ptr<dive::loads::BoundaryCondition> BoundaryConditionPtr;
 	typedef std::shared_ptr<const dive::loads::BoundaryCondition> ConstBoundaryConditionPtr;	
@@ -44,9 +40,6 @@
 	typedef std::shared_ptr<dive::loads::LoadNode> LoadNodePtr;
 	typedef std::shared_ptr<const dive::loads::LoadNode> ConstLoadNodePtr;	
 	
-	typedef std::shared_ptr<dive::loads::LoadNodeTransient> LoadNodeTransientPtr;
-	typedef std::shared_ptr<const dive::loads::LoadNodeTransient> ConstLoadNodeTransientPtr;	
-		
 	typedef std::vector<dive::loads::IBoundaryConditionPtr> BoundaryConditions;
 	typedef std::vector<dive::loads::ILoadPtr> Loads;
 %}
@@ -57,14 +50,12 @@
 %shared_ptr(dive::loads::ILoadDistributedFace);
 %shared_ptr(dive::loads::ILoadDistributedEdge);
 %shared_ptr(dive::loads::ILoadNode);
-%shared_ptr(dive::loads::ILoadNodeTransient);
 
 %shared_ptr(dive::loads::BoundaryCondition);
 %shared_ptr(dive::loads::LoadDistributedVolume);
 %shared_ptr(dive::loads::LoadDistributedFace);
 %shared_ptr(dive::loads::LoadDistributedEdge);
 %shared_ptr(dive::loads::LoadNode);
-%shared_ptr(dive::loads::LoadNodeTransient);
 
 %template(vecBoundaryConditions) std::vector<std::shared_ptr<dive::loads::IBoundaryCondition>>;
 %template(vecLoads) std::vector<std::shared_ptr<dive::loads::ILoad>>;
@@ -75,4 +66,3 @@
 %include "dive_loads_distributed_face.hpp"
 %include "dive_loads_distributed_edge.hpp"
 %include "dive_loads_node.hpp"
-%include "dive_loads_node_transient.hpp"

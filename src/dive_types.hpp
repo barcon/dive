@@ -289,10 +289,6 @@ namespace dive
 		class LoadNode;
 		using LoadNodePtr = std::shared_ptr<LoadNode>;
 		using ConstLoadNodePtr = std::shared_ptr<const LoadNode>;
-
-		class LoadNodeTransient;
-		using LoadNodeTransientPtr = std::shared_ptr<LoadNodeTransient>;
-		using ConstLoadNodeTransientPtr = std::shared_ptr<const LoadNodeTransient>;
 	}
 
 	namespace problems
@@ -331,31 +327,16 @@ namespace dive
 	using IScalar2DPtr = values::IScalar2DPtr;
 	using IScalar3DPtr = values::IScalar3DPtr;
 	
-	using IScalarTimePtr = values::IScalarTimePtr;
-	using IScalar1DTimePtr = values::IScalar1DTimePtr;
-	using IScalar2DTimePtr = values::IScalar2DTimePtr;
-	using IScalar3DTimePtr = values::IScalar3DTimePtr;
-
 	using IVectorPtr = values::IVectorPtr;
 	using IVector1DPtr = values::IVector1DPtr;
 	using IVector2DPtr = values::IVector2DPtr;
 	using IVector3DPtr = values::IVector3DPtr;
-	
-	using IVectorTimePtr = values::IVectorTimePtr;
-	using IVector1DTimePtr = values::IVector1DTimePtr;
-	using IVector2DTimePtr = values::IVector2DTimePtr;
-	using IVector3DTimePtr = values::IVector3DTimePtr;
 	
 	using IMatrixPtr = values::IMatrixPtr;
 	using IMatrix1DPtr = values::IMatrix1DPtr;
 	using IMatrix2DPtr = values::IMatrix2DPtr;
 	using IMatrix3DPtr = values::IMatrix3DPtr;
 	
-	using IMatrixTimePtr = values::IMatrixTimePtr;
-	using IMatrix1DTimePtr = values::IMatrix1DTimePtr;
-	using IMatrix2DTimePtr = values::IMatrix2DTimePtr;
-	using IMatrix3DTimePtr = values::IMatrix3DTimePtr;
-
 	using ITimerPtr = timers::ITimerPtr;
 	using IBasisPtr = basis::IBasisPtr;
 	using INodePtr = nodes::INodePtr;

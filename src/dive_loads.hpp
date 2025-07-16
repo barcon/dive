@@ -13,7 +13,6 @@ namespace dive
 		static const Type load_distributed_face				= 3;
 		static const Type load_distributed_edge				= 4;
 		static const Type load_node							= 5;
-		static const Type load_node_transient				= 6;
 		//static const Type load_initial_strain				= 7;
 		//static const Type load_temperature_strain			= 8;
 		//static const Type load_heat_source_volume			= 9;
@@ -93,18 +92,6 @@ namespace dive
 
 			virtual void SetNode(INodePtr node) = 0;
 			virtual void SetValue(IVector3DPtr value) = 0;
-		};
-
-		class ILoadNodeTransient : public ILoad
-		{
-		public:
-			virtual ~ILoadNodeTransient() = default;
-
-			virtual INodePtr GetNode() const = 0;
-			virtual Vector GetValue(Scalar time) const = 0;
-
-			virtual void SetNode(INodePtr node) = 0;
-			virtual void SetValue(IVector3DTimePtr value) = 0;
 		};
 	} //namespace loads
 } //namespace dive

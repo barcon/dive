@@ -96,14 +96,6 @@ def ApplyLoadNode(nodes, load):
     
     return
 
-def ApplyLoadNodeTransient(nodes, load):
-    global problem
-
-    for node in nodes:
-        problem.AddLoad(CreateLoadNodeTransient(node, load))
-    
-    return
-
 def ApplyLoadDistributedVolume(elements, load):
     global problem
 

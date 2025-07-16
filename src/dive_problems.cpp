@@ -5,7 +5,6 @@
 #include "dive_loads_distributed_face.hpp"
 #include "dive_loads_distributed_edge.hpp"
 #include "dive_loads_node.hpp"
-#include "dive_loads_node_transient.hpp"
 #include "dive_selection.hpp"
 #include "dive_status.hpp"
 
@@ -63,7 +62,7 @@ namespace dive
 
 			return global;
 		}
-		Vector IntegralForm(IWeakFormLoadPtr weakForm, IProblemPtr problem1, const Loads& loads, Scalar time)
+		Vector IntegralForm(IWeakFormLoadPtr weakForm, IProblemPtr problem1, const Loads& loads)
 		{
 			Vector global(problem1->GetTotalDof(), 0.0);
 			Vector local;
@@ -83,23 +82,6 @@ namespace dive
 					const auto& forceNode = std::static_pointer_cast<loads::ILoadNode>(load);
 
 					local = forceNode->GetValue();
-					numberDof = forceNode->GetNode()->GetNumberDof();
-
-					for (DofIndex j = 0; j < numberDof; ++j)
-					{
-						auto globalIndex = forceNode->GetNode()->GetConnectivity().globalDofIndices[j];
-
-						aux = global.GetValue(globalIndex);
-						aux += local.GetValue(j);
-
-						global.SetValue(globalIndex, aux);
-					}
-				}
-				else if (load->GetType() == loads::load_node_transient)
-				{
-					const auto& forceNode = std::static_pointer_cast<loads::ILoadNodeTransient>(load);
-
-					local = forceNode->GetValue(time);
 					numberDof = forceNode->GetNode()->GetNumberDof();
 
 					for (DofIndex j = 0; j < numberDof; ++j)

@@ -315,7 +315,7 @@ namespace dive {
 
 			auto problemStructural = std::make_shared<ProblemStructural>(*this);
 
-			auto res = IntegralForm(loadDistributedEdgeWeak, problemStructural, loads_, 0.0);
+			auto res = IntegralForm(loadDistributedEdgeWeak, problemStructural, loads_);
 
 			TimerElapsed(__FUNCTION__);
 
@@ -329,7 +329,7 @@ namespace dive {
 
 			auto problemStructural = std::make_shared<ProblemStructural>(*this);
 
-			auto res = IntegralForm(loadDistributedFaceWeak, problemStructural, loads_, 0.0);
+			auto res = IntegralForm(loadDistributedFaceWeak, problemStructural, loads_);
 
 			TimerElapsed(__FUNCTION__);
 
@@ -343,7 +343,7 @@ namespace dive {
 
 			auto problemStructural = std::make_shared<ProblemStructural>(*this);
 
-			auto res = IntegralForm(loadDistributedVolumeWeak, problemStructural, loads_, 0.0);
+			auto res = IntegralForm(loadDistributedVolumeWeak, problemStructural, loads_);
 
 			TimerElapsed(__FUNCTION__);
 
@@ -355,19 +355,7 @@ namespace dive {
 
 			auto problemStructural = std::make_shared<ProblemStructural>(*this);
 
-			auto res = IntegralForm(nullptr, problemStructural, loads_, 0.0);
-
-			TimerElapsed(__FUNCTION__);
-
-			return res;
-		}
-		Vector ProblemStructural::LoadNode(Scalar time) const
-		{
-			TimerStart();
-
-			auto problemStructural = std::make_shared<ProblemStructural>(*this);
-
-			auto res = IntegralForm(nullptr, problemStructural, loads_, time);
+			auto res = IntegralForm(nullptr, problemStructural, loads_);
 
 			TimerElapsed(__FUNCTION__);
 

@@ -61,7 +61,6 @@ namespace dive
 			Vector LoadDistributedFace() const override;
 			Vector LoadDistributedVolume() const override;
 			Vector LoadNode() const override;
-			Vector LoadNode(Scalar time) const override;
 			
 			Vector Displacement() const override;
 

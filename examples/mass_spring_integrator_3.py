@@ -6,12 +6,15 @@ import solvers
 import plots.oscillator
 import math
 
-def Harmonic(t: float, x: float, y: float, z: float) -> float:
+def Harmonic(x: float, y: float, z: float) -> float:
+    global timer
+
     amplitude = 10.0
     omega = 1.0
+    time = timer.GetCurrent()
 
     #return amplitude
-    return amplitude * math.cos(omega * t)
+    return amplitude * math.cos(omega * time)
 
 mass = 1.0
 stiffness = 100.0
@@ -50,15 +53,15 @@ mesh.AddNode(node2, status, True)
 mesh.AddElement(spring, status)
 mesh.AddElement(body, status)
 
-force = structural.CreateValueVector3DScalarsTime(3)
-force.SetScalar(0, structural.CreateValueScalar3DTimeFunction(Harmonic))
-#force.SetScalar(0, structural.CreateValueScalar3DTime(10.0))
+force = structural.CreateValueVector3DScalars(3)
+force.SetScalar(0, structural.CreateValueScalar3DFunction(Harmonic))
+#force.SetScalar(0, structural.CreateValueScalar3D(10.0))
 
 structural.CreateProblem(1, mesh, temperature, pressure)
 structural.ApplyDirichlet([node1], 0.0)
 structural.ApplyDirichlet([node2], 0.0, dof = 1)
 structural.ApplyDirichlet([node2], 0.0, dof = 2)
-structural.ApplyLoadNodeTransient([node2], force)
+structural.ApplyLoadNode([node2], force)
 structural.Initialize()
 
 #--------------------------------------------------------------------------------------------------
@@ -72,7 +75,7 @@ K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
 C = structural.PartitionMatrix(structural.GetProblem().Damping())
 u = structural.PartitionVector(structural.GetProblem().Displacement())
 v = structural.PartitionVector(structural.Vector(totalDof, 0.0))
-f = structural.PartitionVector(structural.GetProblem().LoadNode(timer.GetCurrent()))
+f = structural.PartitionVector(structural.GetProblem().LoadNode())
 
 def ODE1(time, u, v):
     global M
@@ -80,16 +83,11 @@ def ODE1(time, u, v):
     global K
     global f
   
-    #print(body.GetNode(0).GetPoint())
-
-    #print(force.GetValue(time, body.GetNode(0).GetPoint()))
-
-    f = structural.PartitionVector(structural.GetProblem().LoadNode(time))
-    #structural.GetProblem().LoadNode(time)
+    #f = structural.PartitionVector(structural.GetProblem().LoadNode())
 
     #f[1] = force.GetValue(time, body.GetNode(0).GetPoint())
     #f[1][0] = scalar2.GetValue(time, body.GetNode(0).GetPoint())
-    #f[1][0] = Harmonic(time, 0, 0, 0)
+    f[1][0] = Harmonic(0, 0, 0)
     #f[1][0] = 10.0
     #f = structural.PartitionVector(structural.GetProblem().LoadNode(time))
 
