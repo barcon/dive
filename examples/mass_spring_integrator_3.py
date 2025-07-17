@@ -83,11 +83,13 @@ def ODE1(time, u, v):
     global K
     global f
   
-    #f = structural.PartitionVector(structural.GetProblem().LoadNode())
+    #f = structural.PartitionVector(structural.Vector(totalDof, 0.0))
+    f = structural.PartitionVector(structural.GetProblem().LoadNode())
+    #structural.GetProblem().LoadNode()
 
     #f[1] = force.GetValue(time, body.GetNode(0).GetPoint())
     #f[1][0] = scalar2.GetValue(time, body.GetNode(0).GetPoint())
-    f[1][0] = Harmonic(0, 0, 0)
+    #f[1][0] = Harmonic(0, 0, 0)
     #f[1][0] = 10.0
     #f = structural.PartitionVector(structural.GetProblem().LoadNode(time))
 
@@ -104,6 +106,8 @@ while(timer.GetCurrent() < timer.GetEnd()):
     velocity.append(v[1][0])
 
     u[1], v[1] = solvers.ForwardMethod2(timer, u[1], v[1], ODE1, ODE2)
+
+    structural.UpdateMeshValues(u)
 
     timer.SetNextStep()
 
