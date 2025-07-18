@@ -82,7 +82,6 @@ namespace dive
 					const auto& forceNode = std::static_pointer_cast<loads::ILoadNode>(load);
 
 					local = forceNode->GetValue();
-
 					numberDof = forceNode->GetNode()->GetNumberDof();
 
 					for (DofIndex j = 0; j < numberDof; ++j)

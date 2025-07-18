@@ -5,6 +5,7 @@ import structural
 import solvers
 import plots.oscillator
 import math
+import time
 
 def Harmonic(x: float, y: float, z: float) -> float:
     global timer
@@ -25,7 +26,7 @@ status  = 0
 
 basis   = structural.CreateBasisCartesian(1)
 timer   = structural.CreateTimerStepped(1, 0.0, 50.0 * period, 0.01)
-time = []
+current = []
 position = []
 velocity = []
 
@@ -55,7 +56,8 @@ mesh.AddElement(body, status)
 
 force = structural.CreateValueVector3DScalars(3)
 force.SetScalar(0, structural.CreateValueScalar3DFunction(Harmonic))
-#force.SetScalar(0, structural.CreateValueScalar3D(10.0))
+force.SetScalar(1, structural.CreateValueScalar3D(0.0))
+force.SetScalar(2, structural.CreateValueScalar3D(0.0))
 
 structural.CreateProblem(1, mesh, temperature, pressure)
 structural.ApplyDirichlet([node1], 0.0)
@@ -77,21 +79,17 @@ u = structural.PartitionVector(structural.GetProblem().Displacement())
 v = structural.PartitionVector(structural.Vector(totalDof, 0.0))
 f = structural.PartitionVector(structural.GetProblem().LoadNode())
 
-def ODE1(time, u, v):
+def ODE1(t, u, v):
     global M
     global C
     global K
     global f
   
-    #f = structural.PartitionVector(structural.Vector(totalDof, 0.0))
-    f = structural.PartitionVector(structural.GetProblem().LoadNode())
+    #f = structural.PartitionVector(structural.Vector(totalDof, 10.0))
+    #f = structural.PartitionVector(structural.GetProblem().LoadNode())
     #structural.GetProblem().LoadNode()
-
-    #f[1] = force.GetValue(time, body.GetNode(0).GetPoint())
-    #f[1][0] = scalar2.GetValue(time, body.GetNode(0).GetPoint())
-    #f[1][0] = Harmonic(0, 0, 0)
-    #f[1][0] = 10.0
-    #f = structural.PartitionVector(structural.GetProblem().LoadNode(time))
+ 
+    f[1][0] = Harmonic(0, 0, 0)
 
     return [M[3], -(C[3]*v + K[3]*u) + f[1]]
 
@@ -101,14 +99,13 @@ def ODE2(time, v):
     return [D[3], v]
 
 while(timer.GetCurrent() < timer.GetEnd()):
-    time.append(timer.GetCurrent())
+    current.append(timer.GetCurrent())
     position.append(u[1][0])
     velocity.append(v[1][0])
 
     u[1], v[1] = solvers.ForwardMethod2(timer, u[1], v[1], ODE1, ODE2)
 
     structural.UpdateMeshValues(u)
-
     timer.SetNextStep()
 
-plots.oscillator.Show(time, position, velocity)
+plots.oscillator.Show(current, position, velocity)

@@ -38,8 +38,6 @@ namespace interpolation
 
 %inline
 %{
-	using Axis = eilig::Axis;
-	using Scalar = eilig::Scalar;
 	using Vector = eilig::Vector;
 	using Matrix = eilig::Matrix;
 	using Sparse = eilig::Ellpack;
@@ -64,6 +62,5 @@ namespace interpolation
 	using NumberFaces = Number;
 	using NumberEdges = Number;
 	
-	using Indices = std::vector<size_t>;	
 	using String = std::string;
 %}

@@ -49,7 +49,9 @@ namespace dive
 		}
 		Vector LoadNode::GetValue() const
 		{
-			return value_->GetValue(node_->GetPoint());
+			auto delta = eilig::Vector(node_->GetValue(), 0);
+			
+			return value_->GetValue(node_->GetPoint() + delta);
 		}
 		void LoadNode::SetValue(IVector3DPtr value)
 		{
