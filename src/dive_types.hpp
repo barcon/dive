@@ -369,4 +369,4 @@ namespace dive
 	using Properties = std::unordered_map<String, IValuePtr>;
 }
 
-#endif
+#endif /* DIVE_TYPES_HPP_ */

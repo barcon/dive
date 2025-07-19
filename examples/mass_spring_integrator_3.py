@@ -55,9 +55,6 @@ mesh.AddElement(spring, status)
 mesh.AddElement(body, status)
 
 force = structural.CreateValueVector3DScalars(3)
-force.SetScalar(0, structural.CreateValueScalar3DFunction(Harmonic))
-force.SetScalar(1, structural.CreateValueScalar3D(0.0))
-force.SetScalar(2, structural.CreateValueScalar3D(0.0))
 
 structural.CreateProblem(1, mesh, temperature, pressure)
 structural.ApplyDirichlet([node1], 0.0)
@@ -84,12 +81,9 @@ def ODE1(t, u, v):
     global C
     global K
     global f
-  
-    #f = structural.PartitionVector(structural.Vector(totalDof, 10.0))
-    #f = structural.PartitionVector(structural.GetProblem().LoadNode())
-    #structural.GetProblem().LoadNode()
- 
-    f[1][0] = Harmonic(0, 0, 0)
+
+    force.SetScalar(0, structural.CreateValueScalar3DFunction(Harmonic))
+    f = structural.PartitionVector(structural.GetProblem().LoadNode())
 
     return [M[3], -(C[3]*v + K[3]*u) + f[1]]
 

@@ -7,20 +7,13 @@ import plots.oscillator
 import math
 import time
 
-def Weight(x: float, y: float, z: float) -> float:
-    amplitude = -10.0
-
-    return amplitude
-
 mass = 1.0
-stiffness = 100.0
+stiffness = 1.0
 damping = 0.5
-omega = math.sqrt(stiffness / mass)
-period = 2.0 * math.pi / omega
 status  = 0
 
 basis   = structural.CreateBasisCartesian(1)
-timer   = structural.CreateTimerStepped(1, 0.0, 100.0 * period, 0.01)
+timer   = structural.CreateTimerStepped(1, 0.0, 100.0, 0.01)
 current = []
 position = []
 velocity = []
@@ -59,9 +52,6 @@ mesh.AddElement(spring2, status)
 mesh.AddElement(body, status)
 
 force = structural.CreateValueVector3DScalars(3)
-force.SetScalar(0, structural.CreateValueScalar3D(0.0))
-force.SetScalar(1, structural.CreateValueScalar3DFunction(Weight))
-force.SetScalar(2, structural.CreateValueScalar3D(0.0))
 
 structural.CreateProblem(1, mesh, temperature, pressure)
 structural.ApplyDirichlet([node1], 0.0)
@@ -83,18 +73,20 @@ u = structural.PartitionVector(structural.GetProblem().Displacement())
 v = structural.PartitionVector(structural.Vector(totalDof, 0.0))
 f = structural.PartitionVector(structural.GetProblem().LoadNode())
 
+print(K[3])
+quit()
+
 def ODE1(t, u, v):
     global M
     global C
     global K
     global f
   
-    #f = structural.PartitionVector(structural.Vector(totalDof, 10.0))
-    #f = structural.PartitionVector(structural.GetProblem().LoadNode())
-    #structural.GetProblem().LoadNode()
- 
-    f[1][1] = Weight(0, 0, 0)
+    force.SetScalar(1, structural.CreateValueScalar3D(-10.0))
+    f = structural.PartitionVector(structural.GetProblem().LoadNode())
+    K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
 
+ 
     return [M[3], -(C[3]*v + K[3]*u) + f[1]]
 
 def ODE2(time, v):
@@ -113,4 +105,3 @@ while(timer.GetCurrent() < timer.GetEnd()):
     timer.SetNextStep()
 
 plots.oscillator.Show(current, position, velocity)
-print(node2.GetValue())

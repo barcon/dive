@@ -378,15 +378,13 @@ namespace dive
 		{
 			auto T = FormMatrix_Transform();
 
-			//output = stiffness_->GetValue() * I_ * T;
-			output = stiffness_->GetValue() * I_;
+			output = stiffness_->GetValue() * I_ * T;
 		}
 		void ElementCombined::Damping(Matrix& output) const
 		{
 			auto T = FormMatrix_Transform();
 
-			//output = stiffness_->GetValue() * I_ * T;
-			output = damping_->GetValue() * I_;
+			output = stiffness_->GetValue() * I_ * T;
 		}
 
 		Vector ElementCombined::GetGlobalVector0() const
@@ -415,8 +413,8 @@ namespace dive
 		}
 		Vector ElementCombined::GetLocalVector0() const
 		{
-			const auto& p1 = nodes_[1]->GetPoint();
 			const auto& p0 = nodes_[0]->GetPoint();
+			const auto& p1 = nodes_[1]->GetPoint();
 			
 			auto l0 = eilig::NormP2(p1 - p0);			
 			auto v0 = (1.0 / l0) * (p1 - p0);
