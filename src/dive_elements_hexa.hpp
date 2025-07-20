@@ -77,6 +77,7 @@ namespace dive
 			ElementIndex GetElementIndex() const override;
 			NumberDof GetNumberDof() const override;
 			IValuePtr GetProperty(String key) const override;
+			bool GetNonlinear() const override;
 
 			void SetNumberDof(NumberDof numberDof) override;
 			void SetNode(const NodeIndex& nodeNumber, INodePtr node) override;
@@ -86,6 +87,7 @@ namespace dive
 			void SetMaterial(IMaterialPtr material) override;
 			void SetElementIndex(ElementIndex index) override;
 			void SetProperty(IValuePtr value) override;
+			void SetNonlinear(bool nonlinear) override;
 
 			bool IsUsed(INodePtr node) const override;
 			bool IsMapped() const override;
@@ -94,6 +96,67 @@ namespace dive
 			void InitializeCache() override;
 			void IntegralWeakFormElement(IWeakFormElementPtr weakForm, Matrix& output) const override;
 			void IntegralWeakFormLoad(IWeakFormLoadPtr weakForm, ILoadPtr load, Vector& output) const override;
+		protected:
+			ElementHexa();
+
+			Vector GlobalDerivatives(const Vector& local, const Dimension& dim) const;
+			
+			IntegralAreaHelper GetIntegralAreaHelper(FaceIndex faceIndex) const;
+			IntegralEdgeHelper GetIntegralEdgeHelper(EdgeIndex edgeIndex) const;
+
+			Tag		tag_{ 0 };
+			Type	type_{ element_hexa8 };
+			Nodes	nodes_;
+
+			ElementIndex elementIndex_{ 0 };
+			Properties properties_;
+
+			NumberDof	numberDof_{ 1 };
+			NumberNodes numberNodes_;
+			NumberNodes numberNodesFace_;
+			NumberNodes numberNodesEdge_;
+			NumberNodes numberNodesParametric_;
+			NumberNodes numberNodesFaceParametric_;
+
+			const NumberFaces numberFaces_{ 6 };
+			const NumberEdges numberEdges_{12};
+			const NumberDimensions numberDimensions_{ dimension_solid };
+			const NumberCoordinates numberCoordinates_{ coordinate_three };
+			bool nonlinear_{ false };
+			
+			static const Scalar localCoordinates_[20][3];
+			static const Index lookUpTable1_[6];
+			static const Index lookUpTable2_[6];
+			static const Index lookUpTable3_[6];
+			static const Scalar lookUpTable4_[6];
+			static const Index lookUpTable5_[12];
+			static const Index lookUpTable6_[12];
+			static const Index lookUpTable7_[12];
+			static const Scalar lookUpTable8_[12];
+			static const Scalar lookUpTable9_[12];
+
+			NodeIndex* lookUpTable10_{ &linearFunctions_.NodeIndexFace[0] };
+			NodeIndex* lookUpTable11_{ &linearFunctions_.NodeIndexFace[0] };
+
+			Order	order_{ order_linear };
+			ShapePtr* shape_{ &linearFunctions_.Shape[0] };
+			ShapePtr* shapeD_{ &linearFunctions_.ShapeD[0] };	
+
+			Parametric	parametric_{ parametric_linear };
+			ShapePtr*	param_ = { &linearFunctions_.Shape[0] };
+			ShapePtr*	paramD_ = { &linearFunctions_.ShapeD[0] };
+
+			IMaterialPtr material_{ nullptr };
+
+			IGaussPtr gaussHexa_{ nullptr };
+			IGaussPtr gaussRect_{ nullptr };
+			IGaussPtr gaussLine_{ nullptr };
+
+			Matrices cacheJ_;
+			Matrices cacheInvJ_;
+			Matrices cacheN_;
+			Matrices cachedN_;
+			Scalars	 cacheDetJ_;
 
 			struct LinearFunctions {
 				static Scalar N0(const Vector& arg);
@@ -137,11 +200,11 @@ namespace dive
 				static Scalar N7d3(const Vector& arg);
 
 				ShapePtr Shape[8] = { &N0, &N1, &N2, &N3, &N4, &N5, &N6, &N7 };
-				ShapePtr ShapeD[3 * 8] = {	&N0d1, &N1d1, &N2d1, &N3d1, &N4d1, &N5d1, &N6d1, &N7d1,
+				ShapePtr ShapeD[3 * 8] = { &N0d1, &N1d1, &N2d1, &N3d1, &N4d1, &N5d1, &N6d1, &N7d1,
 											&N0d2, &N1d2, &N2d2, &N3d2, &N4d2, &N5d2, &N6d2, &N7d2,
 											&N0d3, &N1d3, &N2d3, &N3d3, &N4d3, &N5d3, &N6d3, &N7d3 };
 
-				NodeIndex NodeIndexFace[6 * 4] = {  NodeIndex(6), NodeIndex(5), NodeIndex(1), NodeIndex(2),
+				NodeIndex NodeIndexFace[6 * 4] = { NodeIndex(6), NodeIndex(5), NodeIndex(1), NodeIndex(2),
 													NodeIndex(6), NodeIndex(2), NodeIndex(3), NodeIndex(7),
 													NodeIndex(6), NodeIndex(7), NodeIndex(4), NodeIndex(5),
 													NodeIndex(0), NodeIndex(4), NodeIndex(7), NodeIndex(3),
@@ -269,7 +332,7 @@ namespace dive
 											&N0d2, &N1d2, &N2d2, &N3d2, &N4d2, &N5d2, &N6d2, &N7d2, &N8d2, &N9d2, &N10d2, &N11d2, &N12d2, &N13d2, &N14d2, &N15d2, &N16d2, &N17d2, &N18d2, &N19d2,
 											&N0d3, &N1d3, &N2d3, &N3d3, &N4d3, &N5d3, &N6d3, &N7d3, &N8d3, &N9d3, &N10d3, &N11d3, &N12d3, &N13d3, &N14d3, &N15d3, &N16d3, &N17d3, &N18d3, &N19d3 };
 
-				NodeIndex NodeIndexFace[6 * 8] = {  NodeIndex(6), NodeIndex(13), NodeIndex(5), NodeIndex(17), NodeIndex(1), NodeIndex(9) , NodeIndex(2), NodeIndex(18),
+				NodeIndex NodeIndexFace[6 * 8] = { NodeIndex(6), NodeIndex(13), NodeIndex(5), NodeIndex(17), NodeIndex(1), NodeIndex(9) , NodeIndex(2), NodeIndex(18),
 													NodeIndex(6), NodeIndex(18), NodeIndex(2), NodeIndex(10), NodeIndex(3), NodeIndex(19), NodeIndex(7), NodeIndex(14),
 													NodeIndex(6), NodeIndex(14), NodeIndex(7), NodeIndex(15), NodeIndex(4), NodeIndex(12), NodeIndex(5), NodeIndex(13),
 													NodeIndex(0), NodeIndex(16), NodeIndex(4), NodeIndex(15), NodeIndex(7), NodeIndex(19), NodeIndex(3), NodeIndex(11),
@@ -293,66 +356,6 @@ namespace dive
 
 			} quadraticFunctions_;
 
-		protected:
-			ElementHexa();
-
-			Vector GlobalDerivatives(const Vector& local, const Dimension& dim) const;
-			
-			IntegralAreaHelper GetIntegralAreaHelper(FaceIndex faceIndex) const;
-			IntegralEdgeHelper GetIntegralEdgeHelper(EdgeIndex edgeIndex) const;
-
-			Tag		tag_{ 0 };
-			Type	type_{ element_hexa8 };
-			Nodes	nodes_;
-
-			ElementIndex elementIndex_{ 0 };
-			Properties properties_;
-
-			NumberDof	numberDof_{ 1 };
-			NumberNodes numberNodes_;
-			NumberNodes numberNodesFace_;
-			NumberNodes numberNodesEdge_;
-			NumberNodes numberNodesParametric_;
-			NumberNodes numberNodesFaceParametric_;
-
-			const NumberFaces numberFaces_{ 6 };
-			const NumberEdges numberEdges_{12};
-			const NumberDimensions numberDimensions_{ dimension_solid };
-			const NumberCoordinates numberCoordinates_{ coordinate_three };
-			
-			static const Scalar localCoordinates_[20][3];
-			static const Index lookUpTable1_[6];
-			static const Index lookUpTable2_[6];
-			static const Index lookUpTable3_[6];
-			static const Scalar lookUpTable4_[6];
-			static const Index lookUpTable5_[12];
-			static const Index lookUpTable6_[12];
-			static const Index lookUpTable7_[12];
-			static const Scalar lookUpTable8_[12];
-			static const Scalar lookUpTable9_[12];
-
-			NodeIndex* lookUpTable10_{ &linearFunctions_.NodeIndexFace[0] };
-			NodeIndex* lookUpTable11_{ &linearFunctions_.NodeIndexFace[0] };
-
-			Order	order_{ order_linear };
-			ShapePtr* shape_{ &linearFunctions_.Shape[0] };
-			ShapePtr* shapeD_{ &linearFunctions_.ShapeD[0] };	
-
-			Parametric	parametric_{ parametric_linear };
-			ShapePtr*	param_ = { &linearFunctions_.Shape[0] };
-			ShapePtr*	paramD_ = { &linearFunctions_.ShapeD[0] };
-
-			IMaterialPtr material_{ nullptr };
-
-			IGaussPtr gaussHexa_{ nullptr };
-			IGaussPtr gaussRect_{ nullptr };
-			IGaussPtr gaussLine_{ nullptr };
-
-			Matrices cacheJ_;
-			Matrices cacheInvJ_;
-			Matrices cacheN_;
-			Matrices cachedN_;
-			Scalars	 cacheDetJ_;
 		};
 
 	} //namespace elements

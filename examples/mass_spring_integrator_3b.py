@@ -14,8 +14,8 @@ def Harmonic(x: float, y: float, z: float) -> float:
     omega = 1.0
     time = timer.GetCurrent()
 
-    return amplitude
-    #return amplitude * math.cos(omega * time)
+    #return amplitude
+    return amplitude * math.cos(omega * time)
 
 mass = 1.0
 stiffness = 100.0

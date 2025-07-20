@@ -389,10 +389,8 @@ namespace dive
 		}
 		void ElementCombined::Damping(Matrix& output) const
 		{
-			auto T = FormMatrix_Transform();
+			auto T = FormMatrix_Canonical();
 
-			//output = stiffness_->GetValue() * I_;
-			//output = stiffness_->GetValue() * I_ * T;
 			output = stiffness_->GetValue() * T;
 		}
 
@@ -484,39 +482,39 @@ namespace dive
 			switch (numberDof_)
 			{
 			case 1:
-				res(0, 0) = -1.0;
-				res(0, 1) = +1.0;
-				res(1, 1) = -1.0;
-				res(1, 0) = +1.0;
+				res(0, 0) = +1.0;
+				res(0, 1) = -1.0;
+				res(1, 1) = +1.0;
+				res(1, 0) = -1.0;
 
 				break;
 			case 2:
-				res(0, 0) = -dot1;
-				res(0, 2) = +dot1;
-				res(2, 2) = -dot1;
-				res(2, 0) = +dot1;
+				res(0, 0) = +dot1;
+				res(0, 2) = -dot1;
+				res(2, 2) = +dot1;
+				res(2, 0) = -dot1;
 
-				res(1, 1) = -dot2;
-				res(1, 3) = +dot2;
-				res(3, 3) = -dot2;
-				res(3, 1) = +dot2;
+				res(1, 1) = +dot2;
+				res(1, 3) = -dot2;
+				res(3, 3) = +dot2;
+				res(3, 1) = -dot2;
 
 				break;
 			case 3:
-				res(0, 0) = -dot1;
-				res(0, 3) = +dot1;
-				res(3, 3) = -dot1;
-				res(3, 0) = +dot1;
+				res(0, 0) = +dot1;
+				res(0, 3) = -dot1;
+				res(3, 3) = +dot1;
+				res(3, 0) = -dot1;
 
-				res(1, 1) = -dot2;
-				res(1, 4) = +dot2;
-				res(4, 4) = -dot2;
-				res(4, 1) = +dot2;
+				res(1, 1) = +dot2;
+				res(1, 4) = -dot2;
+				res(4, 4) = +dot2;
+				res(4, 1) = -dot2;
 
-				res(2, 2) = -dot3;
-				res(2, 5) = +dot3;
-				res(5, 5) = -dot3;
-				res(5, 2) = +dot3;
+				res(2, 2) = +dot3;
+				res(2, 5) = -dot3;
+				res(5, 5) = +dot3;
+				res(5, 2) = -dot3;
 
 				break;
 			}
