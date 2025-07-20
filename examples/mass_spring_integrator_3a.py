@@ -24,7 +24,7 @@ temperature = structural.CreateValueScalar3D(T_ref)
 pressure = structural.CreateValueScalar3D(p_ref)
 
 node1 = structural.CreateNode(1, 0.0, 0.0, 0.0)
-node2 = structural.CreateNode(2, 0.0, 0.0, 1.0)
+node2 = structural.CreateNode(2, 1.0, 0.0, 0.0)
 
 spring = structural.CreateElementCombined(1)
 spring.SetNode(0, node1)
@@ -54,8 +54,9 @@ pivot = structural.GetProblem().GetPivot()
 #K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
 #C = structural.PartitionMatrix(structural.GetProblem().Damping())
 
-print(totalDof)
-print(pivot)
+#print(totalDof)
+#print(pivot)
 #print(structural.GetProblem().Mass())
 print(structural.GetProblem().Stiffness())
+
 quit()

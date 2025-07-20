@@ -175,6 +175,10 @@ namespace dive
 
 			return property->second;
 		}
+		bool ElementCombined::GetNonlinear() const
+		{
+			return nonlinear_;
+		}
 
 		void ElementCombined::SetTag(Tag tag)
 		{
@@ -182,6 +186,12 @@ namespace dive
 		}
 		void ElementCombined::SetNumberDof(NumberDof numberDof)
 		{
+			if(numberDof < 1 || numberDof > 3)
+			{
+				logger::Error(headerDive, "Invalid number of degrees of freedom: " + dive::messages.at(dive::DIVE_OUT_OF_RANGE));
+				return;
+			}
+
 			numberDof_ = numberDof;
 
 			for (NodeIndex i = 0; i < numberNodes_; ++i)
@@ -195,13 +205,6 @@ namespace dive
 					}
 				}
 			}
-
-			I_ = Matrix(numberDof * numberNodes_, numberDof * numberNodes_);
-			I_(0, 0) =  1.0;
-			I_(0, (numberNodes_ - 1) * numberDof_) =  -1.0;
-
-			I_((numberNodes_ - 1) * numberDof_, 0) = -1.0;
-			I_((numberNodes_ - 1) * numberDof_, (numberNodes_ - 1) * numberDof_) = 1.0;
 		}
 		void ElementCombined::SetNode(const NodeIndex& nodeIndex, INodePtr node)
 		{
@@ -258,6 +261,10 @@ namespace dive
 		void ElementCombined::SetProperty(IValuePtr value)
 		{
 			properties_.insert({ value->GetKey(), value });
+		}
+		void ElementCombined::SetNonlinear(bool nonlinear)
+		{
+			nonlinear_ = nonlinear;
 		}
 
 		Vector ElementCombined::LocalCoordinates(INodePtr node) const
@@ -376,15 +383,17 @@ namespace dive
 		
 		void ElementCombined::Stiffness(Matrix& output) const
 		{
-			auto T = FormMatrix_Transform();
+			auto T = FormMatrix_Canonical();
 
-			output = stiffness_->GetValue() * I_ * T;
+			output = stiffness_->GetValue() * T;
 		}
 		void ElementCombined::Damping(Matrix& output) const
 		{
 			auto T = FormMatrix_Transform();
 
-			output = stiffness_->GetValue() * I_ * T;
+			//output = stiffness_->GetValue() * I_;
+			//output = stiffness_->GetValue() * I_ * T;
+			output = stiffness_->GetValue() * T;
 		}
 
 		Vector ElementCombined::GetGlobalVector0() const
@@ -463,30 +472,112 @@ namespace dive
 			return eilig::Cross(v0, v1);
 		}
 
-		Matrix ElementCombined::FormMatrix_Transform() const
+		Matrix ElementCombined::FormMatrix_Canonical() const
 		{
-			Matrix res(numberDof_ * numberNodes_, numberDof_ * numberNodes_);
-			
-			Vectors local;
-			Vectors global;
+			auto res = Matrix(numberNodes_ * numberDof_, numberNodes_ * numberDof_, eilig::matrix_zeros);
 
-			local.push_back(GetLocalVector0());
-			local.push_back(GetLocalVector1());
-			local.push_back(GetLocalVector2());
-			
-			global.push_back(GetGlobalVector0());
-			global.push_back(GetGlobalVector1());
-			global.push_back(GetGlobalVector2());
+			auto local = GetLocalVector0();
+			auto dot1 = eilig::Dot(local, GetGlobalVector0());
+			auto dot2 = eilig::Dot(local, GetGlobalVector1());
+			auto dot3 = eilig::Dot(local, GetGlobalVector2());
 
-			for (Index i = 0; i < numberNodes_; i++)
+			switch (numberDof_)
 			{
-				for (Index j = 0; j < numberDof_; j++)
-				{
-					res(i, j) = eilig::Dot(local[j], global[i]);
-				}
+			case 1:
+				res(0, 0) = -1.0;
+				res(0, 1) = +1.0;
+				res(1, 1) = -1.0;
+				res(1, 0) = +1.0;
+
+				break;
+			case 2:
+				res(0, 0) = -dot1;
+				res(0, 2) = +dot1;
+				res(2, 2) = -dot1;
+				res(2, 0) = +dot1;
+
+				res(1, 1) = -dot2;
+				res(1, 3) = +dot2;
+				res(3, 3) = -dot2;
+				res(3, 1) = +dot2;
+
+				break;
+			case 3:
+				res(0, 0) = -dot1;
+				res(0, 3) = +dot1;
+				res(3, 3) = -dot1;
+				res(3, 0) = +dot1;
+
+				res(1, 1) = -dot2;
+				res(1, 4) = +dot2;
+				res(4, 4) = -dot2;
+				res(4, 1) = +dot2;
+
+				res(2, 2) = -dot3;
+				res(2, 5) = +dot3;
+				res(5, 5) = -dot3;
+				res(5, 2) = +dot3;
+
+				break;
 			}
 
 			return res;
 		}
 	} //namespace elements
 } //namespace dive
+
+/*
+
+		Vector ElementCombined::GetLocalVector0() const
+		{
+			const auto& p0 = nodes_[0]->GetPoint();
+			const auto& p1 = nodes_[1]->GetPoint();
+
+			auto l0 = eilig::NormP2(p1 - p0);
+			auto v0 = (1.0 / l0) * (p1 - p0);
+
+			return v0;
+		}
+		Vector ElementCombined::GetLocalVector1() const
+		{
+			Vector v0 = GetLocalVector0();
+			Vector v1;
+			Scalars dots;
+
+			auto e0 = GetGlobalVector0();
+			auto e1 = GetGlobalVector1();
+			auto e2 = GetGlobalVector2();
+
+			dots.push_back(std::abs(eilig::Dot(v0, e0)));
+			dots.push_back(std::abs(eilig::Dot(v0, e1)));
+			dots.push_back(std::abs(eilig::Dot(v0, e2)));
+
+			auto minimum = std::min_element(dots.begin(), dots.end());
+			auto index = std::distance(dots.begin(), minimum);
+
+			switch (index)
+			{
+			case 0:
+				v1 = eilig::Cross(v0, e0);
+				break;
+			case 1:
+				v1 = eilig::Cross(v0, e1);
+				break;
+			case 2:
+				v1 = eilig::Cross(v0, e2);
+				break;
+			}
+
+			auto l1 = eilig::NormP2(v1);
+
+			return (1.0 / l1) * v1;
+		}
+		Vector ElementCombined::GetLocalVector2() const
+		{
+			Vector v0 = GetLocalVector0();
+			Vector v1 = GetLocalVector1();
+
+			return eilig::Cross(v0, v1);
+		}
+
+*/
