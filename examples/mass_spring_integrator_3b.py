@@ -10,12 +10,12 @@ import time
 def Harmonic(x: float, y: float, z: float) -> float:
     global timer
 
-    amplitude = 10.0
+    amplitude = 1.0
     omega = 1.0
     time = timer.GetCurrent()
 
-    #return amplitude
-    return amplitude * math.cos(omega * time)
+    return amplitude
+    #return amplitude * math.cos(omega * time)
 
 mass = 1.0
 stiffness = 100.0

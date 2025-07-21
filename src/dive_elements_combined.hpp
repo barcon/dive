@@ -43,7 +43,6 @@ namespace dive
 			INodePtr GetNodeEdge(const EdgeIndex& edgeNumber, const NodeIndex& nodeNumber) const override;
 			const Nodes& GetNodes() const override;
 			IValuePtr GetProperty(String key) const override;
-			bool GetNonlinear() const override;
 
 			void SetTag(Tag elementTag) override;
 			void SetNumberDof(NumberDof numberDof) override;
@@ -51,7 +50,6 @@ namespace dive
 			void SetElementIndex(ElementIndex index) override;
 			void SetMaterial(IMaterialPtr material) override;
 			void SetProperty(IValuePtr value) override;
-			void SetNonlinear(bool nonlinear) override;
 			
 			Vector LocalCoordinates(INodePtr node) const override;
 			Vector LocalCoordinates(const NodeIndex& nodeIndex) const override;
@@ -106,7 +104,6 @@ namespace dive
 			const NumberNodes numberNodesEdge_{ 2 };
 			const NumberDimensions numberDimensions_{ dimension_beam };
 			const NumberCoordinates numberCoordinates_{ coordinate_three };
-			bool nonlinear_{ false };
 			
 			static const Scalar localCoordinates_[2][3];
 			static const NodeIndex lookUpTable11_[1 * 2];

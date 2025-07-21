@@ -79,7 +79,6 @@ namespace dive
 			virtual INodePtr GetNodeFace(const FaceIndex& faceIndex, const NodeIndex& nodeIndex) const = 0;
 			virtual INodePtr GetNodeEdge(const EdgeIndex& edgeIndex, const NodeIndex& nodeIndex) const = 0;
 			virtual const Nodes& GetNodes() const = 0;
-			virtual bool GetNonlinear() const = 0;
 
 			virtual void SetTag(Tag elementTag) = 0;
 			virtual void SetNumberDof(NumberDof numberDof) = 0;
@@ -87,7 +86,6 @@ namespace dive
 			virtual void SetElementIndex(ElementIndex index) = 0;
 			virtual void SetMaterial(IMaterialPtr material) = 0;
 			virtual void SetProperty(IValuePtr value) = 0;
-			virtual void SetNonlinear(bool nonlinear) = 0;
 
 			virtual Vector LocalCoordinates(INodePtr node) const = 0;
 			virtual Vector LocalCoordinates(const NodeIndex& nodeIndex) const = 0;

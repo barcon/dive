@@ -175,10 +175,6 @@ namespace dive
 
 			return property->second;
 		}
-		bool ElementCombined::GetNonlinear() const
-		{
-			return nonlinear_;
-		}
 
 		void ElementCombined::SetTag(Tag tag)
 		{
@@ -261,10 +257,6 @@ namespace dive
 		void ElementCombined::SetProperty(IValuePtr value)
 		{
 			properties_.insert({ value->GetKey(), value });
-		}
-		void ElementCombined::SetNonlinear(bool nonlinear)
-		{
-			nonlinear_ = nonlinear;
 		}
 
 		Vector ElementCombined::LocalCoordinates(INodePtr node) const
@@ -391,7 +383,7 @@ namespace dive
 		{
 			auto T = FormMatrix_Canonical();
 
-			output = stiffness_->GetValue() * T;
+			output = damping_->GetValue() * T;
 		}
 
 		Vector ElementCombined::GetGlobalVector0() const
@@ -423,7 +415,7 @@ namespace dive
 			const auto& p0 = nodes_[0]->GetPoint();
 			const auto& p1 = nodes_[1]->GetPoint();
 			
-			auto l0 = eilig::NormP2(p1 - p0);			
+			auto l0 = eilig::NormP2(p1 - p0);
 			auto v0 = (1.0 / l0) * (p1 - p0);
 
 			return v0;
@@ -475,9 +467,9 @@ namespace dive
 			auto res = Matrix(numberNodes_ * numberDof_, numberNodes_ * numberDof_, eilig::matrix_zeros);
 
 			auto local = GetLocalVector0();
-			auto dot1 = eilig::Dot(local, GetGlobalVector0());
-			auto dot2 = eilig::Dot(local, GetGlobalVector1());
-			auto dot3 = eilig::Dot(local, GetGlobalVector2());
+			auto dot1 = std::abs(eilig::Dot(local, GetGlobalVector0()));
+			auto dot2 = std::abs(eilig::Dot(local, GetGlobalVector1()));
+			auto dot3 = std::abs(eilig::Dot(local, GetGlobalVector2()));
 
 			switch (numberDof_)
 			{

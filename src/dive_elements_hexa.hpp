@@ -77,7 +77,6 @@ namespace dive
 			ElementIndex GetElementIndex() const override;
 			NumberDof GetNumberDof() const override;
 			IValuePtr GetProperty(String key) const override;
-			bool GetNonlinear() const override;
 
 			void SetNumberDof(NumberDof numberDof) override;
 			void SetNode(const NodeIndex& nodeNumber, INodePtr node) override;
@@ -87,7 +86,6 @@ namespace dive
 			void SetMaterial(IMaterialPtr material) override;
 			void SetElementIndex(ElementIndex index) override;
 			void SetProperty(IValuePtr value) override;
-			void SetNonlinear(bool nonlinear) override;
 
 			bool IsUsed(INodePtr node) const override;
 			bool IsMapped() const override;
@@ -122,7 +120,6 @@ namespace dive
 			const NumberEdges numberEdges_{12};
 			const NumberDimensions numberDimensions_{ dimension_solid };
 			const NumberCoordinates numberCoordinates_{ coordinate_three };
-			bool nonlinear_{ false };
 			
 			static const Scalar localCoordinates_[20][3];
 			static const Index lookUpTable1_[6];

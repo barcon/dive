@@ -169,10 +169,6 @@ namespace dive
 
 			return property->second;
 		}
-		bool ElementMass::GetNonlinear() const
-		{
-			return nonlinear_;
-		}
 
 		void ElementMass::SetTag(Tag tag)
 		{
@@ -251,10 +247,6 @@ namespace dive
 		void ElementMass::SetProperty(IValuePtr value)
 		{
 			properties_.insert({ value->GetKey(), value });
-		}
-		void ElementMass::SetNonlinear(bool nonlinear)
-		{
-			nonlinear_ = nonlinear;
 		}
 
 		Vector ElementMass::LocalCoordinates(INodePtr node) const

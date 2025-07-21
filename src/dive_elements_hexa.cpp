@@ -630,10 +630,6 @@ namespace dive
 
 			return property->second;
 		}
-		bool ElementHexa::GetNonlinear() const
-		{
-			return nonlinear_;
-		}
 		IntegralAreaHelper ElementHexa::GetIntegralAreaHelper(FaceIndex faceIndex) const
 		{
 			IntegralAreaHelper res;
@@ -797,10 +793,6 @@ namespace dive
 		void ElementHexa::SetProperty(IValuePtr value)
 		{
 			properties_.insert({ value->GetKey(), value });
-		}
-		void ElementHexa::SetNonlinear(bool nonlinear)
-		{
-			nonlinear_ = nonlinear;
 		}
 		bool ElementHexa::IsUsed(INodePtr node) const
 		{

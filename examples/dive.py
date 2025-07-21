@@ -3873,9 +3873,6 @@ class IElement(object):
     def GetNodes(self):
         return _dive.IElement_GetNodes(self)
 
-    def GetNonlinear(self):
-        return _dive.IElement_GetNonlinear(self)
-
     def SetTag(self, elementTag):
         return _dive.IElement_SetTag(self, elementTag)
 
@@ -3893,9 +3890,6 @@ class IElement(object):
 
     def SetProperty(self, value):
         return _dive.IElement_SetProperty(self, value)
-
-    def SetNonlinear(self, nonlinear):
-        return _dive.IElement_SetNonlinear(self, nonlinear)
 
     def LocalCoordinates(self, *args):
         return _dive.IElement_LocalCoordinates(self, *args)
@@ -4164,9 +4158,6 @@ class ElementHexa(IElementSolid):
     def GetProperty(self, key):
         return _dive.ElementHexa_GetProperty(self, key)
 
-    def GetNonlinear(self):
-        return _dive.ElementHexa_GetNonlinear(self)
-
     def SetNumberDof(self, numberDof):
         return _dive.ElementHexa_SetNumberDof(self, numberDof)
 
@@ -4190,9 +4181,6 @@ class ElementHexa(IElementSolid):
 
     def SetProperty(self, value):
         return _dive.ElementHexa_SetProperty(self, value)
-
-    def SetNonlinear(self, nonlinear):
-        return _dive.ElementHexa_SetNonlinear(self, nonlinear)
 
     def IsUsed(self, node):
         return _dive.ElementHexa_IsUsed(self, node)
@@ -4292,9 +4280,6 @@ class ElementMass(IElement):
     def GetProperty(self, key):
         return _dive.ElementMass_GetProperty(self, key)
 
-    def GetNonlinear(self):
-        return _dive.ElementMass_GetNonlinear(self)
-
     def SetTag(self, elementTag):
         return _dive.ElementMass_SetTag(self, elementTag)
 
@@ -4312,9 +4297,6 @@ class ElementMass(IElement):
 
     def SetProperty(self, value):
         return _dive.ElementMass_SetProperty(self, value)
-
-    def SetNonlinear(self, nonlinear):
-        return _dive.ElementMass_SetNonlinear(self, nonlinear)
 
     def LocalCoordinates(self, *args):
         return _dive.ElementMass_LocalCoordinates(self, *args)
@@ -4429,9 +4411,6 @@ class ElementCombined(IElement):
     def GetProperty(self, key):
         return _dive.ElementCombined_GetProperty(self, key)
 
-    def GetNonlinear(self):
-        return _dive.ElementCombined_GetNonlinear(self)
-
     def SetTag(self, elementTag):
         return _dive.ElementCombined_SetTag(self, elementTag)
 
@@ -4449,9 +4428,6 @@ class ElementCombined(IElement):
 
     def SetProperty(self, value):
         return _dive.ElementCombined_SetProperty(self, value)
-
-    def SetNonlinear(self, nonlinear):
-        return _dive.ElementCombined_SetNonlinear(self, nonlinear)
 
     def LocalCoordinates(self, *args):
         return _dive.ElementCombined_LocalCoordinates(self, *args)
