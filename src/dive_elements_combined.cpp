@@ -352,6 +352,10 @@ namespace dive
 			return damping_;
 		}
 
+		void ElementCombined::SetCanonical(bool canonical)
+		{
+			canonical_ = canonical;
+		}
 		void ElementCombined::SetStiffness(IScalarPtr stiffness)
 		{
 			if (stiffness == nullptr)
@@ -375,15 +379,25 @@ namespace dive
 		
 		void ElementCombined::Stiffness(Matrix& output) const
 		{
-			auto T = FormMatrix_Canonical();
-
-			output = stiffness_->GetValue() * T;
+			if (canonical_)
+			{
+				output = stiffness_->GetValue() * FormMatrix_Canonical();
+			}
+			else
+			{
+				output = stiffness_->GetValue() * FormMatrix_Decomposed();
+			}
 		}
 		void ElementCombined::Damping(Matrix& output) const
 		{
-			auto T = FormMatrix_Canonical();
-
-			output = damping_->GetValue() * T;
+			if (canonical_)
+			{
+				output = damping_->GetValue() * FormMatrix_Canonical();
+			}
+			else
+			{
+				output = damping_->GetValue() * FormMatrix_Decomposed();
+			}
 		}
 
 		Vector ElementCombined::GetGlobalVector0() const
@@ -420,49 +434,54 @@ namespace dive
 
 			return v0;
 		}
-		Vector ElementCombined::GetLocalVector1() const
-		{			 
-			Vector v0 = GetLocalVector0();
-			Vector v1;
-			Scalars dots;
-			
-			auto e0 = GetGlobalVector0();
-			auto e1 = GetGlobalVector1();
-			auto e2 = GetGlobalVector2();
 
-			dots.push_back(std::abs(eilig::Dot(v0, e0)));
-			dots.push_back(std::abs(eilig::Dot(v0, e1)));
-			dots.push_back(std::abs(eilig::Dot(v0, e2)));
+		Matrix ElementCombined::FormMatrix_Canonical() const
+		{
+			auto res = Matrix(numberNodes_ * numberDof_, numberNodes_ * numberDof_, eilig::matrix_zeros);
 
-			auto minimum = std::min_element(dots.begin(), dots.end());
-			auto index = std::distance(dots.begin(), minimum);
-
-			switch (index)
+			switch (numberDof_)
 			{
-			case 0:
-				v1 = eilig::Cross(v0, e0);
-				break;
 			case 1:
-				v1 = eilig::Cross(v0, e1);
+				res(0, 0) = +1.0;
+				res(0, 1) = -1.0;
+				res(1, 1) = +1.0;
+				res(1, 0) = -1.0;
+
 				break;
 			case 2:
-				v1 = eilig::Cross(v0, e2);
+				res(0, 0) = +1.0;
+				res(0, 2) = -1.0;
+				res(2, 2) = +1.0;
+				res(2, 0) = -1.0;
+
+				res(1, 1) = +1.0;
+				res(1, 3) = -1.0;
+				res(3, 3) = +1.0;
+				res(3, 1) = -1.0;
+
+				break;
+			case 3:
+				res(0, 0) = +1.0;
+				res(0, 3) = -1.0;
+				res(3, 3) = +1.0;
+				res(3, 0) = -1.0;
+
+				res(1, 1) = +1.0;
+				res(1, 4) = -1.0;
+				res(4, 4) = +1.0;
+				res(4, 1) = -1.0;
+
+				res(2, 2) = +1.0;
+				res(2, 5) = -1.0;
+				res(5, 5) = +1.0;
+				res(5, 2) = -1.0;
+
 				break;
 			}
 
-			auto l1 = eilig::NormP2(v1);
-
-			return (1.0 / l1) * v1;
+			return res;
 		}
-		Vector ElementCombined::GetLocalVector2() const
-		{
-			Vector v0 = GetLocalVector0();
-			Vector v1 = GetLocalVector1();
-
-			return eilig::Cross(v0, v1);
-		}
-
-		Matrix ElementCombined::FormMatrix_Canonical() const
+		Matrix ElementCombined::FormMatrix_Decomposed() const
 		{
 			auto res = Matrix(numberNodes_ * numberDof_, numberNodes_ * numberDof_, eilig::matrix_zeros);
 
@@ -474,10 +493,10 @@ namespace dive
 			switch (numberDof_)
 			{
 			case 1:
-				res(0, 0) = +1.0;
-				res(0, 1) = -1.0;
-				res(1, 1) = +1.0;
-				res(1, 0) = -1.0;
+				res(0, 0) = +dot1;
+				res(0, 1) = -dot1;
+				res(1, 1) = +dot1;
+				res(1, 0) = -dot1;
 
 				break;
 			case 2:

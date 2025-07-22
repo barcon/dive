@@ -4798,6 +4798,9 @@ class ElementCombined(IElement):
     def GetDamping(self):
         return _diveCL.ElementCombined_GetDamping(self)
 
+    def SetCanonical(self, canonical):
+        return _diveCL.ElementCombined_SetCanonical(self, canonical)
+
     def SetStiffness(self, stiffness):
         return _diveCL.ElementCombined_SetStiffness(self, stiffness)
 

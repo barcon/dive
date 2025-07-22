@@ -57,7 +57,7 @@ tableSummary.add_row(["Diffusion Time Ratio", "{:.4f}".format(dt / dt1), "[--]"]
 tableSummary.add_row(["Convection Time Ratio", "{:.4f}".format(dt / dt2), "[--]"])
 print(tableSummary)
 #--------------------------------------------------------------------------------------------------
-#quit()
+
 tolerance   = sizeElement/10.0
 nodesTop    = fluid.FilterNodesByCoordinate(meshVelocity.GetNodes(), basis, fluid.axis_y, meshes.cavity.y, tolerance)
 nodesLeft   = fluid.FilterNodesByCoordinate(meshVelocity.GetNodes(), basis, fluid.axis_x, 0.0, tolerance)

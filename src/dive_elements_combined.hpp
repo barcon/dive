@@ -70,11 +70,13 @@ namespace dive
 			IScalarPtr GetStiffness() const;
 			IScalarPtr GetDamping() const;
 
+			void SetCanonical(bool canonical);
 			void SetStiffness(IScalarPtr stiffness);
 			void SetDamping(IScalarPtr damping);
 
 			void Stiffness(Matrix& output) const;
 			void Damping(Matrix& output) const;
+
 
 		protected:
 			ElementCombined();
@@ -82,12 +84,10 @@ namespace dive
 			Vector GetGlobalVector0() const;
 			Vector GetGlobalVector1() const;
 			Vector GetGlobalVector2() const;
-
 			Vector GetLocalVector0() const;
-			Vector GetLocalVector1() const;
-			Vector GetLocalVector2() const;
 
 			Matrix FormMatrix_Canonical() const;
+			Matrix FormMatrix_Decomposed() const;
 
 			Tag		tag_{ 0 };
 			Type	type_{ element_combined };
@@ -104,6 +104,8 @@ namespace dive
 			const NumberNodes numberNodesEdge_{ 2 };
 			const NumberDimensions numberDimensions_{ dimension_beam };
 			const NumberCoordinates numberCoordinates_{ coordinate_three };
+
+			bool canonical_{ true };
 			
 			static const Scalar localCoordinates_[2][3];
 			static const NodeIndex lookUpTable11_[1 * 2];

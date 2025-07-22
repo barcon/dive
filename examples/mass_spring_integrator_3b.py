@@ -43,6 +43,7 @@ spring.SetNode(0, node1)
 spring.SetNode(1, node2)
 spring.SetStiffness(structural.CreateValueScalar(stiffness))
 spring.SetDamping(structural.CreateValueScalar(damping))
+spring.SetCanonical(False)
 
 body = structural.CreateElementMass(3)
 body.SetNode(0, node2)
