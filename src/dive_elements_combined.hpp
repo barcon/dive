@@ -105,7 +105,7 @@ namespace dive
 			const NumberDimensions numberDimensions_{ dimension_beam };
 			const NumberCoordinates numberCoordinates_{ coordinate_three };
 
-			bool canonical_{ true };
+			bool canonical_{ false };
 			
 			static const Scalar localCoordinates_[2][3];
 			static const NodeIndex lookUpTable11_[1 * 2];

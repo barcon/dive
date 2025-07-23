@@ -26,8 +26,9 @@ segment.thickness = 150.0
 film = bearing.axial.film.SectorParallel(segment)
 film.initialThickness = 0.1
 
-bearing.axial.mesh.Sector('segment.inp', segment, bearing.axial.mesh.sectorParameters)
-bearing.axial.mesh.Sector('film.inp', film, bearing.axial.mesh.filmParameters)
+bearing.axial.mesh.Sector('segment.msh', segment, bearing.axial.mesh.sectorParameters)
+bearing.axial.mesh.Sector('film.msh', film, bearing.axial.mesh.filmParameters)
 
-meshSegment = meshes.routines.LoadMesh(1, 'segment.inp', dof = 3)
-meshFilm = meshes.routines.LoadMesh(1, 'film.inp', dof = 3)
+meshFilm = meshes.routines.LoadMesh(1, 'film.msh', dof = 3)
+meshSegment = meshes.routines.LoadMesh(1, 'segment.msh', dof = 3)
+#meshSegment = meshes.routines.DeformByInterpolation(meshSegment, crowning)
