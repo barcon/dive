@@ -38,7 +38,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NDEBUG;EILIG_ENABLE_OPENCL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\utils\src;..\..\logger\src;..\..\eilig\src;..\..\basis\src;..\..\quadrature\src;..\..\nodes\src;..\..\kdtree\src;..\..\interpolation\src;..\..\values\src;..\..\material\src;..\..\python\include;..\..\club\src;..\..\opencl\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\utils\src;..\..\logger\src;..\..\eilig\src;..\..\basis\src;..\..\quadrature\src;..\..\nodes\src;..\..\kdtree\src;..\..\interpolation\src;..\..\values\src;..\..\material\src;..\..\python\include;..\..\hdf5\include;..\..\cgns\src;..\..\club\src;..\..\opencl\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -51,8 +51,8 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>utils.lib;logger.lib;eilig.lib;basis.lib;quadrature.lib;nodes.lib;kdtree.lib;interpolation.lib;values.lib;material.lib;club.lib;opencl.lib;python313.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\utils\build\Release;..\..\logger\build\Release;..\..\eilig\build\ReleaseCL;..\..\basis\build\Release;..\..\quadrature\build\Release;..\..\nodes\build\Release;..\..\kdtree\build\Release;..\..\interpolation\build\Release;..\..\values\build\Release;..\..\material\build\Release;..\..\club\build\Release;..\..\opencl\lib\x86_64;..\..\python\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>utils.lib;logger.lib;eilig.lib;basis.lib;quadrature.lib;nodes.lib;kdtree.lib;interpolation.lib;values.lib;material.lib;club.lib;opencl.lib;python313.lib;hdf5.lib;cgns.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\utils\build\Release;..\..\logger\build\Release;..\..\eilig\build\ReleaseCL;..\..\basis\build\Release;..\..\quadrature\build\Release;..\..\nodes\build\Release;..\..\kdtree\build\Release;..\..\interpolation\build\Release;..\..\values\build\Release;..\..\material\build\Release;..\..\club\build\Release;..\..\opencl\lib\x86_64;..\..\python\lib;..\..\hdf5\lib;..\..\cgns\build\src\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>PythonCL\_diveCL.lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>

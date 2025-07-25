@@ -3,6 +3,8 @@
 #include "dive_elements.hpp"
 #include "dive_elements_hexa.hpp"
 
+#include "cgnslib.h"
+
 #include <algorithm>
 #include <memory>
 #include <limits>
@@ -638,6 +640,12 @@ namespace dive {
 			TimerElapsed(__FUNCTION__);
 
 			return mesh;
+		}
+		IMeshPtr LoadCGNS(Tag meshTag, String fileName, NumberDof numberDof, Status& status)
+		{
+
+
+			return IMeshPtr();
 		}
 
 		void DeformByInterpolation(IMeshPtr mesh, IInterpolationPtr interpolation)
