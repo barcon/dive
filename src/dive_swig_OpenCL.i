@@ -33,6 +33,7 @@ namespace interpolation
 %include "dive_swig_elements.i"
 %include "dive_swig_loads.i"
 %include "dive_swig_meshes.i"
+%include "dive_swig_weak_forms.i"
 %include "dive_swig_problems.i"
 %include "dive_swig_selection.i"
 
@@ -47,13 +48,16 @@ namespace interpolation
 	using Type = std::size_t;
 
 	using Dimension = std::size_t;
+	using Coordinate = std::size_t;
 	using Index = std::size_t;
 	using DofIndex = Index;
 	using NodeIndex = Index;
 	using ElementIndex = Index;
 	using FaceIndex = Index;
 	using EdgeIndex = Index;
-	using DirichletIndex = Index;
+	using BoundaryConditionIndex = Index;
+	using DimensionIndex = Index;
+	using CoordinateIndex = Index;
 	using CacheIndex = Index;
 
 	using Number = std::size_t;
@@ -61,6 +65,9 @@ namespace interpolation
 	using NumberNodes = Number;
 	using NumberFaces = Number;
 	using NumberEdges = Number;
+	using NumberElements = Number;	
+	using NumberDimensions = Number;	
+	using NumberCoordinates = Number;	
 	
 	using String = std::string;
 %}
