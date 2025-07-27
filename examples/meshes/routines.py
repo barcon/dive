@@ -8,7 +8,7 @@ def LoadMesh(tag, fileName, dof = 1):
     if(extension == '.MSH'):
         mesh, error  = dive.LoadGmsh(tag, fileName, dof, error)
     elif(extension == '.CGNS'):
-        mesh, error = dive.LoadCgns(tag, fileName, dof, error)
+        mesh, error = dive.LoadCGNS(tag, fileName, dof, error)
     else:
         return None   
     

@@ -15,7 +15,7 @@ pressure    = structural.CreateValueScalar3D(p_ref)
 material = materials.solid.unit.Create(1)
 meshFile = 'cube.cgns'
 
-#mesh = meshes.routines.LoadMesh(1, meshFile)
+mesh = meshes.routines.LoadMesh(1, meshFile)
 #meshes.routines.ApplyMaterial(mesh.GetElements(), material)
 
 #structural.CreateProblem(1, mesh, temperature, pressure)

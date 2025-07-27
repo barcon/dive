@@ -261,10 +261,10 @@ namespace dive {
 			if(status == CG_ERROR)
 			{
 				cg_error_exit();
-				logger::Error(dive::headerDive, "File could not be opened: " + dive::messages.at(dive::DIVE_FILE_NOT_OPENED));
 				return mesh;
 			}
 
+			logger::Info(dive::headerDive, "Success!");
 			cg_close(_fileIndex);
 
 			TimerElapsed(__FUNCTION__);
