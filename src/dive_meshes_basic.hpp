@@ -65,9 +65,6 @@ namespace dive
 		Scalar GetSizeMinimum(const Elements& elements);
 		Scalar GetSizeMaximum(const Elements& elements);
 
-		IMeshPtr LoadGmsh(Tag meshTag, String fileName, NumberDof numberDof, Status& status);
-		IMeshPtr LoadCGNS(Tag meshTag, String fileName, NumberDof numberDof, Status& status);
-
 		void DeformByInterpolation(IMeshPtr mesh, IInterpolationPtr interpolation);
 
 	} //namespace meshes

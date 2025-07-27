@@ -3,6 +3,7 @@
 
 	#include "dive_meshes.hpp"
 	#include "dive_meshes_basic.hpp"
+	#include "dive_meshes_load.hpp"
 
 	typedef std::shared_ptr<dive::meshes::IMesh> IMeshPtr;
 	typedef std::shared_ptr<const dive::meshes::IMesh> ConstIMeshPtr;
@@ -34,6 +35,7 @@
 
 %include "dive_meshes.hpp"
 %include "dive_meshes_basic.hpp"
+%include "dive_meshes_load.hpp"
 
 %extend std::vector<std::shared_ptr<nodes::INode>> {
     String __str__() const 

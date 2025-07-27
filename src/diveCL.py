@@ -6143,14 +6143,14 @@ def GetSizeMinimum(elements):
 def GetSizeMaximum(elements):
     return _diveCL.GetSizeMaximum(elements)
 
+def DeformByInterpolation(mesh, interpolation):
+    return _diveCL.DeformByInterpolation(mesh, interpolation)
+
 def LoadGmsh(meshTag, fileName, numberDof, status):
     return _diveCL.LoadGmsh(meshTag, fileName, numberDof, status)
 
 def LoadCGNS(meshTag, fileName, numberDof, status):
     return _diveCL.LoadCGNS(meshTag, fileName, numberDof, status)
-
-def DeformByInterpolation(mesh, interpolation):
-    return _diveCL.DeformByInterpolation(mesh, interpolation)
 class IWeakFormElement(object):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
