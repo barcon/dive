@@ -247,7 +247,11 @@ namespace dive {
 		{
 			TimerStart();
 			
-			int _fileIndex{ 0 };
+			int fileType{ 0 };
+			int fileHandler{ 0 };
+			int numberBases{ 0 };
+			int numberZones{ 0 };
+
 			IMeshPtr mesh{ nullptr };
 
 			mesh = CreateMesh(meshTag);
@@ -257,15 +261,34 @@ namespace dive {
 				return mesh;
 			}
 
-			status = cg_open(fileName.c_str(), CG_MODE_READ, &_fileIndex);
-			if(status == CG_ERROR)
+			status = cg_is_cgns(fileName.c_str(), &fileType);
+			if(status != CG_OK)
 			{
+				logger::Error(dive::headerDive, "File is not a CGNS file: " + dive::messages.at(dive::DIVE_INVALID_FORMAT));
 				cg_error_exit();
 				return mesh;
 			}
 
-			logger::Info(dive::headerDive, "Success!");
-			cg_close(_fileIndex);
+			status = cg_open(fileName.c_str(), CG_MODE_READ, &fileHandler);
+			if(status != CG_OK)
+			{
+				logger::Error(dive::headerDive, "File could not be opened: " + dive::messages.at(dive::DIVE_FILE_NOT_OPENED));
+				cg_error_exit();
+				return mesh;
+			}
+
+			status = cg_nbases(fileHandler, &numberBases);
+			status = cg_nzones(fileHandler, numberBases, &numberZones);
+
+			logger::Info(dive::headerDive, "CGNS file opened successfully. Number of bases: %d", numberBases);
+			logger::Info(dive::headerDive, "CGNS file opened successfully. Number of zones: %d", numberZones);
+			
+			for (int zone = 0; zone < numberZones; ++zone)
+			{
+
+			}
+
+			cg_close(fileHandler);
 
 			TimerElapsed(__FUNCTION__);
 			return mesh;

@@ -1,6 +1,3 @@
-#import os
-#os.add_dll_directory(r"C:\devel\dive\examples")
-
 import materials.solid.unit
 import structural
 import meshes
