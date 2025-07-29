@@ -298,6 +298,22 @@ namespace dive {
 
 				if (cg_ncoords(fileHandler, 1, zone + 1, &numberOfCoordinatesToRead)) cg_error_exit();
 				logger::Info(dive::headerDive, "Number of coordinates: %d", numberOfCoordinatesToRead);
+
+				for (int dimension = 0; dimension < numberOfDimensions; ++dimension) {
+					// get the coordinates information, mainly the type and name. The type is either single or double preciosion and
+					// the coordname is a SIDS-compliant identification, e.g. 'CoordinateX' and 'CoordinateY'      
+					if (cg_coord_info(_fileIndex, 1, zone + 1, dimension + 1, &type, coordname)) cg_error_exit();
+
+					// temporary (1D) coordinate array to store coordinates in
+					std::vector<double> temp(maxVertices);
+					if (cg_coord_read(_fileIndex, 1, zone + 1, coordname, type, &minVertices, &maxVertices, &temp[0]))
+						cg_error_exit();
+
+					// store temporary coordinates in final coordinates array
+					for (int vertex = 0; vertex < maxVertices; ++vertex) {
+						_coordinates[zone][vertex][dimension] = temp[vertex];
+					}
+				}
 			}
 
 			cg_close(fileHandler);
