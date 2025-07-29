@@ -11,8 +11,8 @@ from prettytable import PrettyTable
 T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
 basis       = fluid.CreateBasisCartesian(1)
-timer       = fluid.CreateTimerStepped(1, 0.0, 20000.0, 10.0)
-material    = materials.fluid.water.Create(1, T_ref)
+timer       = fluid.CreateTimerStepped(1, 0.0, 2000.0, 10.0)
+material    = materials.fluid.water.Create(1, T_ref, p_ref)
 meshFile    = 'cavity.msh'
 
 meshes.cavity.quadratic = False
@@ -27,7 +27,7 @@ pressure = fluid.CreateValueScalar3DCongruent(meshPressure)
 velocity = fluid.CreateValueMatrix3DCongruent(meshVelocity)
 
 #--------------------------------------------------------------------------------------------------
-sizeElement = meshVelocity.GetElementSizeMinimum()
+sizeElement = fluid.GetSizeMinimum(meshVelocity.GetElements())
 sizeDomain = meshes.cavity.x
 
 rho = material.GetDensity(T_ref, p_ref)
@@ -67,7 +67,7 @@ nodesFront  = fluid.FilterNodesByCoordinate(meshVelocity.GetNodes(), basis, flui
 nodesBack   = fluid.FilterNodesByCoordinate(meshVelocity.GetNodes(), basis, fluid.axis_z, 0.0, tolerance)
 nodesMiddle = fluid.FilterNodesByCoordinate(meshVelocity.GetNodes(), basis, fluid.axis_x, meshes.cavity.x / 2.0, tolerance)
 
-fluid.momentum.CreateProblem(1, timer, meshVelocity, temperature, pressure)
+fluid.momentum.CreateProblem(1, meshVelocity, temperature, pressure)
 fluid.momentum.ApplyDirichlet(nodesLeft, 0.0)
 fluid.momentum.ApplyDirichlet(nodesRight, 0.0)
 fluid.momentum.ApplyDirichlet(nodesBottom, 0.0)
@@ -82,7 +82,7 @@ nodesCorner = fluid.FilterNodesByCoordinate(meshPressure.GetNodes(), basis, flui
 nodesCorner = fluid.FilterNodesByCoordinate(nodesCorner, basis, fluid.axis_y, 0.0, tolerance)
 elementsDivergence = meshPressure.GetElements()
 
-fluid.pressure.CreateProblem(2, timer, meshPressure, temperature, velocity)
+fluid.pressure.CreateProblem(2, meshPressure, temperature, velocity)
 fluid.pressure.ApplyDirichlet(nodesCorner, 0.0)
 fluid.pressure.Initialize()
 
@@ -106,19 +106,19 @@ while(True):
     dqq = fluid.momentum.PartitionVector(fluid.Vector(fluid.momentum.GetProblem().GetTotalDof(), 0.0))
 
     C = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Convection())
-    monitor = solvers.Iterative(M[3], dq[1], -dt * (K[2] * q0[0] + K[3] * q0[1] + C[2] * q0[0] + C[3] * q0[1]))
+    monitor = solvers.IterativeBiCGStab(M[3], dq[1], -dt * (K[2] * q0[0] + K[3] * q0[1] + C[2] * q0[0] + C[3] * q0[1]))
     q1[0] = q0[0] + dq[0]
     q1[1] = q0[1] + dq[1]
     fluid.momentum.UpdateMeshValuesMomentum(q1)
 
     q = fluid.momentum.GetProblem().Momentum()
     fd = fluid.pressure.PartitionVector(D * q)
-    monitor = solvers.Iterative(H[3], p[1], -H[2] * p[0] - (1.0 / dt) * (fd[1]))
+    monitor = solvers.IterativeBiCGStab(H[3], p[1], -H[2] * p[0] - (1.0 / dt) * (fd[1]))
     fluid.pressure.UpdateMeshValues(p)
     
     p = fluid.pressure.GetProblem().Pressure()
     fc = fluid.momentum.PartitionVector(G * p)
-    monitor = solvers.Iterative(M[3], dqq[1], -dt * (fc[1]))
+    monitor = solvers.IterativeBiCGStab(M[3], dqq[1], -dt * (fc[1]))
 
     q1[0] = q0[0] + dq[0] + dqq[0]
     q1[1] = q0[1] + dq[1] + dqq[1]

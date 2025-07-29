@@ -277,15 +277,27 @@ namespace dive {
 				return mesh;
 			}
 
-			status = cg_nbases(fileHandler, &numberBases);
-			status = cg_nzones(fileHandler, numberBases, &numberZones);
+			if (cg_nbases(fileHandler, &numberBases)) cg_error_exit();
+			if (cg_nzones(fileHandler, numberBases, &numberZones)) cg_error_exit();
 
-			logger::Info(dive::headerDive, "CGNS file opened successfully. Number of bases: %d", numberBases);
-			logger::Info(dive::headerDive, "CGNS file opened successfully. Number of zones: %d", numberZones);
+			logger::Info(dive::headerDive, "Number of bases: %d", numberBases);
+			logger::Info(dive::headerDive, "Number of zones: %d", numberZones);
 			
 			for (int zone = 0; zone < numberZones; ++zone)
 			{
+				int numberOfGrids;
+				int numberOfCoordinatesToRead;
+				
+				ZoneType_t zoneType;
 
+				if (cg_zone_type(fileHandler, 1, zone + 1, &zoneType)) cg_error_exit();
+				logger::Info(dive::headerDive, "Zone type: %d", zoneType);
+
+				if (cg_ngrids(fileHandler, 1, zone + 1, &numberOfGrids)) cg_error_exit();
+				logger::Info(dive::headerDive, "Number of grids: %d", numberOfGrids);
+
+				if (cg_ncoords(fileHandler, 1, zone + 1, &numberOfCoordinatesToRead)) cg_error_exit();
+				logger::Info(dive::headerDive, "Number of coordinates: %d", numberOfCoordinatesToRead);
 			}
 
 			cg_close(fileHandler);

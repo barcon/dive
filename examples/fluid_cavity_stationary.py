@@ -36,7 +36,7 @@ cp = material.GetSpecificHeat(T_ref, p_ref)
 mu = material.GetDynamicViscosity(T_ref, p_ref)
 kinematicViscosity = mu / rho
 
-reynolds = 100.0
+reynolds = 1000.0
 speed = reynolds * mu /(rho * sizeDomain)
 #material.SetDynamicViscosity(fluid.CreateValueScalar2D(mu, 'Dynamic Viscosity', 'mu')) 
 
