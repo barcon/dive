@@ -280,40 +280,30 @@ namespace dive {
 			if (cg_nbases(fileHandler, &numberBases)) cg_error_exit();
 			if (cg_nzones(fileHandler, numberBases, &numberZones)) cg_error_exit();
 
-			logger::Info(dive::headerDive, "Number of bases: %d", numberBases);
-			logger::Info(dive::headerDive, "Number of zones: %d", numberZones);
+			logger::Info(dive::headerDive, "CGNS mesh number of bases: %d", numberBases);
+			logger::Info(dive::headerDive, "CGNS mesh number of zones: %d", numberZones);
 			
-			for (int zone = 0; zone < numberZones; ++zone)
+			for (int zone = 1; zone <= numberZones; ++zone)
 			{
 				int numberOfGrids;
 				int numberOfCoordinatesToRead;
 				
 				ZoneType_t zoneType;
+				DataType_t type;
+				char coordinateName[128];
 
-				if (cg_zone_type(fileHandler, 1, zone + 1, &zoneType)) cg_error_exit();
+				if (cg_zone_type(fileHandler, 1, zone, &zoneType)) cg_error_exit();
+				logger::Info(dive::headerDive, "CGNS mesh zone: %d", zone);
 				logger::Info(dive::headerDive, "Zone type: %d", zoneType);
 
-				if (cg_ngrids(fileHandler, 1, zone + 1, &numberOfGrids)) cg_error_exit();
+				if (cg_ngrids(fileHandler, 1, zone, &numberOfGrids)) cg_error_exit();
 				logger::Info(dive::headerDive, "Number of grids: %d", numberOfGrids);
 
-				if (cg_ncoords(fileHandler, 1, zone + 1, &numberOfCoordinatesToRead)) cg_error_exit();
+				if (cg_ncoords(fileHandler, 1, zone, &numberOfCoordinatesToRead)) cg_error_exit();
 				logger::Info(dive::headerDive, "Number of coordinates: %d", numberOfCoordinatesToRead);
 
-				for (int dimension = 0; dimension < numberOfDimensions; ++dimension) {
-					// get the coordinates information, mainly the type and name. The type is either single or double preciosion and
-					// the coordname is a SIDS-compliant identification, e.g. 'CoordinateX' and 'CoordinateY'      
-					if (cg_coord_info(_fileIndex, 1, zone + 1, dimension + 1, &type, coordname)) cg_error_exit();
-
-					// temporary (1D) coordinate array to store coordinates in
-					std::vector<double> temp(maxVertices);
-					if (cg_coord_read(_fileIndex, 1, zone + 1, coordname, type, &minVertices, &maxVertices, &temp[0]))
-						cg_error_exit();
-
-					// store temporary coordinates in final coordinates array
-					for (int vertex = 0; vertex < maxVertices; ++vertex) {
-						_coordinates[zone][vertex][dimension] = temp[vertex];
-					}
-				}
+				if (cg_coord_info(fileHandler, 1, zone, 1, &type, coordinateName)) cg_error_exit();
+				logger::Info(dive::headerDive, "Type %s: %d", coordinateName, type);
 			}
 
 			cg_close(fileHandler);
