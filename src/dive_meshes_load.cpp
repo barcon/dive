@@ -245,20 +245,63 @@ namespace dive {
 
 		constexpr unsigned int CGNS_MAX_NAME_LENGTH = 256;
 
+		struct Coordinate
+		{
+			int index;
+			
+			String name;			
+			DataType_t type;
+		};
+		using Coordinates = std::vector<Coordinate>;
+
 		struct Zone 
 		{
-			char name[CGNS_MAX_NAME_LENGTH];
-
 			int index;
+			
 			int numberOfGrids;
 			int numberOfCoordinates;
 
+			String name;
 			ZoneType_t type;
 			cgsize_t size;
+			Coordinates coordinates;
 		};
-
 		using Zones = std::vector<Zone>;
 
+		Zone LoadCGNSZone(int fileHandler, int baseIndex, int zoneIndex)
+		{
+			Zone zone;
+
+			zone.index = zoneIndex;
+			zone.name.resize(CGNS_MAX_NAME_LENGTH);
+
+			if (cg_zone_type(fileHandler, baseIndex, zone.index, &zone.type)) cg_error_exit();
+			logger::Info(dive::headerDive, "Zone index: %d", zoneIndex);
+			logger::Info(dive::headerDive, "Zone type: %d", zone.type);
+
+			if (cg_zone_read(fileHandler, baseIndex, zone.index, &zone.name[0], &zone.size)) cg_error_exit();
+			logger::Info(dive::headerDive, "Zone name: %s", zone.name.c_str());
+			logger::Info(dive::headerDive, "Zone size: %d", zone.size);
+
+			if (cg_ngrids(fileHandler, baseIndex, zone.index, &zone.numberOfGrids)) cg_error_exit();
+			logger::Info(dive::headerDive, "Zone number of grids: %d", zone.numberOfGrids);
+
+			if (cg_ncoords(fileHandler, baseIndex, zone.index, &zone.numberOfCoordinates)) cg_error_exit();
+			logger::Info(dive::headerDive, "Zone number of coordinates: %d", zone.numberOfCoordinates);
+			
+			//zone.coordinates.resize(zone.numberOfCoordinates);
+			logger::Info(dive::headerDive, "Achieved");
+			//for (int i = 1; i <= zone.numberOfCoordinates; ++i)
+			//{
+				//zone.coordinates[i - 1].index = i;
+
+				//if (cg_coord_info(fileHandler, baseIndex, zone.index, i, &zone.coordinates[i-1].type, zone.coordinates[i-1].name)) cg_error_exit();
+				//logger::Info(dive::headerDive, "Zone coordinate name %s: %d", zone.coordinates[i-1].name, zone.coordinates[i-1].type);
+				//logger::Info(dive::headerDive, "Zone coordinate name");
+			//}
+			
+			return zone;
+		}
 		IMeshPtr LoadCGNS(Tag meshTag, String fileName, NumberDof numberDof, Status& status)
 		{
 			TimerStart();
@@ -268,6 +311,7 @@ namespace dive {
 			int numberBases{ 0 };
 			int numberZones{ 0 };
 
+			Zones zones;
 			IMeshPtr mesh{ nullptr };
 
 			mesh = CreateMesh(meshTag);
@@ -299,30 +343,10 @@ namespace dive {
 			if (cg_nzones(fileHandler, numberBases, &numberZones)) cg_error_exit();
 			logger::Info(dive::headerDive, "CGNS mesh number of zones: %d", numberZones);
 			
-			for (int zone = 1; zone <= numberZones; ++zone)
+			zones.resize(numberZones);
+			for (int i = 1; i <= numberZones; ++i)
 			{
-				/*
-				int numberOfCoordinatesToRead;
-				
-				DataType_t type;
-				char coordinateName[64];
-
-				if (cg_ngrids(fileHandler, 1, zone, &numberOfGrids)) cg_error_exit();
-				logger::Info(dive::headerDive, "Number of grids: %d", numberOfGrids);
-
-				if (cg_ncoords(fileHandler, 1, zone, &numberOfCoordinatesToRead)) cg_error_exit();
-				logger::Info(dive::headerDive, "Number of coordinates: %d", numberOfCoordinatesToRead);
-
-				if (cg_coord_info(fileHandler, 1, zone, 1, &type, coordinateName)) cg_error_exit();
-				logger::Info(dive::headerDive, "Type %s: %d", coordinateName, type);
-
-				if (cg_zone_type(fileHandler, 1, zone, &zoneType)) cg_error_exit();
-				logger::Info(dive::headerDive, "CGNS mesh zone: %d", zone);
-				logger::Info(dive::headerDive, "Zone type: %d", zoneType);
-
-				if (cg_zone_read(fileHandler, 1, zone, zoneName, &zoneSize)) cg_error_exit();
-				logger::Info(dive::headerDive, "Zone name: %s", zoneName);
-				logger::Info(dive::headerDive, "Zone size: %d", zoneSize);*/
+				zones[i - 1] = LoadCGNSZone(fileHandler, 1, i);
 			}
 
 			cg_close(fileHandler);
