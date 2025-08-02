@@ -243,6 +243,22 @@ namespace dive {
 			return mesh;
 		}
 
+		constexpr unsigned int CGNS_MAX_NAME_LENGTH = 256;
+
+		struct Zone 
+		{
+			char name[CGNS_MAX_NAME_LENGTH];
+
+			int index;
+			int numberOfGrids;
+			int numberOfCoordinates;
+
+			ZoneType_t type;
+			cgsize_t size;
+		};
+
+		using Zones = std::vector<Zone>;
+
 		IMeshPtr LoadCGNS(Tag meshTag, String fileName, NumberDof numberDof, Status& status)
 		{
 			TimerStart();
@@ -278,23 +294,18 @@ namespace dive {
 			}
 
 			if (cg_nbases(fileHandler, &numberBases)) cg_error_exit();
-			if (cg_nzones(fileHandler, numberBases, &numberZones)) cg_error_exit();
-
 			logger::Info(dive::headerDive, "CGNS mesh number of bases: %d", numberBases);
+			
+			if (cg_nzones(fileHandler, numberBases, &numberZones)) cg_error_exit();
 			logger::Info(dive::headerDive, "CGNS mesh number of zones: %d", numberZones);
 			
 			for (int zone = 1; zone <= numberZones; ++zone)
 			{
-				int numberOfGrids;
+				/*
 				int numberOfCoordinatesToRead;
 				
-				ZoneType_t zoneType;
 				DataType_t type;
-				char coordinateName[128];
-
-				if (cg_zone_type(fileHandler, 1, zone, &zoneType)) cg_error_exit();
-				logger::Info(dive::headerDive, "CGNS mesh zone: %d", zone);
-				logger::Info(dive::headerDive, "Zone type: %d", zoneType);
+				char coordinateName[64];
 
 				if (cg_ngrids(fileHandler, 1, zone, &numberOfGrids)) cg_error_exit();
 				logger::Info(dive::headerDive, "Number of grids: %d", numberOfGrids);
@@ -304,6 +315,14 @@ namespace dive {
 
 				if (cg_coord_info(fileHandler, 1, zone, 1, &type, coordinateName)) cg_error_exit();
 				logger::Info(dive::headerDive, "Type %s: %d", coordinateName, type);
+
+				if (cg_zone_type(fileHandler, 1, zone, &zoneType)) cg_error_exit();
+				logger::Info(dive::headerDive, "CGNS mesh zone: %d", zone);
+				logger::Info(dive::headerDive, "Zone type: %d", zoneType);
+
+				if (cg_zone_read(fileHandler, 1, zone, zoneName, &zoneSize)) cg_error_exit();
+				logger::Info(dive::headerDive, "Zone name: %s", zoneName);
+				logger::Info(dive::headerDive, "Zone size: %d", zoneSize);*/
 			}
 
 			cg_close(fileHandler);
