@@ -290,11 +290,29 @@ namespace dive {
 			coordinates.resize(zone.numberOfCoordinates);
 			for (int i = 0; i < zone.numberOfCoordinates; ++i)
 			{
+				Scalars data(zone.size);
+				cgsize_t s_rmin = 1;
+				cgsize_t s_rmax = zone.size;
+
 				coordinates[i].index = i + 1;
 				coordinates[i].name.resize(CGNS_MAX_NAME_LENGTH);
 
 				if (cg_coord_info(fileHandler, baseIndex, zone.index, i + 1, &coordinates[i].type, &coordinates[i].name[0])) cg_error_exit();
 				logger::Info(dive::headerDive, "Zone coordinate name %s: %d", coordinates[i].name.c_str(), coordinates[i].type);
+
+				if(coordinates[i].type != CGNS_ENUMV(RealDouble))
+				{
+					logger::Error(dive::headerDive, "Zone coordinate type is not RealDouble: " + dive::messages.at(dive::DIVE_INVALID_FORMAT));
+					cg_error_exit();
+				}
+
+				if (cg_coord_read(fileHandler, baseIndex, zone.index, coordinates[i].name.c_str(), coordinates[i].type, &s_rmin, &s_rmax, &data[0])) cg_error_exit();
+				logger::Info(dive::headerDive, "Zone coordinate read: %d", zone.size);
+
+				for (int j = 0; j < s_rmax; ++j)
+				{
+					logger::Debug(dive::headerDive, "Zone coordinate %s[%d]: %f", coordinates[i].name.c_str(), j + 1, data[j]);
+				}
 			}
 	
 			return zone;
