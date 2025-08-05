@@ -14,6 +14,8 @@ meshFile = 'cube.cgns'
 
 mesh = meshes.routines.LoadMesh(1, meshFile)
 
+print(mesh.GetNodes())
+
 #meshes.routines.ApplyMaterial(mesh.GetElements(), material)
 
 #structural.CreateProblem(1, mesh, temperature, pressure)

@@ -266,10 +266,9 @@ namespace dive {
 		};
 		using Zones = std::vector<Zone>;
 
-		Zone LoadCGNSZone(int fileHandler, int baseIndex, int zoneIndex)
+		Zone LoadCGNSZone(IMeshPtr& mesh, int fileHandler, int baseIndex, int zoneIndex)
 		{
 			Zone zone;
-			Coordinates coordinates;
 
 			zone.index = zoneIndex;
 			zone.name.resize(CGNS_MAX_NAME_LENGTH);
@@ -286,14 +285,29 @@ namespace dive {
 
 			if (cg_ncoords(fileHandler, baseIndex, zone.index, &zone.numberOfCoordinates)) cg_error_exit();
 			logger::Info(dive::headerDive, "Zone number of coordinates: %d", zone.numberOfCoordinates);
+					
+			Status status{ dive::DIVE_SUCCESS };
+			Scalars data(zone.size);
+			cgsize_t s_rmin = 1;
+			cgsize_t s_rmax = zone.size;
+			Coordinates coordinates(zone.numberOfCoordinates);
+
+			std::cout << mesh.get() << std::endl;
+
+			for (auto j = s_rmin; j <= s_rmax; ++j)
+			{
+				auto node = nodes::CreateNode(j, 0.0, 0.0, 0.0);			
+				mesh->AddNode(node, status, false);
+
+				if (status != dive::DIVE_SUCCESS)
+				{
+					logger::Error(dive::headerDive, "Node could not be added: " + dive::messages.at(status));
+					return zone;
+				}
+			}
 			
-			coordinates.resize(zone.numberOfCoordinates);
 			for (int i = 0; i < zone.numberOfCoordinates; ++i)
 			{
-				Scalars data(zone.size);
-				cgsize_t s_rmin = 1;
-				cgsize_t s_rmax = zone.size;
-
 				coordinates[i].index = i + 1;
 				coordinates[i].name.resize(CGNS_MAX_NAME_LENGTH);
 
@@ -309,9 +323,33 @@ namespace dive {
 				if (cg_coord_read(fileHandler, baseIndex, zone.index, coordinates[i].name.c_str(), coordinates[i].type, &s_rmin, &s_rmax, &data[0])) cg_error_exit();
 				logger::Info(dive::headerDive, "Zone coordinate read: %d", zone.size);
 
-				for (int j = 0; j < s_rmax; ++j)
+				auto& nodes = mesh->GetNodes();
+				if (coordinates[i].name == "CoordinateX")
 				{
-					logger::Debug(dive::headerDive, "Zone coordinate %s[%d]: %f", coordinates[i].name.c_str(), j + 1, data[j]);
+					for (int j = 0; j < s_rmax; ++j)
+					{
+						auto point = nodes[j]->GetPoint();
+						point(0) =  data[j];
+						nodes[j]->SetPoint(point);
+					}
+				}
+				else if(coordinates[i].name == "CoordinateY")
+				{
+					for (int j = 0; j < s_rmax; ++j)
+					{
+						auto point = nodes[j]->GetPoint();
+						point(1) =  data[j];
+						nodes[j]->SetPoint(point);
+					}
+				}
+				else if(coordinates[i].name == "CoordinateZ")
+				{
+					for (int j = 0; j < s_rmax; ++j)
+					{
+						auto point = nodes[j]->GetPoint();
+						point(2) =  data[j];
+						nodes[j]->SetPoint(point);
+					}
 				}
 			}
 	
@@ -366,7 +404,8 @@ namespace dive {
 			zones.resize(numberZones);
 			for (int i = 0; i < numberZones; ++i)
 			{
-				zones[i] = LoadCGNSZone(fileHandler, 1, i + 1);
+				std::cout << mesh.get() << std::endl;
+				zones[i] = LoadCGNSZone(mesh, fileHandler, 1, i + 1);
 			}
 
 			cg_close(fileHandler);
