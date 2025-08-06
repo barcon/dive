@@ -266,6 +266,79 @@ namespace dive {
 		};
 		using Zones = std::vector<Zone>;
 
+		void LoadCGNSCoordinates(IMeshPtr& mesh, int fileHandler, int baseIndex, Zone& zone)
+		{
+			Status status{ dive::DIVE_SUCCESS };
+			Scalars data(zone.size);
+			cgsize_t s_rmin = 1;
+			cgsize_t s_rmax = zone.size;
+			Coordinates coordinates(zone.numberOfCoordinates);
+
+			std::cout << mesh.get() << std::endl;
+
+			for (auto j = s_rmin; j <= s_rmax; ++j)
+			{
+				auto node = nodes::CreateNode(j, 0.0, 0.0, 0.0);
+				mesh->AddNode(node, status, false);
+
+				if (status != dive::DIVE_SUCCESS)
+				{
+					logger::Error(dive::headerDive, "Node could not be added: " + dive::messages.at(status));
+					return zone;
+				}
+			}
+
+			for (int i = 0; i < zone.numberOfCoordinates; ++i)
+			{
+				char buffer[CGNS_MAX_NAME_LENGTH];
+
+				coordinates[i].index = i + 1;
+
+				if (cg_coord_info(fileHandler, baseIndex, zone.index, i + 1, &coordinates[i].type, buffer)) cg_error_exit();
+				logger::Info(dive::headerDive, "Zone coordinate name %s: %d", coordinates[i].name.c_str(), coordinates[i].type);
+
+				coordinates[i].name = String(buffer);
+
+				if (coordinates[i].type != CGNS_ENUMV(RealDouble))
+				{
+					logger::Error(dive::headerDive, "Zone coordinate type is not RealDouble: " + dive::messages.at(dive::DIVE_INVALID_FORMAT));
+					cg_error_exit();
+				}
+
+				if (cg_coord_read(fileHandler, baseIndex, zone.index, coordinates[i].name.c_str(), coordinates[i].type, &s_rmin, &s_rmax, &data[0])) cg_error_exit();
+				logger::Info(dive::headerDive, "Zone coordinate read: %d", zone.size);
+
+				auto& nodes = mesh->GetNodes();
+				if (coordinates[i].name == "CoordinateX")
+				{
+					for (int j = 0; j < s_rmax; ++j)
+					{
+						auto point = nodes[j]->GetPoint();
+						point(0) = data[j];
+						nodes[j]->SetPoint(point);
+					}
+				}
+				else if (coordinates[i].name == "CoordinateY")
+				{
+					for (int j = 0; j < s_rmax; ++j)
+					{
+						auto point = nodes[j]->GetPoint();
+						point(1) = data[j];
+						nodes[j]->SetPoint(point);
+					}
+				}
+				else if (coordinates[i].name == "CoordinateZ")
+				{
+					for (int j = 0; j < s_rmax; ++j)
+					{
+						auto point = nodes[j]->GetPoint();
+						point(2) = data[j];
+						nodes[j]->SetPoint(point);
+					}
+				}
+			}
+
+		}
 		Zone LoadCGNSZone(IMeshPtr& mesh, int fileHandler, int baseIndex, int zoneIndex)
 		{
 			Zone zone;
@@ -285,73 +358,6 @@ namespace dive {
 
 			if (cg_ncoords(fileHandler, baseIndex, zone.index, &zone.numberOfCoordinates)) cg_error_exit();
 			logger::Info(dive::headerDive, "Zone number of coordinates: %d", zone.numberOfCoordinates);
-					
-			Status status{ dive::DIVE_SUCCESS };
-			Scalars data(zone.size);
-			cgsize_t s_rmin = 1;
-			cgsize_t s_rmax = zone.size;
-			Coordinates coordinates(zone.numberOfCoordinates);
-
-			std::cout << mesh.get() << std::endl;
-
-			for (auto j = s_rmin; j <= s_rmax; ++j)
-			{
-				auto node = nodes::CreateNode(j, 0.0, 0.0, 0.0);			
-				mesh->AddNode(node, status, false);
-
-				if (status != dive::DIVE_SUCCESS)
-				{
-					logger::Error(dive::headerDive, "Node could not be added: " + dive::messages.at(status));
-					return zone;
-				}
-			}
-			
-			for (int i = 0; i < zone.numberOfCoordinates; ++i)
-			{
-				coordinates[i].index = i + 1;
-				coordinates[i].name.resize(CGNS_MAX_NAME_LENGTH);
-
-				if (cg_coord_info(fileHandler, baseIndex, zone.index, i + 1, &coordinates[i].type, &coordinates[i].name[0])) cg_error_exit();
-				logger::Info(dive::headerDive, "Zone coordinate name %s: %d", coordinates[i].name.c_str(), coordinates[i].type);
-
-				if(coordinates[i].type != CGNS_ENUMV(RealDouble))
-				{
-					logger::Error(dive::headerDive, "Zone coordinate type is not RealDouble: " + dive::messages.at(dive::DIVE_INVALID_FORMAT));
-					cg_error_exit();
-				}
-
-				if (cg_coord_read(fileHandler, baseIndex, zone.index, coordinates[i].name.c_str(), coordinates[i].type, &s_rmin, &s_rmax, &data[0])) cg_error_exit();
-				logger::Info(dive::headerDive, "Zone coordinate read: %d", zone.size);
-
-				auto& nodes = mesh->GetNodes();
-				if (coordinates[i].name == "CoordinateX")
-				{
-					for (int j = 0; j < s_rmax; ++j)
-					{
-						auto point = nodes[j]->GetPoint();
-						point(0) =  data[j];
-						nodes[j]->SetPoint(point);
-					}
-				}
-				else if(coordinates[i].name == "CoordinateY")
-				{
-					for (int j = 0; j < s_rmax; ++j)
-					{
-						auto point = nodes[j]->GetPoint();
-						point(1) =  data[j];
-						nodes[j]->SetPoint(point);
-					}
-				}
-				else if(coordinates[i].name == "CoordinateZ")
-				{
-					for (int j = 0; j < s_rmax; ++j)
-					{
-						auto point = nodes[j]->GetPoint();
-						point(2) =  data[j];
-						nodes[j]->SetPoint(point);
-					}
-				}
-			}
 	
 			return zone;
 		}
@@ -406,6 +412,9 @@ namespace dive {
 			{
 				std::cout << mesh.get() << std::endl;
 				zones[i] = LoadCGNSZone(mesh, fileHandler, 1, i + 1);
+
+				LoadCGNSCoordinates(mesh, fileHandler, 1, zones[i])
+				//LoadCGNSElements(mesh, fileHandler, 1, zones[i])
 			}
 
 			cg_close(fileHandler);
