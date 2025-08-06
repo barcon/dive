@@ -266,15 +266,13 @@ namespace dive {
 		};
 		using Zones = std::vector<Zone>;
 
-		void LoadCGNSCoordinates(IMeshPtr& mesh, int fileHandler, int baseIndex, Zone& zone)
+		void LoadCGNSNodes(IMeshPtr& mesh, int fileHandler, int baseIndex, Zone& zone)
 		{
 			Status status{ dive::DIVE_SUCCESS };
 			Scalars data(zone.size);
-			cgsize_t s_rmin = 1;
-			cgsize_t s_rmax = zone.size;
+			cgsize_t s_rmin{ 1 };
+			cgsize_t s_rmax{ zone.size };
 			Coordinates coordinates(zone.numberOfCoordinates);
-
-			std::cout << mesh.get() << std::endl;
 
 			for (auto j = s_rmin; j <= s_rmax; ++j)
 			{
@@ -284,7 +282,7 @@ namespace dive {
 				if (status != dive::DIVE_SUCCESS)
 				{
 					logger::Error(dive::headerDive, "Node could not be added: " + dive::messages.at(status));
-					return zone;
+					return;
 				}
 			}
 
@@ -293,11 +291,11 @@ namespace dive {
 				char buffer[CGNS_MAX_NAME_LENGTH];
 
 				coordinates[i].index = i + 1;
-
 				if (cg_coord_info(fileHandler, baseIndex, zone.index, i + 1, &coordinates[i].type, buffer)) cg_error_exit();
-				logger::Info(dive::headerDive, "Zone coordinate name %s: %d", coordinates[i].name.c_str(), coordinates[i].type);
-
+				logger::Info(dive::headerDive, "Zone coordinate name: %s", buffer);
+				logger::Info(dive::headerDive, "Zone coordinate type: %d", coordinates[i].type);
 				coordinates[i].name = String(buffer);
+
 
 				if (coordinates[i].type != CGNS_ENUMV(RealDouble))
 				{
@@ -306,7 +304,7 @@ namespace dive {
 				}
 
 				if (cg_coord_read(fileHandler, baseIndex, zone.index, coordinates[i].name.c_str(), coordinates[i].type, &s_rmin, &s_rmax, &data[0])) cg_error_exit();
-				logger::Info(dive::headerDive, "Zone coordinate read: %d", zone.size);
+				logger::Info(dive::headerDive, "Zone coordinate size: %d", zone.size);
 
 				auto& nodes = mesh->GetNodes();
 				if (coordinates[i].name == "CoordinateX")
@@ -337,7 +335,16 @@ namespace dive {
 					}
 				}
 			}
+		}
+		void LoadCGNSElements(IMeshPtr& mesh, int fileHandler, int baseIndex, Zone& zone)
+		{
+			Status status{ dive::DIVE_SUCCESS };
+			ElementType_t elementType;
+			cgsize_t s_rmin{ 0 };
+			cgsize_t s_rmax{ 0 };
 
+			int numberSections{ 0 };
+			//cg_nsections(fileId, baseId, zoneId, &nSections);
 		}
 		Zone LoadCGNSZone(IMeshPtr& mesh, int fileHandler, int baseIndex, int zoneIndex)
 		{
@@ -410,11 +417,10 @@ namespace dive {
 			zones.resize(numberZones);
 			for (int i = 0; i < numberZones; ++i)
 			{
-				std::cout << mesh.get() << std::endl;
 				zones[i] = LoadCGNSZone(mesh, fileHandler, 1, i + 1);
 
-				LoadCGNSCoordinates(mesh, fileHandler, 1, zones[i])
-				//LoadCGNSElements(mesh, fileHandler, 1, zones[i])
+				LoadCGNSNodes(mesh, fileHandler, 1, zones[i]);
+				LoadCGNSElements(mesh, fileHandler, 1, zones[i]);
 			}
 
 			cg_close(fileHandler);
