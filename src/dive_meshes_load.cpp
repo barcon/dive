@@ -270,11 +270,11 @@ namespace dive {
 		{
 			Status status{ dive::DIVE_SUCCESS };
 			Scalars data(zone.size);
-			cgsize_t s_rmin{ 1 };
-			cgsize_t s_rmax{ zone.size };
+			cgsize_t cmin{ 1 };
+			cgsize_t cmax{ zone.size };
 			Coordinates coordinates(zone.numberOfCoordinates);
 
-			for (auto j = s_rmin; j <= s_rmax; ++j)
+			for (auto j = cmin; j <= cmax; ++j)
 			{
 				auto node = nodes::CreateNode(j, 0.0, 0.0, 0.0);
 				mesh->AddNode(node, status, false);
@@ -288,14 +288,13 @@ namespace dive {
 
 			for (int i = 0; i < zone.numberOfCoordinates; ++i)
 			{
-				char buffer[CGNS_MAX_NAME_LENGTH];
+				char name[CGNS_MAX_NAME_LENGTH];
 
 				coordinates[i].index = i + 1;
-				if (cg_coord_info(fileHandler, baseIndex, zone.index, i + 1, &coordinates[i].type, buffer)) cg_error_exit();
-				logger::Info(dive::headerDive, "Zone coordinate name: %s", buffer);
+				if (cg_coord_info(fileHandler, baseIndex, zone.index, i + 1, &coordinates[i].type, name)) cg_error_exit();
+				logger::Info(dive::headerDive, "Zone coordinate name: %s", name);
 				logger::Info(dive::headerDive, "Zone coordinate type: %d", coordinates[i].type);
-				coordinates[i].name = String(buffer);
-
+				coordinates[i].name = String(name);
 
 				if (coordinates[i].type != CGNS_ENUMV(RealDouble))
 				{
@@ -303,13 +302,13 @@ namespace dive {
 					cg_error_exit();
 				}
 
-				if (cg_coord_read(fileHandler, baseIndex, zone.index, coordinates[i].name.c_str(), coordinates[i].type, &s_rmin, &s_rmax, &data[0])) cg_error_exit();
+				if (cg_coord_read(fileHandler, baseIndex, zone.index, coordinates[i].name.c_str(), coordinates[i].type, &cmin, &cmax, &data[0])) cg_error_exit();
 				logger::Info(dive::headerDive, "Zone coordinate size: %d", zone.size);
 
 				auto& nodes = mesh->GetNodes();
 				if (coordinates[i].name == "CoordinateX")
 				{
-					for (int j = 0; j < s_rmax; ++j)
+					for (int j = 0; j < cmax; ++j)
 					{
 						auto point = nodes[j]->GetPoint();
 						point(0) = data[j];
@@ -318,7 +317,7 @@ namespace dive {
 				}
 				else if (coordinates[i].name == "CoordinateY")
 				{
-					for (int j = 0; j < s_rmax; ++j)
+					for (int j = 0; j < cmax; ++j)
 					{
 						auto point = nodes[j]->GetPoint();
 						point(1) = data[j];
@@ -327,7 +326,7 @@ namespace dive {
 				}
 				else if (coordinates[i].name == "CoordinateZ")
 				{
-					for (int j = 0; j < s_rmax; ++j)
+					for (int j = 0; j < cmax; ++j)
 					{
 						auto point = nodes[j]->GetPoint();
 						point(2) = data[j];
@@ -335,16 +334,81 @@ namespace dive {
 					}
 				}
 			}
+
+			mesh->SortNodesTag();
 		}
-		void LoadCGNSElements(IMeshPtr& mesh, int fileHandler, int baseIndex, Zone& zone)
+		void LoadCGNSElements(IMeshPtr& mesh, int fileHandler, int baseIndex, Zone& zone, NumberDof numberDof)
 		{
 			Status status{ dive::DIVE_SUCCESS };
 			ElementType_t elementType;
-			cgsize_t s_rmin{ 0 };
-			cgsize_t s_rmax{ 0 };
+			cgsize_t emin{ 0 };
+			cgsize_t emax{ 0 };
 
 			int numberSections{ 0 };
-			//cg_nsections(fileId, baseId, zoneId, &nSections);
+			int boundary;
+			int parentFlag;
+			
+			char name[CGNS_MAX_NAME_LENGTH];
+
+			if (cg_nsections(fileHandler, baseIndex, zone.index, &numberSections)) cg_error_exit();
+			logger::Info(dive::headerDive, "Zone number of sections: %d", numberSections);
+
+			for (int i = 0; i < numberSections; i++)
+			{
+				if (cg_section_read(fileHandler, baseIndex, zone.index, i + 1, name, &elementType, &emin, &emax, &boundary, &parentFlag)) cg_error_exit();
+
+				switch (elementType)
+				{
+				case HEXA_8: // element_hexa8
+				{
+					auto element = elements::CreateElementHexa(Tag(i + 1));
+					element->SetOrder(elements::order_linear);
+					element->SetParametric(elements::parametric_linear);
+					element->SetNumberDof(numberDof);
+
+					std::vector<cgsize_t> connectivity(element->GetNumberNodes());
+
+					if(cg_elements_read(fileHandler, baseIndex, zone.index, i + 1, &connectivity[0], NULL)) cg_error_exit();
+
+					for (NumberNodes k = 0; k < element->GetNumberNodes(); ++k)
+					{
+						auto nodeTag = connectivity[k];
+						auto node = mesh->GetNodeSorted(nodeTag, status);
+
+						element->SetNode(k, node);
+					}
+
+					mesh->AddElement(element, status, false);
+
+					break;
+				}
+				case HEXA_20: //element_hexa20
+				{
+					auto element = elements::CreateElementHexa(Tag(i + 1));
+					element->SetOrder(elements::order_quadratic);
+					element->SetParametric(elements::parametric_quadratic);
+					element->SetNumberDof(numberDof);
+
+					std::vector<cgsize_t> connectivity(element->GetNumberNodes());
+
+					if (cg_elements_read(fileHandler, baseIndex, zone.index, i + 1, &connectivity[0], NULL)) cg_error_exit();
+
+					for (NumberNodes k = 0; k < element->GetNumberNodes(); ++k)
+					{
+						auto nodeTag = connectivity[k];
+						auto node = mesh->GetNodeSorted(nodeTag, status);
+
+						element->SetNode(k, node);
+					}
+
+					mesh->AddElement(element, status, false);
+					break;
+				}
+				default:
+					continue;
+				}
+				
+			}
 		}
 		Zone LoadCGNSZone(IMeshPtr& mesh, int fileHandler, int baseIndex, int zoneIndex)
 		{
@@ -420,7 +484,7 @@ namespace dive {
 				zones[i] = LoadCGNSZone(mesh, fileHandler, 1, i + 1);
 
 				LoadCGNSNodes(mesh, fileHandler, 1, zones[i]);
-				LoadCGNSElements(mesh, fileHandler, 1, zones[i]);
+				LoadCGNSElements(mesh, fileHandler, 1, zones[i], numberDof);
 			}
 
 			cg_close(fileHandler);

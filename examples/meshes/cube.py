@@ -8,7 +8,7 @@ nx = 2
 ny = 2
 nz = 2
 
-quadratic = False
+quadratic = True
 
 def Create(fileName):
     gmsh.initialize()
