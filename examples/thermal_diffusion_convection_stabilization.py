@@ -20,7 +20,7 @@ basis       = thermal.CreateBasisCartesian(1)
 timer       = thermal.CreateTimerStationary(1, 0.0)
 pressure    = thermal.CreateValueScalar3D(p_ref)
 material    = materials.fluid.VG46.Create(1, 68, T_ref)
-meshFile    = 'beam.msh'
+meshFile    = 'beam.cgns'
 
 meshes.beam.quadratic = True
 meshes.beam.Create(meshFile)

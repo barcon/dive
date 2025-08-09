@@ -10,7 +10,7 @@ basis       = thermal.CreateBasisCartesian(1)
 timer       = thermal.CreateTimerStationary(1, 0.0)
 pressure    = thermal.CreateValueScalar3D(p_ref)
 material    = materials.fluid.VG46.Create(1, T_ref, p_ref)
-meshFile    = 'cavity.msh'
+meshFile    = 'cavity.cgns'
 
 meshes.cavity.quadratic = False
 meshes.cavity.Create(meshFile)
