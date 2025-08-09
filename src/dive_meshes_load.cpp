@@ -11,8 +11,8 @@
 
 namespace dive {
 	namespace meshes {
-		const NodeIndex	lookUpTableType5[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };
-		const NodeIndex	lookUpTableType17[20] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 11, 13, 9, 16, 18, 19, 17, 10, 12, 14, 15 };
+		const NodeIndex	lookUpTableGmshHexa8[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+		const NodeIndex	lookUpTableGmshHexa20[20] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 11, 13, 9, 16, 18, 19, 17, 10, 12, 14, 15 };
 
 		void LoadGmshFormat(IMeshPtr mesh, const Strings& data)
 		{
@@ -117,7 +117,7 @@ namespace dive {
 
 						for (NumberNodes k = 0; k < element->GetNumberNodes(); ++k)
 						{
-							auto nodeTag = utils::string::ConvertTo<Tag>(split[lookUpTableType5[k] + 1]);
+							auto nodeTag = utils::string::ConvertTo<Tag>(split[lookUpTableGmshHexa8[k] + 1]);
 							auto node = mesh->GetNodeSorted(nodeTag, status);
 
 							element->SetNode(k, node);
@@ -136,7 +136,7 @@ namespace dive {
 
 						for (NumberNodes k = 0; k < element->GetNumberNodes(); ++k)
 						{
-							auto nodeTag = utils::string::ConvertTo<Tag>(split[lookUpTableType17[k] + 1]);
+							auto nodeTag = utils::string::ConvertTo<Tag>(split[lookUpTableGmshHexa20[k] + 1]);
 							auto node = mesh->GetNodeSorted(nodeTag, status);
 
 							element->SetNode(k, node);
@@ -242,6 +242,9 @@ namespace dive {
 
 			return mesh;
 		}
+
+		const NodeIndex	lookUpTableCGNSHexa8[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+		const NodeIndex	lookUpTableCGNSHexa20[20] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 16, 17, 18, 19, 12, 13, 14, 15 };
 
 		constexpr unsigned int CGNS_MAX_NAME_LENGTH = 256;
 
@@ -375,7 +378,7 @@ namespace dive {
 						auto nodeTag = connectivity[k];
 						auto node = mesh->GetNodeSorted(nodeTag, status);
 
-						element->SetNode(k, node);
+						element->SetNode(lookUpTableCGNSHexa8[k], node);
 					}
 
 					mesh->AddElement(element, status, false);
@@ -398,7 +401,7 @@ namespace dive {
 						auto nodeTag = connectivity[k];
 						auto node = mesh->GetNodeSorted(nodeTag, status);
 
-						element->SetNode(k, node);
+						element->SetNode(lookUpTableCGNSHexa20[k], node);
 					}
 
 					mesh->AddElement(element, status, false);
