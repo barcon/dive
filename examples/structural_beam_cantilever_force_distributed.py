@@ -10,9 +10,12 @@ p_ref = 101325.1  #[N/m²]   =  1 [atm]
 basis = structural.CreateBasisCartesian(1)
 timer = structural.CreateTimerStationary(1, 0.0)
 steel = materials.solid.steel.Create(1)
+meshFile = 'beam.cgns'
 
-meshes.beam.Create('beam.cgns')
-mesh = meshes.routines.LoadMesh(1, 'beam.cgns', dof = 3)
+meshes.beam.quadratic = True
+meshes.beam.Create(meshFile)
+
+mesh = meshes.routines.LoadMesh(1, meshFile, dof = 3)
 meshes.routines.ApplyMaterial(mesh.GetElements(), steel)
 
 temperature = structural.CreateValueScalar3D(T_ref)
@@ -20,15 +23,15 @@ pressure = structural.CreateValueScalar3D(p_ref)
 
 nodesLeft = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structural.axis_x, 0.0, 0.001)
 
-gravity = structural.Vector(3)
-gravity[0] = 0.0
-gravity[1] = 1000000.0
-gravity[2] = 0.0
-weight = structural.CreateValueVector3D(steel.GetDensity(T_ref, p_ref) * gravity)
+load = structural.Vector(3)
+load[0] = 0.0
+load[1] = -1000000.0
+load[2] = 0.0
+loadValue = structural.CreateValueVector3D(steel.GetDensity(T_ref, p_ref) * load)
 
 structural.CreateProblem(1, mesh, temperature, pressure)
 structural.ApplyDirichlet(nodesLeft, 0.0)
-structural.ApplyLoadDistributedVolume(mesh.GetElements(), weight)
+structural.ApplyLoadDistributedVolume(mesh.GetElements(), loadValue)
 structural.Initialize()
 
 #--------------------------------------------------------------------------------------------------

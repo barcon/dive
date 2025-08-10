@@ -12,7 +12,7 @@ pressure    = thermal.CreateValueScalar3D(p_ref)
 material    = materials.fluid.VG46.Create(1, T_ref, p_ref)
 meshFile    = 'cavity.cgns'
 
-meshes.cavity.quadratic = False
+meshes.cavity.quadratic = True
 meshes.cavity.Create(meshFile)
 mesh = meshes.routines.LoadMesh(1, meshFile)
 meshes.routines.ApplyMaterial(mesh.GetElements(), material)

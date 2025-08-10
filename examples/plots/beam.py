@@ -17,10 +17,10 @@ def Cantilever(nodes, dof) -> None:
     ax.grid(True)    
     ax.set_title("Cantilever Beam Deflection")
 
-    y0 = f[0] if f[-1] > f[0] else f[-1]
+    #y0 = f[0] if f[-1] > f[0] else f[-1]
     y1 = f[-1] if f[-1] > f[0] else f[0]
 
-    plt.ylim(y0, y1)
+    #plt.ylim(y0, y1)
     plt.xlim(min(x), max(x))
     #ax.grid(which = "both", linestyle = "dashed")
     ax.grid(which = "major", linewidth = 1)

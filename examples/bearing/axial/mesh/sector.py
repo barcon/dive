@@ -13,12 +13,12 @@ class Parameters:
 sectorParameters = Parameters(3, 20, 20, 10)
 filmParameters = Parameters(3, 20, 20, 5)
 
-def Sector(fileName, segment, meshParameters):
+def Sector(input, meshParameters):
     gmsh.initialize()
     gmsh.option.setNumber("General.Terminal", 1)
-    gmsh.model.add(fileName)
+    gmsh.model.add(input.fileName)
     
-    points = segment.GetPoints()
+    points = input.GetPoints()
     length = len(points)
 
     for i in range(0, length):
@@ -196,9 +196,9 @@ def Sector(fileName, segment, meshParameters):
     gmsh.model.mesh.generate(3)       
     gmsh.model.mesh.setOrder(2)    
     
-    gmsh.write(fileName)
+    gmsh.write(input.fileName)
     gmsh.finalize()
     
-    print("[INFO]: Mesh generated. Filename:", fileName) 
+    print("[INFO]: Mesh generated. Filename:", input.fileName) 
 
     return

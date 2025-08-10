@@ -5,9 +5,10 @@ from dataclasses import dataclass, field
 
 @dataclass
 class SectorParallel:
-    type = "axial"
-    shape = "sector"
-    chamfer = "none"
+    fileName: str = ""    
+    type: str = "axial"
+    shape: str = "sector"
+    chamfer = None
     chamferDepth: float = 0.0
     chamferLength: float = 0.0
     chamferAngle: float = 0.0
@@ -19,7 +20,7 @@ class SectorParallel:
     groove: float = 0.0
  
     def SetChamferNone(self):
-        self.chamfer = "none"
+        self.chamfer = None
         return
     
     def SetChamferParallel(self, length, depth):
@@ -97,7 +98,7 @@ class SectorParallel:
         x1 = 0.0
         y1 = 0.0
 
-        if self.chamfer == "none":
+        if self.chamfer == None:
             xt = (x8 + x3) / 2.0
             yt = (y8 + y3) / 2.0
 

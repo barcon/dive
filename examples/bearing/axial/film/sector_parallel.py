@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 @dataclass
 class SectorParallel:
     segment = None
+    fileName: str = ""
     initialThickness: float = 0.1
 
     def __init__(self, segment):
@@ -64,7 +65,7 @@ class SectorParallel:
         x1 = 0.0
         y1 = 0.0
 
-        if self.segment.chamfer == "none":
+        if self.segment.chamfer == None:
             xt = (x8 + x3) / 2.0
             yt = (y8 + y3) / 2.0
 

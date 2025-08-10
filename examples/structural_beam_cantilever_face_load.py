@@ -10,9 +10,12 @@ p_ref = 101325.1  #[N/m²]   =  1 [atm]
 basis = structural.CreateBasisCartesian(1)
 timer = structural.CreateTimerStationary(1, 0.0)
 steel = materials.solid.steel.Create(1)
+meshFile = 'beam.cgns'
 
-meshes.beam.Create('beam.cgns')
-mesh = meshes.routines.LoadMesh(1, 'beam.cgns', dof = 3)
+meshes.beam.quadratic = True
+meshes.beam.Create(meshFile)
+
+mesh = meshes.routines.LoadMesh(1, meshFile, dof = 3)
 meshes.routines.ApplyMaterial(mesh.GetElements(), steel)
 
 temperature = structural.CreateValueScalar3D(T_ref)

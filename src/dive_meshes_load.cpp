@@ -260,8 +260,9 @@ namespace dive {
 		struct Zone 
 		{
 			int index;
-			int numberOfGrids;
-			int numberOfCoordinates;
+			int numberGrids;
+			int numberCoordinates;
+			int numberSections;
 
 			String name;
 			ZoneType_t type;
@@ -275,7 +276,7 @@ namespace dive {
 			Scalars data(zone.size);
 			cgsize_t cmin{ 1 };
 			cgsize_t cmax{ zone.size };
-			Coordinates coordinates(zone.numberOfCoordinates);
+			Coordinates coordinates(zone.numberCoordinates);
 
 			for (auto j = cmin; j <= cmax; ++j)
 			{
@@ -289,7 +290,7 @@ namespace dive {
 				}
 			}
 
-			for (int i = 0; i < zone.numberOfCoordinates; ++i)
+			for (int i = 0; i < zone.numberCoordinates; ++i)
 			{
 				char name[CGNS_MAX_NAME_LENGTH];
 
@@ -347,16 +348,12 @@ namespace dive {
 			cgsize_t emin{ 0 };
 			cgsize_t emax{ 0 };
 
-			int numberSections{ 0 };
 			int boundary;
 			int parentFlag;
 			
 			char name[CGNS_MAX_NAME_LENGTH];
 
-			if (cg_nsections(fileHandler, baseIndex, zone.index, &numberSections)) cg_error_exit();
-			logger::Info(dive::headerDive, "Zone number of sections: %d", numberSections);
-
-			for (int i = 0; i < numberSections; i++)
+			for (int i = 0; i < zone. numberSections; i++)
 			{
 				if (cg_section_read(fileHandler, baseIndex, zone.index, i + 1, name, &elementType, &emin, &emax, &boundary, &parentFlag)) cg_error_exit();
 
@@ -364,53 +361,64 @@ namespace dive {
 				{
 				case HEXA_8: // element_hexa8
 				{
-					auto element = elements::CreateElementHexa(Tag(i + 1));
-					element->SetOrder(elements::order_linear);
-					element->SetParametric(elements::parametric_linear);
-					element->SetNumberDof(numberDof);
-
-					auto numberConnectivities = element->GetNumberNodes() * (emax - emin + 1);
-					auto numberElements = NumberElements((emax - emin + 1));
-
+					auto numberElements = NumberElements(emax - emin + 1);
+					auto numberNodes = NumberNodes(8);
+					auto numberConnectivities = numberNodes * numberElements;
+					
 					std::vector<cgsize_t> connectivity(numberConnectivities);
 
 					if(cg_elements_read(fileHandler, baseIndex, zone.index, i + 1, &connectivity[0], NULL)) cg_error_exit();
+					logger::Info(dive::headerDive, "Zone number of connectivities: %lu", numberConnectivities);
 
 					for (ElementIndex j = 0; j < numberElements; ++j)
 					{
-						for(NodeIndex k = 0; k < element->GetNumberNodes(); ++k)
+						auto element = elements::CreateElementHexa(Tag(i + 1));
+						element->SetOrder(elements::order_linear);
+						element->SetParametric(elements::parametric_linear);
+						element->SetNumberDof(numberDof);
+
+						for(NodeIndex k = 0; k < numberNodes; ++k)
 						{
-							auto nodeTag = connectivity[j * element->GetNumberNodes() + k];
+							auto nodeTag = connectivity[j * numberNodes + k];
 							auto node = mesh->GetNodeSorted(nodeTag, status);
 
 							element->SetNode(lookUpTableCGNSHexa8[k], node);
 						}
+						
+						mesh->AddElement(element, status, false);
 					}
-
-					mesh->AddElement(element, status, false);
 
 					break;
 				}
 				case HEXA_20: //element_hexa20
 				{
-					auto element = elements::CreateElementHexa(Tag(i + 1));
-					element->SetOrder(elements::order_quadratic);
-					element->SetParametric(elements::parametric_quadratic);
-					element->SetNumberDof(numberDof);
+					auto numberElements = NumberElements(emax - emin + 1);
+					auto numberNodes = NumberNodes(20);
+					auto numberConnectivities = numberNodes * numberElements;
 
-					std::vector<cgsize_t> connectivity(element->GetNumberNodes());
+					std::vector<cgsize_t> connectivity(numberConnectivities);
 
 					if (cg_elements_read(fileHandler, baseIndex, zone.index, i + 1, &connectivity[0], NULL)) cg_error_exit();
+					logger::Info(dive::headerDive, "Zone number of connectivities: %lu", numberConnectivities);
 
-					for (NumberNodes k = 0; k < element->GetNumberNodes(); ++k)
+					for (ElementIndex j = 0; j < numberElements; ++j)
 					{
-						auto nodeTag = connectivity[k];
-						auto node = mesh->GetNodeSorted(nodeTag, status);
+						auto element = elements::CreateElementHexa(Tag(i + 1));
+						element->SetOrder(elements::order_quadratic);
+						element->SetParametric(elements::parametric_quadratic);
+						element->SetNumberDof(numberDof);
 
-						element->SetNode(lookUpTableCGNSHexa20[k], node);
+						for (NodeIndex k = 0; k < numberNodes; ++k)
+						{
+							auto nodeTag = connectivity[j * numberNodes + k];
+							auto node = mesh->GetNodeSorted(nodeTag, status);
+
+							element->SetNode(lookUpTableCGNSHexa20[k], node);
+						}
+
+						mesh->AddElement(element, status, false);
 					}
 
-					mesh->AddElement(element, status, false);
 					break;
 				}
 				default:
@@ -433,11 +441,14 @@ namespace dive {
 			logger::Info(dive::headerDive, "Zone type: %d", zone.type);
 			logger::Info(dive::headerDive, "Zone size: %d", zone.size);
 
-			if (cg_ngrids(fileHandler, baseIndex, zone.index, &zone.numberOfGrids)) cg_error_exit();
-			logger::Info(dive::headerDive, "Zone number of grids: %d", zone.numberOfGrids);
+			if (cg_ngrids(fileHandler, baseIndex, zone.index, &zone.numberGrids)) cg_error_exit();
+			logger::Info(dive::headerDive, "Zone number of grids: %d", zone.numberGrids);
 
-			if (cg_ncoords(fileHandler, baseIndex, zone.index, &zone.numberOfCoordinates)) cg_error_exit();
-			logger::Info(dive::headerDive, "Zone number of coordinates: %d", zone.numberOfCoordinates);
+			if (cg_nsections(fileHandler, baseIndex, zone.index, &zone.numberSections)) cg_error_exit();
+			logger::Info(dive::headerDive, "Zone number of sections: %d", zone.numberSections);
+
+			if (cg_ncoords(fileHandler, baseIndex, zone.index, &zone.numberCoordinates)) cg_error_exit();
+			logger::Info(dive::headerDive, "Zone number of coordinates: %d", zone.numberCoordinates);
 	
 			return zone;
 		}
@@ -504,79 +515,3 @@ namespace dive {
 		}
 	} // namespace meshes
 } // namespace dive
-
-/*
-		void LoadCGNSElements(IMeshPtr& mesh, int fileHandler, int baseIndex, Zone& zone, NumberDof numberDof)
-		{
-			Status status{ dive::DIVE_SUCCESS };
-			ElementType_t elementType;
-			cgsize_t emin{ 0 };
-			cgsize_t emax{ 0 };
-
-			int numberSections{ 0 };
-			int boundary;
-			int parentFlag;
-
-			char name[CGNS_MAX_NAME_LENGTH];
-
-			if (cg_nsections(fileHandler, baseIndex, zone.index, &numberSections)) cg_error_exit();
-			logger::Info(dive::headerDive, "Zone number of sections: %d", numberSections);
-
-			for (int i = 0; i < numberSections; i++)
-			{
-				if (cg_section_read(fileHandler, baseIndex, zone.index, i + 1, name, &elementType, &emin, &emax, &boundary, &parentFlag)) cg_error_exit();
-
-				switch (elementType)
-				{
-				case HEXA_8: // element_hexa8
-				{
-					auto element = elements::CreateElementHexa(Tag(i + 1));
-					element->SetOrder(elements::order_linear);
-					element->SetParametric(elements::parametric_linear);
-					element->SetNumberDof(numberDof);
-
-					std::vector<cgsize_t> connectivity(element->GetNumberNodes());
-
-					if(cg_elements_read(fileHandler, baseIndex, zone.index, i + 1, &connectivity[0], NULL)) cg_error_exit();
-
-					for (NumberNodes k = 0; k < element->GetNumberNodes(); ++k)
-					{
-						auto nodeTag = connectivity[k];
-						auto node = mesh->GetNodeSorted(nodeTag, status);
-
-						element->SetNode(lookUpTableCGNSHexa8[k], node);
-					}
-
-					mesh->AddElement(element, status, false);
-
-					break;
-				}
-				case HEXA_20: //element_hexa20
-				{
-					auto element = elements::CreateElementHexa(Tag(i + 1));
-					element->SetOrder(elements::order_quadratic);
-					element->SetParametric(elements::parametric_quadratic);
-					element->SetNumberDof(numberDof);
-
-					std::vector<cgsize_t> connectivity(element->GetNumberNodes());
-
-					if (cg_elements_read(fileHandler, baseIndex, zone.index, i + 1, &connectivity[0], NULL)) cg_error_exit();
-
-					for (NumberNodes k = 0; k < element->GetNumberNodes(); ++k)
-					{
-						auto nodeTag = connectivity[k];
-						auto node = mesh->GetNodeSorted(nodeTag, status);
-
-						element->SetNode(lookUpTableCGNSHexa20[k], node);
-					}
-
-					mesh->AddElement(element, status, false);
-					break;
-				}
-				default:
-					continue;
-				}
-
-			}
-		}
-*/

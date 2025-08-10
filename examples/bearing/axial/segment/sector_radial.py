@@ -5,9 +5,10 @@ from dataclasses import dataclass, field
 
 @dataclass
 class SectorRadial:
-    type = "axial"
-    shape = "sector"
-    chamfer = "none"
+    fileName: str = ""
+    type: str = "axial"
+    shape: str = "sector"
+    chamfer = None
     chamferDepth: float = 0.0
     chamferLength: float = 0.0
     chamferAngle: float = 0.0
@@ -19,7 +20,7 @@ class SectorRadial:
     angle: float = 0.0
  
     def SetChamferNone(self):
-        self.chamfer = "none"
+        self.chamfer = None
         return
     
     def SetChamferParallel(self, length, depth):
@@ -88,7 +89,7 @@ class SectorRadial:
         x1 = 0.0
         y1 = 0.0
 
-        if self.chamfer == "none":
+        if self.chamfer == None:
             alpha3 = alpha2 / 2.0
 
             x12 = radiusInner * math.cos(alpha3)
