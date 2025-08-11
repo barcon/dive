@@ -12,7 +12,11 @@ quadratic = True
 
 def Create(fileName):
     gmsh.initialize()
+    
     gmsh.option.setNumber("General.Terminal", 1)
+    gmsh.option.setNumber("Mesh.SaveAll", 1)    
+    gmsh.option.setNumber('Mesh.SecondOrderIncomplete', 1)  
+    
     gmsh.model.add(fileName)
 
     gmsh.model.geo.addPoint(-x/2.0, -y/2.0, -z/2.0, 0, 1)
@@ -53,9 +57,10 @@ def Create(fileName):
 
     gmsh.model.geo.addSurfaceLoop([1, 2, 3, 4, 5, 6], 1)
     gmsh.model.geo.addVolume([1], 1)
+
     gmsh.model.geo.synchronize()
     
-    gmsh.option.setNumber('Mesh.SecondOrderIncomplete', 1)  
+    gmsh.model.addPhysicalGroup(2, [5], name="My surface")
 
     gmsh.model.mesh.setTransfiniteCurve( 1, nx, "Progression", 1.00)
     gmsh.model.mesh.setTransfiniteCurve( 3, nx, "Progression", 1.00)

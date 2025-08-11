@@ -270,6 +270,19 @@ namespace dive {
 		};
 		using Zones = std::vector<Zone>;
 
+		struct Family
+		{
+			int index;
+			int isBoundaryCondition;
+			int numberGeometry;
+
+			String name;
+			String nameBoundaryCondition;
+
+			BCType_t familyBoundaryType;
+		};
+		using Families = std::vector<Family>;
+
 		void LoadCGNSNodes(IMeshPtr& mesh, int fileHandler, int baseIndex, Zone& zone)
 		{
 			Status status{ dive::DIVE_SUCCESS };
@@ -427,6 +440,38 @@ namespace dive {
 				
 			}
 		}
+		Families LoadCGNSFamilies(int fileHandler, int baseIndex)
+		{
+			char name[CGNS_MAX_NAME_LENGTH];
+			int numberFamilies{ 0 };
+			int numberNames{ 0 };
+
+			Families families;
+
+			if (cg_nfamilies(fileHandler, baseIndex, &numberFamilies)) cg_error_exit();
+
+			families.resize(numberFamilies);
+			for (int i = 0; i < numberFamilies; ++i)
+			{
+
+				if (cg_family_read(fileHandler, 1, i + 1, name, &families[i].isBoundaryCondition, &families[i].numberGeometry)) cg_error_exit();
+				families[i].name = String(name);
+
+				if (cg_nfamily_names(fileHandler, baseIndex, i+1, &numberNames)) cg_error_exit();
+
+				if (numberNames > 0)
+				{
+					char nameNode[CGNS_MAX_NAME_LENGTH];
+					char nameFamily[CGNS_MAX_NAME_LENGTH];
+
+					if (cg_family_name_read(fileHandler, baseIndex, i+1, 1, nameNode, nameFamily)) cg_error_exit();
+					logger::Info(dive::headerDive, "CGNS family name: %s", nameFamily);
+					logger::Info(dive::headerDive, "CGNS node name: %s", nameNode);
+				}
+			}
+
+			return families;
+		}
 		Zone LoadCGNSZone(IMeshPtr& mesh, int fileHandler, int baseIndex, int zoneIndex)
 		{
 			Zone zone;
@@ -464,6 +509,7 @@ namespace dive {
 			float version{ 0.0f };
 
 			Zones zones;
+			Families families;
 			IMeshPtr mesh{ nullptr };
 
 			mesh = CreateMesh(meshTag);
@@ -495,7 +541,7 @@ namespace dive {
 			if (cg_nbases(fileHandler, &numberBases)) cg_error_exit();
 			logger::Info(dive::headerDive, "CGNS mesh number of bases: %d", numberBases);
 			
-			if (cg_nzones(fileHandler, numberBases, &numberZones)) cg_error_exit();
+			if (cg_nzones(fileHandler, 1, &numberZones)) cg_error_exit();
 			logger::Info(dive::headerDive, "CGNS mesh number of zones: %d", numberZones);
 			
 			zones.resize(numberZones);
@@ -506,6 +552,8 @@ namespace dive {
 				LoadCGNSNodes(mesh, fileHandler, 1, zones[i]);
 				LoadCGNSElements(mesh, fileHandler, 1, zones[i], numberDof);
 			}
+
+			families = LoadCGNSFamilies(fileHandler, 1);
 
 			cg_close(fileHandler);
 			logger::Info(dive::headerDive, "CGNS mesh loading finished");
