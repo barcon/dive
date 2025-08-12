@@ -298,7 +298,7 @@ namespace dive {
 
 				if (status != dive::DIVE_SUCCESS)
 				{
-					logger::Error(dive::headerDive, "Node could not be added: " + dive::messages.at(status));
+					logger::Error(dive::headerDive, "CGNS Node could not be added: " + dive::messages.at(status));
 					return;
 				}
 			}
@@ -309,18 +309,18 @@ namespace dive {
 
 				coordinates[i].index = i + 1;
 				if (cg_coord_info(fileHandler, baseIndex, zone.index, i + 1, &coordinates[i].type, name)) cg_error_exit();
-				logger::Info(dive::headerDive, "Zone coordinate name: %s", name);
-				logger::Info(dive::headerDive, "Zone coordinate type: %d", coordinates[i].type);
+				logger::Info(dive::headerDive, "CGNS Zone coordinate name: %s", name);
+				logger::Info(dive::headerDive, "CGNS Zone coordinate type: %d", coordinates[i].type);
 				coordinates[i].name = String(name);
 
 				if (coordinates[i].type != CGNS_ENUMV(RealDouble))
 				{
-					logger::Error(dive::headerDive, "Zone coordinate type is not RealDouble: " + dive::messages.at(dive::DIVE_INVALID_FORMAT));
+					logger::Error(dive::headerDive, "CGNS Zone coordinate type is not RealDouble: " + dive::messages.at(dive::DIVE_INVALID_FORMAT));
 					cg_error_exit();
 				}
 
 				if (cg_coord_read(fileHandler, baseIndex, zone.index, coordinates[i].name.c_str(), coordinates[i].type, &cmin, &cmax, &data[0])) cg_error_exit();
-				logger::Info(dive::headerDive, "Zone coordinate size: %d", zone.size);
+				logger::Info(dive::headerDive, "CGNS Zone coordinate size: %d", zone.size);
 
 				auto& nodes = mesh->GetNodes();
 				if (coordinates[i].name == "CoordinateX")
@@ -381,7 +381,7 @@ namespace dive {
 					std::vector<cgsize_t> connectivity(numberConnectivities);
 
 					if(cg_elements_read(fileHandler, baseIndex, zone.index, i + 1, &connectivity[0], NULL)) cg_error_exit();
-					logger::Info(dive::headerDive, "Zone number of connectivities: %lu", numberConnectivities);
+					logger::Info(dive::headerDive, "CGNS Zone number of connectivities: %lu", numberConnectivities);
 
 					for (ElementIndex j = 0; j < numberElements; ++j)
 					{
@@ -412,7 +412,7 @@ namespace dive {
 					std::vector<cgsize_t> connectivity(numberConnectivities);
 
 					if (cg_elements_read(fileHandler, baseIndex, zone.index, i + 1, &connectivity[0], NULL)) cg_error_exit();
-					logger::Info(dive::headerDive, "Zone number of connectivities: %lu", numberConnectivities);
+					logger::Info(dive::headerDive, "CGNS Zone number of connectivities: %lu", numberConnectivities);
 
 					for (ElementIndex j = 0; j < numberElements; ++j)
 					{
@@ -455,6 +455,7 @@ namespace dive {
 			{
 
 				if (cg_family_read(fileHandler, 1, i + 1, name, &families[i].isBoundaryCondition, &families[i].numberGeometry)) cg_error_exit();
+				logger::Info(dive::headerDive, "CGNS Family geometry: %d", families[i].numberGeometry);
 				families[i].name = String(name);
 
 				if (cg_nfamily_names(fileHandler, baseIndex, i+1, &numberNames)) cg_error_exit();
@@ -481,19 +482,19 @@ namespace dive {
 
 			if (cg_zone_type(fileHandler, baseIndex, zone.index, &zone.type)) cg_error_exit();
 			if (cg_zone_read(fileHandler, baseIndex, zone.index, &zone.name[0], &zone.size)) cg_error_exit();
-			logger::Info(dive::headerDive, "Zone name: %s", zone.name.c_str());
-			logger::Info(dive::headerDive, "Zone index: %d", zone.index);
-			logger::Info(dive::headerDive, "Zone type: %d", zone.type);
-			logger::Info(dive::headerDive, "Zone size: %d", zone.size);
+			logger::Info(dive::headerDive, "CGNS Zone name: %s", zone.name.c_str());
+			logger::Info(dive::headerDive, "CGNS Zone index: %d", zone.index);
+			logger::Info(dive::headerDive, "CGNS Zone type: %d", zone.type);
+			logger::Info(dive::headerDive, "CGNS Zone size: %d", zone.size);
 
 			if (cg_ngrids(fileHandler, baseIndex, zone.index, &zone.numberGrids)) cg_error_exit();
-			logger::Info(dive::headerDive, "Zone number of grids: %d", zone.numberGrids);
+			logger::Info(dive::headerDive, "CGNS Zone number of grids: %d", zone.numberGrids);
 
 			if (cg_nsections(fileHandler, baseIndex, zone.index, &zone.numberSections)) cg_error_exit();
-			logger::Info(dive::headerDive, "Zone number of sections: %d", zone.numberSections);
+			logger::Info(dive::headerDive, "CGNS Zone number of sections: %d", zone.numberSections);
 
 			if (cg_ncoords(fileHandler, baseIndex, zone.index, &zone.numberCoordinates)) cg_error_exit();
-			logger::Info(dive::headerDive, "Zone number of coordinates: %d", zone.numberCoordinates);
+			logger::Info(dive::headerDive, "CGNS Zone number of coordinates: %d", zone.numberCoordinates);
 	
 			return zone;
 		}

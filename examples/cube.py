@@ -10,16 +10,17 @@ temperature = structural.CreateValueScalar3D(T_ref)
 pressure    = structural.CreateValueScalar3D(p_ref)
 
 material = materials.solid.unit.Create(1)
-#meshFile = 'cube.cgns'
+#meshFile = 'cube.msh'
 meshFile = 'cube.cgns'
-meshes.cube.Create(meshFile)
+#meshFile = 'structured2D.cgns'
+#meshes.cube.Create(meshFile)
 
 mesh = meshes.routines.LoadMesh(1, meshFile)
 
 #print(mesh.GetNodes())
 #print(mesh.GetElements())
 
-print(structural.CastToElementHexa(mesh.GetElements()[0]).Volume())
+#print(structural.CastToElementHexa(mesh.GetElements()[0]).Volume())
 
 #meshes.routines.ApplyMaterial(mesh.GetElements(), material)
 
