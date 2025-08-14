@@ -7,9 +7,11 @@ namespace dive
 {
 	namespace meshes
 	{
-		IMeshPtr LoadGmsh(Tag meshTag, String fileName, NumberDof numberDof, Status& status);
-		IMeshPtr LoadCGNS(Tag meshTag, String fileName, NumberDof numberDof, Status& status);
+		IMeshPtr LoadInp(Tag meshTag, String fileName, NumberDof numberDof, Status& status);
 	} //namespace meshes
 } //namespace dive
 
 #endif /* DIVE_MESHES_LOAD_HPP_ */
+
+//IMeshPtr LoadGmsh(Tag meshTag, String fileName, NumberDof numberDof, Status& status);
+//IMeshPtr LoadCGNS(Tag meshTag, String fileName, NumberDof numberDof, Status& status);

@@ -5,10 +5,8 @@ def LoadMesh(tag, fileName, dof = 1):
     error = 0
     extension = os.path.splitext(fileName)[1].upper()
 
-    if(extension == '.MSH'):
-        mesh, error  = dive.LoadGmsh(tag, fileName, dof, error)
-    elif(extension == '.CGNS'):
-        mesh, error = dive.LoadCGNS(tag, fileName, dof, error)
+    if(extension == '.INP'):
+        mesh, error  = dive.LoadInp(tag, fileName, dof, error)
     else:
         return None   
     

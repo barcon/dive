@@ -8,9 +8,124 @@
 #include <algorithm>
 #include <memory>
 #include <limits>
+#include <array>
 
 namespace dive {
 	namespace meshes {
+
+		bool IsEmpty(const String& line)
+		{
+			return utils::string::IsEmpty(line);
+		};
+		bool IsComment(const String& line)
+		{
+			if (line.size() >= 2)
+			{
+				if (line[0] == '*' && line[1] == '*')
+				{
+					return true;
+				}
+			}
+
+			return false;
+		};
+
+		void LoadInpNodes(IMeshPtr mesh, const std::vector<Strings>& table)
+		{
+			Status status{ dive::DIVE_SUCCESS };
+			NumberNodes numberNodes{ 0 };
+			NumberNodes counter{ 0 };
+			
+			for (Index i = 0; i < table.size(); ++i)
+			{
+				if (utils::string::ToUpper(table[i][0]) == "*NODE")
+				{
+					for (Index j = i + 1; j < table.size(); ++j)
+					{
+						if (table[j][0][0] == '*')
+						{
+							i++;
+							break;
+						}
+
+						if (table[j].size() < 4)
+						{
+							logger::Warning(dive::headerDive, "*NODE row does not contain enough data for a node");
+							i++;
+							continue; // Skip rows with insufficient data
+						}
+
+						auto nodeTag = utils::string::ConvertTo<Tag>(table[j][0]);
+						auto x = utils::string::ConvertTo<Scalar>(table[j][1]);
+						auto y = utils::string::ConvertTo<Scalar>(table[j][2]);
+						auto z = utils::string::ConvertTo<Scalar>(table[j][3]);
+						auto node = nodes::CreateNode(nodeTag, x, y, z);
+
+						mesh->AddNode(node, status, false);
+						if (status != dive::DIVE_SUCCESS)
+						{
+							logger::Error(dive::headerDive, "Node could not be added: " + dive::messages.at(status));
+							return;
+						}
+
+						numberNodes++;
+						i++;
+					}
+				}
+			}
+			
+			mesh->SortNodesTag();
+			logger::Info(dive::headerDive, "Nodes added: %u", numberNodes);
+		}
+		IMeshPtr LoadInp(Tag meshTag, String fileName, NumberDof numberDof, Status& status)
+		{
+			TimerStart();
+			String line;
+			Strings words;
+			IMeshPtr mesh{ nullptr };
+			
+			utils::file::Text file;
+			std::vector<Strings> table;
+
+			status = file.Open(fileName);
+			if (status != utils::file::UTILS_SUCCESS)
+			{
+				logger::Error(dive::headerDive, "File could not be opened: " + dive::messages.at(dive::DIVE_FILE_NOT_OPENED));
+				return mesh;
+			}
+
+			mesh = CreateMesh(meshTag);
+			if (mesh == nullptr)
+			{
+				logger::Error(dive::headerDive, "Not possible to create mesh: " + dive::messages.at(dive::DIVE_NULL_POINTER));
+				return mesh;
+			}
+
+			auto stream = static_cast<std::istringstream>(file.GetFull());
+			while (std::getline(stream, line))
+			{
+				if (IsEmpty(line) || IsComment(line))
+				{
+					continue;
+				}
+
+				words = utils::string::Split(line, {' ', ',', '\t'});
+				table.push_back(words);
+			}
+
+			LoadInpNodes(mesh, table);
+			LoadInpElements(mesh, table);
+			LoadInpSelections(mesh, table);
+
+			TimerElapsed(__FUNCTION__);
+
+			return mesh;
+		}
+	} // namespace meshes
+} // namespace dive
+
+/*
+
 		const NodeIndex	lookUpTableGmshHexa8[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };
 		const NodeIndex	lookUpTableGmshHexa20[20] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 11, 13, 9, 16, 18, 19, 17, 10, 12, 14, 15 };
 
@@ -251,13 +366,13 @@ namespace dive {
 		struct Coordinate
 		{
 			int index;
-			
-			String name;			
+
+			String name;
 			DataType_t type;
 		};
 		using Coordinates = std::vector<Coordinate>;
 
-		struct Zone 
+		struct Zone
 		{
 			int index;
 			int numberGrids;
@@ -363,12 +478,13 @@ namespace dive {
 
 			int boundary;
 			int parentFlag;
-			
+
 			char name[CGNS_MAX_NAME_LENGTH];
 
 			for (int i = 0; i < zone. numberSections; i++)
 			{
 				if (cg_section_read(fileHandler, baseIndex, zone.index, i + 1, name, &elementType, &emin, &emax, &boundary, &parentFlag)) cg_error_exit();
+				//logger::Info(dive::headerDive, "CGNS Zone section name: %s (%d)", name, emax - emin + 1);
 
 				switch (elementType)
 				{
@@ -377,7 +493,7 @@ namespace dive {
 					auto numberElements = NumberElements(emax - emin + 1);
 					auto numberNodes = NumberNodes(8);
 					auto numberConnectivities = numberNodes * numberElements;
-					
+
 					std::vector<cgsize_t> connectivity(numberConnectivities);
 
 					if(cg_elements_read(fileHandler, baseIndex, zone.index, i + 1, &connectivity[0], NULL)) cg_error_exit();
@@ -397,7 +513,7 @@ namespace dive {
 
 							element->SetNode(lookUpTableCGNSHexa8[k], node);
 						}
-						
+
 						mesh->AddElement(element, status, false);
 					}
 
@@ -437,7 +553,7 @@ namespace dive {
 				default:
 					continue;
 				}
-				
+
 			}
 		}
 		Families LoadCGNSFamilies(int fileHandler, int baseIndex)
@@ -449,25 +565,25 @@ namespace dive {
 			Families families;
 
 			if (cg_nfamilies(fileHandler, baseIndex, &numberFamilies)) cg_error_exit();
+			logger::Info(dive::headerDive, "CGNS number families: %d", numberFamilies);
 
 			families.resize(numberFamilies);
 			for (int i = 0; i < numberFamilies; ++i)
 			{
 
 				if (cg_family_read(fileHandler, 1, i + 1, name, &families[i].isBoundaryCondition, &families[i].numberGeometry)) cg_error_exit();
-				logger::Info(dive::headerDive, "CGNS Family geometry: %d", families[i].numberGeometry);
+				logger::Info(dive::headerDive, "CGNS family name: %s", name);
 				families[i].name = String(name);
 
-				if (cg_nfamily_names(fileHandler, baseIndex, i+1, &numberNames)) cg_error_exit();
+				if (cg_nfamily_names(fileHandler, baseIndex, i + 1, &numberNames)) cg_error_exit();
 
 				if (numberNames > 0)
 				{
 					char nameNode[CGNS_MAX_NAME_LENGTH];
 					char nameFamily[CGNS_MAX_NAME_LENGTH];
 
-					if (cg_family_name_read(fileHandler, baseIndex, i+1, 1, nameNode, nameFamily)) cg_error_exit();
-					logger::Info(dive::headerDive, "CGNS family name: %s", nameFamily);
-					logger::Info(dive::headerDive, "CGNS node name: %s", nameNode);
+					if (cg_family_name_read(fileHandler, baseIndex, i + 1, 1, nameNode, nameFamily)) cg_error_exit();
+					logger::Info(dive::headerDive, "CGNS family name: %s / %s / %s", name, nameFamily, nameNode);
 				}
 			}
 
@@ -495,13 +611,13 @@ namespace dive {
 
 			if (cg_ncoords(fileHandler, baseIndex, zone.index, &zone.numberCoordinates)) cg_error_exit();
 			logger::Info(dive::headerDive, "CGNS Zone number of coordinates: %d", zone.numberCoordinates);
-	
+
 			return zone;
 		}
 		IMeshPtr LoadCGNS(Tag meshTag, String fileName, NumberDof numberDof, Status& status)
 		{
 			TimerStart();
-			
+
 			int fileType{ 0 };
 			int fileHandler{ 0 };
 			int numberBases{ 0 };
@@ -541,10 +657,10 @@ namespace dive {
 
 			if (cg_nbases(fileHandler, &numberBases)) cg_error_exit();
 			logger::Info(dive::headerDive, "CGNS mesh number of bases: %d", numberBases);
-			
+
 			if (cg_nzones(fileHandler, 1, &numberZones)) cg_error_exit();
 			logger::Info(dive::headerDive, "CGNS mesh number of zones: %d", numberZones);
-			
+
 			zones.resize(numberZones);
 			for (int i = 0; i < numberZones; ++i)
 			{
@@ -562,5 +678,5 @@ namespace dive {
 			TimerElapsed(__FUNCTION__);
 			return mesh;
 		}
-	} // namespace meshes
-} // namespace dive
+
+*/

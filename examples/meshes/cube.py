@@ -59,9 +59,7 @@ def Create(fileName):
     gmsh.model.geo.addVolume([1], 1)
 
     gmsh.model.geo.synchronize()
-    
-    gmsh.model.addPhysicalGroup(2, [5], name="My surface")
-
+  
     gmsh.model.mesh.setTransfiniteCurve( 1, nx, "Progression", 1.00)
     gmsh.model.mesh.setTransfiniteCurve( 3, nx, "Progression", 1.00)
     gmsh.model.mesh.setTransfiniteCurve( 5, nx, "Progression", 1.00)
@@ -94,7 +92,8 @@ def Create(fileName):
     gmsh.model.mesh.setRecombine(2, 6) 
 
     gmsh.model.mesh.generate(3)       
-    
+    gmsh.model.addPhysicalGroup(2, [5], name="Fixed")
+  
     if quadratic == False:
         gmsh.model.mesh.setOrder(1)   
     else:

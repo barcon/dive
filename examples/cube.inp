@@ -1,0 +1,65 @@
+*Heading
+ cube.inp
+*NODE
+1, -1, -1, -1
+2, 1, -1, -1
+3, 1, 1, -1
+4, -1, 1, -1
+5, -1, -1, 1
+6, 1, -1, 1
+7, 1, 1, 1
+8, -1, 1, 1
+9, -2.625566430936e-12, -1, -1
+10, 1, -2.625566430936e-12, -1
+11, 2.625566430936e-12, 1, -1
+12, -1, 2.625566430936e-12, -1
+13, -2.625566430936e-12, -1, 1
+14, 1, -2.625566430936e-12, 1
+15, 2.625566430936e-12, 1, 1
+16, -1, 2.625566430936e-12, 1
+17, -1, -1, -2.625566430936e-12
+18, 1, -1, -2.625566430936e-12
+19, 1, 1, -2.625566430936e-12
+20, -1, 1, -2.625566430936e-12
+******* E L E M E N T S *************
+*ELEMENT, type=T3D3, ELSET=Line1
+9, 1, 9, 2
+*ELEMENT, type=T3D3, ELSET=Line2
+10, 2, 10, 3
+*ELEMENT, type=T3D3, ELSET=Line3
+11, 3, 11, 4
+*ELEMENT, type=T3D3, ELSET=Line4
+12, 4, 12, 1
+*ELEMENT, type=T3D3, ELSET=Line5
+13, 5, 13, 6
+*ELEMENT, type=T3D3, ELSET=Line6
+14, 6, 14, 7
+*ELEMENT, type=T3D3, ELSET=Line7
+15, 7, 15, 8
+*ELEMENT, type=T3D3, ELSET=Line8
+16, 8, 16, 5
+*ELEMENT, type=T3D3, ELSET=Line9
+17, 1, 17, 5
+*ELEMENT, type=T3D3, ELSET=Line10
+18, 2, 18, 6
+*ELEMENT, type=T3D3, ELSET=Line11
+19, 3, 19, 7
+*ELEMENT, type=T3D3, ELSET=Line12
+20, 4, 20, 8
+*ELEMENT, type=CPS8, ELSET=Surface1
+21, 1, 2, 3, 4, 9, 10, 11, 12
+*ELEMENT, type=CPS8, ELSET=Surface2
+22, 5, 6, 7, 8, 13, 14, 15, 16
+*ELEMENT, type=CPS8, ELSET=Surface3
+23, 2, 3, 7, 6, 10, 19, 14, 18
+*ELEMENT, type=CPS8, ELSET=Surface4
+24, 3, 4, 8, 7, 11, 20, 15, 19
+*ELEMENT, type=CPS8, ELSET=Surface5
+25, 1, 5, 8, 4, 17, 16, 20, 12
+*ELEMENT, type=CPS8, ELSET=Surface6
+26, 1, 2, 6, 5, 9, 18, 13, 17
+*ELEMENT, type=C3D20, ELSET=Volume1
+27, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 
+16, 17, 18, 19, 20
+*ELSET,ELSET=Fixed
+25, 

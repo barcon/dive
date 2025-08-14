@@ -5807,11 +5807,8 @@ def GetSizeMaximum(elements):
 def DeformByInterpolation(mesh, interpolation):
     return _dive.DeformByInterpolation(mesh, interpolation)
 
-def LoadGmsh(meshTag, fileName, numberDof, status):
-    return _dive.LoadGmsh(meshTag, fileName, numberDof, status)
-
-def LoadCGNS(meshTag, fileName, numberDof, status):
-    return _dive.LoadCGNS(meshTag, fileName, numberDof, status)
+def LoadInp(meshTag, fileName, numberDof, status):
+    return _dive.LoadInp(meshTag, fileName, numberDof, status)
 class IWeakFormElement(object):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
