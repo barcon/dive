@@ -10,9 +10,9 @@ temperature = structural.CreateValueScalar3D(T_ref)
 pressure    = structural.CreateValueScalar3D(p_ref)
 
 material = materials.solid.unit.Create(1)
-meshFile = 'cube.msh'
+meshFile = 'beam.msh'
 
 meshes.Initialize(meshFile)
 meshes.CreateBeam()
-meshes.Entities()
+meshes.GetPhysicalGroup("Fixed")
 meshes.Finalize()

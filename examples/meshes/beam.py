@@ -49,8 +49,9 @@ def CreateBeam():
 
     gmsh.model.geo.addSurfaceLoop([1, 2, 3, 4, 5, 6], 1)
     gmsh.model.geo.addVolume([1], 1)
+
     gmsh.model.geo.synchronize()
-    
+
     gmsh.option.setNumber('Mesh.SecondOrderIncomplete', 1)  
 
     gmsh.model.mesh.setTransfiniteCurve( 1, nx, "Progression", 1.00)
@@ -90,6 +91,10 @@ def CreateBeam():
         gmsh.model.mesh.setOrder(1)   
     else:
         gmsh.model.mesh.setOrder(2)          
+
+    gmsh.model.addPhysicalGroup(3, [1], name="Model")
+    gmsh.model.addPhysicalGroup(2, [5], name="Fixed")
+    gmsh.model.addPhysicalGroup(2, [3], name="Load")
 
     return
 

@@ -24,6 +24,26 @@ def Finalize():
 
     return
 
+def GetPhysicalGroup(name):
+    #groups = gmsh.model.getPhysicalGroups()
+
+    #for dimension, tag in groups:
+    #    print(gmsh.model.getEntitiesForPhysicalGroup(dimension, tag))
+
+    #entities = gmsh.model.getEntitiesForPhysicalName(name)
+    nodes = gmsh.model.mesh.getNodesForPhysicalGroup(2, 3)
+    print(nodes)
+
+
+    #for entity in entities:
+        #nodeTags, nodeCoords, nodeParams = gmsh.model.mesh.getNodes(dimension, tag)
+        #elemTypes, elemTags, elemNodeTags = gmsh.model.mesh.getElements(dimension, tag)
+
+        #print(len(nodeTags))
+        #print(len(elemTags))
+
+    return 
+
 def Entities():
     entities = gmsh.model.getEntities()
 
