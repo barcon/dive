@@ -73,7 +73,6 @@
     <ClInclude Include="..\src\dive_loads_node.hpp" />
     <ClInclude Include="..\src\dive_meshes.hpp" />
     <ClInclude Include="..\src\dive_meshes_basic.hpp" />
-    <ClInclude Include="..\src\dive_meshes_load.hpp" />
     <ClInclude Include="..\src\dive_problems.hpp" />
     <ClInclude Include="..\src\dive_problems_fluid.hpp" />
     <ClInclude Include="..\src\dive_problems_pressure.hpp" />
@@ -124,7 +123,6 @@
     <ClCompile Include="..\src\dive_loads_distributed_volume.cpp" />
     <ClCompile Include="..\src\dive_loads_node.cpp" />
     <ClCompile Include="..\src\dive_meshes_basic.cpp" />
-    <ClCompile Include="..\src\dive_meshes_load.cpp" />
     <ClCompile Include="..\src\dive_problems.cpp" />
     <ClCompile Include="..\src\dive_problems_fluid.cpp" />
     <ClCompile Include="..\src\dive_problems_pressure.cpp" />

@@ -5,16 +5,12 @@ y = 0.1
 z = 0.1
 
 nx = 21
-ny = 2
-nz = 2
+ny = 3
+nz = 3
 
 quadratic = False
 
-def Create(fileName):
-    gmsh.initialize()
-    gmsh.option.setNumber("General.Terminal", 1)
-    gmsh.model.add(fileName)
-
+def CreateBeam():
     gmsh.model.geo.addPoint(0.0, 0.0, 0.0, 0, 1)
     gmsh.model.geo.addPoint(  x, 0.0, 0.0, 0, 2)
     gmsh.model.geo.addPoint(  x,   y, 0.0, 0, 3)
@@ -94,9 +90,6 @@ def Create(fileName):
         gmsh.model.mesh.setOrder(1)   
     else:
         gmsh.model.mesh.setOrder(2)          
-
-    gmsh.write(fileName)
-    gmsh.finalize()
 
     return
 

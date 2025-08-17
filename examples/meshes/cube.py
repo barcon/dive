@@ -10,15 +10,7 @@ nz = 2
 
 quadratic = True
 
-def Create(fileName):
-    gmsh.initialize()
-    
-    gmsh.option.setNumber("General.Terminal", 1)
-    gmsh.option.setNumber("Mesh.SaveAll", 1)    
-    gmsh.option.setNumber('Mesh.SecondOrderIncomplete', 1)  
-    
-    gmsh.model.add(fileName)
-
+def CreateCube():
     gmsh.model.geo.addPoint(-x/2.0, -y/2.0, -z/2.0, 0, 1)
     gmsh.model.geo.addPoint( x/2.0, -y/2.0, -z/2.0, 0, 2)
     gmsh.model.geo.addPoint( x/2.0,  y/2.0, -z/2.0, 0, 3)
@@ -58,6 +50,9 @@ def Create(fileName):
     gmsh.model.geo.addSurfaceLoop([1, 2, 3, 4, 5, 6], 1)
     gmsh.model.geo.addVolume([1], 1)
 
+    gmsh.model.addPhysicalGroup(2, [5], name="Fixed")
+    gmsh.model.addPhysicalGroup(3, [1], name="Model")
+
     gmsh.model.geo.synchronize()
   
     gmsh.model.mesh.setTransfiniteCurve( 1, nx, "Progression", 1.00)
@@ -92,15 +87,10 @@ def Create(fileName):
     gmsh.model.mesh.setRecombine(2, 6) 
 
     gmsh.model.mesh.generate(3)       
-    gmsh.model.addPhysicalGroup(2, [5], name="Fixed")
   
     if quadratic == False:
         gmsh.model.mesh.setOrder(1)   
     else:
         gmsh.model.mesh.setOrder(2)          
 
-    gmsh.write(fileName)
-    gmsh.finalize()
-
     return
-
