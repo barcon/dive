@@ -1,3 +1,4 @@
+import dive
 import gmsh
 
 fileName = None
@@ -24,25 +25,48 @@ def Finalize():
 
     return
 
-def GetPhysicalGroup(name):
-    #groups = gmsh.model.getPhysicalGroups()
+def GetPhysicalGroupByName(name):
+    groups = gmsh.model.getPhysicalGroups()
 
-    #for dimension, tag in groups:
-    #    print(gmsh.model.getEntitiesForPhysicalGroup(dimension, tag))
+    for dimension, tag in groups:
+        if(name == gmsh.model.getPhysicalName(dimension, tag)):
+            return [dimension, tag]
 
-    #entities = gmsh.model.getEntitiesForPhysicalName(name)
-    nodes = gmsh.model.mesh.getNodesForPhysicalGroup(2, 3)
-    print(nodes)
+    return [-1, -1]
 
+def GetEntitiesForPhysicalGroup(name):
+    nodes = dive.vecNodes()
+    elements = dive.vecElements()
 
-    #for entity in entities:
-        #nodeTags, nodeCoords, nodeParams = gmsh.model.mesh.getNodes(dimension, tag)
-        #elemTypes, elemTags, elemNodeTags = gmsh.model.mesh.getElements(dimension, tag)
+    entities = gmsh.model.getEntitiesForPhysicalName(name)
 
-        #print(len(nodeTags))
-        #print(len(elemTags))
+    for entity in entities:
+        dim = entity[0]
+        tag = entity[1]
 
-    return 
+        print(dim)
+        elemTypes, elemTags, elemNodeTags = gmsh.model.mesh.getElements(dim, tag)
+        print(elemTypes)
+        print(elemTags)
+        print(elemNodeTags)
+
+        up, down = gmsh.model.getAdjacencies(dim, tag)
+        print(up)
+        print(down)
+
+        #nodeTags, nodeCoords, nodeParams = gmsh.model.mesh.getNodes(dim, tag)
+        #print(nodeTags)
+            
+        #tags, coordinates = gmsh.model.mesh.getNodesForPhysicalGroup(dimension, tag)
+        #for i in range(0, len(tags)):
+        #    tag = int(tags[i])
+        #    x = float(coordinates[3 * i + 0])
+        #    y = float(coordinates[3 * i + 1])
+        #    z = float(coordinates[3 * i + 2])
+        #    node = dive.CreateNode(tag, x, y, z)
+        #    nodes.append(node)
+
+    return [nodes, elements]
 
 def Entities():
     entities = gmsh.model.getEntities()

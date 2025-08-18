@@ -8,7 +8,7 @@ nx = 21
 ny = 3
 nz = 3
 
-quadratic = False
+quadratic = True
 
 def CreateBeam():
     gmsh.model.geo.addPoint(0.0, 0.0, 0.0, 0, 1)
@@ -92,9 +92,9 @@ def CreateBeam():
     else:
         gmsh.model.mesh.setOrder(2)          
 
-    gmsh.model.addPhysicalGroup(3, [1], name="Model")
-    gmsh.model.addPhysicalGroup(2, [5], name="Fixed")
-    gmsh.model.addPhysicalGroup(2, [3], name="Load")
+    gmsh.model.addPhysicalGroup(3, [1], name="problem")
+    gmsh.model.addPhysicalGroup(2, [5], name="fixed")
+    gmsh.model.addPhysicalGroup(2, [3], name="load")
 
     return
 
