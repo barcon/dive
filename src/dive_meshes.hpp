@@ -64,8 +64,8 @@ namespace dive
 
 			virtual void SetTag(Tag tag) = 0;
 
-			virtual void SortNodesTag() = 0;
-			virtual void SortElementsTag() = 0;
+			virtual void SortNodesByTag() = 0;
+			virtual void SortElementsByTag() = 0;
 
 			virtual Index GetIndexNode(Tag tag, Status& status) const = 0;
 			virtual Index GetIndexNodeSorted(Tag tag, Status& status) const = 0;

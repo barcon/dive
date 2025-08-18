@@ -25,48 +25,45 @@ def Finalize():
 
     return
 
-def GetPhysicalGroupByName(name):
+def GetPhysicalGroupByName(physicalGroup):
     groups = gmsh.model.getPhysicalGroups()
 
     for dimension, tag in groups:
-        if(name == gmsh.model.getPhysicalName(dimension, tag)):
+        if(physicalGroup == gmsh.model.getPhysicalName(dimension, tag)):
             return [dimension, tag]
 
     return [-1, -1]
 
-def GetEntitiesForPhysicalGroup(name):
-    nodes = dive.vecNodes()
-    elements = dive.vecElements()
-
-    entities = gmsh.model.getEntitiesForPhysicalName(name)
+def GetMeshForPhysicalGroup(meshTag, numberDof, physicalGroup):
+    mesh = dive.CreateMesh(meshTag)
+    entities = gmsh.model.getEntitiesForPhysicalName(physicalGroup)
+    status = 0
 
     for entity in entities:
-        dim = entity[0]
-        tag = entity[1]
+        nodeTags, coordinates = gmsh.model.mesh.getNodesForPhysicalGroup(entity[0], entity[1])
+        for i in range(0, len(nodeTags)):
+            tag = int(nodeTags[i])
+            x = float(coordinates[3 * i + 0])
+            y = float(coordinates[3 * i + 1])
+            z = float(coordinates[3 * i + 2])
+            node = dive.CreateNode(tag, x, y, z)
+            status = mesh.AddNode(node, status, True)
+        
+        mesh.SortNodesByTag()
 
-        print(dim)
-        elemTypes, elemTags, elemNodeTags = gmsh.model.mesh.getElements(dim, tag)
-        print(elemTypes)
-        print(elemTags)
-        print(elemNodeTags)
+        elementTypes, elementTags, elementNodeTags = gmsh.model.mesh.getElements(entity[0], entity[1])
+        for i in range(0, len(elementTags[0])):
+            if(elementTypes[0] == 5):
+                tag = int(elementTags[0][i])
+                element = dive.CreateElementHexa(tag)
+                element.SetOrder(dive.order_linear)
+                element.SetParametric(dive.parametric_linear)
+                element.SetNumberDof(numberDof)
+                status = mesh.AddElement(element, status, True)
 
-        up, down = gmsh.model.getAdjacencies(dim, tag)
-        print(up)
-        print(down)
+        mesh.SortElementsByTag()
 
-        #nodeTags, nodeCoords, nodeParams = gmsh.model.mesh.getNodes(dim, tag)
-        #print(nodeTags)
-            
-        #tags, coordinates = gmsh.model.mesh.getNodesForPhysicalGroup(dimension, tag)
-        #for i in range(0, len(tags)):
-        #    tag = int(tags[i])
-        #    x = float(coordinates[3 * i + 0])
-        #    y = float(coordinates[3 * i + 1])
-        #    z = float(coordinates[3 * i + 2])
-        #    node = dive.CreateNode(tag, x, y, z)
-        #    nodes.append(node)
-
-    return [nodes, elements]
+    return mesh
 
 def Entities():
     entities = gmsh.model.getEntities()

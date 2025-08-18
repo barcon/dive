@@ -43,8 +43,8 @@ namespace dive
 
 			void SetTag(Tag tag) override;
 
-			void SortNodesTag() override;
-			void SortElementsTag() override;
+			void SortNodesByTag() override;
+			void SortElementsByTag() override;
 
 			Index GetIndexNode(Tag tag, Status& status) const override;
 			Index GetIndexNodeSorted(Tag tag, Status& status) const override;

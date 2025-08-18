@@ -288,7 +288,7 @@ namespace dive {
 		{
 			tag_ = tag;
 		}
-		void Mesh::SortNodesTag()
+		void Mesh::SortNodesByTag()
 		{
 			std::sort(nodes_.begin(), nodes_.end(), 
 				[&](dive::INodePtr ptr1, dive::INodePtr ptr2) -> bool
@@ -296,7 +296,7 @@ namespace dive {
 					return ptr1->GetTag() < ptr2->GetTag();
 				});
 		}
-		void Mesh::SortElementsTag()
+		void Mesh::SortElementsByTag()
 		{
 			std::sort(elements_.begin(), elements_.end(), 
 				[&](dive::IElementPtr ptr1, dive::IElementPtr ptr2) -> bool

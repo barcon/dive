@@ -8,7 +8,7 @@ nx = 21
 ny = 3
 nz = 3
 
-quadratic = True
+quadratic = False
 
 def CreateBeam():
     gmsh.model.geo.addPoint(0.0, 0.0, 0.0, 0, 1)

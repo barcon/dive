@@ -5126,11 +5126,11 @@ class IMesh(object):
     def SetTag(self, tag):
         return _dive.IMesh_SetTag(self, tag)
 
-    def SortNodesTag(self):
-        return _dive.IMesh_SortNodesTag(self)
+    def SortNodesByTag(self):
+        return _dive.IMesh_SortNodesByTag(self)
 
-    def SortElementsTag(self):
-        return _dive.IMesh_SortElementsTag(self)
+    def SortElementsByTag(self):
+        return _dive.IMesh_SortElementsByTag(self)
 
     def GetIndexNode(self, tag, status):
         return _dive.IMesh_GetIndexNode(self, tag, status)
@@ -5212,11 +5212,11 @@ class Mesh(IMesh):
     def SetTag(self, tag):
         return _dive.Mesh_SetTag(self, tag)
 
-    def SortNodesTag(self):
-        return _dive.Mesh_SortNodesTag(self)
+    def SortNodesByTag(self):
+        return _dive.Mesh_SortNodesByTag(self)
 
-    def SortElementsTag(self):
-        return _dive.Mesh_SortElementsTag(self)
+    def SortElementsByTag(self):
+        return _dive.Mesh_SortElementsByTag(self)
 
     def GetIndexNode(self, tag, status):
         return _dive.Mesh_GetIndexNode(self, tag, status)

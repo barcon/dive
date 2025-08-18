@@ -144,7 +144,7 @@ namespace dive
 		{
 			TimerStart();
 
-			mesh->SortElementsTag();
+			mesh->SortElementsByTag();
 
 			const auto& elements = mesh->GetElements();
 
@@ -167,7 +167,7 @@ namespace dive
 		{
 			TimerStart();
 
-			mesh->SortNodesTag();
+			mesh->SortNodesByTag();
 
 			const auto& nodes = mesh->GetNodes();
 
