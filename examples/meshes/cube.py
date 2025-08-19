@@ -8,7 +8,7 @@ nx = 2
 ny = 2
 nz = 2
 
-quadratic = True
+quadratic = False
 
 def CreateCube():
     gmsh.model.geo.addPoint(-x/2.0, -y/2.0, -z/2.0, 0, 1)
@@ -50,10 +50,9 @@ def CreateCube():
     gmsh.model.geo.addSurfaceLoop([1, 2, 3, 4, 5, 6], 1)
     gmsh.model.geo.addVolume([1], 1)
 
-    gmsh.model.addPhysicalGroup(2, [5], name="Fixed")
-    gmsh.model.addPhysicalGroup(3, [1], name="Model")
-
     gmsh.model.geo.synchronize()
+
+    gmsh.option.setNumber('Mesh.SecondOrderIncomplete', 1) 
   
     gmsh.model.mesh.setTransfiniteCurve( 1, nx, "Progression", 1.00)
     gmsh.model.mesh.setTransfiniteCurve( 3, nx, "Progression", 1.00)
@@ -92,5 +91,8 @@ def CreateCube():
         gmsh.model.mesh.setOrder(1)   
     else:
         gmsh.model.mesh.setOrder(2)          
+
+    gmsh.model.addPhysicalGroup(3, [1], name="problem")
+    gmsh.model.addPhysicalGroup(2, [5], name="fixed")
 
     return

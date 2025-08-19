@@ -4,9 +4,9 @@ x = 1.0
 y = 0.1
 z = 0.1
 
-nx = 21
-ny = 3
-nz = 3
+nx = 5
+ny = 2
+nz = 2
 
 quadratic = False
 
@@ -51,8 +51,6 @@ def CreateBeam():
     gmsh.model.geo.addVolume([1], 1)
 
     gmsh.model.geo.synchronize()
-
-    gmsh.option.setNumber('Mesh.SecondOrderIncomplete', 1)  
 
     gmsh.model.mesh.setTransfiniteCurve( 1, nx, "Progression", 1.00)
     gmsh.model.mesh.setTransfiniteCurve( 3, nx, "Progression", 1.00)
