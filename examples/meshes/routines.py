@@ -36,24 +36,25 @@ def GetPhysicalGroupByName(physicalGroup):
 
 def GetMeshForPhysicalGroup(meshTag, numberDof, physicalGroup):
     mesh = dive.CreateMesh(meshTag)
-    entities = gmsh.model.getEntitiesForPhysicalName(physicalGroup)
+    dimension, tag = GetPhysicalGroupByName(physicalGroup)
     status = 0
+
+    nodeTags, coordinates = gmsh.model.mesh.getNodesForPhysicalGroup(dimension, tag)
+    for i in range(0, len(nodeTags)):
+        nodeTag = int(nodeTags[i])
+        x = float(coordinates[3 * i + 0])
+        y = float(coordinates[3 * i + 1])
+        z = float(coordinates[3 * i + 2])
+        node = dive.CreateNode(nodeTag, x, y, z)
+        node.SetNumberDof(numberDof)
+        status = mesh.AddNode(node, status, True)
+    
+    mesh.SortNodesByTag()
+
     counter = 0
-
+    entities = gmsh.model.getEntitiesForPhysicalGroup(dimension, tag)
     for entity in entities:
-        nodeTags, coordinates = gmsh.model.mesh.getNodesForPhysicalGroup(entity[0], entity[1])
-        for i in range(0, len(nodeTags)):
-            nodeTag = int(nodeTags[i])
-            x = float(coordinates[3 * i + 0])
-            y = float(coordinates[3 * i + 1])
-            z = float(coordinates[3 * i + 2])
-            node = dive.CreateNode(nodeTag, x, y, z)
-            node.SetNumberDof(numberDof)
-            status = mesh.AddNode(node, status, True)
-        
-        mesh.SortNodesByTag()
-
-        elementTypes, elementTags, elementNodeTags = gmsh.model.mesh.getElements(entity[0], entity[1])
+        elementTypes, elementTags, elementNodeTags = gmsh.model.mesh.getElements(dimension, entity)
         for i in range(0, len(elementTags[0])):     
             if(elementTypes[0] == 5):
                 elementTag = int(elementTags[0][i])
@@ -69,11 +70,39 @@ def GetMeshForPhysicalGroup(meshTag, numberDof, physicalGroup):
                     node, status = mesh.GetNodeSorted(nodeTag, status)
                     element.SetNode(k, node)
 
-                counter += numberNodes
+                counter += numberNodes          
+            elif(elementTypes[0] == 17):
+                elementTag = int(elementTags[0][i])
+                element = dive.CreateElementHexa(elementTag)
+                element.SetOrder(dive.order_quadratic)
+                element.SetParametric(dive.parametric_quadratic)
+                element.SetNumberDof(numberDof)
+                status = mesh.AddElement(element, status, True)
+                numberNodes = element.GetNumberNodes()
                 
-        mesh.SortElementsByTag()
+                for k in range(0, numberNodes):
+                    nodeTag = int(elementNodeTags[0][counter + k])
+                    node, status = mesh.GetNodeSorted(nodeTag, status)
+                    element.SetNode(k, node)
+
+                counter += numberNodes                
+                
+    mesh.SortElementsByTag()
 
     return mesh
+
+def GetNodesForPhysicalGroup(mesh, physicalGroup):
+    nodes = dive.vecNodes()
+    dimension, tag = GetPhysicalGroupByName(physicalGroup)
+    status = 0
+    
+    nodeTags, coordinates = gmsh.model.mesh.getNodesForPhysicalGroup(dimension, tag)
+    print(nodeTags)
+    for i in range(0, len(nodeTags)):         
+        node, status = mesh.GetNodeSorted(int(nodeTags[i]), status)
+        nodes.append(node)
+
+    return nodes
 
 def Entities():
     entities = gmsh.model.getEntities()

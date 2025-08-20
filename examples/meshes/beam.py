@@ -90,9 +90,9 @@ def CreateBeam():
     else:
         gmsh.model.mesh.setOrder(2)          
 
-    gmsh.model.addPhysicalGroup(3, [1], name="problem")
     gmsh.model.addPhysicalGroup(2, [5], name="fixed")
-    gmsh.model.addPhysicalGroup(2, [3], name="load")
+    gmsh.model.addPhysicalGroup(3, [1], name="problem")
+    gmsh.model.addPhysicalGroup(3, [1], name="ditributedLoad")
 
     return
 
