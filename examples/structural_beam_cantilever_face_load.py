@@ -9,19 +9,21 @@ T_ref = 293.15    #[K]      = 20 [°C]
 p_ref = 101325.1  #[N/m²]   =  1 [atm]
 basis = structural.CreateBasisCartesian(1)
 timer = structural.CreateTimerStationary(1, 0.0)
-steel = materials.solid.steel.Create(1)
-meshFile = 'beam.cgns'
-
-meshes.beam.quadratic = True
-meshes.beam.Create(meshFile)
-
-mesh = meshes.routines.LoadMesh(1, meshFile, dof = 3)
-meshes.routines.ApplyMaterial(mesh.GetElements(), steel)
-
 temperature = structural.CreateValueScalar3D(T_ref)
 pressure = structural.CreateValueScalar3D(p_ref)
+steel = materials.solid.steel.Create(1)
+meshFile = 'beam.msh'
 
-nodesLeft = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structural.axis_x, 0.0, 0.001)
+meshes.Initialize(meshFile)
+meshes.CreateBeam()
+
+mesh = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 3, physicalGroup = "problem")
+fixed = meshes.GetNodesForPhysicalGroup(mesh = mesh, physicalGroup = "fixed")
+loadFace = meshes.GetFacesForPhysicalGroup(mesh = mesh, physicalGroup = "loadFace")
+
+meshes.routines.ApplyMaterial(mesh.GetElements(), steel)
+meshes.Finalize()
+
 nodesRight = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structural.axis_x, meshes.beam.x, 0.001)
 elementsRight = structural.FilterElementsByNodes(nodesRight)
 
@@ -29,8 +31,8 @@ pressureFace = structural.CreateValueVector3DScalars(3)
 pressureFace.SetScalar(1, structural.CreateValueScalar3D(1000000000.0))
 
 structural.CreateProblem(1, mesh, temperature, pressure)
-structural.ApplyDirichlet(nodesLeft, 0.0)
-structural.ApplyLoadDistributedFace(elementsRight, 0, pressureFace)
+structural.ApplyDirichlet(fixed, 0.0)
+structural.ApplyLoadDistributedFace(loadFace, 0, pressureFace)
 structural.Initialize()
 
 #--------------------------------------------------------------------------------------------------

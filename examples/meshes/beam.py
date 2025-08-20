@@ -4,9 +4,9 @@ x = 1.0
 y = 0.1
 z = 0.1
 
-nx = 5
-ny = 2
-nz = 2
+nx = 21
+ny = 4
+nz = 4
 
 quadratic = False
 
@@ -90,9 +90,11 @@ def CreateBeam():
     else:
         gmsh.model.mesh.setOrder(2)          
 
-    gmsh.model.addPhysicalGroup(2, [5], name="fixed")
     gmsh.model.addPhysicalGroup(3, [1], name="problem")
-    gmsh.model.addPhysicalGroup(3, [1], name="ditributedLoad")
+    gmsh.model.addPhysicalGroup(2, [5], name="fixed")
+    gmsh.model.addPhysicalGroup(3, [1], name="loadElements")
+    gmsh.model.addPhysicalGroup(2, [3], name="loadNodes")
+    gmsh.model.addPhysicalGroup(2, [3], name="loadFaces")
 
     return
 

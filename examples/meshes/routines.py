@@ -97,12 +97,39 @@ def GetNodesForPhysicalGroup(mesh, physicalGroup):
     status = 0
     
     nodeTags, coordinates = gmsh.model.mesh.getNodesForPhysicalGroup(dimension, tag)
-    print(nodeTags)
     for i in range(0, len(nodeTags)):         
         node, status = mesh.GetNodeSorted(int(nodeTags[i]), status)
         nodes.append(node)
 
     return nodes
+
+def GetElementsForPhysicalGroup(mesh, physicalGroup):
+    elements = dive.vecElements()
+    dimension, tag = GetPhysicalGroupByName(physicalGroup)
+    status = 0
+    
+    entities = gmsh.model.getEntitiesForPhysicalGroup(dimension, tag)
+    for entity in entities:
+        elementTypes, elementTags, elementNodeTags = gmsh.model.mesh.getElements(dimension, entity)
+        for i in range(0, len(elementTags[0])):         
+            element, status = mesh.GetElementSorted(int(elementTags[0][i]), status)
+            elements.append(element)
+
+    return elements
+
+def GetFacesForPhysicalGroup(mesh, physicalGroup):
+    elements = dive.vecElements()
+    dimension, tag = GetPhysicalGroupByName(physicalGroup)
+    status = 0
+    
+    entities = gmsh.model.getEntitiesForPhysicalGroup(dimension, tag)
+    for entity in entities:
+        elementTypes, elementTags, elementNodeTags = gmsh.model.mesh.getElements(dimension, entity)
+        for i in range(0, len(elementTags[0])):         
+            element, status = mesh.GetElementSorted(int(elementTags[0][i]), status)
+            elements.append(element)
+
+    return elements
 
 def Entities():
     entities = gmsh.model.getEntities()

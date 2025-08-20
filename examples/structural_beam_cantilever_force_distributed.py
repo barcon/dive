@@ -19,28 +19,23 @@ meshes.CreateBeam()
 
 mesh = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 3, physicalGroup = "problem")
 fixed = meshes.GetNodesForPhysicalGroup(mesh = mesh, physicalGroup = "fixed")
+loadElements = meshes.GetElementsForPhysicalGroup(mesh = mesh, physicalGroup = "loadElements")
 
-meshes.Finalize()
 meshes.routines.ApplyMaterial(mesh.GetElements(), steel)
+meshes.Finalize()
 
-print(fixed)
-quit()
-
-#fixed = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structural.axis_x, 0.0, 0.001)
-
-load = structural.Vector(3)
-load[0] = 0.0
-load[1] = -1000000.0
-load[2] = 0.0
-loadValue = structural.CreateValueVector3D(steel.GetDensity(T_ref, p_ref) * load)
+force = structural.Vector(3)
+force[0] = 0.0
+force[1] = -1000000.0
+force[2] = 0.0
+forceValue = structural.CreateValueVector3D(steel.GetDensity(T_ref, p_ref) * force)
 
 structural.CreateProblem(1, mesh, temperature, pressure)
 structural.ApplyDirichlet(fixed, 0.0)
-structural.ApplyLoadDistributedVolume(mesh.GetElements(), loadValue)
+structural.ApplyLoadDistributedVolume(loadElements, forceValue)
 structural.Initialize()
 
 #--------------------------------------------------------------------------------------------------
-
 K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
 y = structural.PartitionVector(structural.GetProblem().Displacement())
 f = structural.PartitionVector(structural.GetProblem().LoadDistributedVolume())
