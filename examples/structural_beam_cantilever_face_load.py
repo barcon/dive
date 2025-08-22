@@ -20,19 +20,14 @@ meshes.CreateBeam()
 mesh = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 3, physicalGroup = "problem")
 fixed = meshes.GetNodesForPhysicalGroup(mesh = mesh, physicalGroup = "fixed")
 loadFace = meshes.GetFacesForPhysicalGroup(mesh = mesh, physicalGroup = "loadFace")
+pressureFace = structural.CreateValueVector3DScalars([0.0, 1000000000.0, 0.0])
 
-meshes.routines.ApplyMaterial(mesh.GetElements(), steel)
+meshes.ApplyMaterial(mesh.GetElements(), steel)
 meshes.Finalize()
-
-nodesRight = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structural.axis_x, meshes.beam.x, 0.001)
-elementsRight = structural.FilterElementsByNodes(nodesRight)
-
-pressureFace = structural.CreateValueVector3DScalars(3)
-pressureFace.SetScalar(1, structural.CreateValueScalar3D(1000000000.0))
 
 structural.CreateProblem(1, mesh, temperature, pressure)
 structural.ApplyDirichlet(fixed, 0.0)
-structural.ApplyLoadDistributedFace(loadFace, 0, pressureFace)
+structural.ApplyLoadDistributedFace(loadFace, pressureFace)
 structural.Initialize()
 
 #--------------------------------------------------------------------------------------------------
