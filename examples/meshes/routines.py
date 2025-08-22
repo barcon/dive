@@ -2,6 +2,8 @@ import dive
 import gmsh
 
 fileName = None
+lookUpTableHexa8 = ( 0, 1, 2, 3, 4, 5, 6, 7 )
+lookUpTableHexa20 = ( 0, 1, 2, 3, 4, 5, 6, 7, 8, 11, 13, 9, 16, 18, 19, 17, 10, 12, 14, 15 )
 
 def Initialize(file):
     global fileName
@@ -55,6 +57,7 @@ def GetMeshForPhysicalGroup(meshTag, numberDof, physicalGroup):
     entities = gmsh.model.getEntitiesForPhysicalGroup(dimension, tag)
     for entity in entities:
         elementTypes, elementTags, elementNodeTags = gmsh.model.mesh.getElements(dimension, entity)
+        print(elementNodeTags)
         for i in range(0, len(elementTags[0])):     
             if(elementTypes[0] == 5):
                 elementTag = int(elementTags[0][i])
@@ -68,7 +71,7 @@ def GetMeshForPhysicalGroup(meshTag, numberDof, physicalGroup):
                 for k in range(0, numberNodes):
                     nodeTag = int(elementNodeTags[0][counter + k])
                     node, status = mesh.GetNodeSorted(nodeTag, status)
-                    element.SetNode(k, node)
+                    element.SetNode(lookUpTableHexa8[k], node)
 
                 counter += numberNodes          
             elif(elementTypes[0] == 17):
@@ -83,7 +86,7 @@ def GetMeshForPhysicalGroup(meshTag, numberDof, physicalGroup):
                 for k in range(0, numberNodes):
                     nodeTag = int(elementNodeTags[0][counter + k])
                     node, status = mesh.GetNodeSorted(nodeTag, status)
-                    element.SetNode(k, node)
+                    element.SetNode(lookUpTableHexa20[k], node)
 
                 counter += numberNodes                
                 

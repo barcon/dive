@@ -8,7 +8,7 @@ nx = 2
 ny = 2
 nz = 2
 
-quadratic = False
+quadratic = True
 
 def CreateCube():
     gmsh.model.geo.addPoint(-x/2.0, -y/2.0, -z/2.0, 0, 1)

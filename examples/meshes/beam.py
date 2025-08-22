@@ -4,11 +4,11 @@ x = 1.0
 y = 0.1
 z = 0.1
 
-nx = 21
-ny = 4
-nz = 4
+nx = 11
+ny = 3
+nz = 3
 
-quadratic = False
+quadratic = True
 
 def CreateBeam():
     gmsh.model.geo.addPoint(0.0, 0.0, 0.0, 0, 1)
