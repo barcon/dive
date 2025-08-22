@@ -20,12 +20,10 @@ meshes.CreateBeam()
 mesh = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 3, physicalGroup = "problem")
 fixed = meshes.GetNodesForPhysicalGroup(mesh = mesh, physicalGroup = "fixed")
 loadNodes = meshes.GetNodesForPhysicalGroup(mesh = mesh, physicalGroup = "loadNodes")
+force = structural.CreateValueVector3DScalars([0.0, 100000.0, 0.0])
 
-meshes.routines.ApplyMaterial(mesh.GetElements(), steel)
+meshes.ApplyMaterial(mesh.GetElements(), steel)
 meshes.Finalize()
-
-force = structural.CreateValueVector3DScalars(3)
-force.SetScalar(1, structural.CreateValueScalar3D(100000))
 
 structural.CreateProblem(1, mesh, temperature, pressure)
 structural.ApplyDirichlet(fixed, 0.0)

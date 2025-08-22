@@ -2,8 +2,8 @@ import dive
 import gmsh
 
 fileName = None
-lookUpTableHexa8 = ( 0, 1, 2, 3, 4, 5, 6, 7 )
-lookUpTableHexa20 = ( 0, 1, 2, 3, 4, 5, 6, 7, 8, 11, 13, 9, 16, 18, 19, 17, 10, 12, 14, 15 )
+lookUpTableHexa8 =  ( 0, 1, 2, 3, 4, 5, 6, 7 )
+lookUpTableHexa20 = ( 0, 1, 2, 3, 4, 5, 6, 7, 8, 11, 13, 9, 16, 18, 19, 17, 10, 12, 14, 15)
 
 def Initialize(file):
     global fileName
@@ -16,6 +16,11 @@ def Initialize(file):
     gmsh.option.setNumber('Mesh.SecondOrderIncomplete', 1)  
     
     gmsh.model.add(fileName)
+
+    return
+
+def Show():
+    gmsh.fltk.run()
 
     return
 
@@ -57,7 +62,6 @@ def GetMeshForPhysicalGroup(meshTag, numberDof, physicalGroup):
     entities = gmsh.model.getEntitiesForPhysicalGroup(dimension, tag)
     for entity in entities:
         elementTypes, elementTags, elementNodeTags = gmsh.model.mesh.getElements(dimension, entity)
-        print(elementNodeTags)
         for i in range(0, len(elementTags[0])):     
             if(elementTypes[0] == 5):
                 elementTag = int(elementTags[0][i])
@@ -69,9 +73,9 @@ def GetMeshForPhysicalGroup(meshTag, numberDof, physicalGroup):
                 numberNodes = element.GetNumberNodes()
                 
                 for k in range(0, numberNodes):
-                    nodeTag = int(elementNodeTags[0][counter + k])
+                    nodeTag = int(elementNodeTags[0][counter + lookUpTableHexa8[k]])
                     node, status = mesh.GetNodeSorted(nodeTag, status)
-                    element.SetNode(lookUpTableHexa8[k], node)
+                    element.SetNode(k, node)
 
                 counter += numberNodes          
             elif(elementTypes[0] == 17):
@@ -84,9 +88,9 @@ def GetMeshForPhysicalGroup(meshTag, numberDof, physicalGroup):
                 numberNodes = element.GetNumberNodes()
                 
                 for k in range(0, numberNodes):
-                    nodeTag = int(elementNodeTags[0][counter + k])
+                    nodeTag = int(elementNodeTags[0][counter + lookUpTableHexa20[k]])
                     node, status = mesh.GetNodeSorted(nodeTag, status)
-                    element.SetNode(lookUpTableHexa20[k], node)
+                    element.SetNode(k, node)
 
                 counter += numberNodes                
                 

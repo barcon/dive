@@ -14,25 +14,23 @@ pressure = structural.CreateValueScalar3D(p_ref)
 steel = materials.solid.steel.Create(1)
 meshFile = 'beam.msh'
 
+rho = steel.GetDensity(T_ref, p_ref)
+gravity = -9.8
+
 meshes.Initialize(meshFile)
 meshes.CreateBeam()
 
 mesh = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 3, physicalGroup = "problem")
 fixed = meshes.GetNodesForPhysicalGroup(mesh = mesh, physicalGroup = "fixed")
 loadElements = meshes.GetElementsForPhysicalGroup(mesh = mesh, physicalGroup = "loadElements")
+weight = structural.CreateValueVector3DScalars([0.0, -1000000.0 * rho, 0.0])
 
 meshes.routines.ApplyMaterial(mesh.GetElements(), steel)
 meshes.Finalize()
 
-force = structural.Vector(3)
-force[0] = 0.0
-force[1] = -1000000.0
-force[2] = 0.0
-forceValue = structural.CreateValueVector3D(steel.GetDensity(T_ref, p_ref) * force)
-
 structural.CreateProblem(1, mesh, temperature, pressure)
 structural.ApplyDirichlet(fixed, 0.0)
-structural.ApplyLoadDistributedVolume(loadElements, forceValue)
+structural.ApplyLoadDistributedVolume(loadElements, weight)
 structural.Initialize()
 
 #--------------------------------------------------------------------------------------------------

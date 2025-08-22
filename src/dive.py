@@ -2430,8 +2430,8 @@ class ValueMatrix(IMatrix):
 # Register ValueMatrix in _dive:
 _dive.ValueMatrix_swigregister(ValueMatrix)
 
-def CreateValueMatrix1D(value, name, key):
-    return _dive.CreateValueMatrix1D(value, name, key)
+def CreateValueMatrix1D(*args):
+    return _dive.CreateValueMatrix1D(*args)
 
 def CastToValueMatrix1D(value):
     return _dive.CastToValueMatrix1D(value)
@@ -2471,8 +2471,8 @@ class ValueMatrix1D(IMatrix1D):
 # Register ValueMatrix1D in _dive:
 _dive.ValueMatrix1D_swigregister(ValueMatrix1D)
 
-def CreateValueMatrix2D(value, name, key):
-    return _dive.CreateValueMatrix2D(value, name, key)
+def CreateValueMatrix2D(*args):
+    return _dive.CreateValueMatrix2D(*args)
 
 def CastToValueMatrix2D(value):
     return _dive.CastToValueMatrix2D(value)

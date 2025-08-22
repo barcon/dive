@@ -14,10 +14,11 @@ meshFile = 'cube.msh'
 
 meshes.Initialize(meshFile)
 meshes.CreateCube()
+#meshes.Show()
 
 mesh = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 3, physicalGroup = "problem")
 
-#print(mesh.GetNodes())
+print(mesh.GetNodes())
 print(mesh.GetElements())
 
 meshes.Finalize()

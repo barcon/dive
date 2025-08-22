@@ -16,7 +16,7 @@ meshes.Initialize(meshFile)
 meshes.CreateBeam()
 
 mesh = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 3, physicalGroup = "problem")
-
+meshes.Show()
 print(mesh.GetNodes())
 print(mesh.GetElements())
 
