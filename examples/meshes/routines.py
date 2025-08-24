@@ -1,35 +1,28 @@
 import dive
 import gmsh
 
-fileName = None
 lookUpTableHexa8 =  ( 0, 1, 2, 3, 4, 5, 6, 7 )
 lookUpTableHexa20 = ( 0, 1, 2, 3, 4, 5, 6, 7, 8, 11, 13, 9, 16, 18, 19, 17, 10, 12, 14, 15)
 
-def Initialize(file):
-    global fileName
-
-    fileName = file
+def Initialize():
     gmsh.initialize()
     
     gmsh.option.setNumber("General.Terminal", 1)
     gmsh.option.setNumber("Mesh.SaveAll", 1)    
     gmsh.option.setNumber('Mesh.SecondOrderIncomplete', 1)  
     
-    gmsh.model.add(fileName)
-
     return
 
 def Show():
     gmsh.fltk.run()
+    return
 
+def Write(fileName):
+    gmsh.write(fileName)
     return
 
 def Finalize():
-    global fileName
-
-    gmsh.write(fileName)
     gmsh.finalize()
-
     return
 
 def GetPhysicalGroupByName(physicalGroup):
@@ -54,7 +47,7 @@ def GetMeshForPhysicalGroup(meshTag, numberDof, physicalGroup):
         z = float(coordinates[3 * i + 2])
         node = dive.CreateNode(nodeTag, x, y, z)
         node.SetNumberDof(numberDof)
-        status = mesh.AddNode(node, status, True)
+        status = mesh.AddNode(node, status, False)
     
     mesh.SortNodesByTag()
 
@@ -69,7 +62,7 @@ def GetMeshForPhysicalGroup(meshTag, numberDof, physicalGroup):
                 element.SetOrder(dive.order_linear)
                 element.SetParametric(dive.parametric_linear)
                 element.SetNumberDof(numberDof)
-                status = mesh.AddElement(element, status, True)
+                status = mesh.AddElement(element, status, False)
                 numberNodes = element.GetNumberNodes()
                 
                 for k in range(0, numberNodes):
@@ -84,7 +77,7 @@ def GetMeshForPhysicalGroup(meshTag, numberDof, physicalGroup):
                 element.SetOrder(dive.order_quadratic)
                 element.SetParametric(dive.parametric_quadratic)
                 element.SetNumberDof(numberDof)
-                status = mesh.AddElement(element, status, True)
+                status = mesh.AddElement(element, status, False)
                 numberNodes = element.GetNumberNodes()
                 
                 for k in range(0, numberNodes):
@@ -125,18 +118,38 @@ def GetElementsForPhysicalGroup(mesh, physicalGroup):
     return elements
 
 def GetFacesForPhysicalGroup(mesh, physicalGroup):
-    elements = dive.vecElements()
+    #faces = dive.vecFaces()
     dimension, tag = GetPhysicalGroupByName(physicalGroup)
     status = 0
-    
-    entities = gmsh.model.getEntitiesForPhysicalGroup(dimension, tag)
-    for entity in entities:
-        elementTypes, elementTags, elementNodeTags = gmsh.model.mesh.getElements(dimension, entity)
-        for i in range(0, len(elementTags[0])):         
-            element, status = mesh.GetElementSorted(int(elementTags[0][i]), status)
-            elements.append(element)
 
-    return elements
+    if(dimension != 2):
+        print("Error: Physical group is not a face group.")
+        return None
+
+    entities = gmsh.model.getEntitiesForPhysicalGroup(dimension, tag)
+    for entity in entities:       
+        elementTypes, elementTags, elementNodeTags = gmsh.model.mesh.getElements(dimension, entity)
+        print(elementTypes)
+        print(elementTags)
+        print(elementNodeTags)
+        
+        #print(type(dimension))
+
+        up, down = gmsh.model.getAdjacencies(dimension, tag)
+        if len(up):
+            print(" - Upward adjacencies: " + str(up))
+        if len(down):
+            print(" - Downward adjacencies: " + str(down))            
+
+        #elementTypes, elementTags, elementNodeTags = gmsh.model.mesh.getElements(dimension - 1, down)
+        #print(elementTypes)
+        #print(elementTags)
+        #print(elementNodeTags)
+        #for i in range(0, len(elementTags[0])):         
+        #    element, status = mesh.GetElementSorted(int(elementTags[0][i]), status)
+        #    elements.append(element)
+
+    return None
 
 def Entities():
     entities = gmsh.model.getEntities()

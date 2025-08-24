@@ -1,16 +1,8 @@
 import gmsh
 
-x = 2.0
-y = 0.1
-z = 0.1
-
-nx = 11
-ny = 3
-nz = 3
-
-quadratic = True
-
-def CreateBeam():
+def CreateBeam(x, y, z, nx, ny, nz, quadratic):
+    gmsh.model.add("beam")
+    
     gmsh.model.geo.addPoint(0.0, 0.0, 0.0, 0, 1)
     gmsh.model.geo.addPoint(  x, 0.0, 0.0, 0, 2)
     gmsh.model.geo.addPoint(  x,   y, 0.0, 0, 3)
@@ -92,9 +84,10 @@ def CreateBeam():
 
     gmsh.model.addPhysicalGroup(3, [1], name="problem")
     gmsh.model.addPhysicalGroup(2, [5], name="fixed")
-    gmsh.model.addPhysicalGroup(3, [1], name="loadElements")
-    gmsh.model.addPhysicalGroup(2, [3], name="loadNodes")
-    gmsh.model.addPhysicalGroup(2, [3], name="loadFaces")
+    gmsh.model.addPhysicalGroup(3, [1], name="loadVolume")
+    gmsh.model.addPhysicalGroup(2, [3], name="loadFace")
+    gmsh.model.addPhysicalGroup(1, [6], name="loadEdge")
+    gmsh.model.addPhysicalGroup(0, [2, 3, 6, 7], name="loadNode")
 
     return
 

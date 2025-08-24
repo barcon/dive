@@ -139,6 +139,8 @@ namespace dive
 		Nodes SortNodes(SpecificationSort<INodePtr>& spec, const Nodes& input);;
 		Nodes SortNodesByCoordinate(const Nodes& input, IBasisPtr basis, Axis axis);
 
+		//bool SelectFaceByNodes(IElementPtr element, const Nodes& nodes);
+
 	} //namespace selection
 } //namespace dive
 

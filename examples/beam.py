@@ -10,14 +10,14 @@ temperature = structural.CreateValueScalar3D(T_ref)
 pressure    = structural.CreateValueScalar3D(p_ref)
 
 material = materials.solid.unit.Create(1)
-meshFile = 'beam.msh'
 
-meshes.Initialize(meshFile)
-meshes.CreateBeam()
+meshes.Initialize()
+meshes.CreateBeam(1.0, 0.1, 0.1, 21, 3, 3, True)
 
 mesh = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 3, physicalGroup = "problem")
-meshes.Show()
+
 print(mesh.GetNodes())
 print(mesh.GetElements())
 
+meshes.Show()
 meshes.Finalize()

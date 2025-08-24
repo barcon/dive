@@ -5,29 +5,33 @@ import plots
 import plots.beam
 import materials.solid.steel
 
-T_ref = 293.15    #[K]      = 20 [°C]
-p_ref = 101325.1  #[N/m²]   =  1 [atm]
+T_ref = 293.15      #[K]      = 20 [°C]
+p_ref = 101325.1    #[N/m²]   =  1 [atm]
 basis = structural.CreateBasisCartesian(1)
 timer = structural.CreateTimerStationary(1, 0.0)
 temperature = structural.CreateValueScalar3D(T_ref)
 pressure = structural.CreateValueScalar3D(p_ref)
+gravity = -9.8      #[m/s²]
+
 steel = materials.solid.steel.Create(1)
-meshFile = 'beam.msh'
+density = steel.GetDensity(T_ref, p_ref)
 
-meshes.Initialize(meshFile)
-meshes.CreateBeam()
-
+meshes.Initialize()
+meshes.CreateBeam(1.0, 0.1, 0.1, 21, 3, 3, False)
+meshes.Show()
 mesh = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 3, physicalGroup = "problem")
 fixed = meshes.GetNodesForPhysicalGroup(mesh = mesh, physicalGroup = "fixed")
 loadFace = meshes.GetFacesForPhysicalGroup(mesh = mesh, physicalGroup = "loadFace")
-pressureFace = structural.CreateValueVector3DScalars([0.0, 1000000000.0, 0.0])
+shearStress = structural.CreateValueVector3DScalars([0.0, 400000.0, 0.0])
 
 meshes.ApplyMaterial(mesh.GetElements(), steel)
 meshes.Finalize()
 
+quit()
+
 structural.CreateProblem(1, mesh, temperature, pressure)
 structural.ApplyDirichlet(fixed, 0.0)
-structural.ApplyLoadDistributedFace(loadFace, pressureFace)
+structural.ApplyLoadDistributedFace(loadFace, shearStress)
 structural.Initialize()
 
 #--------------------------------------------------------------------------------------------------

@@ -35,7 +35,7 @@
 #include <functional>
 #include <cmath>
 #include <limits>
-#include <variant>
+#include <utility>
 
 #define NOTIMER
 
@@ -355,6 +355,12 @@ namespace dive
 	using Tags = std::vector<Tag>;
 	using Indices = std::vector<Index>;
 	using Strings = utils::Strings;
+
+	using FacePair = std::pair<FaceIndex, IElementPtr>;
+	using EdgePair = std::pair<EdgeIndex, IElementPtr>;
+
+	using FacePairs = std::vector<FacePair>;
+	using EdgePairs = std::vector<EdgePair>;
 
 	using Bases = std::vector<IBasisPtr>;
 	using Timers = std::vector<ITimerPtr>;
