@@ -120,7 +120,10 @@ namespace dive
 		Elements FilterElementsByTag(const Elements& input, Tag min, Tag max);
 		Elements FilterElementsByType(const Elements& input);
 		Elements FilterElementsByNodes(const Nodes& input);
+		Elements FilterElementsByNodesIntersection(const Nodes& input);
 		Elements FilterElementsRemoveDuplicates(const Elements& input);
+
+		FacePair FilterFaceByNodes(IElementPtr element, const Nodes& input);
 
 		template <typename T> struct SpecificationSort
 		{
@@ -137,9 +140,8 @@ namespace dive
 		};
 
 		Nodes SortNodes(SpecificationSort<INodePtr>& spec, const Nodes& input);;
+		Nodes SortNodesByTag(const Nodes& input);
 		Nodes SortNodesByCoordinate(const Nodes& input, IBasisPtr basis, Axis axis);
-
-		//bool SelectFaceByNodes(IElementPtr element, const Nodes& nodes);
 
 	} //namespace selection
 } //namespace dive

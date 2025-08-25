@@ -126,29 +126,35 @@ def GetFacesForPhysicalGroup(mesh, physicalGroup):
         print("Error: Physical group is not a face group.")
         return None
 
+    counter = 0
     entities = gmsh.model.getEntitiesForPhysicalGroup(dimension, tag)
     for entity in entities:       
         elementTypes, elementTags, elementNodeTags = gmsh.model.mesh.getElements(dimension, entity)
-        print(elementTypes)
-        print(elementTags)
-        print(elementNodeTags)
+
+        if(elementTypes[0] == 3):
+            numberNodes = 4              
+        elif(elementTypes[0] == 16):
+            numberNodes = 8
+        else:
+            print("Error: Element type not supported for faces.")
+            continue
         
-        #print(type(dimension))
+        for i in range(0, len(elementTags[0])):
+            nodes = dive.vecNodes()
+            for k in range(0, numberNodes):
+                nodeTag = int(elementNodeTags[0][counter + k])
+                node, status = mesh.GetNodeSorted(nodeTag, status)
+                nodes.append(node)
+            
+            counter += numberNodes          
+            elements = dive.FilterElementsByNodesIntersection(nodes)
 
-        up, down = gmsh.model.getAdjacencies(dimension, tag)
-        if len(up):
-            print(" - Upward adjacencies: " + str(up))
-        if len(down):
-            print(" - Downward adjacencies: " + str(down))            
+            if(len(elements) != 1):
+                print("Error: Face not found.")
+                continue
 
-        #elementTypes, elementTags, elementNodeTags = gmsh.model.mesh.getElements(dimension - 1, down)
-        #print(elementTypes)
-        #print(elementTags)
-        #print(elementNodeTags)
-        #for i in range(0, len(elementTags[0])):         
-        #    element, status = mesh.GetElementSorted(int(elementTags[0][i]), status)
-        #    elements.append(element)
-
+            faceIndex = dive.FilterFaceByNodes(elements[0], nodes)
+            
     return None
 
 def Entities():

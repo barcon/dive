@@ -356,8 +356,8 @@ namespace dive
 	using Indices = std::vector<Index>;
 	using Strings = utils::Strings;
 
-	using FacePair = std::pair<FaceIndex, IElementPtr>;
-	using EdgePair = std::pair<EdgeIndex, IElementPtr>;
+	using FacePair = std::pair<IElementPtr, FaceIndex>;
+	using EdgePair = std::pair<IElementPtr, EdgeIndex>;
 
 	using FacePairs = std::vector<FacePair>;
 	using EdgePairs = std::vector<EdgePair>;

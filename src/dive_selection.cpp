@@ -191,7 +191,36 @@ namespace dive
 				}
 			}
 
-			return  Elements(res.begin(), res.end());
+			return Elements(res.begin(), res.end());
+		}
+		Elements FilterElementsByNodesIntersection(const Nodes& input)
+		{
+			Elements elements1;	
+			Elements elements2; 
+			Elements res; 
+
+			if (input.size() == 0)
+			{
+				return Elements();
+			}
+
+			if (input.size() == 1)
+			{
+				res = input.front()->GetConnectivity().elements;
+				
+				return FilterElementsRemoveDuplicates(res);
+			}
+
+			elements1 = input.front()->GetConnectivity().elements;
+			for (auto it = std::next(input.begin()); it != input.end(); ++it)
+			{								
+				res.clear();
+
+				elements2 = (*it)->GetConnectivity().elements;
+				std::set_intersection(elements1.begin(), elements1.end(), elements2.begin(), elements2.end(), std::back_inserter(res), ElementCmp());		elements1 = res;
+			}
+
+			return FilterElementsRemoveDuplicates(res);
 		}
 		Elements FilterElementsRemoveDuplicates(const Elements& input)
 		{
@@ -203,6 +232,39 @@ namespace dive
 			}
 
 			return Elements(res.begin(), res.end());
+		}
+
+		FacePair FilterFaceByNodes(IElementPtr element, const Nodes& input)
+		{
+			Nodes nodes;
+			FacePair res = std::make_pair(nullptr, 0);
+
+			if (element == nullptr)
+			{
+				return res;
+			}
+
+			for (FaceIndex i = 0; i < element->GetNumberFaces(); ++i)
+			{
+				if (input.size() != element->GetNumberNodesFace(i))
+				{
+					continue;
+				}
+
+				nodes.clear();				
+				for (NodeIndex j = 0; j < element->GetNumberNodesFace(i); ++j)
+				{
+					nodes.push_back(element->GetNodeFace(i, j));
+
+					input = SortNodes(input);
+
+				}
+
+
+				
+			}
+
+			return FacePair();
 		}
 
 		SpecSortNodesByCoordinate::SpecSortNodesByCoordinate(IBasisPtr basis, Axis axis)
@@ -229,6 +291,10 @@ namespace dive
 			});
 
 			return res;
+		}
+		Nodes SortNodesByTag(const Nodes& input)
+		{
+			return Nodes();
 		}
 		Nodes SortNodesByCoordinate(const Nodes& input, IBasisPtr basis, Axis axis)
 		{

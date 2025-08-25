@@ -18,7 +18,7 @@ density = steel.GetDensity(T_ref, p_ref)
 
 meshes.Initialize()
 meshes.CreateBeam(1.0, 0.1, 0.1, 21, 3, 3, False)
-meshes.Show()
+#meshes.Show()
 mesh = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 3, physicalGroup = "problem")
 fixed = meshes.GetNodesForPhysicalGroup(mesh = mesh, physicalGroup = "fixed")
 loadFace = meshes.GetFacesForPhysicalGroup(mesh = mesh, physicalGroup = "loadFace")
