@@ -1,7 +1,7 @@
 #include "dive_meshes_basic.hpp"
 #include "dive_status.hpp"
 #include "dive_elements.hpp"
-#include "dive_elements_hexa.hpp"
+#include "dive_selection.hpp"
 
 #include "cgnslib.h"
 
@@ -290,19 +290,11 @@ namespace dive {
 		}
 		void Mesh::SortNodesByTag()
 		{
-			std::sort(nodes_.begin(), nodes_.end(), 
-				[&](dive::INodePtr ptr1, dive::INodePtr ptr2) -> bool
-				{
-					return ptr1->GetTag() < ptr2->GetTag();
-				});
+			nodes_ = selection::SortNodesByTag(nodes_);
 		}
 		void Mesh::SortElementsByTag()
 		{
-			std::sort(elements_.begin(), elements_.end(), 
-				[&](dive::IElementPtr ptr1, dive::IElementPtr ptr2) -> bool
-				{
-					return ptr1->GetTag() < ptr2->GetTag();
-				});
+			elements_ = selection::SortElementsByTag(elements_);
 		}
 		Index Mesh::GetIndexNode(Tag tag, Status& status) const
 		{

@@ -234,7 +234,7 @@ namespace dive
 			return Elements(res.begin(), res.end());
 		}
 
-		FacePair FilterFaceByNodes(IElementPtr element, const Nodes& input)
+		/*FacePair FilterFaceByNodes(IElementPtr element, const Nodes& input)
 		{
 			Nodes nodes;
 			FacePair res = std::make_pair(nullptr, 0);
@@ -256,7 +256,7 @@ namespace dive
 				{
 					nodes.push_back(element->GetNodeFace(i, j));
 
-					input = SortNodes(input);
+					//input = SortNodes(input);
 
 				}
 
@@ -265,6 +265,14 @@ namespace dive
 			}
 
 			return FacePair();
+		}*/
+
+		SpecSortNodesByTag::SpecSortNodesByTag()
+		{
+		}
+		bool SpecSortNodesByTag::IsSatisfied(INodePtr item1, INodePtr item2)
+		{
+			return item1->GetTag() < item2->GetTag();
 		}
 
 		SpecSortNodesByCoordinate::SpecSortNodesByCoordinate(IBasisPtr basis, Axis axis)
@@ -294,7 +302,9 @@ namespace dive
 		}
 		Nodes SortNodesByTag(const Nodes& input)
 		{
-			return Nodes();
+			SpecSortNodesByTag spec;
+
+			return SortNodes(spec, input);
 		}
 		Nodes SortNodesByCoordinate(const Nodes& input, IBasisPtr basis, Axis axis)
 		{
@@ -303,6 +313,31 @@ namespace dive
 			return SortNodes(spec, input);
 		}
 
-		//bool ()
+		SpecSortElementsByTag::SpecSortElementsByTag()
+		{
+		}
+		bool SpecSortElementsByTag::IsSatisfied(IElementPtr item1, IElementPtr item2)
+		{
+			return item1->GetTag() < item2->GetTag();
+		}
+
+		Elements SortElements(SpecificationSort<IElementPtr>& spec, const Elements& input)
+		{
+			auto res = input;
+
+			std::sort(res.begin(), res.end(),
+				[&](IElementPtr element1, IElementPtr element2) -> bool
+				{
+					return spec.IsSatisfied(element1, element2);
+				});
+
+			return res;
+		}
+		Elements SortElementsByTag(const Elements& input)
+		{
+			SpecSortElementsByTag spec;
+
+			return SortElements(spec, input);
+		}
 	} // namespace selection
 } //namespace dive

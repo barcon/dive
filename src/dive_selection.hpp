@@ -11,12 +11,6 @@ namespace dive
 {
 	namespace selection
 	{
-		struct Face 
-		{
-			FaceIndex faceIndex;
-			IElementPtr element;
-		};
-
 		struct NodeCmp {
 			bool operator()(INodePtr node1, INodePtr node2) const
 			{
@@ -31,18 +25,6 @@ namespace dive
 			}
 		};
 
-		struct FaceCmp {
-			bool operator()(Face face1, Face face2) const
-			{
-				if (face1.element->GetTag() == face2.element->GetTag())
-				{
-					return face1.faceIndex < face2.faceIndex;
-				}
-
-				return face1.element->GetTag() < face2.element->GetTag();
-			}
-		};
-
 		struct TypeCmp {
 			bool operator()(Type type1, Type type2) const
 			{
@@ -52,7 +34,6 @@ namespace dive
 
 		using SelectionNodes = std::set<INodePtr, NodeCmp>;
 		using SelectionElements = std::set<IElementPtr, ElementCmp>;
-		using SelectionFaces = std::set<Face, FaceCmp>;
 		using SelectionTypes = std::set<Type, TypeCmp>;
 
 		template <typename T> struct SpecificationFilter
@@ -70,7 +51,6 @@ namespace dive
 			explicit SpecNodesByCoordinate(IBasisPtr basis, Axis axis, Scalar pos, Scalar tol);
 			bool IsSatisfied(INodePtr item) override;
 		};
-
 		struct SpecNodesByRange : SpecificationFilter<INodePtr>
 		{
 			Axis axis_;
@@ -82,7 +62,6 @@ namespace dive
 			explicit SpecNodesByRange(IBasisPtr basis, Axis axis, Scalar min, Scalar max, Scalar tol);
 			bool IsSatisfied(INodePtr item) override;
 		};
-
 		struct SpecNodesByTag : SpecificationFilter<INodePtr>
 		{
 			Tag min_;
@@ -100,7 +79,6 @@ namespace dive
 			explicit SpecElementsByTag(Tag min, Tag max);
 			bool IsSatisfied(IElementPtr item) override;
 		};
-
 		struct SpecElementsByType : SpecificationFilter<IElementPtr>
 		{
 			SelectionTypes selectionTypes_;
@@ -123,13 +101,18 @@ namespace dive
 		Elements FilterElementsByNodesIntersection(const Nodes& input);
 		Elements FilterElementsRemoveDuplicates(const Elements& input);
 
-		FacePair FilterFaceByNodes(IElementPtr element, const Nodes& input);
+		//FacePair FilterFaceByNodes(IElementPtr element, const Nodes& input);
 
 		template <typename T> struct SpecificationSort
 		{
 			virtual bool IsSatisfied(T item1, T item2) = 0;
 		};
 
+		struct SpecSortNodesByTag : SpecificationSort<INodePtr>
+		{
+			explicit SpecSortNodesByTag();
+			bool IsSatisfied(INodePtr item1, INodePtr item2) override;
+		};
 		struct SpecSortNodesByCoordinate : SpecificationSort<INodePtr>
 		{
 			Axis axis_;
@@ -139,10 +122,18 @@ namespace dive
 			bool IsSatisfied(INodePtr item1, INodePtr item2) override;
 		};
 
-		Nodes SortNodes(SpecificationSort<INodePtr>& spec, const Nodes& input);;
+		Nodes SortNodes(SpecificationSort<INodePtr>& spec, const Nodes& input);
 		Nodes SortNodesByTag(const Nodes& input);
 		Nodes SortNodesByCoordinate(const Nodes& input, IBasisPtr basis, Axis axis);
 
+		struct SpecSortElementsByTag : SpecificationSort<IElementPtr>
+		{
+			explicit SpecSortElementsByTag();
+			bool IsSatisfied(IElementPtr item1, IElementPtr item2) override;
+		};
+
+		Elements SortElements(SpecificationSort<IElementPtr>& spec, const Elements& input);
+		Elements SortElementsByTag(const Elements& input);
 	} //namespace selection
 } //namespace dive
 
