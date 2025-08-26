@@ -140,6 +140,9 @@ namespace dive
 		class ElementCombined;
 		using ElementCombinedPtr = std::shared_ptr<ElementCombined>;
 		using ConstElementCombinedPtr = std::shared_ptr<const ElementCombined>;
+
+		struct FacePair;
+		struct EdgePair;
 	}
 
 	namespace meshes
@@ -352,16 +355,12 @@ namespace dive
 	using ILoadPtr = loads::ILoadPtr;
 	using IProblemPtr = problems::IProblemPtr;
 
+	using FacePair = elements::FacePair;
+	using EdgePair = elements::EdgePair;
+
 	using Tags = std::vector<Tag>;
 	using Indices = std::vector<Index>;
 	using Strings = utils::Strings;
-
-	using FacePair = std::pair<IElementPtr, FaceIndex>;
-	using EdgePair = std::pair<IElementPtr, EdgeIndex>;
-
-	using FacePairs = std::vector<FacePair>;
-	using EdgePairs = std::vector<EdgePair>;
-
 	using Bases = std::vector<IBasisPtr>;
 	using Timers = std::vector<ITimerPtr>;
 	using Values = std::vector<IValuePtr>;

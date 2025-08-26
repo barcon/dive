@@ -52,6 +52,21 @@ namespace dive
 			Scalar coord3;
 		};
 
+		struct FacePair
+		{
+			IElementPtr element;
+			FaceIndex faceIndex;
+		};
+
+		struct EdgePair
+		{
+			IElementPtr element;
+			EdgeIndex edgeIndex;
+		};
+
+		using FacePairs = std::vector<FacePair>;
+		using EdgePairs = std::vector<EdgePair>;
+
 		class IElement
 		{
 		public:

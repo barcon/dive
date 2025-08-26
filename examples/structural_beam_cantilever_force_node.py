@@ -11,12 +11,13 @@ basis = structural.CreateBasisCartesian(1)
 timer = structural.CreateTimerStationary(1, 0.0)
 temperature = structural.CreateValueScalar3D(T_ref)
 pressure = structural.CreateValueScalar3D(p_ref)
+gravity = -9.8      #[m/s²]
 
 steel = materials.solid.steel.Create(1)
 density = steel.GetDensity(T_ref, p_ref)
 
 meshes.Initialize()
-meshes.CreateBeam(1.0, 0.1, 0.1, 21, 3, 3, True)
+meshes.CreateBeam(1.0, 0.1, 0.1, 21, 2, 2, True)
 
 mesh = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 3, physicalGroup = "problem")
 fixed = meshes.GetNodesForPhysicalGroup(mesh = mesh, physicalGroup = "fixed")
@@ -40,8 +41,7 @@ f = structural.PartitionVector(structural.GetProblem().LoadNode())
 monitor = solvers.IterativeBiCGStab(K[3], y[1], -K[2] * y[0] + f[1])
 structural.UpdateMeshValues(y)
 
+#plots.residual.Show(monitor)
 nodesPlot = structural.FilterNodesByCoordinate(mesh.GetNodes(), basis, structural.axis_y, 0.0, 0.001)
 nodesPlot = structural.FilterNodesByCoordinate(nodesPlot, basis, structural.axis_z, 0.0, 0.001)
-
-#plots.residual.Show(monitor)
 plots.beam.Cantilever(nodesPlot, 1)

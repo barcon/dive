@@ -17,7 +17,7 @@ steel = materials.solid.steel.Create(1)
 density = steel.GetDensity(T_ref, p_ref)
 
 meshes.Initialize()
-meshes.CreateBeam(1.0, 0.1, 0.1, 21, 3, 3, False)
+meshes.CreateBeam(1.0, 0.1, 0.1, 21, 2, 2, True)
 
 mesh = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 3, physicalGroup = "problem")
 fixed = meshes.GetNodesForPhysicalGroup(mesh = mesh, physicalGroup = "fixed")
@@ -33,6 +33,7 @@ structural.ApplyLoadDistributedVolume(loadVolume, weight)
 structural.Initialize()
 
 #--------------------------------------------------------------------------------------------------
+
 K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
 y = structural.PartitionVector(structural.GetProblem().Displacement())
 f = structural.PartitionVector(structural.GetProblem().LoadDistributedVolume())

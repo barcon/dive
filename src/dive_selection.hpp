@@ -101,7 +101,7 @@ namespace dive
 		Elements FilterElementsByNodesIntersection(const Nodes& input);
 		Elements FilterElementsRemoveDuplicates(const Elements& input);
 
-		//FacePair FilterFaceByNodes(IElementPtr element, const Nodes& input);
+		FacePair FilterFaceByNodes(IElementPtr element, const Nodes& input);
 
 		template <typename T> struct SpecificationSort
 		{

@@ -29,8 +29,10 @@
 	typedef std::shared_ptr<dive::elements::ElementCombined> ElementCombinedPtr;
 	typedef std::shared_ptr<const dive::elements::ElementCombined> ConstElementCombinedPtr;
 	
-	typedef std::vector<dive::elements::IElementPtr> Elements;	
+	typedef std::vector<dive::elements::IElementPtr> Elements;
 
+	typedef struct dive::elements::FacePair FacePair;
+	typedef struct dive::elements::EdgePair EdgePair;
 %}
 
 %shared_ptr(dive::elements::IElement);
@@ -45,6 +47,8 @@
 %shared_ptr(dive::elements::ElementCombined);
 
 %template(vecElements) std::vector<std::shared_ptr<dive::elements::IElement>>;
+%template(vecFacePairs) std::vector<struct dive::elements::FacePair>;
+%template(vecEdgePairs) std::vector<struct dive::elements::EdgePair>;
 
 %include "dive_elements.hpp"
 %include "dive_elements_hexa.hpp"

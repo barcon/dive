@@ -51,10 +51,11 @@ def GetMeshForPhysicalGroup(meshTag, numberDof, physicalGroup):
     
     mesh.SortNodesByTag()
 
-    counter = 0
     entities = gmsh.model.getEntitiesForPhysicalGroup(dimension, tag)
     for entity in entities:
         elementTypes, elementTags, elementNodeTags = gmsh.model.mesh.getElements(dimension, entity)
+        counter = 0
+        
         for i in range(0, len(elementTags[0])):     
             if(elementTypes[0] == 5):
                 elementTag = int(elementTags[0][i])
@@ -103,33 +104,19 @@ def GetNodesForPhysicalGroup(mesh, physicalGroup):
 
     return nodes
 
-def GetElementsForPhysicalGroup(mesh, physicalGroup):
-    elements = dive.vecElements()
-    dimension, tag = GetPhysicalGroupByName(physicalGroup)
-    status = 0
-    
-    entities = gmsh.model.getEntitiesForPhysicalGroup(dimension, tag)
-    for entity in entities:
-        elementTypes, elementTags, elementNodeTags = gmsh.model.mesh.getElements(dimension, entity)
-        for i in range(0, len(elementTags[0])):         
-            element, status = mesh.GetElementSorted(int(elementTags[0][i]), status)
-            elements.append(element)
-
-    return elements
-
 def GetFacesForPhysicalGroup(mesh, physicalGroup):
-    #faces = dive.vecFaces()
+    facePairs = dive.vecFacePairs()
     dimension, tag = GetPhysicalGroupByName(physicalGroup)
     status = 0
 
     if(dimension != 2):
         print("Error: Physical group is not a face group.")
         return None
-
-    counter = 0
+   
     entities = gmsh.model.getEntitiesForPhysicalGroup(dimension, tag)
-    for entity in entities:       
+    for entity in entities:
         elementTypes, elementTags, elementNodeTags = gmsh.model.mesh.getElements(dimension, entity)
+        counter = 0
 
         if(elementTypes[0] == 3):
             numberNodes = 4              
@@ -153,9 +140,23 @@ def GetFacesForPhysicalGroup(mesh, physicalGroup):
                 print("Error: Face not found.")
                 continue
 
-            faceIndex = dive.FilterFaceByNodes(elements[0], nodes)
+            facePairs.append(dive.FilterFaceByNodes(elements[0], nodes))
             
-    return None
+    return facePairs
+
+def GetElementsForPhysicalGroup(mesh, physicalGroup):
+    elements = dive.vecElements()
+    dimension, tag = GetPhysicalGroupByName(physicalGroup)
+    status = 0
+    
+    entities = gmsh.model.getEntitiesForPhysicalGroup(dimension, tag)
+    for entity in entities:
+        elementTypes, elementTags, elementNodeTags = gmsh.model.mesh.getElements(dimension, entity)
+        for i in range(0, len(elementTags[0])):         
+            element, status = mesh.GetElementSorted(int(elementTags[0][i]), status)
+            elements.append(element)
+
+    return elements
 
 def Entities():
     entities = gmsh.model.getEntities()

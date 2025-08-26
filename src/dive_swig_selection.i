@@ -1,3 +1,4 @@
+%inline
 %{
 	#include "dive_selection.hpp"
 %}

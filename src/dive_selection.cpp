@@ -6,7 +6,6 @@ namespace dive
 {
 	namespace selection
 	{
-
 		SpecNodesByCoordinate::SpecNodesByCoordinate(IBasisPtr basis, Axis axis, Scalar pos, Scalar tol)
 		{
 			basis_ = basis;
@@ -234,38 +233,45 @@ namespace dive
 			return Elements(res.begin(), res.end());
 		}
 
-		/*FacePair FilterFaceByNodes(IElementPtr element, const Nodes& input)
+		FacePair FilterFaceByNodes(IElementPtr element, const Nodes& input)
 		{
-			Nodes nodes;
-			FacePair res = std::make_pair(nullptr, 0);
+			FacePair res = { nullptr, 0 };
 
 			if (element == nullptr)
 			{
 				return res;
 			}
-
+			
+			auto sorted = SortNodesByTag(input);
 			for (FaceIndex i = 0; i < element->GetNumberFaces(); ++i)
 			{
-				if (input.size() != element->GetNumberNodesFace(i))
+				if (sorted.size() != element->GetNumberNodesFace(i))
 				{
 					continue;
 				}
 
-				nodes.clear();				
+				Nodes nodes;
 				for (NodeIndex j = 0; j < element->GetNumberNodesFace(i); ++j)
 				{
 					nodes.push_back(element->GetNodeFace(i, j));
-
-					//input = SortNodes(input);
-
 				}
-
-
+				nodes = SortNodesByTag(nodes);
+					
+				bool isEqual = std::equal(nodes.begin(), nodes.end(), sorted.begin(), 
+					[&](INodePtr node1, INodePtr node2) -> bool
+					{
+						return node1->GetTag() == node2->GetTag();
+					});
 				
+				if (isEqual)
+				{
+					res = { element, i };
+					break;
+				}
 			}
 
-			return FacePair();
-		}*/
+			return res;
+		}
 
 		SpecSortNodesByTag::SpecSortNodesByTag()
 		{
