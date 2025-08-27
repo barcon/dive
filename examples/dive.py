@@ -2800,8 +2800,8 @@ _dive.IGauss_swigregister(IGauss)
 GaussTable = cvar.GaussTable
 
 
-def CreateGaussHexa():
-    return _dive.CreateGaussHexa()
+def CreateGaussHexa(value):
+    return _dive.CreateGaussHexa(value)
 class GaussHexa(IGauss):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
@@ -2835,8 +2835,8 @@ class GaussHexa(IGauss):
 # Register GaussHexa in _dive:
 _dive.GaussHexa_swigregister(GaussHexa)
 
-def CreateGaussRect():
-    return _dive.CreateGaussRect()
+def CreateGaussRect(value):
+    return _dive.CreateGaussRect(value)
 class GaussRect(IGauss):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
@@ -2870,8 +2870,8 @@ class GaussRect(IGauss):
 # Register GaussRect in _dive:
 _dive.GaussRect_swigregister(GaussRect)
 
-def CreateGaussLine():
-    return _dive.CreateGaussLine()
+def CreateGaussLine(value):
+    return _dive.CreateGaussLine(value)
 class GaussLine(IGauss):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 
@@ -3990,6 +3990,9 @@ parametric_linear = cvar.parametric_linear
 parametric_quadratic = cvar.parametric_quadratic
 order_linear = cvar.order_linear
 order_quadratic = cvar.order_quadratic
+quadrature_one = cvar.quadrature_one
+quadrature_two = cvar.quadrature_two
+quadrature_three = cvar.quadrature_three
 element_mass = cvar.element_mass
 element_combined = cvar.element_combined
 element_hexa8 = cvar.element_hexa8
@@ -4195,8 +4198,11 @@ class IElementMapped(IElement):
     def SetOrder(self, order):
         return _dive.IElementMapped_SetOrder(self, order)
 
-    def SetParametric(self, order):
-        return _dive.IElementMapped_SetParametric(self, order)
+    def SetParametric(self, parametric):
+        return _dive.IElementMapped_SetParametric(self, parametric)
+
+    def SetIntegral(self, integral):
+        return _dive.IElementMapped_SetIntegral(self, integral)
 
     def IntegralWeakFormElement(self, weakForm, output):
         return _dive.IElementMapped_IntegralWeakFormElement(self, weakForm, output)
@@ -4401,8 +4407,11 @@ class ElementHexa(IElementSolid):
     def SetOrder(self, order):
         return _dive.ElementHexa_SetOrder(self, order)
 
-    def SetParametric(self, order):
-        return _dive.ElementHexa_SetParametric(self, order)
+    def SetParametric(self, parametric):
+        return _dive.ElementHexa_SetParametric(self, parametric)
+
+    def SetIntegral(self, integral):
+        return _dive.ElementHexa_SetIntegral(self, integral)
 
     def SetTag(self, elementTag):
         return _dive.ElementHexa_SetTag(self, elementTag)

@@ -1,19 +1,7 @@
 import gmsh
 
-x = 1.0
-y = 1.0
-z = 0.1
-
-nx = 11
-ny = 11
-nz = 2
-
-quadratic = False
-
-def Create(fileName):
-    gmsh.initialize()
-    gmsh.option.setNumber("General.Terminal", 1)
-    gmsh.model.add(fileName)
+def CreateCavity(x, y, z, nx, ny, nz, quadratic):
+    gmsh.model.add("cavity")
 
     gmsh.model.geo.addPoint(0.0, 0.0, 0.0, 0, 1)
     gmsh.model.geo.addPoint(  x, 0.0, 0.0, 0, 2)
@@ -95,8 +83,10 @@ def Create(fileName):
     else:
         gmsh.model.mesh.setOrder(2)          
 
-    gmsh.write(fileName)
-    gmsh.finalize()
-
+    gmsh.model.addPhysicalGroup(3, [1], name="cavity")
+    gmsh.model.addPhysicalGroup(2, [3, 5, 6], name="wall")
+    gmsh.model.addPhysicalGroup(2, [4], name="hot")
+    gmsh.model.addPhysicalGroup(2, [1], name="plot")
+   
     return
 

@@ -81,12 +81,9 @@ namespace dive
 		}
 		ElementHexa::ElementHexa()
 		{
-			gaussHexa_ = quadrature::CreateGaussHexa();
-			gaussRect_ = quadrature::CreateGaussRect();
-			gaussLine_ = quadrature::CreateGaussLine();
-
 			SetOrder(order_linear);
 			SetParametric(parametric_linear);
+			SetIntegral(quadrature_two);
 		}
 		Matrix ElementHexa::u() const
 		{
@@ -730,10 +727,6 @@ namespace dive
 				numberNodesEdge_ = 2;
 				nodes_.resize(numberNodes_);
 				type_ = element_hexa8;
-
-				gaussHexa_->SetQuadrature(2);
-				gaussRect_->SetQuadrature(2);
-				gaussLine_->SetQuadrature(2);
 			}
 			else if (order == order_quadratic)
 			{
@@ -749,10 +742,6 @@ namespace dive
 				numberNodesEdge_ = 3;
 				nodes_.resize(numberNodes_);
 				type_ = element_hexa20;
-
-				gaussHexa_->SetQuadrature(3);
-				gaussRect_->SetQuadrature(3);
-				gaussLine_->SetQuadrature(3);
 			}
 		}
 		void ElementHexa::SetParametric(const Parametric& parametric)
@@ -777,6 +766,12 @@ namespace dive
 				numberNodesParametric_ = 20;
 				numberNodesFaceParametric_ = 8;
 			}
+		}
+		void ElementHexa::SetIntegral(const Integral& integral)
+		{
+			gaussHexa_ = quadrature::CreateGaussHexa(integral);
+			gaussRect_ = quadrature::CreateGaussRect(integral);	
+			gaussLine_ = quadrature::CreateGaussLine(integral);
 		}
 		void ElementHexa::SetTag(Tag tag)
 		{

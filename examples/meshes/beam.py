@@ -82,7 +82,7 @@ def CreateBeam(x, y, z, nx, ny, nz, quadratic):
     else:
         gmsh.model.mesh.setOrder(2)          
 
-    gmsh.model.addPhysicalGroup(3, [1], name="problem")
+    gmsh.model.addPhysicalGroup(3, [1], name="beam")
     gmsh.model.addPhysicalGroup(2, [5], name="fixed")
     gmsh.model.addPhysicalGroup(3, [1], name="loadVolume")
     gmsh.model.addPhysicalGroup(2, [3], name="loadFace")

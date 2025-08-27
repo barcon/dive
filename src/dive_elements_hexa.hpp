@@ -81,7 +81,8 @@ namespace dive
 			void SetNumberDof(NumberDof numberDof) override;
 			void SetNode(const NodeIndex& nodeNumber, INodePtr node) override;
 			void SetOrder(const Order& order) override;
-			void SetParametric(const Parametric& order) override;
+			void SetParametric(const Parametric& parametric) override;
+			void SetIntegral(const Integral& integral) override;
 			void SetTag(Tag elementTag) override;
 			void SetMaterial(IMaterialPtr material) override;
 			void SetElementIndex(ElementIndex index) override;
@@ -352,7 +353,6 @@ namespace dive
 													NodeIndex(3), NodeIndex(19), NodeIndex(7) };
 
 			} quadraticFunctions_;
-
 		};
 
 	} //namespace elements

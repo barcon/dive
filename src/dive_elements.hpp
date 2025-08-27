@@ -17,6 +17,11 @@ namespace dive
 		static const Order order_linear = 1;
 		static const Order order_quadratic = 2;
 
+		using Integral = std::size_t;
+		static const Integral quadrature_one = 1;
+		static const Integral quadrature_two = 2;
+		static const Integral quadrature_three = 3;
+
 		static const Type element_mass = 1;
 		static const Type element_combined = 2;
 		static const Type element_hexa8 = 3;
@@ -150,7 +155,8 @@ namespace dive
 			virtual Parametric GetParametric() const = 0;
 
 			virtual void SetOrder(const Order& order) = 0;
-			virtual void SetParametric(const Parametric& order) = 0;
+			virtual void SetParametric(const Parametric& parametric) = 0;
+			virtual void SetIntegral(const Integral& integral) = 0;
 
 			virtual void IntegralWeakFormElement(IWeakFormElementPtr weakForm, Matrix& output) const = 0;
 			virtual void IntegralWeakFormLoad(IWeakFormLoadPtr weakForm, ILoadPtr load, Vector& output) const = 0;

@@ -10,25 +10,22 @@ basis       = thermal.CreateBasisCartesian(1)
 timer       = thermal.CreateTimerStationary(1, 0.0)
 pressure    = thermal.CreateValueScalar3D(p_ref)
 material    = materials.fluid.VG46.Create(1, T_ref, p_ref)
-meshFile    = 'cavity.msh'
 
-meshes.cavity.quadratic = True
-meshes.cavity.Create(meshFile)
-mesh = meshes.routines.LoadMesh(1, meshFile)
-meshes.routines.ApplyMaterial(mesh.GetElements(), material)
+meshes.Initialize()
+meshes.CreateCavity(1.0, 1.0, 0.1, 21, 21, 2, True)
+#meshes.Show()
 
-#--------------------------------------------------------------------------------------------------
+cavity = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 3, physicalGroup = "cavity")
+wall = meshes.GetNodesForPhysicalGroup(mesh = cavity, physicalGroup = "wall")
+hot = meshes.GetNodesForPhysicalGroup(mesh = cavity, physicalGroup = "hot")
+plot = meshes.GetNodesForPhysicalGroup(mesh = cavity, physicalGroup = "plot")
 
-nodesTop = thermal.FilterNodesByCoordinate(mesh.GetNodes(), basis, thermal.axis_y, meshes.cavity.y, 0.001)
-nodesBottom = thermal.FilterNodesByCoordinate(mesh.GetNodes(), basis, thermal.axis_y, 0.0, 0.001)
-nodesLeft = thermal.FilterNodesByCoordinate(mesh.GetNodes(), basis, thermal.axis_x, 0.0, 0.001)
-nodesRight = thermal.FilterNodesByCoordinate(mesh.GetNodes(), basis, thermal.axis_x, meshes.cavity.x, 0.001)
+meshes.ApplyMaterial(cavity.GetElements(), material)
+meshes.Finalize()
 
-thermal.CreateProblem(1, mesh, pressure)
-thermal.ApplyDirichlet(nodesTop, 100.0)
-thermal.ApplyDirichlet(nodesBottom, 0.0)
-thermal.ApplyDirichlet(nodesLeft, 0.0)
-thermal.ApplyDirichlet(nodesRight, 0.0)
+thermal.CreateProblem(1, cavity, pressure)
+thermal.ApplyDirichlet(hot, 100.0)
+thermal.ApplyDirichlet(wall, 0.0)
 thermal.Initialize()
 
 #--------------------------------------------------------------------------------------------------
@@ -38,8 +35,7 @@ y = thermal.PartitionVector(thermal.GetProblem().Energy())
 
 #monitor = solvers.IterativeCG(K[3], y[1], -K[2] * y[0])
 monitor = solvers.IterativeBiCGStab(K[3], y[1], -K[2] * y[0])
-
 thermal.UpdateMeshValues(y)
 
 #plots.residual.Show(monitor)
-plots.HeatMapNorm(mesh.GetNodes())
+plots.HeatMapNorm(plot)
