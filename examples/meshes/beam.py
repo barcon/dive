@@ -83,10 +83,13 @@ def CreateBeam(x, y, z, nx, ny, nz, quadratic):
         gmsh.model.mesh.setOrder(2)          
 
     gmsh.model.addPhysicalGroup(3, [1], name="beam")
-    gmsh.model.addPhysicalGroup(2, [5], name="fixed")
     gmsh.model.addPhysicalGroup(3, [1], name="loadVolume")
+    gmsh.model.addPhysicalGroup(2, [5], name="fixed")
+    gmsh.model.addPhysicalGroup(2, [5], name="inlet")
     gmsh.model.addPhysicalGroup(2, [3], name="loadFace")
+    gmsh.model.addPhysicalGroup(2, [3], name="wall")
     gmsh.model.addPhysicalGroup(1, [6], name="loadEdge")
+    gmsh.model.addPhysicalGroup(1, [3], name="plot")
     gmsh.model.addPhysicalGroup(0, [2, 3, 6, 7], name="loadNode")
 
     return

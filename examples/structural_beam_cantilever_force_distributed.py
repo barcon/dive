@@ -18,11 +18,13 @@ density = steel.GetDensity(T_ref, p_ref)
 
 meshes.Initialize()
 meshes.CreateBeam(1.0, 0.1, 0.1, 21, 2, 2, True)
+#meshes.Show()
 
 beam = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 3, physicalGroup = "beam")
 fixed = meshes.GetNodesForPhysicalGroup(mesh = beam, physicalGroup = "fixed")
 loadVolume = meshes.GetElementsForPhysicalGroup(mesh = beam, physicalGroup = "loadVolume")
 weight = structural.CreateValueVector3DScalars([0.0, density * gravity, 0.0])
+plot = meshes.GetNodesForPhysicalGroup(mesh = beam, physicalGroup = "plot")
 
 meshes.ApplyMaterial(beam.GetElements(), steel)
 meshes.Finalize()
@@ -42,6 +44,4 @@ monitor = solvers.IterativeBiCGStab(K[3], y[1], -K[2] * y[0] + f[1])
 structural.UpdateMeshValues(y)
 
 #plots.residual.Show(monitor)
-nodesPlot = structural.FilterNodesByCoordinate(beam.GetNodes(), basis, structural.axis_y, 0.0, 0.001)
-nodesPlot = structural.FilterNodesByCoordinate(nodesPlot, basis, structural.axis_z, 0.0, 0.001)
-plots.beam.Cantilever(nodesPlot, 1)
+plots.beam.Cantilever(plot, 1)

@@ -18,20 +18,25 @@ T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
 basis       = thermal.CreateBasisCartesian(1)
 timer       = thermal.CreateTimerStationary(1, 0.0)
-pressure    = thermal.CreateValueScalar3D(p_ref)
-material    = materials.fluid.VG46.Create(1, 68, T_ref)
-meshFile    = 'beam.cgns'
-
-meshes.beam.quadratic = True
-meshes.beam.Create(meshFile)
-
-meshThermal = meshes.routines.LoadMesh(1, meshFile, dof = 1)
-meshMomentum = meshes.routines.LoadMesh(2, meshFile, dof = 3)
-meshes.routines.ApplyMaterial(meshThermal.GetElements(), material)
-meshes.routines.ApplyMaterial(meshMomentum.GetElements(), material)
-
 pressure = thermal.CreateValueScalar3D(p_ref)
 temperature = thermal.CreateValueScalar3D(T_ref)
+lenghtDomain = 1.0
+material    = materials.fluid.VG46.Create(1, T_ref, p_ref)
+
+meshes.Initialize()
+meshes.CreateBeam(lenghtDomain, 0.1, 0.1, 21, 2, 2, True)
+#meshes.Show()
+
+meshThermal = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 1, physicalGroup = "beam")
+meshMomentum = meshes.GetMeshForPhysicalGroup(meshTag = 2, numberDof = 1, physicalGroup = "beam")
+
+wall = meshes.GetNodesForPhysicalGroup(mesh = meshThermal, physicalGroup = "wall")
+inlet = meshes.GetNodesForPhysicalGroup(mesh = meshThermal, physicalGroup = "inlet")
+plot = meshes.GetNodesForPhysicalGroup(mesh = meshThermal, physicalGroup = "plot")
+
+meshes.ApplyMaterial(meshThermal.GetElements(), material)
+meshes.ApplyMaterial(meshMomentum.GetElements(), material)
+meshes.Finalize()
 
 #--------------------------------------------------------------------------------------------------
 rho = material.GetDensity(T_ref, p_ref)
@@ -39,11 +44,10 @@ k = material.GetThermalConductivity(T_ref, p_ref)
 cp = material.GetSpecificHeat(T_ref, p_ref)
 
 heightElement = thermal.GetSizeMinimum(meshThermal.GetElements())
-lenghtDomain = meshes.beam.x
 diffusity = k / (cp * rho)
 
 peclet = 5.0
-speed = (2 * peclet * diffusity) / heightElement
+speed = (2.0 * peclet * diffusity) / heightElement
 
 dt1 = lenghtDomain**2.0 / diffusity
 dt2 = heightElement**2.0 /  diffusity
@@ -72,21 +76,15 @@ tableSummary.add_row(["Convection Element Time", "{:.2g}".format(dt4), "[s]"])
 print(tableSummary)
 #--------------------------------------------------------------------------------------------------
 
-tolerance = heightElement/10.0
-nodesLeft = thermal.FilterNodesByCoordinate(meshThermal.GetNodes(), basis, thermal.axis_x, 0.0, tolerance)
-nodesRight = thermal.FilterNodesByCoordinate(meshThermal.GetNodes(), basis, thermal.axis_x, meshes.beam.x, tolerance)
-
-nodesCurve = thermal.FilterNodesByCoordinate(meshThermal.GetNodes(), basis, thermal.axis_y, 0.0, tolerance)
-nodesCurve = thermal.FilterNodesByCoordinate(nodesCurve, basis, thermal.axis_z, 0.0, tolerance)
-
 thermal.CreateProblem(1, meshThermal, pressure)
-thermal.ApplyDirichlet(nodesLeft, 1.0)
-thermal.ApplyDirichlet(nodesRight, 0.0)
+thermal.ApplyDirichlet(inlet, 1.0)
+thermal.ApplyDirichlet(wall, 0.0)
 thermal.Initialize()
 
 fluid.momentum.CreateProblem(1, meshMomentum, temperature, pressure)
-meshes.routines.ApplyField(meshMomentum, dof = 3, function = FunctionVelocity)
+meshes.ApplyField(meshMomentum, dof = 3, function = FunctionVelocity)
 fluid.momentum.Initialize()
+
 #--------------------------------------------------------------------------------------------------
 
 K = thermal.PartitionMatrix(thermal.GetProblem().Stiffness())
@@ -98,4 +96,4 @@ dt = 0.05
 monitor = solvers.IterativeBiCGStab(K[3] + C[3] - dt * S[3], y[1], -(K[2] + C[2] - dt * S[2]) * y[0])
 
 thermal.UpdateMeshValues(y)
-plots.Curve(nodesCurve)
+plots.Curve(plot)
