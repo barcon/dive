@@ -11,7 +11,7 @@ from prettytable import PrettyTable
 T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
 basis       = fluid.CreateBasisCartesian(1)
-timer       = fluid.CreateTimerStepped(1, 0.0, 50000.0, 10.0)
+timer       = fluid.CreateTimerStepped(1, 0.0, 10000.0, 1.0)
 pressure    = fluid.CreateValueScalar3D(p_ref)
 temperature = fluid.CreateValueScalar3D(T_ref)
 material    = materials.fluid.water.Create(1, T_ref, p_ref)
@@ -84,6 +84,10 @@ fluid.pressure.Initialize()
 
 #--------------------------------------------------------------------------------------------------
 
+kernels = fluid.CreateKernels("kernels.c", 0, 0)
+matrix = fluid.Matrix(kernels, 3, 3)
+quit()
+
 M = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Mass())
 K = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Stiffness())
 
@@ -102,8 +106,10 @@ while(True):
 
     C = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Convection())
     monitor = solvers.IterativeBiCGStab(M[3], dq[1], -dt * (K[2] * q0[0] + C[2] * q0[0] + K[3] * q0[1] + C[3] * q0[1]))
+
     q1[0] = q0[0] + dq[0]
     q1[1] = q0[1] + dq[1]
+    
     fluid.momentum.UpdateMeshValuesMomentum(q1)
 
     q = fluid.momentum.GetProblem().Momentum()

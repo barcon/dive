@@ -1,4 +1,4 @@
-%module diveCL
+%module dive
 
 %{
 	#define SWIG_PYTHON_EXTRA_NATIVE_CONTAINERS 

@@ -30,8 +30,11 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>PythonCL\</OutDir>
     <IntDir>obj\_PythonCL\</IntDir>
-    <TargetName>_diveCL</TargetName>
+    <TargetName>_dive</TargetName>
     <TargetExt>.pyd</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='PythonCL|x64'">
+    <VcpkgConfiguration>Release</VcpkgConfiguration>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='PythonCL|x64'">
     <ClCompile>
@@ -53,7 +56,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>utils.lib;logger.lib;eilig.lib;basis.lib;quadrature.lib;nodes.lib;kdtree.lib;interpolation.lib;values.lib;material.lib;club.lib;opencl.lib;python313.lib;hdf5.lib;cgns.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\utils\build\Release;..\..\logger\build\Release;..\..\eilig\build\ReleaseCL;..\..\basis\build\Release;..\..\quadrature\build\Release;..\..\nodes\build\Release;..\..\kdtree\build\Release;..\..\interpolation\build\Release;..\..\values\build\Release;..\..\material\build\Release;..\..\club\build\Release;..\..\opencl\lib\x86_64;..\..\python\lib;..\..\hdf5\lib;..\..\cgns\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <ImportLibrary>PythonCL\_diveCL.lib</ImportLibrary>
+      <ImportLibrary>PythonCL\_dive.lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

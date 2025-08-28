@@ -61,7 +61,7 @@ project "diveCL"
 	kind "SharedLib"
 	language "C++"
 	cppdialect "C++17"
-	targetname ("_diveCL")
+	targetname ("_dive")
 	targetextension (".pyd")
 	objdir "%{cfg.location}/obj/%{cfg.platform}_%{cfg.buildcfg}"	
 

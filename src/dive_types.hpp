@@ -1,21 +1,6 @@
 #ifndef DIVE_TYPES_HPP_
 #define DIVE_TYPES_HPP_
 
-/*
-#if _WIN32 || _WIN64
-#ifdef DLL_EXPORT
-#define DLL_API __declspec(dllexport)
-#else
-#define DLL_API __declspec(dllimport)
-#endif
-
-#define DLL_CALL __cdeclcd 
-#else
-#define DLL_API
-#define DLL_CALL
-#endif
-*/
-
 #include "utils.hpp"
 #include "logger.hpp"
 #include "eilig.hpp"
