@@ -85,9 +85,12 @@ def CreateCavity(x, y, z, nx, ny, nz, quadratic):
 
     gmsh.model.addPhysicalGroup(3, [1], name="cavity")
     gmsh.model.addPhysicalGroup(2, [3, 5, 6], name="wall")
+    gmsh.model.addPhysicalGroup(2, [3, 5, 6], name="wallViscous")
     gmsh.model.addPhysicalGroup(2, [4], name="hot")
     gmsh.model.addPhysicalGroup(2, [4], name="velocity")
+    gmsh.model.addPhysicalGroup(2, [1, 2], name="symmetryPlane")
     gmsh.model.addPhysicalGroup(2, [1], name="plot")
+    gmsh.model.addPhysicalGroup(1, [9], name="pressure")
    
     return
 
