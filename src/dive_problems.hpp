@@ -53,7 +53,6 @@ namespace dive
 			virtual void AddDirichlet(IBoundaryConditionPtr dirichlet) = 0;
 			virtual void AddLoad(ILoadPtr load) = 0;
 			virtual void Initialize() = 0;
-			virtual void UpdateMeshValues(const Vector& u) = 0;
 		};
 
 		class IFluid : public IProblem
@@ -67,20 +66,38 @@ namespace dive
 
 			virtual void SetTemperature(IScalar3DPtr temperature) = 0;
 			virtual void SetPressure(IScalar3DPtr pressure) = 0;
+			
+			virtual void UpdateMeshValues(const Vector& u) = 0;
+			virtual void UpdateMeshValuesMomentum(const Vector& q) = 0;			
 
 			virtual Sparse Mass() const = 0;
 			virtual Sparse Stiffness() const = 0;
 			virtual Sparse Convection() const = 0;
 			virtual Sparse ConvectionSymmetric() const = 0;
 			virtual Sparse ConvectionAsymmetric() const = 0;
-			virtual Sparse Stabilization() const = 0;
+			virtual Sparse Stabilization() const = 0;		
 			virtual Vector LoadDistributedVolume() const = 0;
 			virtual Vector LoadDistributedVolumeStabilization() const = 0;
 			
 			virtual Vector Momentum() const = 0;
 			virtual Vector Velocity() const = 0;
 
-			virtual void UpdateMeshValuesMomentum(const Vector& q) = 0;
+#ifdef EILIG_ENABLE_OPENCL
+			virtual void UpdateMeshValues(const VectorCL& u) = 0;
+			virtual void UpdateMeshValuesMomentum(const VectorCL& q) = 0;
+
+			virtual SparseCL Mass(KernelsPtr kernels) const = 0;
+			virtual SparseCL Stiffness(KernelsPtr kernels) const = 0;
+			virtual SparseCL Convection(KernelsPtr kernels) const = 0;
+			virtual SparseCL ConvectionSymmetric(KernelsPtr kernels) const = 0;
+			virtual SparseCL ConvectionAsymmetric(KernelsPtr kernels) const = 0;
+			virtual SparseCL Stabilization(KernelsPtr kernels) const = 0;
+			virtual VectorCL LoadDistributedVolume(KernelsPtr kernels) const = 0;
+			virtual VectorCL LoadDistributedVolumeStabilization(KernelsPtr kernels) const = 0;
+
+			virtual VectorCL Momentum(KernelsPtr kernels) const = 0;
+			virtual VectorCL Velocity(KernelsPtr kernels) const = 0;
+#endif
 		};
 
 		class IPressure : public IProblem
@@ -95,6 +112,8 @@ namespace dive
 			virtual void SetTemperature(IScalar3DPtr temperature) = 0;
 			virtual void SetVelocity(IMatrix3DPtr velocity) = 0;
 
+			virtual void UpdateMeshValues(const Vector& u) = 0;
+
 			virtual Sparse Mass() const = 0;
 			virtual Sparse Stiffness() const = 0;
 			virtual Sparse Crossed(IProblemPtr problemMomentum) const = 0;
@@ -102,6 +121,18 @@ namespace dive
 			virtual Sparse DistributedVolumeDivergence(IProblemPtr problemMomentum) const = 0;
 
 			virtual Vector Pressure() const = 0;
+
+#ifdef EILIG_ENABLE_OPENCL
+			virtual void UpdateMeshValues(const VectorCL& u) = 0;
+
+			virtual SparseCL Mass(KernelsPtr kernels) const = 0;
+			virtual SparseCL Stiffness(KernelsPtr kernels) const = 0;
+			virtual SparseCL Crossed(KernelsPtr kernels, IProblemPtr problemMomentum) const = 0;
+			virtual SparseCL Stabilization(KernelsPtr kernels, IProblemPtr problemMomentum) const = 0;
+			virtual SparseCL DistributedVolumeDivergence(KernelsPtr kernels, IProblemPtr problemMomentum) const = 0;
+
+			virtual VectorCL Pressure(KernelsPtr kernels) const = 0;
+#endif
 		};
 
 		class IThermal : public IProblem
@@ -113,6 +144,8 @@ namespace dive
 			virtual IScalar3DPtr GetPressure() const = 0;
 
 			virtual void SetPressure(IScalar3DPtr pressure) = 0;
+
+			virtual void UpdateMeshValues(const Vector& u) = 0;
 
 			virtual Sparse Mass() const = 0;
 			virtual Sparse Stiffness() const = 0;
@@ -132,6 +165,8 @@ namespace dive
 
 			virtual void SetTemperature(IScalar3DPtr temperature) = 0;
 			virtual void SetPressure(IScalar3DPtr pressure) = 0;
+
+			virtual void UpdateMeshValues(const Vector& u) = 0;
 
 			virtual Sparse Mass() const = 0;
 			virtual Sparse Stiffness() const = 0;

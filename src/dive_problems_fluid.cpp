@@ -297,5 +297,56 @@ namespace dive {
 
 			return res;
 		}
+
+#ifdef EILIG_ENABLE_OPENCL
+		void ProblemFluid::UpdateMeshValues(const VectorCL& u)
+		{
+			UpdateMeshValues(u.Convert());
+		}
+		void ProblemFluid::UpdateMeshValuesMomentum(const VectorCL& q)
+		{
+			UpdateMeshValues(q.Convert());
+		}
+		SparseCL ProblemFluid::Mass(KernelsPtr kernels) const
+		{
+			return SparseCL(kernels, Mass());
+		}
+		SparseCL ProblemFluid::Stiffness(KernelsPtr kernels) const
+		{
+			return SparseCL(kernels, Stiffness());
+		}
+		SparseCL ProblemFluid::Convection(KernelsPtr kernels) const
+		{
+			return SparseCL(kernels, Convection());
+		}
+		SparseCL ProblemFluid::ConvectionSymmetric(KernelsPtr kernels) const
+		{
+			return SparseCL(kernels, ConvectionSymmetric());
+		}
+		SparseCL ProblemFluid::ConvectionAsymmetric(KernelsPtr kernels) const
+		{
+			return SparseCL(kernels, ConvectionAsymmetric());
+		}
+		SparseCL ProblemFluid::Stabilization(KernelsPtr kernels) const
+		{
+			return SparseCL(kernels, Stabilization());
+		}
+		VectorCL ProblemFluid::LoadDistributedVolume(KernelsPtr kernels) const
+		{
+			return VectorCL(kernels, LoadDistributedVolume());
+		}
+		VectorCL ProblemFluid::LoadDistributedVolumeStabilization(KernelsPtr kernels) const
+		{
+			return VectorCL(kernels, LoadDistributedVolumeStabilization());
+		}
+		VectorCL ProblemFluid::Momentum(KernelsPtr kernels) const
+		{
+			return VectorCL(kernels, Momentum());
+		}
+		VectorCL ProblemFluid::Velocity(KernelsPtr kernels) const
+		{
+			return VectorCL(kernels, Velocity());
+		}
+#endif
 	} // namespace problems
 } // namespace dive

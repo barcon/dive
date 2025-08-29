@@ -230,5 +230,36 @@ namespace dive {
 
 			return res;
 		}
+
+#ifdef EILIG_ENABLE_OPENCL
+		void ProblemPressure::UpdateMeshValues(const VectorCL& u)
+		{
+			UpdateMeshValues(u.Convert());
+		}
+		SparseCL ProblemPressure::Mass(KernelsPtr kernels) const
+		{
+			return SparseCL(kernels, Mass());
+		}
+		SparseCL ProblemPressure::Stiffness(KernelsPtr kernels) const
+		{
+			return SparseCL(kernels, Stiffness());
+		}
+		SparseCL ProblemPressure::Crossed(KernelsPtr kernels, IProblemPtr problemMomentum) const
+		{
+			return SparseCL(kernels, Crossed(problemMomentum));
+		}
+		SparseCL ProblemPressure::Stabilization(KernelsPtr kernels, IProblemPtr problemMomentum) const
+		{
+			return SparseCL(kernels, Stabilization(problemMomentum));
+		}
+		SparseCL ProblemPressure::DistributedVolumeDivergence(KernelsPtr kernels, IProblemPtr problemMomentum) const
+		{
+			return SparseCL(kernels, DistributedVolumeDivergence(problemMomentum));;
+		}
+		VectorCL ProblemPressure::Pressure(KernelsPtr kernels) const
+		{
+				return VectorCL(kernels, Pressure());
+		}
+#endif
 	} // namespace problems
 } // namespace dive

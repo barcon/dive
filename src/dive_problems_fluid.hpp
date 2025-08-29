@@ -54,6 +54,7 @@ namespace dive
 			void AddDirichlet(IBoundaryConditionPtr dirichlet) override;
 			void AddLoad(ILoadPtr load) override;
 			void Initialize() override;
+
 			void UpdateMeshValues(const Vector& u) override;
 			void UpdateMeshValuesMomentum(const Vector& q) override;
 
@@ -62,12 +63,29 @@ namespace dive
 			Sparse Convection() const override;
 			Sparse ConvectionSymmetric() const override;
 			Sparse ConvectionAsymmetric() const override;
-			Sparse Stabilization() const override;
+			Sparse Stabilization() const override;	
 			Vector LoadDistributedVolume() const override;
 			Vector LoadDistributedVolumeStabilization() const override;
 			
 			Vector Momentum() const override;
 			Vector Velocity() const override;
+
+#ifdef EILIG_ENABLE_OPENCL
+			void UpdateMeshValues(const VectorCL& u) override;
+			void UpdateMeshValuesMomentum(const VectorCL& q) override;
+
+			SparseCL Mass(KernelsPtr kernels) const override;
+			SparseCL Stiffness(KernelsPtr kernels) const override;
+			SparseCL Convection(KernelsPtr kernels) const override;
+			SparseCL ConvectionSymmetric(KernelsPtr kernels) const override;
+			SparseCL ConvectionAsymmetric(KernelsPtr kernels) const override;
+			SparseCL Stabilization(KernelsPtr kernels) const override;
+			VectorCL LoadDistributedVolume(KernelsPtr kernels) const override;
+			VectorCL LoadDistributedVolumeStabilization(KernelsPtr kernels) const override;
+
+			VectorCL Momentum(KernelsPtr kernels) const override;
+			VectorCL Velocity(KernelsPtr kernels) const override;
+#endif
 
 		protected:
 			ProblemFluid();

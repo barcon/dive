@@ -33,7 +33,6 @@ thermal.Initialize()
 K = thermal.PartitionMatrix(thermal.GetProblem().Stiffness())
 y = thermal.PartitionVector(thermal.GetProblem().Energy())
 
-#monitor = solvers.IterativeCG(K[3], y[1], -K[2] * y[0])
 monitor = solvers.IterativeBiCGStab(K[3], y[1], -K[2] * y[0])
 thermal.UpdateMeshValues(y)
 

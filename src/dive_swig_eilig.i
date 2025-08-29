@@ -143,7 +143,7 @@ import ctypes
 
 py_callback_iterative = ctypes.CFUNCTYPE(ctypes.c_longlong, ctypes.c_size_t, ctypes.c_double)
 
-def IterativeCG(A, x, b, callback):
+def pyIterativeCG(A, x, b, callback):
 
     # wrap the python callback with a ctypes function pointer
     f = py_callback_iterative(callback)
@@ -153,7 +153,7 @@ def IterativeCG(A, x, b, callback):
 
     return _dive.IterativeCG(A, x, b, f_ptr)
 
-def IterativeBiCGStab(A, x, b, callback):
+def pyIterativeBiCGStab(A, x, b, callback):
 
     # wrap the python callback with a ctypes function pointer
     f = py_callback_iterative(callback)

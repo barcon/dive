@@ -29,7 +29,7 @@ def IterativeBiCGStab(A, x, b):
 
         return dive.EILIG_CONTINUE
 
-    monitor.status = dive.IterativeBiCGStab(A, x, b, CallbackIterative)
+    monitor.status = dive.pyIterativeBiCGStab(A, x, b, CallbackIterative)
 
     return monitor
 

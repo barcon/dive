@@ -40,11 +40,16 @@ namespace dive
 	using Matrix = eilig::Matrix;
 	using Sparse = eilig::Ellpack;
 
+#ifdef EILIG_ENABLE_OPENCL
+	using KernelsPtr = eilig::opencl::KernelsPtr;
+	using VectorCL = eilig::opencl::Vector;
+	using SparseCL = eilig::opencl::Ellpack;
+#endif
+
 	using Scalars = std::vector<Scalar>;
 	using Vectors = std::vector<Vector>;
 	using Matrices = std::vector<Matrix>;
-	using Sparses = std::vector<Sparse>;	
-
+	
 	using Status = long long int;
 	using Tag = std::size_t;
 	using Type = std::size_t;
