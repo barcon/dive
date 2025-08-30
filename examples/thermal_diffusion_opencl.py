@@ -13,7 +13,7 @@ material    = materials.fluid.VG46.Create(1, T_ref, p_ref)
 
 meshes.Initialize()
 meshes.CreateCavity(1.0, 1.0, 0.1, 101, 101, 2, True)
-#meshes.Show()
+meshes.Show()
 
 cavity = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 3, physicalGroup = "cavity")
 wall = meshes.GetNodesForPhysicalGroup(mesh = cavity, physicalGroup = "wall")
@@ -29,11 +29,12 @@ thermal.ApplyDirichlet(wall, 0.0)
 thermal.Initialize()
 
 #--------------------------------------------------------------------------------------------------
+kernels = thermal.CreateKernels("kernels.c", 0, 0)
 
-K = thermal.PartitionMatrix(thermal.GetProblem().Stiffness())
-y = thermal.PartitionVector(thermal.GetProblem().Energy())
+K = thermal.PartitionMatrix(thermal.GetProblem().Stiffness(kernels))
+y = thermal.PartitionVector(thermal.GetProblem().Energy(kernels))
 
-monitor = solvers.IterativeBiCGStab(K[3], y[1], -K[2] * y[0])
+monitor = solvers.IterativeBiCGStabCL(K[3], y[1], -K[2] * y[0])
 thermal.UpdateMeshValues(y)
 
 #plots.residual.Show(monitor)

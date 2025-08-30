@@ -153,6 +153,17 @@ namespace dive
 			virtual Sparse Stabilization(IProblemPtr problemMomentum) const = 0;
 
 			virtual Vector Energy() const = 0;
+
+#ifdef EILIG_ENABLE_OPENCL
+			virtual void UpdateMeshValues(const VectorCL& u) = 0;
+
+			virtual SparseCL Mass(KernelsPtr kernels) const = 0;
+			virtual SparseCL Stiffness(KernelsPtr kernels) const = 0;
+			virtual SparseCL Convection(KernelsPtr kernels, IProblemPtr problemMomentum) const = 0;
+			virtual SparseCL Stabilization(KernelsPtr kernels, IProblemPtr problemMomentum) const = 0;
+
+			virtual VectorCL Energy(KernelsPtr kernels) const = 0;
+#endif
 		};
 
 		class IStructural : public IProblem
