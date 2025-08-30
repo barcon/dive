@@ -27,7 +27,8 @@ def UpdateMeshValuesMomentum(q):
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
 
-    y = problem.Momentum()
+    y = q[0]
+    y.Resize(totalDof)
     y.Region(0, pivot - 1, q[0])
     y.Region(pivot, totalDof - 1, q[1])    
     

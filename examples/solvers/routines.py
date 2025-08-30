@@ -29,7 +29,27 @@ def IterativeBiCGStab(A, x, b):
 
         return dive.EILIG_CONTINUE
 
-    monitor.status = dive.pyIterativeBiCGStab(A, x, b, CallbackIterative)
+    monitor.status = dive.IterativeBiCGStab(A, x, b, CallbackIterative)
+
+    return monitor
+
+def IterativeBiCGStabCL(A, x, b):
+    tolerance = 1.0e-5
+    monitor = Monitor()
+
+    def CallbackIterative(iteration, residual):  
+        if(math.isnan(residual)):
+            return dive.EILIG_NOT_CONVERGED
+
+        monitor.Add(iteration, residual)
+        #print("Iteration = ", iteration, " Residual = ", residual)
+
+        if(residual < tolerance):
+            return dive.EILIG_SUCCESS
+
+        return dive.EILIG_CONTINUE
+
+    monitor.status = dive.IterativeBiCGStabCL(A, x, b, CallbackIterative)
 
     return monitor
 

@@ -5,6 +5,7 @@ import materials.fluid.water
 import solvers
 import plots
 import plots.cavity
+import time
 
 from prettytable import PrettyTable
 
@@ -18,7 +19,7 @@ material    = materials.fluid.water.Create(1, T_ref, p_ref)
 sizeDomain  = 1.0
 
 meshes.Initialize()
-meshes.CreateCavity(sizeDomain, sizeDomain, 0.1 * sizeDomain, 15, 15, 2, False)
+meshes.CreateCavity(sizeDomain, sizeDomain, 0.1 * sizeDomain, 21, 21, 2, False)
 #meshes.Show()
 
 meshVelocity = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 3, physicalGroup = "cavity")
@@ -83,7 +84,9 @@ fluid.pressure.ApplyDirichlet(bcPressure, 0.0)
 fluid.pressure.Initialize()
 
 #--------------------------------------------------------------------------------------------------
-kernels     = fluid.CreateKernels("kernels.c", 0, 0)
+kernels = fluid.CreateKernels("kernels.c", 0, 0)
+totalDofMomentum = fluid.momentum.GetProblem().GetTotalDof()
+totalDofPressure = fluid.pressure.GetProblem().GetTotalDof()
 
 M = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Mass(kernels))
 K = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Stiffness(kernels))
@@ -92,34 +95,51 @@ H = fluid.pressure.PartitionMatrix(fluid.pressure.GetProblem().Stiffness(kernels
 G = fluid.pressure.GetProblem().Crossed(kernels, fluid.momentum.GetProblem()).Transpose()
 D = fluid.pressure.GetProblem().DistributedVolumeDivergence(kernels, fluid.momentum.GetProblem())
 
-totalDof = fluid.momentum.GetProblem().GetTotalDof()
+p = fluid.pressure.PartitionVector(fluid.pressure.GetProblem().Pressure(kernels))
+q0 = fluid.momentum.PartitionVector(fluid.momentum.GetProblem().Momentum(kernels))
+q1 = fluid.momentum.PartitionVector(fluid.VectorCL(kernels, totalDofMomentum, 0.0))
+dq = fluid.momentum.PartitionVector(fluid.VectorCL(kernels, totalDofMomentum, 0.0))
+dqq = fluid.momentum.PartitionVector(fluid.VectorCL(kernels, totalDofMomentum, 0.0))
+
+for i in range(0, 5):
+    print("Step = ", i)
+    q0 = fluid.momentum.PartitionVector(fluid.momentum.GetProblem().Momentum(kernels))
+
+    monitor = solvers.IterativeBiCGStabCL(M[3], dq[1], -dt * (K[2] * q0[0] + K[3] * q0[1]))
+    q1[0] = q0[0] + dq[0]
+    q1[1] = q0[1] + dq[1]
+
+    fluid.momentum.UpdateMeshValuesMomentum(q1)
+
+plots.HeatMapNorm(plotVelocity)
+plots.Vector(plotVelocity)
+quit()
 
 while(True): 
     print("Time step = ", timer.GetCurrent())
-
+   
     p = fluid.pressure.PartitionVector(fluid.pressure.GetProblem().Pressure(kernels))
-    quit()
     q0 = fluid.momentum.PartitionVector(fluid.momentum.GetProblem().Momentum(kernels))
-    q1 = fluid.momentum.PartitionVector(fluid.VectorCL(kernels, totalDof, 0.0))
-    dq = fluid.momentum.PartitionVector(fluid.VectorCL(kernels, totalDof, 0.0))
-    dqq = fluid.momentum.PartitionVector(fluid.VectorCL(kernels, totalDof, 0.0))
+    q1 = fluid.momentum.PartitionVector(fluid.VectorCL(kernels, totalDofMomentum, 0.0))
+    dq = fluid.momentum.PartitionVector(fluid.VectorCL(kernels, totalDofMomentum, 0.0))
+    dqq = fluid.momentum.PartitionVector(fluid.VectorCL(kernels, totalDofMomentum, 0.0))
 
     C = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Convection(kernels))
-    monitor = solvers.IterativeBiCGStab(M[3], dq[1], -dt * (K[2] * q0[0] + C[2] * q0[0] + K[3] * q0[1] + C[3] * q0[1]))
+    monitor = solvers.IterativeBiCGStabCL(M[3], dq[1], -dt * (K[2] * q0[0] + C[2] * q0[0] + K[3] * q0[1] + C[3] * q0[1]))
 
     q1[0] = q0[0] + dq[0]
     q1[1] = q0[1] + dq[1]
-    
+
     fluid.momentum.UpdateMeshValuesMomentum(q1)
 
     q = fluid.momentum.GetProblem().Momentum(kernels)
     fd = fluid.pressure.PartitionVector(D * q)
-    monitor = solvers.IterativeBiCGStab(H[3], p[1], -H[2] * p[0] - (1.0 / dt) * (fd[1]))
+    monitor = solvers.IterativeBiCGStabCL(H[3], p[1], -H[2] * p[0] - (1.0 / dt) * (fd[1]))
     fluid.pressure.UpdateMeshValues(p)
     
     p = fluid.pressure.GetProblem().Pressure(kernels)
     fc = fluid.momentum.PartitionVector(G * p)
-    monitor = solvers.IterativeBiCGStab(M[3], dqq[1], -dt * (fc[1]))
+    monitor = solvers.IterativeBiCGStabCL(M[3], dqq[1], -dt * (fc[1]))
 
     q1[0] = q0[0] + dq[0] + dqq[0]
     q1[1] = q0[1] + dq[1] + dqq[1]

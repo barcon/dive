@@ -258,7 +258,7 @@ namespace dive {
 		}
 		VectorCL ProblemPressure::Pressure(KernelsPtr kernels) const
 		{
-				return VectorCL(kernels, Pressure());
+			return VectorCL(kernels, Pressure());
 		}
 #endif
 	} // namespace problems

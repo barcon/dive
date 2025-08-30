@@ -227,7 +227,7 @@ import ctypes
 
 py_callback_iterative = ctypes.CFUNCTYPE(ctypes.c_longlong, ctypes.c_size_t, ctypes.c_double)
 
-def pyIterativeCG(A, x, b, callback):
+def IterativeCG(A, x, b, callback):
 
     # wrap the python callback with a ctypes function pointer
     f = py_callback_iterative(callback)
@@ -237,7 +237,7 @@ def pyIterativeCG(A, x, b, callback):
 
     return _dive.IterativeBiCG(A, x, b, f_ptr)
 
-def pyIterativeBiCGStab(A, x, b, callback):
+def IterativeBiCGStab(A, x, b, callback):
 
     # wrap the python callback with a ctypes function pointer
     f = py_callback_iterative(callback)
@@ -246,5 +246,25 @@ def pyIterativeBiCGStab(A, x, b, callback):
     f_ptr = ctypes.cast(f, ctypes.c_void_p).value
 
     return _dive.IterativeBiCGStab(A, x, b, f_ptr)
+
+def IterativeCGCL(A, x, b, callback):
+
+    # wrap the python callback with a ctypes function pointer
+    f = py_callback_iterative(callback)
+
+    # get the function pointer of the ctypes wrapper by casting it to void* and taking its value
+    f_ptr = ctypes.cast(f, ctypes.c_void_p).value
+
+    return _dive.IterativeBiCGCL(A, x, b, f_ptr)
+	
+def IterativeBiCGStabCL(A, x, b, callback):
+
+    # wrap the python callback with a ctypes function pointer
+    f = py_callback_iterative(callback)
+
+    # get the function pointer of the ctypes wrapper by casting it to void* and taking its value
+    f_ptr = ctypes.cast(f, ctypes.c_void_p).value
+
+    return _dive.IterativeBiCGStabCL(A, x, b, f_ptr)	
 
 %}
