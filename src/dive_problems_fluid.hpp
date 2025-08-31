@@ -70,23 +70,6 @@ namespace dive
 			Vector Momentum() const override;
 			Vector Velocity() const override;
 
-#ifdef EILIG_ENABLE_OPENCL
-			void UpdateMeshValues(const VectorCL& u) override;
-			void UpdateMeshValuesMomentum(const VectorCL& q) override;
-
-			SparseCL Mass(KernelsPtr kernels) const override;
-			SparseCL Stiffness(KernelsPtr kernels) const override;
-			SparseCL Convection(KernelsPtr kernels) const override;
-			SparseCL ConvectionSymmetric(KernelsPtr kernels) const override;
-			SparseCL ConvectionAsymmetric(KernelsPtr kernels) const override;
-			SparseCL Stabilization(KernelsPtr kernels) const override;
-			VectorCL LoadDistributedVolume(KernelsPtr kernels) const override;
-			VectorCL LoadDistributedVolumeStabilization(KernelsPtr kernels) const override;
-
-			VectorCL Momentum(KernelsPtr kernels) const override;
-			VectorCL Velocity(KernelsPtr kernels) const override;
-#endif
-
 		protected:
 			ProblemFluid();
 

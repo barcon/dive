@@ -22,7 +22,7 @@
 #include <limits>
 #include <utility>
 
-#define NOTIMER
+#define TIMER
 
 #ifdef NOTIMER
 	#define TimerStart() ((void)0)

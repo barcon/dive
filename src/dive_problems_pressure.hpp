@@ -62,18 +62,6 @@ namespace dive
 			
 			Vector Pressure() const override;
 
-#ifdef EILIG_ENABLE_OPENCL
-			virtual void UpdateMeshValues(const VectorCL& u) override;
-
-			virtual SparseCL Mass(KernelsPtr kernels) const override;
-			virtual SparseCL Stiffness(KernelsPtr kernels) const override;
-			virtual SparseCL Crossed(KernelsPtr kernels, IProblemPtr problemMomentum) const override;
-			virtual SparseCL Stabilization(KernelsPtr kernels, IProblemPtr problemMomentum) const override;
-			virtual SparseCL DistributedVolumeDivergence(KernelsPtr kernels, IProblemPtr problemMomentum) const override;
-
-			virtual VectorCL Pressure(KernelsPtr kernels) const override;
-#endif
-
 		protected:
 			ProblemPressure();
 

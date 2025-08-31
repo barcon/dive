@@ -59,17 +59,6 @@ namespace dive
 
 			Vector Energy() const override;
 
-#ifdef EILIG_ENABLE_OPENCL
-			void UpdateMeshValues(const VectorCL& u) override;
-
-			SparseCL Mass(KernelsPtr kernels) const override;
-			SparseCL Stiffness(KernelsPtr kernels) const override;
-			SparseCL Convection(KernelsPtr kernels, IProblemPtr problemMomentum) const override;
-			SparseCL Stabilization(KernelsPtr kernels, IProblemPtr problemMomentum) const override;
-
-			VectorCL Energy(KernelsPtr kernels) const override;
-#endif
-
 		protected:
 			ProblemThermal();
 

@@ -212,32 +212,5 @@ namespace dive {
 
 			return res;
 		}
-
-#ifdef EILIG_ENABLE_OPENCL
-		void ProblemThermal::UpdateMeshValues(const VectorCL& u)
-		{
-			UpdateMeshValues(u.Convert());
-		}
-		SparseCL ProblemThermal::Mass(KernelsPtr kernels) const
-		{
-			return SparseCL(kernels, Mass());
-		}
-		SparseCL ProblemThermal::Stiffness(KernelsPtr kernels) const
-		{
-			return SparseCL(kernels, Stiffness());
-		}
-		SparseCL ProblemThermal::Convection(KernelsPtr kernels, IProblemPtr problemMomentum) const
-		{
-			return SparseCL(kernels, Convection(problemMomentum));
-		}
-		SparseCL ProblemThermal::Stabilization(KernelsPtr kernels, IProblemPtr problemMomentum) const
-		{
-			return SparseCL(kernels, Stabilization(problemMomentum));
-		}
-		VectorCL ProblemThermal::Energy(KernelsPtr kernels) const
-		{
-			return VectorCL(kernels, Energy());
-		}
-#endif
 	} // namespace problems
 } // namespace dive

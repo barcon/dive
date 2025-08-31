@@ -352,10 +352,6 @@ namespace dive
 			return damping_;
 		}
 
-		void ElementCombined::SetCanonical(bool canonical)
-		{
-			canonical_ = canonical;
-		}
 		void ElementCombined::SetStiffness(IScalarPtr stiffness)
 		{
 			if (stiffness == nullptr)
@@ -379,25 +375,11 @@ namespace dive
 		
 		void ElementCombined::Stiffness(Matrix& output) const
 		{
-			if (canonical_)
-			{
-				output = stiffness_->GetValue() * FormMatrix_Canonical();
-			}
-			else
-			{
-				output = stiffness_->GetValue() * FormMatrix_Decomposed();
-			}
+			output = stiffness_->GetValue() * FormMatrix_Decomposed();
 		}
 		void ElementCombined::Damping(Matrix& output) const
 		{
-			if (canonical_)
-			{
-				output = damping_->GetValue() * FormMatrix_Canonical();
-			}
-			else
-			{
-				output = damping_->GetValue() * FormMatrix_Decomposed();
-			}
+			output = damping_->GetValue() * FormMatrix_Decomposed();	
 		}
 
 		Vector ElementCombined::GetGlobalVector0() const
@@ -435,52 +417,6 @@ namespace dive
 			return v0;
 		}
 
-		Matrix ElementCombined::FormMatrix_Canonical() const
-		{
-			auto res = Matrix(numberNodes_ * numberDof_, numberNodes_ * numberDof_, eilig::matrix_zeros);
-
-			switch (numberDof_)
-			{
-			case 1:
-				res(0, 0) = +1.0;
-				res(0, 1) = -1.0;
-				res(1, 1) = +1.0;
-				res(1, 0) = -1.0;
-
-				break;
-			case 2:
-				res(0, 0) = +1.0;
-				res(0, 2) = -1.0;
-				res(2, 2) = +1.0;
-				res(2, 0) = -1.0;
-
-				res(1, 1) = +1.0;
-				res(1, 3) = -1.0;
-				res(3, 3) = +1.0;
-				res(3, 1) = -1.0;
-
-				break;
-			case 3:
-				res(0, 0) = +1.0;
-				res(0, 3) = -1.0;
-				res(3, 3) = +1.0;
-				res(3, 0) = -1.0;
-
-				res(1, 1) = +1.0;
-				res(1, 4) = -1.0;
-				res(4, 4) = +1.0;
-				res(4, 1) = -1.0;
-
-				res(2, 2) = +1.0;
-				res(2, 5) = -1.0;
-				res(5, 5) = +1.0;
-				res(5, 2) = -1.0;
-
-				break;
-			}
-
-			return res;
-		}
 		Matrix ElementCombined::FormMatrix_Decomposed() const
 		{
 			auto res = Matrix(numberNodes_ * numberDof_, numberNodes_ * numberDof_, eilig::matrix_zeros);
@@ -536,6 +472,53 @@ namespace dive
 } //namespace dive
 
 /*
+
+		Matrix ElementCombined::FormMatrix_Canonical() const
+		{
+			auto res = Matrix(numberNodes_ * numberDof_, numberNodes_ * numberDof_, eilig::matrix_zeros);
+
+			switch (numberDof_)
+			{
+			case 1:
+				res(0, 0) = +1.0;
+				res(0, 1) = -1.0;
+				res(1, 1) = +1.0;
+				res(1, 0) = -1.0;
+
+				break;
+			case 2:
+				res(0, 0) = +1.0;
+				res(0, 2) = -1.0;
+				res(2, 2) = +1.0;
+				res(2, 0) = -1.0;
+
+				res(1, 1) = +1.0;
+				res(1, 3) = -1.0;
+				res(3, 3) = +1.0;
+				res(3, 1) = -1.0;
+
+				break;
+			case 3:
+				res(0, 0) = +1.0;
+				res(0, 3) = -1.0;
+				res(3, 3) = +1.0;
+				res(3, 0) = -1.0;
+
+				res(1, 1) = +1.0;
+				res(1, 4) = -1.0;
+				res(4, 4) = +1.0;
+				res(4, 1) = -1.0;
+
+				res(2, 2) = +1.0;
+				res(2, 5) = -1.0;
+				res(5, 5) = +1.0;
+				res(5, 2) = -1.0;
+
+				break;
+			}
+
+			return res;
+		}
 
 		Vector ElementCombined::GetLocalVector0() const
 		{

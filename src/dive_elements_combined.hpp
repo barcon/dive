@@ -70,7 +70,6 @@ namespace dive
 			IScalarPtr GetStiffness() const;
 			IScalarPtr GetDamping() const;
 
-			void SetCanonical(bool canonical);
 			void SetStiffness(IScalarPtr stiffness);
 			void SetDamping(IScalarPtr damping);
 
@@ -86,7 +85,6 @@ namespace dive
 			Vector GetGlobalVector2() const;
 			Vector GetLocalVector0() const;
 
-			Matrix FormMatrix_Canonical() const;
 			Matrix FormMatrix_Decomposed() const;
 
 			Tag		tag_{ 0 };
@@ -105,8 +103,6 @@ namespace dive
 			const NumberDimensions numberDimensions_{ dimension_beam };
 			const NumberCoordinates numberCoordinates_{ coordinate_three };
 
-			bool canonical_{ false };
-			
 			static const Scalar localCoordinates_[2][3];
 			static const NodeIndex lookUpTable11_[1 * 2];
 
