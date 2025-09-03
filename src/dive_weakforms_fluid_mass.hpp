@@ -18,12 +18,12 @@ namespace dive
 			MassFluidPtr GetPtr();
 			ConstMassFluidPtr GetPtr() const;
 
-			void WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& point, Matrix& output) const override;
+			void WeakFormulation(IElementMappedPtr element, const Vector& point, Matrix& output) const override;
 
 		protected:
 			MassFluid() = default;
 
-			Matrix FormMatrix_N(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const;
+			Matrix FormMatrix_N(IElementMappedPtr element, const Vector& local) const;
 
 			using std::enable_shared_from_this<MassFluid>::shared_from_this;
 		};

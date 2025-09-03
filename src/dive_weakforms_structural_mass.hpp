@@ -18,7 +18,7 @@ namespace dive
 			MassStructuralPtr GetPtr();
 			ConstMassStructuralPtr GetPtr() const;
 
-			void WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& point, Matrix& output) const override;
+			void WeakFormulation(IElementMappedPtr element, const Vector& point, Matrix& output) const override;
 
 			void SetTemperature(IScalar3DPtr temperature);
 			void SetPressure(IScalar3DPtr pressure);
@@ -26,7 +26,7 @@ namespace dive
 		protected:
 			MassStructural() = default;
 
-			Matrix FormMatrix_N(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const;
+			Matrix FormMatrix_N(IElementMappedPtr element, const Vector& local) const;
 			Scalar FormDensity(IElementMappedPtr element, const Vector& local) const;
 
 			IScalar3DPtr temperature_{ nullptr };

@@ -18,15 +18,15 @@ namespace dive
 			StabilizationFluidPtr GetPtr();
 			ConstStabilizationFluidPtr GetPtr() const;
 
-			void WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const override;
+			void WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output) const override;
 
 		protected:
 			StabilizationFluid() = default;
 
 			Matrix FormMomentum(IElementMappedPtr element, const Vector& local) const;
-			Scalar FormDivergence(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const;
-			Matrix FormMatrix_N(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const;
-			Matrix FormMatrix_udN(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const;
+			Scalar FormDivergence(IElementMappedPtr element, const Vector& local) const;
+			Matrix FormMatrix_N(IElementMappedPtr element, const Vector& local) const;
+			Matrix FormMatrix_udN(IElementMappedPtr element, const Vector& local) const;
 
 			using std::enable_shared_from_this<StabilizationFluid>::shared_from_this;
 		};

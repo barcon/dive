@@ -27,9 +27,9 @@ namespace dive {
 		{
 			return const_cast<MassStructural*>(this)->GetPtr();
 		}
-		void MassStructural::WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& point, Matrix& output) const
+		void MassStructural::WeakFormulation(IElementMappedPtr element, const Vector& point, Matrix& output) const
 		{
-			auto N = FormMatrix_N(element, point, cacheIndex);
+			auto N = FormMatrix_N(element, point);
 			auto rho = FormDensity(element, point);
 
 			output = N.Transpose() * rho * N;
@@ -42,11 +42,11 @@ namespace dive {
 		{
 			pressure_ = pressure;
 		}
-		Matrix MassStructural::FormMatrix_N(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const
+		Matrix MassStructural::FormMatrix_N(IElementMappedPtr element, const Vector& local) const
 		{
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNumberDof();
-			const auto& N = element->N(local, cacheIndex);
+			const auto& N = element->N(local);
 
 			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
 

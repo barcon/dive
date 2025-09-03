@@ -28,13 +28,13 @@ namespace dive {
 		{
 			return const_cast<MassPressure*>(this)->GetPtr();
 		}
-		void MassPressure::WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const
+		void MassPressure::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output) const
 		{
 			Scalar uconv{ 0.0 };
 			Scalar udiff{ 0.0 };
 			Scalar beta{ 0.0 };
 
-			auto N = FormMatrix_N(element, local, cacheIndex);
+			auto N = FormMatrix_N(element, local);
 			auto u = FormVelocity(element, local);
 			auto nu = FormKineticViscosity(element, local);
 			auto h = element->SizeMinimum();
@@ -72,9 +72,9 @@ namespace dive {
 
 			return dynamicViscosity / density;
 		}
-		Matrix MassPressure::FormMatrix_N(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const
+		Matrix MassPressure::FormMatrix_N(IElementMappedPtr element, const Vector& local) const
 		{
-			return element->N(local, cacheIndex);
+			return element->N(local);
 		}
 	} // namespace problems
 } // namespace dive

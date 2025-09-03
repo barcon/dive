@@ -26,17 +26,17 @@ namespace dive {
 		{
 			return const_cast<MassFluid*>(this)->GetPtr();
 		}
-		void MassFluid::WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& point, Matrix& output) const
+		void MassFluid::WeakFormulation(IElementMappedPtr element, const Vector& point, Matrix& output) const
 		{
-			auto N = FormMatrix_N(element, point, cacheIndex);
+			auto N = FormMatrix_N(element, point);
 
 			output = N.Transpose() * N;
 		}
-		Matrix MassFluid::FormMatrix_N(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const
+		Matrix MassFluid::FormMatrix_N(IElementMappedPtr element, const Vector& local) const
 		{
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNumberDof();
-			const auto& N = element->N(local, cacheIndex);
+			const auto& N = element->N(local);
 
 			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
 

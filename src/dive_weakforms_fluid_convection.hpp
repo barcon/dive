@@ -18,16 +18,16 @@ namespace dive
 			ConvectionFluidPtr GetPtr();
 			ConstConvectionFluidPtr GetPtr() const;
 
-			void WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const override;
+			void WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output) const override;
 
 		protected:
 			ConvectionFluid() = default;
 
 
 			Matrix FormVelocity(IElementMappedPtr element, const Vector& local) const;
-			Scalar FormDivergence(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const;
-			Matrix FormMatrix_N(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const;
-			Matrix FormMatrix_udN(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const;
+			Scalar FormDivergence(IElementMappedPtr element, const Vector& local) const;
+			Matrix FormMatrix_N(IElementMappedPtr element, const Vector& local) const;
+			Matrix FormMatrix_udN(IElementMappedPtr element, const Vector& local) const;
 
 			using std::enable_shared_from_this<ConvectionFluid>::shared_from_this;
 		};

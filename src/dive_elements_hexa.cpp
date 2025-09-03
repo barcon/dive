@@ -826,12 +826,12 @@ namespace dive
 
 			auto element = std::make_shared<ElementHexa>(*this);
 
-			weakForm->WeakFormulation(element, 0, points[0], local);
+			weakForm->WeakFormulation(element, points[0], local);
 			output = weights[0] * DetJ(points[0], 0) * local;
 
 			for (quadrature::Counter i = 1; i < counter; ++i)
 			{
-				weakForm->WeakFormulation(element, i, points[i], local);
+				weakForm->WeakFormulation(element, points[i], local);
 
 				output = output + weights[i] * DetJ(points[i], i) * local;
 			}

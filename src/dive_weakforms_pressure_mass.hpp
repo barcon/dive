@@ -18,7 +18,7 @@ namespace dive
 			MassPressurePtr GetPtr();
 			ConstMassPressurePtr GetPtr() const;
 
-			void WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const override;
+			void WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output) const override;
 
 			void SetTemperature(IScalar3DPtr temperature);
 			void SetPressure(IScalar3DPtr pressure);
@@ -29,7 +29,7 @@ namespace dive
 
 			Matrix FormVelocity(IElementMappedPtr element, const Vector& local) const;
 			Scalar FormKineticViscosity(IElementMappedPtr element, const Vector& local) const;
-			Matrix FormMatrix_N(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const;
+			Matrix FormMatrix_N(IElementMappedPtr element, const Vector& local) const;
 
 			IScalar3DPtr temperature_{ nullptr };
 			IScalar3DPtr pressure_{ nullptr };

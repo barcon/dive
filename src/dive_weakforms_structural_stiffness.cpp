@@ -27,9 +27,9 @@ namespace dive {
 		{
 			return const_cast<StiffnessStructural*>(this)->GetPtr();
 		}
-		void StiffnessStructural::WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const
+		void StiffnessStructural::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output) const
 		{		
-			auto B = FormMatrix_B(element, local, cacheIndex);
+			auto B = FormMatrix_B(element, local);
 			auto D = FormMatrix_D(element, local);
 
 			output = B.Transpose() * D * B;
@@ -50,11 +50,11 @@ namespace dive {
 
 			return material->D(temperature, pressure);
 		}
-		Matrix StiffnessStructural::FormMatrix_B(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const
+		Matrix StiffnessStructural::FormMatrix_B(IElementMappedPtr element, const Vector& local) const
 		{
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNumberDof();
-			auto dN = element->InvJ(local, cacheIndex) * element->dN(local, cacheIndex);
+			auto dN = element->InvJ(local) * element->dN(local);
 			
 			Matrix res(6, numberNodes * numberDof, eilig::matrix_zeros);
 

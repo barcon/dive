@@ -27,9 +27,9 @@ namespace dive {
 		{
 			return const_cast<StiffnessFluid*>(this)->GetPtr();
 		}
-		void StiffnessFluid::WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const
+		void StiffnessFluid::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output) const
 		{		
-			auto B = FormMatrix_B(element, local, cacheIndex);
+			auto B = FormMatrix_B(element, local);
 			auto Id = FormMatrix_Id(element, local);
 			auto Z = FormVector_Z(element, local);
 
@@ -51,11 +51,11 @@ namespace dive {
 
 			return material->D(temperature, pressure);
 		}
-		Matrix StiffnessFluid::FormMatrix_B(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const
+		Matrix StiffnessFluid::FormMatrix_B(IElementMappedPtr element, const Vector& local) const
 		{
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNumberDof();
-			auto dN = element->InvJ(local, cacheIndex) * element->dN(local, cacheIndex);
+			auto dN = element->InvJ(local) * element->dN(local);
 			
 			Matrix res(6, numberNodes * numberDof, eilig::matrix_zeros);
 

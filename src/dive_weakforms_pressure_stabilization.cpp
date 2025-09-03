@@ -29,10 +29,10 @@ namespace dive {
 		{
 			return const_cast<StabilizationPressure*>(this)->GetPtr();
 		}
-		void StabilizationPressure::WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const
+		void StabilizationPressure::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output) const
 		{
 			auto N = FormMatrix_N(element, local);
-			auto dNp = FormMatrix_dNp(element, local, cacheIndex);
+			auto dNp = FormMatrix_dNp(element, local);
 			auto du = FormDivergence(element, local);
 			auto udN = FormMatrix_udN(element, local);
 
@@ -103,9 +103,9 @@ namespace dive {
 
 			return res;
 		}
-		Matrix StabilizationPressure::FormMatrix_dNp(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const
+		Matrix StabilizationPressure::FormMatrix_dNp(IElementMappedPtr element, const Vector& local) const
 		{
-			return element->InvJ(local, cacheIndex) * element->dN(local, cacheIndex);
+			return element->InvJ(local) * element->dN(local);
 		}
 	} // namespace problems
 } // namespace dive

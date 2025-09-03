@@ -144,8 +144,6 @@ namespace dive
 		{
 			TimerStart();
 
-			mesh->SortElementsByTag();
-
 			const auto& elements = mesh->GetElements();
 
 			for (ElementIndex i = 0; i < elements.size(); ++i)
@@ -154,11 +152,6 @@ namespace dive
 
 				element->SetNumberDof(numberDof);
 				element->SetElementIndex(i);
-				
-				if (element->IsCacheable())
-				{
-					element->InitializeCache();
-				}
 			}
 
 			TimerElapsed(__FUNCTION__);
@@ -166,8 +159,6 @@ namespace dive
 		void UpdateDofMeshIndices(IMeshPtr mesh, NumberDof& totalDof, DofMeshIndices& dofMeshIndices)
 		{
 			TimerStart();
-
-			mesh->SortNodesByTag();
 
 			const auto& nodes = mesh->GetNodes();
 

@@ -18,12 +18,12 @@ namespace dive
 			StiffnessPressurePtr GetPtr();
 			ConstStiffnessPressurePtr GetPtr() const;
 
-			void WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const override;
+			void WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output) const override;
 
 		protected:
 			StiffnessPressure() = default;
 
-			Matrix FormMatrix_dN(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const;
+			Matrix FormMatrix_dN(IElementMappedPtr element, const Vector& local) const;
 
 			using std::enable_shared_from_this<StiffnessPressure>::shared_from_this;
 		};

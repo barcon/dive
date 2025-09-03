@@ -19,14 +19,14 @@ namespace dive
 			DistributedVolumeDivergencePressurePtr GetPtr();
 			ConstDistributedVolumeDivergencePressurePtr GetPtr() const;
 
-			void WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const override;
+			void WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output) const override;
 
 			void SetProblemMomentum(IProblemPtr problemMomentum);
 
 		protected:
 			DistributedVolumeDivergencePressure() = default;
 
-			Matrix FormMatrix_N(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const;
+			Matrix FormMatrix_N(IElementMappedPtr element, const Vector& local) const;
 			Matrix FormMatrix_Div(IElementMappedPtr element, const Vector& local) const;
 
 			IProblemPtr problemMomentum_{ nullptr };

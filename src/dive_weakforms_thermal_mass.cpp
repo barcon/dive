@@ -27,9 +27,9 @@ namespace dive {
 		{
 			return const_cast<MassThermal*>(this)->GetPtr();
 		}
-		void MassThermal::WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const
+		void MassThermal::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output) const
 		{
-			auto N = FormMatrix_N(element, local, cacheIndex);
+			auto N = FormMatrix_N(element, local);
 			auto rho = FormDensity(element, local);
 			auto cp = FormSpecificHeat(element, local);
 
@@ -57,9 +57,9 @@ namespace dive {
 
 			return element->GetMaterial()->GetSpecificHeat(temperature, pressure);
 		}
-		Matrix MassThermal::FormMatrix_N(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const
+		Matrix MassThermal::FormMatrix_N(IElementMappedPtr element, const Vector& local) const
 		{
-			return element->N(local, cacheIndex);
+			return element->N(local);
 		}
 	} // namespace problems
 } // namespace dive

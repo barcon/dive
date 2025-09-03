@@ -29,10 +29,10 @@ namespace dive {
 		{
 			return const_cast<StabilizationThermal*>(this)->GetPtr();
 		}
-		void StabilizationThermal::WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const
+		void StabilizationThermal::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output) const
 		{
-			auto N = FormMatrix_N(element, local, cacheIndex);
-			auto dN = FormMatrix_dN(element, local, cacheIndex);
+			auto N = FormMatrix_N(element, local);
+			auto dN = FormMatrix_dN(element, local);
 			auto rho = FormDensity(element, local);
 			auto cp = FormSpecificHeat(element, local);
 			auto u = FormVelocity(element, local);
@@ -88,13 +88,13 @@ namespace dive {
 
 			return divergence;
 		}
-		Matrix StabilizationThermal::FormMatrix_N(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const
+		Matrix StabilizationThermal::FormMatrix_N(IElementMappedPtr element, const Vector& local) const
 		{
-			return element->N(local, cacheIndex);
+			return element->N(local);
 		}
-		Matrix StabilizationThermal::FormMatrix_dN(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const
+		Matrix StabilizationThermal::FormMatrix_dN(IElementMappedPtr element, const Vector& local) const
 		{
-			return element->InvJ(local, cacheIndex) * element->dN(local, cacheIndex);
+			return element->InvJ(local) * element->dN(local);
 		}
 	} // namespace problems
 } // namespace dive

@@ -26,10 +26,10 @@ namespace dive {
 		{
 			return const_cast<CrossedPressure*>(this)->GetPtr();
 		}
-		void CrossedPressure::WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const
+		void CrossedPressure::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output) const
 		{
 			auto N = FormMatrix_N(element, local);
-			auto dN = FormMatrix_dN(element, local, cacheIndex);
+			auto dN = FormMatrix_dN(element, local);
 			
 			output = dN.Transpose() * N;
 		}
@@ -57,9 +57,9 @@ namespace dive {
 
 			return res;
 		}
-		Matrix CrossedPressure::FormMatrix_dN(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const
+		Matrix CrossedPressure::FormMatrix_dN(IElementMappedPtr element, const Vector& local) const
 		{
-			return element->InvJ(local, cacheIndex) * element->dN(local, cacheIndex);
+			return element->InvJ(local) * element->dN(local);
 		}
 	} // namespace problems
 } // namespace dive

@@ -26,15 +26,15 @@ namespace dive {
 		{
 			return const_cast<StiffnessPressure*>(this)->GetPtr();
 		}
-		void StiffnessPressure::WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const
+		void StiffnessPressure::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output) const
 		{
-			auto dN = FormMatrix_dN(element, local, cacheIndex);
+			auto dN = FormMatrix_dN(element, local);
 
 			output = dN.Transpose() * dN;
 		}
-		Matrix StiffnessPressure::FormMatrix_dN(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const
+		Matrix StiffnessPressure::FormMatrix_dN(IElementMappedPtr element, const Vector& local) const
 		{
-			return element->InvJ(local, cacheIndex) * element->dN(local, cacheIndex);
+			return element->InvJ(local) * element->dN(local);
 		}
 	} // namespace problems
 } // namespace dive

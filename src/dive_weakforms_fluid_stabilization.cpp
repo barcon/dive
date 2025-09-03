@@ -27,11 +27,11 @@ namespace dive {
 		{
 			return const_cast<StabilizationFluid*>(this)->GetPtr();
 		}
-		void StabilizationFluid::WeakFormulation(IElementMappedPtr element, CacheIndex cacheIndex, const Vector& local, Matrix& output) const
+		void StabilizationFluid::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output) const
 		{
-			auto N = FormMatrix_N(element, local, cacheIndex);
-			auto udN = FormMatrix_udN(element, local, cacheIndex);
-			auto du = FormDivergence(element, local, cacheIndex);
+			auto N = FormMatrix_N(element, local);
+			auto udN = FormMatrix_udN(element, local);
+			auto du = FormDivergence(element, local);
 
 			auto dNu = du * N + udN;
 
@@ -41,9 +41,9 @@ namespace dive {
 		{
 			return element->u(local);
 		}
-		Scalar StabilizationFluid::FormDivergence(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const
+		Scalar StabilizationFluid::FormDivergence(IElementMappedPtr element, const Vector& local) const
 		{
-			auto du = eilig::Inverse(element->J(local, cacheIndex)) * element->du(local);
+			auto du = eilig::Inverse(element->J(local)) * element->du(local);
 
 			Scalar divergence{ 0.0 };
 
@@ -54,11 +54,11 @@ namespace dive {
 
 			return divergence;
 		}
-		Matrix StabilizationFluid::FormMatrix_N(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const
+		Matrix StabilizationFluid::FormMatrix_N(IElementMappedPtr element, const Vector& local) const
 		{
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNode(0)->GetNumberDof();
-			const auto& N = element->N(local, cacheIndex);
+			const auto& N = element->N(local);
 
 			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
 
@@ -72,13 +72,13 @@ namespace dive {
 
 			return res;
 		}
-		Matrix StabilizationFluid::FormMatrix_udN(IElementMappedPtr element, const Vector& local, CacheIndex cacheIndex) const
+		Matrix StabilizationFluid::FormMatrix_udN(IElementMappedPtr element, const Vector& local) const
 		{
 			auto u = FormMomentum(element, local);
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNode(0)->GetNumberDof();
 			auto numberDimensions = element->GetNumberDimensions();
-			auto dN = element->InvJ(local, cacheIndex) * element->dN(local, cacheIndex);
+			auto dN = element->InvJ(local) * element->dN(local);
 
 			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
 
