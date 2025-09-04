@@ -827,13 +827,13 @@ namespace dive
 			auto element = std::make_shared<ElementHexa>(*this);
 
 			weakForm->WeakFormulation(element, points[0], local);
-			output = weights[0] * DetJ(points[0], 0) * local;
+			output = weights[0] * DetJ(points[0]) * local;
 
 			for (quadrature::Counter i = 1; i < counter; ++i)
 			{
 				weakForm->WeakFormulation(element, points[i], local);
 
-				output = output + weights[i] * DetJ(points[i], i) * local;
+				output = output + weights[i] * DetJ(points[i]) * local;
 			}
 		}
 		void ElementHexa::IntegralWeakFormLoad(IWeakFormLoadPtr weakForm, ILoadPtr load, Vector& output) const
@@ -849,13 +849,13 @@ namespace dive
 				const auto& counter = gaussHexa_->GetCounter();
 
 				weakForm->WeakFormulation(load, points[0], local);
-				output = weights[0] * DetJ(points[0], 0) * local;
+				output = weights[0] * DetJ(points[0]) * local;
 
 				for (quadrature::Counter i = 1; i < counter; ++i)
 				{
 					weakForm->WeakFormulation(load, points[i], local);
 
-					output = output + weights[i] * DetJ(points[i], i) * local;
+					output = output + weights[i] * DetJ(points[i]) * local;
 				}
 			}
 			else if(load->GetType() == loads::load_distributed_face)

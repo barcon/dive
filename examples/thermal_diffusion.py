@@ -12,7 +12,7 @@ pressure    = thermal.CreateValueScalar3D(p_ref)
 material    = materials.fluid.VG46.Create(1, T_ref, p_ref)
 
 meshes.Initialize()
-meshes.CreateCavity(1.0, 1.0, 0.1, 11, 11, 2, False)
+meshes.CreateCavity(1.0, 1.0, 0.1, 101, 101, 5, False)
 #meshes.Show()
 
 cavity = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 3, physicalGroup = "cavity")
@@ -30,11 +30,15 @@ thermal.Initialize()
 
 #--------------------------------------------------------------------------------------------------
 
+totalDof = thermal.GetProblem().GetTotalDof()
+pivot = thermal.GetProblem().GetPivot()
+
 K = thermal.PartitionMatrix(thermal.GetProblem().Stiffness())
 y = thermal.PartitionVector(thermal.GetProblem().Energy())
 
 monitor = solvers.IterativeBiCGStab(K[3], y[1], -K[2] * y[0])
 thermal.UpdateMeshValues(y)
+y = thermal.PartitionVector(thermal.GetProblem().Energy())
 
 #plots.residual.Show(monitor)
 plots.HeatMapNorm(plot)

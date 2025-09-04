@@ -12,7 +12,7 @@ from prettytable import PrettyTable
 T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
 basis       = fluid.CreateBasisCartesian(1)
-timer       = fluid.CreateTimerStepped(1, 0.0, 10000.0, 1.0)
+timer       = fluid.CreateTimerStepped(1, 0.0, 10000.0, 10.0)
 pressure    = fluid.CreateValueScalar3D(p_ref)
 temperature = fluid.CreateValueScalar3D(T_ref)
 material    = materials.fluid.water.Create(1, T_ref, p_ref)
@@ -84,62 +84,48 @@ fluid.pressure.ApplyDirichlet(bcPressure, 0.0)
 fluid.pressure.Initialize()
 
 #--------------------------------------------------------------------------------------------------
-kernels = fluid.CreateKernels("kernels.c", 0, 0)
+#kernels = fluid.CreateKernels("kernels.c", 0, 0)
 totalDofMomentum = fluid.momentum.GetProblem().GetTotalDof()
 totalDofPressure = fluid.pressure.GetProblem().GetTotalDof()
 
-M = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Mass(kernels))
-K = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Stiffness(kernels))
+M = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Mass())
+K = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Stiffness())
 
-H = fluid.pressure.PartitionMatrix(fluid.pressure.GetProblem().Stiffness(kernels))
-G = fluid.pressure.GetProblem().Crossed(kernels, fluid.momentum.GetProblem()).Transpose()
-D = fluid.pressure.GetProblem().DistributedVolumeDivergence(kernels, fluid.momentum.GetProblem())
+H = fluid.pressure.PartitionMatrix(fluid.pressure.GetProblem().Stiffness())
+G = fluid.pressure.GetProblem().Crossed(fluid.momentum.GetProblem()).Transpose()
+D = fluid.pressure.GetProblem().DistributedVolumeDivergence(fluid.momentum.GetProblem())
 
-p = fluid.pressure.PartitionVector(fluid.pressure.GetProblem().Pressure(kernels))
-q0 = fluid.momentum.PartitionVector(fluid.momentum.GetProblem().Momentum(kernels))
-q1 = fluid.momentum.PartitionVector(fluid.VectorCL(kernels, totalDofMomentum, 0.0))
-dq = fluid.momentum.PartitionVector(fluid.VectorCL(kernels, totalDofMomentum, 0.0))
-dqq = fluid.momentum.PartitionVector(fluid.VectorCL(kernels, totalDofMomentum, 0.0))
-
-for i in range(0, 5):
-    print("Step = ", i)
-    q0 = fluid.momentum.PartitionVector(fluid.momentum.GetProblem().Momentum(kernels))
-
-    monitor = solvers.IterativeBiCGStabCL(M[3], dq[1], -dt * (K[2] * q0[0] + K[3] * q0[1]))
-    q1[0] = q0[0] + dq[0]
-    q1[1] = q0[1] + dq[1]
-
-    fluid.momentum.UpdateMeshValuesMomentum(q1)
-
-plots.HeatMapNorm(plotVelocity)
-plots.Vector(plotVelocity)
-quit()
+p = fluid.pressure.PartitionVector(fluid.pressure.GetProblem().Pressure())
+q0 = fluid.momentum.PartitionVector(fluid.momentum.GetProblem().Momentum())
+q1 = fluid.momentum.PartitionVector(fluid.Vector(totalDofMomentum, 0.0))
+dq = fluid.momentum.PartitionVector(fluid.Vector(totalDofMomentum, 0.0))
+dqq = fluid.momentum.PartitionVector(fluid.Vector(totalDofMomentum, 0.0))
 
 while(True): 
     print("Time step = ", timer.GetCurrent())
    
-    p = fluid.pressure.PartitionVector(fluid.pressure.GetProblem().Pressure(kernels))
-    q0 = fluid.momentum.PartitionVector(fluid.momentum.GetProblem().Momentum(kernels))
-    q1 = fluid.momentum.PartitionVector(fluid.VectorCL(kernels, totalDofMomentum, 0.0))
-    dq = fluid.momentum.PartitionVector(fluid.VectorCL(kernels, totalDofMomentum, 0.0))
-    dqq = fluid.momentum.PartitionVector(fluid.VectorCL(kernels, totalDofMomentum, 0.0))
+    p = fluid.pressure.PartitionVector(fluid.pressure.GetProblem().Pressure())
+    q0 = fluid.momentum.PartitionVector(fluid.momentum.GetProblem().Momentum())
+    q1 = fluid.momentum.PartitionVector(fluid.Vector(totalDofMomentum, 0.0))
+    dq = fluid.momentum.PartitionVector(fluid.Vector(totalDofMomentum, 0.0))
+    dqq = fluid.momentum.PartitionVector(fluid.Vector( totalDofMomentum, 0.0))
 
-    C = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Convection(kernels))
-    monitor = solvers.IterativeBiCGStabCL(M[3], dq[1], -dt * (K[2] * q0[0] + C[2] * q0[0] + K[3] * q0[1] + C[3] * q0[1]))
+    C = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Convection())
+    monitor = solvers.IterativeBiCGStab(M[3], dq[1], -dt * (K[2] * q0[0] + C[2] * q0[0] + K[3] * q0[1] + C[3] * q0[1]))
 
     q1[0] = q0[0] + dq[0]
     q1[1] = q0[1] + dq[1]
 
     fluid.momentum.UpdateMeshValuesMomentum(q1)
 
-    q = fluid.momentum.GetProblem().Momentum(kernels)
+    q = fluid.momentum.GetProblem().Momentum()
     fd = fluid.pressure.PartitionVector(D * q)
-    monitor = solvers.IterativeBiCGStabCL(H[3], p[1], -H[2] * p[0] - (1.0 / dt) * (fd[1]))
+    monitor = solvers.IterativeBiCGStab(H[3], p[1], -H[2] * p[0] - (1.0 / dt) * (fd[1]))
     fluid.pressure.UpdateMeshValues(p)
     
-    p = fluid.pressure.GetProblem().Pressure(kernels)
+    p = fluid.pressure.GetProblem().Pressure()
     fc = fluid.momentum.PartitionVector(G * p)
-    monitor = solvers.IterativeBiCGStabCL(M[3], dqq[1], -dt * (fc[1]))
+    monitor = solvers.IterativeBiCGStab(M[3], dqq[1], -dt * (fc[1]))
 
     q1[0] = q0[0] + dq[0] + dqq[0]
     q1[1] = q0[1] + dq[1] + dqq[1]

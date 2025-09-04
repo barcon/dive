@@ -102,6 +102,7 @@ namespace dive
 		Elements FilterElementsRemoveDuplicates(const Elements& input);
 
 		FacePair FilterFaceByNodes(IElementPtr element, const Nodes& input);
+		EdgePair FilterEdgeByNodes(IElementPtr element, const Nodes& input);
 
 		template <typename T> struct SpecificationSort
 		{

@@ -104,6 +104,46 @@ def GetNodesForPhysicalGroup(mesh, physicalGroup):
 
     return nodes
 
+def GetEdgesForPhysicalGroup(mesh, physicalGroup):
+    edgePairs = dive.vecEdgePairs()
+    dimension, tag = GetPhysicalGroupByName(physicalGroup)
+    status = 0
+
+    if(dimension != 1):
+        print("Error: Physical group is not a edge group.")
+        return None
+   
+    entities = gmsh.model.getEntitiesForPhysicalGroup(dimension, tag)
+    for entity in entities:
+        elementTypes, elementTags, elementNodeTags = gmsh.model.mesh.getElements(dimension, entity)
+        counter = 0
+
+        if(elementTypes[0] == 3):
+            numberNodes = 4              
+        elif(elementTypes[0] == 16):
+            numberNodes = 8
+        else:
+            print("Error: Element type not supported for edges.")
+            continue
+        
+        for i in range(0, len(elementTags[0])):
+            nodes = dive.vecNodes()
+            for k in range(0, numberNodes):
+                nodeTag = int(elementNodeTags[0][counter + k])
+                node, status = mesh.GetNodeSorted(nodeTag, status)
+                nodes.append(node)
+            
+            counter += numberNodes          
+            elements = dive.FilterElementsByNodesIntersection(nodes)
+
+            if(len(elements) != 1):
+                print("Error: Edge not found.")
+                continue
+
+            edgePairs.append(dive.FilterEdgeByNodes(elements[0], nodes))
+            
+    return edgePairs
+
 def GetFacesForPhysicalGroup(mesh, physicalGroup):
     facePairs = dive.vecFacePairs()
     dimension, tag = GetPhysicalGroupByName(physicalGroup)

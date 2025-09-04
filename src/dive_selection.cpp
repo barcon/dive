@@ -272,6 +272,45 @@ namespace dive
 
 			return res;
 		}
+		EdgePair FilterEdgeByNodes(IElementPtr element, const Nodes& input)
+		{
+			EdgePair res = { nullptr, 0 };
+
+			if (element == nullptr)
+			{
+				return res;
+			}
+
+			auto sorted = SortNodesByTag(input);
+			for (EdgeIndex i = 0; i < element->GetNumberEdges(); ++i)
+			{
+				if (sorted.size() != element->GetNumberNodesEdge(i))
+				{
+					continue;
+				}
+
+				Nodes nodes;
+				for (NodeIndex j = 0; j < element->GetNumberNodesEdge(i); ++j)
+				{
+					nodes.push_back(element->GetNodeEdge(i, j));
+				}
+				nodes = SortNodesByTag(nodes);
+
+				bool isEqual = std::equal(nodes.begin(), nodes.end(), sorted.begin(),
+					[&](INodePtr node1, INodePtr node2) -> bool
+					{
+						return node1->GetTag() == node2->GetTag();
+					});
+
+				if (isEqual)
+				{
+					res = { element, i };
+					break;
+				}
+			}
+
+			return res;
+		}
 
 		SpecSortNodesByTag::SpecSortNodesByTag()
 		{

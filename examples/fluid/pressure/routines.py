@@ -27,8 +27,7 @@ def UpdateMeshValues(q):
     totalDof = problem.GetTotalDof()
     pivot = problem.GetPivot()
 
-    y = q[0]
-    y.Resize(totalDof)
+    y = problem.Pressure()
     y.Region(0, pivot - 1, q[0])
     y.Region(pivot, totalDof - 1, q[1])    
     

@@ -28,7 +28,6 @@ def UpdateMeshValues(y):
     pivot = problem.GetPivot()
 
     y0 = problem.Displacement()
-
     y0.Region(0, pivot - 1, y[0])
     y0.Region(pivot, totalDof - 1, y[1])
 
@@ -94,15 +93,14 @@ def ApplyLoadDistributedFace(facePairs, load):
     global problem
 
     for i in range(0, len(facePairs)):
-        #print(facePairs[i].element.GetTag(), facePairs[i].faceIndex)
         problem.AddLoad(CreateLoadDistributedFace(facePairs[i].element, facePairs[i].faceIndex, load))   
 
     return
 
-def ApplyLoadDistributedEdge(elements, edge, load):
+def ApplyLoadDistributedEdge(edgePairs, load):
     global problem
 
-    for element in elements:
-        problem.AddLoad(CreateLoadDistributedEdge(element, edge, load))
+    for i in range(0, len(edgePairs)):
+        problem.AddLoad(CreateLoadDistributedEdge(edgePairs[i].element, edgePairs[i].edgeIndex, load))
     
     return

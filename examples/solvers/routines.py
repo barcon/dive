@@ -23,7 +23,7 @@ def IterativeBiCGStab(A, x, b):
             return dive.EILIG_NOT_CONVERGED
 
         monitor.Add(iteration, residual)
-        print("Iteration = ", iteration, " Residual = ", residual)        
+        #print("Iteration = ", iteration, " Residual = ", residual)        
 
         if(residual < tolerance):
             return dive.EILIG_SUCCESS
@@ -43,7 +43,7 @@ def IterativeBiCGStabCL(A, x, b):
             return dive.EILIG_NOT_CONVERGED
 
         monitor.Add(iteration, residual)
-        print("Iteration = ", iteration, " Residual = ", residual)
+        #print("Iteration = ", iteration, " Residual = ", residual)
 
         if(residual < tolerance):
             return dive.EILIG_SUCCESS

@@ -41,7 +41,6 @@ spring1 = structural.CreateElementCombined(1)
 spring1.SetNode(0, node1)
 spring1.SetNode(1, node2)
 spring1.SetStiffness(structural.CreateValueScalarFunction(Stiffness))
-spring1.SetCanonical(False)
 
 mesh = structural.CreateMesh(1)
 mesh.AddNode(node1, status, True)
