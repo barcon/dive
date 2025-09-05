@@ -17,13 +17,13 @@ steel = materials.solid.steel.Create(1)
 density = steel.GetDensity(T_ref, p_ref)
 
 meshes.Initialize()
-meshes.CreateBeam(1.0, 0.1, 0.1, 31, 2, 2, True)
+meshes.CreateBeam(1.0, 0.1, 0.1, 21, 2, 2, True)
 #meshes.Show()
 
 beam = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 3, physicalGroup = "beam")
 fixed = meshes.GetNodesForPhysicalGroup(mesh = beam, physicalGroup = "fixed")
 loadFace = meshes.GetFacesForPhysicalGroup(mesh = beam, physicalGroup = "loadFace")
-shearStress = structural.CreateValueVector3D([0.0, 400000.0, 0.0])
+shearStress = structural.CreateValueVector3D([0.0, 4000000.0, 0.0])
 plot = meshes.GetNodesForPhysicalGroup(mesh = beam, physicalGroup = "plot")
 
 meshes.ApplyMaterial(beam.GetElements(), steel)

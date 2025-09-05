@@ -118,10 +118,10 @@ def GetEdgesForPhysicalGroup(mesh, physicalGroup):
         elementTypes, elementTags, elementNodeTags = gmsh.model.mesh.getElements(dimension, entity)
         counter = 0
 
-        if(elementTypes[0] == 3):
-            numberNodes = 4              
-        elif(elementTypes[0] == 16):
-            numberNodes = 8
+        if(elementTypes[0] == 1):
+            numberNodes = 2              
+        elif(elementTypes[0] == 8):
+            numberNodes = 3
         else:
             print("Error: Element type not supported for edges.")
             continue

@@ -1,0 +1,50 @@
+import meshes
+import structural
+import solvers
+import plots
+import plots.beam
+import materials.solid.steel
+
+T_ref = 293.15      #[K]      = 20 [°C]
+p_ref = 101325.1    #[N/m²]   =  1 [atm]
+basis = structural.CreateBasisCartesian(1)
+timer = structural.CreateTimerStationary(1, 0.0)
+temperature = structural.CreateValueScalar3D(T_ref)
+pressure = structural.CreateValueScalar3D(p_ref)
+gravity = -9.8      #[m/s²]
+
+steel = materials.solid.steel.Create(1)
+density = steel.GetDensity(T_ref, p_ref)
+
+meshes.Initialize()
+meshes.CreateBeam(1.0, 0.1, 0.1, 21, 2, 2, True)
+#meshes.Show()
+
+beam = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 3, physicalGroup = "beam")
+fixed = meshes.GetNodesForPhysicalGroup(mesh = beam, physicalGroup = "fixed")
+loadEdge = meshes.GetEdgesForPhysicalGroup(mesh = beam, physicalGroup = "loadEdge")
+force = structural.CreateValueVector3D([0.0, 400000.0, 0.0])
+plot = meshes.GetNodesForPhysicalGroup(mesh = beam, physicalGroup = "plot")
+
+meshes.ApplyMaterial(beam.GetElements(), steel)
+meshes.Finalize()
+
+structural.CreateProblem(1, beam, temperature, pressure)
+structural.ApplyDirichlet(fixed, 0.0)
+structural.ApplyLoadDistributedEdge(loadEdge, force)
+structural.Initialize()
+
+#--------------------------------------------------------------------------------------------------
+
+K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
+y = structural.PartitionVector(structural.GetProblem().Displacement())
+f = structural.PartitionVector(structural.GetProblem().LoadDistributedEdge())
+
+print(f[1])
+quit()
+
+monitor = solvers.IterativeBiCGStab(K[3], y[1], -K[2] * y[0] + f[1])
+structural.UpdateMeshValues(y)
+
+#plots.residual.Show(monitor)
+plots.beam.Cantilever(plot, 1)
