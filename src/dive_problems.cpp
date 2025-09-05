@@ -122,7 +122,6 @@ namespace dive
 						numberDof = element->GetNumberDof();
 						numberNodes = element->GetNumberNodes();
 						elementIndex = element->GetElementIndex();
-						//local = Vector(numberDof * numberNodes);
 					}
 					
 					for (NodeIndex i = 0; i < numberNodes; ++i)

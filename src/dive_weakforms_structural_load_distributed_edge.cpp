@@ -52,7 +52,7 @@ namespace dive {
 					res(i, j * numberDof + i) = N(j);
 				}
 			}
-
+			
 			return res;
 		}
 	} // namespace problems

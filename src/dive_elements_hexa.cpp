@@ -39,8 +39,8 @@ namespace dive
 		const Index			ElementHexa::lookUpTable5_[12] = { 0, 1, 0, 1, 0, 1, 0, 1, 2, 2, 2, 2 };
 		const Index			ElementHexa::lookUpTable6_[12] = { 1, 2, 1, 2, 1, 2, 1, 2, 0, 0, 0, 0 };
 		const Index			ElementHexa::lookUpTable7_[12] = { 2, 0, 2, 0, 2, 0, 2, 0, 1, 1, 1, 1 };
-		const Scalar 		ElementHexa::lookUpTable8_[12] = {-1.0, -1.0, +1.0, -1.0,	-1.0, +1.0, +1.0, +1.0,	 -1.0, +1.0, +1.0, -1.0 };		
-		const Scalar		ElementHexa::lookUpTable9_[12] = {-1.0, +1.0, -1.0, -1.0,	+1.0, +1.0, +1.0, -1.0,	 -1.0, -1.0, +1.0, +1.0 };
+		const Scalar 		ElementHexa::lookUpTable8_[12] = {-1.0, -1.0, +1.0, -1.0, -1.0, +1.0, +1.0, +1.0, -1.0, +1.0, +1.0, -1.0 };
+		const Scalar		ElementHexa::lookUpTable9_[12] = {-1.0, +1.0, -1.0, -1.0, +1.0, +1.0, +1.0, -1.0, -1.0, -1.0, +1.0, +1.0 };
 
 		ElementHexaPtr CreateElementHexa()
 		{
@@ -902,16 +902,15 @@ namespace dive
 
 				weakForm->WeakFormulation(load, point, local);
 				output = weights[0] * DelL(point, helper.index1) * local;
-
+				
 				for (quadrature::Counter i = 1; i < counter; ++i)
 				{
-					point(helper.index1) = points[counter](0);
+					point(helper.index1) = points[i](0);
 					point(helper.index2) = helper.coord2;
 					point(helper.index3) = helper.coord3;
 
 					weakForm->WeakFormulation(load, point, local);
-
-					output = output + weights[counter] * DelL(point, helper.index1) * local;
+					output = output + weights[i] * DelL(point, helper.index1) * local;
 				}
 			}
 		}

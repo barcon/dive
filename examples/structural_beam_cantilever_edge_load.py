@@ -17,7 +17,7 @@ steel = materials.solid.steel.Create(1)
 density = steel.GetDensity(T_ref, p_ref)
 
 meshes.Initialize()
-meshes.CreateBeam(1.0, 0.1, 0.1, 21, 2, 2, True)
+meshes.CreateBeam(1.0, 0.1, 0.1, 21, 2, 2, False)
 #meshes.Show()
 
 beam = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 3, physicalGroup = "beam")
@@ -39,9 +39,6 @@ structural.Initialize()
 K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
 y = structural.PartitionVector(structural.GetProblem().Displacement())
 f = structural.PartitionVector(structural.GetProblem().LoadDistributedEdge())
-
-print(f[1])
-quit()
 
 monitor = solvers.IterativeBiCGStab(K[3], y[1], -K[2] * y[0] + f[1])
 structural.UpdateMeshValues(y)
