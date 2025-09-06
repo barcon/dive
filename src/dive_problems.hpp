@@ -17,6 +17,8 @@ namespace dive
 		static const Type problem_structural= 4;
 
 		Sparse IntegralForm(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2);
+		Sparse IntegralFormParallel(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2);
+
 		Vector IntegralForm(IWeakFormLoadPtr weakForm, IProblemPtr problem1, const Loads& loads);
 
 		void UpdateMeshElements(IMeshPtr mesh, NumberDof numberDof);

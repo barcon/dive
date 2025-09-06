@@ -11,11 +11,36 @@
 #include <exception>
 #include <typeinfo>
 #include <stdexcept>
+#include <thread>
 
 namespace dive
 {
 	namespace problems
 	{
+		class Worker
+		{
+		public:
+			Worker(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2)
+			{
+				weakForm_ = weakForm;
+				problem1_ = problem1;
+				problem2_ = problem2;
+			}
+			virtual ~Worker() = default;
+
+			void operator()(ElementIndex start, ElementIndex end)
+			{
+				//logger::Info(headerDive, "Thread id: ", )
+			};
+		
+		private:
+			IWeakFormElementPtr weakForm_{ nullptr };
+			IProblemPtr problem1_{ nullptr };
+			IProblemPtr problem2_{ nullptr };
+		};
+
+		using Workers = std::vector<Worker>;
+
 		Sparse IntegralForm(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2)
 		{
 			const auto& elements1 = problem1->GetMesh()->GetElements();
@@ -62,6 +87,31 @@ namespace dive
 
 			return global;
 		}
+		Sparse IntegralFormParallel(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2)
+		{
+			const auto& elements1 = problem1->GetMesh()->GetElements();
+			const auto& elements2 = problem2->GetMesh()->GetElements();
+
+			const auto& nodeMeshIndices1 = problem1->GetNodeMeshIndices();
+			const auto& nodeMeshIndices2 = problem2->GetNodeMeshIndices();
+
+			Sparse global(problem1->GetTotalDof(), problem2->GetTotalDof());
+			Workers workers;
+			ElementIndex counter{ 0 };
+			
+			workers.push_back(Worker(weakForm, problem1, problem2));
+			workers.push_back(Worker(weakForm, problem1, problem2));
+			workers.push_back(Worker(weakForm, problem1, problem2));
+			workers.push_back(Worker(weakForm, problem1, problem2));
+
+			while (counter < elements1.size())
+			{
+
+			}
+
+			return global;
+		}
+
 		Vector IntegralForm(IWeakFormLoadPtr weakForm, IProblemPtr problem1, const Loads& loads)
 		{
 			Vector global(problem1->GetTotalDof(), 0.0);
