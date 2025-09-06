@@ -104,10 +104,10 @@ namespace dive
 			workers.push_back(Worker(weakForm, problem1, problem2));
 			workers.push_back(Worker(weakForm, problem1, problem2));
 
-			while (counter < elements1.size())
+			/*while (counter < elements1.size())
 			{
 
-			}
+			}*/
 
 			return global;
 		}
