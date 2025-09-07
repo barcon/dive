@@ -12,34 +12,38 @@
 #include <typeinfo>
 #include <stdexcept>
 #include <thread>
+#include <functional>
 
 namespace dive
 {
 	namespace problems
 	{
-		class Worker
-		{
-		public:
-			Worker(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2)
-			{
-				weakForm_ = weakForm;
-				problem1_ = problem1;
-				problem2_ = problem2;
-			}
-			virtual ~Worker() = default;
+		using Thread = std::jthread;
+		using Threads = std::vector<Thread>;
+		using NumberThreads = Number;
 
-			void operator()(ElementIndex start, ElementIndex end)
-			{
-				//logger::Info(headerDive, "Thread id: ", )
-			};
-		
-		private:
-			IWeakFormElementPtr weakForm_{ nullptr };
-			IProblemPtr problem1_{ nullptr };
-			IProblemPtr problem2_{ nullptr };
+		struct WorkersConfiguration
+		{
+			NumberThreads numberThreads_;
+			NumberElements numberElements_;
 		};
 
-		using Workers = std::vector<Worker>;
+		class Task
+		{
+		public:
+			Task() = default;
+			virtual ~Task() = default;
+	
+			void operator()()
+			{
+				logger::Info(headerDive, "Thread id: ", std::this_thread::get_id());
+			}
+		private:
+			IProblemPtr problem1_{ nullptr };
+			IProblemPtr problem2_{ nullptr };
+			IWeakFormElementPtr weakForm_{ nullptr };
+
+		};
 
 		Sparse IntegralForm(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2)
 		{
@@ -95,19 +99,18 @@ namespace dive
 			const auto& nodeMeshIndices1 = problem1->GetNodeMeshIndices();
 			const auto& nodeMeshIndices2 = problem2->GetNodeMeshIndices();
 
-			Sparse global(problem1->GetTotalDof(), problem2->GetTotalDof());
-			Workers workers;
+			Sparse global(problem1->GetTotalDof(), problem2->GetTotalDof());	
 			ElementIndex counter{ 0 };
-			
-			workers.push_back(Worker(weakForm, problem1, problem2));
-			workers.push_back(Worker(weakForm, problem1, problem2));
-			workers.push_back(Worker(weakForm, problem1, problem2));
-			workers.push_back(Worker(weakForm, problem1, problem2));
 
-			/*while (counter < elements1.size())
+			Threads threads;
+			NumberThreads numberThreads = 8;
+
+			auto task = Task();
+
+			for (NumberThreads i = 0; i < numberThreads; ++i)
 			{
-
-			}*/
+				threads.push_back(Thread(task));
+			}
 
 			return global;
 		}
