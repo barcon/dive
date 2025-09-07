@@ -33,6 +33,9 @@ thermal.Initialize()
 totalDof = thermal.GetProblem().GetTotalDof()
 pivot = thermal.GetProblem().GetPivot()
 
+K = thermal.GetProblem().Stiffness()
+quit()
+
 K = thermal.PartitionMatrix(thermal.GetProblem().Stiffness())
 y = thermal.PartitionVector(thermal.GetProblem().Energy())
 

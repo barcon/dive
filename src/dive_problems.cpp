@@ -12,6 +12,7 @@
 #include <typeinfo>
 #include <stdexcept>
 #include <thread>
+#include <mutex>
 #include <functional>
 
 namespace dive
@@ -21,12 +22,9 @@ namespace dive
 		using Thread = std::jthread;
 		using Threads = std::vector<Thread>;
 		using NumberThreads = Number;
+		using NumberProcessors = Number;
 
-		struct WorkersConfiguration
-		{
-			NumberThreads numberThreads_;
-			NumberElements numberElements_;
-		};
+		std::mutex mtx;
 
 		class Task
 		{
@@ -36,16 +34,18 @@ namespace dive
 	
 			void operator()()
 			{
-				logger::Info(headerDive, "Thread id: ", std::this_thread::get_id());
+				std::lock_guard<std::mutex> lock(mtx);
+				std::cout << "Thread id: " << std::this_thread::get_id() << std::endl;
 			}
 		private:
 			IProblemPtr problem1_{ nullptr };
 			IProblemPtr problem2_{ nullptr };
 			IWeakFormElementPtr weakForm_{ nullptr };
 
+			Matrices matrices_;
 		};
 
-		Sparse IntegralForm(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2)
+		/*Sparse IntegralForm(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2)
 		{
 			const auto& elements1 = problem1->GetMesh()->GetElements();
 			const auto& elements2 = problem2->GetMesh()->GetElements();
@@ -90,8 +90,8 @@ namespace dive
 			}
 
 			return global;
-		}
-		Sparse IntegralFormParallel(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2)
+		}*/
+		Sparse IntegralForm(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2)
 		{
 			const auto& elements1 = problem1->GetMesh()->GetElements();
 			const auto& elements2 = problem2->GetMesh()->GetElements();
@@ -104,11 +104,14 @@ namespace dive
 
 			Threads threads;
 			NumberThreads numberThreads = 8;
+			NumberProcessors numberProcessors = std::thread::hardware_concurrency();
 
-			auto task = Task();
+			logger::Info(headerDive, "Number of processors: %lu", numberProcessors);
 
 			for (NumberThreads i = 0; i < numberThreads; ++i)
 			{
+				auto task = Task();
+
 				threads.push_back(Thread(task));
 			}
 
