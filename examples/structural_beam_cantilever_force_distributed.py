@@ -4,6 +4,7 @@ import solvers
 import plots
 import plots.beam
 import materials.solid.steel
+import matplotlib.pyplot as plt
 
 T_ref = 293.15      #[K]      = 20 [°C]
 p_ref = 101325.1    #[N/m²]   =  1 [atm]
@@ -17,7 +18,7 @@ steel = materials.solid.steel.Create(1)
 density = steel.GetDensity(T_ref, p_ref)
 
 meshes.Initialize()
-meshes.CreateBeam(1.0, 0.1, 0.1, 21, 2, 2, True)
+meshes.CreateBeam(1.0, 0.1, 0.1, 101, 21, 21, False)
 #meshes.Show()
 
 beam = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 3, physicalGroup = "beam")
@@ -36,10 +37,41 @@ structural.Initialize()
 
 #--------------------------------------------------------------------------------------------------
 
+K = structural.GetProblem().Stiffness()
+
+rows = K.GetRows()
+cols = K.GetCols()
+width = K.GetWidth()
+count = K.GetCount()
+numberDof = structural.GetProblem().GetNumberDof()
+numberNodes = len(beam.GetNodes())
+numberElements = len(beam.GetElements())
+memory = width * rows * numberDof * 8 / (10**6)
+sum = 0
+distribution = []
+
+for i in range(0, len(count)):
+    sum += count[i]
+    distribution.append(count[i])
+
+sparsity = sum / (rows * cols)
+
+print("Nodes = ", numberNodes)
+print("Elements = ", numberElements)
+print("Rows = ", rows)
+print("Cols = ", cols)
+print("Width = ", width)
+print("Sparsity (%) = ", 100. * sparsity)
+print("Memory (MB) = ", memory)
+
+plt.plot(distribution)
+plt.show()
+
+quit()
+
 K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
 y = structural.PartitionVector(structural.GetProblem().Displacement())
 f = structural.PartitionVector(structural.GetProblem().LoadDistributedVolume())
-
 monitor = solvers.IterativeBiCGStab(K[3], y[1], -K[2] * y[0] + f[1])
 structural.UpdateMeshValues(y)
 

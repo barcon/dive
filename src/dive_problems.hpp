@@ -16,8 +16,8 @@ namespace dive
 		static const Type problem_thermal	= 3;
 		static const Type problem_structural= 4;
 
-		//Sparse IntegralForm(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2);
 		Sparse IntegralForm(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2);
+		Sparse IntegralFormParallel(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2);
 
 		Vector IntegralForm(IWeakFormLoadPtr weakForm, IProblemPtr problem1, const Loads& loads);
 
@@ -122,6 +122,7 @@ namespace dive
 
 			virtual Sparse Mass() const = 0;
 			virtual Sparse Stiffness() const = 0;
+			virtual Sparse StiffnessParallel() const = 0;
 			virtual Sparse Convection(IProblemPtr problemMomentum) const = 0;
 			virtual Sparse Stabilization(IProblemPtr problemMomentum) const = 0;
 

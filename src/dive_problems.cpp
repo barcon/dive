@@ -45,7 +45,7 @@ namespace dive
 			Matrices matrices_;
 		};
 
-		/*Sparse IntegralForm(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2)
+		Sparse IntegralForm(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2)
 		{
 			const auto& elements1 = problem1->GetMesh()->GetElements();
 			const auto& elements2 = problem2->GetMesh()->GetElements();
@@ -90,8 +90,8 @@ namespace dive
 			}
 
 			return global;
-		}*/
-		Sparse IntegralForm(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2)
+		}
+		Sparse IntegralFormParallel(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2)
 		{
 			const auto& elements1 = problem1->GetMesh()->GetElements();
 			const auto& elements2 = problem2->GetMesh()->GetElements();
@@ -204,7 +204,7 @@ namespace dive
 
 			for (ElementIndex i = 0; i < elements.size(); ++i)
 			{
-				auto element = std::dynamic_pointer_cast<elements::IElement>(elements[i]);
+				auto element = std::static_pointer_cast<elements::IElement>(elements[i]);
 
 				element->SetNumberDof(numberDof);
 				element->SetElementIndex(i);

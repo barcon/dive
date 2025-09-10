@@ -6444,6 +6444,9 @@ class IWeakFormLoad(object):
 # Register IWeakFormLoad in _dive:
 _dive.IWeakFormLoad_swigregister(IWeakFormLoad)
 
+def IntegralFormParallel(weakForm, problem1, problem2):
+    return _dive.IntegralFormParallel(weakForm, problem1, problem2)
+
 def IntegralForm(*args):
     return _dive.IntegralForm(*args)
 
@@ -6663,6 +6666,9 @@ class IThermal(IProblem):
     def Stiffness(self):
         return _dive.IThermal_Stiffness(self)
 
+    def StiffnessParallel(self):
+        return _dive.IThermal_StiffnessParallel(self)
+
     def Convection(self, problemMomentum):
         return _dive.IThermal_Convection(self, problemMomentum)
 
@@ -6812,6 +6818,9 @@ class ProblemThermal(IThermal):
 
     def Stiffness(self):
         return _dive.ProblemThermal_Stiffness(self)
+
+    def StiffnessParallel(self):
+        return _dive.ProblemThermal_StiffnessParallel(self)
 
     def Convection(self, problemMomentum):
         return _dive.ProblemThermal_Convection(self, problemMomentum)

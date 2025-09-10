@@ -164,6 +164,22 @@ namespace dive {
 
 			return res;
 		}
+		Sparse ProblemThermal::StiffnessParallel() const
+		{
+			TimerStart();
+
+			auto stiffnessWeak = weakforms::CreateWeakFormStiffnessThermal();
+			stiffnessWeak->SetTemperature(temperature_);
+			stiffnessWeak->SetPressure(pressure_);
+
+			auto problemThermal = std::make_shared<ProblemThermal>(*this);
+
+			auto res = IntegralFormParallel(stiffnessWeak, problemThermal, problemThermal);
+
+			TimerElapsed(__FUNCTION__);
+
+			return res;
+		}
 		Sparse ProblemThermal::Convection(IProblemPtr problemMomentum) const
 		{
 			TimerStart();
