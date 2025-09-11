@@ -14,6 +14,7 @@
 #include <thread>
 #include <mutex>
 #include <functional>
+#include <execution>
 
 namespace dive
 {
@@ -438,7 +439,7 @@ namespace dive
 		{
 			TimerStart();
 
-			std::sort(dofMeshIndices.begin(), dofMeshIndices.end(),
+			std::sort(std::execution::par_unseq, dofMeshIndices.begin(), dofMeshIndices.end(),
 				[&](DofMeshIndex dofMeshIndex1, DofMeshIndex dofMeshIndex2) -> bool
 				{
 					if (dofMeshIndex1.node != dofMeshIndex2.node)

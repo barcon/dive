@@ -1,6 +1,7 @@
 #include "dive_selection.hpp"
 
 #include <algorithm>
+#include <execution>
 
 namespace dive
 {
@@ -337,7 +338,7 @@ namespace dive
 		{
 			auto res = input;
 
-			std::sort(res.begin(), res.end(),
+			std::sort(std::execution::par_unseq, res.begin(), res.end(),
 			[&](INodePtr node1, INodePtr node2) -> bool 
 			{
 				return spec.IsSatisfied(node1, node2);
@@ -370,7 +371,7 @@ namespace dive
 		{
 			auto res = input;
 
-			std::sort(res.begin(), res.end(),
+			std::sort(std::execution::par_unseq,res.begin(), res.end(),
 				[&](IElementPtr element1, IElementPtr element2) -> bool
 				{
 					return spec.IsSatisfied(element1, element2);
