@@ -25,6 +25,8 @@ namespace dive
 		using NumberThreads = Number;
 		using NumberProcessors = Number;
 
+		constexpr NumberElements packageSize = 10000;
+
 		std::mutex mtx;
 
 		class Task
@@ -106,15 +108,36 @@ namespace dive
 			Threads threads;
 			NumberThreads numberThreads = 8;
 			NumberProcessors numberProcessors = std::thread::hardware_concurrency();
+			NumberElements numberElements1 = elements1.size();
+
+			Indices packages;
+			Index numberPackages = (numberElements1 % packageSize) == 0 ? (numberElements1 / packageSize) : (numberElements1 / packageSize) + 1;
 
 			logger::Info(headerDive, "Number of processors: %lu", numberProcessors);
+			logger::Info(headerDive, "Number of elements: %lu", numberElements1);
+			logger::Info(headerDive, "Work package size: %lu", packageSize);
+			logger::Info(headerDive, "Number of packages: %lu", numberPackages);
 
-			for (NumberThreads i = 0; i < numberThreads; ++i)
+			Index aux = numberElements1;
+			for(Index i = 0; i < numberPackages; ++i)
 			{
-				auto task = Task();
-
-				threads.push_back(Thread(task));
+				if (aux >= packageSize)
+				{
+					packages.push_back(packageSize);
+					aux -= packageSize;
+				}
+				else
+				{
+					packages.push_back(aux);
+				}
 			}
+
+			for (Index i = 0; i < numberPackages; ++i)
+			{
+				logger::Info(headerDive, "Package %lu: %lu", i, packages[i]);
+			}
+
+			packages.reserve(numberPackages);
 
 			return global;
 		}

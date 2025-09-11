@@ -12,7 +12,7 @@ pressure    = thermal.CreateValueScalar3D(p_ref)
 material    = materials.fluid.VG46.Create(1, T_ref, p_ref)
 
 meshes.Initialize()
-meshes.CreateCavity(1.0, 1.0, 0.1, 21, 21, 2, False)
+meshes.CreateCavity(1.0, 1.0, 0.1, 20, 133, 7, False)
 #meshes.Show()
 
 cavity = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 3, physicalGroup = "cavity")
