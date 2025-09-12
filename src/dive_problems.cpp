@@ -15,6 +15,7 @@
 #include <mutex>
 #include <functional>
 #include <execution>
+#include <queue>
 
 namespace dive
 {
@@ -25,28 +26,46 @@ namespace dive
 		using NumberThreads = Number;
 		using NumberProcessors = Number;
 
-		constexpr NumberElements packageSize = 10000;
-
-		std::mutex mtx;
+		constexpr NumberElements taskSize = 1'000;
 
 		class Task
 		{
 		public:
 			Task() = default;
 			virtual ~Task() = default;
+
+			void SetRange(ElementIndex elementIndex, NumberElements numberElements)
+			{
+				elementIndex_ = elementIndex;
+				numberElements_ = numberElements;
+			}
+			void SetProblems(IProblemPtr problem1, IProblemPtr problem2)
+			{
+				problem1_ = problem1;
+				problem2_ = problem2;
+			}
+			void SetWeakForm(IWeakFormElementPtr weakForm)
+			{
+				weakForm_ = weakForm;
+			}
 	
 			void operator()()
 			{
-				std::lock_guard<std::mutex> lock(mtx);
-				std::cout << "Thread id: " << std::this_thread::get_id() << std::endl;
+
 			}
+
+			ElementIndex elementIndex_{ 0 };
+			NumberElements numberElements_{ 0 };
 		private:
 			IProblemPtr problem1_{ nullptr };
 			IProblemPtr problem2_{ nullptr };
 			IWeakFormElementPtr weakForm_{ nullptr };
 
 			Matrices matrices_;
+
 		};
+
+		using TaskQueue = std::queue<Task>;
 
 		Sparse IntegralForm(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2)
 		{
@@ -103,41 +122,51 @@ namespace dive
 			const auto& nodeMeshIndices2 = problem2->GetNodeMeshIndices();
 
 			Sparse global(problem1->GetTotalDof(), problem2->GetTotalDof());	
-			ElementIndex counter{ 0 };
 
 			Threads threads;
-			NumberThreads numberThreads = 8;
 			NumberProcessors numberProcessors = std::thread::hardware_concurrency();
+			NumberThreads numberThreads = numberProcessors > 1 ? numberProcessors - 1 : numberProcessors;
 			NumberElements numberElements1 = elements1.size();
 
-			Indices packages;
-			Index numberPackages = (numberElements1 % packageSize) == 0 ? (numberElements1 / packageSize) : (numberElements1 / packageSize) + 1;
+			Number numberTasks = (numberElements1 % taskSize) == 0 ? (numberElements1 / taskSize) : (numberElements1 / taskSize) + 1;
 
 			logger::Info(headerDive, "Number of processors: %lu", numberProcessors);
 			logger::Info(headerDive, "Number of elements: %lu", numberElements1);
-			logger::Info(headerDive, "Work package size: %lu", packageSize);
-			logger::Info(headerDive, "Number of packages: %lu", numberPackages);
+			logger::Info(headerDive, "Number of tasks: %lu", numberTasks);
+			logger::Info(headerDive, "Task size: %lu", taskSize);
 
-			Index aux = numberElements1;
-			for(Index i = 0; i < numberPackages; ++i)
+			TaskQueue pending;
+			TaskQueue scheduled;
+			TaskQueue finished;
+
+			auto counter = numberElements1;
+			for(Index i = 0; i < numberTasks; ++i)
 			{
-				if (aux >= packageSize)
+				auto task = Task();
+
+				task.SetProblems(problem1, problem2);
+				task.SetWeakForm(weakForm);
+
+				if (counter >= taskSize)
 				{
-					packages.push_back(packageSize);
-					aux -= packageSize;
+					task.SetRange(i * taskSize, taskSize);
 				}
 				else
 				{
-					packages.push_back(aux);
+					task.SetRange(i * taskSize, counter);
 				}
+
+				pending.push(task);
+				counter -= taskSize;
 			}
 
-			for (Index i = 0; i < numberPackages; ++i)
+			while (!pending.empty())
 			{
-				logger::Info(headerDive, "Package %lu: %lu", i, packages[i]);
+				Task task = pending.front();
+				
+				pending.pop();
+				logger::Info(headerDive, "Pending tasks: %lu / %lu", task.elementIndex_, task.numberElements_);
 			}
-
-			packages.reserve(numberPackages);
 
 			return global;
 		}
