@@ -8,26 +8,19 @@
 #include "dive_selection.hpp"
 #include "dive_status.hpp"
 
+#include "BS_thread_pool.hpp"
+
 #include <exception>
 #include <typeinfo>
 #include <stdexcept>
-#include <thread>
-#include <mutex>
-#include <functional>
 #include <execution>
-#include <queue>
+#include <deque>
+#include <future>
 
 namespace dive
 {
 	namespace problems
 	{
-		using Thread = std::jthread;
-		using Threads = std::vector<Thread>;
-		using NumberThreads = Number;
-		using NumberProcessors = Number;
-
-		constexpr NumberElements taskSize = 1'000;
-
 		class Task
 		{
 		public:
@@ -49,9 +42,33 @@ namespace dive
 				weakForm_ = weakForm;
 			}
 	
-			void operator()()
+			Matrices operator()()
 			{
+				Matrices matrices;
+				Matrix local;
+				
+				const auto& elements1 = problem1_->GetMesh()->GetElements();
+				const auto& elements2 = problem2_->GetMesh()->GetElements();
 
+				for (Index i = elementIndex_; i < (elementIndex_ + numberElements_); ++i)
+				{
+					auto numberNodes1 = elements1[i]->GetNumberNodes();
+					auto numberNodes2 = elements2[i]->GetNumberNodes();
+
+					auto numberDof1 = elements1[i]->GetNumberDof();
+					auto numberDof2 = elements2[i]->GetNumberDof();
+
+					if (local.GetRows() != numberNodes1 * numberDof1 || local.GetCols() != numberNodes2 * numberDof2)
+					{
+						local.Resize(numberNodes1 * numberDof1, numberNodes2 * numberDof2);
+					}
+
+					std::dynamic_pointer_cast<elements::IElementMapped>(elements1[i])->IntegralWeakFormElement(weakForm_, local);
+
+					matrices.push_back(local);
+				}
+
+				return matrices;
 			}
 
 			ElementIndex elementIndex_{ 0 };
@@ -60,12 +77,20 @@ namespace dive
 			IProblemPtr problem1_{ nullptr };
 			IProblemPtr problem2_{ nullptr };
 			IWeakFormElementPtr weakForm_{ nullptr };
-
-			Matrices matrices_;
-
 		};
 
-		using TaskQueue = std::queue<Task>;
+		using ThreadPool = BS::thread_pool;
+		using ThreadQueue = std::deque<std::future<Matrices>>;
+		using NumberThreads = Number;
+		using NumberProcessors = Number;
+
+		constexpr NumberElements taskSize = 1'000;
+
+		template<typename T>
+		bool IsReady(std::future<T> const& f)
+		{
+			return f.wait_for(std::chrono::seconds(0)) == std::future_status::ready;
+		}
 
 		Sparse IntegralForm(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2)
 		{
@@ -118,26 +143,20 @@ namespace dive
 			const auto& elements1 = problem1->GetMesh()->GetElements();
 			const auto& elements2 = problem2->GetMesh()->GetElements();
 
-			const auto& nodeMeshIndices1 = problem1->GetNodeMeshIndices();
-			const auto& nodeMeshIndices2 = problem2->GetNodeMeshIndices();
-
 			Sparse global(problem1->GetTotalDof(), problem2->GetTotalDof());	
 
-			Threads threads;
 			NumberProcessors numberProcessors = std::thread::hardware_concurrency();
 			NumberThreads numberThreads = numberProcessors > 1 ? numberProcessors - 1 : numberProcessors;
 			NumberElements numberElements1 = elements1.size();
-
 			Number numberTasks = (numberElements1 % taskSize) == 0 ? (numberElements1 / taskSize) : (numberElements1 / taskSize) + 1;
+
+			ThreadPool threadPool(numberThreads);
+			ThreadQueue scheduled;
 
 			logger::Info(headerDive, "Number of processors: %lu", numberProcessors);
 			logger::Info(headerDive, "Number of elements: %lu", numberElements1);
 			logger::Info(headerDive, "Number of tasks: %lu", numberTasks);
 			logger::Info(headerDive, "Task size: %lu", taskSize);
-
-			TaskQueue pending;
-			TaskQueue scheduled;
-			TaskQueue finished;
 
 			auto counter = numberElements1;
 			for(Index i = 0; i < numberTasks; ++i)
@@ -147,7 +166,7 @@ namespace dive
 				task.SetProblems(problem1, problem2);
 				task.SetWeakForm(weakForm);
 
-				if (counter >= taskSize)
+				if (taskSize >= counter)
 				{
 					task.SetRange(i * taskSize, taskSize);
 				}
@@ -156,16 +175,27 @@ namespace dive
 					task.SetRange(i * taskSize, counter);
 				}
 
-				pending.push(task);
+				scheduled.emplace_back(threadPool.submit_task(task));
 				counter -= taskSize;
 			}
 
-			while (!pending.empty())
+			while (!scheduled.empty())
 			{
-				Task task = pending.front();
-				
-				pending.pop();
-				logger::Info(headerDive, "Pending tasks: %lu / %lu", task.elementIndex_, task.numberElements_);
+				const auto& it = scheduled.begin();
+
+				while (it != scheduled.end())
+				{
+					if (IsReady(*it))
+					{
+						auto matrices = (*it).get();
+						for (const auto& local: matrices)
+						{
+						}
+						logger::Info(headerDive, "Thread finished");
+						scheduled.erase(it);
+						break;
+					}
+				}
 			}
 
 			return global;

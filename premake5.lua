@@ -25,6 +25,7 @@ project "dive"
 	includedirs { "../python/include" }	
 	includedirs { "../hdf5/include" }	
 	includedirs { "../cgns/include" }	
+	includedirs { "../thread-pool/include" }	
 
 	files { "src/**.hpp", "src/**.cpp" }
 
@@ -79,6 +80,7 @@ project "diveCL"
 	includedirs { "../python/include" }	
 	includedirs { "../hdf5/include" }	
 	includedirs { "../cgns/include" }	
+	includedirs { "../thread-pool/include" }	
 
 	files { "src/**.hpp", "src/**.cpp" }
 
