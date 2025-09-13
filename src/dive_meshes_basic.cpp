@@ -3,8 +3,6 @@
 #include "dive_elements.hpp"
 #include "dive_selection.hpp"
 
-#include "cgnslib.h"
-
 #include <algorithm>
 #include <memory>
 #include <limits>

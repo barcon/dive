@@ -23,8 +23,6 @@ project "dive"
 	includedirs { "../values/src" }	
 	includedirs { "../material/src" }
 	includedirs { "../python/include" }	
-	includedirs { "../hdf5/include" }	
-	includedirs { "../cgns/include" }	
 	includedirs { "../thread-pool/include" }	
 
 	files { "src/**.hpp", "src/**.cpp" }
@@ -38,7 +36,7 @@ project "dive"
 		removefiles{"src/dive_export_python_OpenCL.cpp"}
 		
 		links { "utils", "logger", "eilig", "basis", "quadrature", "nodes", "kdtree",
-				"interpolation", "values", "material", "python313", "hdf5", "cgns"  }
+				"interpolation", "values", "material", "python313" }
 		
 		libdirs { "../utils/build/Release" }
 		libdirs { "../logger/build/Release" }
@@ -51,8 +49,6 @@ project "dive"
 		libdirs { "../values/build/Release" }
 		libdirs { "../material/build/Release" }
 		libdirs { "../python/lib" }
-		libdirs { "../hdf5/lib" }
-		libdirs { "../cgns/lib" }
 		
 workspace "diveCL"
 	configurations { "PythonCL" }
@@ -78,8 +74,6 @@ project "diveCL"
 	includedirs { "../values/src" }	
 	includedirs { "../material/src" }
 	includedirs { "../python/include" }	
-	includedirs { "../hdf5/include" }	
-	includedirs { "../cgns/include" }	
 	includedirs { "../thread-pool/include" }	
 
 	files { "src/**.hpp", "src/**.cpp" }
@@ -96,7 +90,7 @@ project "diveCL"
 		includedirs { "../opencl/inc" }		
 		
 		links { "utils", "logger", "eilig", "basis", "quadrature", "nodes", "kdtree",
-				"interpolation", "values", "material", "club", "opencl", "python313", "hdf5", "cgns"  }		
+				"interpolation", "values", "material", "club", "opencl", "python313" }		
 		
 		libdirs { "../utils/build/Release" }
 		libdirs { "../logger/build/Release" }
@@ -110,6 +104,4 @@ project "diveCL"
 		libdirs { "../material/build/Release" }
 		libdirs { "../club/build/Release" }
 		libdirs { "../opencl/lib/x86_64" }
-		libdirs { "../python/lib" }		
-		libdirs { "../hdf5/lib" }
-		libdirs { "../cgns/lib" }
+		libdirs { "../python/lib" }
