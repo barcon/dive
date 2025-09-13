@@ -89,7 +89,7 @@ namespace dive
 		template<typename T>
 		bool IsReady(std::future<T> const& f)
 		{
-			return f.wait_for(std::chrono::seconds(0)) == std::future_status::ready;
+			return f.wait_for(std::chrono::duration<Scalar>::zero()) == std::future_status::ready;
 		}
 
 		Sparse IntegralForm(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2)
@@ -166,17 +166,19 @@ namespace dive
 				task.SetProblems(problem1, problem2);
 				task.SetWeakForm(weakForm);
 
-				if (taskSize >= counter)
+				if (counter >= taskSize)
 				{
 					task.SetRange(i * taskSize, taskSize);
+					logger::Info(headerDive, "Scheduling task %lu with range [%lu, %lu]", i, i * taskSize, (i + 1) * taskSize);
 				}
 				else
 				{
 					task.SetRange(i * taskSize, counter);
+					logger::Info(headerDive, "Scheduling task %lu with range [%lu, %lu]", i, i * taskSize, i * taskSize + counter);
 				}
 
-				scheduled.emplace_back(threadPool.submit_task(task));
 				counter -= taskSize;
+				scheduled.emplace_back(threadPool.submit_task(task));
 			}
 
 			while (!scheduled.empty())
@@ -191,7 +193,7 @@ namespace dive
 						for (const auto& local: matrices)
 						{
 						}
-						logger::Info(headerDive, "Thread finished");
+						//logger::Info(headerDive, "Thread finished");
 						scheduled.erase(it);
 						break;
 					}
