@@ -21,6 +21,14 @@ namespace dive
 {
 	namespace problems
 	{
+		struct TaskIndex
+		{
+			ElementIndex elementIndex;
+			Matrix matrix;
+		};
+
+		using TaskIndices = std::vector<TaskIndex>;
+
 		class Task
 		{
 		public:
@@ -42,33 +50,32 @@ namespace dive
 				weakForm_ = weakForm;
 			}
 	
-			Matrices operator()()
+			TaskIndices operator()()
 			{
-				Matrices matrices;
-				Matrix local;
+				TaskIndices taskIndices;
 				
 				const auto& elements1 = problem1_->GetMesh()->GetElements();
 				const auto& elements2 = problem2_->GetMesh()->GetElements();
 
 				for (Index i = elementIndex_; i < (elementIndex_ + numberElements_); ++i)
 				{
+					TaskIndex taskIndex;
+					
 					auto numberNodes1 = elements1[i]->GetNumberNodes();
 					auto numberNodes2 = elements2[i]->GetNumberNodes();
 
 					auto numberDof1 = elements1[i]->GetNumberDof();
 					auto numberDof2 = elements2[i]->GetNumberDof();
 
-					if (local.GetRows() != numberNodes1 * numberDof1 || local.GetCols() != numberNodes2 * numberDof2)
-					{
-						local.Resize(numberNodes1 * numberDof1, numberNodes2 * numberDof2);
-					}
+					taskIndex.elementIndex = i;
+					taskIndex.matrix = Matrix(numberNodes1 * numberDof1, numberNodes2 * numberDof2);
 
-					std::dynamic_pointer_cast<elements::IElementMapped>(elements1[i])->IntegralWeakFormElement(weakForm_, local);
+					std::dynamic_pointer_cast<elements::IElementMapped>(elements1[i])->IntegralWeakFormElement(weakForm_, taskIndex.matrix);
 
-					matrices.push_back(local);
+					taskIndices.push_back(taskIndex);
 				}
 
-				return matrices;
+				return taskIndices;
 			}
 
 			ElementIndex elementIndex_{ 0 };
@@ -79,8 +86,8 @@ namespace dive
 			IWeakFormElementPtr weakForm_{ nullptr };
 		};
 
-		using ThreadPool = BS::thread_pool;
-		using ThreadQueue = std::deque<std::future<Matrices>>;
+		using ThreadPool = BS::thread_pool< BS::tp::pause>;
+		using ThreadQueue = std::deque<std::future<TaskIndices>>;
 		using NumberThreads = Number;
 		using NumberProcessors = Number;
 
@@ -100,63 +107,14 @@ namespace dive
 			const auto& nodeMeshIndices1 = problem1->GetNodeMeshIndices();
 			const auto& nodeMeshIndices2 = problem2->GetNodeMeshIndices();
 
-			Sparse global(problem1->GetTotalDof(), problem2->GetTotalDof());
-			Matrix local;
-
-			for (ElementIndex i = 0; i < elements1.size(); ++i)
-			{
-				auto numberNodes1 = elements1[i]->GetNumberNodes();
-				auto numberNodes2 = elements2[i]->GetNumberNodes();
-
-				auto numberDof1 = elements1[i]->GetNumberDof();
-				auto numberDof2 = elements2[i]->GetNumberDof();
-
-				if (local.GetRows() != numberNodes1 * numberDof1 || local.GetCols() != numberNodes2 * numberDof2)
-				{
-					local.Resize(numberNodes1 * numberDof1, numberNodes2 * numberDof2);
-				}
-
-				std::dynamic_pointer_cast<elements::IElementMapped>(elements1[i])->IntegralWeakFormElement(weakForm, local);
-
-				for (NodeIndex m = 0; m < numberNodes1; ++m)
-				{
-					for (NodeIndex n = 0; n < numberNodes2; ++n)
-					{
-						for (DofIndex dof1 = 0; dof1 < numberDof1; ++dof1)
-						{
-							for (DofIndex dof2 = 0; dof2 < numberDof2; ++dof2)
-							{
-								auto aux = global.GetValue(nodeMeshIndices1[i][m].dofIndices[dof1], nodeMeshIndices2[i][n].dofIndices[dof2]);
-								aux += local.GetValue(m * numberDof1 + dof1, n * numberDof2 + dof2);
-
-								global.SetValue(nodeMeshIndices1[i][m].dofIndices[dof1], nodeMeshIndices2[i][n].dofIndices[dof2], aux);
-							}
-						}
-					}
-				}
-			}
-
-			return global;
-		}
-		Sparse IntegralFormParallel(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2)
-		{
-			const auto& elements1 = problem1->GetMesh()->GetElements();
-			const auto& elements2 = problem2->GetMesh()->GetElements();
-
 			Sparse global(problem1->GetTotalDof(), problem2->GetTotalDof());	
 
 			NumberProcessors numberProcessors = std::thread::hardware_concurrency();
-			NumberThreads numberThreads = numberProcessors > 1 ? numberProcessors - 1 : numberProcessors;
 			NumberElements numberElements1 = elements1.size();
 			Number numberTasks = (numberElements1 % taskSize) == 0 ? (numberElements1 / taskSize) : (numberElements1 / taskSize) + 1;
 
-			ThreadPool threadPool(numberThreads);
+			ThreadPool threadPool(numberProcessors);
 			ThreadQueue scheduled;
-
-			logger::Info(headerDive, "Number of processors: %lu", numberProcessors);
-			logger::Info(headerDive, "Number of elements: %lu", numberElements1);
-			logger::Info(headerDive, "Number of tasks: %lu", numberTasks);
-			logger::Info(headerDive, "Task size: %lu", taskSize);
 
 			auto counter = numberElements1;
 			for(Index i = 0; i < numberTasks; ++i)
@@ -169,15 +127,14 @@ namespace dive
 				if (counter >= taskSize)
 				{
 					task.SetRange(i * taskSize, taskSize);
-					logger::Info(headerDive, "Scheduling task %lu with range [%lu, %lu]", i, i * taskSize, (i + 1) * taskSize);
+					counter -= taskSize;
 				}
 				else
 				{
 					task.SetRange(i * taskSize, counter);
-					logger::Info(headerDive, "Scheduling task %lu with range [%lu, %lu]", i, i * taskSize, i * taskSize + counter);
+					counter -= counter;
 				}
 
-				counter -= taskSize;
 				scheduled.emplace_back(threadPool.submit_task(task));
 			}
 
@@ -189,11 +146,37 @@ namespace dive
 				{
 					if (IsReady(*it))
 					{
-						auto matrices = (*it).get();
-						for (const auto& local: matrices)
+						auto taskIndices = (*it).get();
+						for (const auto& taskIndex: taskIndices)
 						{
+							auto i = taskIndex.elementIndex;
+
+							auto numberNodes1 = elements1[i]->GetNumberNodes();
+							auto numberNodes2 = elements2[i]->GetNumberNodes();
+
+							auto numberDof1 = elements1[i]->GetNumberDof();
+							auto numberDof2 = elements2[i]->GetNumberDof();
+
+							const Matrix& local = taskIndex.matrix;
+
+							for (NodeIndex m = 0; m < numberNodes1; ++m)
+							{
+								for (NodeIndex n = 0; n < numberNodes2; ++n)
+								{
+									for (DofIndex dof1 = 0; dof1 < numberDof1; ++dof1)
+									{
+										for (DofIndex dof2 = 0; dof2 < numberDof2; ++dof2)
+										{
+											auto aux = global.GetValue(nodeMeshIndices1[i][m].dofIndices[dof1], nodeMeshIndices2[i][n].dofIndices[dof2]);
+											aux += local.GetValue(m * numberDof1 + dof1, n * numberDof2 + dof2);
+
+											global.SetValue(nodeMeshIndices1[i][m].dofIndices[dof1], nodeMeshIndices2[i][n].dofIndices[dof2], aux);
+										}
+									}
+								}
+							}
 						}
-						//logger::Info(headerDive, "Thread finished");
+
 						scheduled.erase(it);
 						break;
 					}
@@ -538,3 +521,58 @@ namespace dive
 		}
 	} // namespace problems
 } // namespace dive
+
+/*
+
+			logger::Info(headerDive, "Number of processors: %lu", numberProcessors);
+			logger::Info(headerDive, "Number of elements: %lu", numberElements1);
+			logger::Info(headerDive, "Number of tasks: %lu", numberTasks);
+			logger::Info(headerDive, "Task size: %lu", taskSize);
+
+		Sparse IntegralForm(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2)
+		{
+			const auto& elements1 = problem1->GetMesh()->GetElements();
+			const auto& elements2 = problem2->GetMesh()->GetElements();
+
+			const auto& nodeMeshIndices1 = problem1->GetNodeMeshIndices();
+			const auto& nodeMeshIndices2 = problem2->GetNodeMeshIndices();
+
+			Sparse global(problem1->GetTotalDof(), problem2->GetTotalDof());
+			Matrix local;
+
+			for (ElementIndex i = 0; i < elements1.size(); ++i)
+			{
+				auto numberNodes1 = elements1[i]->GetNumberNodes();
+				auto numberNodes2 = elements2[i]->GetNumberNodes();
+
+				auto numberDof1 = elements1[i]->GetNumberDof();
+				auto numberDof2 = elements2[i]->GetNumberDof();
+
+				if (local.GetRows() != numberNodes1 * numberDof1 || local.GetCols() != numberNodes2 * numberDof2)
+				{
+					local.Resize(numberNodes1 * numberDof1, numberNodes2 * numberDof2);
+				}
+
+				std::dynamic_pointer_cast<elements::IElementMapped>(elements1[i])->IntegralWeakFormElement(weakForm, local);
+
+				for (NodeIndex m = 0; m < numberNodes1; ++m)
+				{
+					for (NodeIndex n = 0; n < numberNodes2; ++n)
+					{
+						for (DofIndex dof1 = 0; dof1 < numberDof1; ++dof1)
+						{
+							for (DofIndex dof2 = 0; dof2 < numberDof2; ++dof2)
+							{
+								auto aux = global.GetValue(nodeMeshIndices1[i][m].dofIndices[dof1], nodeMeshIndices2[i][n].dofIndices[dof2]);
+								aux += local.GetValue(m * numberDof1 + dof1, n * numberDof2 + dof2);
+
+								global.SetValue(nodeMeshIndices1[i][m].dofIndices[dof1], nodeMeshIndices2[i][n].dofIndices[dof2], aux);
+							}
+						}
+					}
+				}
+			}
+
+			return global;
+		}
+*/

@@ -148,8 +148,6 @@ namespace dive {
 		}
 		Sparse ProblemStructural::Mass() const
 		{
-			TimerStart();
-
 			auto massWeak = weakforms::CreateWeakFormMassStructural();
 			massWeak->SetTemperature(temperature_);
 			massWeak->SetPressure(pressure_);
@@ -197,14 +195,10 @@ namespace dive {
 				}
 			}
 
-			TimerElapsed(__FUNCTION__);
-
 			return global;
 		}
 		Sparse ProblemStructural::Stiffness() const
 		{
-			TimerStart();
-
 			auto stiffnessWeak = weakforms::CreateWeakFormStiffnessStructural();
 			stiffnessWeak->SetTemperature(temperature_);
 			stiffnessWeak->SetPressure(pressure_);
@@ -251,15 +245,11 @@ namespace dive {
 					}
 				}
 			}
-
-			TimerElapsed(__FUNCTION__);
 			
 			return global;
 		}
 		Sparse ProblemStructural::Damping() const
 		{
-			TimerStart();
-
 			const auto& problemStructural = std::make_shared<ProblemStructural>(*this);
 			const auto& elements = mesh_->GetElements();
 			const auto& nodeMeshIndices = GetNodeMeshIndices();
@@ -303,16 +293,12 @@ namespace dive {
 				}
 			}
 
-			TimerElapsed(__FUNCTION__);
-
 			return global;
 		}
 		Vector ProblemStructural::LoadDistributedEdge() const
 		{
 			auto loadDistributedEdgeWeak = weakforms::CreateWeakFormLoadDistributedEdgeStructural();
-
 			auto problemStructural = std::make_shared<ProblemStructural>(*this);
-
 			auto res = IntegralForm(loadDistributedEdgeWeak, problemStructural, loads_);
 
 			return res;
@@ -320,9 +306,7 @@ namespace dive {
 		Vector ProblemStructural::LoadDistributedFace() const
 		{
 			auto loadDistributedFaceWeak = weakforms::CreateWeakFormLoadDistributedFaceStructural();
-
 			auto problemStructural = std::make_shared<ProblemStructural>(*this);
-
 			auto res = IntegralForm(loadDistributedFaceWeak, problemStructural, loads_);
 
 			return res;
@@ -330,9 +314,7 @@ namespace dive {
 		Vector ProblemStructural::LoadDistributedVolume() const
 		{
 			auto loadDistributedVolumeWeak = weakforms::CreateWeakFormLoadDistributedVolumeStructural();
-
 			auto problemStructural = std::make_shared<ProblemStructural>(*this);
-
 			auto res = IntegralForm(loadDistributedVolumeWeak, problemStructural, loads_);
 
 			return res;
@@ -340,7 +322,6 @@ namespace dive {
 		Vector ProblemStructural::LoadNode() const
 		{
 			auto problemStructural = std::make_shared<ProblemStructural>(*this);
-
 			auto res = IntegralForm(nullptr, problemStructural, loads_);
 
 			return res;

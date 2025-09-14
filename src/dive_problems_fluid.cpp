@@ -166,45 +166,28 @@ namespace dive {
 		}
 		Sparse ProblemFluid::Mass() const
 		{
-			TimerStart();
-
 			auto massWeak = weakforms::CreateWeakFormMassFluid();
-
-			auto problemFluid = std::make_shared<ProblemFluid>(*this);
-			
+			auto problemFluid = std::make_shared<ProblemFluid>(*this);		
 			auto res = IntegralForm(massWeak, problemFluid, problemFluid);
-
-			TimerElapsed(__FUNCTION__);
 
 			return res;
 		}
 		Sparse ProblemFluid::Stiffness() const
 		{
-			TimerStart();
-
 			auto stiffnessWeak = weakforms::CreateWeakFormStiffnessFluid();
 			stiffnessWeak->SetTemperature(temperature_);
 			stiffnessWeak->SetPressure(pressure_);
 
 			auto problemFluid = std::make_shared<ProblemFluid>(*this);
-
 			auto res =  IntegralForm(stiffnessWeak, problemFluid, problemFluid);
-
-			TimerElapsed(__FUNCTION__);
 
 			return res;
 		}
 		Sparse ProblemFluid::Convection() const
 		{
-			TimerStart();
-
 			auto convectionWeak = weakforms::CreateWeakFormConvectionFluid();
-
 			auto problemFluid = std::make_shared<ProblemFluid>(*this);
-
 			auto res = IntegralForm(convectionWeak, problemFluid, problemFluid);
-
-			TimerElapsed(__FUNCTION__);
 
 			return res;
 		}
@@ -218,24 +201,16 @@ namespace dive {
 		}
 		Sparse ProblemFluid::Stabilization() const
 		{
-			TimerStart();
-
 			auto stabilizationWeak = weakforms::CreateWeakFormStabilizationFluid();
-
 			auto problemFluid = std::make_shared<ProblemFluid>(*this);
-
 			auto res = IntegralForm(stabilizationWeak, problemFluid, problemFluid);
-
-			TimerElapsed(__FUNCTION__);
 
 			return res;
 		}
 		Vector ProblemFluid::LoadDistributedVolume() const
 		{
 			auto loadDistributedVolumeWeak = weakforms::CreateWeakFormLoadDistributedVolumeFluid();
-
 			auto problemFluid = std::make_shared<ProblemFluid>(*this);
-
 			auto res = IntegralForm(loadDistributedVolumeWeak, problemFluid, loads_);
 
 			return res;
@@ -243,9 +218,7 @@ namespace dive {
 		Vector ProblemFluid::LoadDistributedVolumeStabilization() const
 		{
 			auto loadDistributedVolumeStabilizationWeak = weakforms::CreateWeakFormLoadDistributedVolumeStabilizationFluid();
-
 			auto problemFluid = std::make_shared<ProblemFluid>(*this);
-
 			auto res = IntegralForm(loadDistributedVolumeStabilizationWeak, problemFluid, loads_);
 
 			return res;

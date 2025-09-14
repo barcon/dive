@@ -3,6 +3,7 @@ import thermal
 import solvers
 import plots
 import materials.fluid.VG46
+import matplotlib.pyplot as plt
 
 T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
@@ -12,13 +13,15 @@ pressure    = thermal.CreateValueScalar3D(p_ref)
 material    = materials.fluid.VG46.Create(1, T_ref, p_ref)
 
 meshes.Initialize()
-meshes.CreateCavity(1.0, 1.0, 0.1, 101, 101, 5, False)
+meshes.CreateCavity(1.0, 1.0, 0.1, 51, 51, 2, False)
 #meshes.Show()
 
+print("Getting mesh...")
 cavity = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 3, physicalGroup = "cavity")
 wall = meshes.GetNodesForPhysicalGroup(mesh = cavity, physicalGroup = "wall")
 hot = meshes.GetNodesForPhysicalGroup(mesh = cavity, physicalGroup = "hot")
 plot = meshes.GetNodesForPhysicalGroup(mesh = cavity, physicalGroup = "plot")
+print("Done.")
 
 meshes.ApplyMaterial(cavity.GetElements(), material)
 meshes.Finalize()
@@ -33,8 +36,7 @@ thermal.Initialize()
 totalDof = thermal.GetProblem().GetTotalDof()
 pivot = thermal.GetProblem().GetPivot()
 
-K = thermal.GetProblem().StiffnessParallel()
-quit()
+K = thermal.GetProblem().Stiffness()
 
 K = thermal.PartitionMatrix(thermal.GetProblem().Stiffness())
 y = thermal.PartitionVector(thermal.GetProblem().Energy())
@@ -45,3 +47,34 @@ y = thermal.PartitionVector(thermal.GetProblem().Energy())
 
 #plots.residual.Show(monitor)
 plots.HeatMapNorm(plot)
+
+""""
+rows = K.GetRows()
+cols = K.GetCols()
+width = K.GetWidth()
+count = K.GetCount()
+numberDof = thermal.GetProblem().GetNumberDof()
+numberNodes = len(cavity.GetNodes())
+numberElements = len(cavity.GetElements())
+memory = width * rows * numberDof * 8 / (10**6)
+sum = 0
+distribution = []
+
+for i in range(0, len(count)):
+    sum += count[i]
+    distribution.append(count[i])
+
+sparsity = 1.0 - sum / (rows * cols)
+
+print("Nodes = ", numberNodes)
+print("Elements = ", numberElements)
+print("Rows = ", rows)
+print("Cols = ", cols)
+print("Width = ", width)
+print("Sparsity (%) = ", 100. * sparsity)
+print("Memory (MB) = ", memory)
+
+plt.plot(distribution)
+plt.show()
+quit()
+"""

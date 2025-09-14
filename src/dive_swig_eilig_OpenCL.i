@@ -235,7 +235,7 @@ def IterativeCG(A, x, b, callback):
     # get the function pointer of the ctypes wrapper by casting it to void* and taking its value
     f_ptr = ctypes.cast(f, ctypes.c_void_p).value
 
-    return _dive.IterativeBiCG(A, x, b, f_ptr)
+    return _dive.IterativeCG(A, x, b, f_ptr)
 
 def IterativeBiCGStab(A, x, b, callback):
 
@@ -255,7 +255,7 @@ def IterativeCGCL(A, x, b, callback):
     # get the function pointer of the ctypes wrapper by casting it to void* and taking its value
     f_ptr = ctypes.cast(f, ctypes.c_void_p).value
 
-    return _dive.IterativeBiCGCL(A, x, b, f_ptr)
+    return _dive.IterativeCGCL(A, x, b, f_ptr)
 	
 def IterativeBiCGStabCL(A, x, b, callback):
 

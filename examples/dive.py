@@ -1219,7 +1219,7 @@ def IterativeCG(A, x, b, callback):
 # get the function pointer of the ctypes wrapper by casting it to void* and taking its value
     f_ptr = ctypes.cast(f, ctypes.c_void_p).value
 
-    return _dive.IterativeBiCG(A, x, b, f_ptr)
+    return _dive.IterativeCG(A, x, b, f_ptr)
 
 def IterativeBiCGStab(A, x, b, callback):
 
@@ -1239,7 +1239,7 @@ def IterativeCGCL(A, x, b, callback):
 # get the function pointer of the ctypes wrapper by casting it to void* and taking its value
     f_ptr = ctypes.cast(f, ctypes.c_void_p).value
 
-    return _dive.IterativeBiCGCL(A, x, b, f_ptr)
+    return _dive.IterativeCGCL(A, x, b, f_ptr)
 
 def IterativeBiCGStabCL(A, x, b, callback):
 
@@ -6444,9 +6444,6 @@ class IWeakFormLoad(object):
 # Register IWeakFormLoad in _dive:
 _dive.IWeakFormLoad_swigregister(IWeakFormLoad)
 
-def IntegralFormParallel(weakForm, problem1, problem2):
-    return _dive.IntegralFormParallel(weakForm, problem1, problem2)
-
 def IntegralForm(*args):
     return _dive.IntegralForm(*args)
 
@@ -6666,9 +6663,6 @@ class IThermal(IProblem):
     def Stiffness(self):
         return _dive.IThermal_Stiffness(self)
 
-    def StiffnessParallel(self):
-        return _dive.IThermal_StiffnessParallel(self)
-
     def Convection(self, problemMomentum):
         return _dive.IThermal_Convection(self, problemMomentum)
 
@@ -6818,9 +6812,6 @@ class ProblemThermal(IThermal):
 
     def Stiffness(self):
         return _dive.ProblemThermal_Stiffness(self)
-
-    def StiffnessParallel(self):
-        return _dive.ProblemThermal_StiffnessParallel(self)
 
     def Convection(self, problemMomentum):
         return _dive.ProblemThermal_Convection(self, problemMomentum)

@@ -134,83 +134,47 @@ namespace dive {
 		}
 		Sparse ProblemThermal::Mass() const
 		{
-			TimerStart();
-
 			auto massWeak = weakforms::CreateWeakFormMassThermal();
 			massWeak->SetTemperature(temperature_);
 			massWeak->SetPressure(pressure_);
 
 			auto problemThermal = std::make_shared<ProblemThermal>(*this);
-
 			auto res = IntegralForm(massWeak, problemThermal, problemThermal);
-
-			TimerElapsed(__FUNCTION__);
 
 			return res;
 		}
 		Sparse ProblemThermal::Stiffness() const
 		{
-			TimerStart();
-
 			auto stiffnessWeak = weakforms::CreateWeakFormStiffnessThermal();
 			stiffnessWeak->SetTemperature(temperature_);
 			stiffnessWeak->SetPressure(pressure_);
 
 			auto problemThermal = std::make_shared<ProblemThermal>(*this);
-
 			auto res = IntegralForm(stiffnessWeak, problemThermal, problemThermal);
-
-			TimerElapsed(__FUNCTION__);
-
-			return res;
-		}
-		Sparse ProblemThermal::StiffnessParallel() const
-		{
-			TimerStart();
-
-			auto stiffnessWeak = weakforms::CreateWeakFormStiffnessThermal();
-			stiffnessWeak->SetTemperature(temperature_);
-			stiffnessWeak->SetPressure(pressure_);
-
-			auto problemThermal = std::make_shared<ProblemThermal>(*this);
-
-			auto res = IntegralFormParallel(stiffnessWeak, problemThermal, problemThermal);
-
-			TimerElapsed(__FUNCTION__);
 
 			return res;
 		}
 		Sparse ProblemThermal::Convection(IProblemPtr problemMomentum) const
 		{
-			TimerStart();
-
 			auto convectionWeak = weakforms::CreateWeakFormConvectionThermal();
 			convectionWeak->SetTemperature(temperature_);
 			convectionWeak->SetPressure(pressure_);
 			convectionWeak->SetProblemMomentum(problemMomentum);
 
 			auto problemThermal = std::make_shared<ProblemThermal>(*this);
-
 			auto res = IntegralForm(convectionWeak, problemThermal, problemThermal);
-
-			TimerElapsed(__FUNCTION__);
 
 			return res;
 		}
 		Sparse ProblemThermal::Stabilization(IProblemPtr problemMomentum) const
 		{
-			TimerStart();
-
 			auto stabilizationWeak = weakforms::CreateWeakFormStabilizationThermal();
 			stabilizationWeak->SetTemperature(temperature_);
 			stabilizationWeak->SetPressure(pressure_);
 			stabilizationWeak->SetProblemMomentum(problemMomentum);
 
 			auto problemThermal = std::make_shared<ProblemThermal>(*this);
-
 			auto res = IntegralForm(stabilizationWeak, problemThermal, problemThermal);
-
-			TimerElapsed(__FUNCTION__);
 
 			return res;
 		}

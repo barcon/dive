@@ -142,77 +142,51 @@ namespace dive {
 		}
 		Sparse ProblemPressure::Mass() const
 		{
-			TimerStart();
-
 			auto massWeak = weakforms::CreateWeakFormMassPressure();
 			massWeak->SetTemperature(temperature_);
 			massWeak->SetPressure(pressure_);
 			massWeak->SetVelocity(velocity_);
 
 			auto problemPressure = std::make_shared<ProblemPressure>(*this);
-
 			auto res = IntegralForm(massWeak, problemPressure, problemPressure);
-
-			TimerElapsed(__FUNCTION__);
 
 			return res;
 		}
 		Sparse ProblemPressure::Stiffness() const
 		{
-			TimerStart();
-
 			auto stiffnessWeak = weakforms::CreateWeakFormStiffnessPressure();
-
 			auto problemPressure = std::make_shared<ProblemPressure>(*this);
-
 			auto res = IntegralForm(stiffnessWeak, problemPressure, problemPressure);
-
-			TimerElapsed(__FUNCTION__);
 
 			return res;
 		}
 		Sparse ProblemPressure::Crossed(IProblemPtr problemMomentum) const
 		{
-			TimerStart();
-
 			auto crossedWeak = weakforms::CreateWeakFormCrossedPressure();
 			crossedWeak->SetProblemMomentum(problemMomentum);
 
 			auto problemPressure = std::make_shared<ProblemPressure>(*this);
-
 			auto res = IntegralForm(crossedWeak, problemPressure, problemMomentum);
-
-			TimerElapsed(__FUNCTION__);
 
 			return res;
 		}
 		Sparse ProblemPressure::Stabilization(IProblemPtr problemMomentum) const
 		{
-			TimerStart();
-
 			auto stabilizationWeak = weakforms::CreateWeakFormStabilizationPressure();
 			stabilizationWeak->SetProblemMomentum(problemMomentum);
 
 			auto problemPressure = std::make_shared<ProblemPressure>(*this);
-
 			auto res = IntegralForm(stabilizationWeak, problemPressure, problemMomentum);
-
-			TimerElapsed(__FUNCTION__);
 
 			return res;
 		}
 		Sparse ProblemPressure::DistributedVolumeDivergence(IProblemPtr problemMomentum) const
 		{
-			TimerStart();
-
 			auto distributedVolumeDivergencePressureWeak = weakforms::CreateWeakFormDistributedVolumeDivergencePressure();
 			distributedVolumeDivergencePressureWeak->SetProblemMomentum(problemMomentum);
 
 			auto problemPressure = std::make_shared<ProblemPressure>(*this);
-
 			auto res = IntegralForm(distributedVolumeDivergencePressureWeak, problemPressure, problemMomentum);
-
-			TimerElapsed(__FUNCTION__);
 
 			return res;
 		}

@@ -37,6 +37,17 @@ structural.Initialize()
 
 #--------------------------------------------------------------------------------------------------
 
+K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
+y = structural.PartitionVector(structural.GetProblem().Displacement())
+f = structural.PartitionVector(structural.GetProblem().LoadDistributedVolume())
+monitor = solvers.IterativeBiCGStab(K[3], y[1], -K[2] * y[0] + f[1])
+structural.UpdateMeshValues(y)
+
+#plots.residual.Show(monitor)
+plots.beam.Cantilever(plot, 1)
+
+"""
+
 K = structural.GetProblem().Stiffness()
 
 rows = K.GetRows()
@@ -54,7 +65,7 @@ for i in range(0, len(count)):
     sum += count[i]
     distribution.append(count[i])
 
-sparsity = sum / (rows * cols)
+sparsity = 1.0 - sum / (rows * cols)
 
 print("Nodes = ", numberNodes)
 print("Elements = ", numberElements)
@@ -67,13 +78,4 @@ print("Memory (MB) = ", memory)
 plt.plot(distribution)
 plt.show()
 
-quit()
-
-K = structural.PartitionMatrix(structural.GetProblem().Stiffness())
-y = structural.PartitionVector(structural.GetProblem().Displacement())
-f = structural.PartitionVector(structural.GetProblem().LoadDistributedVolume())
-monitor = solvers.IterativeBiCGStab(K[3], y[1], -K[2] * y[0] + f[1])
-structural.UpdateMeshValues(y)
-
-#plots.residual.Show(monitor)
-plots.beam.Cantilever(plot, 1)
+"""

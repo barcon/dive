@@ -97,29 +97,3 @@ namespace dive {
 
 	} // namespace problems
 } // namespace dive
-
-/*
-Matrix ConvectionFluid::FormMatrix_udN(IElementPtr element, const Vector& local, CacheIndex cacheIndex) const
-{
-	auto numberNodes = element->GetNumberNodes();
-	auto numberDof = element->GetNumberDof();
-	auto dimension = element->GetDimension();
-	auto u = FormVelocity(element, local);
-	auto dN = element->InvJ(local, cacheIndex) * element->dN(local, cacheIndex);
-
-	Matrix res(numberDof, numberNodes * numberDof, 0.0);
-
-	for (DofIndex i = 0; i < numberDof; ++i)
-	{
-		for (NodeIndex j = 0; j < numberNodes; ++j)
-		{
-			for (Dimension k = 0; k < dimension; ++k)
-			{
-				res(k, j * numberDof + k) += u(k) * dN(k, j);
-			}
-		}
-	}
-
-	return res;
-}
-*/

@@ -54,7 +54,6 @@ namespace dive
 
 			Sparse Mass() const override;
 			Sparse Stiffness() const override;
-			Sparse StiffnessParallel() const override;
 			Sparse Convection(IProblemPtr problemMomentum) const override;
 			Sparse Stabilization(IProblemPtr problemMomentum) const override;
 
