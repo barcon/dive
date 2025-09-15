@@ -67,6 +67,14 @@ namespace dive
 
 		void DeformByInterpolation(IMeshPtr mesh, IInterpolationPtr interpolation);
 
+		void GmshInitialize();	
+		void GmshFinalize();
+		void GmshOpenFile(const String& fileName);
+
+		//MeshPtr GmshGetMeshForPhysicalGroup(Tag meshTag, NumberDof numberDof, const String& physicalGroup);
+		//Nodes GmshGetNodesForPhysicalGroup(MeshPtr mesh, const String& physicalGroup);
+
+		std::pair<int, int> GetPhysicalGroupByName(const String& physicalGroup);
 	} //namespace meshes
 } //namespace dive
 

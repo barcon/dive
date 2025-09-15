@@ -24,6 +24,7 @@ project "dive"
 	includedirs { "../material/src" }
 	includedirs { "../python/include" }	
 	includedirs { "../thread-pool/include" }	
+	includedirs { "../gmsh/include" }	
 
 	files { "src/**.hpp", "src/**.cpp" }
 
@@ -36,7 +37,7 @@ project "dive"
 		removefiles{"src/dive_export_python_OpenCL.cpp"}
 		
 		links { "utils", "logger", "eilig", "basis", "quadrature", "nodes", "kdtree",
-				"interpolation", "values", "material", "python313" }
+				"interpolation", "values", "material", "python313", "gmsh.dll" }
 		
 		libdirs { "../utils/build/Release" }
 		libdirs { "../logger/build/Release" }
@@ -49,6 +50,7 @@ project "dive"
 		libdirs { "../values/build/Release" }
 		libdirs { "../material/build/Release" }
 		libdirs { "../python/lib" }
+		libdirs { "../gmsh/lib" }
 		
 workspace "diveCL"
 	configurations { "PythonCL" }
@@ -63,18 +65,19 @@ project "diveCL"
 	objdir "%{cfg.location}/obj/%{cfg.platform}_%{cfg.buildcfg}"	
 
 	targetdir "build/%{cfg.buildcfg}"
-	includedirs { "../utils/src" }	
-	includedirs { "../logger/src" }	
+	includedirs { "../utils/src" }
+	includedirs { "../logger/src" }
 	includedirs { "../eilig/src" }	
-	includedirs { "../basis/src" }	
-	includedirs { "../quadrature/src" }	
-	includedirs { "../nodes/src" }	
-	includedirs { "../kdtree/src" }	
-	includedirs { "../interpolation/src" }	
-	includedirs { "../values/src" }	
+	includedirs { "../basis/src" }
+	includedirs { "../quadrature/src" }
+	includedirs { "../nodes/src" }
+	includedirs { "../kdtree/src" }
+	includedirs { "../interpolation/src" }
+	includedirs { "../values/src" }
 	includedirs { "../material/src" }
-	includedirs { "../python/include" }	
-	includedirs { "../thread-pool/include" }	
+	includedirs { "../python/include" }
+	includedirs { "../thread-pool/include" }
+	includedirs { "../gmsh/include" }	
 
 	files { "src/**.hpp", "src/**.cpp" }
 
@@ -90,7 +93,7 @@ project "diveCL"
 		includedirs { "../opencl/inc" }		
 		
 		links { "utils", "logger", "eilig", "basis", "quadrature", "nodes", "kdtree",
-				"interpolation", "values", "material", "club", "opencl", "python313" }		
+				"interpolation", "values", "material", "club", "opencl", "python313", "gmsh.dll" }		
 		
 		libdirs { "../utils/build/Release" }
 		libdirs { "../logger/build/Release" }
@@ -105,3 +108,4 @@ project "diveCL"
 		libdirs { "../club/build/Release" }
 		libdirs { "../opencl/lib/x86_64" }
 		libdirs { "../python/lib" }
+		libdirs { "../gmsh/lib" }

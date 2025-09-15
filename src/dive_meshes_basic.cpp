@@ -3,6 +3,8 @@
 #include "dive_elements.hpp"
 #include "dive_selection.hpp"
 
+#include "gmsh.h"
+
 #include <algorithm>
 #include <memory>
 #include <limits>
@@ -413,6 +415,40 @@ namespace dive {
 
 				node->SetPoint(point + disp);
 			}
+		}
+
+		void GmshInitialize()
+		{
+			gmsh::initialize();
+		}
+		void GmshFinalize()
+		{
+			gmsh::finalize();
+		}
+		void GmshOpenFile(const String& fileName)
+		{
+			try {
+				gmsh::open(fileName);
+			}
+			catch (...) {
+				logger::Error(headerDive, "Gmsh could not open file " + fileName);
+				exit(0);
+			}
+		}
+
+		std::pair<int, int> GetPhysicalGroupByName(const String& physicalGroup)
+		{
+			//auto groups = gmsh::model::getPhysicalGroups();
+						
+			//for (dimension; tag in groups)
+			//{
+			//	if (physicalgroup == gmsh::model::getphysicalname(dimension, tag))
+			//	{
+			//		return std::pair<int, int>(dimension, tag);
+			//	}
+			//}
+
+			return std::pair<int, int>(-1, -1);
 		}
 
 	} // namespace meshes
