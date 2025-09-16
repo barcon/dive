@@ -71,10 +71,9 @@ namespace dive
 		void GmshFinalize();
 		void GmshOpenFile(const String& fileName);
 
-		//MeshPtr GmshGetMeshForPhysicalGroup(Tag meshTag, NumberDof numberDof, const String& physicalGroup);
-		//Nodes GmshGetNodesForPhysicalGroup(MeshPtr mesh, const String& physicalGroup);
+		MeshPtr GmshGetMeshForPhysicalGroup(Tag meshTag, NumberDof numberDof, const String& groupName);
+		//Nodes GmshGetNodesForPhysicalGroup(MeshPtr mesh, const String& groupName);
 
-		std::pair<int, int> GetPhysicalGroupByName(const String& physicalGroup);
 	} //namespace meshes
 } //namespace dive
 

@@ -1,7 +1,17 @@
 import gmsh
 
+name = "cavity"
+
 def CreateCavity(x, y, z, nx, ny, nz, quadratic):
-    gmsh.model.add("cavity")
+    global name
+
+    gmsh.initialize()
+
+    gmsh.option.setNumber("General.Terminal", 1)
+    gmsh.option.setNumber("Mesh.SaveAll", 1)
+    gmsh.option.setNumber('Mesh.SecondOrderIncomplete', 1)
+
+    gmsh.model.add(name)
 
     gmsh.model.geo.addPoint(0.0, 0.0, 0.0, 0, 1)
     gmsh.model.geo.addPoint(  x, 0.0, 0.0, 0, 2)
@@ -42,7 +52,7 @@ def CreateCavity(x, y, z, nx, ny, nz, quadratic):
     gmsh.model.geo.addSurfaceLoop([1, 2, 3, 4, 5, 6], 1)
     gmsh.model.geo.addVolume([1], 1)
     gmsh.model.geo.synchronize()
-    
+
     gmsh.option.setNumber('Mesh.SecondOrderIncomplete', 1)  
 
     gmsh.model.mesh.setTransfiniteCurve( 1, nx, "Bump", 0.05)
@@ -54,7 +64,7 @@ def CreateCavity(x, y, z, nx, ny, nz, quadratic):
     gmsh.model.mesh.setTransfiniteCurve( 4, ny, "Bump", 0.05)
     gmsh.model.mesh.setTransfiniteCurve( 6, ny, "Bump", 0.05)
     gmsh.model.mesh.setTransfiniteCurve( 8, ny, "Bump", 0.05)
-    
+
     gmsh.model.mesh.setTransfiniteCurve( 9, nz, "Progression", 1.00)
     gmsh.model.mesh.setTransfiniteCurve(10, nz, "Progression", 1.00)
     gmsh.model.mesh.setTransfiniteCurve(11, nz, "Progression", 1.00)
@@ -77,7 +87,7 @@ def CreateCavity(x, y, z, nx, ny, nz, quadratic):
     gmsh.model.mesh.setRecombine(2, 6) 
 
     gmsh.model.mesh.generate(3)       
-    
+
     if quadratic == False:
         gmsh.model.mesh.setOrder(1)   
     else:
@@ -91,6 +101,8 @@ def CreateCavity(x, y, z, nx, ny, nz, quadratic):
     gmsh.model.addPhysicalGroup(2, [1, 2], name="symmetryPlane")
     gmsh.model.addPhysicalGroup(2, [1], name="plot")
     gmsh.model.addPhysicalGroup(1, [9], name="pressure")
-   
+
+    gmsh.write(name + ".msh")	
+
     return
 

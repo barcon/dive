@@ -6427,8 +6427,8 @@ def GmshFinalize():
 def GmshOpenFile(fileName):
     return _dive.GmshOpenFile(fileName)
 
-def GetPhysicalGroupByName(physicalGroup):
-    return _dive.GetPhysicalGroupByName(physicalGroup)
+def GmshGetMeshForPhysicalGroup(meshTag, numberDof, groupName):
+    return _dive.GmshGetMeshForPhysicalGroup(meshTag, numberDof, groupName)
 class IWeakFormElement(object):
     thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
 

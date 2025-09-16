@@ -416,6 +416,9 @@ namespace dive {
 				node->SetPoint(point + disp);
 			}
 		}
+		
+		using PhysicalGroup = std::pair<int, int>;
+		using PhysicalGroups = std::vector<PhysicalGroup>;
 
 		void GmshInitialize()
 		{
@@ -436,20 +439,62 @@ namespace dive {
 			}
 		}
 
-		std::pair<int, int> GetPhysicalGroupByName(const String& physicalGroup)
+		PhysicalGroup GetPhysicalGroupByName(const String& groupName)
 		{
-			//auto groups = gmsh::model::getPhysicalGroups();
-						
-			//for (dimension; tag in groups)
-			//{
-			//	if (physicalgroup == gmsh::model::getphysicalname(dimension, tag))
-			//	{
-			//		return std::pair<int, int>(dimension, tag);
-			//	}
-			//}
+			PhysicalGroups res;
 
-			return std::pair<int, int>(-1, -1);
+			gmsh::model::getPhysicalGroups(res);
+
+			for (auto& group : res)
+			{
+				String name;
+				gmsh::model::getPhysicalName(group.first, group.second, name);
+
+				if (groupName == name)
+				{
+					return group;
+				}
+			}
+
+			return PhysicalGroup(-1, -1);
 		}
+		MeshPtr GmshGetMeshForPhysicalGroup(Tag meshTag, NumberDof numberDof, const String& groupName)
+		{
+			MeshPtr mesh{ nullptr };
+			Status status;
+			Indices nodeTags;
+			Scalars coordinates;
+
+			auto group = GetPhysicalGroupByName(groupName);
+			if (group.first == -1 && group.second == -1)
+			{
+				logger::Error(headerDive, "Gmsh physical group " + groupName + " not found");
+				return mesh;
+			}
+
+			auto dimension = group.first;
+			auto tag = group.second;
+			
+			mesh = CreateMesh(meshTag);
+
+			gmsh::model::mesh::getNodesForPhysicalGroup(dimension, tag, nodeTags, coordinates);
+			for (Index i = 0; i < nodeTags.size(); ++i)
+			{
+				auto nodeTag = nodeTags[i];
+				auto x = coordinates[3 * i + 0];
+				auto y = coordinates[3 * i + 1];
+				auto z = coordinates[3 * i + 2];
+
+				auto node = nodes::CreateNode(nodeTag, x, y, z);
+				node->SetNumberDof(numberDof);
+				mesh->AddNode(node, status, false);
+			}
+
+			mesh->SortNodesByTag();
+
+			return mesh;
+		}
+
 
 	} // namespace meshes
 } // namespace dive

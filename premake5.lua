@@ -93,7 +93,7 @@ project "diveCL"
 		includedirs { "../opencl/inc" }		
 		
 		links { "utils", "logger", "eilig", "basis", "quadrature", "nodes", "kdtree",
-				"interpolation", "values", "material", "club", "opencl", "python313", "gmsh.dll" }		
+				"interpolation", "values", "material", "club", "opencl", "python313", "gmsh.dll" }
 		
 		libdirs { "../utils/build/Release" }
 		libdirs { "../logger/build/Release" }
