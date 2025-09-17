@@ -102,7 +102,8 @@ def CreateCavity(x, y, z, nx, ny, nz, quadratic):
     gmsh.model.addPhysicalGroup(2, [1], name="plot")
     gmsh.model.addPhysicalGroup(1, [9], name="pressure")
 
-    gmsh.write(name + ".msh")	
+    gmsh.write(name + ".msh")
+    gmsh.finalize()
 
     return
 

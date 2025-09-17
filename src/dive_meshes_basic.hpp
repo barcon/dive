@@ -71,8 +71,9 @@ namespace dive
 		void GmshFinalize();
 		void GmshOpenFile(const String& fileName);
 
+		Nodes GmshGetNodesForPhysicalGroup(MeshPtr mesh, const String& groupName);
+		Elements GmshGetElementsForPhysicalGroup(MeshPtr mesh, const String& groupName);
 		MeshPtr GmshGetMeshForPhysicalGroup(Tag meshTag, NumberDof numberDof, const String& groupName);
-		//Nodes GmshGetNodesForPhysicalGroup(MeshPtr mesh, const String& groupName);
 
 	} //namespace meshes
 } //namespace dive

@@ -17,18 +17,18 @@ gravity = -9.8      #[m/s²]
 steel = materials.solid.steel.Create(1)
 density = steel.GetDensity(T_ref, p_ref)
 
-meshes.Initialize()
-meshes.CreateBeam(1.0, 0.1, 0.1, 101, 21, 21, False)
-#meshes.Show()
+#meshes.CreateBeam(1.0, 0.1, 0.1, 21, 5, 5, False)
+structural.GmshInitialize()
+structural.GmshOpenFile("beam.msh")
 
-beam = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 3, physicalGroup = "beam")
-fixed = meshes.GetNodesForPhysicalGroup(mesh = beam, physicalGroup = "fixed")
-loadVolume = meshes.GetElementsForPhysicalGroup(mesh = beam, physicalGroup = "loadVolume")
+beam = structural.GmshGetMeshForPhysicalGroup(1, 3, "beam")
+fixed = structural.GmshGetNodesForPhysicalGroup(beam, "fixed")
+loadVolume = structural.GmshGetElementsForPhysicalGroup(beam, "loadVolume")
 weight = structural.CreateValueVector3DScalars([0.0, density * gravity, 0.0])
-plot = meshes.GetNodesForPhysicalGroup(mesh = beam, physicalGroup = "plot")
+plot = structural.GmshGetNodesForPhysicalGroup(beam, "plot")
 
 meshes.ApplyMaterial(beam.GetElements(), steel)
-meshes.Finalize()
+structural.GmshFinalize()
 
 structural.CreateProblem(1, beam, temperature, pressure)
 structural.ApplyDirichlet(fixed, 0.0)

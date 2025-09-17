@@ -1,7 +1,17 @@
 import gmsh
 
+name = "beam"
+
 def CreateBeam(x, y, z, nx, ny, nz, quadratic):
-    gmsh.model.add("beam")
+    global name
+    
+    gmsh.initialize()
+
+    gmsh.option.setNumber("General.Terminal", 1)
+    gmsh.option.setNumber("Mesh.SaveAll", 1)
+    gmsh.option.setNumber('Mesh.SecondOrderIncomplete', 1)
+
+    gmsh.model.add(name)
     
     gmsh.model.geo.addPoint(0.0, 0.0, 0.0, 0, 1)
     gmsh.model.geo.addPoint(  x, 0.0, 0.0, 0, 2)
@@ -91,6 +101,9 @@ def CreateBeam(x, y, z, nx, ny, nz, quadratic):
     gmsh.model.addPhysicalGroup(1, [6], name="loadEdge")
     gmsh.model.addPhysicalGroup(1, [3], name="plot")
     gmsh.model.addPhysicalGroup(0, [2, 3, 6, 7], name="loadNode")
+
+    gmsh.write(name + ".msh")
+    gmsh.finalize()
 
     return
 

@@ -12,22 +12,17 @@ timer       = thermal.CreateTimerStationary(1, 0.0)
 pressure    = thermal.CreateValueScalar3D(p_ref)
 material    = materials.fluid.VG46.Create(1, T_ref, p_ref)
 
+#meshes.CreateCavity(1.0, 1.0, 0.1, 101, 101, 2, False)
 thermal.GmshInitialize()
 thermal.GmshOpenFile("cavity.msh")
 
 cavity = thermal.GmshGetMeshForPhysicalGroup(1, 1, "cavity")
-#wall = meshes.GetNodesForPhysicalGroup(mesh = cavity, physicalGroup = "wall")
-#hot = meshes.GetNodesForPhysicalGroup(mesh = cavity, physicalGroup = "hot")
-#plot = meshes.GetNodesForPhysicalGroup(mesh = cavity, physicalGroup = "plot")
+wall = thermal.GmshGetNodesForPhysicalGroup(cavity, "wall")
+hot = thermal.GmshGetNodesForPhysicalGroup(cavity, "hot")
+plot = thermal.GmshGetNodesForPhysicalGroup(cavity, "plot")
 
-#meshes.ApplyMaterial(cavity.GetElements(), material)
-#meshes.Finalize()
-
+meshes.ApplyMaterial(cavity.GetElements(), material)
 thermal.GmshFinalize()
-
-print(cavity.GetNodes())
-
-quit()
 
 thermal.CreateProblem(1, cavity, pressure)
 thermal.ApplyDirichlet(hot, 100.0)

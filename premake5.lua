@@ -36,9 +36,9 @@ project "dive"
 		
 		removefiles{"src/dive_export_python_OpenCL.cpp"}
 		
-		links { "utils", "logger", "eilig", "basis", "quadrature", "nodes", "kdtree",
-				"interpolation", "values", "material", "python313", "gmsh.dll" }
-		
+		links { "utils.lib", "logger.lib", "eilig.lib", "basis.lib", "quadrature.lib", "nodes.lib", "kdtree.lib",
+				"interpolation.lib", "values.lib", "material.lib", "python313.lib", "gmsh.dll.lib" }
+	
 		libdirs { "../utils/build/Release" }
 		libdirs { "../logger/build/Release" }
 		libdirs { "../eilig/build/Release" }
@@ -92,8 +92,8 @@ project "diveCL"
 		includedirs { "../club/src" }		
 		includedirs { "../opencl/inc" }		
 		
-		links { "utils", "logger", "eilig", "basis", "quadrature", "nodes", "kdtree",
-				"interpolation", "values", "material", "club", "opencl", "python313", "gmsh.dll" }
+		links { "utils.lib", "logger.lib", "eilig.lib", "basis.lib", "quadrature.lib", "nodes.lib", "kdtree.lib",
+				"interpolation.lib", "values.lib", "material.lib", "club.lib", "opencl.lib", "python313.lib", "gmsh.dll.lib" }
 		
 		libdirs { "../utils/build/Release" }
 		libdirs { "../logger/build/Release" }
