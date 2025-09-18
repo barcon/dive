@@ -21,10 +21,10 @@ wall = thermal.GmshGetNodesForPhysicalGroup(cavity, "wall")
 hot = thermal.GmshGetNodesForPhysicalGroup(cavity, "hot")
 plot = thermal.GmshGetNodesForPhysicalGroup(cavity, "plot")
 
-meshes.ApplyMaterial(cavity.GetElements(), material)
 thermal.GmshFinalize()
 
 thermal.CreateProblem(1, cavity, pressure)
+thermal.ApplyMaterial(cavity, material)
 thermal.ApplyDirichlet(hot, 100.0)
 thermal.ApplyDirichlet(wall, 0.0)
 thermal.Initialize()
@@ -34,8 +34,6 @@ thermal.Initialize()
 totalDof = thermal.GetProblem().GetTotalDof()
 pivot = thermal.GetProblem().GetPivot()
 
-K = thermal.GetProblem().Stiffness()
-
 K = thermal.PartitionMatrix(thermal.GetProblem().Stiffness())
 y = thermal.PartitionVector(thermal.GetProblem().Energy())
 
@@ -43,7 +41,7 @@ monitor = solvers.IterativeBiCGStab(K[3], y[1], -K[2] * y[0])
 thermal.UpdateMeshValues(y)
 y = thermal.PartitionVector(thermal.GetProblem().Energy())
 
-#plots.residual.Show(monitor)
+plots.residual.Show(monitor)
 plots.HeatMapNorm(plot)
 
 """"

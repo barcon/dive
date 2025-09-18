@@ -401,6 +401,14 @@ namespace dive {
 			return res;
 		}
 
+		void ApplyMaterial(IMeshPtr mesh, IMaterialPtr material)
+		{
+			auto& elements = mesh->GetElements();
+			for (auto& element : elements)
+			{
+				element->SetMaterial(material);
+			}
+		}
 		void DeformByInterpolation(IMeshPtr mesh, IInterpolationPtr interpolation)
 		{
 			auto& nodes = mesh->GetNodes();
@@ -467,7 +475,7 @@ namespace dive {
 
 			return PhysicalGroup(-1, -1);
 		}
-		Nodes GmshGetNodesForPhysicalGroup(MeshPtr mesh, const String& groupName)
+		Nodes GmshGetNodesForPhysicalGroup(IMeshPtr mesh, const String& groupName)
 		{
 			Nodes nodes;
 			NodeTags nodeTags;
@@ -491,7 +499,82 @@ namespace dive {
 
 			return nodes;
 		}
-		Elements GmshGetElementsForPhysicalGroup(MeshPtr mesh, const String& groupName)
+		EdgePairs GmshGetEdgesForPhysicalGroup(IMeshPtr mesh, const String& groupName)
+		{
+			EdgePairs edgePairs;
+			Status status;
+
+			auto group = GmshGetPhysicalGroupByName(groupName);
+			if (group.first == -1 && group.second == -1)
+			{
+				logger::Error(headerDive, "Gmsh physical group " + groupName + " not found");
+				return edgePairs;
+			}
+
+			if (group.first != 1)
+			{
+				logger::Error(headerDive, "Physical group is not a edge group");
+				return edgePairs;
+			}
+
+			EntityTags entities;
+			gmsh::model::getEntitiesForPhysicalGroup(group.first, group.second, entities);
+
+			for (Index i = 0; i < entities.size(); ++i)
+			{
+				std::cout << "Entity: " << entities[i] << std::endl;
+			}
+
+			for (auto& entity : entities)
+			{
+				NumberNodes counter{ 0 };
+				NumberNodes numberNodes{ 0 };
+				ElementTypes elementTypes;
+				std::vector<ElementTags> elementTags;
+				std::vector<NodeTags> nodeTags;
+
+				gmsh::model::mesh::getElements(elementTypes, elementTags, nodeTags, group.first, entity);
+
+				if (elementTypes[0] == 1)
+				{
+					numberNodes = 2;
+				}
+				else if (elementTypes[0] == 8)
+				{
+					numberNodes;
+				}
+				else
+				{
+					logger::Error(headerDive, "Physical group contains unsupported element type");
+					continue;
+				}
+
+				for (ElementIndex i = 0; i < elementTags[0].size(); ++i)
+				{
+					Nodes nodes;
+					for (NodeIndex k = 0; k < numberNodes; ++k)
+					{
+						auto nodeTag = static_cast<Tag>(nodeTags[0][counter + k]);
+						auto node = mesh->GetNodeSorted(nodeTag, status);
+
+						nodes.emplace_back(node);
+					}
+					counter += numberNodes;
+
+					auto elements = selection::FilterElementsByNodesIntersection(nodes);
+					if (elements.size() != 1)
+					{
+						logger::Error(headerDive, "Inconsistent dge found in mesh");
+						continue;
+					}
+
+					edgePairs.emplace_back(selection::FilterEdgeByNodes(elements[0], nodes));
+				}
+			}
+
+			return edgePairs;
+		}
+		Elements GmshGetElementsForPhysicalGroup(IMeshPtr mesh, const String& groupName)
 		{
 			Elements elements;
 			Status status;
@@ -526,9 +609,9 @@ namespace dive {
 
 			return elements;
 		}
-		MeshPtr GmshGetMeshForPhysicalGroup(Tag meshTag, NumberDof numberDof, const String& groupName)
+		IMeshPtr GmshGetMeshForPhysicalGroup(Tag meshTag, NumberDof numberDof, const String& groupName)
 		{
-			MeshPtr mesh{ nullptr };
+			IMeshPtr mesh{ nullptr };
 			Status status;
 
 			auto group = GmshGetPhysicalGroupByName(groupName);
@@ -547,7 +630,7 @@ namespace dive {
 				NodeTags nodeTags;
 				gmsh::model::mesh::getNodesForPhysicalGroup(dimension, tag, nodeTags, coordinates);
 			
-				for (Index i = 0; i < nodeTags.size(); ++i)
+				for (NodeIndex i = 0; i < nodeTags.size(); ++i)
 				{
 					auto nodeTag = nodeTags[i];
 					auto x = coordinates[3 * i + 0];
@@ -575,7 +658,7 @@ namespace dive {
 
 					gmsh::model::mesh::getElements(elementTypes, elementTags, nodeTags, dimension, entity);
 
-					for (Index i = 0; i < elementTags[0].size(); ++i)
+					for (ElementIndex i = 0; i < elementTags[0].size(); ++i)
 					{
 						if (elementTypes[0] == 5)
 						{

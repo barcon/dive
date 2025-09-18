@@ -65,15 +65,17 @@ namespace dive
 		Scalar GetSizeMinimum(const Elements& elements);
 		Scalar GetSizeMaximum(const Elements& elements);
 
+		void ApplyMaterial(IMeshPtr mesh, IMaterialPtr material);
 		void DeformByInterpolation(IMeshPtr mesh, IInterpolationPtr interpolation);
 
 		void GmshInitialize();	
 		void GmshFinalize();
 		void GmshOpenFile(const String& fileName);
 
-		Nodes GmshGetNodesForPhysicalGroup(MeshPtr mesh, const String& groupName);
-		Elements GmshGetElementsForPhysicalGroup(MeshPtr mesh, const String& groupName);
-		MeshPtr GmshGetMeshForPhysicalGroup(Tag meshTag, NumberDof numberDof, const String& groupName);
+		Nodes GmshGetNodesForPhysicalGroup(IMeshPtr mesh, const String& groupName);
+		EdgePairs GmshGetEdgesForPhysicalGroup(IMeshPtr mesh, const String& groupName);
+		Elements GmshGetElementsForPhysicalGroup(IMeshPtr mesh, const String& groupName);
+		IMeshPtr GmshGetMeshForPhysicalGroup(Tag meshTag, NumberDof numberDof, const String& groupName);
 
 	} //namespace meshes
 } //namespace dive

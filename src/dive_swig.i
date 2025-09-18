@@ -70,4 +70,5 @@ namespace interpolation
 	using NumberCoordinates = Number;	
 	
 	using String = std::string;
-%}
+	using EdgePairs = std::vector<EdgePair>;
+%};

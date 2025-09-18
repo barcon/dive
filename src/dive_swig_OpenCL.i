@@ -31,9 +31,9 @@ namespace interpolation
 %include "dive_swig_routines.i"
 %include "dive_swig_nodes.i"
 %include "dive_swig_elements.i"
-%include "dive_swig_loads.i"
 %include "dive_swig_meshes.i"
 %include "dive_swig_weak_forms.i"
+%include "dive_swig_loads.i"
 %include "dive_swig_problems.i"
 %include "dive_swig_selection.i"
 
@@ -73,4 +73,5 @@ namespace interpolation
 	using NumberCoordinates = Number;	
 	
 	using String = std::string;
+	using EdgePairs = std::vector<EdgePair>;	
 %}

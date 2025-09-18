@@ -69,9 +69,6 @@ namespace dive
 			EdgeIndex edgeIndex;
 		};
 
-		using FacePairs = std::vector<FacePair>;
-		using EdgePairs = std::vector<EdgePair>;
-
 		class IElement
 		{
 		public:

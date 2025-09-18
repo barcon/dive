@@ -362,6 +362,8 @@ namespace dive
 	using Meshes = std::vector<IMeshPtr>;
 	using Problems = std::vector<IProblemPtr>;
 	using Properties = std::unordered_map<String, IValuePtr>;
+	using FacePairs = std::vector<FacePair>;
+	using EdgePairs = std::vector<EdgePair>;
 }
 
 #endif /* DIVE_TYPES_HPP_ */

@@ -23,19 +23,21 @@ temperature = thermal.CreateValueScalar3D(T_ref)
 lenghtDomain = 1.0
 material    = materials.fluid.VG46.Create(1, T_ref, p_ref)
 
-meshes.Initialize()
-meshes.CreateBeam(lenghtDomain, 0.1, 0.1, 21, 2, 2, True)
+#meshes.CreateBeam(lenghtDomain, 0.1, 0.1, 21, 2, 2, True)
+thermal.GmshInitialize()
+thermal.GmshOpenFile("beam.msh")
 
-meshThermal = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 1, physicalGroup = "beam")
-meshMomentum = meshes.GetMeshForPhysicalGroup(meshTag = 2, numberDof = 1, physicalGroup = "beam")
+meshThermal = thermal.GmshGetMeshForPhysicalGroup(1, 1, "beam")
+meshMomentum = thermal.GmshGetMeshForPhysicalGroup(2, 1, "beam")
 
-inlet = meshes.GetNodesForPhysicalGroup(mesh = meshThermal, physicalGroup = "inlet")
-wall = meshes.GetNodesForPhysicalGroup(mesh = meshThermal, physicalGroup = "wall")
-plot = meshes.GetNodesForPhysicalGroup(mesh = meshThermal, physicalGroup = "plot")
+inlet = thermal.GmshGetNodesForPhysicalGroup(meshThermal, "inlet")
+wall = thermal.GmshGetNodesForPhysicalGroup(meshThermal, "wall")
+plot = thermal.GmshGetNodesForPhysicalGroup(meshThermal, "plot")
 
-meshes.ApplyMaterial(meshThermal.GetElements(), material)
-meshes.ApplyMaterial(meshMomentum.GetElements(), material)
-meshes.Finalize()
+thermal.GmshFinalize()
+
+thermal.ApplyMaterial(meshThermal, material)
+thermal.ApplyMaterial(meshMomentum, material)
 
 #--------------------------------------------------------------------------------------------------
 rho = material.GetDensity(T_ref, p_ref)
