@@ -23,7 +23,6 @@ namespace dive
 		protected:
 			ConvectionFluid() = default;
 
-
 			Matrix FormVelocity(IElementMappedPtr element, const Vector& local) const;
 			Scalar FormDivergence(IElementMappedPtr element, const Vector& local) const;
 			Matrix FormMatrix_N(IElementMappedPtr element, const Vector& local) const;

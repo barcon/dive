@@ -41,7 +41,7 @@ monitor = solvers.IterativeBiCGStab(K[3], y[1], -K[2] * y[0])
 thermal.UpdateMeshValues(y)
 y = thermal.PartitionVector(thermal.GetProblem().Energy())
 
-plots.residual.Show(monitor)
+#plots.residual.Show(monitor)
 plots.HeatMapNorm(plot)
 
 """"

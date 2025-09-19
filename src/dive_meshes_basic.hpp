@@ -74,6 +74,7 @@ namespace dive
 
 		Nodes GmshGetNodesForPhysicalGroup(IMeshPtr mesh, const String& groupName);
 		EdgePairs GmshGetEdgesForPhysicalGroup(IMeshPtr mesh, const String& groupName);
+		FacePairs GmshGetFacesForPhysicalGroup(IMeshPtr mesh, const String& groupName);
 		Elements GmshGetElementsForPhysicalGroup(IMeshPtr mesh, const String& groupName);
 		IMeshPtr GmshGetMeshForPhysicalGroup(Tag meshTag, NumberDof numberDof, const String& groupName);
 

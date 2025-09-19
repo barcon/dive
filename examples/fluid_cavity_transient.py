@@ -12,35 +12,36 @@ from prettytable import PrettyTable
 T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
 basis       = fluid.CreateBasisCartesian(1)
-timer       = fluid.CreateTimerStepped(1, 0.0, 50000.0, 10.0)
+timer       = fluid.CreateTimerStepped(1, 0.0, 5000.0, 10.0)
 pressure    = fluid.CreateValueScalar3D(p_ref)
 temperature = fluid.CreateValueScalar3D(T_ref)
 material    = materials.fluid.water.Create(1, T_ref, p_ref)
 sizeDomain  = 1.0
 
-meshes.Initialize()
-meshes.CreateCavity(sizeDomain, sizeDomain, 0.1 * sizeDomain, 31, 31, 2, False)
-#meshes.Show()
+#meshes.CreateCavity(sizeDomain, sizeDomain, 0.1 * sizeDomain, 21, 21, 2, False)
 
-meshVelocity = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 3, physicalGroup = "cavity")
-meshPressure = meshes.GetMeshForPhysicalGroup(meshTag = 1, numberDof = 1, physicalGroup = "cavity")
+fluid.GmshInitialize()
+fluid.GmshOpenFile("cavity.msh")
 
-bcWall = meshes.GetNodesForPhysicalGroup(mesh = meshVelocity, physicalGroup = "wallViscous")
-bcVelocity = meshes.GetNodesForPhysicalGroup(mesh = meshVelocity, physicalGroup = "velocity")
-bcSymmetryPlane = meshes.GetNodesForPhysicalGroup(mesh = meshVelocity, physicalGroup = "symmetryPlane")
-bcPressure = meshes.GetNodesForPhysicalGroup(mesh = meshPressure, physicalGroup = "pressure")
+meshVelocity = fluid.GmshGetMeshForPhysicalGroup(1, 3, "cavity")
+meshPressure = fluid.GmshGetMeshForPhysicalGroup(1, 1, "cavity")
 
-plotVelocity = meshes.GetNodesForPhysicalGroup(mesh = meshVelocity, physicalGroup = "plot")
-plotPressure = meshes.GetNodesForPhysicalGroup(mesh = meshPressure, physicalGroup = "plot")
+bcWall = fluid.GmshGetNodesForPhysicalGroup(meshVelocity, "wallViscous")
+bcVelocity = fluid.GmshGetNodesForPhysicalGroup(meshVelocity, "velocity")
+bcSymmetryPlane = fluid.GmshGetNodesForPhysicalGroup(meshVelocity, "symmetryPlane")
+bcPressure = fluid.GmshGetNodesForPhysicalGroup(meshPressure, "pressure")
+plotVelocity = fluid.GmshGetNodesForPhysicalGroup(meshVelocity, "plot")
+plotPressure = fluid.GmshGetNodesForPhysicalGroup(meshPressure, "plot")
 
-meshes.ApplyMaterial(meshVelocity.GetElements(), material)
-meshes.ApplyMaterial(meshPressure.GetElements(), material)
-meshes.Finalize()
+fluid.GmshFinalize()
+fluid.ApplyMaterial(meshVelocity, material)
+fluid.ApplyMaterial(meshPressure, material)
 
 pressure = fluid.CreateValueScalar3DCongruent(meshPressure)
 velocity = fluid.CreateValueMatrix3DCongruent(meshVelocity)
 
 #--------------------------------------------------------------------------------------------------
+
 sizeElement = fluid.GetSizeMinimum(meshVelocity.GetElements())
 
 rho = material.GetDensity(T_ref, p_ref)

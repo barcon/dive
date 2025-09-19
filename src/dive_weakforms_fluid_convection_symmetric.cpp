@@ -30,9 +30,9 @@ namespace dive {
 		void ConvectionSymmetricFluid::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output) const
 		{
 			auto N = FormMatrix_N(element, local);
-			auto div = FormDivergence(element, local);
+			auto du = FormDivergence(element, local);
 
-			output = N.Transpose() * N * div;
+			output = N.Transpose() * N * du;
 		}
 		Matrix ConvectionSymmetricFluid::FormDivergence(IElementMappedPtr element, const Vector& local) const
 		{
@@ -58,7 +58,7 @@ namespace dive {
 			//	divergence += du(i, i);
 			//}
 
-			return res;
+			//return res;
 		}
 		Matrix ConvectionSymmetricFluid::FormMatrix_N(IElementMappedPtr element, const Vector& local) const
 		{

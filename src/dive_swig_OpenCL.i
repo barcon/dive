@@ -74,4 +74,5 @@ namespace interpolation
 	
 	using String = std::string;
 	using EdgePairs = std::vector<EdgePair>;	
+	using FacePairs = std::vector<FacePair>;	
 %}

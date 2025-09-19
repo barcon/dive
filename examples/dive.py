@@ -5871,6 +5871,9 @@ def GmshGetNodesForPhysicalGroup(mesh, groupName):
 def GmshGetEdgesForPhysicalGroup(mesh, groupName):
     return _dive.GmshGetEdgesForPhysicalGroup(mesh, groupName)
 
+def GmshGetFacesForPhysicalGroup(mesh, groupName):
+    return _dive.GmshGetFacesForPhysicalGroup(mesh, groupName)
+
 def GmshGetElementsForPhysicalGroup(mesh, groupName):
     return _dive.GmshGetElementsForPhysicalGroup(mesh, groupName)
 

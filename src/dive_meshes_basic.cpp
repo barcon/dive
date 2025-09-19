@@ -520,11 +520,6 @@ namespace dive {
 			EntityTags entities;
 			gmsh::model::getEntitiesForPhysicalGroup(group.first, group.second, entities);
 
-			for (Index i = 0; i < entities.size(); ++i)
-			{
-				std::cout << "Entity: " << entities[i] << std::endl;
-			}
-
 			for (auto& entity : entities)
 			{
 				NumberNodes counter{ 0 };
@@ -541,7 +536,7 @@ namespace dive {
 				}
 				else if (elementTypes[0] == 8)
 				{
-					numberNodes;
+					numberNodes = 3;
 				}
 				else
 				{
@@ -562,17 +557,77 @@ namespace dive {
 					counter += numberNodes;
 
 					auto elements = selection::FilterElementsByNodesIntersection(nodes);
-					if (elements.size() != 1)
-					{
-						logger::Error(headerDive, "Inconsistent dge found in mesh");
-						continue;
-					}
 
 					edgePairs.emplace_back(selection::FilterEdgeByNodes(elements[0], nodes));
 				}
 			}
 
 			return edgePairs;
+		}
+		FacePairs GmshGetFacesForPhysicalGroup(IMeshPtr mesh, const String& groupName)
+		{
+			FacePairs facePairs;
+			Status status;
+
+			auto group = GmshGetPhysicalGroupByName(groupName);
+			if (group.first == -1 && group.second == -1)
+			{
+				logger::Error(headerDive, "Gmsh physical group " + groupName + " not found");
+				return facePairs;
+			}
+
+			if (group.first != 2)
+			{
+				logger::Error(headerDive, "Physical group is not a face group");
+				return facePairs;
+			}
+
+			EntityTags entities;
+			gmsh::model::getEntitiesForPhysicalGroup(group.first, group.second, entities);
+
+			for (auto& entity : entities)
+			{
+				NumberNodes counter{ 0 };
+				NumberNodes numberNodes{ 0 };
+				ElementTypes elementTypes;
+				std::vector<ElementTags> elementTags;
+				std::vector<NodeTags> nodeTags;
+
+				gmsh::model::mesh::getElements(elementTypes, elementTags, nodeTags, group.first, entity);
+
+				if (elementTypes[0] == 3)
+				{
+					numberNodes = 4;
+				}
+				else if (elementTypes[0] == 16)
+				{
+					numberNodes = 8;
+				}
+				else
+				{
+					logger::Error(headerDive, "Physical group contains unsupported element type");
+					continue;
+				}
+
+				for (ElementIndex i = 0; i < elementTags[0].size(); ++i)
+				{
+					Nodes nodes;
+					for (NodeIndex k = 0; k < numberNodes; ++k)
+					{
+						auto nodeTag = static_cast<Tag>(nodeTags[0][counter + k]);
+						auto node = mesh->GetNodeSorted(nodeTag, status);
+
+						nodes.emplace_back(node);
+					}
+					counter += numberNodes;
+
+					auto elements = selection::FilterElementsByNodesIntersection(nodes);
+
+					facePairs.emplace_back(selection::FilterFaceByNodes(elements[0], nodes));
+				}
+			}
+
+			return facePairs;
 		}
 		Elements GmshGetElementsForPhysicalGroup(IMeshPtr mesh, const String& groupName)
 		{
