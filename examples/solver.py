@@ -7,42 +7,33 @@ url = "http://localhost:5001"
 
 app,rt = fast_app()
 
-T_ref       = 313.15      #[K]      = 40 [°C]
-p_ref       = 101325.1    #[N/m²]   =  1 [atm]
-basis       = thermal.CreateBasisCartesian(1)
-timer       = thermal.CreateTimerStationary(1, 0.0)
-pressure    = thermal.CreateValueScalar3D(p_ref)
-material    = materials.fluid.VG46.Create(1, T_ref, p_ref)
-
-#meshes.CreateCavity(1.0, 1.0, 0.1, 101, 101, 2, False)
-thermal.GmshInitialize()
-thermal.GmshOpenFile("cavity.msh")
-
-cavity = thermal.GmshGetMeshForPhysicalGroup(1, 1, "cavity")
-wall = thermal.GmshGetNodesForPhysicalGroup(cavity, "wall")
-hot = thermal.GmshGetNodesForPhysicalGroup(cavity, "hot")
-plot = thermal.GmshGetNodesForPhysicalGroup(cavity, "plot")
-
-thermal.GmshFinalize()
-
-thermal.CreateProblem(1, cavity, pressure)
-thermal.ApplyMaterial(cavity, material)
-thermal.ApplyDirichlet(hot, 100.0)
-thermal.ApplyDirichlet(wall, 0.0)
-thermal.Initialize()
-
-@rt('/')
-def get():
-    numberElements = len(cavity.GetElements())
-    return Div(P('Number Elements = ' + str(numberElements), hx_get="/change"))
-
-serve()
-
-"""
-app, rt = fast_app(hdrs=(picolink))
-
+def SolverForm():
+    return Div(
+            H1("Solver settings"),
+            P("Select type"),
+            cls ="solver_settings"
+        )
 
 @rt("/")
+def get(): return (
+    Title('Dive tools'),
+    
+    SolverForm()
+    )
+
+"""
+
+def solver_available(count):
+    return Form(
+        Div(
+            Hidden(id="count", value=count),
+            Div(f"Count: {count}", id="count-display"),
+            Button("Increment", hx_post="/increment", hx_target="#counter-container", hx_swap="innerHTML")
+        ),
+        id="counter-container"
+    )
+
+@rt('/')
 def get():
     return (
         Socials(
@@ -75,7 +66,6 @@ def get():
             ),
         ),
     )
-
+"""
 
 serve()
-"""
