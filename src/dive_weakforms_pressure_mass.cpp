@@ -28,15 +28,15 @@ namespace dive {
 		{
 			return const_cast<MassPressure*>(this)->GetPtr();
 		}
-		void MassPressure::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output) const
+		void MassPressure::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const
 		{
 			Scalar uconv{ 0.0 };
 			Scalar udiff{ 0.0 };
 			Scalar beta{ 0.0 };
 
-			auto N = FormMatrix_N(element, local);
-			auto u = FormVelocity(element, local);
-			auto nu = FormKineticViscosity(element, local);
+			auto N = FormMatrix_N(element, local, cacheIndex);
+			auto u = FormVelocity(element, local, cacheIndex);
+			auto nu = FormKineticViscosity(element, local, cacheIndex);
 			auto h = element->SizeMinimum();
 
 			uconv = nu / h;
@@ -57,11 +57,11 @@ namespace dive {
 		{
 			velocity_ = velocity;
 		}
-		Matrix MassPressure::FormVelocity(IElementMappedPtr element, const Vector& local) const
+		Matrix MassPressure::FormVelocity(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			return values::GetValueMatrix3D(velocity_, local, element) ;
 		}
-		Scalar MassPressure::FormKineticViscosity(IElementMappedPtr element, const Vector& local) const
+		Scalar MassPressure::FormKineticViscosity(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			auto material = std::static_pointer_cast<material::IMaterialFluid>(element->GetMaterial());
 			auto temperature = values::GetValue(temperature_, local, element);
@@ -72,9 +72,9 @@ namespace dive {
 
 			return dynamicViscosity / density;
 		}
-		Matrix MassPressure::FormMatrix_N(IElementMappedPtr element, const Vector& local) const
+		Matrix MassPressure::FormMatrix_N(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
-			return element->N(local);
+			return element->N(cacheIndex);
 		}
 	} // namespace problems
 } // namespace dive

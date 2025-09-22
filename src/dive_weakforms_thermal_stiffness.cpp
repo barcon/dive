@@ -27,10 +27,10 @@ namespace dive {
 		{
 			return const_cast<StiffnessThermal*>(this)->GetPtr();
 		}
-		void StiffnessThermal::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output) const
+		void StiffnessThermal::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const
 		{
-			auto dN = FormMatrix_dN(element, local);
-			auto K = FormMatrix_K(element, local);
+			auto dN = FormMatrix_dN(element, local, cacheIndex);
+			auto K = FormMatrix_K(element, local, cacheIndex);
 
 			output = dN.Transpose() * K * dN;
 		}
@@ -42,16 +42,16 @@ namespace dive {
 		{
 			pressure_ = pressure;
 		}
-		Matrix StiffnessThermal::FormMatrix_K(IElementMappedPtr element, const Vector& local) const
+		Matrix StiffnessThermal::FormMatrix_K(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			auto temperature = values::GetValue(temperature_, local, element);
 			auto pressure = values::GetValue(pressure_, local, element);
 
 			return element->GetMaterial()->K(temperature, pressure);
 		}
-		Matrix StiffnessThermal::FormMatrix_dN(IElementMappedPtr element, const Vector& local) const
+		Matrix StiffnessThermal::FormMatrix_dN(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
-			return element->InvJ(local) * element->dN(local);
+			return element->InvJ(cacheIndex) * element->dN(cacheIndex);
 		}
 	} // namespace problems
 } // namespace dive

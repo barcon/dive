@@ -29,15 +29,15 @@ namespace dive {
 		{
 			return const_cast<ConvectionThermal*>(this)->GetPtr();
 		}
-		void ConvectionThermal::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output) const
+		void ConvectionThermal::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const
 		{
-			auto N = FormMatrix_N(element, local);
-			auto dN = FormMatrix_dN(element, local);
+			auto N = FormMatrix_N(element, local, cacheIndex);
+			auto dN = FormMatrix_dN(element, local, cacheIndex);
 			
-			auto rho = FormDensity(element, local);
-			auto cp = FormSpecificHeat(element, local);
-			auto u = FormVelocity(element, local);
-			auto divergence = FormDivergence(element, local);
+			auto rho = FormDensity(element, local, cacheIndex);
+			auto cp = FormSpecificHeat(element, local, cacheIndex);
+			auto u = FormVelocity(element, local, cacheIndex);
+			auto divergence = FormDivergence(element, local, cacheIndex);
 
 			output = N.Transpose() * (rho * cp) * (divergence * N + u.Transpose() * dN);
 		}
@@ -53,28 +53,28 @@ namespace dive {
 		{
 			problemMomentum_ = problemMomentum;
 		}
-		Scalar ConvectionThermal::FormDensity(IElementMappedPtr element, const Vector& local) const
+		Scalar ConvectionThermal::FormDensity(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			auto temperature = values::GetValue(temperature_, local, element);
 			auto pressure = values::GetValue(pressure_, local, element);
 
 			return element->GetMaterial()->GetDensity(temperature, pressure);
 		}
-		Scalar ConvectionThermal::FormSpecificHeat(IElementMappedPtr element, const Vector& local) const
+		Scalar ConvectionThermal::FormSpecificHeat(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			auto temperature = values::GetValue(temperature_, local, element);
 			auto pressure = values::GetValue(pressure_, local, element);
 
 			return element->GetMaterial()->GetSpecificHeat(temperature, pressure);
 		}
-		Matrix ConvectionThermal::FormVelocity(IElementMappedPtr element, const Vector& local) const
+		Matrix ConvectionThermal::FormVelocity(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			const auto& elementIndex = element->GetElementIndex();
 			const auto& elementVelocity = std::dynamic_pointer_cast<elements::IElementMapped>(problemMomentum_->GetMesh()->GetElements()[elementIndex]);
 
 			return elementVelocity->u(local);
 		}
-		Scalar ConvectionThermal::FormDivergence(IElementMappedPtr element, const Vector& local) const
+		Scalar ConvectionThermal::FormDivergence(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			const auto& elementIndex = element->GetElementIndex();
 			const auto& elementVelocity = std::dynamic_pointer_cast<elements::IElementMapped>(problemMomentum_->GetMesh()->GetElements()[elementIndex]);
@@ -89,13 +89,13 @@ namespace dive {
 
 			return divergence;
 		}
-		Matrix ConvectionThermal::FormMatrix_N(IElementMappedPtr element, const Vector& local) const
+		Matrix ConvectionThermal::FormMatrix_N(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{	
-			return element->N(local);
+			return element->N(cacheIndex);
 		}
-		Matrix ConvectionThermal::FormMatrix_dN(IElementMappedPtr element, const Vector& local) const
+		Matrix ConvectionThermal::FormMatrix_dN(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{		
-			return element->InvJ(local) * element->dN(local);
+			return element->InvJ(cacheIndex) * element->dN(cacheIndex);
 		}
 	} // namespace problems
 } // namespace dive

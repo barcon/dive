@@ -27,11 +27,11 @@ namespace dive {
 		{
 			return const_cast<MassThermal*>(this)->GetPtr();
 		}
-		void MassThermal::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output) const
+		void MassThermal::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const
 		{
-			auto N = FormMatrix_N(element, local);
-			auto rho = FormDensity(element, local);
-			auto cp = FormSpecificHeat(element, local);
+			auto N = FormMatrix_N(element, local, cacheIndex);
+			auto rho = FormDensity(element, local, cacheIndex);
+			auto cp = FormSpecificHeat(element, local, cacheIndex);
 
 			output = N.Transpose() * (rho * cp) * N;
 		}
@@ -43,23 +43,23 @@ namespace dive {
 		{
 			pressure_ = pressure;
 		}
-		Scalar MassThermal::FormDensity(IElementMappedPtr element, const Vector& local) const
+		Scalar MassThermal::FormDensity(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			auto temperature = values::GetValue(temperature_, local, element);
 			auto pressure = values::GetValue(pressure_, local, element);
 
 			return element->GetMaterial()->GetDensity(temperature, pressure);
 		}
-		Scalar MassThermal::FormSpecificHeat(IElementMappedPtr element, const Vector& local) const
+		Scalar MassThermal::FormSpecificHeat(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			auto temperature = values::GetValue(temperature_, local, element);
 			auto pressure = values::GetValue(pressure_, local, element);
 
 			return element->GetMaterial()->GetSpecificHeat(temperature, pressure);
 		}
-		Matrix MassThermal::FormMatrix_N(IElementMappedPtr element, const Vector& local) const
+		Matrix MassThermal::FormMatrix_N(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
-			return element->N(local);
+			return element->N(cacheIndex);
 		}
 	} // namespace problems
 } // namespace dive

@@ -27,11 +27,11 @@ namespace dive {
 		{
 			return const_cast<StiffnessFluid*>(this)->GetPtr();
 		}
-		void StiffnessFluid::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output) const
+		void StiffnessFluid::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const
 		{		
-			auto B = FormMatrix_B(element, local);
-			auto Id = FormMatrix_Id(element, local);
-			auto Z = FormVector_Z(element, local);
+			auto B = FormMatrix_B(element, local, cacheIndex);
+			auto Id = FormMatrix_Id(element, local, cacheIndex);
+			auto Z = FormVector_Z(element, local, cacheIndex);
 
 			output = eilig::ScaleByVector(B.Transpose() * Id * B, Z);
 		}
@@ -43,7 +43,7 @@ namespace dive {
 		{
 			pressure_ = pressure;
 		}
-		Matrix StiffnessFluid::FormMatrix_Id(IElementMappedPtr element, const Vector& local) const
+		Matrix StiffnessFluid::FormMatrix_Id(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			auto material = std::static_pointer_cast<material::IMaterialFluid>(element->GetMaterial());
 			auto temperature = values::GetValue(temperature_, local, element);
@@ -51,11 +51,11 @@ namespace dive {
 
 			return material->D(temperature, pressure);
 		}
-		Matrix StiffnessFluid::FormMatrix_B(IElementMappedPtr element, const Vector& local) const
+		Matrix StiffnessFluid::FormMatrix_B(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNumberDof();
-			auto dN = element->InvJ(local) * element->dN(local);
+			auto dN = element->InvJ(cacheIndex) * element->dN(cacheIndex);
 			
 			Matrix res(6, numberNodes * numberDof, eilig::matrix_zeros);
 
@@ -77,7 +77,7 @@ namespace dive {
 
 			return res;
 		}
-		Vector StiffnessFluid::FormVector_Z(IElementMappedPtr element, const Vector& local) const
+		Vector StiffnessFluid::FormVector_Z(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNumberDof();

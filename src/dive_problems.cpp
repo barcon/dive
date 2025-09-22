@@ -276,6 +276,11 @@ namespace dive
 
 				element->SetNumberDof(numberDof);
 				element->SetElementIndex(i);
+
+				if (element->IsCacheable())
+				{
+					element->InitializeCache();
+				}
 			}
 
 			TimerElapsed(__FUNCTION__);
@@ -521,58 +526,3 @@ namespace dive
 		}
 	} // namespace problems
 } // namespace dive
-
-/*
-
-			logger::Info(headerDive, "Number of processors: %lu", numberProcessors);
-			logger::Info(headerDive, "Number of elements: %lu", numberElements1);
-			logger::Info(headerDive, "Number of tasks: %lu", numberTasks);
-			logger::Info(headerDive, "Task size: %lu", taskSize);
-
-		Sparse IntegralForm(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2)
-		{
-			const auto& elements1 = problem1->GetMesh()->GetElements();
-			const auto& elements2 = problem2->GetMesh()->GetElements();
-
-			const auto& nodeMeshIndices1 = problem1->GetNodeMeshIndices();
-			const auto& nodeMeshIndices2 = problem2->GetNodeMeshIndices();
-
-			Sparse global(problem1->GetTotalDof(), problem2->GetTotalDof());
-			Matrix local;
-
-			for (ElementIndex i = 0; i < elements1.size(); ++i)
-			{
-				auto numberNodes1 = elements1[i]->GetNumberNodes();
-				auto numberNodes2 = elements2[i]->GetNumberNodes();
-
-				auto numberDof1 = elements1[i]->GetNumberDof();
-				auto numberDof2 = elements2[i]->GetNumberDof();
-
-				if (local.GetRows() != numberNodes1 * numberDof1 || local.GetCols() != numberNodes2 * numberDof2)
-				{
-					local.Resize(numberNodes1 * numberDof1, numberNodes2 * numberDof2);
-				}
-
-				std::dynamic_pointer_cast<elements::IElementMapped>(elements1[i])->IntegralWeakFormElement(weakForm, local);
-
-				for (NodeIndex m = 0; m < numberNodes1; ++m)
-				{
-					for (NodeIndex n = 0; n < numberNodes2; ++n)
-					{
-						for (DofIndex dof1 = 0; dof1 < numberDof1; ++dof1)
-						{
-							for (DofIndex dof2 = 0; dof2 < numberDof2; ++dof2)
-							{
-								auto aux = global.GetValue(nodeMeshIndices1[i][m].dofIndices[dof1], nodeMeshIndices2[i][n].dofIndices[dof2]);
-								aux += local.GetValue(m * numberDof1 + dof1, n * numberDof2 + dof2);
-
-								global.SetValue(nodeMeshIndices1[i][m].dofIndices[dof1], nodeMeshIndices2[i][n].dofIndices[dof2], aux);
-							}
-						}
-					}
-				}
-			}
-
-			return global;
-		}
-*/

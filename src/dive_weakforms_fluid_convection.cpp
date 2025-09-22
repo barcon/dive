@@ -27,22 +27,22 @@ namespace dive {
 		{
 			return const_cast<ConvectionFluid*>(this)->GetPtr();
 		}
-		void ConvectionFluid::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output) const
+		void ConvectionFluid::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const
 		{
-			auto N = FormMatrix_N(element, local);
-			auto udN = FormMatrix_udN(element, local);
-			auto u = FormVelocity(element, local);
-			auto du = FormDivergence(element, local);
+			auto N = FormMatrix_N(element, local, cacheIndex);
+			auto udN = FormMatrix_udN(element, local, cacheIndex);
+			auto u = FormVelocity(element, local, cacheIndex);
+			auto du = FormDivergence(element, local, cacheIndex);
 
 			output = N.Transpose() * (du * N + udN);
 		}
-		Matrix ConvectionFluid::FormVelocity(IElementMappedPtr element, const Vector& local) const
+		Matrix ConvectionFluid::FormVelocity(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			return element->u(local);
 		}
-		Scalar ConvectionFluid::FormDivergence(IElementMappedPtr element, const Vector& local) const
+		Scalar ConvectionFluid::FormDivergence(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
-			auto du = eilig::Inverse(element->J(local)) * element->du(local);
+			auto du = element->InvJ(cacheIndex) * element->du(local);
 
 			Scalar divergence{ 0.0 };
 
@@ -53,11 +53,11 @@ namespace dive {
 
 			return divergence;
 		}
-		Matrix ConvectionFluid::FormMatrix_N(IElementMappedPtr element, const Vector& local) const
+		Matrix ConvectionFluid::FormMatrix_N(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNumberDof();
-			const auto& N = element->N(local);
+			const auto& N = element->N(cacheIndex);
 
 			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
 
@@ -71,13 +71,13 @@ namespace dive {
 
 			return res;
 		}
-		Matrix ConvectionFluid::FormMatrix_udN(IElementMappedPtr element, const Vector& local) const
+		Matrix ConvectionFluid::FormMatrix_udN(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNumberDof();
 			auto numberDimensions = element->GetNumberDimensions();
-			auto u = FormVelocity(element, local);
-			auto dN = element->InvJ(local) * element->dN(local);
+			auto u = FormVelocity(element, local, cacheIndex);
+			auto dN = element->InvJ(cacheIndex) * element->dN(cacheIndex);
 
 			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
 

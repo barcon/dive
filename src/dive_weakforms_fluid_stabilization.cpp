@@ -27,23 +27,23 @@ namespace dive {
 		{
 			return const_cast<StabilizationFluid*>(this)->GetPtr();
 		}
-		void StabilizationFluid::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output) const
+		void StabilizationFluid::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const
 		{
-			auto N = FormMatrix_N(element, local);
-			auto udN = FormMatrix_udN(element, local);
-			auto du = FormDivergence(element, local);
+			auto N = FormMatrix_N(element, local, cacheIndex);
+			auto udN = FormMatrix_udN(element, local, cacheIndex);
+			auto du = FormDivergence(element, local, cacheIndex);
 
 			auto dNu = du * N + udN;
 
 			output = -(1.0 / 2.0) * dNu.Transpose() * dNu;
 		}
-		Matrix StabilizationFluid::FormMomentum(IElementMappedPtr element, const Vector& local) const
+		Matrix StabilizationFluid::FormMomentum(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			return element->u(local);
 		}
-		Scalar StabilizationFluid::FormDivergence(IElementMappedPtr element, const Vector& local) const
+		Scalar StabilizationFluid::FormDivergence(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
-			auto du = eilig::Inverse(element->J(local)) * element->du(local);
+			auto du = element->InvJ(cacheIndex) * element->du(local);
 
 			Scalar divergence{ 0.0 };
 
@@ -54,11 +54,11 @@ namespace dive {
 
 			return divergence;
 		}
-		Matrix StabilizationFluid::FormMatrix_N(IElementMappedPtr element, const Vector& local) const
+		Matrix StabilizationFluid::FormMatrix_N(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNode(0)->GetNumberDof();
-			const auto& N = element->N(local);
+			const auto& N = element->N(cacheIndex);
 
 			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
 
@@ -72,13 +72,13 @@ namespace dive {
 
 			return res;
 		}
-		Matrix StabilizationFluid::FormMatrix_udN(IElementMappedPtr element, const Vector& local) const
+		Matrix StabilizationFluid::FormMatrix_udN(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
-			auto u = FormMomentum(element, local);
+			auto u = FormMomentum(element, local, cacheIndex);
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNode(0)->GetNumberDof();
 			auto numberDimensions = element->GetNumberDimensions();
-			auto dN = element->InvJ(local) * element->dN(local);
+			auto dN = element->InvJ(cacheIndex) * element->dN(cacheIndex);
 
 			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
 

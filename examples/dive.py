@@ -4366,8 +4366,13 @@ quadrature_two = cvar.quadrature_two
 quadrature_three = cvar.quadrature_three
 element_mass = cvar.element_mass
 element_combined = cvar.element_combined
-element_hexa8 = cvar.element_hexa8
-element_hexa20 = cvar.element_hexa20
+element_hexa8i1 = cvar.element_hexa8i1
+element_hexa8i2 = cvar.element_hexa8i2
+element_hexa8i3 = cvar.element_hexa8i3
+element_hexa20i1 = cvar.element_hexa20i1
+element_hexa20i2 = cvar.element_hexa20i2
+element_hexa20i3 = cvar.element_hexa20i3
+element_undefined = cvar.element_undefined
 dimension_point = cvar.dimension_point
 dimension_beam = cvar.dimension_beam
 dimension_shell = cvar.dimension_shell
@@ -4539,6 +4544,12 @@ class IElementMapped(IElement):
     def du(self, *args):
         return _dive.IElementMapped_du(self, *args)
 
+    def DelA(self, local, dim1, dim2):
+        return _dive.IElementMapped_DelA(self, local, dim1, dim2)
+
+    def DelL(self, local, dim1):
+        return _dive.IElementMapped_DelL(self, local, dim1)
+
     def J(self, *args):
         return _dive.IElementMapped_J(self, *args)
 
@@ -4553,12 +4564,6 @@ class IElementMapped(IElement):
 
     def DetJ(self, *args):
         return _dive.IElementMapped_DetJ(self, *args)
-
-    def DelA(self, local, dim1, dim2):
-        return _dive.IElementMapped_DelA(self, local, dim1, dim2)
-
-    def DelL(self, local, dim1):
-        return _dive.IElementMapped_DelL(self, local, dim1)
 
     def GetOrder(self):
         return _dive.IElementMapped_GetOrder(self)
@@ -4637,9 +4642,51 @@ class IElementSolid(IElementMapped):
 
 # Register IElementSolid in _dive:
 _dive.IElementSolid_swigregister(IElementSolid)
+class CacheLocal(object):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+    __repr__ = _swig_repr
+    isValid = property(_dive.CacheLocal_isValid_get, _dive.CacheLocal_isValid_set)
+    J = property(_dive.CacheLocal_J_get, _dive.CacheLocal_J_set)
+    InvJ = property(_dive.CacheLocal_InvJ_get, _dive.CacheLocal_InvJ_set)
+    DetJ = property(_dive.CacheLocal_DetJ_get, _dive.CacheLocal_DetJ_set)
 
-def CreateElementHexa(*args):
-    return _dive.CreateElementHexa(*args)
+    def __init__(self):
+        _dive.CacheLocal_swiginit(self, _dive.new_CacheLocal())
+    __swig_destroy__ = _dive.delete_CacheLocal
+
+# Register CacheLocal in _dive:
+_dive.CacheLocal_swigregister(CacheLocal)
+class CacheCommon(object):
+    thisown = property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc="The membership flag")
+    __repr__ = _swig_repr
+    isValid = property(_dive.CacheCommon_isValid_get, _dive.CacheCommon_isValid_set)
+    N = property(_dive.CacheCommon_N_get, _dive.CacheCommon_N_set)
+    dN = property(_dive.CacheCommon_dN_get, _dive.CacheCommon_dN_set)
+
+    def __init__(self):
+        _dive.CacheCommon_swiginit(self, _dive.new_CacheCommon())
+    __swig_destroy__ = _dive.delete_CacheCommon
+
+# Register CacheCommon in _dive:
+_dive.CacheCommon_swigregister(CacheCommon)
+
+def CreateElementHexa8i1(elementTag):
+    return _dive.CreateElementHexa8i1(elementTag)
+
+def CreateElementHexa8i2(elementTag):
+    return _dive.CreateElementHexa8i2(elementTag)
+
+def CreateElementHexa8i3(elementTag):
+    return _dive.CreateElementHexa8i3(elementTag)
+
+def CreateElementHexa20i1(elementTag):
+    return _dive.CreateElementHexa20i1(elementTag)
+
+def CreateElementHexa20i2(elementTag):
+    return _dive.CreateElementHexa20i2(elementTag)
+
+def CreateElementHexa20i3(elementTag):
+    return _dive.CreateElementHexa20i3(elementTag)
 
 def CastToElementHexa(element):
     return _dive.CastToElementHexa(element)
@@ -4676,14 +4723,14 @@ class ElementHexa(IElementSolid):
     def dN(self, *args):
         return _dive.ElementHexa_dN(self, *args)
 
+    def DetJ(self, *args):
+        return _dive.ElementHexa_DetJ(self, *args)
+
     def DelA(self, local, dim1, dim2):
         return _dive.ElementHexa_DelA(self, local, dim1, dim2)
 
     def DelL(self, local, dim1):
         return _dive.ElementHexa_DelL(self, local, dim1)
-
-    def DetJ(self, *args):
-        return _dive.ElementHexa_DetJ(self, *args)
 
     def Volume(self):
         return _dive.ElementHexa_Volume(self)
@@ -5887,8 +5934,8 @@ class IWeakFormElement(object):
     __repr__ = _swig_repr
     __swig_destroy__ = _dive.delete_IWeakFormElement
 
-    def WeakFormulation(self, element, local, output):
-        return _dive.IWeakFormElement_WeakFormulation(self, element, local, output)
+    def WeakFormulation(self, element, local, output, cacheIndex):
+        return _dive.IWeakFormElement_WeakFormulation(self, element, local, output, cacheIndex)
 
 # Register IWeakFormElement in _dive:
 _dive.IWeakFormElement_swigregister(IWeakFormElement)

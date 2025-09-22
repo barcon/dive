@@ -27,9 +27,17 @@
 	using String = std::string;
 	using Index = std::size_t;
 	using Axis = std::size_t;
+
+	using Vector = eilig::Vector;
+	using Matrix = eilig::Matrix;
+	using Sparse = eilig::Ellpack;
 	
 	using Indices = std::vector<Index>;
 	using Scalars = std::vector<Scalar>;
+	using Matrices = std::vector<Matrix>;		
+
+	using VectorCL = eilig::opencl::Vector;
+	using SparseCL = eilig::opencl::Ellpack;
 	
 	namespace club
 	{

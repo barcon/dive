@@ -42,25 +42,85 @@ namespace dive
 		const Scalar 		ElementHexa::lookUpTable8_[12] = {-1.0, -1.0, +1.0, -1.0, -1.0, +1.0, +1.0, +1.0, -1.0, +1.0, +1.0, -1.0 };
 		const Scalar		ElementHexa::lookUpTable9_[12] = {-1.0, +1.0, -1.0, -1.0, +1.0, +1.0, +1.0, -1.0, -1.0, -1.0, +1.0, +1.0 };
 
-		ElementHexaPtr CreateElementHexa()
-		{
-			auto res = ElementHexa::Create();
+		const NumberDof numberDofMax = 3;
 
-			return res;
-		}
-		ElementHexaPtr CreateElementHexa(Tag elementTag)
+		CacheLines cacheLinesHexa;
+
+		ElementHexaPtr CreateElementHexa8i1(Tag elementTag)
 		{
 			auto res = ElementHexa::Create();
 
 			res->SetTag(elementTag);
+			res->SetOrder(order_linear);
+			res->SetParametric(parametric_linear);
+			res->SetIntegral(quadrature_one);
 
 			return res;
 		}
+		ElementHexaPtr CreateElementHexa8i2(Tag elementTag)
+		{
+			auto res = ElementHexa::Create();
+
+			res->SetTag(elementTag);
+			res->SetOrder(order_linear);
+			res->SetParametric(parametric_linear);
+			res->SetIntegral(quadrature_two);
+
+			return res;
+		}
+		ElementHexaPtr CreateElementHexa8i3(Tag elementTag)
+		{
+			auto res = ElementHexa::Create();
+
+			res->SetTag(elementTag);
+			res->SetOrder(order_linear);
+			res->SetParametric(parametric_linear);
+			res->SetIntegral(quadrature_three);
+
+			return res;
+		}
+		ElementHexaPtr CreateElementHexa20i1(Tag elementTag)
+		{
+			auto res = ElementHexa::Create();
+
+			res->SetTag(elementTag);
+			res->SetOrder(order_quadratic);
+			res->SetParametric(parametric_quadratic);
+			res->SetIntegral(quadrature_one);
+
+			return res;
+		}
+		ElementHexaPtr CreateElementHexa20i2(Tag elementTag)
+		{
+			auto res = ElementHexa::Create();
+
+			res->SetTag(elementTag);
+			res->SetOrder(order_quadratic);
+			res->SetParametric(parametric_quadratic);
+			res->SetIntegral(quadrature_two);
+
+			return res;
+		}
+		ElementHexaPtr CreateElementHexa20i3(Tag elementTag)
+		{
+			auto res = ElementHexa::Create();
+
+			res->SetTag(elementTag);
+			res->SetOrder(order_quadratic);
+			res->SetParametric(parametric_quadratic);
+			res->SetIntegral(quadrature_three);
+
+			return res;
+		}
+
 		ElementHexaPtr CastToElementHexa(IElementPtr element)
 		{
 			return std::dynamic_pointer_cast<ElementHexa>(element);
 		}
-
+		
+		ElementHexa::ElementHexa()
+		{
+		}
 		ElementHexaPtr ElementHexa::Create()
 		{
 			class MakeSharedEnabler : public ElementHexa
@@ -78,12 +138,6 @@ namespace dive
 		ConstElementHexaPtr ElementHexa::GetPtr() const
 		{
 			return const_cast<ElementHexa*>(this)->GetPtr();
-		}
-		ElementHexa::ElementHexa()
-		{
-			SetOrder(order_linear);
-			SetParametric(parametric_linear);
-			SetIntegral(quadrature_two);
 		}
 		Matrix ElementHexa::u() const
 		{
@@ -222,29 +276,9 @@ namespace dive
 
 			return res;
 		}
-		const Matrix& ElementHexa::J(const Vector& local, CacheIndex cacheIndex) const
-		{
-			return cacheJ_[cacheIndex];
-		}
-		const Matrix& ElementHexa::InvJ(const Vector& local, CacheIndex cacheIndex) const
-		{
-			return cacheInvJ_[cacheIndex];
-		}
-		const Matrix& ElementHexa::N(const Vector& local, CacheIndex cacheIndex) const
-		{
-			return cacheN_[cacheIndex];
-		}
-		const Matrix& ElementHexa::dN(const Vector& local, CacheIndex cacheIndex) const
-		{
-			return cachedN_[cacheIndex];
-		}
 		Scalar ElementHexa::DetJ(const Vector& local) const
 		{
 			return eilig::Determinant(J(local));
-		}
-		Scalar ElementHexa::DetJ(const Vector& local, CacheIndex cacheIndex) const
-		{
-			return cacheDetJ_[cacheIndex];
 		}
 		Scalar ElementHexa::DelA(const Vector& local, const Dimension& dim1, const Dimension& dim2) const
 		{
@@ -261,6 +295,26 @@ namespace dive
 			dw = GlobalDerivatives(local, dim1);
 
 			return eilig::NormP2(dw);
+		}
+		const Matrix& ElementHexa::J(const CacheIndex& cacheIndex) const
+		{
+			return cacheLocal_.J[cacheIndex];
+		}
+		const Matrix& ElementHexa::InvJ(const CacheIndex& cacheIndex) const
+		{
+			return cacheLocal_.InvJ[cacheIndex];
+		}
+		const Matrix& ElementHexa::N(const CacheIndex& cacheIndex) const
+		{
+			return cacheCommon_->N[cacheIndex];
+		}
+		const Matrix& ElementHexa::dN(const CacheIndex& cacheIndex) const
+		{
+			return cacheCommon_->dN[cacheIndex];
+		}
+		Scalar ElementHexa::DetJ(const CacheIndex& cacheIndex) const
+		{
+			return cacheLocal_.DetJ[cacheIndex];
 		}
 		Scalar ElementHexa::Volume() const
 		{
@@ -726,7 +780,6 @@ namespace dive
 				numberNodesFace_ = 4;
 				numberNodesEdge_ = 2;
 				nodes_.resize(numberNodes_);
-				type_ = element_hexa8;
 			}
 			else if (order == order_quadratic)
 			{
@@ -741,8 +794,14 @@ namespace dive
 				numberNodesFace_ = 8;
 				numberNodesEdge_ = 3;
 				nodes_.resize(numberNodes_);
-				type_ = element_hexa20;
 			}
+			else
+			{
+				logger::Error(headerDive, "Invalid order: " + dive::messages.at(dive::DIVE_NOT_SUPPORTED));
+				return;
+			}
+
+			SetType();
 		}
 		void ElementHexa::SetParametric(const Parametric& parametric)
 		{
@@ -766,12 +825,33 @@ namespace dive
 				numberNodesParametric_ = 20;
 				numberNodesFaceParametric_ = 8;
 			}
+			else
+			{
+				logger::Error(headerDive, "Invalid parametric: " + dive::messages.at(dive::DIVE_NOT_SUPPORTED));
+				return;
+			}
 		}
 		void ElementHexa::SetIntegral(const Integral& integral)
 		{
+			if(integral == 0)
+			{
+				logger::Error(headerDive, "Invalid integral: " + dive::messages.at(dive::DIVE_NOT_SUPPORTED));
+				return;
+			}
+
+			if (integral > 4)
+			{
+				logger::Error(headerDive, "Invalid integral: " + dive::messages.at(dive::DIVE_NOT_SUPPORTED));
+				return;
+			}
+
+			integral_ = integral;
+
 			gaussHexa_ = quadrature::CreateGaussHexa(integral);
 			gaussRect_ = quadrature::CreateGaussRect(integral);	
 			gaussLine_ = quadrature::CreateGaussLine(integral);
+
+			SetType();
 		}
 		void ElementHexa::SetTag(Tag tag)
 		{
@@ -788,6 +868,57 @@ namespace dive
 		void ElementHexa::SetProperty(IValuePtr value)
 		{
 			properties_.insert({ value->GetKey(), value });
+		}
+		void ElementHexa::SetType()
+		{
+			switch (integral_)
+			{
+			case quadrature_one:
+				if (numberNodes_ == 8)
+				{
+					type_ = element_hexa8i1;
+				}
+				else if (numberNodes_ == 20)
+				{
+					type_ = element_hexa20i1;
+				}
+				else
+				{
+					type_ = element_undefined;
+				}
+				break;
+			case quadrature_two:
+				if (numberNodes_ == 8)
+				{
+					type_ = element_hexa8i2;
+				}
+				else if (numberNodes_ == 20)
+				{
+					type_ = element_hexa20i2;
+				}
+				else
+				{
+					type_ = element_undefined;
+				}
+				break;
+			case quadrature_three:
+				if (numberNodes_ == 8)
+				{
+					type_ = element_hexa8i3;
+				}
+				else if (numberNodes_ == 20)
+				{
+					type_ = element_hexa20i3;
+				}
+				else
+				{
+					type_ = element_undefined;
+				}
+				break;
+			default:
+				type_ = element_undefined;
+				break;
+			}
 		}
 		bool ElementHexa::IsUsed(INodePtr node) const
 		{
@@ -826,14 +957,14 @@ namespace dive
 
 			auto element = std::make_shared<ElementHexa>(*this);
 
-			weakForm->WeakFormulation(element, points[0], local);
-			output = weights[0] * DetJ(points[0]) * local;
+			weakForm->WeakFormulation(element, points[0], local, static_cast<CacheIndex>(0));
+			output = weights[0] * DetJ(static_cast<CacheIndex>(0)) * local;
 
 			for (quadrature::Counter i = 1; i < counter; ++i)
 			{
-				weakForm->WeakFormulation(element, points[i], local);
+				weakForm->WeakFormulation(element, points[i], local, static_cast<CacheIndex>(i));
 
-				output = output + weights[i] * DetJ(points[i]) * local;
+				output = output + weights[i] * DetJ(static_cast<CacheIndex>(i)) * local;
 			}
 		}
 		void ElementHexa::IntegralWeakFormLoad(IWeakFormLoadPtr weakForm, ILoadPtr load, Vector& output) const
@@ -919,20 +1050,35 @@ namespace dive
 			const auto& points = gaussHexa_->GetPoints();
 			const auto& counter = gaussHexa_->GetCounter();
 
-			cacheJ_.resize(counter);
-			cacheN_.resize(counter);
-			cachedN_.resize(counter);
-			cacheInvJ_.resize(counter);
-			cacheDetJ_.resize(counter);
+			cacheLocal_.InvJ.resize(counter);
+			cacheLocal_.DetJ.resize(counter);
 
 			for (quadrature::Counter i = 0; i < counter; ++i)
 			{
-				cacheJ_[i] = J(points[i]);
-				cacheN_[i] = N(points[i]);
-				cachedN_[i] = dN(points[i]);
-				cacheInvJ_[i] = InvJ(points[i]);
-				cacheDetJ_[i] = DetJ(points[i]);
+				auto jacobian = this->J(points[i]);
+				
+				cacheLocal_.J[i] = jacobian;
+				cacheLocal_.InvJ[i] = eilig::Inverse(jacobian);
+				cacheLocal_.DetJ[i] = eilig::Determinant(jacobian);
 			}
+			cacheLocal_.isValid = true;
+
+			if (cacheLinesHexa.find(type_) == cacheLinesHexa.end())
+			{
+				cacheLinesHexa.insert(std::make_pair(type_, std::vector<CacheCommon>(numberDofMax)));
+			}
+
+			cacheCommon_ = &cacheLinesHexa[type_][numberDof_ - 1];
+			if (!cacheCommon_->isValid)
+			{
+				for (quadrature::Counter i = 0; i < counter; ++i)
+				{
+					cacheCommon_->N[i] = N(points[i]);
+					cacheCommon_->dN[i] = dN(points[i]);
+				}
+
+			}
+			cacheCommon_->isValid = true;
 		}
 		Scalar ElementHexa::LinearFunctions::N0(const Vector& arg)
 		{

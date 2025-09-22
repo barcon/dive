@@ -27,19 +27,19 @@ namespace dive {
 		{
 			return const_cast<ConvectionAsymmetricFluid*>(this)->GetPtr();
 		}
-		void ConvectionAsymmetricFluid::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output) const
+		void ConvectionAsymmetricFluid::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const
 		{
-			auto N = FormMatrix_N(element, local);
-			auto div = FormDivergence(element, local);
+			auto N = FormMatrix_N(element, local, cacheIndex);
+			auto div = FormDivergence(element, local, cacheIndex);
 
 			output = N.Transpose() * N * div;
 		}
-		Matrix ConvectionAsymmetricFluid::FormDivergence(IElementMappedPtr element, const Vector& local) const
+		Matrix ConvectionAsymmetricFluid::FormDivergence(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNumberDof();
 
-			auto dN = eilig::Inverse(element->J(local)) * element->dN(local);
+			auto dN = element->InvJ(cacheIndex) * element->dN(cacheIndex);
 
 			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
 
@@ -52,19 +52,12 @@ namespace dive {
 			}
 
 			return res;
-
-			//for (Index i = 0; (i < du.GetRows()) && (i < du.GetCols()); ++i)
-			//{
-			//	divergence += du(i, i);
-			//}
-
-			return res;
 		}
-		Matrix ConvectionAsymmetricFluid::FormMatrix_N(IElementMappedPtr element, const Vector& local) const
+		Matrix ConvectionAsymmetricFluid::FormMatrix_N(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNumberDof();
-			const auto& N = element->N(local);
+			const auto& N = element->N(cacheIndex);
 
 			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
 

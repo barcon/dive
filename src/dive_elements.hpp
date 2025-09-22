@@ -24,8 +24,13 @@ namespace dive
 
 		static const Type element_mass = 1;
 		static const Type element_combined = 2;
-		static const Type element_hexa8 = 3;
-		static const Type element_hexa20 = 4;
+		static const Type element_hexa8i1 = 81;
+		static const Type element_hexa8i2 = 82;
+		static const Type element_hexa8i3 = 83;
+		static const Type element_hexa20i1 = 201;
+		static const Type element_hexa20i2 = 202;
+		static const Type element_hexa20i3 = 203;
+		static const Type element_undefined = 0xFFFFFFFF;
 
 		static const NumberDimensions dimension_point = 0;
 		static const NumberDimensions dimension_beam = 1;
@@ -137,17 +142,16 @@ namespace dive
 			virtual Matrix InvJ(const Vector& local) const = 0;
 			virtual Matrix N(const Vector& local) const = 0;
 			virtual Matrix dN(const Vector& local) const = 0;
-
-			virtual const Matrix& J(const Vector& local, CacheIndex cacheIndex) const = 0;
-			virtual const Matrix& InvJ(const Vector& local, CacheIndex cacheIndex) const = 0;
-			virtual const Matrix& N(const Vector& local, CacheIndex cacheIndex) const = 0;
-			virtual const Matrix& dN(const Vector& local, CacheIndex cacheIndex) const = 0;
-
 			virtual Scalar DetJ(const Vector& local) const = 0;
-			virtual Scalar DetJ(const Vector& local, CacheIndex cacheIndex) const = 0;
 			virtual Scalar DelA(const Vector& local, const Dimension& dim1, const Dimension& dim2) const = 0;
 			virtual Scalar DelL(const Vector& local, const Dimension& dim1) const = 0;
-
+			
+			virtual const Matrix& J(const CacheIndex& cacheIndex) const = 0;
+			virtual const Matrix& InvJ(const CacheIndex& cacheIndex) const = 0;
+			virtual const Matrix& N(const CacheIndex& cacheIndex) const = 0;
+			virtual const Matrix& dN(const CacheIndex& cacheIndex) const = 0;
+			virtual Scalar DetJ(const CacheIndex& cacheIndex) const = 0;
+			
 			virtual Order GetOrder() const = 0;
 			virtual Parametric GetParametric() const = 0;
 
@@ -189,6 +193,23 @@ namespace dive
 			virtual Scalar Area(const FaceIndex& face) const = 0;
 			virtual Scalar Length(const EdgeIndex& edge) const = 0;
 		};
+
+		struct CacheLocal
+		{
+			bool isValid{ false };
+			Matrices J;
+			Matrices InvJ;
+			Scalars	 DetJ;
+		};
+
+		struct CacheCommon
+		{
+			bool isValid{ false };
+			Matrices N;
+			Matrices dN;
+		};
+
+		using CacheLines = std::unordered_map<Type, std::vector<CacheCommon>>;
 	}
 }
 

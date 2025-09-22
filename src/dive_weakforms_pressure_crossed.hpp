@@ -19,15 +19,15 @@ namespace dive
 			CrossedPressurePtr GetPtr();
 			ConstCrossedPressurePtr GetPtr() const;
 
-			void WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output) const override;
+			void WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const override;
 
 			void SetProblemMomentum(IProblemPtr problemMomentum);
 
 		protected:
 			CrossedPressure() = default;
 
-			Matrix FormMatrix_N(IElementMappedPtr element, const Vector& local) const;
-			Matrix FormMatrix_dN(IElementMappedPtr element, const Vector& local) const;
+			Matrix FormMatrix_N(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const;
+			Matrix FormMatrix_dN(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const;
 
 			IProblemPtr problemMomentum_{ nullptr };
 

@@ -24,6 +24,7 @@ static const Status DIVE_THREAD_PAUSED		= -13;
 static const Status DIVE_THREAD_STOPPED		= -14;
 static const Status DIVE_THREAD_FINISHED	= -15;
 static const Status DIVE_FILE_NOT_OPENED	= -16;
+static const Status DIVE_NOT_SUPPORTED		= -17;
 static const Status DIVE_UNDEFINED			= -99;
 
 static const std::map<Status, String> messages =
@@ -45,6 +46,7 @@ static const std::map<Status, String> messages =
 	{-14, "DIVE_THREAD_STOPPED"},
 	{-15, "DIVE_THREAD_FINISHED"},
 	{-16, "DIVE_FILE_NOT_OPENED"},
+	{-17, "DIVE_NOT_SUPPORTED"},
 	{-99, "DIVE_UNDEFINED"}
 };
 

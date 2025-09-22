@@ -29,12 +29,12 @@ namespace dive {
 		{
 			return const_cast<StabilizationPressure*>(this)->GetPtr();
 		}
-		void StabilizationPressure::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output) const
+		void StabilizationPressure::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const
 		{
-			auto N = FormMatrix_N(element, local);
-			auto dNp = FormMatrix_dNp(element, local);
-			auto du = FormDivergence(element, local);
-			auto udN = FormMatrix_udN(element, local);
+			auto N = FormMatrix_N(element, local, cacheIndex);
+			auto dNp = FormMatrix_dNp(element, local, cacheIndex);
+			auto du = FormDivergence(element, local, cacheIndex);
+			auto udN = FormMatrix_udN(element, local, cacheIndex);
 
 			output = dNp.Transpose() * (du * N + udN);
 		}
@@ -42,13 +42,13 @@ namespace dive {
 		{
 			problemMomentum_ = problemMomentum;
 		}
-		Matrix StabilizationPressure::FormMomentum(IElementMappedPtr element, const Vector& local) const
+		Matrix StabilizationPressure::FormMomentum(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			const auto& elementMomentum = std::dynamic_pointer_cast<elements::IElementMapped>(problemMomentum_->GetMesh()->GetElements()[element->GetElementIndex()]);
 
 			return elementMomentum->u(local);
 		}
-		Scalar StabilizationPressure::FormDivergence(IElementMappedPtr element, const Vector& local) const
+		Scalar StabilizationPressure::FormDivergence(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			const auto& elementMomentum = std::dynamic_pointer_cast<elements::IElementMapped>(problemMomentum_->GetMesh()->GetElements()[element->GetElementIndex()]);
 			auto du = eilig::Inverse(elementMomentum->J(local)) * elementMomentum->du(local);
@@ -62,7 +62,7 @@ namespace dive {
 
 			return divergence;
 		}
-		Matrix StabilizationPressure::FormMatrix_N(IElementMappedPtr element, const Vector& local) const
+		Matrix StabilizationPressure::FormMatrix_N(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			const auto& elementMomentum = std::dynamic_pointer_cast<elements::IElementMapped>(problemMomentum_->GetMesh()->GetElements()[element->GetElementIndex()]);
 
@@ -82,14 +82,14 @@ namespace dive {
 
 			return res;
 		}
-		Matrix StabilizationPressure::FormMatrix_udN(IElementMappedPtr element, const Vector& local) const
+		Matrix StabilizationPressure::FormMatrix_udN(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			const auto& elementMomentum = std::dynamic_pointer_cast<elements::IElementMapped>(problemMomentum_->GetMesh()->GetElements()[element->GetElementIndex()]);
 
 			auto numberNodes = elementMomentum->GetNumberNodes();
 			auto numberDof = elementMomentum->GetNode(0)->GetNumberDof();
 			auto numberDimensions = elementMomentum->GetNumberDimensions();
-			auto momentum = FormMomentum(elementMomentum, local);
+			auto momentum = FormMomentum(elementMomentum, local, cacheIndex);
 			auto dN = elementMomentum->InvJ(local) * elementMomentum->dN(local);
 
 			Matrix res(numberDimensions, numberNodes * numberDof, eilig::matrix_zeros);
@@ -103,9 +103,9 @@ namespace dive {
 
 			return res;
 		}
-		Matrix StabilizationPressure::FormMatrix_dNp(IElementMappedPtr element, const Vector& local) const
+		Matrix StabilizationPressure::FormMatrix_dNp(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
-			return element->InvJ(local) * element->dN(local);
+			return element->InvJ(cacheIndex) * element->dN(cacheIndex);
 		}
 	} // namespace problems
 } // namespace dive

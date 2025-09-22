@@ -14,7 +14,7 @@ namespace dive
 		public:
 			virtual ~IWeakFormElement() = default;
 
-			virtual void WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output) const = 0;
+			virtual void WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const = 0;
 		};
 
 		class IWeakFormLoad

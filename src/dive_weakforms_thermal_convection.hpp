@@ -18,7 +18,7 @@ namespace dive
 			ConvectionThermalPtr GetPtr();
 			ConstConvectionThermalPtr GetPtr() const;
 
-			void WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output) const override;
+			void WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const override;
 
 			void SetTemperature(IScalar3DPtr temperature);
 			void SetPressure(IScalar3DPtr pressure);
@@ -28,12 +28,12 @@ namespace dive
 		protected:
 			ConvectionThermal() = default;
 
-			Scalar FormDensity(IElementMappedPtr element, const Vector& local) const;
-			Scalar FormSpecificHeat(IElementMappedPtr element, const Vector& local) const;
-			Matrix FormVelocity(IElementMappedPtr element, const Vector& local) const;
-			Scalar FormDivergence(IElementMappedPtr element, const Vector& local) const;
-			Matrix FormMatrix_N(IElementMappedPtr element, const Vector& local) const;
-			Matrix FormMatrix_dN(IElementMappedPtr element, const Vector& local) const;
+			Scalar FormDensity(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const;
+			Scalar FormSpecificHeat(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const;
+			Matrix FormVelocity(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const;
+			Scalar FormDivergence(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const;
+			Matrix FormMatrix_N(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const;
+			Matrix FormMatrix_dN(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const;
 
 			IScalar3DPtr temperature_{ nullptr };
 			IScalar3DPtr pressure_{ nullptr };

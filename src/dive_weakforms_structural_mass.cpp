@@ -27,10 +27,10 @@ namespace dive {
 		{
 			return const_cast<MassStructural*>(this)->GetPtr();
 		}
-		void MassStructural::WeakFormulation(IElementMappedPtr element, const Vector& point, Matrix& output) const
+		void MassStructural::WeakFormulation(IElementMappedPtr element, const Vector& point, Matrix& output, const CacheIndex& cacheIndex) const
 		{
-			auto N = FormMatrix_N(element, point);
-			auto rho = FormDensity(element, point);
+			auto N = FormMatrix_N(element, point, cacheIndex);
+			auto rho = FormDensity(element, point, cacheIndex);
 
 			output = N.Transpose() * rho * N;
 		}
@@ -42,11 +42,11 @@ namespace dive {
 		{
 			pressure_ = pressure;
 		}
-		Matrix MassStructural::FormMatrix_N(IElementMappedPtr element, const Vector& local) const
+		Matrix MassStructural::FormMatrix_N(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNumberDof();
-			const auto& N = element->N(local);
+			const auto& N = element->N(cacheIndex);
 
 			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
 
@@ -60,7 +60,7 @@ namespace dive {
 
 			return res;
 		}
-		Scalar MassStructural::FormDensity(IElementMappedPtr element, const Vector& local) const
+		Scalar MassStructural::FormDensity(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			auto material = std::static_pointer_cast<material::IMaterialSolid>(element->GetMaterial());
 			auto temperature = values::GetValue(temperature_, local, element);

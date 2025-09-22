@@ -7,8 +7,14 @@ namespace dive
 {
 	namespace elements
 	{
-		ElementHexaPtr CreateElementHexa();
-		ElementHexaPtr CreateElementHexa(Tag elementTag);
+		ElementHexaPtr CreateElementHexa8i1(Tag elementTag);
+		ElementHexaPtr CreateElementHexa8i2(Tag elementTag);
+		ElementHexaPtr CreateElementHexa8i3(Tag elementTag);
+		
+		ElementHexaPtr CreateElementHexa20i1(Tag elementTag);
+		ElementHexaPtr CreateElementHexa20i2(Tag elementTag);
+		ElementHexaPtr CreateElementHexa20i3(Tag elementTag);
+		
 		ElementHexaPtr CastToElementHexa(IElementPtr element);
 
 		class ElementHexa : public IElementSolid, virtual public std::enable_shared_from_this<ElementHexa>
@@ -32,16 +38,15 @@ namespace dive
 			Matrix N(const Vector& local) const override;
 			Matrix dN(const Vector& local) const override;
 
-			const Matrix& J(const Vector& local, CacheIndex cacheIndex) const override;
-			const Matrix& InvJ(const Vector& local, CacheIndex cacheIndex) const override;
-			const Matrix& N(const Vector& local, CacheIndex cacheIndex) const override;
-			const Matrix& dN(const Vector& local, CacheIndex cacheIndex) const override;
-
+			const Matrix& J(const CacheIndex& cacheIndex) const override;
+			const Matrix& InvJ(const CacheIndex& cacheIndex) const override;
+			const Matrix& N(const CacheIndex& cacheIndex) const override;
+			const Matrix& dN(const CacheIndex& cacheIndex) const override;
+			Scalar DetJ(const CacheIndex& cacheIndex) const override;
+	
 			Scalar DetJ(const Vector& local) const override;
 			Scalar DelA(const Vector& local, const Dimension& dim1, const Dimension& dim2) const override;
 			Scalar DelL(const Vector& local, const Dimension& dim1) const override;
-
-			Scalar DetJ(const Vector& local, CacheIndex cacheIndex) const override;
 
 			Scalar Volume() const override;
 			Scalar Area(const FaceIndex& face) const override;
@@ -103,19 +108,21 @@ namespace dive
 			IntegralAreaHelper GetIntegralAreaHelper(FaceIndex faceIndex) const;
 			IntegralEdgeHelper GetIntegralEdgeHelper(EdgeIndex edgeIndex) const;
 
+			void SetType();
+
 			Tag		tag_{ 0 };
-			Type	type_{ element_hexa8 };
+			Type	type_{ element_undefined };
 			Nodes	nodes_;
 
 			ElementIndex elementIndex_{ 0 };
 			Properties properties_;
 
 			NumberDof	numberDof_{ 1 };
-			NumberNodes numberNodes_;
-			NumberNodes numberNodesFace_;
-			NumberNodes numberNodesEdge_;
-			NumberNodes numberNodesParametric_;
-			NumberNodes numberNodesFaceParametric_;
+			NumberNodes numberNodes_{ 0 };
+			NumberNodes numberNodesFace_{ 0 };
+			NumberNodes numberNodesEdge_{ 0 };
+			NumberNodes numberNodesParametric_{ 0 };
+			NumberNodes numberNodesFaceParametric_{ 0 };
 
 			const NumberFaces numberFaces_{ 6 };
 			const NumberEdges numberEdges_{12};
@@ -136,6 +143,8 @@ namespace dive
 			NodeIndex* lookUpTable10_{ &linearFunctions_.NodeIndexFace[0] };
 			NodeIndex* lookUpTable11_{ &linearFunctions_.NodeIndexFace[0] };
 
+			Integral integral_{ 0 };
+
 			Order	order_{ order_linear };
 			ShapePtr* shape_{ &linearFunctions_.Shape[0] };
 			ShapePtr* shapeD_{ &linearFunctions_.ShapeD[0] };	
@@ -149,12 +158,9 @@ namespace dive
 			IGaussPtr gaussHexa_{ nullptr };
 			IGaussPtr gaussRect_{ nullptr };
 			IGaussPtr gaussLine_{ nullptr };
-
-			Matrices cacheJ_;
-			Matrices cacheInvJ_;
-			Matrices cacheN_;
-			Matrices cachedN_;
-			Scalars	 cacheDetJ_;
+		
+			CacheCommon* cacheCommon_{nullptr};
+			CacheLocal cacheLocal_;
 
 			struct LinearFunctions {
 				static Scalar N0(const Vector& arg);

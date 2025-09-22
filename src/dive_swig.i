@@ -39,10 +39,6 @@ namespace interpolation
 
 %inline
 %{
-	using Vector = eilig::Vector;
-	using Matrix = eilig::Matrix;
-	using Sparse = eilig::Ellpack;
-	
 	using Status = long long int;
 	using Tag = std::size_t;
 	using Type = std::size_t;
