@@ -718,7 +718,7 @@ namespace dive {
 						if (elementTypes[0] == 5)
 						{
 							auto elementTag = static_cast<Tag>((elementTags[0][i]));
-							auto element = elements::CreateElementHexa8i2(elementTag);
+							auto element = elements::CreateElementHexa82(elementTag);
 							element->SetNumberDof(numberDof);
 
 							mesh->AddElement(element, status, false);
@@ -736,7 +736,7 @@ namespace dive {
 						else if (elementTypes[0] == 17)
 						{
 							auto elementTag = static_cast<Tag>((elementTags[0][i]));
-							auto element = elements::CreateElementHexa20i2(elementTag);
+							auto element = elements::CreateElementHexa202(elementTag);
 							element->SetNumberDof(numberDof);
 
 							mesh->AddElement(element, status, false);

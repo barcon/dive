@@ -7,13 +7,13 @@ namespace dive
 {
 	namespace elements
 	{
-		ElementHexaPtr CreateElementHexa8i1(Tag elementTag);
-		ElementHexaPtr CreateElementHexa8i2(Tag elementTag);
-		ElementHexaPtr CreateElementHexa8i3(Tag elementTag);
+		ElementHexaPtr CreateElementHexa81(Tag elementTag);
+		ElementHexaPtr CreateElementHexa82(Tag elementTag);
+		ElementHexaPtr CreateElementHexa83(Tag elementTag);
 		
-		ElementHexaPtr CreateElementHexa20i1(Tag elementTag);
-		ElementHexaPtr CreateElementHexa20i2(Tag elementTag);
-		ElementHexaPtr CreateElementHexa20i3(Tag elementTag);
+		ElementHexaPtr CreateElementHexa201(Tag elementTag);
+		ElementHexaPtr CreateElementHexa202(Tag elementTag);
+		ElementHexaPtr CreateElementHexa203(Tag elementTag);
 		
 		ElementHexaPtr CastToElementHexa(IElementPtr element);
 
@@ -143,7 +143,7 @@ namespace dive
 			NodeIndex* lookUpTable10_{ &linearFunctions_.NodeIndexFace[0] };
 			NodeIndex* lookUpTable11_{ &linearFunctions_.NodeIndexFace[0] };
 
-			Integral integral_{ 0 };
+			Integral integral_{ integral_undefined };
 
 			Order	order_{ order_linear };
 			ShapePtr* shape_{ &linearFunctions_.Shape[0] };

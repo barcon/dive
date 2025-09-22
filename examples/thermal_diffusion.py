@@ -11,6 +11,7 @@ timer       = thermal.CreateTimerStationary(1, 0.0)
 pressure    = thermal.CreateValueScalar3D(p_ref)
 material    = materials.fluid.VG46.Create(1, T_ref, p_ref)
 
+#import meshes
 #meshes.CreateCavity(1.0, 1.0, 0.1, 101, 101, 2, False)
 thermal.GmshInitialize()
 thermal.GmshOpenFile("cavity.msh")

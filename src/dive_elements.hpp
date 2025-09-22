@@ -17,19 +17,20 @@ namespace dive
 		static const Order order_linear = 1;
 		static const Order order_quadratic = 2;
 
-		using Integral = std::size_t;
-		static const Integral quadrature_one = 1;
-		static const Integral quadrature_two = 2;
-		static const Integral quadrature_three = 3;
+		using Integral = quadrature::Quadrature;
+		static const Integral integral_one = quadrature::quadrature_one;
+		static const Integral integral_two = quadrature::quadrature_two;
+		static const Integral integral_three = quadrature::quadrature_three;
+		static const Integral integral_undefined = quadrature::quadrature_undefined;
 
 		static const Type element_mass = 1;
 		static const Type element_combined = 2;
-		static const Type element_hexa8i1 = 81;
-		static const Type element_hexa8i2 = 82;
-		static const Type element_hexa8i3 = 83;
-		static const Type element_hexa20i1 = 201;
-		static const Type element_hexa20i2 = 202;
-		static const Type element_hexa20i3 = 203;
+		static const Type element_hexa81 = 81;
+		static const Type element_hexa82 = 82;
+		static const Type element_hexa83 = 83;
+		static const Type element_hexa201 = 201;
+		static const Type element_hexa202 = 202;
+		static const Type element_hexa203 = 203;
 		static const Type element_undefined = 0xFFFFFFFF;
 
 		static const NumberDimensions dimension_point = 0;

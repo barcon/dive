@@ -46,69 +46,69 @@ namespace dive
 
 		CacheLines cacheLinesHexa;
 
-		ElementHexaPtr CreateElementHexa8i1(Tag elementTag)
+		ElementHexaPtr CreateElementHexa81(Tag elementTag)
 		{
 			auto res = ElementHexa::Create();
 
 			res->SetTag(elementTag);
 			res->SetOrder(order_linear);
 			res->SetParametric(parametric_linear);
-			res->SetIntegral(quadrature_one);
+			res->SetIntegral(integral_one);
 
 			return res;
 		}
-		ElementHexaPtr CreateElementHexa8i2(Tag elementTag)
+		ElementHexaPtr CreateElementHexa82(Tag elementTag)
 		{
 			auto res = ElementHexa::Create();
 
 			res->SetTag(elementTag);
 			res->SetOrder(order_linear);
 			res->SetParametric(parametric_linear);
-			res->SetIntegral(quadrature_two);
+			res->SetIntegral(integral_two);
 
 			return res;
 		}
-		ElementHexaPtr CreateElementHexa8i3(Tag elementTag)
+		ElementHexaPtr CreateElementHexa83(Tag elementTag)
 		{
 			auto res = ElementHexa::Create();
 
 			res->SetTag(elementTag);
 			res->SetOrder(order_linear);
 			res->SetParametric(parametric_linear);
-			res->SetIntegral(quadrature_three);
+			res->SetIntegral(integral_three);
 
 			return res;
 		}
-		ElementHexaPtr CreateElementHexa20i1(Tag elementTag)
+		ElementHexaPtr CreateElementHexa201(Tag elementTag)
 		{
 			auto res = ElementHexa::Create();
 
 			res->SetTag(elementTag);
 			res->SetOrder(order_quadratic);
 			res->SetParametric(parametric_quadratic);
-			res->SetIntegral(quadrature_one);
+			res->SetIntegral(integral_one);
 
 			return res;
 		}
-		ElementHexaPtr CreateElementHexa20i2(Tag elementTag)
+		ElementHexaPtr CreateElementHexa202(Tag elementTag)
 		{
 			auto res = ElementHexa::Create();
 
 			res->SetTag(elementTag);
 			res->SetOrder(order_quadratic);
 			res->SetParametric(parametric_quadratic);
-			res->SetIntegral(quadrature_two);
+			res->SetIntegral(integral_two);
 
 			return res;
 		}
-		ElementHexaPtr CreateElementHexa20i3(Tag elementTag)
+		ElementHexaPtr CreateElementHexa203(Tag elementTag)
 		{
 			auto res = ElementHexa::Create();
 
 			res->SetTag(elementTag);
 			res->SetOrder(order_quadratic);
 			res->SetParametric(parametric_quadratic);
-			res->SetIntegral(quadrature_three);
+			res->SetIntegral(integral_three);
 
 			return res;
 		}
@@ -706,6 +706,18 @@ namespace dive
 		}
 		void ElementHexa::SetNumberDof(NumberDof numberDof)
 		{
+			if(numberDof == 0)
+			{
+				logger::Error(headerDive, "Invalid number of dof: " + dive::messages.at(dive::DIVE_NOT_SUPPORTED));
+				return;
+			}
+
+			if (numberDof > numberDofMax)
+			{
+				logger::Error(headerDive, "Invalid number of dof: " + dive::messages.at(dive::DIVE_NOT_SUPPORTED));
+				return;
+			}
+
 			numberDof_ = numberDof;
 
 			for (NodeIndex i = 0; i < numberNodes_; ++i)
@@ -833,13 +845,7 @@ namespace dive
 		}
 		void ElementHexa::SetIntegral(const Integral& integral)
 		{
-			if(integral == 0)
-			{
-				logger::Error(headerDive, "Invalid integral: " + dive::messages.at(dive::DIVE_NOT_SUPPORTED));
-				return;
-			}
-
-			if (integral > 4)
+			if( integral != integral_one && integral != integral_two && integral != integral_three)
 			{
 				logger::Error(headerDive, "Invalid integral: " + dive::messages.at(dive::DIVE_NOT_SUPPORTED));
 				return;
@@ -847,9 +853,9 @@ namespace dive
 
 			integral_ = integral;
 
-			gaussHexa_ = quadrature::CreateGaussHexa(integral);
-			gaussRect_ = quadrature::CreateGaussRect(integral);	
-			gaussLine_ = quadrature::CreateGaussLine(integral);
+			gaussHexa_ = quadrature::CreateGaussHexa(integral_);
+			gaussRect_ = quadrature::CreateGaussRect(integral_);
+			gaussLine_ = quadrature::CreateGaussLine(integral_);
 
 			SetType();
 		}
@@ -871,53 +877,41 @@ namespace dive
 		}
 		void ElementHexa::SetType()
 		{
-			switch (integral_)
+			if (numberNodes_ == 8)
 			{
-			case quadrature_one:
-				if (numberNodes_ == 8)
+				switch (integral_)
 				{
-					type_ = element_hexa8i1;
-				}
-				else if (numberNodes_ == 20)
-				{
-					type_ = element_hexa20i1;
-				}
-				else
-				{
+				case integral_one:
+					type_ = element_hexa81;
+					break;
+				case integral_two:
+					type_ = element_hexa82;
+					break;
+				case integral_three:
+					type_ = element_hexa83;
+					break;
+				default:
 					type_ = element_undefined;
+					break;
 				}
-				break;
-			case quadrature_two:
-				if (numberNodes_ == 8)
+			}
+			else if (numberNodes_ == 20)
+			{
+				switch (integral_)
 				{
-					type_ = element_hexa8i2;
-				}
-				else if (numberNodes_ == 20)
-				{
-					type_ = element_hexa20i2;
-				}
-				else
-				{
+				case integral_one:
+					type_ = element_hexa201;
+					break;
+				case integral_two:
+					type_ = element_hexa202;
+					break;
+				case integral_three:
+					type_ = element_hexa203;
+					break;
+				default:
 					type_ = element_undefined;
+					break;
 				}
-				break;
-			case quadrature_three:
-				if (numberNodes_ == 8)
-				{
-					type_ = element_hexa8i3;
-				}
-				else if (numberNodes_ == 20)
-				{
-					type_ = element_hexa20i3;
-				}
-				else
-				{
-					type_ = element_undefined;
-				}
-				break;
-			default:
-				type_ = element_undefined;
-				break;
 			}
 		}
 		bool ElementHexa::IsUsed(INodePtr node) const
@@ -1050,6 +1044,7 @@ namespace dive
 			const auto& points = gaussHexa_->GetPoints();
 			const auto& counter = gaussHexa_->GetCounter();
 
+			cacheLocal_.J.resize(counter);
 			cacheLocal_.InvJ.resize(counter);
 			cacheLocal_.DetJ.resize(counter);
 
@@ -1065,16 +1060,16 @@ namespace dive
 
 			if (cacheLinesHexa.find(type_) == cacheLinesHexa.end())
 			{
-				cacheLinesHexa.insert(std::make_pair(type_, std::vector<CacheCommon>(numberDofMax)));
+				cacheLinesHexa[type_] = std::vector<CacheCommon>(numberDofMax);
 			}
 
-			cacheCommon_ = &cacheLinesHexa[type_][numberDof_ - 1];
-			if (!cacheCommon_->isValid)
+			cacheCommon_ = &cacheLinesHexa[type_] [numberDof_ - 1];
+			if (!(cacheCommon_->isValid))
 			{
-				for (quadrature::Counter i = 0; i < counter; ++i)
+				for (auto i = 0; i < counter; ++i)
 				{
-					cacheCommon_->N[i] = N(points[i]);
-					cacheCommon_->dN[i] = dN(points[i]);
+					cacheCommon_->N.emplace_back(N(points[i]));
+					cacheCommon_->dN.emplace_back(dN(points[i]));
 				}
 
 			}
