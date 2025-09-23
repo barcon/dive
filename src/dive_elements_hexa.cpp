@@ -262,6 +262,22 @@ namespace dive
 
 			return res;
 		}
+		Matrix ElementHexa::NN(const Vector& local) const
+		{
+			const auto& N = N(local);
+
+			Matrix res(numberDof_, numberNodes_ * numberDof_, eilig::matrix_zeros);
+
+			for (DofIndex i = 0; i < numberDof_; ++i)
+			{
+				for (NodeIndex j = 0; j < numberNodes_; ++j)
+				{
+					res(i, j * numberDof_ + i) = N(j);
+				}
+			}
+
+			return res;
+		}
 		Matrix ElementHexa::dN(const Vector& local) const
 		{
 			Matrix res(numberCoordinates_, numberNodes_, eilig::matrix_zeros);
@@ -307,6 +323,10 @@ namespace dive
 		const Matrix& ElementHexa::N(const CacheIndex& cacheIndex) const
 		{
 			return cacheCommon_->N[cacheIndex];
+		}
+		const Matrix& ElementHexa::NN(const CacheIndex& cacheIndex) const
+		{
+			return cacheCommon_->NN[cacheIndex];
 		}
 		const Matrix& ElementHexa::dN(const CacheIndex& cacheIndex) const
 		{
@@ -1069,6 +1089,7 @@ namespace dive
 				for (auto i = 0; i < counter; ++i)
 				{
 					cacheCommon_->N.emplace_back(N(points[i]));
+					cacheCommon_->NN.emplace_back(NN(points[i]));
 					cacheCommon_->dN.emplace_back(dN(points[i]));
 				}
 

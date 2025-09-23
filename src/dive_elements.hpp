@@ -142,6 +142,7 @@ namespace dive
 			virtual Matrix J(const Vector& local) const = 0;
 			virtual Matrix InvJ(const Vector& local) const = 0;
 			virtual Matrix N(const Vector& local) const = 0;
+			virtual Matrix NN(const Vector& local) const = 0;
 			virtual Matrix dN(const Vector& local) const = 0;
 			virtual Scalar DetJ(const Vector& local) const = 0;
 			virtual Scalar DelA(const Vector& local, const Dimension& dim1, const Dimension& dim2) const = 0;
@@ -150,6 +151,7 @@ namespace dive
 			virtual const Matrix& J(const CacheIndex& cacheIndex) const = 0;
 			virtual const Matrix& InvJ(const CacheIndex& cacheIndex) const = 0;
 			virtual const Matrix& N(const CacheIndex& cacheIndex) const = 0;
+			virtual const Matrix& NN(const CacheIndex& cacheIndex) const = 0;
 			virtual const Matrix& dN(const CacheIndex& cacheIndex) const = 0;
 			virtual Scalar DetJ(const CacheIndex& cacheIndex) const = 0;
 			
@@ -207,7 +209,8 @@ namespace dive
 		{
 			bool isValid{ false };
 			Matrices N;
-			Matrices dN;
+			Matrices NN;
+			Matrices dN;			
 		};
 
 		using CacheLines = std::unordered_map<Type, std::vector<CacheCommon>>;

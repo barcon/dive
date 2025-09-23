@@ -12,7 +12,7 @@ from prettytable import PrettyTable
 T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
 basis       = fluid.CreateBasisCartesian(1)
-timer       = fluid.CreateTimerStepped(1, 0.0, 100.0, 0.1)
+timer       = fluid.CreateTimerStepped(1, 0.0, 2000.0, 0.5)
 pressure    = fluid.CreateValueScalar3D(p_ref)
 temperature = fluid.CreateValueScalar3D(T_ref)
 material    = materials.fluid.water.Create(1, T_ref, p_ref)
