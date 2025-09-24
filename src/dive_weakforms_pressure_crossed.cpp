@@ -41,21 +41,7 @@ namespace dive {
 		{
 			const auto& elementMomentum = std::dynamic_pointer_cast<elements::IElementMapped>(problemMomentum_->GetMesh()->GetElements()[element->GetElementIndex()]);
 
-			auto numberNodes = elementMomentum->GetNumberNodes();
-			auto numberDof = elementMomentum->GetNumberDof();
-			auto N = elementMomentum->N(local);
-
-			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
-
-			for (DofIndex i = 0; i < numberDof; ++i)
-			{
-				for (NodeIndex j = 0; j < numberNodes; ++j)
-				{
-					res(i, j * numberDof + i) = N(j);
-				}
-			}
-
-			return res;
+			return elementMomentum->N(local);
 		}
 		Matrix CrossedPressure::FormMatrix_dN(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{

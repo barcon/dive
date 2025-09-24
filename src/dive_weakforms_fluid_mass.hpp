@@ -23,7 +23,7 @@ namespace dive
 		protected:
 			MassFluid() = default;
 
-			Matrix FormMatrix_N(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const;
+			Matrix FormMatrix_NN(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const;
 
 			using std::enable_shared_from_this<MassFluid>::shared_from_this;
 		};

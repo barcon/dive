@@ -253,30 +253,21 @@ namespace dive
 		}
 		Matrix ElementHexa::N(const Vector& local) const
 		{
-			Matrix res(1, numberNodes_, eilig::matrix_zeros);
-
-			for (NodeIndex i = 0; i < numberNodes_; ++i)
-			{
-				res(0, i) = shape_[i](local);
-			}
-
-			return res;
-		}
-		Matrix ElementHexa::NN(const Vector& local) const
-		{
-			const auto& N = N(local);
-
 			Matrix res(numberDof_, numberNodes_ * numberDof_, eilig::matrix_zeros);
 
 			for (DofIndex i = 0; i < numberDof_; ++i)
 			{
 				for (NodeIndex j = 0; j < numberNodes_; ++j)
 				{
-					res(i, j * numberDof_ + i) = N(j);
+					res(i, j * numberDof_ + i) = shape_[j](local);
 				}
 			}
 
 			return res;
+		}
+		Matrix ElementHexa::NN(const Vector& local) const
+		{
+			return N(local).Transpose() * N(local);
 		}
 		Matrix ElementHexa::dN(const Vector& local) const
 		{

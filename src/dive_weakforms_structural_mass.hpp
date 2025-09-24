@@ -26,7 +26,7 @@ namespace dive
 		protected:
 			MassStructural() = default;
 
-			Matrix FormMatrix_N(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const;
+			Matrix FormMatrix_NN(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const;
 			Scalar FormDensity(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const;
 
 			IScalar3DPtr temperature_{ nullptr };

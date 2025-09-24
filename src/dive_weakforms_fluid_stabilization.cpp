@@ -56,21 +56,7 @@ namespace dive {
 		}
 		Matrix StabilizationFluid::FormMatrix_N(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
-			auto numberNodes = element->GetNumberNodes();
-			auto numberDof = element->GetNode(0)->GetNumberDof();
-			const auto& N = element->N(cacheIndex);
-
-			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
-
-			for (DofIndex i = 0; i < numberDof; ++i)
-			{
-				for (NodeIndex j = 0; j < numberNodes; ++j)
-				{
-					res(i, i + j * numberDof) = N(0, j);
-				}
-			}
-
-			return res;
+			return element->N(cacheIndex);
 		}
 		Matrix StabilizationFluid::FormMatrix_udN(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{

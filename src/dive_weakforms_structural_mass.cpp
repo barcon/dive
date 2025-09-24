@@ -29,10 +29,10 @@ namespace dive {
 		}
 		void MassStructural::WeakFormulation(IElementMappedPtr element, const Vector& point, Matrix& output, const CacheIndex& cacheIndex) const
 		{
-			auto N = FormMatrix_N(element, point, cacheIndex);
+			auto NN = FormMatrix_NN(element, point, cacheIndex);
 			auto rho = FormDensity(element, point, cacheIndex);
 
-			output = N.Transpose() * rho * N;
+			output = rho * NN;
 		}
 		void MassStructural::SetTemperature(IScalar3DPtr temperature)
 		{
@@ -42,23 +42,9 @@ namespace dive {
 		{
 			pressure_ = pressure;
 		}
-		Matrix MassStructural::FormMatrix_N(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
+		Matrix MassStructural::FormMatrix_NN(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
-			auto numberNodes = element->GetNumberNodes();
-			auto numberDof = element->GetNumberDof();
-			const auto& N = element->N(cacheIndex);
-
-			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
-
-			for (DofIndex i = 0; i < numberDof; ++i)
-			{
-				for (NodeIndex j = 0; j < numberNodes; ++j)
-				{
-					res(i, j * numberDof + i) = N(j);
-				}
-			}
-
-			return res;
+			return element->NN(cacheIndex);
 		}
 		Scalar MassStructural::FormDensity(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{

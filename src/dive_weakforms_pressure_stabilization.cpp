@@ -66,21 +66,7 @@ namespace dive {
 		{
 			const auto& elementMomentum = std::dynamic_pointer_cast<elements::IElementMapped>(problemMomentum_->GetMesh()->GetElements()[element->GetElementIndex()]);
 
-			auto numberNodes = elementMomentum->GetNumberNodes();
-			auto numberDof = elementMomentum->GetNode(0)->GetNumberDof();
-			auto N = elementMomentum->N(local);
-
-			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
-
-			for (DofIndex i = 0; i < numberDof; ++i)
-			{
-				for (NodeIndex j = 0; j < numberNodes; ++j)
-				{
-					res(i, i + j * numberDof) = N(0, j);
-				}
-			}
-
-			return res;
+			return elementMomentum->N(local);
 		}
 		Matrix StabilizationPressure::FormMatrix_udN(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{

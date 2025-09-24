@@ -45,21 +45,7 @@ namespace dive {
 		}
 		Matrix LoadDistributedVolumeStabilizationFluid::FormMatrix_N(IElementMappedPtr element, const Vector& point) const
 		{
-			auto numberNodes = element->GetNumberNodes();
-			auto numberDof = element->GetNumberDof();
-			auto N = element->N(point);
-
-			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
-
-			for (DofIndex i = 0; i < numberDof; ++i)
-			{
-				for (NodeIndex j = 0; j < numberNodes; ++j)
-				{
-					res(i, j * numberDof + i) = N(j);
-				}
-			}
-
-			return res;
+			return element->N(point);
 		}
 		Matrix LoadDistributedVolumeStabilizationFluid::FormMatrix_udN(IElementMappedPtr element, const Vector& point) const
 		{
