@@ -6640,11 +6640,11 @@ class IFluid(IProblem):
     def SetPressure(self, pressure):
         return _dive.IFluid_SetPressure(self, pressure)
 
-    def UpdateMeshValues(self, u):
-        return _dive.IFluid_UpdateMeshValues(self, u)
+    def UpdateMeshValues(self, *args):
+        return _dive.IFluid_UpdateMeshValues(self, *args)
 
-    def UpdateMeshValuesMomentum(self, q):
-        return _dive.IFluid_UpdateMeshValuesMomentum(self, q)
+    def UpdateMeshValuesMomentum(self, *args):
+        return _dive.IFluid_UpdateMeshValuesMomentum(self, *args)
 
     def Mass(self):
         return _dive.IFluid_Mass(self)
@@ -6701,8 +6701,8 @@ class IPressure(IProblem):
     def SetVelocity(self, velocity):
         return _dive.IPressure_SetVelocity(self, velocity)
 
-    def UpdateMeshValues(self, u):
-        return _dive.IPressure_UpdateMeshValues(self, u)
+    def UpdateMeshValues(self, *args):
+        return _dive.IPressure_UpdateMeshValues(self, *args)
 
     def Mass(self):
         return _dive.IPressure_Mass(self)
@@ -6741,8 +6741,8 @@ class IThermal(IProblem):
     def SetPressure(self, pressure):
         return _dive.IThermal_SetPressure(self, pressure)
 
-    def UpdateMeshValues(self, u):
-        return _dive.IThermal_UpdateMeshValues(self, u)
+    def UpdateMeshValues(self, *args):
+        return _dive.IThermal_UpdateMeshValues(self, *args)
 
     def Mass(self):
         return _dive.IThermal_Mass(self)
@@ -6781,8 +6781,8 @@ class IStructural(IProblem):
     def SetPressure(self, pressure):
         return _dive.IStructural_SetPressure(self, pressure)
 
-    def UpdateMeshValues(self, u):
-        return _dive.IStructural_UpdateMeshValues(self, u)
+    def UpdateMeshValues(self, *args):
+        return _dive.IStructural_UpdateMeshValues(self, *args)
 
     def Mass(self):
         return _dive.IStructural_Mass(self)
@@ -6891,8 +6891,8 @@ class ProblemThermal(IThermal):
     def Initialize(self):
         return _dive.ProblemThermal_Initialize(self)
 
-    def UpdateMeshValues(self, u):
-        return _dive.ProblemThermal_UpdateMeshValues(self, u)
+    def UpdateMeshValues(self, *args):
+        return _dive.ProblemThermal_UpdateMeshValues(self, *args)
 
     def Mass(self):
         return _dive.ProblemThermal_Mass(self)
@@ -6992,11 +6992,11 @@ class ProblemFluid(IFluid):
     def Initialize(self):
         return _dive.ProblemFluid_Initialize(self)
 
-    def UpdateMeshValues(self, u):
-        return _dive.ProblemFluid_UpdateMeshValues(self, u)
+    def UpdateMeshValues(self, *args):
+        return _dive.ProblemFluid_UpdateMeshValues(self, *args)
 
-    def UpdateMeshValuesMomentum(self, q):
-        return _dive.ProblemFluid_UpdateMeshValuesMomentum(self, q)
+    def UpdateMeshValuesMomentum(self, *args):
+        return _dive.ProblemFluid_UpdateMeshValuesMomentum(self, *args)
 
     def Mass(self):
         return _dive.ProblemFluid_Mass(self)
@@ -7111,8 +7111,8 @@ class ProblemPressure(IPressure):
     def Initialize(self):
         return _dive.ProblemPressure_Initialize(self)
 
-    def UpdateMeshValues(self, u):
-        return _dive.ProblemPressure_UpdateMeshValues(self, u)
+    def UpdateMeshValues(self, *args):
+        return _dive.ProblemPressure_UpdateMeshValues(self, *args)
 
     def Mass(self):
         return _dive.ProblemPressure_Mass(self)
@@ -7218,8 +7218,8 @@ class ProblemStructural(IStructural):
     def Initialize(self):
         return _dive.ProblemStructural_Initialize(self)
 
-    def UpdateMeshValues(self, u):
-        return _dive.ProblemStructural_UpdateMeshValues(self, u)
+    def UpdateMeshValues(self, *args):
+        return _dive.ProblemStructural_UpdateMeshValues(self, *args)
 
     def Mass(self):
         return _dive.ProblemStructural_Mass(self)

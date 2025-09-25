@@ -69,7 +69,9 @@ namespace dive
 			virtual void SetPressure(IScalar3DPtr pressure) = 0;
 			
 			virtual void UpdateMeshValues(const Vector& u) = 0;
-			virtual void UpdateMeshValuesMomentum(const Vector& q) = 0;			
+			virtual void UpdateMeshValues(const Vector& u0, const Vector& u1) = 0;
+			virtual void UpdateMeshValuesMomentum(const Vector& q) = 0;
+			virtual void UpdateMeshValuesMomentum(const Vector& q0, const Vector& q1) = 0;
 
 			virtual Sparse Mass() const = 0;
 			virtual Sparse Stiffness() const = 0;
@@ -97,6 +99,7 @@ namespace dive
 			virtual void SetVelocity(IMatrix3DPtr velocity) = 0;
 
 			virtual void UpdateMeshValues(const Vector& u) = 0;
+			virtual void UpdateMeshValues(const Vector& u0, const Vector& u1) = 0;
 
 			virtual Sparse Mass() const = 0;
 			virtual Sparse Stiffness() const = 0;
@@ -118,6 +121,7 @@ namespace dive
 			virtual void SetPressure(IScalar3DPtr pressure) = 0;
 
 			virtual void UpdateMeshValues(const Vector& u) = 0;
+			virtual void UpdateMeshValues(const Vector& u0, const Vector& u1) = 0;
 
 			virtual Sparse Mass() const = 0;
 			virtual Sparse Stiffness() const = 0;
@@ -139,6 +143,7 @@ namespace dive
 			virtual void SetPressure(IScalar3DPtr pressure) = 0;
 
 			virtual void UpdateMeshValues(const Vector& u) = 0;
+			virtual void UpdateMeshValues(const Vector& u0, const Vector& u1) = 0;
 
 			virtual Sparse Mass() const = 0;
 			virtual Sparse Stiffness() const = 0;

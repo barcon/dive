@@ -145,6 +145,24 @@ namespace dive {
 				dofMeshIndices_[i].node->SetValue(dofIndex, u(globalIndex));
 			}
 		}
+		void ProblemFluid::UpdateMeshValues(const Vector& u0, const Vector& u1)
+		{
+			for (Index i = 0; i < dofMeshIndices_.size(); ++i)
+			{
+				auto globalIndex = dofMeshIndices_[i].globalIndex;
+				auto dofIndex = dofMeshIndices_[i].dofIndex;
+
+				if (globalIndex < pivot_)
+				{
+					dofMeshIndices_[i].node->SetValue(dofIndex, u0(globalIndex));
+				}
+				else
+				{
+					dofMeshIndices_[i].node->SetValue(dofIndex, u1(globalIndex - pivot_));
+
+				}
+			}
+		}
 		void ProblemFluid::UpdateMeshValuesMomentum(const Vector& q)
 		{
 			for (Index i = 0; i < dofMeshIndices_.size(); ++i)
@@ -162,6 +180,33 @@ namespace dive {
 				auto density = material->GetDensity(temperature, pressure);
 
 				dofMeshIndices_[i].node->SetValue(dofIndex, q(globalIndex) / density);
+			}
+		}
+		void ProblemFluid::UpdateMeshValuesMomentum(const Vector& q0, const Vector& q1)
+		{
+			for (Index i = 0; i < dofMeshIndices_.size(); ++i)
+			{
+				auto globalIndex = dofMeshIndices_[i].globalIndex;
+				auto dofIndex = dofMeshIndices_[i].dofIndex;
+
+				const auto& node = dofMeshIndices_[i].node;
+				const auto& element = node->GetConnectivity().elements[0];
+				const auto& point = element->LocalCoordinates(node);
+				const auto& material = element->GetMaterial();
+
+				auto temperature = values::GetValue(temperature_, point, element);
+				auto pressure = values::GetValue(pressure_, point, element);
+				auto density = material->GetDensity(temperature, pressure);
+
+				if (globalIndex < pivot_)
+				{
+					dofMeshIndices_[i].node->SetValue(dofIndex, q0(globalIndex) / density);
+				}
+				else
+				{
+					dofMeshIndices_[i].node->SetValue(dofIndex, q1(globalIndex - pivot_) / density);
+
+				}
 			}
 		}
 		Sparse ProblemFluid::Mass() const

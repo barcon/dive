@@ -140,6 +140,24 @@ namespace dive {
 				dofMeshIndices_[i].node->SetValue(dofIndex, u(globalIndex));
 			}
 		}
+		void ProblemPressure::UpdateMeshValues(const Vector& u0, const Vector& u1)
+		{
+			for (Index i = 0; i < dofMeshIndices_.size(); ++i)
+			{
+				auto globalIndex = dofMeshIndices_[i].globalIndex;
+				auto dofIndex = dofMeshIndices_[i].dofIndex;
+
+				if (globalIndex < pivot_)
+				{
+					dofMeshIndices_[i].node->SetValue(dofIndex, u0(globalIndex));
+				}
+				else
+				{
+					dofMeshIndices_[i].node->SetValue(dofIndex, u1(globalIndex - pivot_));
+
+				}
+			}
+		}
 		Sparse ProblemPressure::Mass() const
 		{
 			auto massWeak = weakforms::CreateWeakFormMassPressure();

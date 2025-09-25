@@ -23,15 +23,8 @@ def Initialize():
 
 def UpdateMeshValuesMomentum(q): 
     global problem
-
-    totalDof = problem.GetTotalDof()
-    pivot = problem.GetPivot()
-
-    y = problem.Momentum()
-    y.Region(0, pivot - 1, q[0])
-    y.Region(pivot, totalDof - 1, q[1])    
-    
-    problem.UpdateMeshValuesMomentum(y)
+  
+    problem.UpdateMeshValuesMomentum(q[0], q[1])
     
     return
 

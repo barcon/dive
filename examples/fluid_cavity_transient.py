@@ -12,7 +12,7 @@ from prettytable import PrettyTable
 T_ref       = 313.15      #[K]      = 40 [°C]
 p_ref       = 101325.1    #[N/m²]   =  1 [atm]
 basis       = fluid.CreateBasisCartesian(1)
-timer       = fluid.CreateTimerStepped(1, 0.0, 10.0, 0.5)
+timer       = fluid.CreateTimerStepped(1, 0.0, 1000.0, 0.5)
 pressure    = fluid.CreateValueScalar3D(p_ref)
 temperature = fluid.CreateValueScalar3D(T_ref)
 material    = materials.fluid.water.Create(1, T_ref, p_ref)
@@ -103,7 +103,7 @@ dq = fluid.momentum.PartitionVector(fluid.Vector(totalDofMomentum, 0.0))
 dqq = fluid.momentum.PartitionVector(fluid.Vector(totalDofMomentum, 0.0))
 
 while(True): 
-    print("Time step = ", timer.GetCurrent())
+    currentTime = timer.GetCurrent()
    
     p = fluid.pressure.PartitionVector(fluid.pressure.GetProblem().Pressure())
     q0 = fluid.momentum.PartitionVector(fluid.momentum.GetProblem().Momentum())
@@ -111,31 +111,33 @@ while(True):
     dq = fluid.momentum.PartitionVector(fluid.Vector(totalDofMomentum, 0.0))
     dqq = fluid.momentum.PartitionVector(fluid.Vector( totalDofMomentum, 0.0))
 
-    start = time.time()
     C = fluid.momentum.PartitionMatrix(fluid.momentum.GetProblem().Convection())
-    monitor = solvers.IterativeBiCGStab(M[3], dq[1], -dt * (K[2] * q0[0] + C[2] * q0[0] + K[3] * q0[1] + C[3] * q0[1]))
-    #monitor = solvers.IterativeBiCGStab(M[3], dq[1], -dt * (K[2] * q0[0] + K[3] * q0[1]))
+    solvers.IterativeBiCGStab(M[3], dq[1], -dt * (K[2] * q0[0] + C[2] * q0[0] + K[3] * q0[1] + C[3] * q0[1]))
+    #solvers.IterativeBiCGStab(M[3], dq[1], -dt * (K[2] * q0[0] + K[3] * q0[1]))
     
     q1[0] = q0[0] + dq[0]
     q1[1] = q0[1] + dq[1]
 
     fluid.momentum.UpdateMeshValuesMomentum(q1)
-    end = time.time()
-    print("Convection matrix time = ", end - start)
 
     q = fluid.momentum.GetProblem().Momentum()
     fd = fluid.pressure.PartitionVector(D * q)
-    monitor = solvers.IterativeBiCGStab(H[3], p[1], -H[2] * p[0] - (1.0 / dt) * (fd[1]))
+    solvers.IterativeBiCGStab(H[3], p[1], -H[2] * p[0] - (1.0 / dt) * (fd[1]))
     fluid.pressure.UpdateMeshValues(p)
     
+    startCorrection = time.time()
     p = fluid.pressure.GetProblem().Pressure()
     fc = fluid.momentum.PartitionVector(G * p)
-    monitor = solvers.IterativeBiCGStab(M[3], dqq[1], -dt * (fc[1]))
+    solvers.IterativeBiCGStab(M[3], dqq[1], -dt * (fc[1]))
 
     q1[0] = q0[0] + dq[0] + dqq[0]
     q1[1] = q0[1] + dq[1] + dqq[1]
 
     fluid.momentum.UpdateMeshValuesMomentum(q1)
+    endCorrection = time.time()
+    deltaCorrection = endCorrection - startCorrection
+
+    print(f'Time step = {currentTime} / Correction time = {deltaCorrection}')
 
     if(timer.GetCurrent() == timer.GetEnd()):
         break
