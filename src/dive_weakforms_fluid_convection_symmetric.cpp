@@ -29,47 +29,42 @@ namespace dive {
 		}
 		void ConvectionSymmetricFluid::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const
 		{
-			auto N = FormMatrix_N(element, local, cacheIndex);
-			auto du = FormDivergence(element, local, cacheIndex);
+			auto Z = FormMatrix_Z(element, local, cacheIndex);
+			auto NN = FormMatrix_NN(element, local, cacheIndex);
+			auto I = eilig::Matrix(1, 1, eilig::matrix_diagonal);
+			auto divergence = FormDivergence(element, local, cacheIndex);
 
-			output = N.Transpose() * N * du;
+			output = NN * I * (divergence * Z);
 		}
 		Matrix ConvectionSymmetricFluid::FormDivergence(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
-			auto numberNodes = element->GetNumberNodes();
-			auto numberDof = element->GetNumberDof();
+			const auto& du = element->InvJ(cacheIndex) * element->dN(local);
 
-			auto dN = element->InvJ(cacheIndex) * element->dN(local);
+			Scalar divergence{ 0.0 };
 
-			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
-
-			for (DofIndex i = 0; i < numberDof; ++i)
+			for (Index i = 0; (i < du.GetRows()) && (i < du.GetCols()); ++i)
 			{
-				for (NodeIndex j = 0; j < numberNodes; ++j)
-				{
-					//res(i, j * numberDof + i) = N(j);
-				}
+				divergence += du(i, i);
 			}
 
-			return res;
+			return divergence;
 		}
-		Matrix ConvectionSymmetricFluid::FormMatrix_N(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
+		Matrix ConvectionSymmetricFluid::FormMatrix_NN(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
-			auto numberNodes = element->GetNumberNodes();
+			return element->NN(cacheIndex);
+		}
+		Matrix ConvectionSymmetricFluid::FormMatrix_Z(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
+		{
 			auto numberDof = element->GetNumberDof();
-			const auto& N = element->N(cacheIndex);
+			auto numberNodes = element->GetNumberNodes();
+			Matrix res(numberNodes, numberDof * numberNodes, eilig::matrix_zeros);
 
-			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
-
-			for (DofIndex i = 0; i < numberDof; ++i)
+			for (Index i = 0; i < numberNodes; ++i)
 			{
-				for (NodeIndex j = 0; j < numberNodes; ++j)
-				{
-					res(i, j * numberDof + i) = N(j);
-				}
+
 			}
 
-			return res;
+			return Matrix();
 		}
 
 	} // namespace problems

@@ -43,7 +43,7 @@ namespace dive {
 		}
 		Scalar ConvectionFluid::FormDivergence(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
-			auto du = element->InvJ(cacheIndex) * element->du(local);
+			const auto& du = element->InvJ(cacheIndex) * element->du(local);
 
 			Scalar divergence{ 0.0 };
 

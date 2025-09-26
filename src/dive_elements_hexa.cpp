@@ -194,19 +194,17 @@ namespace dive
 		{
 			Matrix res(numberCoordinates_, numberDof_, eilig::matrix_zeros);
 
-			for (CoordinateIndex k = 0; k < numberCoordinates_; ++k)
+			for (CoordinateIndex i = 0; i < numberCoordinates_; ++i)
 			{
-				for (NodeIndex i = 0; i < numberNodes_; ++i)
+				for (NodeIndex j = 0; j < numberNodes_; ++j)
 				{
-					auto shapeD = shapeD_[k * numberNodes_ + i](local);
+					auto shapeD = shapeD_[i * numberNodes_ + j](local);
 
-					for (NumberDof j = 0; j < numberDof_; ++j)
+					for (NumberDof m = 0; m < numberDof_; ++m)
 					{
-						res(k, j) += shapeD * nodes_[i]->GetValue(j);
+						res(i, m) += shapeD * nodes_[j]->GetValue(m);
 					}
-
 				}
-
 			}
 
 			return res;
