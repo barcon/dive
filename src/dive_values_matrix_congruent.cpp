@@ -9,13 +9,15 @@ namespace values
 
         if (field->GetType() == values::value_matrix3D_congruent)
         {
-            const auto& elementIndex = element->GetElementIndex();
-
-            res = std::static_pointer_cast<values::ValueMatrix3DCongruent>(field)->GetValue(point, elementIndex);
+            res = std::static_pointer_cast<values::ValueMatrix3DCongruent>(field)->GetValue(point, element->GetElementIndex());
+        }
+        else if (field->GetType() == values::value_matrix3D_scalars)
+        {
+            res = field->GetValue(point);
         }
         else
-        { 
-            res = field->GetValue(point);
+        {
+            res = field->GetValue(element->GlobalCoordinates(point));
         }
 
         return res;

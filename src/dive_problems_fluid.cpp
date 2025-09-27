@@ -279,9 +279,8 @@ namespace dive {
 				auto globalIndex = dofMeshIndices_[i].globalIndex;
 				auto dofIndex = dofMeshIndices_[i].dofIndex;
 
-				const auto& node = dofMeshIndices_[i].node;
 				const auto& element = dofMeshIndices_[i].node->GetConnectivity().elements[0];
-				const auto& point = element->LocalCoordinates(node);
+				const auto& point = element->LocalCoordinates(dofMeshIndices_[i].node);
 				
 				auto material = std::static_pointer_cast<material::IMaterialFluid>(element->GetMaterial());
 				auto temperature = values::GetValue(temperature_, point, element);

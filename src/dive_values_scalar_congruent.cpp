@@ -11,6 +11,10 @@ namespace values
         {
             res = std::static_pointer_cast<values::ValueScalar3DCongruent>(field)->GetValue(point, element->GetElementIndex());
         }
+        else if(field->GetType() == values::value_scalar3D)
+        {
+            res = field->GetValue(point);
+        }
         else
         {
             res = field->GetValue(element->GlobalCoordinates(point));

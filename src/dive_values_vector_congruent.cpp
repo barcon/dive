@@ -11,8 +11,12 @@ namespace values
         {
             res = std::static_pointer_cast<values::ValueVector3DCongruent>(field)->GetValue(point, element->GetElementIndex());
         }
+        else if (field->GetType() == values::value_vector3D_scalars)
+        {
+            res = field->GetValue(point);
+        }
         else
-        { 
+        {
             res = field->GetValue(element->GlobalCoordinates(point));
         }
 
