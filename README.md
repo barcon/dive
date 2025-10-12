@@ -1,6 +1,6 @@
 # dive 
 
-A simplified C++ Finite Element Toolki with Python Interface for Mechanical Engineering 
+A simplified C++ Finite Element Toolkit with Python Interface for Mechanical Engineering 
 
 ## Features
 
