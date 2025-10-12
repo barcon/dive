@@ -1,1 +1,9 @@
-# dive _A simplified C++ Finite Element Toolkit for Mechanical Engineering_
+# dive 
+
+A simplified C++ Finite Element Toolkit for Mechanical Engineering
+
+## Features
+
+## Installation
+
+## Quick Start
