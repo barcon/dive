@@ -1,2 +1,3 @@
 # dive
-C++ Finite Element Aggregate with Python Wrapper
+A simplified C++ Finite Element Toolkit for Mechanical Engineering
+==================================================================
