@@ -47,7 +47,7 @@ namespace dive {
 				divergence += du(i, i);
 			}
 
-			return divergence;
+			return Matrix();
 		}
 		Matrix ConvectionSymmetricFluid::FormMatrix_NN(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{

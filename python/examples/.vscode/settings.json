@@ -1,6 +1,0 @@
-{
-    "python.analysis.typeCheckingMode": "off",
-    "C_Cpp.vcFormat.space.removeAroundMemberOperators": true,
-    "terminal.integrated.allowMnemonics": true,
-    "terminal.integrated.altClickMovesCursor": false
-}
