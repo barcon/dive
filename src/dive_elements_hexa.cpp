@@ -1075,7 +1075,7 @@ namespace dive
 			cacheCommon_ = &cacheLinesHexa[type_] [numberDof_ - 1];
 			if (!(cacheCommon_->isValid))
 			{
-				for (auto i = 0; i < counter; ++i)
+				for (quadrature::Counter i = 0; i < counter; ++i)
 				{
 					cacheCommon_->N.emplace_back(N(points[i]));
 					cacheCommon_->NN.emplace_back(NN(points[i]));

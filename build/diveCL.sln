@@ -5,11 +5,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "diveCL", "diveCL.vcxproj", 
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		PythonCL|x64 = PythonCL|x64
+		diveCL|Win32 = diveCL|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DC5BD1F8-C8FD-FBCE-B1B8-0F239DF9821F}.PythonCL|x64.ActiveCfg = PythonCL|x64
-		{DC5BD1F8-C8FD-FBCE-B1B8-0F239DF9821F}.PythonCL|x64.Build.0 = PythonCL|x64
+		{DC5BD1F8-C8FD-FBCE-B1B8-0F239DF9821F}.diveCL|Win32.ActiveCfg = diveCL|Win32
+		{DC5BD1F8-C8FD-FBCE-B1B8-0F239DF9821F}.diveCL|Win32.Build.0 = diveCL|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
