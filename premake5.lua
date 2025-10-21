@@ -29,18 +29,14 @@ project "dive"
 		architecture "x86_64"     
 		defines { "DEBUG" }
 		symbols "On"
-		
-		--removefiles{"src/dive_export_python_OpenCL.cpp"}
 			
 	filter "configurations:Release"
 		architecture "x86_64"     
 		defines { "NDEBUG" }
 		optimize "Speed"
 		
-		--removefiles{"src/dive_export_python_OpenCL.cpp"}
-		
 workspace "diveCL"
-	configurations { "diveCL" }
+	configurations { "ReleaseCL" }
 	location "build"	
 
 project "diveCL"
@@ -65,7 +61,7 @@ project "diveCL"
 
 	files { "src/**.hpp", "src/**.cpp" }
 
-	filter "configurations:PythonCL"
+	filter "configurations:ReleaseCL"
 		architecture "x86_64"
 		defines { "NDEBUG", "EILIG_ENABLE_OPENCL" }
 		optimize "Speed"
