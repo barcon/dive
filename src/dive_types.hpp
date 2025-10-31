@@ -5,7 +5,7 @@
 #include "logger.hpp"
 #include "eilig.hpp"
 #include "basis.hpp"
-#include "nodes.hpp"
+#include "node.hpp"
 #include "material.hpp"
 #include "quadrature.hpp"
 #include "interpolation.hpp"
@@ -332,7 +332,7 @@ namespace dive
 	
 	using ITimerPtr = timers::ITimerPtr;
 	using IBasisPtr = basis::IBasisPtr;
-	using INodePtr = nodes::INodePtr;
+	using INodePtr = node::INodePtr;
 	using IElementPtr = elements::IElementPtr;
 	using IElementMappedPtr = elements::IElementMappedPtr;
 	using IMeshPtr = meshes::IMeshPtr;

@@ -15,7 +15,7 @@ project "dive"
 	includedirs { "../eilig/src" }	
 	includedirs { "../basis/src" }	
 	includedirs { "../quadrature/src" }	
-	includedirs { "../nodes/src" }	
+	includedirs { "../node/src" }	
 	includedirs { "../kdtree/src" }	
 	includedirs { "../interpolation/src" }	
 	includedirs { "../values/src" }	

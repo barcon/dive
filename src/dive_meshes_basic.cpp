@@ -416,7 +416,7 @@ namespace dive {
 			for (auto& node : nodes)
 			{
 				auto point = node->GetPoint();
-				auto aux = nodes::CreateNode(0, point);
+				auto aux = node::CreateNode(0, point);
 
 				interpolation->GetValue(aux);
 
@@ -692,7 +692,7 @@ namespace dive {
 					auto y = coordinates[3 * i + 1];
 					auto z = coordinates[3 * i + 2];
 
-					auto node = nodes::CreateNode(nodeTag, x, y, z);
+					auto node = node::CreateNode(nodeTag, x, y, z);
 					node->SetNumberDof(numberDof);
 					mesh->AddNode(node, status, false);
 				}
