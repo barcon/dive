@@ -441,10 +441,6 @@ namespace dive {
 		{
 			gmsh::initialize();
 		}
-		void GmshFinalize()
-		{
-			gmsh::finalize();
-		}
 		void GmshOpenFile(const String& fileName)
 		{
 			try {
@@ -452,8 +448,11 @@ namespace dive {
 			}
 			catch (...) {
 				logger::Error(headerDive, "Gmsh could not open file " + fileName);
-				exit(0);
 			}
+		}
+		void GmshFinalize()
+		{
+			gmsh::finalize();
 		}
 
 		PhysicalGroup GmshGetPhysicalGroupByName(const String& groupName)

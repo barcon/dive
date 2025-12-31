@@ -69,8 +69,8 @@ namespace dive
 		void DeformByInterpolation(IMeshPtr mesh, IInterpolationPtr interpolation);
 
 		void GmshInitialize();	
-		void GmshFinalize();
 		void GmshOpenFile(const String& fileName);
+		void GmshFinalize();
 
 		Nodes GmshGetNodesForPhysicalGroup(IMeshPtr mesh, const String& groupName);
 		EdgePairs GmshGetEdgesForPhysicalGroup(IMeshPtr mesh, const String& groupName);

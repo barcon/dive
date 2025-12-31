@@ -20,6 +20,8 @@ project "dive"
 	includedirs { "../interpolation/src" }	
 	includedirs { "../values/src" }	
 	includedirs { "../material/src" }
+	includedirs { "../lua/include" }
+	includedirs { "../sol2/include" }	
 	includedirs { "../thread-pool/include" }	
 	includedirs { "../gmsh/include" }	
 
