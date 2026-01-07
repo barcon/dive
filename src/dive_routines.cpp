@@ -24,7 +24,7 @@ namespace dive
     {
         String output{};
 
-        logger::Info(headerDive, "Number of selected nodes: %u", nodes.size());
+        logger::Info(headerDive, utils::string::Format("Number of selected nodes: {:d}", nodes.size()));
 
         for (auto& node : nodes)
         {
@@ -37,18 +37,18 @@ namespace dive
             auto& point = node->GetPoint();
             auto& value = node->GetValue();
 
-            output += utils::string::Format("%8u\t", tag);
+            output += utils::string::Format("{:8d}\t", tag);
 
             for (Index i = 0; i < node->GetPoint().GetRows(); ++i)
             {
-                output += utils::string::Format("%12.4e\t", point(i));
+                output += utils::string::Format("{:12.4e}\t", point(i));
             }
 
             for (Index i = 0; i < value.GetRows(); ++i)
             {
                 for (Index j = 0; j < value.GetCols(); ++j)
                 {
-                    output += utils::string::Format("%12.4e\t", value(i, j));
+                    output += utils::string::Format("{:12.4e}\t", value(i, j));
                 }
             }
             output += "\n";
@@ -60,7 +60,7 @@ namespace dive
     {
         String output{};
 
-        logger::Info(dive::headerDive, "Number of selected elements: %u", elements.size());
+        logger::Info(dive::headerDive, utils::string::Format("Number of selected elements: {:d}", elements.size()));
 
         for (auto& element : elements)
         {
@@ -71,7 +71,7 @@ namespace dive
 
             auto tag = element->GetTag();
 
-            output += utils::string::Format("%8u\t", tag);
+            output += utils::string::Format("{:8d}\t", tag);
 
             for (NodeIndex i = 0; i < element->GetNumberNodes(); ++i)
             {
@@ -79,11 +79,11 @@ namespace dive
 
                 if (node == nullptr)
                 {
-                    output += utils::string::Format("%8c\t", '-');
+                    output += utils::string::Format("{:8}\t", '-');
                 }
                 else
                 {
-                    output += utils::string::Format("%8u\t", node->GetTag());
+                    output += utils::string::Format("{:8d}\t", node->GetTag());
                 }
             }
             output += "\n";
@@ -96,7 +96,7 @@ namespace dive
         String output{};
         String aux{};
 
-        logger::Info(dive::headerDive, "Number of selected elements: %u", elements.size());
+        logger::Info(dive::headerDive, utils::string::Format("Number of selected elements: {:d}", elements.size()));
 
         for (const auto& element : elements)
         {
@@ -109,8 +109,8 @@ namespace dive
             
             if (element3D != nullptr)
             {
-                output += utils::string::Format("%8u\t", element3D->GetTag());
-                output += utils::string::Format("%12.4e\n", element3D->Volume());
+                output += utils::string::Format("{:8d}\t", element3D->GetTag());
+                output += utils::string::Format("{:12.4e}\n", element3D->Volume());
             }
         }
 
@@ -120,7 +120,7 @@ namespace dive
     {
         String output{};
 
-        logger::Info(headerDive, "Number of dof indices: %u", dofMeshIndices.size());
+        logger::Info(headerDive, utils::string::Format("Number of dof indices: {:d}", dofMeshIndices.size()));
 
         for (auto& dofMeshIndex : dofMeshIndices)
         {
@@ -128,9 +128,9 @@ namespace dive
             auto dofIndex = dofMeshIndex.dofIndex;
             auto globalIndex = dofMeshIndex.globalIndex;
 
-            output += utils::string::Format("%8u\t", tag);
-            output += utils::string::Format("%8u\t", dofIndex);
-            output += utils::string::Format("%8u\n", globalIndex);
+            output += utils::string::Format("{:8d}\t", tag);
+            output += utils::string::Format("{:8d}\t", dofIndex);
+            output += utils::string::Format("{:8d}\n", globalIndex);
         }
 
         return output;
@@ -139,7 +139,7 @@ namespace dive
     {
         String output{};
 
-        logger::Info(dive::headerDive, "Number of node indices: %u", nodeMeshIndices.size());
+        logger::Info(dive::headerDive, utils::string::Format("Number of node indices: {:d}", nodeMeshIndices.size()));
 
         for (Index i = 0; i < nodeMeshIndices.size(); ++i)
         {
@@ -148,13 +148,13 @@ namespace dive
                 auto tag = nodeMeshIndices[i][j].node->GetTag();
                 auto index = nodeMeshIndices[i][j].index;
 
-                output += utils::string::Format("%8u\t", tag);
-                output += utils::string::Format("%8u\t", index);
+                output += utils::string::Format("{:8d}\t", tag);
+                output += utils::string::Format("{:8d}\t", index);
 
                 for (Index k = 0; k < nodeMeshIndices[i][j].dofIndices.size(); ++k)
                 {
                     auto dofMeshIndex = nodeMeshIndices[i][j].dofIndices[k];
-                    output += utils::string::Format("%8u\t", dofMeshIndex);
+                    output += utils::string::Format("{:8d}\t", dofMeshIndex);
                 }
 
                 output += "\n";
@@ -169,15 +169,15 @@ namespace dive
     {
         String output{};
 
-         logger::Info(dive::headerDive, "Number of dirichlet indices: %u", dirichletMeshIndices.size());
+         logger::Info(dive::headerDive, utils::string::Format("Number of dirichlet indices: {:d}", dirichletMeshIndices.size()));
 
         for (auto& dirichletMeshIndex : dirichletMeshIndices)
         {
             auto tag = dirichletMeshIndex.node->GetTag();
             auto dofIndex = dirichletMeshIndex.dofIndex;
 
-            output += utils::string::Format("%8u\t", tag);
-            output += utils::string::Format("%8u\n", dofIndex);
+            output += utils::string::Format("{:8d}\t", tag);
+            output += utils::string::Format("{:8d}\n", dofIndex);
         }
 
         return output;

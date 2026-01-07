@@ -10,7 +10,7 @@ namespace dive
 		{
 			if (!element->IsMapped())
 			{
-				logger::Error(headerDive, "Element is not mapped: " + dive::messages.at(dive::DIVE_INVALID_TYPE));
+				logger::Error(headerDive, utils::string::Format("Element is not mapped: {}", dive::messages.at(dive::DIVE_INVALID_TYPE)));
 				return nullptr;
 			}
 

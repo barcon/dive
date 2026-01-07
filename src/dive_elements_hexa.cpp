@@ -525,7 +525,7 @@ namespace dive
 
 			if (nodeIndex == nodeIndexInvalid)
 			{
-				logger::Error(headerDive, "Invalid node: " + dive::messages.at(dive::DIVE_NOT_FOUND));
+				logger::Error(headerDive, utils::string::Format("Invalid node: {}", dive::messages.at(dive::DIVE_NOT_FOUND)));
 				return Vector();
 			}
 
@@ -587,7 +587,7 @@ namespace dive
 		{
 			if (nodeIndex >= numberNodes_)
 			{
-				logger::Error(headerDive, "Invalide node index: " + dive::messages.at(dive::DIVE_OUT_OF_RANGE));
+				logger::Error(headerDive, utils::string::Format("Invalide node index: {}", dive::messages.at(dive::DIVE_OUT_OF_RANGE)));
 				return nullptr;
 			}
 
@@ -717,13 +717,13 @@ namespace dive
 		{
 			if(numberDof == 0)
 			{
-				logger::Error(headerDive, "Invalid number of dof: " + dive::messages.at(dive::DIVE_NOT_SUPPORTED));
+				logger::Error(headerDive, utils::string::Format("Invalid number of dof: {}", dive::messages.at(dive::DIVE_NOT_SUPPORTED)));
 				return;
 			}
 
 			if (numberDof > numberDofMax)
 			{
-				logger::Error(headerDive, "Invalid number of dof: " + dive::messages.at(dive::DIVE_NOT_SUPPORTED));
+				logger::Error(headerDive, utils::string::Format("Invalid number of dof: {}", dive::messages.at(dive::DIVE_NOT_SUPPORTED)));
 				return;
 			}
 
@@ -745,7 +745,7 @@ namespace dive
 		{
 			if (nodeIndex >= numberNodes_)
 			{
-				logger::Error(headerDive, "Invalid node index: " + dive::messages.at(dive::DIVE_OUT_OF_RANGE));
+				logger::Error(headerDive, utils::string::Format("Invalid node index: {}", dive::messages.at(dive::DIVE_OUT_OF_RANGE)));
 				return;
 			}
 
@@ -818,7 +818,7 @@ namespace dive
 			}
 			else
 			{
-				logger::Error(headerDive, "Invalid order: " + dive::messages.at(dive::DIVE_NOT_SUPPORTED));
+				logger::Error(headerDive, utils::string::Format("Invalid order: {}", dive::messages.at(dive::DIVE_NOT_SUPPORTED)));
 				return;
 			}
 
@@ -848,7 +848,7 @@ namespace dive
 			}
 			else
 			{
-				logger::Error(headerDive, "Invalid parametric: " + dive::messages.at(dive::DIVE_NOT_SUPPORTED));
+				logger::Error(headerDive, utils::string::Format("Invalid parametric: {}", dive::messages.at(dive::DIVE_NOT_SUPPORTED)));
 				return;
 			}
 		}
@@ -856,7 +856,7 @@ namespace dive
 		{
 			if( integral != integral_one && integral != integral_two && integral != integral_three)
 			{
-				logger::Error(headerDive, "Invalid integral: " + dive::messages.at(dive::DIVE_NOT_SUPPORTED));
+				logger::Error(headerDive, utils::string::Format("Invalid integral: {}", dive::messages.at(dive::DIVE_NOT_SUPPORTED)));
 				return;
 			}
 

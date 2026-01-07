@@ -6,7 +6,7 @@ workspace "dive"
 project "dive"
 	kind "StaticLib"
 	language "C++"
-	cppdialect "C++17"
+	cppdialect "C++20"
 	objdir "%{cfg.location}/obj/%{cfg.platform}_%{cfg.buildcfg}"	
 
 	targetdir "build/%{cfg.buildcfg}"

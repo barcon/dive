@@ -29,7 +29,7 @@
 	#define TimerElapsed(function) ((void)0)
 #else
 	#define TimerStart() Timer timer
-	#define TimerElapsed(function) logger::Info(headerDive, "Elapsed time = %.1f (%s)", timer.Elapsed(), function)
+	#define TimerElapsed(function) logger::Info(headerDive, utils::string::Format("Elapsed time = {:.1f} ({})", timer.Elapsed(), function))
 #endif
 
 namespace dive

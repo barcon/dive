@@ -265,7 +265,7 @@ namespace dive
 
 			if (nodeIndex == nodeIndexInvalid)
 			{
-				logger::Error(headerDive, "Invalid node: " + dive::messages.at(dive::DIVE_NOT_FOUND));
+				logger::Error(headerDive, utils::string::Format("Invalid node: {}", dive::messages.at(dive::DIVE_NOT_FOUND)));
 				return Vector();
 			}
 
@@ -356,7 +356,7 @@ namespace dive
 		{
 			if (stiffness == nullptr)
 			{
-				logger::Error(headerDive, "Invalid stiffness: " + dive::messages.at(dive::DIVE_NULL_POINTER));
+				logger::Error(headerDive, utils::string::Format("Invalid stiffness: {}", dive::messages.at(dive::DIVE_NULL_POINTER)));
 				return;
 			}
 
@@ -366,7 +366,7 @@ namespace dive
 		{
 			if (damping == nullptr)
 			{
-				logger::Error(headerDive, "Invalid damping: " + dive::messages.at(dive::DIVE_NULL_POINTER));
+				logger::Error(headerDive, utils::string::Format("Invalid damping: {}", dive::messages.at(dive::DIVE_NULL_POINTER)));
 				return;
 			}
 

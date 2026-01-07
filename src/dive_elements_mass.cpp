@@ -140,7 +140,7 @@ namespace dive
 		{
 			if (nodeIndex >= numberNodes_)
 			{
-				logger::Error(headerDive, "Invalide node index: " + dive::messages.at(dive::DIVE_OUT_OF_RANGE));
+				logger::Error(headerDive, utils::string::Format("Invalide node index: {}", dive::messages.at(dive::DIVE_OUT_OF_RANGE)));
 				return nullptr;
 			}
 
@@ -196,7 +196,7 @@ namespace dive
 		{
 			if (nodeIndex >= numberNodes_)
 			{
-				logger::Error(headerDive, "Invalid node index: " + dive::messages.at(dive::DIVE_OUT_OF_RANGE));
+				logger::Error(headerDive, utils::string::Format("Invalid node index: {}", dive::messages.at(dive::DIVE_OUT_OF_RANGE)));
 				return;
 			}
 
@@ -255,7 +255,7 @@ namespace dive
 
 			if (nodeIndex == nodeIndexInvalid)
 			{
-				logger::Error(headerDive, "Invalid node: " + dive::messages.at(dive::DIVE_NOT_FOUND));
+				logger::Error(headerDive, utils::string::Format("Invalid node: {}", dive::messages.at(dive::DIVE_NOT_FOUND)));
 				return Vector();
 			}
 

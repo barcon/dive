@@ -447,7 +447,7 @@ namespace dive {
 				gmsh::open(fileName);
 			}
 			catch (...) {
-				logger::Error(headerDive, "Gmsh could not open file " + fileName);
+				logger::Error(headerDive, utils::string::Format("Gmsh could not open file {}", fileName));
 			}
 		}
 		void GmshFinalize()
@@ -484,7 +484,7 @@ namespace dive {
 			auto group = GmshGetPhysicalGroupByName(groupName);
 			if (group.first == -1 && group.second == -1)
 			{
-				logger::Error(headerDive, "Gmsh physical group " + groupName + " not found");
+				logger::Error(headerDive, utils::string::Format("Gmsh physical group {} not found", groupName));
 				return nodes;
 			}
 
@@ -506,7 +506,7 @@ namespace dive {
 			auto group = GmshGetPhysicalGroupByName(groupName);
 			if (group.first == -1 && group.second == -1)
 			{
-				logger::Error(headerDive, "Gmsh physical group " + groupName + " not found");
+				logger::Error(headerDive, utils::string::Format("Gmsh physical group {} not found", groupName));
 				return edgePairs;
 			}
 
@@ -571,7 +571,7 @@ namespace dive {
 			auto group = GmshGetPhysicalGroupByName(groupName);
 			if (group.first == -1 && group.second == -1)
 			{
-				logger::Error(headerDive, "Gmsh physical group " + groupName + " not found");
+				logger::Error(headerDive, utils::string::Format("Gmsh physical group {} not found", groupName));
 				return facePairs;
 			}
 
@@ -636,7 +636,7 @@ namespace dive {
 			auto group = GmshGetPhysicalGroupByName(groupName);
 			if (group.first == -1 && group.second == -1)
 			{
-				logger::Error(headerDive, "Gmsh physical group " + groupName + " not found");
+				logger::Error(headerDive, utils::string::Format("Gmsh physical group {} not found", groupName));
 				return elements;
 			}
 
@@ -671,7 +671,7 @@ namespace dive {
 			auto group = GmshGetPhysicalGroupByName(groupName);
 			if (group.first == -1 && group.second == -1)
 			{
-				logger::Error(headerDive, "Gmsh physical group " + groupName + " not found");
+				logger::Error(headerDive, utils::string::Format("Gmsh physical group {} not found", groupName));
 				return mesh;
 			}
 
