@@ -19,9 +19,7 @@ project "dive"
 	includedirs { "../kdtree/src" }	
 	includedirs { "../interpolation/src" }	
 	includedirs { "../values/src" }	
-	includedirs { "../material/src" }
-	includedirs { "../lua/include" }
-	includedirs { "../sol2/include" }	
+	includedirs { "../material/src" }	
 	includedirs { "../thread-pool/include" }	
 	includedirs { "../gmsh/include" }	
 
