@@ -21,10 +21,10 @@ namespace dive
 
 			Type GetType() const override;
 			IElementMappedPtr GetElement() const override;
-			Vector GetValue(const Vector& point) const;
+			Vector GetValue(const Vector& point) const override;
 
 			void SetElement(IElementMappedPtr element) override;
-			void SetValue(IVector3DPtr value);
+			void SetValue(IVector3DPtr value) override;
 
 		protected:
 			LoadDistributedVolume() = default;

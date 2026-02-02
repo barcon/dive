@@ -13,8 +13,8 @@ namespace dive
 		NodeIndex nodeIndex;
 		DofIndex dofIndex;
 		DofIndex globalIndex;
-		IBoundaryConditionPtr dirichlet;
-		BoundaryConditionIndex dirichletIndex;
+		ILoadDirichletPtr dirichlet;
+		LoadIndex dirichletIndex;
 		bool dirichletReordered;
 	};
 	struct NodeMeshIndex

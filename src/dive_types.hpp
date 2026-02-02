@@ -62,7 +62,7 @@ namespace dive
 	using ElementIndex = Index;
 	using FaceIndex = Index;
 	using EdgeIndex = Index;
-	using BoundaryConditionIndex = Index;
+	using LoadIndex = Index;
 	using DimensionIndex = Index;
 	using CoordinateIndex = Index;
 	using CacheIndex = Index;
@@ -255,17 +255,17 @@ namespace dive
 
 	namespace loads
 	{
-		class IBoundaryCondition;
-		using IBoundaryConditionPtr = std::shared_ptr<IBoundaryCondition>;
-		using ConstIBoundaryConditionPtr = std::shared_ptr<const IBoundaryCondition>;
-
-		class BoundaryCondition;
-		using BoundaryConditionPtr = std::shared_ptr<BoundaryCondition>;
-		using ConstBoundaryConditionPtr = std::shared_ptr<const BoundaryCondition>;
-
 		class ILoad;
 		using ILoadPtr = std::shared_ptr<ILoad>;
 		using ConstIBoundaryPtr = std::shared_ptr<const ILoad>;
+
+		class ILoadDirichlet;
+		using ILoadDirichletPtr = std::shared_ptr<ILoadDirichlet>;
+		using ConstILoadDirichletPtr = std::shared_ptr<const ILoadDirichlet>;
+
+		class LoadDirichlet;
+		using LoadDirichletPtr = std::shared_ptr<LoadDirichlet>;
+		using ConstLoadDirichletPtr = std::shared_ptr<const LoadDirichlet>;
 
 		class LoadDistributedVolume;
 		using LoadDistributedVolumePtr = std::shared_ptr<LoadDistributedVolume>;
@@ -341,8 +341,8 @@ namespace dive
 	using IMaterialPtr = material::IMaterialPtr;
 	using IGaussPtr = quadrature::IGaussPtr;
 	using IInterpolationPtr = interpolation::IInterpolationPtr;
-	using IBoundaryConditionPtr = loads::IBoundaryConditionPtr;
 	using ILoadPtr = loads::ILoadPtr;
+	using ILoadDirichletPtr = loads::ILoadDirichletPtr;
 	using IProblemPtr = problems::IProblemPtr;
 
 	using FacePair = elements::FacePair;
@@ -356,14 +356,16 @@ namespace dive
 	using Values = std::vector<IValuePtr>;
 	using Nodes = std::vector<INodePtr>;
 	using Elements = std::vector<IElementPtr>;
-	using BoundaryConditions = std::vector<IBoundaryConditionPtr>;
 	using Loads = std::vector<ILoadPtr>;
+	using Dirichlets = std::vector<ILoadDirichletPtr>;
 	using Materials = std::vector<IMaterialPtr>;
 	using Meshes = std::vector<IMeshPtr>;
 	using Problems = std::vector<IProblemPtr>;
 	using Properties = std::unordered_map<String, IValuePtr>;
 	using FacePairs = std::vector<FacePair>;
 	using EdgePairs = std::vector<EdgePair>;
+
+	using BoundaryConditions = std::map<String, Loads>;
 }
 
 #endif /* DIVE_TYPES_HPP_ */

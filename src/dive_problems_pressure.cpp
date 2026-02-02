@@ -74,7 +74,7 @@ namespace dive {
 		{
 			return tag_;
 		}
-		const BoundaryConditions& ProblemPressure::GetDirichlets() const
+		const Dirichlets& ProblemPressure::GetDirichlets() const
 		{
 			return dirichlets_;
 		}
@@ -113,13 +113,16 @@ namespace dive {
 		{
 			tag_ = tag;
 		}
-		void ProblemPressure::AddDirichlet(IBoundaryConditionPtr dirichlet)
-		{
-			dirichlets_.push_back(dirichlet);
-		}
 		void ProblemPressure::AddLoad(ILoadPtr load)
 		{
-			loads_.push_back(load);
+			if (load->GetType() == loads::load_dirichlet)
+			{
+				dirichlets_.push_back(std::static_pointer_cast<loads::ILoadDirichlet>(load));
+			}
+			else
+			{
+				loads_.push_back(load);
+			}
 		}
 		void ProblemPressure::Initialize()
 		{

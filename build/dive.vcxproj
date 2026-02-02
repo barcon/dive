@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{ADB3957C-99EA-960D-42D7-7C102EED120F}</ProjectGuid>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>dive</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>Debug\</OutDir>
+    <IntDir>obj\_Debug\</IntDir>
+    <TargetName>dive</TargetName>
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>Release\</OutDir>
+    <IntDir>obj\_Release\</IntDir>
+    <TargetName>dive</TargetName>
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\utils\src;..\..\logger\src;..\..\eilig\src;..\..\basis\src;..\..\quadrature\src;..\..\node\src;..\..\kdtree\src;..\..\interpolation\src;..\..\values\src;..\..\material\src;..\..\thread-pool\include;..\..\gmsh\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\utils\src;..\..\logger\src;..\..\eilig\src;..\..\basis\src;..\..\quadrature\src;..\..\node\src;..\..\kdtree\src;..\..\interpolation\src;..\..\values\src;..\..\material\src;..\..\thread-pool\include;..\..\gmsh\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\dive.hpp" />
+    <ClInclude Include="..\src\dive_elements.hpp" />
+    <ClInclude Include="..\src\dive_elements_combined.hpp" />
+    <ClInclude Include="..\src\dive_elements_hexa.hpp" />
+    <ClInclude Include="..\src\dive_elements_mass.hpp" />
+    <ClInclude Include="..\src\dive_loads.hpp" />
+    <ClInclude Include="..\src\dive_loads_dirichlet.hpp" />
+    <ClInclude Include="..\src\dive_loads_distributed_edge.hpp" />
+    <ClInclude Include="..\src\dive_loads_distributed_face.hpp" />
+    <ClInclude Include="..\src\dive_loads_distributed_volume.hpp" />
+    <ClInclude Include="..\src\dive_loads_node.hpp" />
+    <ClInclude Include="..\src\dive_meshes.hpp" />
+    <ClInclude Include="..\src\dive_meshes_basic.hpp" />
+    <ClInclude Include="..\src\dive_problems.hpp" />
+    <ClInclude Include="..\src\dive_problems_fluid.hpp" />
+    <ClInclude Include="..\src\dive_problems_pressure.hpp" />
+    <ClInclude Include="..\src\dive_problems_structural.hpp" />
+    <ClInclude Include="..\src\dive_problems_thermal.hpp" />
+    <ClInclude Include="..\src\dive_routines.hpp" />
+    <ClInclude Include="..\src\dive_selection.hpp" />
+    <ClInclude Include="..\src\dive_status.hpp" />
+    <ClInclude Include="..\src\dive_timers.hpp" />
+    <ClInclude Include="..\src\dive_timers_stationary.hpp" />
+    <ClInclude Include="..\src\dive_timers_stepped.hpp" />
+    <ClInclude Include="..\src\dive_types.hpp" />
+    <ClInclude Include="..\src\dive_values_matrix_congruent.hpp" />
+    <ClInclude Include="..\src\dive_values_scalar_congruent.hpp" />
+    <ClInclude Include="..\src\dive_values_vector_congruent.hpp" />
+    <ClInclude Include="..\src\dive_weakforms.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_fluid_convection.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_fluid_convection_asymmetric.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_fluid_convection_symmetric.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_fluid_load_distributed_volume.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_fluid_load_distributed_volume_stabilization.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_fluid_mass.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_fluid_stabilization.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_fluid_stiffness.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_pressure_crossed.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_pressure_distributed_volume_divergence.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_pressure_mass.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_pressure_stabilization.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_pressure_stiffness.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_structural_load_distributed_edge.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_structural_load_distributed_face.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_structural_load_distributed_volume.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_structural_mass.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_structural_stiffness.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_thermal_convection.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_thermal_mass.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_thermal_stabilization.hpp" />
+    <ClInclude Include="..\src\dive_weakforms_thermal_stiffness.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\dive_elements_combined.cpp" />
+    <ClCompile Include="..\src\dive_elements_hexa.cpp" />
+    <ClCompile Include="..\src\dive_elements_mass.cpp" />
+    <ClCompile Include="..\src\dive_loads_dirichlet.cpp" />
+    <ClCompile Include="..\src\dive_loads_distributed_edge.cpp" />
+    <ClCompile Include="..\src\dive_loads_distributed_face.cpp" />
+    <ClCompile Include="..\src\dive_loads_distributed_volume.cpp" />
+    <ClCompile Include="..\src\dive_loads_node.cpp" />
+    <ClCompile Include="..\src\dive_meshes_basic.cpp" />
+    <ClCompile Include="..\src\dive_problems.cpp" />
+    <ClCompile Include="..\src\dive_problems_fluid.cpp" />
+    <ClCompile Include="..\src\dive_problems_pressure.cpp" />
+    <ClCompile Include="..\src\dive_problems_structural.cpp" />
+    <ClCompile Include="..\src\dive_problems_thermal.cpp" />
+    <ClCompile Include="..\src\dive_routines.cpp" />
+    <ClCompile Include="..\src\dive_selection.cpp" />
+    <ClCompile Include="..\src\dive_timers_stationary.cpp" />
+    <ClCompile Include="..\src\dive_timers_stepped.cpp" />
+    <ClCompile Include="..\src\dive_values_matrix_congruent.cpp" />
+    <ClCompile Include="..\src\dive_values_scalar_congruent.cpp" />
+    <ClCompile Include="..\src\dive_values_vector_congruent.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_fluid_convection.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_fluid_convection_asymmetric.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_fluid_convection_symmetric.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_fluid_load_distributed_volume.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_fluid_load_distributed_volume_stabilization.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_fluid_mass.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_fluid_stabilization.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_fluid_stiffness.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_pressure_crossed.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_pressure_distributed_volume_divergence.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_pressure_mass.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_pressure_stabilization.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_pressure_stiffness.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_structural_load_distributed_edge.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_structural_load_distributed_face.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_structural_load_distributed_volume.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_structural_mass.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_structural_stiffness.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_themal_convection.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_thermal_mass.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_thermal_stabilization.cpp" />
+    <ClCompile Include="..\src\dive_weakforms_thermal_stiffness.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -23,7 +23,7 @@ namespace dive
 		void UpdateMeshElements(IMeshPtr mesh, NumberDof numberDof);
 		void UpdateDofMeshIndices(IMeshPtr mesh, NumberDof& totalDof, DofMeshIndices& dofMeshIndices);
 		void UpdateNodeMeshIndices(IMeshPtr mesh, const DofMeshIndices& dofMeshIndices, NodeMeshIndices& nodeMeshIndices);
-		void UpdateDirichletIndices(BoundaryConditions& dirichlets, DofIndex& pivot, DofMeshIndices& dofMeshIndices, DirichletMeshIndices& dirichletMeshIndices);
+		void UpdateDirichletIndices(Dirichlets& dirichlets, DofIndex& pivot, DofMeshIndices& dofMeshIndices, DirichletMeshIndices& dirichletMeshIndices);
 		void UpdateDirichletLoads(const DofMeshIndices& dofMeshIndices);
 		void Reorder(IMeshPtr mesh, NumberDof numberDof, NodeMeshIndices& nodeMeshIndices, DofMeshIndices& dofMeshIndices);
 		void SortDofMeshIndices(DofMeshIndices& dofMeshIndices);
@@ -41,7 +41,7 @@ namespace dive
 			virtual Type GetType() const = 0;
 			virtual Tag	GetTag() const = 0;
 
-			virtual const BoundaryConditions& GetDirichlets() const = 0;
+			virtual const Dirichlets& GetDirichlets() const = 0;
 			virtual const Loads& GetLoads() const = 0;
 
 			virtual const DofMeshIndices& GetDofMeshIndices() const = 0;
@@ -51,7 +51,6 @@ namespace dive
 			virtual void SetMesh(IMeshPtr mesh) = 0;
 			virtual void SetTag(Tag tag) = 0;
 
-			virtual void AddDirichlet(IBoundaryConditionPtr dirichlet) = 0;
 			virtual void AddLoad(ILoadPtr load) = 0;
 			virtual void Initialize() = 0;
 		};
@@ -154,11 +153,6 @@ namespace dive
 			virtual Vector LoadNode() const = 0;
 
 			virtual Vector Displacement() const = 0;
-			
-			virtual void AddVelocity(IBoundaryConditionPtr velocity) = 0;
-
-			virtual const BoundaryConditions& GetVelocity() const = 0;
-
 		};
 	} //namespace problems
 } //namespace dive

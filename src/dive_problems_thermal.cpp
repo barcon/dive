@@ -70,7 +70,7 @@ namespace dive {
 		{
 			return tag_;
 		}
-		const BoundaryConditions& ProblemThermal::GetDirichlets() const
+		const Dirichlets& ProblemThermal::GetDirichlets() const
 		{
 			return dirichlets_;
 		}
@@ -105,13 +105,16 @@ namespace dive {
 		{
 			tag_ = tag;
 		}
-		void ProblemThermal::AddDirichlet(IBoundaryConditionPtr dirichlet)
-		{
-			dirichlets_.push_back(dirichlet);
-		}
 		void ProblemThermal::AddLoad(ILoadPtr load)
 		{
-			loads_.push_back(load);
+			if (load->GetType() == loads::load_dirichlet)
+			{
+				dirichlets_.push_back(std::static_pointer_cast<loads::ILoadDirichlet>(load));
+			}
+			else
+			{
+				loads_.push_back(load);
+			}
 		}
 		void ProblemThermal::Initialize()
 		{

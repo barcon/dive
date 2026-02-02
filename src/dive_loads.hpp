@@ -8,23 +8,30 @@ namespace dive
 {
 	namespace loads
 	{
-		static const Type load_boundary_condition			= 1;
-		static const Type load_distributed_volume			= 2;
-		static const Type load_distributed_face				= 3;
-		static const Type load_distributed_edge				= 4;
-		static const Type load_node							= 5;
-		//static const Type load_initial_strain				= 7;
-		//static const Type load_temperature_strain			= 8;
-		//static const Type load_heat_source_volume			= 9;
-		//static const Type load_heat_conduction_face		= 10;
-		//static const Type load_coupling_equation			= 11;
+		static const Type load_dirichlet				= 1;
+		static const Type load_distributed_volume		= 2;
+		static const Type load_distributed_face			= 3;
+		static const Type load_distributed_edge			= 4;
+		static const Type load_node						= 5;
+		static const Type load_inflow					= 7;
+		static const Type load_outflow					= 8;
+		static const Type load_heat_source_volume		= 9;
+		static const Type load_heat_conduction_face		= 10;
+		static const Type load_coupling_equation		= 11;
 		
-		class IBoundaryCondition
+		class ILoad
 		{
 		public:
-			virtual ~IBoundaryCondition() = default;
+			virtual ~ILoad() = default;
 
 			virtual Type GetType() const = 0;
+		};
+
+		class ILoadDirichlet : public ILoad
+		{
+		public:
+			virtual ~ILoadDirichlet() = default;
+
 			virtual INodePtr GetNode() const = 0;
 			virtual DofIndex GetDofIndex() const = 0;
 			virtual Scalar GetValue() const = 0;
@@ -32,14 +39,6 @@ namespace dive
 			virtual void SetNode(INodePtr node) = 0;
 			virtual void SetDofIndex(DofIndex dofIndex) = 0;
 			virtual void SetValue(IScalar3DPtr value) = 0;
-		};
-
-		class ILoad
-		{
-		public:
-			virtual ~ILoad() = default;
-
-			virtual Type GetType() const = 0;
 		};
 
 		class ILoadDistributedVolume : public ILoad
@@ -93,6 +92,7 @@ namespace dive
 			virtual void SetNode(INodePtr node) = 0;
 			virtual void SetValue(IVector3DPtr value) = 0;
 		};
+
 	} //namespace loads
 } //namespace dive
 

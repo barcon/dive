@@ -1,6 +1,6 @@
 #include "dive_problems.hpp"
 
-#include "dive_loads_boundary_condition.hpp"
+#include "dive_loads_dirichlet.hpp"
 #include "dive_loads_distributed_volume.hpp"
 #include "dive_loads_distributed_face.hpp"
 #include "dive_loads_distributed_edge.hpp"
@@ -368,7 +368,7 @@ namespace dive
 
 			TimerElapsed(__FUNCTION__);
 		}
-		void UpdateDirichletIndices(BoundaryConditions& dirichlets, DofIndex& pivot, DofMeshIndices& dofMeshIndices, DirichletMeshIndices& dirichletMeshIndices)
+		void UpdateDirichletIndices(Dirichlets& dirichlets, DofIndex& pivot, DofMeshIndices& dofMeshIndices, DirichletMeshIndices& dirichletMeshIndices)
 		{
 			TimerStart();
 

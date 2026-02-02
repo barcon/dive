@@ -73,13 +73,9 @@ namespace dive {
 		{
 			return tag_;
 		}
-		const BoundaryConditions& ProblemStructural::GetDirichlets() const
+		const Dirichlets& ProblemStructural::GetDirichlets() const
 		{
 			return dirichlets_;
-		}
-		const BoundaryConditions& ProblemStructural::GetVelocity() const
-		{
-			return velocities_;
 		}
 		const Loads& ProblemStructural::GetLoads() const
 		{
@@ -115,17 +111,16 @@ namespace dive {
 		{
 			tag_ = tag;
 		}
-		void ProblemStructural::AddDirichlet(IBoundaryConditionPtr dirichlet)
-		{
-			dirichlets_.push_back(dirichlet);
-		}
-		void ProblemStructural::AddVelocity(IBoundaryConditionPtr velocity)
-		{
-			velocities_.push_back(velocity);
-		}
 		void ProblemStructural::AddLoad(ILoadPtr load)
 		{
-			loads_.push_back(load);
+			if (load->GetType() == loads::load_dirichlet)
+			{
+				dirichlets_.push_back(std::static_pointer_cast<loads::ILoadDirichlet>(load));
+			}
+			else
+			{
+				loads_.push_back(load);
+			}
 		}
 		void ProblemStructural::Initialize()
 		{

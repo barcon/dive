@@ -39,7 +39,7 @@ namespace dive
 			Type GetType() const override;
 			Tag	GetTag() const override;
 
-			const BoundaryConditions& GetDirichlets() const override;
+			const Dirichlets& GetDirichlets() const override;
 			const Loads& GetLoads() const override;
 
 			const DofMeshIndices& GetDofMeshIndices() const override;
@@ -51,7 +51,6 @@ namespace dive
 			void SetMesh(IMeshPtr mesh) override;
 			void SetTag(Tag tag) override;
 
-			void AddDirichlet(IBoundaryConditionPtr dirichlet) override;
 			void AddLoad(ILoadPtr load) override;
 			void Initialize() override;
 
@@ -87,7 +86,7 @@ namespace dive
 			IMeshPtr mesh_{ nullptr };
 
 			Loads loads_;
-			BoundaryConditions dirichlets_;
+			Dirichlets dirichlets_;
 
 			DofMeshIndices dofMeshIndices_;
 			NodeMeshIndices nodeMeshIndices_;
