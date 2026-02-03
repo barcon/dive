@@ -368,7 +368,7 @@ namespace dive
 
 			TimerElapsed(__FUNCTION__);
 		}
-		void UpdateDirichletIndices(Dirichlets& dirichlets, DofIndex& pivot, DofMeshIndices& dofMeshIndices, DirichletMeshIndices& dirichletMeshIndices)
+		void UpdateDirichletIndices(const Dirichlets& dirichlets, DofIndex& pivot, DofMeshIndices& dofMeshIndices, DirichletMeshIndices& dirichletMeshIndices)
 		{
 			TimerStart();
 

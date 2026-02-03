@@ -75,10 +75,6 @@ namespace dive {
 		{
 			return tag_;
 		}
-		const Dirichlets& ProblemFluid::GetDirichlets() const
-		{
-			return dirichlets_;
-		}
 		const Loads& ProblemFluid::GetLoads() const
 		{
 			return loads_;
@@ -120,20 +116,23 @@ namespace dive {
 		}
 		void ProblemFluid::AddLoad(ILoadPtr load)
 		{
-			if (load->GetType() == loads::load_dirichlet)
-			{
-				dirichlets_.push_back(std::static_pointer_cast<loads::ILoadDirichlet>(load));
-			}
-			else
-			{
-				loads_.push_back(load);
-			}
+			loads_.push_back(load);
 		}
 		void ProblemFluid::Initialize()
 		{
+			Dirichlets dirichlets;
+
+			for (auto& load : loads_)
+			{
+				if (load->GetType() == loads::load_dirichlet)
+				{
+					dirichlets.push_back(std::static_pointer_cast<loads::ILoadDirichlet>(load));
+				}
+			}
+
 			UpdateDofMeshIndices(mesh_, totalDof_, dofMeshIndices_);
 			UpdateNodeMeshIndices(mesh_, dofMeshIndices_, nodeMeshIndices_);
-			UpdateDirichletIndices(dirichlets_, pivot_, dofMeshIndices_, dirichletMeshIndices_);
+			UpdateDirichletIndices(dirichlets, pivot_, dofMeshIndices_, dirichletMeshIndices_);
 			UpdateDirichletLoads(dofMeshIndices_);
 
 			Reorder(mesh_, numberDof_, nodeMeshIndices_, dofMeshIndices_);

@@ -23,7 +23,7 @@ namespace dive
 		void UpdateMeshElements(IMeshPtr mesh, NumberDof numberDof);
 		void UpdateDofMeshIndices(IMeshPtr mesh, NumberDof& totalDof, DofMeshIndices& dofMeshIndices);
 		void UpdateNodeMeshIndices(IMeshPtr mesh, const DofMeshIndices& dofMeshIndices, NodeMeshIndices& nodeMeshIndices);
-		void UpdateDirichletIndices(Dirichlets& dirichlets, DofIndex& pivot, DofMeshIndices& dofMeshIndices, DirichletMeshIndices& dirichletMeshIndices);
+		void UpdateDirichletIndices(const Dirichlets& dirichlets, DofIndex& pivot, DofMeshIndices& dofMeshIndices, DirichletMeshIndices& dirichletMeshIndices);
 		void UpdateDirichletLoads(const DofMeshIndices& dofMeshIndices);
 		void Reorder(IMeshPtr mesh, NumberDof numberDof, NodeMeshIndices& nodeMeshIndices, DofMeshIndices& dofMeshIndices);
 		void SortDofMeshIndices(DofMeshIndices& dofMeshIndices);
@@ -41,7 +41,6 @@ namespace dive
 			virtual Type GetType() const = 0;
 			virtual Tag	GetTag() const = 0;
 
-			virtual const Dirichlets& GetDirichlets() const = 0;
 			virtual const Loads& GetLoads() const = 0;
 
 			virtual const DofMeshIndices& GetDofMeshIndices() const = 0;

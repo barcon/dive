@@ -35,7 +35,6 @@ namespace dive
 			Type GetType() const override;
 			Tag	GetTag() const override;
 
-			const Dirichlets& GetDirichlets() const override;
 			const Loads& GetLoads() const override;
 
 			const DofMeshIndices& GetDofMeshIndices() const override;
@@ -76,7 +75,6 @@ namespace dive
 			IMeshPtr mesh_{ nullptr };
 
 			Loads loads_;
-			Dirichlets dirichlets_;
 
 			DofMeshIndices dofMeshIndices_;
 			NodeMeshIndices nodeMeshIndices_;
