@@ -14,7 +14,6 @@
 #include <algorithm>
 #include <vector>
 #include <unordered_map>
-#include <map>
 #include <memory>
 #include <cstdint>
 #include <functional>
@@ -361,11 +360,10 @@ namespace dive
 	using Materials = std::vector<IMaterialPtr>;
 	using Meshes = std::vector<IMeshPtr>;
 	using Problems = std::vector<IProblemPtr>;
-	using Properties = std::unordered_map<String, IValuePtr>;
 	using FacePairs = std::vector<FacePair>;
 	using EdgePairs = std::vector<EdgePair>;
-
-	using BoundaryConditions = std::map<String, Loads>;
+	using Properties = std::unordered_map<String, IValuePtr>;
+	using BoundaryConditions = std::unordered_map<String, Loads>;
 }
 
 #endif /* DIVE_TYPES_HPP_ */
