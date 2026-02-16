@@ -17,7 +17,6 @@ namespace values
 	using ConstValueScalar3DCongruentPtr = std::shared_ptr< const ValueScalar3DCongruent >;
 
 	ValueScalar3DCongruentPtr CreateValueScalar3DCongruent(IMeshPtr mesh);
-	ValueScalar3DCongruentPtr CreateValueScalar3DCongruent(IMeshPtr mesh, String name, String key);
 
 	class ValueScalar3DCongruent : public IScalar3D
 	{

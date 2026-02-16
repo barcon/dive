@@ -17,7 +17,6 @@ namespace values
 	using ConstValueMatrix3DCongruentPtr = std::shared_ptr< const ValueMatrix3DCongruent >;
 
 	ValueMatrix3DCongruentPtr CreateValueMatrix3DCongruent(IMeshPtr mesh);
-	ValueMatrix3DCongruentPtr CreateValueMatrix3DCongruent(IMeshPtr mesh, String name, String key);
 
 	class ValueMatrix3DCongruent : public IMatrix3D
 	{

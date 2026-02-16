@@ -17,7 +17,6 @@ namespace values
 	using ConstValueVector3DCongruentPtr = std::shared_ptr< const ValueVector3DCongruent >;
 
 	ValueVector3DCongruentPtr CreateValueVector3DCongruent(IMeshPtr mesh);
-	ValueVector3DCongruentPtr CreateValueVector3DCongruent(IMeshPtr mesh, String name, String key);
 
 	class ValueVector3DCongruent : public IVector3D
 	{

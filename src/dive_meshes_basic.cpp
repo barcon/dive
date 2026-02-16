@@ -426,9 +426,6 @@ namespace dive {
 			}
 		}
 
-		using PhysicalGroup = std::pair<int, int>;
-		using PhysicalGroups = std::vector<PhysicalGroup>;
-
 		using EntityTags = std::vector<int>;
 		using ElementTypes = std::vector<int>;
 		using ElementTags = std::vector<std::size_t>;
@@ -474,6 +471,22 @@ namespace dive {
 
 			return PhysicalGroup(-1, -1);
 		}
+		PhysicalGroups GmshGetPhysicalGroups()
+		{
+			PhysicalGroups res;
+
+			gmsh::model::getPhysicalGroups(res, -1);
+
+			return res;
+		}
+		String GmshGetPhysicalName(int dim, int tag)
+		{
+			String res;
+
+			gmsh::model::getPhysicalName(dim, tag, res);
+
+			return res;
+		}
 		Nodes GmshGetNodesForPhysicalGroup(IMeshPtr mesh, const String& groupName)
 		{
 			Nodes nodes;
@@ -482,7 +495,7 @@ namespace dive {
 			Status status;
 			
 			auto group = GmshGetPhysicalGroupByName(groupName);
-			if (group.first == -1 && group.second == -1)
+			if (group.first == -1 || group.second == -1)
 			{
 				logger::Error(headerDive, utils::string::Format("Gmsh physical group {} not found", groupName));
 				return nodes;
@@ -504,7 +517,7 @@ namespace dive {
 			Status status;
 
 			auto group = GmshGetPhysicalGroupByName(groupName);
-			if (group.first == -1 && group.second == -1)
+			if (group.first == -1 || group.second == -1)
 			{
 				logger::Error(headerDive, utils::string::Format("Gmsh physical group {} not found", groupName));
 				return edgePairs;
@@ -569,7 +582,7 @@ namespace dive {
 			Status status;
 
 			auto group = GmshGetPhysicalGroupByName(groupName);
-			if (group.first == -1 && group.second == -1)
+			if (group.first == -1 || group.second == -1)
 			{
 				logger::Error(headerDive, utils::string::Format("Gmsh physical group {} not found", groupName));
 				return facePairs;
@@ -634,7 +647,7 @@ namespace dive {
 			Status status;
 
 			auto group = GmshGetPhysicalGroupByName(groupName);
-			if (group.first == -1 && group.second == -1)
+			if (group.first == -1 || group.second == -1)
 			{
 				logger::Error(headerDive, utils::string::Format("Gmsh physical group {} not found", groupName));
 				return elements;
@@ -669,7 +682,7 @@ namespace dive {
 			Status status;
 
 			auto group = GmshGetPhysicalGroupByName(groupName);
-			if (group.first == -1 && group.second == -1)
+			if (group.first == -1 || group.second == -1)
 			{
 				logger::Error(headerDive, utils::string::Format("Gmsh physical group {} not found", groupName));
 				return mesh;

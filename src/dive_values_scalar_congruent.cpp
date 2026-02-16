@@ -31,16 +31,6 @@ namespace values
 
         return res;
     }
-    ValueScalar3DCongruentPtr CreateValueScalar3DCongruent(IMeshPtr mesh, String name, String key)
-    {
-        auto res = ValueScalar3DCongruent::Create();
-
-        res->SetName(name);
-        res->SetKey(key);
-        res->SetMesh(mesh);
-
-        return res;
-    }
     ValueScalar3DCongruentPtr ValueScalar3DCongruent::Create()
     {
         class MakeSharedEnabler : public ValueScalar3DCongruent

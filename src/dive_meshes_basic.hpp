@@ -72,6 +72,12 @@ namespace dive
 		void GmshOpenFile(const String& fileName);
 		void GmshFinalize();
 
+		using PhysicalGroup = std::pair<int, int>;
+		using PhysicalGroups = std::vector<PhysicalGroup>;
+
+		PhysicalGroups GmshGetPhysicalGroups();
+		PhysicalGroup GmshGetPhysicalGroupByName(const String& groupName);
+		String GmshGetPhysicalName(int dim, int tag);
 		Nodes GmshGetNodesForPhysicalGroup(IMeshPtr mesh, const String& groupName);
 		EdgePairs GmshGetEdgesForPhysicalGroup(IMeshPtr mesh, const String& groupName);
 		FacePairs GmshGetFacesForPhysicalGroup(IMeshPtr mesh, const String& groupName);
