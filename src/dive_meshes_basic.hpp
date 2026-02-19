@@ -66,6 +66,7 @@ namespace dive
 		Scalar GetSizeMaximum(const Elements& elements);
 
 		void ApplyMaterial(IMeshPtr mesh, IMaterialPtr material);
+		void ApplyValue(IMeshPtr mesh, IVector3DPtr value);
 		void DeformByInterpolation(IMeshPtr mesh, IInterpolationPtr interpolation);
 
 		void GmshInitialize();	

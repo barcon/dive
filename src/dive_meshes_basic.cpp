@@ -409,6 +409,17 @@ namespace dive {
 				element->SetMaterial(material);
 			}
 		}
+		void ApplyValue(IMeshPtr mesh, IVector3DPtr value)
+		{
+			const auto& nodes = mesh->GetNodes();
+
+			for (auto& node : nodes)
+			{
+				const auto& point = node->GetPoint();
+
+				node->SetValue(value->GetValue(node->GetPoint()));
+			}
+		}
 		void DeformByInterpolation(IMeshPtr mesh, IInterpolationPtr interpolation)
 		{
 			auto& nodes = mesh->GetNodes();
