@@ -109,9 +109,19 @@ namespace dive {
 		{
 			tag_ = tag;
 		}
-		void ProblemPressure::AddLoad(ILoadPtr load)
+		void ProblemPressure::ApplyLoad(ILoadPtr load)
 		{
 			loads_.push_back(load);
+
+			if (load->GetType() == loads::load_dirichlet)
+			{
+				auto dirichlet = std::static_pointer_cast<loads::ILoadDirichlet>(load);
+				auto node = dirichlet->GetNode();
+				auto value = dirichlet->GetValue();
+				auto dof = dirichlet->GetDofIndex();
+
+				node->SetValue(dof, value);
+			}
 		}
 		void ProblemPressure::Initialize()
 		{

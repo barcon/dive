@@ -50,7 +50,7 @@ namespace dive
 			virtual void SetMesh(IMeshPtr mesh) = 0;
 			virtual void SetTag(Tag tag) = 0;
 
-			virtual void AddLoad(ILoadPtr load) = 0;
+			virtual void ApplyLoad(ILoadPtr load) = 0;
 			virtual void Initialize() = 0;
 		};
 

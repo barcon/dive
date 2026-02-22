@@ -47,7 +47,7 @@ namespace dive
 			void SetMesh(IMeshPtr mesh) override;
 			void SetTag(Tag tag) override;
 
-			void AddLoad(ILoadPtr load) override;
+			void ApplyLoad(ILoadPtr load) override;
 			void Initialize() override;
 			
 			void UpdateMeshValues(const Vector& u) override;
