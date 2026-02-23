@@ -1,4 +1,4 @@
-#include "dive_problems.hpp"
+#include "dive_problem.hpp"
 
 #include "dive_load_dirichlet.hpp"
 #include "dive_load_distributed_volume.hpp"
@@ -19,7 +19,7 @@
 
 namespace dive
 {
-	namespace problems
+	namespace problem
 	{
 		struct TaskIndex
 		{
@@ -524,5 +524,5 @@ namespace dive
 
 			TimerElapsed(__FUNCTION__);
 		}
-	} // namespace problems
+	} // namespace problem
 } // namespace dive

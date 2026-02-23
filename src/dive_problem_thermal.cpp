@@ -1,8 +1,8 @@
-#include "dive_problems_thermal.hpp"
+#include "dive_problem_thermal.hpp"
 #include "dive_values_scalar_congruent.hpp"
 
 namespace dive {
-	namespace problems {
+	namespace problem {
 		ProblemThermalPtr CreateProblemThermal()
 		{
 			auto res = ProblemThermal::Create();
@@ -212,5 +212,5 @@ namespace dive {
 
 			return res;
 		}
-	} // namespace problems
+	} // namespace problem
 } // namespace dive

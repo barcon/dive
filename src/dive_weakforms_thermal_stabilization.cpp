@@ -1,5 +1,5 @@
 #include "dive_weakforms_thermal_stabilization.hpp"
-#include "dive_problems.hpp"
+#include "dive_problem.hpp"
 #include "dive_values_scalar_congruent.hpp"
 #include "dive_values_matrix_congruent.hpp"
 

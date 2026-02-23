@@ -283,7 +283,7 @@ namespace dive
 		using ConstLoadNodePtr = std::shared_ptr<const LoadNode>;
 	}
 
-	namespace problems
+	namespace problem
 	{
 		class IProblem;
 		using IProblemPtr = std::shared_ptr<IProblem>;
@@ -342,7 +342,7 @@ namespace dive
 	using IInterpolationPtr = interpolation::IInterpolationPtr;
 	using ILoadPtr = load::ILoadPtr;
 	using ILoadDirichletPtr = load::ILoadDirichletPtr;
-	using IProblemPtr = problems::IProblemPtr;
+	using IProblemPtr = problem::IProblemPtr;
 
 	using FacePair = elements::FacePair;
 	using EdgePair = elements::EdgePair;

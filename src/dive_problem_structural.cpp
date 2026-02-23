@@ -1,11 +1,11 @@
-#include "dive_problems_structural.hpp"
+#include "dive_problem_structural.hpp"
 #include "dive_elements_mass.hpp"
 #include "dive_elements_combined.hpp"
 #include "dive_values_scalar_congruent.hpp"
 #include "dive_values_matrix_congruent.hpp"
 
 namespace dive {
-	namespace problems {
+	namespace problem {
 		ProblemStructuralPtr CreateProblemStructural()
 		{
 			auto res = ProblemStructural::Create();
@@ -352,5 +352,5 @@ namespace dive {
 
 			return res;
 		}
-	} // namespace problems
+	} // namespace problem
 } // namespace dive

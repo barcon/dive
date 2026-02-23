@@ -1,7 +1,7 @@
 #include "dive_weakforms_pressure_stabilization.hpp"
 #include "dive_values_scalar_congruent.hpp"
 #include "dive_values_matrix_congruent.hpp"
-#include "dive_problems.hpp"
+#include "dive_problem.hpp"
 
 namespace dive {
 	namespace weakforms {

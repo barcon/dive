@@ -1,7 +1,7 @@
-#ifndef DIVE_PROBLEMS_THERMAL_HPP_
-#define DIVE_PROBLEMS_THERMAL_HPP_
+#ifndef DIVE_PROBLEM_THERMAL_HPP_
+#define DIVE_PROBLEM_THERMAL_HPP_
 
-#include "dive_problems.hpp"
+#include "dive_problem.hpp"
 #include "dive_weakforms.hpp"
 #include "dive_weakforms_thermal_mass.hpp"
 #include "dive_weakforms_thermal_stiffness.hpp"
@@ -12,7 +12,7 @@
 
 namespace dive
 {
-	namespace problems
+	namespace problem
 	{
 		ProblemThermalPtr CreateProblemThermal();
 		ProblemThermalPtr CreateProblemThermal(Tag problemTag);
@@ -78,7 +78,7 @@ namespace dive
 			DirichletMeshIndices dirichletMeshIndices_;
 		};
 
-	} //namespace problems
+	} //namespace problem
 } //namespace dive
 
-#endif /* DIVE_PROBLEMS_THERMAL_HPP_*/
+#endif /* DIVE_PROBLEM_THERMAL_HPP_*/

@@ -1,29 +1,29 @@
-#ifndef DIVE_PROBLEMS_PRESSURE_HPP_
-#define DIVE_PROBLEMS_PRESSURE_HPP_
+#ifndef DIVE_PROBLEM_STRUCTURAL_HPP_
+#define DIVE_PROBLEM_STRUCTURAL_HPP_
 
-#include "dive_problems.hpp"
+#include "dive_problem.hpp"
 #include "dive_weakforms.hpp"
-#include "dive_weakforms_pressure_mass.hpp"
-#include "dive_weakforms_pressure_stiffness.hpp"
-#include "dive_weakforms_pressure_crossed.hpp"
-#include "dive_weakforms_pressure_stabilization.hpp"
-#include "dive_weakforms_pressure_distributed_volume_divergence.hpp"
+#include "dive_weakforms_structural_mass.hpp"
+#include "dive_weakforms_structural_stiffness.hpp"
+#include "dive_weakforms_structural_load_distributed_volume.hpp"
+#include "dive_weakforms_structural_load_distributed_face.hpp"
+#include "dive_weakforms_structural_load_distributed_edge.hpp"
 
 namespace dive
 {
-	namespace problems
+	namespace problem
 	{
-		ProblemPressurePtr CreateProblemPressure();
-		ProblemPressurePtr CreateProblemPressure(Tag problemTag);
+		ProblemStructuralPtr CreateProblemStructural();
+		ProblemStructuralPtr CreateProblemStructural(Tag problemTag);
 
-		class ProblemPressure : public IPressure, virtual public std::enable_shared_from_this<ProblemPressure>
+		class ProblemStructural : public IStructural, virtual public std::enable_shared_from_this<ProblemStructural>
 		{
 		public:
-			virtual ~ProblemPressure() = default;
+			virtual ~ProblemStructural() = default;
 
-			static ProblemPressurePtr Create();
-			ProblemPressurePtr GetPtr();
-			ConstProblemPressurePtr GetPtr() const;
+			static ProblemStructuralPtr Create();
+			ProblemStructuralPtr GetPtr();
+			ConstProblemStructuralPtr GetPtr() const;
 
 			NumberDof GetNumberDof() const override;
 			NumberDof GetTotalDof() const override;
@@ -31,7 +31,6 @@ namespace dive
 
 			IScalar3DPtr GetTemperature() const override;
 			IScalar3DPtr GetPressure() const override;
-			IMatrix3DPtr GetVelocity() const override;
 			IMeshPtr GetMesh() const override;
 			Type GetType() const override;
 			Tag	GetTag() const override;
@@ -43,36 +42,36 @@ namespace dive
 			const DirichletMeshIndices& GetDirichletMeshIndices() const override;
 
 			void SetTemperature(IScalar3DPtr temperature) override;
-			void SetVelocity(IMatrix3DPtr velocity) override;
+			void SetPressure(IScalar3DPtr pressure) override;
 			void SetMesh(IMeshPtr mesh) override;
 			void SetTag(Tag tag) override;
 
 			void ApplyLoad(ILoadPtr load) override;
 			void Initialize() override;
-			
 			void UpdateMeshValues(const Vector& u) override;
 			void UpdateMeshValues(const Vector& u0, const Vector& u1) override;
 
 			Sparse Mass() const override;
 			Sparse Stiffness() const override;
-			Sparse Crossed(IProblemPtr problemMomentum) const override;
-			Sparse Stabilization(IProblemPtr problemMomentum) const override;
-			Sparse DistributedVolumeDivergence(IProblemPtr problemMomentum) const override;
+			Sparse Damping() const override;
+			Vector LoadDistributedEdge() const override;
+			Vector LoadDistributedFace() const override;
+			Vector LoadDistributedVolume() const override;
+			Vector LoadNode() const override;
 			
-			Vector Pressure() const override;
+			Vector Displacement() const override;
 
 		protected:
-			ProblemPressure();
+			ProblemStructural();
 
 			Tag tag_{ 0 };
-			Type type_{ problem_pressure };
-			NumberDof numberDof_{ 1 };
+			Type type_{ problem_structural };
+			NumberDof numberDof_{ 3 };
 			NumberDof totalDof_{ 0 };
 			DofIndex pivot_{ 0 };
 
 			IScalar3DPtr temperature_{ nullptr };
 			IScalar3DPtr pressure_{ nullptr };
-			IMatrix3DPtr velocity_{ nullptr };
 			IMeshPtr mesh_{ nullptr };
 
 			Loads loads_;
@@ -82,7 +81,7 @@ namespace dive
 			DirichletMeshIndices dirichletMeshIndices_;
 		};
 
-	} //namespace problems
+	} //namespace problem
 } //namespace dive
 
-#endif /* DIVE_PROBLEMS_PRESSURE_HPP_*/
+#endif /* DIVE_PROBLEM_STRUCTURAL_HPP_*/

@@ -1,8 +1,8 @@
-#include "dive_problems_pressure.hpp"
+#include "dive_problem_pressure.hpp"
 #include "dive_values_scalar_congruent.hpp"
 
 namespace dive {
-	namespace problems {
+	namespace problem {
 		ProblemPressurePtr CreateProblemPressure()
 		{
 			auto res = ProblemPressure::Create();
@@ -224,5 +224,5 @@ namespace dive {
 
 			return res;
 		}
-	} // namespace problems
+	} // namespace problem
 } // namespace dive

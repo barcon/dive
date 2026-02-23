@@ -1,9 +1,9 @@
-#include "dive_problems_fluid.hpp"
+#include "dive_problem_fluid.hpp"
 #include "dive_values_scalar_congruent.hpp"
 #include "dive_values_matrix_congruent.hpp"
 
 namespace dive {
-	namespace problems {
+	namespace problem {
 		ProblemFluidPtr CreateProblemFluid()
 		{
 			auto res = ProblemFluid::Create();
@@ -308,5 +308,5 @@ namespace dive {
 
 			return res;
 		}
-	} // namespace problems
+	} // namespace problem
 } // namespace dive

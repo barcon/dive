@@ -52,11 +52,11 @@
 #include "dive_weakforms_structural_load_distributed_face.hpp"
 #include "dive_weakforms_structural_load_distributed_edge.hpp"
 
-#include "dive_problems.hpp"
-#include "dive_problems_fluid.hpp"
-#include "dive_problems_pressure.hpp"
-#include "dive_problems_thermal.hpp"
-#include "dive_problems_structural.hpp"
+#include "dive_problem.hpp"
+#include "dive_problem_fluid.hpp"
+#include "dive_problem_pressure.hpp"
+#include "dive_problem_thermal.hpp"
+#include "dive_problem_structural.hpp"
 
 #include "dive_routines.hpp"
 

@@ -2,7 +2,7 @@
 #define DIVE_WEAKFORMS_PRESSURE_CROSSED_HPP_
 
 #include "dive_weakforms.hpp"
-#include "dive_problems.hpp"
+#include "dive_problem.hpp"
 
 namespace dive
 {

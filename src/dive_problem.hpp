@@ -1,5 +1,5 @@
-#ifndef DIVE_PROBLEMS_HPP_
-#define DIVE_PROBLEMS_HPP_
+#ifndef DIVE_PROBLEM_HPP_
+#define DIVE_PROBLEM_HPP_
 
 #include "dive_types.hpp"
 #include "dive_timer.hpp"
@@ -9,7 +9,7 @@
 
 namespace dive
 {
-	namespace problems
+	namespace problem
 	{
 		static const Type problem_fluid		= 1;
 		static const Type problem_pressure	= 2;
@@ -153,7 +153,7 @@ namespace dive
 
 			virtual Vector Displacement() const = 0;
 		};
-	} //namespace problems
+	} //namespace problem
 } //namespace dive
 
-#endif /* DIVE_PROBLEMS_HPP_ */
+#endif /* DIVE_PROBLEM_HPP_ */
