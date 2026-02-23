@@ -3,7 +3,7 @@
 
 #include "dive_types.hpp"
 #include "dive_elements.hpp"
-#include "dive_meshes.hpp"
+#include "dive_mesh.hpp"
 
 namespace dive
 {

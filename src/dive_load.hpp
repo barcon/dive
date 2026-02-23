@@ -1,12 +1,12 @@
-#ifndef DIVE_LOADS_HPP_
-#define DIVE_LOADS_HPP_
+#ifndef DIVE_LOAD_HPP_
+#define DIVE_LOAD_HPP_
 
 #include "dive_types.hpp"
 #include "dive_elements.hpp"
 
 namespace dive
 {
-	namespace loads
+	namespace load
 	{
 		static const Type load_dirichlet				= 1;
 		static const Type load_distributed_volume		= 2;
@@ -93,7 +93,7 @@ namespace dive
 			virtual void SetValue(IVector3DPtr value) = 0;
 		};
 
-	} //namespace loads
+	} //namespace load
 } //namespace dive
 
-#endif /* DIVE_LOADS_HPP_ */
+#endif /* DIVE_LOAD_HPP_ */

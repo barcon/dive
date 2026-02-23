@@ -1,8 +1,8 @@
-#include "dive_loads_node.hpp"
+#include "dive_load_node.hpp"
 
 namespace dive
 {
-	namespace loads
+	namespace load
 	{
 		LoadNodePtr CreateLoadNode(INodePtr node, IVector3DPtr value)
 		{

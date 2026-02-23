@@ -1,8 +1,8 @@
-#include "dive_loads_dirichlet.hpp"
+#include "dive_load_dirichlet.hpp"
 
 namespace dive
 {
-	namespace loads
+	namespace load
 	{
 		LoadDirichletPtr CreateLoadDirichlet(INodePtr node, DofIndex dofIndex, IScalar3DPtr value)
 		{
@@ -62,5 +62,5 @@ namespace dive
 		{
 			value_ = value;
 		}
-	} //namespace loads
+	} //namespace load
 } //namespace dive

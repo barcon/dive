@@ -1,5 +1,5 @@
 #include "dive_weakforms_fluid_load_distributed_volume_stabilization.hpp"
-#include "dive_loads_distributed_volume.hpp"
+#include "dive_load_distributed_volume.hpp"
 #include "dive_values_matrix_congruent.hpp"
 
 namespace dive {
@@ -30,7 +30,7 @@ namespace dive {
 		}
 		void LoadDistributedVolumeStabilizationFluid::WeakFormulation(ILoadPtr load, const Vector& point, Vector& output) const
 		{
-			auto force = std::static_pointer_cast<loads::LoadDistributedVolume>(load);
+			auto force = std::static_pointer_cast<load::LoadDistributedVolume>(load);
 			auto element = force->GetElement();
 
 			auto N = FormMatrix_N(element, point);

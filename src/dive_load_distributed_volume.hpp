@@ -1,11 +1,11 @@
-#ifndef DIVE_LOADS_DISTRIBUTED_VOLUME_HPP_
-#define DIVE_LOADS_DISTRIBUTED_VOLUME_HPP_
+#ifndef DIVE_LOAD_DISTRIBUTED_VOLUME_HPP_
+#define DIVE_LOAD_DISTRIBUTED_VOLUME_HPP_
 
-#include "dive_loads.hpp"
+#include "dive_load.hpp"
 
 namespace dive
 {
-	namespace loads
+	namespace load
 	{
 		LoadDistributedVolumePtr CreateLoadDistributedVolume(IElementPtr element, IVector3DPtr value);
 		LoadDistributedVolumePtr CastToLoadDistributedVolume(ILoadPtr load);
@@ -35,7 +35,7 @@ namespace dive
 			IElementMappedPtr element_{ nullptr };
 		};
 
-	} //namespace loads
+	} //namespace load
 } //namespace dive
 
-#endif /* DIVE_LOADS_DISTRIBUTED_VOLUME_HPP_ */
+#endif /* DIVE_LOAD_DISTRIBUTED_VOLUME_HPP_ */

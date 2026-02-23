@@ -2,7 +2,7 @@
 #define DIVE_VALUES_MATRIX_CONGRUENT_HPP_
 
 #include "dive_types.hpp"
-#include "dive_meshes.hpp"
+#include "dive_mesh.hpp"
 
 namespace values
 {

@@ -1,10 +1,10 @@
-#include "dive_loads_distributed_face.hpp"
+#include "dive_load_distributed_face.hpp"
 #include "dive_values_vector_congruent.hpp"
 #include "dive_status.hpp"
 
 namespace dive
 {
-	namespace loads
+	namespace load
 	{
 		LoadDistributedFacePtr CreateLoadDistributedFace(IElementPtr element, FaceIndex faceIndex, IVector3DPtr value)
 		{
@@ -72,5 +72,5 @@ namespace dive
 		{
 			value_ = value;
 		}
-	} //namespace loads
+	} //namespace load
 } //namespace dive

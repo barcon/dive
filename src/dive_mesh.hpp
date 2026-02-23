@@ -1,9 +1,9 @@
-#ifndef DIVE_MESHES_HPP_
-#define DIVE_MESHES_HPP_
+#ifndef DIVE_MESH_HPP_
+#define DIVE_MESH_HPP_
 
 #include "dive_types.hpp"
 #include "dive_elements.hpp"
-#include "dive_loads.hpp"
+#include "dive_load.hpp"
 
 namespace dive
 {
@@ -33,7 +33,7 @@ namespace dive
 	using NodeMeshIndices = std::vector<std::vector<NodeMeshIndex>>;
 	using DirichletMeshIndices = std::vector<DirichletMeshIndex>;
 
-	namespace meshes
+	namespace mesh
 	{
 		class IMesh
 		{
@@ -73,7 +73,7 @@ namespace dive
 			virtual Index GetIndexElementSorted(Tag tag, Status& status) const = 0;
 
 		};
-	} //namespace meshes
+	} //namespace mesh
 } //namespace dive
 
 #endif /* DIVE_MESHES_HPP_ */

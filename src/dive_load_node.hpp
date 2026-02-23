@@ -1,11 +1,11 @@
-#ifndef DIVE_LOADS_NODE_HPP_
-#define DIVE_LOADS_NODE_HPP_
+#ifndef DIVE_LOAD_NODE_HPP_
+#define DIVE_LOAD_NODE_HPP_
 
-#include "dive_loads.hpp"
+#include "dive_load.hpp"
 
 namespace dive
 {
-	namespace loads
+	namespace load
 	{
 		LoadNodePtr CreateLoadNode(INodePtr node, IVector3DPtr value);
 		LoadNodePtr CastToLoadNode(ILoadPtr load);
@@ -35,7 +35,7 @@ namespace dive
 			IVector3DPtr value_{ nullptr };
 		};
 
-	} //namespace loads
+	} //namespace load
 } //namespace dive
 
-#endif /* DIVE_LOADS_NODE_HPP_ */
+#endif /* DIVE_LOAD_NODE_HPP_ */

@@ -1,11 +1,11 @@
-#ifndef DIVE_MESHES_BASIC_HPP_
-#define DIVE_MESHES_BASIC_HPP_
+#ifndef DIVE_MESH_BASIC_HPP_
+#define DIVE_MESH_BASIC_HPP_
 
-#include "dive_meshes.hpp"
+#include "dive_mesh.hpp"
 
 namespace dive
 {
-	namespace meshes
+	namespace mesh
 	{
 		MeshPtr CreateMesh();
 		MeshPtr CreateMesh(Tag meshTag);
@@ -85,7 +85,7 @@ namespace dive
 		Elements GmshGetElementsForPhysicalGroup(IMeshPtr mesh, const String& groupName);
 		IMeshPtr GmshGetMeshForPhysicalGroup(Tag meshTag, NumberDof numberDof, const String& groupName);
 
-	} //namespace meshes
+	} //namespace mesh
 } //namespace dive
 
-#endif /* DIVE_MESHES_BASIC_HPP_ */
+#endif /* DIVE_MESH_BASIC_HPP_ */

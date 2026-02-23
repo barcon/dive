@@ -1,10 +1,10 @@
-#include "dive_loads_distributed_volume.hpp"
+#include "dive_load_distributed_volume.hpp"
 #include "dive_values_vector_congruent.hpp"
 #include "dive_status.hpp"
 
 namespace dive
 {
-	namespace loads
+	namespace load
 	{
 		LoadDistributedVolumePtr CreateLoadDistributedVolume(IElementPtr element, IVector3DPtr value)
 		{
@@ -62,5 +62,5 @@ namespace dive
 		{
 			value_ = value;
 		}
-	} //namespace loads
+	} //namespace load
 } //namespace dive

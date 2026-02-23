@@ -1,10 +1,10 @@
 #include "dive_elements_hexa.hpp"
 #include "dive_status.hpp"
 #include "dive_weakforms.hpp"
-#include "dive_loads.hpp"
-#include "dive_loads_distributed_volume.hpp"
-#include "dive_loads_distributed_face.hpp"
-#include "dive_loads_distributed_edge.hpp"
+#include "dive_load.hpp"
+#include "dive_load_distributed_volume.hpp"
+#include "dive_load_distributed_face.hpp"
+#include "dive_load_distributed_edge.hpp"
 
 namespace dive
 {
@@ -975,9 +975,9 @@ namespace dive
 			Vector local;
 			Vector point(numberCoordinates_);
 
-			if (load->GetType() == loads::load_distributed_volume)
+			if (load->GetType() == load::load_distributed_volume)
 			{
-				const auto& force = std::static_pointer_cast<loads::LoadDistributedVolume>(load);
+				const auto& force = std::static_pointer_cast<load::LoadDistributedVolume>(load);
 				const auto& points = gaussHexa_->GetPoints();
 				const auto& weights = gaussHexa_->GetWeights();
 				const auto& counter = gaussHexa_->GetCounter();
@@ -992,9 +992,9 @@ namespace dive
 					output = output + weights[i] * DetJ(points[i]) * local;
 				}
 			}
-			else if(load->GetType() == loads::load_distributed_face)
+			else if(load->GetType() == load::load_distributed_face)
 			{ 
-				const auto& force = std::static_pointer_cast<loads::LoadDistributedFace>(load);
+				const auto& force = std::static_pointer_cast<load::LoadDistributedFace>(load);
 				const auto& points = gaussRect_->GetPoints();
 				const auto& weights = gaussRect_->GetWeights();
 				const auto& counter = gaussRect_->GetCounter();
@@ -1020,9 +1020,9 @@ namespace dive
 					output = output + weights[i] * DelA(point, helper.index1, helper.index2) * local;
 				}
 			}
-			else if (load->GetType() == loads::load_distributed_edge)
+			else if (load->GetType() == load::load_distributed_edge)
 			{
-				const auto& force = std::static_pointer_cast<loads::LoadDistributedEdge>(load);
+				const auto& force = std::static_pointer_cast<load::LoadDistributedEdge>(load);
 				const auto& points = gaussLine_->GetPoints();
 				const auto& weights = gaussLine_->GetWeights();
 				const auto& counter = gaussLine_->GetCounter();

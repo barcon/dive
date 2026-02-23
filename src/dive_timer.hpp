@@ -1,11 +1,11 @@
-#ifndef DIVE_TIMERS_HPP_
-#define DIVE_TIMERS_HPP_
+#ifndef DIVE_TIMER_HPP_
+#define DIVE_TIMER_HPP_
 
 #include "dive_types.hpp"
 
 namespace dive
 {
-	namespace timers
+	namespace timer
 	{
 		static const Type timer_stationary = 1;
 		static const Type timer_stepped = 2;
@@ -30,7 +30,7 @@ namespace dive
 			virtual void SetTag(Tag tag) = 0;
 		};
 
-	} //namespace timers
+	} //namespace timer
 } //namespace dive
 
-#endif /* DIVE_TIMERS_HPP_ */
+#endif /* DIVE_TIMER_HPP_ */

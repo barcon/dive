@@ -117,9 +117,9 @@ namespace dive {
 
 			for (auto& load : loads_)
 			{
-				if (load->GetType() == loads::load_dirichlet)
+				if (load->GetType() == load::load_dirichlet)
 				{
-					dirichlets.push_back(std::static_pointer_cast<loads::ILoadDirichlet>(load));
+					dirichlets.push_back(std::static_pointer_cast<load::ILoadDirichlet>(load));
 				}
 			}
 

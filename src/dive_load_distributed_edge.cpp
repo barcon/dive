@@ -1,10 +1,10 @@
-#include "dive_loads_distributed_edge.hpp"
+#include "dive_load_distributed_edge.hpp"
 #include "dive_values_vector_congruent.hpp"
 #include "dive_status.hpp"
 
 namespace dive
 {
-	namespace loads
+	namespace load
 	{
 		LoadDistributedEdgePtr CreateLoadDistributedEdge(IElementPtr element, EdgeIndex edgeIndex, IVector3DPtr value)
 		{
@@ -71,5 +71,5 @@ namespace dive
 		{
 			value_ = value;
 		}
-	} //namespace loads
+	} //namespace load
 } //namespace dive

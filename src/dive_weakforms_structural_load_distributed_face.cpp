@@ -1,5 +1,5 @@
 #include "dive_weakforms_structural_load_distributed_face.hpp"
-#include "dive_loads_distributed_face.hpp"
+#include "dive_load_distributed_face.hpp"
 
 namespace dive {
 	namespace weakforms {
@@ -29,7 +29,7 @@ namespace dive {
 		}
 		void LoadDistributedFaceStructural::WeakFormulation(ILoadPtr load, const Vector& point, Vector& output) const
 		{
-			auto force = std::static_pointer_cast<loads::LoadDistributedFace>(load);
+			auto force = std::static_pointer_cast<load::LoadDistributedFace>(load);
 			auto element = force->GetElement();
 
 			auto N = FormMatrix_N(element, point);

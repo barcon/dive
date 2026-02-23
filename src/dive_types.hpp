@@ -81,7 +81,7 @@ namespace dive
 	using String = utils::String;
 	static const String headerDive = "DIVE";
 
-	namespace timers
+	namespace timer
 	{
 		class ITimer;
 		using ITimerPtr = std::shared_ptr<ITimer>;
@@ -134,7 +134,7 @@ namespace dive
 		struct EdgePair;
 	}
 
-	namespace meshes
+	namespace mesh
 	{
 		class IMesh;
 		using IMeshPtr = std::shared_ptr<IMesh>;
@@ -252,7 +252,7 @@ namespace dive
 		using ConstLoadNodeStructuralPtr = std::shared_ptr<const LoadNodeStructural>;
 	}
 
-	namespace loads
+	namespace load
 	{
 		class ILoad;
 		using ILoadPtr = std::shared_ptr<ILoad>;
@@ -329,19 +329,19 @@ namespace dive
 	using IMatrix2DPtr = values::IMatrix2DPtr;
 	using IMatrix3DPtr = values::IMatrix3DPtr;
 	
-	using ITimerPtr = timers::ITimerPtr;
+	using ITimerPtr = timer::ITimerPtr;
 	using IBasisPtr = basis::IBasisPtr;
 	using INodePtr = node::INodePtr;
 	using IElementPtr = elements::IElementPtr;
 	using IElementMappedPtr = elements::IElementMappedPtr;
-	using IMeshPtr = meshes::IMeshPtr;
+	using IMeshPtr = mesh::IMeshPtr;
 	using IWeakFormElementPtr = weakforms::IWeakFormElementPtr;
 	using IWeakFormLoadPtr = weakforms::IWeakFormLoadPtr;
 	using IMaterialPtr = material::IMaterialPtr;
 	using IGaussPtr = quadrature::IGaussPtr;
 	using IInterpolationPtr = interpolation::IInterpolationPtr;
-	using ILoadPtr = loads::ILoadPtr;
-	using ILoadDirichletPtr = loads::ILoadDirichletPtr;
+	using ILoadPtr = load::ILoadPtr;
+	using ILoadDirichletPtr = load::ILoadDirichletPtr;
 	using IProblemPtr = problems::IProblemPtr;
 
 	using FacePair = elements::FacePair;

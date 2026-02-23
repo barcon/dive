@@ -4,9 +4,9 @@
 #include "dive_types.hpp"
 #include "dive_status.hpp"
 
-#include "dive_timers.hpp"
-#include "dive_timers_stationary.hpp"
-#include "dive_timers_stepped.hpp"
+#include "dive_timer.hpp"
+#include "dive_timer_stationary.hpp"
+#include "dive_timer_stepped.hpp"
 
 #include "dive_values_scalar_congruent.hpp"
 #include "dive_values_matrix_congruent.hpp"
@@ -17,16 +17,16 @@
 #include "dive_elements_mass.hpp"
 #include "dive_elements_combined.hpp"
 
-#include "dive_meshes.hpp"
-#include "dive_meshes_basic.hpp"
+#include "dive_mesh.hpp"
+#include "dive_mesh_basic.hpp"
 #include "dive_selection.hpp"
 
-#include "dive_loads.hpp"
-#include "dive_loads_dirichlet.hpp"
-#include "dive_loads_distributed_edge.hpp"
-#include "dive_loads_distributed_face.hpp"
-#include "dive_loads_distributed_volume.hpp"
-#include "dive_loads_node.hpp"
+#include "dive_load.hpp"
+#include "dive_load_dirichlet.hpp"
+#include "dive_load_distributed_edge.hpp"
+#include "dive_load_distributed_face.hpp"
+#include "dive_load_distributed_volume.hpp"
+#include "dive_load_node.hpp"
 
 #include "dive_weakforms.hpp"
 #include "dive_weakforms_thermal_mass.hpp"

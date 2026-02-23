@@ -1,8 +1,8 @@
-#include "dive_timers_stationary.hpp"
+#include "dive_timer_stationary.hpp"
 
 namespace dive
 {
-	namespace timers
+	namespace timer
 	{
 		TimerStationaryPtr CreateTimerStationary()
 		{
@@ -88,5 +88,5 @@ namespace dive
 		{
 			tag_ = tag;
 		}
-	} //namespace timers
+	} //namespace timer
 } //namespace dive

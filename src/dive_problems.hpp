@@ -2,10 +2,10 @@
 #define DIVE_PROBLEMS_HPP_
 
 #include "dive_types.hpp"
-#include "dive_timers.hpp"
-#include "dive_meshes.hpp"
+#include "dive_timer.hpp"
+#include "dive_mesh.hpp"
 #include "dive_weakforms.hpp"
-#include "dive_loads.hpp"
+#include "dive_load.hpp"
 
 namespace dive
 {

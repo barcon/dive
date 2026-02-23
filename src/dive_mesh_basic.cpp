@@ -1,4 +1,4 @@
-#include "dive_meshes_basic.hpp"
+#include "dive_mesh_basic.hpp"
 #include "dive_status.hpp"
 #include "dive_elements.hpp"
 #include "dive_elements_hexa.hpp"
@@ -11,7 +11,7 @@
 #include <limits>
 
 namespace dive {
-	namespace meshes {
+	namespace mesh {
 		MeshPtr CreateMesh()
 		{
 			auto res = Mesh::Create();
@@ -783,5 +783,5 @@ namespace dive {
 			return mesh;
 		}
 
-	} // namespace meshes
+	} // namespace mesh
 } // namespace dive

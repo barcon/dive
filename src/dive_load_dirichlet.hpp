@@ -1,11 +1,11 @@
-#ifndef DIVE_LOADS_DIRICHLET_HPP_
-#define DIVE_LOADS_DIRICHLET_HPP_
+#ifndef DIVE_LOAD_DIRICHLET_HPP_
+#define DIVE_LOAD_DIRICHLET_HPP_
 
-#include "dive_loads.hpp"
+#include "dive_load.hpp"
 
 namespace dive
 {
-	namespace loads
+	namespace load
 	{
 		LoadDirichletPtr CreateLoadDirichlet(INodePtr node, DofIndex dofIndex, IScalar3DPtr value);
 
@@ -37,7 +37,7 @@ namespace dive
 			IScalar3DPtr value_{ nullptr };
 		};
 
-	} //namespace loads
+	} //namespace load
 } //namespace dive
 
-#endif /* DIVE_LOADS_DIRICHLET_HPP_ */
+#endif /* DIVE_LOAD_DIRICHLET_HPP_ */

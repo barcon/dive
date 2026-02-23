@@ -1,11 +1,11 @@
-#ifndef DIVE_TIMERS_STATIONARY_HPP_
-#define DIVE_TIMERS_STATIONARY_HPP_
+#ifndef DIVE_TIMER_STATIONARY_HPP_
+#define DIVE_TIMER_STATIONARY_HPP_
 
-#include "dive_timers.hpp"
+#include "dive_timer.hpp"
 
 namespace dive
 {
-	namespace timers
+	namespace timer
 	{
 
 		TimerStationaryPtr CreateTimerStationary();
@@ -48,7 +48,7 @@ namespace dive
 			Number counter_{ 0 };
 		};
 
-	} //namespace timers
+	} //namespace timer
 } //namespace dive
 
-#endif /* DIVE_TIMERS_STATIONARY_HPP_ */
+#endif /* DIVE_TIMER_STATIONARY_HPP_ */

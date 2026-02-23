@@ -1,10 +1,10 @@
 #include "dive_problems.hpp"
 
-#include "dive_loads_dirichlet.hpp"
-#include "dive_loads_distributed_volume.hpp"
-#include "dive_loads_distributed_face.hpp"
-#include "dive_loads_distributed_edge.hpp"
-#include "dive_loads_node.hpp"
+#include "dive_load_dirichlet.hpp"
+#include "dive_load_distributed_volume.hpp"
+#include "dive_load_distributed_face.hpp"
+#include "dive_load_distributed_edge.hpp"
+#include "dive_load_node.hpp"
 #include "dive_selection.hpp"
 #include "dive_status.hpp"
 
@@ -201,9 +201,9 @@ namespace dive
 
 			for (auto& load : loads)
 			{
-				if (load->GetType() == loads::load_node)
+				if (load->GetType() == load::load_node)
 				{
-					const auto& forceNode = std::static_pointer_cast<loads::ILoadNode>(load);
+					const auto& forceNode = std::static_pointer_cast<load::ILoadNode>(load);
 
 					local = forceNode->GetValue();
 					numberDof = forceNode->GetNode()->GetNumberDof();
@@ -220,27 +220,27 @@ namespace dive
 				}
 				else
 				{
-					if (load->GetType() == loads::load_distributed_volume)
+					if (load->GetType() == load::load_distributed_volume)
 					{
-						const auto& element = std::dynamic_pointer_cast<loads::ILoadDistributedVolume>(load)->GetElement();
+						const auto& element = std::dynamic_pointer_cast<load::ILoadDistributedVolume>(load)->GetElement();
 
 						element->IntegralWeakFormLoad(weakForm, load, local);
 						numberDof = element->GetNumberDof();
 						numberNodes = element->GetNumberNodes();
 						elementIndex = element->GetElementIndex();
 					}
-					else if (load->GetType() == loads::load_distributed_face)
+					else if (load->GetType() == load::load_distributed_face)
 					{
-						const auto& element = std::static_pointer_cast<loads::ILoadDistributedFace>(load)->GetElement();
+						const auto& element = std::static_pointer_cast<load::ILoadDistributedFace>(load)->GetElement();
 
 						element->IntegralWeakFormLoad(weakForm, load, local);
 						numberDof = element->GetNumberDof();
 						numberNodes = element->GetNumberNodes();
 						elementIndex = element->GetElementIndex();
 					}
-					else if (load->GetType() == loads::load_distributed_edge)
+					else if (load->GetType() == load::load_distributed_edge)
 					{
-						const auto& element = std::static_pointer_cast<loads::ILoadDistributedEdge>(load)->GetElement();
+						const auto& element = std::static_pointer_cast<load::ILoadDistributedEdge>(load)->GetElement();
 
 						element->IntegralWeakFormLoad(weakForm, load, local);
 						numberDof = element->GetNumberDof();

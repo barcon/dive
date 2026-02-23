@@ -1,8 +1,8 @@
-#include "dive_timers_stepped.hpp"
+#include "dive_timer_stepped.hpp"
 
 namespace dive
 {
-	namespace timers
+	namespace timer
 	{
 		TimerSteppedPtr CreateTimerStepped()
 		{
@@ -121,5 +121,5 @@ namespace dive
 			tag_ = tag;
 		}
 
-	} //namespace timers
+	} //namespace timer
 } //namespace dive
