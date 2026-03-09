@@ -160,6 +160,10 @@ namespace dive
 		using MassFluidPtr = std::shared_ptr<MassFluid>;
 		using ConstMassFluidPtr = std::shared_ptr<const MassFluid>;
 
+		class MassLumpedFluid;
+		using MassLumpedFluidPtr = std::shared_ptr<MassLumpedFluid>;
+		using ConstMassLumpedFluidPtr = std::shared_ptr<const MassLumpedFluid>;
+
 		class StiffnessFluid;
 		using StiffnessFluidPtr = std::shared_ptr<StiffnessFluid>;
 		using ConstStiffnessFluidPtr = std::shared_ptr<const StiffnessFluid>;
@@ -193,6 +197,10 @@ namespace dive
 		using MassPressurePtr = std::shared_ptr<MassPressure>;
 		using ConstMassPressurePtr = std::shared_ptr<const MassPressure>;
 
+		class MassLumpedPressure;
+		using MassLumpedPressurePtr = std::shared_ptr<MassLumpedPressure>;
+		using ConstMassLumpedPressurePtr = std::shared_ptr<const MassLumpedPressure>;
+
 		class StiffnessPressure;
 		using StiffnessPressurePtr = std::shared_ptr<StiffnessPressure>;
 		using ConstStiffnessPressurePtr = std::shared_ptr<const StiffnessPressure>;
@@ -214,6 +222,10 @@ namespace dive
 		using MassThermalPtr = std::shared_ptr<MassThermal>;
 		using ConstMassThermalPtr = std::shared_ptr<const MassThermal>;
 
+		class MassLumpedThermal;
+		using MassLumpedThermalPtr = std::shared_ptr<MassLumpedThermal>;
+		using ConstMassLumpedThermalPtr = std::shared_ptr<const MassLumpedThermal>;
+
 		class StiffnessThermal;
 		using StiffnessThermalPtr = std::shared_ptr<StiffnessThermal>;
 		using ConstStiffnessThermalPtr = std::shared_ptr<const StiffnessThermal>;
@@ -230,6 +242,10 @@ namespace dive
 		class MassStructural;
 		using MassStructuralPtr = std::shared_ptr<MassStructural>;
 		using ConstMassStructuralPtr = std::shared_ptr<const MassStructural>;
+
+		class MassLumpedStructural;
+		using MassLumpedStructuralPtr = std::shared_ptr<MassLumpedStructural>;
+		using ConstMassLumpedStructuralPtr = std::shared_ptr<const MassLumpedStructural>;
 
 		class StiffnessStructural;
 		using StiffnessStructuralPtr = std::shared_ptr<StiffnessStructural>;
