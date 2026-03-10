@@ -160,7 +160,7 @@ namespace dive {
 				}
 			}
 		}
-		Sparse ProblemPressure::Mass() const
+		Sparse ProblemPressure::Mass(bool lumped) const
 		{
 			auto massWeak = weakforms::CreateWeakFormMassPressure();
 			massWeak->SetTemperature(temperature_);
@@ -169,6 +169,14 @@ namespace dive {
 
 			auto problemPressure = std::make_shared<ProblemPressure>(*this);
 			auto res = IntegralForm(massWeak, problemPressure, problemPressure);
+
+			if (lumped)
+			{
+				auto trace = res.Trace();
+				auto mass = res.Sum();
+
+				res = (mass / trace) * res.Diagonal();
+			}
 
 			return res;
 		}

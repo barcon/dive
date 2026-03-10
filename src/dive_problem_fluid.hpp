@@ -58,7 +58,7 @@ namespace dive
 			void UpdateMeshValuesMomentum(const Vector& q) override;
 			void UpdateMeshValuesMomentum(const Vector& q0, const Vector& q1) override;
 
-			Sparse Mass() const override;
+			Sparse Mass(bool lumped = false) const override;
 			Sparse Stiffness() const override;
 			Sparse Convection() const override;
 			Sparse ConvectionSymmetric() const override;

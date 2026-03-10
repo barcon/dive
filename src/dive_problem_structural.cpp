@@ -158,7 +158,7 @@ namespace dive {
 				}
 			}
 		}
-		Sparse ProblemStructural::Mass() const
+		Sparse ProblemStructural::Mass(bool lumped) const
 		{
 			auto massWeak = weakforms::CreateWeakFormMassStructural();
 			massWeak->SetTemperature(temperature_);
@@ -168,7 +168,7 @@ namespace dive {
 			const auto& elements = mesh_->GetElements();
 			const auto& nodeMeshIndices = GetNodeMeshIndices();
 
-			Sparse global(totalDof_, totalDof_);
+			Sparse res(totalDof_, totalDof_);
 			Matrix local;
 
 			for (ElementIndex i = 0; i < elements.size(); ++i)
@@ -197,17 +197,25 @@ namespace dive {
 						{
 							for (DofIndex dof2 = 0; dof2 < numberDof; ++dof2)
 							{
-								auto aux = global.GetValue(nodeMeshIndices[i][m].dofIndices[dof1], nodeMeshIndices[i][n].dofIndices[dof2]);
+								auto aux = res.GetValue(nodeMeshIndices[i][m].dofIndices[dof1], nodeMeshIndices[i][n].dofIndices[dof2]);
 								aux += local.GetValue(m * numberDof + dof1, n * numberDof + dof2);
 
-								global.SetValue(nodeMeshIndices[i][m].dofIndices[dof1], nodeMeshIndices[i][n].dofIndices[dof2], aux);
+								res.SetValue(nodeMeshIndices[i][m].dofIndices[dof1], nodeMeshIndices[i][n].dofIndices[dof2], aux);
 							}
 						}
 					}
 				}
 			}
 
-			return global;
+			if (lumped)
+			{
+				auto trace = res.Trace();
+				auto mass = res.Sum();
+
+				res = (mass / trace) * res.Diagonal();
+			}
+
+			return res;
 		}
 		Sparse ProblemStructural::Stiffness() const
 		{
@@ -219,7 +227,7 @@ namespace dive {
 			const auto& elements = mesh_->GetElements();
 			const auto& nodeMeshIndices = GetNodeMeshIndices();
 
-			Sparse global(totalDof_, totalDof_);
+			Sparse res(totalDof_, totalDof_);
 			Matrix local;
 
 			for (ElementIndex i = 0; i < elements.size(); ++i)
@@ -248,17 +256,17 @@ namespace dive {
 						{
 							for (DofIndex dof2 = 0; dof2 < numberDof; ++dof2)
 							{
-								auto aux = global.GetValue(nodeMeshIndices[i][m].dofIndices[dof1], nodeMeshIndices[i][n].dofIndices[dof2]);
+								auto aux = res.GetValue(nodeMeshIndices[i][m].dofIndices[dof1], nodeMeshIndices[i][n].dofIndices[dof2]);
 								aux += local.GetValue(m * numberDof + dof1, n * numberDof + dof2);
 
-								global.SetValue(nodeMeshIndices[i][m].dofIndices[dof1], nodeMeshIndices[i][n].dofIndices[dof2], aux);
+								res.SetValue(nodeMeshIndices[i][m].dofIndices[dof1], nodeMeshIndices[i][n].dofIndices[dof2], aux);
 							}
 						}
 					}
 				}
 			}
 			
-			return global;
+			return res;
 		}
 		Sparse ProblemStructural::Damping() const
 		{
@@ -266,7 +274,7 @@ namespace dive {
 			const auto& elements = mesh_->GetElements();
 			const auto& nodeMeshIndices = GetNodeMeshIndices();
 
-			Sparse global(totalDof_, totalDof_);
+			Sparse res(totalDof_, totalDof_);
 			Matrix local;
 
 			for (ElementIndex i = 0; i < elements.size(); ++i)
@@ -295,17 +303,17 @@ namespace dive {
 						{
 							for (DofIndex dof2 = 0; dof2 < numberDof; ++dof2)
 							{
-								auto aux = global.GetValue(nodeMeshIndices[i][m].dofIndices[dof1], nodeMeshIndices[i][n].dofIndices[dof2]);
+								auto aux = res.GetValue(nodeMeshIndices[i][m].dofIndices[dof1], nodeMeshIndices[i][n].dofIndices[dof2]);
 								aux += local.GetValue(m * numberDof + dof1, n * numberDof + dof2);
 
-								global.SetValue(nodeMeshIndices[i][m].dofIndices[dof1], nodeMeshIndices[i][n].dofIndices[dof2], aux);
+								res.SetValue(nodeMeshIndices[i][m].dofIndices[dof1], nodeMeshIndices[i][n].dofIndices[dof2], aux);
 							}
 						}
 					}
 				}
 			}
 
-			return global;
+			return res;
 		}
 		Vector ProblemStructural::LoadDistributedEdge() const
 		{

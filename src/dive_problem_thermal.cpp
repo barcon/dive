@@ -152,7 +152,7 @@ namespace dive {
 				}
 			}
 		}
-		Sparse ProblemThermal::Mass() const
+		Sparse ProblemThermal::Mass(bool lumped) const
 		{
 			auto massWeak = weakforms::CreateWeakFormMassThermal();
 			massWeak->SetTemperature(temperature_);
@@ -160,6 +160,14 @@ namespace dive {
 
 			auto problemThermal = std::make_shared<ProblemThermal>(*this);
 			auto res = IntegralForm(massWeak, problemThermal, problemThermal);
+
+			if (lumped)
+			{
+				auto trace = res.Trace();
+				auto mass = res.Sum();
+
+				res = (mass / trace) * res.Diagonal();
+			}
 
 			return res;
 		}

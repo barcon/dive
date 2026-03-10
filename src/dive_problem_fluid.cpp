@@ -211,11 +211,19 @@ namespace dive {
 				}
 			}
 		}
-		Sparse ProblemFluid::Mass() const
+		Sparse ProblemFluid::Mass(bool lumped) const
 		{
 			auto massWeak = weakforms::CreateWeakFormMassFluid();
 			auto problemFluid = std::make_shared<ProblemFluid>(*this);		
 			auto res = IntegralForm(massWeak, problemFluid, problemFluid);
+
+			if (lumped)
+			{
+				auto trace = res.Trace();
+				auto mass = res.Sum();
+
+				res = (mass / trace) * res.Diagonal();
+			}
 
 			return res;
 		}

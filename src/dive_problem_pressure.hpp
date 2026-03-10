@@ -53,7 +53,7 @@ namespace dive
 			void UpdateMeshValues(const Vector& u) override;
 			void UpdateMeshValues(const Vector& u0, const Vector& u1) override;
 
-			Sparse Mass() const override;
+			Sparse Mass(bool lumped = false) const override;
 			Sparse Stiffness() const override;
 			Sparse Crossed(IProblemPtr problemMomentum) const override;
 			Sparse Stabilization(IProblemPtr problemMomentum) const override;
