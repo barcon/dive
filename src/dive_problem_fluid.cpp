@@ -246,14 +246,6 @@ namespace dive {
 
 			return res;
 		}
-		Sparse ProblemFluid::ConvectionSymmetric() const
-		{
-			return Sparse();
-		}
-		Sparse ProblemFluid::ConvectionAsymmetric() const
-		{
-			return Sparse();
-		}
 		Sparse ProblemFluid::Stabilization() const
 		{
 			auto stabilizationWeak = weakforms::CreateWeakFormStabilizationFluid();

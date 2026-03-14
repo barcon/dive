@@ -30,12 +30,12 @@ namespace dive {
 		void ConvectionFluid::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const
 		{
 			auto N = FormMatrix_N(element, local, cacheIndex);
+			auto Nt = FormMatrix_Nt(element, local, cacheIndex);
 			auto NN = FormMatrix_NN(element, local, cacheIndex);
 			auto udN = FormMatrix_udN(element, local, cacheIndex);
-			auto u = FormVelocity(element, local, cacheIndex);
 			auto du = FormDivergence(element, local, cacheIndex);
 
-			output =  du * NN + N.Transpose() * udN;
+			output =  du * NN + Nt * udN;
 		}
 		Matrix ConvectionFluid::FormVelocity(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
@@ -57,6 +57,10 @@ namespace dive {
 		Matrix ConvectionFluid::FormMatrix_N(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			return element->N(cacheIndex);
+		}
+		Matrix ConvectionFluid::FormMatrix_Nt(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
+		{
+			return element->Nt(cacheIndex);
 		}
 		Matrix ConvectionFluid::FormMatrix_NN(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{

@@ -263,6 +263,10 @@ namespace dive
 
 			return res;
 		}
+		Matrix ElementHexa::Nt(const Vector& local) const
+		{
+			return N(local).Transpose();
+		}
 		Matrix ElementHexa::NN(const Vector& local) const
 		{
 			return N(local).Transpose() * N(local);
@@ -312,6 +316,10 @@ namespace dive
 		const Matrix& ElementHexa::N(const CacheIndex& cacheIndex) const
 		{
 			return cacheCommon_->N[cacheIndex];
+		}
+		const Matrix& ElementHexa::Nt(const CacheIndex& cacheIndex) const
+		{
+			return cacheCommon_->Nt[cacheIndex];
 		}
 		const Matrix& ElementHexa::NN(const CacheIndex& cacheIndex) const
 		{
@@ -1073,11 +1081,12 @@ namespace dive
 			}
 
 			cacheCommon_ = &cacheLinesHexa[type_] [numberDof_ - 1];
-			if (!(cacheCommon_->isValid))
+			if (!cacheCommon_->isValid)
 			{
 				for (quadrature::Counter i = 0; i < counter; ++i)
 				{
 					cacheCommon_->N.emplace_back(N(points[i]));
+					cacheCommon_->Nt.emplace_back(N(points[i]).Transpose());
 					cacheCommon_->NN.emplace_back(NN(points[i]));
 					cacheCommon_->dN.emplace_back(dN(points[i]));
 				}

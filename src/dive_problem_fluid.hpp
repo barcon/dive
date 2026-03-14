@@ -6,8 +6,6 @@
 #include "dive_weakforms_fluid_mass.hpp"
 #include "dive_weakforms_fluid_stiffness.hpp"
 #include "dive_weakforms_fluid_convection.hpp"
-#include "dive_weakforms_fluid_convection_symmetric.hpp"
-#include "dive_weakforms_fluid_convection_asymmetric.hpp"
 #include "dive_weakforms_fluid_stabilization.hpp"
 #include "dive_weakforms_fluid_load_distributed_volume.hpp"
 #include "dive_weakforms_fluid_load_distributed_volume_stabilization.hpp"
@@ -61,8 +59,6 @@ namespace dive
 			Sparse Mass(bool lumped = false) const override;
 			Sparse Stiffness() const override;
 			Sparse Convection() const override;
-			Sparse ConvectionSymmetric() const override;
-			Sparse ConvectionAsymmetric() const override;
 			Sparse Stabilization() const override;	
 			Vector LoadDistributedVolume() const override;
 			Vector LoadDistributedVolumeStabilization() const override;

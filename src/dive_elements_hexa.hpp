@@ -36,12 +36,14 @@ namespace dive
 			Matrix J(const Vector& local) const override;
 			Matrix InvJ(const Vector& local) const override;
 			Matrix N(const Vector& local) const override;
+			Matrix Nt(const Vector& local) const override;
 			Matrix NN(const Vector& local) const override;
 			Matrix dN(const Vector& local) const override;
 
 			const Matrix& J(const CacheIndex& cacheIndex) const override;
 			const Matrix& InvJ(const CacheIndex& cacheIndex) const override;
 			const Matrix& N(const CacheIndex& cacheIndex) const override;
+			const Matrix& Nt(const CacheIndex& cacheIndex) const override;
 			const Matrix& NN(const CacheIndex& cacheIndex) const override;
 			const Matrix& dN(const CacheIndex& cacheIndex) const override;
 			Scalar DetJ(const CacheIndex& cacheIndex) const override;
