@@ -64,7 +64,7 @@ namespace dive
 		{
 			return const_cast<ElementCombined*>(this)->GetPtr();
 		}
-		
+
 		Tag ElementCombined::GetTag() const
 		{
 			return tag_;

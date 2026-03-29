@@ -9,24 +9,24 @@ namespace dive
 {
 	struct DofMeshIndex
 	{
-		INodePtr node;
-		NodeIndex nodeIndex;
-		DofIndex dofIndex;
-		DofIndex globalIndex;
-		ILoadDirichletPtr dirichlet;
-		LoadIndex dirichletIndex;
-		bool dirichletReordered;
+		INodePtr node{ nullptr };
+		NodeIndex nodeIndex{ 0 };
+		DofIndex dofIndex{ 0 };
+		DofIndex globalIndex{ 0 };
+		ILoadDirichletPtr dirichlet{ nullptr };
+		LoadIndex dirichletIndex{ 0 };
+		bool dirichletReordered{ false };
 	};
 	struct NodeMeshIndex
 	{
-		Index index;
-		INodePtr node;
+		Index index{ 0 };
+		INodePtr node{ nullptr };
 		Indices dofIndices;
 	};
 	struct DirichletMeshIndex
 	{
-		INodePtr node;
-		DofIndex dofIndex;
+		INodePtr node{ nullptr };
+		DofIndex dofIndex{ 0 };
 	};
 
 	using DofMeshIndices = std::vector<DofMeshIndex>;
@@ -58,6 +58,7 @@ namespace dive
 			virtual IElementPtr	GetElementIndex(ElementIndex index, Status& status) const = 0;
 			virtual IElementPtr	GetElementSorted(Tag tag, Status& status) const = 0;
 
+			virtual NumberCoordinates GetNumberCoordinates() const = 0;
 			virtual NumberDof	GetTotalDof() = 0;
 			virtual NumberDof	GetPivot() = 0;
 			virtual Tag			GetTag() const = 0;

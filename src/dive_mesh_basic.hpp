@@ -7,15 +7,14 @@ namespace dive
 {
 	namespace mesh
 	{
-		MeshPtr CreateMesh();
-		MeshPtr CreateMesh(Tag meshTag);
+		MeshPtr CreateMesh(Tag tag, NumberCoordinates numberCoordinates);
 
 		class Mesh : public IMesh, virtual public std::enable_shared_from_this<Mesh>
 		{
 		public:
 			virtual ~Mesh() = default;
 
-			static MeshPtr Create();
+			static MeshPtr Create(Tag tag, NumberCoordinates numberCoordinates);
 			MeshPtr GetPtr();
 			ConstMeshPtr GetPtr() const;
 
@@ -37,6 +36,7 @@ namespace dive
 			IElementPtr	GetElementIndex(ElementIndex index, Status& status) const override;
 			IElementPtr	GetElementSorted(Tag tag, Status& status) const override;
 
+			NumberCoordinates GetNumberCoordinates() const override;
 			NumberDof	GetTotalDof() override;
 			NumberDof	GetPivot() override;
 			Tag			GetTag() const override;
@@ -54,6 +54,7 @@ namespace dive
 		protected:
 			Mesh() = default;
 
+			NumberCoordinates numberCoordinates_{ 3 };
 			NumberDof totalDof_{ 0 };
 			Index pivot_{ 0 };
 

@@ -12,27 +12,26 @@
 
 namespace dive {
 	namespace mesh {
-		MeshPtr CreateMesh()
+		MeshPtr CreateMesh(Tag tag, NumberCoordinates numberCoordinates)
 		{
-			auto res = Mesh::Create();
-
-			return res;
+			return Mesh::Create(tag, numberCoordinates);
 		}
-		MeshPtr CreateMesh(Tag meshTag)
-		{
-			auto res = Mesh::Create();
-
-			res->SetTag(meshTag);
-
-			return res;
-		}
-		MeshPtr Mesh::Create()
+		MeshPtr Mesh::Create(Tag tag, NumberCoordinates numberCoordinates)
 		{
 			class MakeSharedEnabler : public Mesh
 			{
 			};
 
 			auto res = std::make_shared<MakeSharedEnabler>();
+
+			if (numberCoordinates == 0)
+			{
+				throw std::invalid_argument("Number of coordinates equal to zero (Create Mesh)");
+			}
+
+
+			res->SetTag(tag);
+			res->numberCoordinates_ = numberCoordinates;
 
 			return res;
 		}
@@ -49,6 +48,12 @@ namespace dive {
 			if (node == nullptr)
 			{
 				status = DIVE_NULL_POINTER;
+				return;
+			}
+
+			if (node->GetNumberCoordinates() != GetNumberCoordinates())
+			{
+				status = DIVE_INVALID_NODE;
 				return;
 			}
 
@@ -78,6 +83,12 @@ namespace dive {
 			if (element == nullptr)
 			{
 				status = DIVE_NULL_POINTER;
+				return;
+			}
+
+			if (element->GetNumberCoordinates() != GetNumberCoordinates())
+			{
+				status = DIVE_INVALID_ELEMENT;
 				return;
 			}
 
@@ -273,6 +284,10 @@ namespace dive {
 
 			return res;
 		}
+		NumberCoordinates Mesh::GetNumberCoordinates() const
+		{
+			return numberCoordinates_;
+		}
 		NumberDof Mesh::GetTotalDof()
 		{
 			return totalDof_;
@@ -422,18 +437,16 @@ namespace dive {
 		}
 		void DeformByInterpolation(IMeshPtr mesh, IInterpolationPtr interpolation)
 		{
-			auto& nodes = mesh->GetNodes();
+			const auto& nodes = mesh->GetNodes();
+			const auto& numberCoordinates = mesh->GetNumberCoordinates();
 
 			for (auto& node : nodes)
 			{
-				auto point = node->GetPoint();
-				auto aux = node::CreateNode(0, point);
+				const auto& point = node->GetPoint();
+				
+				auto offset = Vector(interpolation->GetValue(point), 0);
 
-				interpolation->GetValue(aux);
-
-				auto disp = Vector(aux->GetValue(), 0);
-
-				node->SetPoint(point + disp);
+				node->SetPoint(point + offset);
 			}
 		}
 
@@ -687,7 +700,7 @@ namespace dive {
 
 			return elements;
 		}
-		IMeshPtr GmshGetMeshForPhysicalGroup(Tag meshTag, NumberDof numberDof, const String& groupName)
+		IMeshPtr GmshGetMeshForPhysicalGroup(Tag meshTag, NumberCoordinates numberCoordinates, NumberDof numberDof, const String& groupName)
 		{
 			IMeshPtr mesh{ nullptr };
 			Status status;
@@ -702,7 +715,7 @@ namespace dive {
 			auto dimension = group.first;
 			auto tag = group.second;
 			
-			mesh = CreateMesh(meshTag);
+			mesh = CreateMesh(meshTag, numberCoordinates);
 			{
 				Scalars coordinates;
 				NodeTags nodeTags;

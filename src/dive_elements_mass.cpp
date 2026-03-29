@@ -58,7 +58,7 @@ namespace dive
 		{
 			return const_cast<ElementMass*>(this)->GetPtr();
 		}
-		
+
 		Tag ElementMass::GetTag() const
 		{
 			return tag_;

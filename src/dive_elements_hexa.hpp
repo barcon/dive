@@ -31,7 +31,7 @@ namespace dive
 
 			Matrix du() const override;
 			Matrix du(const Vector& local) const override;
-			Matrix du(const Vector& local, const Dimension& dimension) const override;
+			Matrix du(const Vector& local, const DimensionIndex& dimensionIndex) const override;
 
 			Matrix J(const Vector& local) const override;
 			Matrix InvJ(const Vector& local) const override;
@@ -49,8 +49,8 @@ namespace dive
 			Scalar DetJ(const CacheIndex& cacheIndex) const override;
 	
 			Scalar DetJ(const Vector& local) const override;
-			Scalar DelA(const Vector& local, const Dimension& dim1, const Dimension& dim2) const override;
-			Scalar DelL(const Vector& local, const Dimension& dim1) const override;
+			Scalar DelA(const Vector& local, const DimensionIndex& dimensionIndex1, const DimensionIndex& dimensionIndex2) const override;
+			Scalar DelL(const Vector& local, const DimensionIndex& dimensionIndex) const override;
 
 			Scalar Volume() const override;
 			Scalar Area(const FaceIndex& face) const override;
@@ -107,7 +107,7 @@ namespace dive
 		protected:
 			ElementHexa();
 
-			Vector GlobalDerivatives(const Vector& local, const Dimension& dim) const;
+			Vector GlobalDerivatives(const Vector& local, const DimensionIndex& dim) const;
 			
 			IntegralAreaHelper GetIntegralAreaHelper(FaceIndex faceIndex) const;
 			IntegralEdgeHelper GetIntegralEdgeHelper(EdgeIndex edgeIndex) const;

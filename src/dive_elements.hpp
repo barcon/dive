@@ -65,14 +65,14 @@ namespace dive
 
 		struct FacePair
 		{
-			IElementPtr element;
-			FaceIndex faceIndex;
+			IElementPtr element{ nullptr };
+			FaceIndex faceIndex{ 0 };
 		};
 
 		struct EdgePair
 		{
-			IElementPtr element;
-			EdgeIndex edgeIndex;
+			IElementPtr element{nullptr};
+			EdgeIndex edgeIndex{ 0 };
 		};
 
 		class IElement
@@ -137,7 +137,7 @@ namespace dive
 
 			virtual Matrix du() const = 0;
 			virtual Matrix du(const Vector& local) const = 0;
-			virtual Matrix du(const Vector& local, const Dimension& dimension) const = 0;
+			virtual Matrix du(const Vector& local, const CoordinateIndex& coordinateIndex) const = 0;
 
 			virtual Matrix J(const Vector& local) const = 0;
 			virtual Matrix InvJ(const Vector& local) const = 0;
@@ -146,8 +146,8 @@ namespace dive
 			virtual Matrix NN(const Vector& local) const = 0;
 			virtual Matrix dN(const Vector& local) const = 0;
 			virtual Scalar DetJ(const Vector& local) const = 0;
-			virtual Scalar DelA(const Vector& local, const Dimension& dim1, const Dimension& dim2) const = 0;
-			virtual Scalar DelL(const Vector& local, const Dimension& dim1) const = 0;
+			virtual Scalar DelA(const Vector& local, const CoordinateIndex& coordinateIndex1, const CoordinateIndex& coordinateIndex2) const = 0;
+			virtual Scalar DelL(const Vector& local, const CoordinateIndex& coordinateIndex) const = 0;
 			
 			virtual const Matrix& J(const CacheIndex& cacheIndex) const = 0;
 			virtual const Matrix& InvJ(const CacheIndex& cacheIndex) const = 0;

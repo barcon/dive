@@ -209,13 +209,13 @@ namespace dive
 
 			return res;
 		}
-		Matrix ElementHexa::du(const Vector& local, const Dimension& dimension) const
+		Matrix ElementHexa::du(const Vector& local, const DimensionIndex& dimensionIndex) const
 		{
 			Matrix res(1, numberDof_, eilig::matrix_zeros);
 
 			for (NodeIndex i = 0; i < numberNodes_; ++i)
 			{
-				auto shapeD = shapeD_[dimension * numberNodes_ + i](local);
+				auto shapeD = shapeD_[dimensionIndex * numberNodes_ + i](local);
 
 				for (NumberDof j = 0; j < numberDof_; ++j)
 				{
@@ -289,19 +289,19 @@ namespace dive
 		{
 			return eilig::Determinant(J(local));
 		}
-		Scalar ElementHexa::DelA(const Vector& local, const Dimension& dim1, const Dimension& dim2) const
+		Scalar ElementHexa::DelA(const Vector& local, const DimensionIndex& dimensionIndex1, const DimensionIndex& dimensionIndex2) const
 		{
-			Vector du = GlobalDerivatives(local, dim1);
-			Vector dv = GlobalDerivatives(local, dim2);
+			Vector du = GlobalDerivatives(local, dimensionIndex1);
+			Vector dv = GlobalDerivatives(local, dimensionIndex2);
 			Vector dw = eilig::Cross(du, dv);
 
 			return eilig::NormP2(dw);
 		}
-		Scalar ElementHexa::DelL(const Vector& local, const Dimension& dim1) const
+		Scalar ElementHexa::DelL(const Vector& local, const DimensionIndex& dimensionIndex) const
 		{
 			Vector dw;
 
-			dw = GlobalDerivatives(local, dim1);
+			dw = GlobalDerivatives(local, dimensionIndex);
 
 			return eilig::NormP2(dw);
 		}
@@ -395,9 +395,9 @@ namespace dive
 
 			std::size_t counter = 0;
 
-			Dimension dim1;
-			Dimension dim2;
-			Dimension dim3;
+			DimensionIndex dim1;
+			DimensionIndex dim2;
+			DimensionIndex dim3;
 			Vector point(numberCoordinates_);
 
 			const auto& points = gaussLine_->GetPoints();
@@ -568,7 +568,7 @@ namespace dive
 
 			return output;
 		}
-		Vector ElementHexa::GlobalDerivatives(const Vector& local, const Dimension& dim) const
+		Vector ElementHexa::GlobalDerivatives(const Vector& local, const DimensionIndex& dim) const
 		{
 			Vector output(numberCoordinates_);
 
