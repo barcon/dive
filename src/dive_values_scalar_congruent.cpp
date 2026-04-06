@@ -3,15 +3,15 @@
 
 namespace values
 {
-    Scalar GetValue(IScalar3DPtr field, const Vector& point, IElementPtr element)
+    Scalar GetValueScalarCoordinates(IScalarCoordinatesPtr field, const Vector& point, IElementPtr element)
     {
         Scalar res{ 0.0 };
 
-        if (field->GetType() == values::value_scalar3D_congruent)
+        if (field->GetType() == values::value_scalar_coordinates_congruent)
         {
-            res = std::static_pointer_cast<values::ValueScalar3DCongruent>(field)->GetValue(point, element->GetElementIndex());
+            res = std::static_pointer_cast<values::ValueScalarCoordinatesCongruent>(field)->GetValue(point, element->GetElementIndex());
         }
-        else if(field->GetType() == values::value_scalar3D)
+        else if(field->GetType() == values::value_scalar_coordinates)
         {
             res = field->GetValue(point);
         }
@@ -23,77 +23,70 @@ namespace values
         return res;
     }
 
-    ValueScalar3DCongruentPtr CreateValueScalar3DCongruent(IMeshPtr mesh)
+    ValueScalarCoordinatesCongruentPtr CreateValueScalarCoordinatesCongruent(IMeshPtr mesh)
     {
-        auto res = ValueScalar3DCongruent::Create();
-
-        res->SetMesh(mesh);
-
-        return res;
+        return ValueScalarCoordinatesCongruent::Create(mesh);
     }
-    ValueScalar3DCongruentPtr ValueScalar3DCongruent::Create()
+    ValueScalarCoordinatesCongruentPtr ValueScalarCoordinatesCongruent::Create(IMeshPtr mesh)
     {
-        class MakeSharedEnabler : public ValueScalar3DCongruent
+        class MakeSharedEnabler : public ValueScalarCoordinatesCongruent
         {
         };
 
         auto res = std::make_shared<MakeSharedEnabler>();
 
+        res->SetMesh(mesh);
+
         return res;
     }
-    Type ValueScalar3DCongruent::GetType() const
+    Type ValueScalarCoordinatesCongruent::GetType() const
     {
         return type_;
     }
-    const String& ValueScalar3DCongruent::GetName() const
+    const String& ValueScalarCoordinatesCongruent::GetName() const
     {
         return name_;
     }
-    const String& ValueScalar3DCongruent::GetKey() const
+    const String& ValueScalarCoordinatesCongruent::GetKey() const
     {
         return key_;
     }
-    Scalar ValueScalar3DCongruent::GetValue(Scalar x, Scalar y, Scalar z) const
-    {   
-        return GetValue(x, y, z, elementIndex_);
-    }
-    Scalar ValueScalar3DCongruent::GetValue(Scalar x, Scalar y, Scalar z, ElementIndex elementIndex) const
+    NumberCoordinates ValueScalarCoordinatesCongruent::GetNumberCoordinates() const
     {
-        Vector point(3);
-
-        point(0) = x;
-        point(1) = y;
-        point(2) = z;
-
-        return GetValue(point, elementIndex);
+        return mesh_->GetNumberCoordinates();
     }
-    Scalar ValueScalar3DCongruent::GetValue(const Vector& point) const
+    Scalar ValueScalarCoordinatesCongruent::GetValue(const Vector& point) const
     {
         return GetValue(point, elementIndex_);
     }
-    Scalar ValueScalar3DCongruent::GetValue(const Vector& point, ElementIndex elementIndex) const
+    Scalar ValueScalarCoordinatesCongruent::GetValue(const Vector& point, ElementIndex elementIndex) const
     {
         const auto& element = std::dynamic_pointer_cast<dive::elements::IElementMapped>(mesh_->GetElements()[elementIndex]);
 
         return element->u(point)(0);
     }
-    IMeshPtr ValueScalar3DCongruent::GetMesh() const
+    IMeshPtr ValueScalarCoordinatesCongruent::GetMesh() const
     {
         return mesh_;
     }
-    void ValueScalar3DCongruent::SetName(const String& name)
+    void ValueScalarCoordinatesCongruent::SetName(const String& name)
     {
         name_ = name;
     }
-    void ValueScalar3DCongruent::SetKey(const String& key)
+    void ValueScalarCoordinatesCongruent::SetKey(const String& key)
     {
         key_ = key;
     }
-    void ValueScalar3DCongruent::SetMesh(IMeshPtr mesh)
+    void ValueScalarCoordinatesCongruent::SetMesh(IMeshPtr mesh)
     {
+        if (mesh == nullptr)
+        {
+            throw std::invalid_argument("Mesh cannot be null.");
+        }
+
         mesh_ = mesh;
     }
-    void ValueScalar3DCongruent::SetElementIndex(ElementIndex elementIndex)
+    void ValueScalarCoordinatesCongruent::SetElementIndex(ElementIndex elementIndex)
     {
         elementIndex_ = elementIndex;
     }

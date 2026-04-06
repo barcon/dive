@@ -47,11 +47,13 @@ namespace dive
 			virtual const NodeMeshIndices& GetNodeMeshIndices() const = 0;
 			virtual const DirichletMeshIndices& GetDirichletMeshIndices() const = 0;
 
-			virtual void SetMesh(IMeshPtr mesh) = 0;
 			virtual void SetTag(Tag tag) = 0;
 
 			virtual void ApplyLoad(ILoadPtr load) = 0;
 			virtual void Initialize() = 0;
+
+		protected:
+			virtual void SetMesh(IMeshPtr mesh) = 0;
 		};
 
 		class IFluid : public IProblem
@@ -59,12 +61,12 @@ namespace dive
 		public:
 			virtual ~IFluid() = default;
 
-			virtual IScalar3DPtr GetTemperature() const = 0;
-			virtual IScalar3DPtr GetPressure() const = 0;
-			virtual IMatrix3DPtr GetVelocity() const = 0;
+			virtual IScalarCoordinatesPtr GetTemperature() const = 0;
+			virtual IScalarCoordinatesPtr GetPressure() const = 0;
+			virtual IMatrixCoordinatesPtr GetVelocity() const = 0;
 
-			virtual void SetTemperature(IScalar3DPtr temperature) = 0;
-			virtual void SetPressure(IScalar3DPtr pressure) = 0;
+			virtual void SetTemperature(IScalarCoordinatesPtr temperature) = 0;
+			virtual void SetPressure(IScalarCoordinatesPtr pressure) = 0;
 			
 			virtual void UpdateMeshValues(const Vector& u) = 0;
 			virtual void UpdateMeshValues(const Vector& u0, const Vector& u1) = 0;
@@ -87,17 +89,15 @@ namespace dive
 		public:
 			virtual ~IPressure() = default;
 
-			virtual IScalar3DPtr GetTemperature() const = 0;
-			virtual IScalar3DPtr GetPressure() const = 0;
-			virtual IMatrix3DPtr GetVelocity() const = 0;
+			virtual IScalarCoordinatesPtr GetTemperature() const = 0;
+			virtual IScalarCoordinatesPtr GetPressure() const = 0;
 
-			virtual void SetTemperature(IScalar3DPtr temperature) = 0;
-			virtual void SetVelocity(IMatrix3DPtr velocity) = 0;
+			virtual void SetTemperature(IScalarCoordinatesPtr temperature) = 0;
 
 			virtual void UpdateMeshValues(const Vector& u) = 0;
 			virtual void UpdateMeshValues(const Vector& u0, const Vector& u1) = 0;
 
-			virtual Sparse Mass(bool lumped = false) const = 0;
+			virtual Sparse Mass(IFluidPtr problemMomentum, bool lumped = false) const = 0;
 			virtual Sparse Stiffness() const = 0;
 			virtual Sparse Crossed(IProblemPtr problemMomentum) const = 0;
 			virtual Sparse Stabilization(IProblemPtr problemMomentum) const = 0;
@@ -111,10 +111,10 @@ namespace dive
 		public:
 			virtual ~IThermal() = default;
 
-			virtual IScalar3DPtr GetTemperature() const = 0;
-			virtual IScalar3DPtr GetPressure() const = 0;
+			virtual IScalarCoordinatesPtr GetTemperature() const = 0;
+			virtual IScalarCoordinatesPtr GetPressure() const = 0;
 
-			virtual void SetPressure(IScalar3DPtr pressure) = 0;
+			virtual void SetPressure(IScalarCoordinatesPtr pressure) = 0;
 
 			virtual void UpdateMeshValues(const Vector& u) = 0;
 			virtual void UpdateMeshValues(const Vector& u0, const Vector& u1) = 0;
@@ -132,11 +132,12 @@ namespace dive
 		public:
 			virtual ~IStructural() = default;
 
-			virtual IScalar3DPtr GetTemperature() const = 0;
-			virtual IScalar3DPtr GetPressure() const = 0;
+			virtual IScalarCoordinatesPtr GetTemperature() const = 0;
+			virtual IScalarCoordinatesPtr GetPressure() const = 0;
+			virtual IMatrixCoordinatesPtr GetVelocity() const = 0;
 
-			virtual void SetTemperature(IScalar3DPtr temperature) = 0;
-			virtual void SetPressure(IScalar3DPtr pressure) = 0;
+			virtual void SetTemperature(IScalarCoordinatesPtr temperature) = 0;
+			virtual void SetPressure(IScalarCoordinatesPtr pressure) = 0;
 
 			virtual void UpdateMeshValues(const Vector& u) = 0;
 			virtual void UpdateMeshValues(const Vector& u0, const Vector& u1) = 0;

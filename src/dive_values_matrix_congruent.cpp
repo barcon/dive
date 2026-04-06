@@ -3,15 +3,15 @@
 
 namespace values
 {
-    Matrix GetValueMatrix3D(IMatrix3DPtr field, const Vector& point, IElementPtr element)
+    Matrix GetValueMatrixCoordinates(IMatrixCoordinatesPtr field, const Vector& point, IElementPtr element)
     {
         Matrix res;
 
-        if (field->GetType() == values::value_matrix3D_congruent)
+        if (field->GetType() == values::value_matrix_coordinates_congruent)
         {
-            res = std::static_pointer_cast<values::ValueMatrix3DCongruent>(field)->GetValue(point, element->GetElementIndex());
+            res = std::static_pointer_cast<values::ValueMatrixCoordinatesCongruent>(field)->GetValue(point, element->GetElementIndex());
         }
-        else if (field->GetType() == values::value_matrix3D_scalars)
+        else if (field->GetType() == values::value_matrix_coordinates_scalars)
         {
             res = field->GetValue(point);
         }
@@ -23,77 +23,70 @@ namespace values
         return res;
     }
 
-    ValueMatrix3DCongruentPtr CreateValueMatrix3DCongruent(IMeshPtr mesh)
+    ValueMatrixCoordinatesCongruentPtr CreateValueMatrixCoordinatesCongruent(IMeshPtr mesh)
     {
-        auto res = ValueMatrix3DCongruent::Create();
-
-        res->SetMesh(mesh);
-
-        return res;
+        return ValueMatrixCoordinatesCongruent::Create(mesh);
     }
-    ValueMatrix3DCongruentPtr ValueMatrix3DCongruent::Create()
+    ValueMatrixCoordinatesCongruentPtr ValueMatrixCoordinatesCongruent::Create(IMeshPtr mesh)
     {
-        class MakeSharedEnabler : public ValueMatrix3DCongruent
+        class MakeSharedEnabler : public ValueMatrixCoordinatesCongruent
         {
         };
 
         auto res = std::make_shared<MakeSharedEnabler>();
 
+        res->SetMesh(mesh);
+
         return res;
     }
-    Type ValueMatrix3DCongruent::GetType() const
+    Type ValueMatrixCoordinatesCongruent::GetType() const
     {
         return type_;
     }
-    const String& ValueMatrix3DCongruent::GetName() const
+    const String& ValueMatrixCoordinatesCongruent::GetName() const
     {
         return name_;
     }
-    const String& ValueMatrix3DCongruent::GetKey() const
+    const String& ValueMatrixCoordinatesCongruent::GetKey() const
     {
         return key_;
     }
-    Matrix ValueMatrix3DCongruent::GetValue(Scalar x, Scalar y, Scalar z) const
-    {   
-        return GetValue(x, y, z, elementIndex_);
-    }
-    Matrix ValueMatrix3DCongruent::GetValue(Scalar x, Scalar y, Scalar z, ElementIndex elementIndex) const
+    NumberCoordinates ValueMatrixCoordinatesCongruent::GetNumberCoordinates() const
     {
-        Vector point(3);
-
-        point(0) = x;
-        point(1) = y;
-        point(2) = z;
-
-        return GetValue(point, elementIndex);
+        return mesh_->GetNumberCoordinates();
     }
-    Matrix ValueMatrix3DCongruent::GetValue(const Vector& point) const
+    Matrix ValueMatrixCoordinatesCongruent::GetValue(const Vector& point) const
     {
         return GetValue(point, elementIndex_);
     }
-    Matrix ValueMatrix3DCongruent::GetValue(const Vector& point, ElementIndex elementIndex) const
+    Matrix ValueMatrixCoordinatesCongruent::GetValue(const Vector& point, ElementIndex elementIndex) const
     {
         const auto& element = std::dynamic_pointer_cast<dive::elements::IElementMapped>(mesh_->GetElements()[elementIndex]);
 
         return element->u(point);
     }
-    IMeshPtr ValueMatrix3DCongruent::GetMesh() const
+    IMeshPtr ValueMatrixCoordinatesCongruent::GetMesh() const
     {
         return mesh_;
     }
-    void ValueMatrix3DCongruent::SetName(const String& name)
+    void ValueMatrixCoordinatesCongruent::SetName(const String& name)
     {
         name_ = name;
     }
-    void ValueMatrix3DCongruent::SetKey(const String& key)
+    void ValueMatrixCoordinatesCongruent::SetKey(const String& key)
     {
         key_ = key;
     }
-    void ValueMatrix3DCongruent::SetMesh(IMeshPtr mesh)
+    void ValueMatrixCoordinatesCongruent::SetMesh(IMeshPtr mesh)
     {
+        if (mesh == nullptr)
+        {
+            throw std::invalid_argument("Mesh cannot be null.");
+        }
+
         mesh_ = mesh;
     }
-    void ValueMatrix3DCongruent::SetElementIndex(ElementIndex elementIndex)
+    void ValueMatrixCoordinatesCongruent::SetElementIndex(ElementIndex elementIndex)
     {
         elementIndex_ = elementIndex;
     }

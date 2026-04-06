@@ -3,15 +3,15 @@
 
 namespace values
 {
-    Vector GetValueVector3D(IVector3DPtr field, const Vector& point, IElementPtr element)
+    Vector GetValueVectorCoordinates(IVectorCoordinatesPtr field, const Vector& point, IElementPtr element)
     {
         Vector res;
 
-        if (field->GetType() == values::value_vector3D_congruent)
+        if (field->GetType() == values::value_vector_coordinates_congruent)
         {
-            res = std::static_pointer_cast<values::ValueVector3DCongruent>(field)->GetValue(point, element->GetElementIndex());
+            res = std::static_pointer_cast<values::ValueVectorCoordinatesCongruent>(field)->GetValue(point, element->GetElementIndex());
         }
-        else if (field->GetType() == values::value_vector3D_scalars)
+        else if (field->GetType() == values::value_vector_coordinates_scalars)
         {
             res = field->GetValue(point);
         }
@@ -23,77 +23,70 @@ namespace values
         return res;
     }
 
-    ValueVector3DCongruentPtr CreateValueVector3DCongruent(IMeshPtr mesh)
+    ValueVectorCoordinatesCongruentPtr CreateValueVectorCoordinatesCongruent(IMeshPtr mesh)
     {
-        auto res = ValueVector3DCongruent::Create();
-
-        res->SetMesh(mesh);
-
-        return res;
+        return ValueVectorCoordinatesCongruent::Create(mesh);
     }
-    ValueVector3DCongruentPtr ValueVector3DCongruent::Create()
+    ValueVectorCoordinatesCongruentPtr ValueVectorCoordinatesCongruent::Create(IMeshPtr mesh)
     {
-        class MakeSharedEnabler : public ValueVector3DCongruent
+        class MakeSharedEnabler : public ValueVectorCoordinatesCongruent
         {
         };
 
         auto res = std::make_shared<MakeSharedEnabler>();
 
+        res->SetMesh(mesh);
+
         return res;
     }
-    Type ValueVector3DCongruent::GetType() const
+    Type ValueVectorCoordinatesCongruent::GetType() const
     {
         return type_;
     }
-    const String& ValueVector3DCongruent::GetName() const
+    const String& ValueVectorCoordinatesCongruent::GetName() const
     {
         return name_;
     }
-    const String& ValueVector3DCongruent::GetKey() const
+    const String& ValueVectorCoordinatesCongruent::GetKey() const
     {
         return key_;
     }
-    Vector ValueVector3DCongruent::GetValue(Scalar x, Scalar y, Scalar z) const
-    {   
-        return GetValue(x, y, z, elementIndex_);
-    }
-    Vector ValueVector3DCongruent::GetValue(Scalar x, Scalar y, Scalar z, ElementIndex elementIndex) const
+    NumberCoordinates ValueVectorCoordinatesCongruent::GetNumberCoordinates() const
     {
-        Vector point(3);
-
-        point(0) = x;
-        point(1) = y;
-        point(2) = z;
-
-        return GetValue(point, elementIndex);
+        return mesh_->GetNumberCoordinates();
     }
-    Vector ValueVector3DCongruent::GetValue(const Vector& point) const
+    Vector ValueVectorCoordinatesCongruent::GetValue(const Vector& point) const
     {
         return GetValue(point, elementIndex_);
     }
-    Vector ValueVector3DCongruent::GetValue(const Vector& point, ElementIndex elementIndex) const
+    Vector ValueVectorCoordinatesCongruent::GetValue(const Vector& point, ElementIndex elementIndex) const
     {
         const auto& element = std::dynamic_pointer_cast<dive::elements::IElementMapped>(mesh_->GetElements()[elementIndex]);
 
         return Vector(element->u(point), 0);
     }
-    IMeshPtr ValueVector3DCongruent::GetMesh() const
+    IMeshPtr ValueVectorCoordinatesCongruent::GetMesh() const
     {
         return mesh_;
     }
-    void ValueVector3DCongruent::SetName(const String& name)
+    void ValueVectorCoordinatesCongruent::SetName(const String& name)
     {
         name_ = name;
     }
-    void ValueVector3DCongruent::SetKey(const String& key)
+    void ValueVectorCoordinatesCongruent::SetKey(const String& key)
     {
         key_ = key;
     }
-    void ValueVector3DCongruent::SetMesh(IMeshPtr mesh)
+    void ValueVectorCoordinatesCongruent::SetMesh(IMeshPtr mesh)
     {
+        if(mesh == nullptr)
+        {
+            throw std::invalid_argument("Mesh cannot be null.");
+		}
+        
         mesh_ = mesh;
     }
-    void ValueVector3DCongruent::SetElementIndex(ElementIndex elementIndex)
+    void ValueVectorCoordinatesCongruent::SetElementIndex(ElementIndex elementIndex)
     {
         elementIndex_ = elementIndex;
     }

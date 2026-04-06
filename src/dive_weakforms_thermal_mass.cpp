@@ -35,27 +35,29 @@ namespace dive {
 
 			output = (rho * cp) * NN;
 		}
-		void MassThermal::SetTemperature(IScalar3DPtr temperature)
+		void MassThermal::SetTemperature(IScalarCoordinatesPtr temperature)
 		{
 			temperature_ = temperature;
 		}
-		void MassThermal::SetPressure(IScalar3DPtr pressure)
+		void MassThermal::SetPressure(IScalarCoordinatesPtr pressure)
 		{
 			pressure_ = pressure;
 		}
 		Scalar MassThermal::FormDensity(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
-			auto temperature = values::GetValue(temperature_, local, element);
-			auto pressure = values::GetValue(pressure_, local, element);
+			auto state = Vector(2);
+			state(0) = values::GetValueScalarCoordinates(temperature_, local, element);
+			state(1) = values::GetValueScalarCoordinates(pressure_, local, element);
 
-			return element->GetMaterial()->GetDensity(temperature, pressure);
+			return element->GetMaterial()->GetDensity(state);
 		}
 		Scalar MassThermal::FormSpecificHeat(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
-			auto temperature = values::GetValue(temperature_, local, element);
-			auto pressure = values::GetValue(pressure_, local, element);
+			auto state = Vector(2);
+			state(0) = values::GetValueScalarCoordinates(temperature_, local, element);
+			state(1) = values::GetValueScalarCoordinates(pressure_, local, element);
 
-			return element->GetMaterial()->GetSpecificHeat(temperature, pressure);
+			return element->GetMaterial()->GetSpecificHeat(state);
 		}
 		Matrix MassThermal::FormMatrix_NN(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{

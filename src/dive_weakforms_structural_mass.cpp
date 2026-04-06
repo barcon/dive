@@ -34,11 +34,11 @@ namespace dive {
 
 			output = rho * NN;
 		}
-		void MassStructural::SetTemperature(IScalar3DPtr temperature)
+		void MassStructural::SetTemperature(IScalarCoordinatesPtr temperature)
 		{
 			temperature_ = temperature;
 		}
-		void MassStructural::SetPressure(IScalar3DPtr pressure)
+		void MassStructural::SetPressure(IScalarCoordinatesPtr pressure)
 		{
 			pressure_ = pressure;
 		}
@@ -49,10 +49,11 @@ namespace dive {
 		Scalar MassStructural::FormDensity(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			auto material = std::static_pointer_cast<material::IMaterialSolid>(element->GetMaterial());
-			auto temperature = values::GetValue(temperature_, local, element);
-			auto pressure = values::GetValue(pressure_, local, element);
+			auto state = Vector(2);
+			state(0) = values::GetValueScalarCoordinates(temperature_, local, element);
+			state(1) = values::GetValueScalarCoordinates(pressure_, local, element);
 
-			return material->GetDensity(temperature, pressure);
+			return material->GetDensity(state);
 		}
 	} // namespace problems
 } // namespace dive

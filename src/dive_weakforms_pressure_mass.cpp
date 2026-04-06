@@ -45,30 +45,32 @@ namespace dive {
 
 			output = (1.0 / (beta * beta)) * N.Transpose() * N;
 		}
-		void MassPressure::SetTemperature(IScalar3DPtr temperature)
+		void MassPressure::SetTemperature(IScalarCoordinatesPtr temperature)
 		{
 			temperature_ = temperature;
 		}
-		void MassPressure::SetPressure(IScalar3DPtr pressure)
+		void MassPressure::SetPressure(IScalarCoordinatesPtr pressure)
 		{
 			pressure_ = pressure;
 		}
-		void MassPressure::SetVelocity(IMatrix3DPtr velocity)
+		void MassPressure::SetVelocity(IMatrixCoordinatesPtr velocity)
 		{
 			velocity_ = velocity;
 		}
 		Matrix MassPressure::FormVelocity(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
-			return values::GetValueMatrix3D(velocity_, local, element) ;
+			return values::GetValueMatrixCoordinates(velocity_, local, element) ;
 		}
 		Scalar MassPressure::FormKineticViscosity(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
-			auto material = std::static_pointer_cast<material::IMaterialFluid>(element->GetMaterial());
-			auto temperature = values::GetValue(temperature_, local, element);
-			auto pressure = values::GetValue(pressure_, local, element);
+			auto material = std::static_pointer_cast<material::IMaterialFluid>(element->GetMaterial());		
+			
+			auto state = Vector(2);
+			state(0) = values::GetValueScalarCoordinates(temperature_, local, element);
+			state(1) = values::GetValueScalarCoordinates(pressure_, local, element);
 
-			auto dynamicViscosity = material->GetDynamicViscosity(temperature, pressure);
-			auto density = material->GetDensity(temperature, pressure);
+			auto dynamicViscosity = material->GetDynamicViscosity(state);
+			auto density = material->GetDensity(state);
 
 			return dynamicViscosity / density;
 		}

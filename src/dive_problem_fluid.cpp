@@ -4,30 +4,20 @@
 
 namespace dive {
 	namespace problem {
-		ProblemFluidPtr CreateProblemFluid()
+		ProblemFluidPtr CreateProblemFluid(Tag problemTag, IMeshPtr mesh)
 		{
-			auto res = ProblemFluid::Create();
-
-			return res;
+			return ProblemFluid::Create(problemTag, mesh);
 		}
-		ProblemFluidPtr CreateProblemFluid(Tag problemTag)
-		{
-			auto res = ProblemFluid::Create();
-
-			res->SetTag(problemTag);
-
-			return res;
-		}
-		ProblemFluid::ProblemFluid()
-		{
-		}
-		ProblemFluidPtr ProblemFluid::Create()
+		ProblemFluidPtr ProblemFluid::Create(Tag problemTag, IMeshPtr mesh)
 		{
 			class MakeSharedEnabler : public ProblemFluid
 			{
 			};
 
 			auto res = std::make_shared<MakeSharedEnabler>();
+
+			res->SetTag(problemTag);
+			res->SetMesh(mesh);
 
 			return res;
 		}
@@ -51,15 +41,15 @@ namespace dive {
 		{
 			return pivot_;
 		}
-		IScalar3DPtr ProblemFluid::GetTemperature() const
+		IScalarCoordinatesPtr ProblemFluid::GetTemperature() const
 		{
 			return temperature_;
 		}
-		IScalar3DPtr ProblemFluid::GetPressure() const
+		IScalarCoordinatesPtr ProblemFluid::GetPressure() const
 		{
 			return pressure_;
 		}
-		IMatrix3DPtr ProblemFluid::GetVelocity() const
+		IMatrixCoordinatesPtr ProblemFluid::GetVelocity() const
 		{
 			return velocity_;
 		}
@@ -91,22 +81,43 @@ namespace dive {
 		{
 			return dirichletMeshIndices_;
 		}
-		void ProblemFluid::SetTemperature(IScalar3DPtr temperature)
+		void ProblemFluid::SetTemperature(IScalarCoordinatesPtr temperature)
 		{
+			if (temperature == nullptr)
+			{
+				throw std::invalid_argument("Temperature cannot be null.");
+			}
+
+			if (temperature->GetNumberCoordinates() != mesh_->GetNumberCoordinates())
+			{
+				throw std::invalid_argument("Temperature number of coordinates must match mesh number of coordinates.");
+			}
+
 			temperature_ = temperature;
 		}
-		void ProblemFluid::SetPressure(IScalar3DPtr pressure)
+		void ProblemFluid::SetPressure(IScalarCoordinatesPtr pressure)
 		{
+			if (pressure == nullptr)
+			{
+				throw std::invalid_argument("Pressure cannot be null.");
+			}
+
+			if (pressure->GetNumberCoordinates() != mesh_->GetNumberCoordinates())
+			{
+				throw std::invalid_argument("Pressure number of coordinates must match mesh number of coordinates.");
+			}
+
 			pressure_ = pressure;
 		}
 		void ProblemFluid::SetMesh(IMeshPtr mesh)
 		{
-			mesh_ = mesh;
-
-			if (mesh != nullptr)
+			if (mesh == nullptr)
 			{
-				velocity_ = values::CreateValueMatrix3DCongruent(mesh_);
+				throw std::invalid_argument("Mesh cannot be null.");
 			}
+		
+			mesh_ = mesh;
+			velocity_ = values::CreateValueMatrixCoordinatesCongruent(mesh_);
 
 			UpdateMeshElements(mesh_, numberDof_);
 		}
@@ -177,9 +188,11 @@ namespace dive {
 				const auto& point = element->LocalCoordinates(node);
 				const auto& material = element->GetMaterial();
 
-				auto temperature = values::GetValue(temperature_, point, element);
-				auto pressure = values::GetValue(pressure_, point, element);
-				auto density = material->GetDensity(temperature, pressure);
+				auto state = Vector(2);
+				state(0) = values::GetValueScalarCoordinates(temperature_, point, element);
+				state(1) = values::GetValueScalarCoordinates(pressure_, point, element);
+
+				auto density = material->GetDensity(state);
 
 				dofMeshIndices_[i].node->SetValue(dofIndex, q(globalIndex) / density);
 			}
@@ -196,9 +209,11 @@ namespace dive {
 				const auto& point = element->LocalCoordinates(node);
 				const auto& material = element->GetMaterial();
 
-				auto temperature = values::GetValue(temperature_, point, element);
-				auto pressure = values::GetValue(pressure_, point, element);
-				auto density = material->GetDensity(temperature, pressure);
+				auto state = Vector(2);
+				state(0) = values::GetValueScalarCoordinates(temperature_, point, element);
+				state(1) = values::GetValueScalarCoordinates(pressure_, point, element);
+
+				auto density = material->GetDensity(state);
 
 				if (globalIndex < pivot_)
 				{
@@ -285,9 +300,12 @@ namespace dive {
 				const auto& point = element->LocalCoordinates(dofMeshIndices_[i].node);
 				
 				auto material = std::static_pointer_cast<material::IMaterialFluid>(element->GetMaterial());
-				auto temperature = values::GetValue(temperature_, point, element);
-				auto pressure = values::GetValue(pressure_, point, element);
-				auto density = material->GetDensity(temperature, pressure);
+
+				auto state = Vector(2);
+				state(0) = values::GetValueScalarCoordinates(temperature_, point, element);
+				state(1) = values::GetValueScalarCoordinates(pressure_, point, element);
+
+				auto density = material->GetDensity(state);
 
 				res(globalIndex) = density * dofMeshIndices_[i].node->GetValue(dofIndex);
 			}

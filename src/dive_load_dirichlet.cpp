@@ -4,7 +4,7 @@ namespace dive
 {
 	namespace load
 	{
-		LoadDirichletPtr CreateLoadDirichlet(INodePtr node, DofIndex dofIndex, IScalar3DPtr value)
+		LoadDirichletPtr CreateLoadDirichlet(INodePtr node, DofIndex dofIndex, IScalarCoordinatesPtr value)
 		{
 			auto res = LoadDirichlet::Create();
 
@@ -42,9 +42,7 @@ namespace dive
 		}
 		Scalar LoadDirichlet::GetValue() const
 		{
-			const auto& point = node_->GetPoint();
-
-			return value_->GetValue(point(0), point(1), point(2));
+			return value_->GetValue(node_->GetPoint());
 		}
 		Type LoadDirichlet::GetType() const
 		{
@@ -52,14 +50,34 @@ namespace dive
 		}
 		void LoadDirichlet::SetNode(INodePtr node)
 		{
+			if (node == nullptr)
+			{
+				throw std::invalid_argument("Node is nullptr");
+			}
+
 			node_ = node;
 		}
 		void LoadDirichlet::SetDofIndex(DofIndex dofIndex)
 		{
+			if (dofIndex >= node_->GetNumberDof())
+			{
+				throw std::invalid_argument("Dof index is out of range");
+			}
+
 			dofIndex_ = dofIndex;
 		}
-		void LoadDirichlet::SetValue(IScalar3DPtr value)
+		void LoadDirichlet::SetValue(IScalarCoordinatesPtr value)
 		{
+			if (value == nullptr)
+			{
+				throw std::invalid_argument("Value is nullptr");
+			}
+
+			if (value->GetNumberCoordinates() != node_->GetNumberCoordinates())
+			{
+				throw std::invalid_argument("Number coordinates of value does not match number coordinates of element");
+			}
+
 			value_ = value;
 		}
 	} //namespace load

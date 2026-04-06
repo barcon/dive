@@ -4,7 +4,7 @@ namespace dive
 {
 	namespace load
 	{
-		LoadNodePtr CreateLoadNode(INodePtr node, IVector3DPtr value)
+		LoadNodePtr CreateLoadNode(INodePtr node, IVectorCoordinatesPtr value)
 		{
 			auto res = LoadNode::Create();
 
@@ -45,16 +45,29 @@ namespace dive
 		}
 		void LoadNode::SetNode(INodePtr node)
 		{
+			if (node == nullptr)
+			{
+				throw std::invalid_argument("Node is nullptr");
+			}
+
 			node_ = node;
 		}
 		Vector LoadNode::GetValue() const
 		{
-			auto delta = eilig::Vector(node_->GetValue(), 0);
-			
-			return value_->GetValue(node_->GetPoint() + delta);
+			return value_->GetValue(node_->GetPoint());
 		}
-		void LoadNode::SetValue(IVector3DPtr value)
+		void LoadNode::SetValue(IVectorCoordinatesPtr value)
 		{
+			if (value == nullptr)
+			{
+				throw std::invalid_argument("Value is nullptr");
+			}
+
+			if (value->GetNumberCoordinates() != node_->GetNumberCoordinates())
+			{
+				throw std::invalid_argument("Number coordinates of value does not match number coordinates of element");
+			}
+
 			value_ = value;
 		}
 	} //namespace loads

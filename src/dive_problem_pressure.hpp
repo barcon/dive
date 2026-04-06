@@ -13,15 +13,14 @@ namespace dive
 {
 	namespace problem
 	{
-		ProblemPressurePtr CreateProblemPressure();
-		ProblemPressurePtr CreateProblemPressure(Tag problemTag);
+		ProblemPressurePtr CreateProblemPressure(Tag problemTag, IMeshPtr mesh);
 
 		class ProblemPressure : public IPressure, virtual public std::enable_shared_from_this<ProblemPressure>
 		{
 		public:
 			virtual ~ProblemPressure() = default;
 
-			static ProblemPressurePtr Create();
+			static ProblemPressurePtr Create(Tag problemTag, IMeshPtr mesh);
 			ProblemPressurePtr GetPtr();
 			ConstProblemPressurePtr GetPtr() const;
 
@@ -29,9 +28,8 @@ namespace dive
 			NumberDof GetTotalDof() const override;
 			DofIndex GetPivot() const override;
 
-			IScalar3DPtr GetTemperature() const override;
-			IScalar3DPtr GetPressure() const override;
-			IMatrix3DPtr GetVelocity() const override;
+			IScalarCoordinatesPtr GetTemperature() const override;
+			IScalarCoordinatesPtr GetPressure() const override;
 			IMeshPtr GetMesh() const override;
 			Type GetType() const override;
 			Tag	GetTag() const override;
@@ -42,9 +40,7 @@ namespace dive
 			const NodeMeshIndices& GetNodeMeshIndices() const override;
 			const DirichletMeshIndices& GetDirichletMeshIndices() const override;
 
-			void SetTemperature(IScalar3DPtr temperature) override;
-			void SetVelocity(IMatrix3DPtr velocity) override;
-			void SetMesh(IMeshPtr mesh) override;
+			void SetTemperature(IScalarCoordinatesPtr temperature) override;
 			void SetTag(Tag tag) override;
 
 			void ApplyLoad(ILoadPtr load) override;
@@ -53,7 +49,7 @@ namespace dive
 			void UpdateMeshValues(const Vector& u) override;
 			void UpdateMeshValues(const Vector& u0, const Vector& u1) override;
 
-			Sparse Mass(bool lumped = false) const override;
+			Sparse Mass(IFluidPtr problemMomentum, bool lumped = false) const override;
 			Sparse Stiffness() const override;
 			Sparse Crossed(IProblemPtr problemMomentum) const override;
 			Sparse Stabilization(IProblemPtr problemMomentum) const override;
@@ -62,7 +58,9 @@ namespace dive
 			Vector Pressure() const override;
 
 		protected:
-			ProblemPressure();
+			ProblemPressure() = default;
+
+			void SetMesh(IMeshPtr mesh) override;
 
 			Tag tag_{ 0 };
 			Type type_{ problem_pressure };
@@ -70,9 +68,8 @@ namespace dive
 			NumberDof totalDof_{ 0 };
 			DofIndex pivot_{ 0 };
 
-			IScalar3DPtr temperature_{ nullptr };
-			IScalar3DPtr pressure_{ nullptr };
-			IMatrix3DPtr velocity_{ nullptr };
+			IScalarCoordinatesPtr temperature_{ nullptr };
+			IScalarCoordinatesPtr pressure_{ nullptr };
 			IMeshPtr mesh_{ nullptr };
 
 			Loads loads_;

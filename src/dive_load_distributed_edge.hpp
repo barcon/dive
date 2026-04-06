@@ -7,7 +7,7 @@ namespace dive
 {
 	namespace load
 	{
-		LoadDistributedEdgePtr CreateLoadDistributedEdge(IElementPtr element, EdgeIndex edgeIndex, IVector3DPtr value);
+		LoadDistributedEdgePtr CreateLoadDistributedEdge(IElementPtr element, EdgeIndex edgeIndex, IVectorCoordinatesPtr value);
 		LoadDistributedEdgePtr CastToLoadDistributedEdge(ILoadPtr load);
 
 		class LoadDistributedEdge : public ILoadDistributedEdge, virtual public std::enable_shared_from_this<LoadDistributedEdge>
@@ -26,7 +26,7 @@ namespace dive
 
 			void SetElement(IElementMappedPtr element) override;
 			void SetEdgeIndex(EdgeIndex edgeIndex);
-			void SetValue(IVector3DPtr value);
+			void SetValue(IVectorCoordinatesPtr value);
 
 		protected:
 			LoadDistributedEdge() = default;
@@ -34,7 +34,7 @@ namespace dive
 			const Type type_{ load_distributed_edge };
 
 			EdgeIndex edgeIndex_{ 0 };
-			IVector3DPtr value_{ nullptr };
+			IVectorCoordinatesPtr value_{ nullptr };
 			IElementMappedPtr element_{ nullptr };
 		};
 

@@ -6,30 +6,20 @@
 
 namespace dive {
 	namespace problem {
-		ProblemStructuralPtr CreateProblemStructural()
+		ProblemStructuralPtr CreateProblemStructural(Tag problemTag, IMeshPtr mesh)
 		{
-			auto res = ProblemStructural::Create();
-
-			return res;
+			return ProblemStructural::Create(problemTag, mesh);
 		}
-		ProblemStructuralPtr CreateProblemStructural(Tag problemTag)
-		{
-			auto res = ProblemStructural::Create();
-
-			res->SetTag(problemTag);
-
-			return res;
-		}
-		ProblemStructural::ProblemStructural()
-		{
-		}
-		ProblemStructuralPtr ProblemStructural::Create()
+		ProblemStructuralPtr ProblemStructural::Create(Tag problemTag, IMeshPtr mesh)
 		{
 			class MakeSharedEnabler : public ProblemStructural
 			{
 			};
 
 			auto res = std::make_shared<MakeSharedEnabler>();
+
+			res->SetTag(problemTag);
+			res->SetMesh(mesh);
 
 			return res;
 		}
@@ -53,13 +43,17 @@ namespace dive {
 		{
 			return pivot_;
 		}
-		IScalar3DPtr ProblemStructural::GetTemperature() const
+		IScalarCoordinatesPtr ProblemStructural::GetTemperature() const
 		{
 			return temperature_;
 		}
-		IScalar3DPtr ProblemStructural::GetPressure() const
+		IScalarCoordinatesPtr ProblemStructural::GetPressure() const
 		{
 			return pressure_;
+		}
+		IMatrixCoordinatesPtr ProblemStructural::GetVelocity() const
+		{
+			return velocity_;
 		}
 		IMeshPtr ProblemStructural::GetMesh() const
 		{
@@ -89,17 +83,43 @@ namespace dive {
 		{
 			return dirichletMeshIndices_;
 		}
-		void ProblemStructural::SetTemperature(IScalar3DPtr temperature)
+		void ProblemStructural::SetTemperature(IScalarCoordinatesPtr temperature)
 		{
+			if (temperature == nullptr)
+			{
+				throw std::invalid_argument("Temperature cannot be null.");
+			}
+
+			if (temperature->GetNumberCoordinates() != mesh_->GetNumberCoordinates())
+			{
+				throw std::invalid_argument("Temperature number of coordinates must match mesh number of coordinates.");
+			}
+
 			temperature_ = temperature;
 		}
-		void ProblemStructural::SetPressure(IScalar3DPtr pressure)
+		void ProblemStructural::SetPressure(IScalarCoordinatesPtr pressure)
 		{
-			pressure_ = pressure;
+			if (pressure == nullptr)
+			{
+				throw std::invalid_argument("Pressure cannot be null.");
+			}
+
+			if (pressure->GetNumberCoordinates() != mesh_->GetNumberCoordinates())
+			{
+				throw std::invalid_argument("Pressure number of coordinates must match mesh number of coordinates.");
+			}
+
+			pressure_ = pressure;;
 		}
 		void ProblemStructural::SetMesh(IMeshPtr mesh)
 		{
+			if (mesh == nullptr)
+			{
+				throw std::invalid_argument("Mesh cannot be null.");
+			}
+
 			mesh_ = mesh;
+			velocity_ = values::CreateValueMatrixCoordinatesCongruent(mesh_);
 
 			UpdateMeshElements(mesh_, numberDof_);
 		}

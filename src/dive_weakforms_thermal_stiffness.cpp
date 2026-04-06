@@ -34,20 +34,21 @@ namespace dive {
 
 			output = dN.Transpose() * K * dN;
 		}
-		void StiffnessThermal::SetTemperature(IScalar3DPtr temperature)
+		void StiffnessThermal::SetTemperature(IScalarCoordinatesPtr temperature)
 		{
 			temperature_ = temperature;
 		}
-		void StiffnessThermal::SetPressure(IScalar3DPtr pressure)
+		void StiffnessThermal::SetPressure(IScalarCoordinatesPtr pressure)
 		{
 			pressure_ = pressure;
 		}
 		Matrix StiffnessThermal::FormMatrix_K(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
-			auto temperature = values::GetValue(temperature_, local, element);
-			auto pressure = values::GetValue(pressure_, local, element);
+			auto state = Vector(2);
+			state(0) = values::GetValueScalarCoordinates(temperature_, local, element);
+			state(1) = values::GetValueScalarCoordinates(pressure_, local, element);
 
-			return element->GetMaterial()->K(temperature, pressure);
+			return element->GetMaterial()->K(state);
 		}
 		Matrix StiffnessThermal::FormMatrix_dN(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{

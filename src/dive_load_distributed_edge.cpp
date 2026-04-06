@@ -6,15 +6,10 @@ namespace dive
 {
 	namespace load
 	{
-		LoadDistributedEdgePtr CreateLoadDistributedEdge(IElementPtr element, EdgeIndex edgeIndex, IVector3DPtr value)
+		LoadDistributedEdgePtr CreateLoadDistributedEdge(IElementPtr element, EdgeIndex edgeIndex, IVectorCoordinatesPtr value)
 		{
-			if (!element->IsMapped())
-			{
-				logger::Error(headerDive, utils::string::Format("Element is not mapped: {}", dive::messages.at(dive::DIVE_INVALID_TYPE)));
-				return nullptr;
-			}
-
 			auto res = LoadDistributedEdge::Create();
+
 			res->SetElement(std::dynamic_pointer_cast<elements::IElementMapped>(element));
 			res->SetEdgeIndex(edgeIndex);
 			res->SetValue(value);
@@ -53,7 +48,7 @@ namespace dive
 		}
 		Vector LoadDistributedEdge::GetValue(const Vector& point) const
 		{
-			return values::GetValueVector3D(value_, point, element_);
+			return values::GetValueVectorCoordinates(value_, point, element_);
 		}
 		EdgeIndex LoadDistributedEdge::GetEdgeIndex() const
 		{
@@ -61,14 +56,34 @@ namespace dive
 		}
 		void LoadDistributedEdge::SetElement(IElementMappedPtr element)
 		{
+			if (element == nullptr)
+			{
+				throw std::invalid_argument("Element is nullptr");
+			}
+
+			if (!element->IsMapped())
+			{
+				throw std::invalid_argument("Element is not mapped");
+			}
+
 			element_ = element;
 		}
 		void LoadDistributedEdge::SetEdgeIndex(EdgeIndex edgeIndex)
 		{
 			edgeIndex_ = edgeIndex;
 		}
-		void LoadDistributedEdge::SetValue(IVector3DPtr value)
+		void LoadDistributedEdge::SetValue(IVectorCoordinatesPtr value)
 		{
+			if (value == nullptr)
+			{
+				throw std::invalid_argument("Value is nullptr");
+			}
+
+			if (value->GetNumberCoordinates() != element_->GetNumberCoordinates())
+			{
+				throw std::invalid_argument("Number coordinates of value does not match number coordinates of element");
+			}
+
 			value_ = value;
 		}
 	} //namespace load

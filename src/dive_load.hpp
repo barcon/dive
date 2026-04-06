@@ -38,7 +38,7 @@ namespace dive
 
 			virtual void SetNode(INodePtr node) = 0;
 			virtual void SetDofIndex(DofIndex dofIndex) = 0;
-			virtual void SetValue(IScalar3DPtr value) = 0;
+			virtual void SetValue(IScalarCoordinatesPtr value) = 0;
 		};
 
 		class ILoadDistributedVolume : public ILoad
@@ -50,7 +50,7 @@ namespace dive
 			virtual Vector GetValue(const Vector& point) const = 0;
 
 			virtual void SetElement(IElementMappedPtr element) = 0;
-			virtual void SetValue(IVector3DPtr value) = 0;
+			virtual void SetValue(IVectorCoordinatesPtr value) = 0;
 		};
 
 		class ILoadDistributedFace : public ILoad
@@ -64,7 +64,7 @@ namespace dive
 
 			virtual void SetElement(IElementMappedPtr element) = 0;
 			virtual void SetFaceIndex(FaceIndex faceIndex) = 0;
-			virtual void SetValue(IVector3DPtr value) = 0;
+			virtual void SetValue(IVectorCoordinatesPtr value) = 0;
 		};
 
 		class ILoadDistributedEdge : public ILoad
@@ -78,7 +78,7 @@ namespace dive
 
 			virtual void SetElement(IElementMappedPtr element) = 0;
 			virtual void SetEdgeIndex(EdgeIndex edgeIndex) = 0;
-			virtual void SetValue(IVector3DPtr value) = 0;
+			virtual void SetValue(IVectorCoordinatesPtr value) = 0;
 		};
 
 		class ILoadNode : public ILoad
@@ -90,7 +90,7 @@ namespace dive
 			virtual Vector GetValue() const = 0;
 
 			virtual void SetNode(INodePtr node) = 0;
-			virtual void SetValue(IVector3DPtr value) = 0;
+			virtual void SetValue(IVectorCoordinatesPtr value) = 0;
 		};
 
 	} //namespace load

@@ -7,7 +7,7 @@ namespace dive
 {
 	namespace load
 	{
-		LoadNodePtr CreateLoadNode(INodePtr node, IVector3DPtr value);
+		LoadNodePtr CreateLoadNode(INodePtr node, IVectorCoordinatesPtr value);
 		LoadNodePtr CastToLoadNode(ILoadPtr load);
 
 		class LoadNode : public ILoadNode, virtual public std::enable_shared_from_this<LoadNode>
@@ -24,7 +24,7 @@ namespace dive
 			Vector GetValue() const override;
 
 			void SetNode(INodePtr node) override;
-			void SetValue(IVector3DPtr value) override;
+			void SetValue(IVectorCoordinatesPtr value) override;
 
 		protected:
 			LoadNode() = default;
@@ -32,7 +32,7 @@ namespace dive
 			const Type type_{ load_node };
 
 			INodePtr node_{ nullptr };
-			IVector3DPtr value_{ nullptr };
+			IVectorCoordinatesPtr value_{ nullptr };
 		};
 
 	} //namespace load

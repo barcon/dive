@@ -10,45 +10,44 @@ namespace values
 	using IElementPtr = dive::IElementPtr;
 	using ElementIndex = dive::ElementIndex;
 
-	Vector GetValueVector3D(IVector3DPtr field, const Vector& point, IElementPtr element);
+	Vector GetValueVectorCoordinates(IVectorCoordinatesPtr field, const Vector& point, IElementPtr element);
 
-	class ValueVector3DCongruent;
-	using ValueVector3DCongruentPtr = std::shared_ptr<ValueVector3DCongruent>;
-	using ConstValueVector3DCongruentPtr = std::shared_ptr< const ValueVector3DCongruent >;
+	class ValueVectorCoordinatesCongruent;
+	using ValueVectorCoordinatesCongruentPtr = std::shared_ptr<ValueVectorCoordinatesCongruent>;
+	using ConstValueVectorCoordinatesCongruentPtr = std::shared_ptr< const ValueVectorCoordinatesCongruent >;
 
-	ValueVector3DCongruentPtr CreateValueVector3DCongruent(IMeshPtr mesh);
+	ValueVectorCoordinatesCongruentPtr CreateValueVectorCoordinatesCongruent(IMeshPtr mesh);
 
-	class ValueVector3DCongruent : public IVector3D
+	class ValueVectorCoordinatesCongruent : public IVectorCoordinates
 	{
 	public:
-		virtual ~ValueVector3DCongruent() = default;
+		virtual ~ValueVectorCoordinatesCongruent() = default;
 
-		static ValueVector3DCongruentPtr Create();
+		static ValueVectorCoordinatesCongruentPtr Create(IMeshPtr mesh);
 
 		Type GetType() const override;
 		const String& GetName() const override;
 		const String& GetKey() const override;
-
-		Vector GetValue(Scalar x, Scalar y, Scalar z) const override;
-		Vector GetValue(Scalar x, Scalar y, Scalar z, ElementIndex elementIndex) const;
+		NumberCoordinates GetNumberCoordinates() const override;
 		Vector GetValue(const Vector& point) const override;
 		Vector GetValue(const Vector& point, ElementIndex elementIndex) const;
 		IMeshPtr GetMesh() const;
 
 		void SetName(const String& name) override;
 		void SetKey(const String& key) override;
-		void SetMesh(IMeshPtr mesh);
 		void SetElementIndex(ElementIndex elementIndex);
 
 	protected:
-		ValueVector3DCongruent() = default;
+		ValueVectorCoordinatesCongruent() = default;
+
+		void SetMesh(IMeshPtr mesh);
 
 		String name_{};
 		String key_{};
-		IMeshPtr mesh_;
+		IMeshPtr mesh_{ nullptr };
 		ElementIndex elementIndex_{ 0 };
 		
-		Type type_{ value_vector3D_congruent };
+		Type type_{ value_vector_coordinates_congruent };
 	};
 
 } // namespace values

@@ -34,21 +34,22 @@ namespace dive {
 
 			output = B.Transpose() * D * B;
 		}
-		void StiffnessStructural::SetTemperature(IScalar3DPtr temperature)
+		void StiffnessStructural::SetTemperature(IScalarCoordinatesPtr temperature)
 		{
 			temperature_ = temperature;
 		}
-		void StiffnessStructural::SetPressure(IScalar3DPtr pressure)
+		void StiffnessStructural::SetPressure(IScalarCoordinatesPtr pressure)
 		{
 			pressure_ = pressure;
 		}
 		Matrix StiffnessStructural::FormMatrix_D(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			auto material = std::static_pointer_cast<material::IMaterialSolid>(element->GetMaterial());
-			auto temperature = values::GetValue(temperature_, local, element);
-			auto pressure = values::GetValue(pressure_, local, element);
+			auto state = Vector(2);
+			state(0) = values::GetValueScalarCoordinates(temperature_, local, element);
+			state(1) = values::GetValueScalarCoordinates(pressure_, local, element);
 
-			return material->D(temperature, pressure);
+			return material->D(state);
 		}
 		Matrix StiffnessStructural::FormMatrix_B(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{

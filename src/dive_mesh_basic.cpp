@@ -418,14 +418,39 @@ namespace dive {
 
 		void ApplyMaterial(IMeshPtr mesh, IMaterialPtr material)
 		{
+			if (mesh == nullptr)
+			{
+				throw std::invalid_argument("Mesh pointer is null (ApplyMaterial)");
+			}
+
+			if (material == nullptr)
+			{
+				throw std::invalid_argument("Material pointer is null (ApplyMaterial)");
+			}
+
 			auto& elements = mesh->GetElements();
 			for (auto& element : elements)
 			{
 				element->SetMaterial(material);
 			}
 		}
-		void ApplyValue(IMeshPtr mesh, IVector3DPtr value)
+		void ApplyValue(IMeshPtr mesh, IVectorCoordinatesPtr value)
 		{
+			if (mesh == nullptr)
+			{
+				throw std::invalid_argument("Mesh pointer is null (ApplyValue)");
+			}
+
+			if (value == nullptr)
+			{
+				throw std::invalid_argument("Value pointer is null (ApplyValue)");
+			}
+
+			if (value->GetNumberCoordinates() != mesh->GetNumberCoordinates())
+			{
+				throw std::invalid_argument("Number of coordinates of value and mesh do not match (Apply Value)");
+			}
+
 			const auto& nodes = mesh->GetNodes();
 
 			for (auto& node : nodes)
@@ -795,6 +820,5 @@ namespace dive {
 
 			return mesh;
 		}
-
 	} // namespace mesh
 } // namespace dive

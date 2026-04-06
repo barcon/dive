@@ -6,14 +6,8 @@ namespace dive
 {
 	namespace load
 	{
-		LoadDistributedFacePtr CreateLoadDistributedFace(IElementPtr element, FaceIndex faceIndex, IVector3DPtr value)
+		LoadDistributedFacePtr CreateLoadDistributedFace(IElementPtr element, FaceIndex faceIndex, IVectorCoordinatesPtr value)
 		{
-			if (!element->IsMapped())
-			{
-				logger::Error(headerDive, utils::string::Format("Element is not mapped: {}", dive::messages.at(dive::DIVE_INVALID_TYPE)));
-				return nullptr;
-			}
-
 			auto res = LoadDistributedFace::Create();
 
 			res->SetElement(std::dynamic_pointer_cast<elements::IElementMapped>(element));
@@ -54,7 +48,7 @@ namespace dive
 		}
 		Vector LoadDistributedFace::GetValue(const Vector& point) const
 		{
-			return values::GetValueVector3D(value_, point, element_);
+			return values::GetValueVectorCoordinates(value_, point, element_);
 		}
 		FaceIndex LoadDistributedFace::GetFaceIndex() const
 		{
@@ -62,14 +56,34 @@ namespace dive
 		}
 		void LoadDistributedFace::SetElement(IElementMappedPtr element)
 		{
+			if (element == nullptr)
+			{
+				throw std::invalid_argument("Element is nullptr");
+			}
+
+			if (!element->IsMapped())
+			{
+				throw std::invalid_argument("Element is not mapped");
+			}
+
 			element_ = element;
 		}
 		void LoadDistributedFace::SetFaceIndex(FaceIndex faceIndex)
 		{
 			faceIndex_ = faceIndex;
 		}
-		void LoadDistributedFace::SetValue(IVector3DPtr value)
+		void LoadDistributedFace::SetValue(IVectorCoordinatesPtr value)
 		{
+			if (value == nullptr)
+			{
+				throw std::invalid_argument("Value is nullptr");
+			}
+
+			if (value->GetNumberCoordinates() != element_->GetNumberCoordinates())
+			{
+				throw std::invalid_argument("Number coordinates of value does not match number coordinates of element");
+			}
+
 			value_ = value;
 		}
 	} //namespace load

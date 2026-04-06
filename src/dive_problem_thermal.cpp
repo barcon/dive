@@ -3,21 +3,11 @@
 
 namespace dive {
 	namespace problem {
-		ProblemThermalPtr CreateProblemThermal()
+		ProblemThermalPtr CreateProblemThermal(Tag problemTag, IMeshPtr mesh)
 		{
-			auto res = ProblemThermal::Create();
-
-			return res;
+			return ProblemThermal::Create(problemTag, mesh);
 		}
-		ProblemThermalPtr CreateProblemThermal(Tag problemTag)
-		{
-			auto res = ProblemThermal::Create();
-
-			res->SetTag(problemTag);
-
-			return res;
-		}
-		ProblemThermalPtr ProblemThermal::Create()
+		ProblemThermalPtr ProblemThermal::Create(Tag problemTag, IMeshPtr mesh)
 		{
 			class MakeSharedEnabler : public ProblemThermal
 			{
@@ -25,10 +15,10 @@ namespace dive {
 
 			auto res = std::make_shared<MakeSharedEnabler>();
 
+			res->SetTag(problemTag);
+			res->SetMesh(mesh);
+
 			return res;
-		}
-		ProblemThermal::ProblemThermal()
-		{
 		}
 		ProblemThermalPtr ProblemThermal::GetPtr()
 		{
@@ -50,11 +40,11 @@ namespace dive {
 		{
 			return pivot_;
 		}
-		IScalar3DPtr ProblemThermal::GetTemperature() const
+		IScalarCoordinatesPtr ProblemThermal::GetTemperature() const
 		{
 			return temperature_;
 		}
-		IScalar3DPtr ProblemThermal::GetPressure() const
+		IScalarCoordinatesPtr ProblemThermal::GetPressure() const
 		{
 			return pressure_;
 		}
@@ -86,14 +76,29 @@ namespace dive {
 		{
 			return dirichletMeshIndices_;
 		}
-		void ProblemThermal::SetPressure(IScalar3DPtr pressure)
+		void ProblemThermal::SetPressure(IScalarCoordinatesPtr pressure)
 		{
+			if (pressure == nullptr)
+			{
+				throw std::invalid_argument("Pressure cannot be null.");
+			}
+
+			if (pressure->GetNumberCoordinates() != mesh_->GetNumberCoordinates())
+			{
+				throw std::invalid_argument("Pressure number of coordinates must match mesh number of coordinates.");
+			}
+
 			pressure_ = pressure;
 		}
 		void ProblemThermal::SetMesh(IMeshPtr mesh)
 		{
+			if (mesh == nullptr)
+			{
+				throw std::invalid_argument("Mesh cannot be null.");
+			}
+
 			mesh_ = mesh;
-			temperature_ = values::CreateValueScalar3DCongruent(mesh_);
+			temperature_ = values::CreateValueScalarCoordinatesCongruent(mesh_);
 
 			UpdateMeshElements(mesh_, numberDof_);
 		}

@@ -3,21 +3,11 @@
 
 namespace dive {
 	namespace problem {
-		ProblemPressurePtr CreateProblemPressure()
+		ProblemPressurePtr CreateProblemPressure(Tag problemTag, IMeshPtr mesh)
 		{
-			auto res = ProblemPressure::Create();
-
-			return res;
+			return ProblemPressure::Create(problemTag, mesh);
 		}
-		ProblemPressurePtr CreateProblemPressure(Tag problemTag)
-		{
-			auto res = ProblemPressure::Create();
-
-			res->SetTag(problemTag);
-
-			return res;
-		}
-		ProblemPressurePtr ProblemPressure::Create()
+		ProblemPressurePtr ProblemPressure::Create(Tag problemTag, IMeshPtr mesh)
 		{
 			class MakeSharedEnabler : public ProblemPressure
 			{
@@ -25,10 +15,10 @@ namespace dive {
 
 			auto res = std::make_shared<MakeSharedEnabler>();
 
+			res->SetTag(problemTag);
+			res->SetMesh(mesh);
+
 			return res;
-		}
-		ProblemPressure::ProblemPressure()
-		{
 		}
 		ProblemPressurePtr ProblemPressure::GetPtr()
 		{
@@ -50,17 +40,13 @@ namespace dive {
 		{
 			return pivot_;
 		}
-		IScalar3DPtr ProblemPressure::GetTemperature() const
+		IScalarCoordinatesPtr ProblemPressure::GetTemperature() const
 		{
 			return temperature_;
 		}
-		IScalar3DPtr ProblemPressure::GetPressure() const
+		IScalarCoordinatesPtr ProblemPressure::GetPressure() const
 		{
 			return pressure_;
-		}
-		IMatrix3DPtr ProblemPressure::GetVelocity() const
-		{
-			return velocity_;
 		}
 		IMeshPtr ProblemPressure::GetMesh() const
 		{
@@ -90,18 +76,29 @@ namespace dive {
 		{
 			return dirichletMeshIndices_;
 		}
-		void ProblemPressure::SetTemperature(IScalar3DPtr temperature)
+		void ProblemPressure::SetTemperature(IScalarCoordinatesPtr temperature)
 		{
+			if (temperature == nullptr)
+			{
+				throw std::invalid_argument("Temperature cannot be null.");
+			}
+
+			if (temperature->GetNumberCoordinates() != mesh_->GetNumberCoordinates())
+			{
+				throw std::invalid_argument("Temperature number of coordinates must match mesh number of coordinates.");
+			}
+
 			temperature_ = temperature;
-		}
-		void ProblemPressure::SetVelocity(IMatrix3DPtr velocity)
-		{
-			velocity_ = velocity;
 		}
 		void ProblemPressure::SetMesh(IMeshPtr mesh)
 		{
+			if (mesh == nullptr)
+			{
+				throw std::invalid_argument("Mesh cannot be null.");
+			}
+
 			mesh_ = mesh;
-			pressure_ = values::CreateValueScalar3DCongruent(mesh_);
+			pressure_ = values::CreateValueScalarCoordinatesCongruent(mesh_);
 			
 			UpdateMeshElements(mesh_, numberDof_);
 		}
@@ -160,12 +157,13 @@ namespace dive {
 				}
 			}
 		}
-		Sparse ProblemPressure::Mass(bool lumped) const
+		Sparse ProblemPressure::Mass(IFluidPtr problemMomentum, bool lumped) const
 		{
 			auto massWeak = weakforms::CreateWeakFormMassPressure();
+			
 			massWeak->SetTemperature(temperature_);
 			massWeak->SetPressure(pressure_);
-			massWeak->SetVelocity(velocity_);
+			massWeak->SetVelocity(problemMomentum->GetVelocity());
 
 			auto problemPressure = std::make_shared<ProblemPressure>(*this);
 			auto res = IntegralForm(massWeak, problemPressure, problemPressure);

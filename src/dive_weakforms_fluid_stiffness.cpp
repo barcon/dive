@@ -35,21 +35,23 @@ namespace dive {
 
 			output = eilig::ScaleByVector(B.Transpose() * Id * B, Z);
 		}
-		void StiffnessFluid::SetTemperature(IScalar3DPtr temperature)
+		void StiffnessFluid::SetTemperature(IScalarCoordinatesPtr temperature)
 		{
 			temperature_ = temperature;
 		}
-		void StiffnessFluid::SetPressure(IScalar3DPtr pressure)
+		void StiffnessFluid::SetPressure(IScalarCoordinatesPtr pressure)
 		{
 			pressure_ = pressure;
 		}
 		Matrix StiffnessFluid::FormMatrix_Id(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			auto material = std::static_pointer_cast<material::IMaterialFluid>(element->GetMaterial());
-			auto temperature = values::GetValue(temperature_, local, element);
-			auto pressure = values::GetValue(pressure_, local, element);
+			
+			auto state = Vector(2);
+			state(0) = values::GetValueScalarCoordinates(temperature_, local, element);
+			state(1) = values::GetValueScalarCoordinates(pressure_, local, element);
 
-			return material->D(temperature, pressure);
+			return material->D(state);
 		}
 		Matrix StiffnessFluid::FormMatrix_B(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
@@ -81,10 +83,12 @@ namespace dive {
 		{
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNumberDof();
-
-			auto temperature = values::GetValue(temperature_, local, element);
-			auto pressure = values::GetValue(pressure_, local, element);
-			auto rho = element->GetMaterial()->GetDensity(temperature, pressure);
+			
+			auto state = Vector(2);
+			state(0) = values::GetValueScalarCoordinates(temperature_, local, element);
+			state(1) = values::GetValueScalarCoordinates(pressure_, local, element);
+			
+			auto rho = element->GetMaterial()->GetDensity(state);
 			auto rhoInv = 1. / rho;
 
 			Vector res(numberNodes * numberDof);

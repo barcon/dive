@@ -13,15 +13,14 @@ namespace dive
 {
 	namespace problem
 	{
-		ProblemStructuralPtr CreateProblemStructural();
-		ProblemStructuralPtr CreateProblemStructural(Tag problemTag);
+		ProblemStructuralPtr CreateProblemStructural(Tag problemTag, IMeshPtr mesh);
 
 		class ProblemStructural : public IStructural, virtual public std::enable_shared_from_this<ProblemStructural>
 		{
 		public:
 			virtual ~ProblemStructural() = default;
 
-			static ProblemStructuralPtr Create();
+			static ProblemStructuralPtr Create(Tag problemTag, IMeshPtr mesh);
 			ProblemStructuralPtr GetPtr();
 			ConstProblemStructuralPtr GetPtr() const;
 
@@ -29,8 +28,9 @@ namespace dive
 			NumberDof GetTotalDof() const override;
 			DofIndex GetPivot() const override;
 
-			IScalar3DPtr GetTemperature() const override;
-			IScalar3DPtr GetPressure() const override;
+			IScalarCoordinatesPtr GetTemperature() const override;
+			IScalarCoordinatesPtr GetPressure() const override;
+			IMatrixCoordinatesPtr GetVelocity() const override;
 			IMeshPtr GetMesh() const override;
 			Type GetType() const override;
 			Tag	GetTag() const override;
@@ -41,9 +41,8 @@ namespace dive
 			const NodeMeshIndices& GetNodeMeshIndices() const override;
 			const DirichletMeshIndices& GetDirichletMeshIndices() const override;
 
-			void SetTemperature(IScalar3DPtr temperature) override;
-			void SetPressure(IScalar3DPtr pressure) override;
-			void SetMesh(IMeshPtr mesh) override;
+			void SetTemperature(IScalarCoordinatesPtr temperature) override;
+			void SetPressure(IScalarCoordinatesPtr pressure) override;
 			void SetTag(Tag tag) override;
 
 			void ApplyLoad(ILoadPtr load) override;
@@ -62,7 +61,9 @@ namespace dive
 			Vector Displacement() const override;
 
 		protected:
-			ProblemStructural();
+			ProblemStructural() = default;
+
+			void SetMesh(IMeshPtr mesh) override;
 
 			Tag tag_{ 0 };
 			Type type_{ problem_structural };
@@ -70,8 +71,9 @@ namespace dive
 			NumberDof totalDof_{ 0 };
 			DofIndex pivot_{ 0 };
 
-			IScalar3DPtr temperature_{ nullptr };
-			IScalar3DPtr pressure_{ nullptr };
+			IScalarCoordinatesPtr temperature_{ nullptr };
+			IScalarCoordinatesPtr pressure_{ nullptr };
+			IMatrixCoordinatesPtr velocity_{ nullptr };
 			IMeshPtr mesh_{ nullptr };
 
 			Loads loads_;

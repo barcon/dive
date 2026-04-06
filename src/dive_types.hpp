@@ -280,9 +280,21 @@ namespace dive
 		using IProblemPtr = std::shared_ptr<IProblem>;
 		using ConstIProblemPtr = std::shared_ptr<const IProblem>;
 
-		class Problem;
-		using ProblemPtr = std::shared_ptr<Problem>;
-		using ConstProblemPtr = std::shared_ptr<const Problem>;
+		class IFluid;
+		using IFluidPtr = std::shared_ptr<IFluid>;
+		using ConstIFluidPtr = std::shared_ptr<const IFluid>;
+
+		class IPressure;
+		using IPressurePtr = std::shared_ptr<IPressure>;
+		using ConstIPressurePtr = std::shared_ptr<const IPressure>;
+
+		class IThermal;
+		using IThermalPtr = std::shared_ptr<IThermal>;
+		using ConstIThermalPtr = std::shared_ptr<const IThermal>;
+
+		class IStructural;
+		using IStructuralPtr = std::shared_ptr<IStructural>;
+		using ConstIStructuralPtr = std::shared_ptr<const IStructural>;
 
 		class ProblemThermal;
 		using ProblemThermalPtr = std::shared_ptr<ProblemThermal>;
@@ -306,19 +318,12 @@ namespace dive
 	using IStringPtr = values::IStringPtr;
 	
 	using IScalarPtr = values::IScalarPtr;
-	using IScalar1DPtr = values::IScalar1DPtr;
-	using IScalar2DPtr = values::IScalar2DPtr;
-	using IScalar3DPtr = values::IScalar3DPtr;
-	
 	using IVectorPtr = values::IVectorPtr;
-	using IVector1DPtr = values::IVector1DPtr;
-	using IVector2DPtr = values::IVector2DPtr;
-	using IVector3DPtr = values::IVector3DPtr;
-	
 	using IMatrixPtr = values::IMatrixPtr;
-	using IMatrix1DPtr = values::IMatrix1DPtr;
-	using IMatrix2DPtr = values::IMatrix2DPtr;
-	using IMatrix3DPtr = values::IMatrix3DPtr;
+
+	using IScalarCoordinatesPtr = values::IScalarCoordinatesPtr;
+	using IVectorCoordinatesPtr = values::IVectorCoordinatesPtr;
+	using IMatrixCoordinatesPtr = values::IMatrixCoordinatesPtr;
 	
 	using ITimerPtr = timer::ITimerPtr;
 	using IBasisPtr = basis::IBasisPtr;

@@ -20,9 +20,9 @@ namespace dive
 
 			void WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const override;
 
-			void SetTemperature(IScalar3DPtr temperature);
-			void SetPressure(IScalar3DPtr pressure);
-			void SetVelocity(IMatrix3DPtr velocity);
+			void SetTemperature(IScalarCoordinatesPtr temperature);
+			void SetPressure(IScalarCoordinatesPtr pressure);
+			void SetVelocity(IMatrixCoordinatesPtr velocity);
 
 		protected:
 			MassPressure() = default;
@@ -31,9 +31,9 @@ namespace dive
 			Scalar FormKineticViscosity(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const;
 			Matrix FormMatrix_N(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const;
 
-			IScalar3DPtr temperature_{ nullptr };
-			IScalar3DPtr pressure_{ nullptr };
-			IMatrix3DPtr velocity_{ nullptr };
+			IScalarCoordinatesPtr temperature_{ nullptr };
+			IScalarCoordinatesPtr pressure_{ nullptr };
+			IMatrixCoordinatesPtr velocity_{ nullptr };
 
 			using std::enable_shared_from_this<MassPressure>::shared_from_this;
 		};

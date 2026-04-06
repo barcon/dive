@@ -41,11 +41,11 @@ namespace dive {
 
 			output = N.Transpose() * (rho * cp) * (divergence * N + u.Transpose() * dN);
 		}
-		void ConvectionThermal::SetTemperature(IScalar3DPtr temperature)
+		void ConvectionThermal::SetTemperature(IScalarCoordinatesPtr temperature)
 		{
 			temperature_ = temperature;
 		}
-		void ConvectionThermal::SetPressure(IScalar3DPtr pressure)
+		void ConvectionThermal::SetPressure(IScalarCoordinatesPtr pressure)
 		{
 			pressure_ = pressure;
 		}
@@ -55,17 +55,19 @@ namespace dive {
 		}
 		Scalar ConvectionThermal::FormDensity(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
-			auto temperature = values::GetValue(temperature_, local, element);
-			auto pressure = values::GetValue(pressure_, local, element);
+			auto state = Vector(2);
+			state(0) = values::GetValueScalarCoordinates(temperature_, local, element);
+			state(1) = values::GetValueScalarCoordinates(pressure_, local, element);
 
-			return element->GetMaterial()->GetDensity(temperature, pressure);
+			return element->GetMaterial()->GetDensity(state);
 		}
 		Scalar ConvectionThermal::FormSpecificHeat(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
-			auto temperature = values::GetValue(temperature_, local, element);
-			auto pressure = values::GetValue(pressure_, local, element);
+			auto state = Vector(2);
+			state(0) = values::GetValueScalarCoordinates(temperature_, local, element);
+			state(1) = values::GetValueScalarCoordinates(pressure_, local, element);
 
-			return element->GetMaterial()->GetSpecificHeat(temperature, pressure);
+			return element->GetMaterial()->GetSpecificHeat(state);
 		}
 		Matrix ConvectionThermal::FormVelocity(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{

@@ -20,8 +20,8 @@ namespace dive
 
 			void WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const override;
 
-			void SetTemperature(IScalar3DPtr temperature);
-			void SetPressure(IScalar3DPtr pressure);
+			void SetTemperature(IScalarCoordinatesPtr temperature);
+			void SetPressure(IScalarCoordinatesPtr pressure);
 
 		protected:
 			StiffnessStructural() = default;
@@ -29,8 +29,8 @@ namespace dive
 			Matrix FormMatrix_D(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const;
 			Matrix FormMatrix_B(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const;
 
-			IScalar3DPtr temperature_{ nullptr };
-			IScalar3DPtr pressure_{ nullptr };
+			IScalarCoordinatesPtr temperature_{ nullptr };
+			IScalarCoordinatesPtr pressure_{ nullptr };
 
 			using std::enable_shared_from_this<StiffnessStructural>::shared_from_this;
 		};

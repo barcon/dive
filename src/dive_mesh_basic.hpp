@@ -67,7 +67,7 @@ namespace dive
 		Scalar GetSizeMaximum(const Elements& elements);
 
 		void ApplyMaterial(IMeshPtr mesh, IMaterialPtr material);
-		void ApplyValue(IMeshPtr mesh, IVector3DPtr value);
+		void ApplyValue(IMeshPtr mesh, IVectorCoordinatesPtr value);
 		void DeformByInterpolation(IMeshPtr mesh, IInterpolationPtr interpolation);
 
 		void GmshInitialize();	
@@ -84,7 +84,7 @@ namespace dive
 		EdgePairs GmshGetEdgesForPhysicalGroup(IMeshPtr mesh, const String& groupName);
 		FacePairs GmshGetFacesForPhysicalGroup(IMeshPtr mesh, const String& groupName);
 		Elements GmshGetElementsForPhysicalGroup(IMeshPtr mesh, const String& groupName);
-		IMeshPtr GmshGetMeshForPhysicalGroup(Tag meshTag, NumberDof numberDof, const String& groupName);
+		IMeshPtr GmshGetMeshForPhysicalGroup(Tag meshTag, NumberCoordinates numberCoordinates, NumberDof numberDof, const String& groupName);
 
 	} //namespace mesh
 } //namespace dive

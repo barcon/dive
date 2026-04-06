@@ -40,11 +40,11 @@ namespace dive {
 
 			output = -(1.0 / 2.0) * (u.Transpose() * dN + du * N).Transpose() * (rho * cp) * dN;
 		}
-		void StabilizationThermal::SetTemperature(IScalar3DPtr temperature)
+		void StabilizationThermal::SetTemperature(IScalarCoordinatesPtr temperature)
 		{
 			temperature_ = temperature;
 		}
-		void StabilizationThermal::SetPressure(IScalar3DPtr pressure)
+		void StabilizationThermal::SetPressure(IScalarCoordinatesPtr pressure)
 		{
 			pressure_ = pressure;
 		}
@@ -54,17 +54,19 @@ namespace dive {
 		}
 		Scalar StabilizationThermal::FormDensity(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
-			auto temperature = values::GetValue(temperature_, local, element);
-			auto pressure = values::GetValue(pressure_, local, element);
+			auto state = Vector(2);
+			state(0) = values::GetValueScalarCoordinates(temperature_, local, element);
+			state(1) = values::GetValueScalarCoordinates(pressure_, local, element);
 
-			return element->GetMaterial()->GetDensity(temperature, pressure);
+			return element->GetMaterial()->GetDensity(state);
 		}
 		Scalar StabilizationThermal::FormSpecificHeat(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
-			auto temperature = values::GetValue(temperature_, local, element);
-			auto pressure = values::GetValue(pressure_, local, element);
+			auto state = Vector(2);
+			state(0) = values::GetValueScalarCoordinates(temperature_, local, element);
+			state(1) = values::GetValueScalarCoordinates(pressure_, local, element);
 
-			return element->GetMaterial()->GetSpecificHeat(temperature, pressure);
+			return element->GetMaterial()->GetSpecificHeat(state);
 		}
 		Matrix StabilizationThermal::FormVelocity(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{

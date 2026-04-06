@@ -20,8 +20,8 @@ namespace dive
 
 			void WeakFormulation(IElementMappedPtr element, const Vector& point, Matrix& output, const CacheIndex& cacheIndex) const override;
 
-			void SetTemperature(IScalar3DPtr temperature);
-			void SetPressure(IScalar3DPtr pressure);
+			void SetTemperature(IScalarCoordinatesPtr temperature);
+			void SetPressure(IScalarCoordinatesPtr pressure);
 
 		protected:
 			MassStructural() = default;
@@ -29,8 +29,8 @@ namespace dive
 			Matrix FormMatrix_NN(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const;
 			Scalar FormDensity(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const;
 
-			IScalar3DPtr temperature_{ nullptr };
-			IScalar3DPtr pressure_{ nullptr };
+			IScalarCoordinatesPtr temperature_{ nullptr };
+			IScalarCoordinatesPtr pressure_{ nullptr };
 
 			using std::enable_shared_from_this<MassStructural>::shared_from_this;
 		};

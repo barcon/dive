@@ -7,7 +7,7 @@ namespace dive
 {
 	namespace load
 	{
-		LoadDirichletPtr CreateLoadDirichlet(INodePtr node, DofIndex dofIndex, IScalar3DPtr value);
+		LoadDirichletPtr CreateLoadDirichlet(INodePtr node, DofIndex dofIndex, IScalarCoordinatesPtr value);
 
 		class LoadDirichlet : public ILoadDirichlet, virtual public std::enable_shared_from_this<LoadDirichlet>
 		{
@@ -25,7 +25,7 @@ namespace dive
 
 			void SetNode(INodePtr node) override;
 			void SetDofIndex(DofIndex dofIndex) override;
-			void SetValue(IScalar3DPtr value) override;
+			void SetValue(IScalarCoordinatesPtr value) override;
 
 		protected:
 			LoadDirichlet() = default;
@@ -34,7 +34,7 @@ namespace dive
 
 			INodePtr node_{ nullptr };
 			DofIndex dofIndex_{ 0 };
-			IScalar3DPtr value_{ nullptr };
+			IScalarCoordinatesPtr value_{ nullptr };
 		};
 
 	} //namespace load
