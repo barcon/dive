@@ -359,7 +359,6 @@ namespace dive
 	using FacePairs = std::vector<FacePair>;
 	using EdgePairs = std::vector<EdgePair>;
 	using Properties = std::unordered_map<String, IValuePtr>;
-	using BoundaryConditions = std::unordered_map<String, Loads>;
 }
 
 #endif /* DIVE_TYPES_HPP_ */
