@@ -434,7 +434,7 @@ namespace dive {
 				element->SetMaterial(material);
 			}
 		}
-		void ApplyValue(IMeshPtr mesh, IVectorCoordinatesPtr value)
+		void ApplyValue(IMeshPtr mesh, IMatrixCoordinatesPtr value)
 		{
 			if (mesh == nullptr)
 			{

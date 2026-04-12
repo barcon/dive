@@ -348,7 +348,7 @@ namespace dive
 	using Strings = utils::Strings;
 	using Bases = std::vector<IBasisPtr>;
 	using Timers = std::vector<ITimerPtr>;
-	using Values = std::vector<IValuePtr>;
+	using Values = std::unordered_map<String, IValuePtr>;
 	using Nodes = std::vector<INodePtr>;
 	using Elements = std::vector<IElementPtr>;
 	using Loads = std::vector<ILoadPtr>;
