@@ -23,8 +23,8 @@ namespace dive
 	{
 		struct TaskIndex
 		{
-			ElementIndex elementIndex;
-			Matrix matrix;
+			ElementIndex elementIndex{ 0 };
+			Matrix matrix{ {0} };
 		};
 
 		using TaskIndices = std::vector<TaskIndex>;
@@ -86,7 +86,7 @@ namespace dive
 			IWeakFormElementPtr weakForm_{ nullptr };
 		};
 
-		using ThreadPool = BS::thread_pool< BS::tp::pause>;
+		using ThreadPool = BS::thread_pool<BS::tp::pause>;
 		using ThreadQueue = std::deque<std::future<TaskIndices>>;
 		using NumberThreads = Number;
 		using NumberProcessors = Number;
@@ -104,17 +104,20 @@ namespace dive
 			const auto& elements1 = problem1->GetMesh()->GetElements();
 			const auto& elements2 = problem2->GetMesh()->GetElements();
 
-			const auto& nodeMeshIndices1 = problem1->GetNodeMeshIndices();
-			const auto& nodeMeshIndices2 = problem2->GetNodeMeshIndices();
+			const auto& nodeMeshIndices1 = std::dynamic_pointer_cast<problem::IExtra>(problem1)->GetNodeMeshIndices();
+			const auto& nodeMeshIndices2 = std::dynamic_pointer_cast<problem::IExtra>(problem2)->GetNodeMeshIndices();
+			
+			const auto& totalDof1 = std::dynamic_pointer_cast<problem::IExtra>(problem1)->GetTotalDof();
+			const auto& totalDof2 = std::dynamic_pointer_cast<problem::IExtra>(problem2)->GetTotalDof();
 
-			Sparse global(problem1->GetTotalDof(), problem2->GetTotalDof());	
+			Sparse global(totalDof1, totalDof2);
 
 			NumberProcessors numberProcessors = std::thread::hardware_concurrency() > 1 ? std::thread::hardware_concurrency() - 1 : 1;
 			NumberElements numberElements1 = elements1.size();
 			Number numberTasks = (numberElements1 % taskSize) == 0 ? (numberElements1 / taskSize) : (numberElements1 / taskSize) + 1;
 
 			ThreadPool threadPool(numberProcessors);
-			ThreadQueue scheduled;
+			ThreadQueue queue;
 
 			auto counter = numberElements1;
 			for(Index i = 0; i < numberTasks; ++i)
@@ -135,14 +138,14 @@ namespace dive
 					counter -= counter;
 				}
 
-				scheduled.emplace_back(threadPool.submit_task(task));
+				queue.emplace_back(threadPool.submit_task(task));
 			}
 
-			while (!scheduled.empty())
+			while (!queue.empty())
 			{
-				const auto& it = scheduled.begin();
+				const auto& it = queue.begin();
 
-				while (it != scheduled.end())
+				while (it != queue.end())
 				{
 					if (IsReady(*it))
 					{
@@ -177,7 +180,7 @@ namespace dive
 							}
 						}
 
-						scheduled.erase(it);
+						queue.erase(it);
 						break;
 					}
 				}
@@ -185,10 +188,9 @@ namespace dive
 
 			return global;
 		}
-
 		Vector IntegralForm(IWeakFormLoadPtr weakForm, IProblemPtr problem1, const Loads& loads)
 		{
-			Vector global(problem1->GetTotalDof(), 0.0);
+			Vector global(std::dynamic_pointer_cast<problem::IExtra>(problem1)->GetTotalDof(), 0.0);
 			Vector local;
 			Scalar aux{ 0 };
 			Tag nodeTag{ 0 };
@@ -196,8 +198,8 @@ namespace dive
 			NumberNodes numberNodes{ 0 };
 			ElementIndex elementIndex{ 0 };
 
-			const auto& nodeMeshIndices = problem1->GetNodeMeshIndices();
-			const auto& dofMeshIndices = problem1->GetDofMeshIndices();
+			const auto& nodeMeshIndices = std::dynamic_pointer_cast<problem::IExtra>(problem1)->GetNodeMeshIndices();
+			const auto& dofMeshIndices = std::dynamic_pointer_cast<problem::IExtra>(problem1)->GetDofMeshIndices();
 
 			for (auto& load : loads)
 			{
@@ -262,6 +264,32 @@ namespace dive
 			}
 
 			return global;
+		}
+
+		Vectors Partition(const Vector& vector, NumberDof totalDof, DofIndex pivot)
+		{
+			auto v0 = vector.Region(0, pivot - 1);
+			auto v1 = vector.Region(pivot, totalDof - 1);
+
+			return {v0 , v1};
+		}
+		Matrices Partition(const Matrix& matrix, NumberDof totalDof, DofIndex pivot)
+		{
+			auto m00 = matrix.Region(0, 0, pivot - 1, pivot - 1);
+			auto m01 = matrix.Region(0, pivot, pivot - 1, totalDof - 1);
+			auto m10 = matrix.Region(pivot, 0, totalDof - 1, pivot - 1);
+			auto m11 = matrix.Region(pivot, pivot, totalDof - 1, totalDof - 1);
+
+			return { m00, m01, m10, m11 };
+		}
+		Sparses Partition(const Sparse& matrix, NumberDof totalDof, DofIndex pivot)
+		{
+			auto m00 = matrix.Region(0, 0, pivot - 1, pivot - 1);
+			auto m01 = matrix.Region(0, pivot, pivot - 1, totalDof - 1);
+			auto m10 = matrix.Region(pivot, 0, totalDof - 1, pivot - 1);
+			auto m11 = matrix.Region(pivot, pivot, totalDof - 1, totalDof - 1);
+
+			return { m00, m01, m10, m11 };
 		}
 
 		void UpdateMeshElements(IMeshPtr mesh, NumberDof numberDof)

@@ -108,6 +108,11 @@ namespace dive {
 		}
 		void ProblemThermal::ApplyLoad(ILoadPtr load)
 		{
+			if (load == nullptr)
+			{
+				throw std::invalid_argument("Load cannot be null.");
+			}
+
 			loads_.push_back(load);
 		}
 		void ProblemThermal::Initialize()

@@ -11,14 +11,18 @@ namespace dive
 {
 	namespace problem
 	{
-		static const Type problem_fluid		= 1;
-		static const Type problem_pressure	= 2;
-		static const Type problem_thermal	= 3;
-		static const Type problem_structural= 4;
+		static const Type problem_fluid			= 1;
+		static const Type problem_pressure		= 2;
+		static const Type problem_thermal		= 3;
+		static const Type problem_structural	= 4;
+		static const Type problem_deformation	= 5;
 
 		Sparse IntegralForm(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2);
-
 		Vector IntegralForm(IWeakFormLoadPtr weakForm, IProblemPtr problem1, const Loads& loads);
+		
+		Vectors Partition(const Vector& vector, NumberDof totalDof, DofIndex pivot);
+		Matrices Partition(const Matrix& matrix, NumberDof totalDof, DofIndex pivot);
+		Sparses Partition(const Sparse& matrix, NumberDof totalDof, DofIndex pivot);
 
 		void UpdateMeshElements(IMeshPtr mesh, NumberDof numberDof);
 		void UpdateDofMeshIndices(IMeshPtr mesh, NumberDof& totalDof, DofMeshIndices& dofMeshIndices);
@@ -34,29 +38,42 @@ namespace dive
 			virtual ~IProblem() = default;
 
 			virtual NumberDof GetNumberDof() const = 0;
-			virtual NumberDof GetTotalDof() const = 0;
-			virtual DofIndex GetPivot() const = 0;
-
 			virtual IMeshPtr GetMesh() const = 0;
 			virtual Type GetType() const = 0;
 			virtual Tag	GetTag() const = 0;
 
 			virtual const Loads& GetLoads() const = 0;
+			virtual void SetTag(Tag tag) = 0;
+
+			virtual void ApplyLoad(ILoadPtr load) = 0;
+		protected:
+			virtual void SetMesh(IMeshPtr mesh) = 0;
+		};
+
+		class IExtra
+		{
+		public:
+			virtual ~IExtra() = default;
+
+			virtual NumberDof GetTotalDof() const = 0;
+			virtual DofIndex GetPivot() const = 0;
 
 			virtual const DofMeshIndices& GetDofMeshIndices() const = 0;
 			virtual const NodeMeshIndices& GetNodeMeshIndices() const = 0;
 			virtual const DirichletMeshIndices& GetDirichletMeshIndices() const = 0;
 
-			virtual void SetTag(Tag tag) = 0;
-
-			virtual void ApplyLoad(ILoadPtr load) = 0;
 			virtual void Initialize() = 0;
-
-		protected:
-			virtual void SetMesh(IMeshPtr mesh) = 0;
 		};
 
-		class IFluid : public IProblem
+		class IDeformation : public IProblem
+		{
+		public:
+			virtual ~IDeformation() = default;
+
+			virtual void DeformMesh(IMeshPtr mesh) = 0;
+		};
+
+		class IFluid : public IProblem, public IExtra
 		{
 		public:
 			virtual ~IFluid() = default;
@@ -84,7 +101,7 @@ namespace dive
 			virtual Vector Velocity() const = 0;
 		};
 
-		class IPressure : public IProblem
+		class IPressure : public IProblem, public IExtra
 		{
 		public:
 			virtual ~IPressure() = default;
@@ -106,7 +123,7 @@ namespace dive
 			virtual Vector Pressure() const = 0;
 		};
 
-		class IThermal : public IProblem
+		class IThermal : public IProblem, public IExtra
 		{
 		public:
 			virtual ~IThermal() = default;
@@ -127,14 +144,13 @@ namespace dive
 			virtual Vector Energy() const = 0;
 		};
 
-		class IStructural : public IProblem
+		class IStructural : public IProblem, public IExtra
 		{
 		public:
 			virtual ~IStructural() = default;
 
 			virtual IScalarCoordinatesPtr GetTemperature() const = 0;
 			virtual IScalarCoordinatesPtr GetPressure() const = 0;
-			virtual IMatrixCoordinatesPtr GetVelocity() const = 0;
 
 			virtual void SetTemperature(IScalarCoordinatesPtr temperature) = 0;
 			virtual void SetPressure(IScalarCoordinatesPtr pressure) = 0;

@@ -54,6 +54,8 @@ namespace dive
 		protected:
 			Mesh() = default;
 
+			void SetNumberCoordinates(NumberCoordinates numberCoordinates);
+
 			NumberCoordinates numberCoordinates_{ 3 };
 			NumberDof totalDof_{ 0 };
 			Index pivot_{ 0 };
@@ -68,24 +70,6 @@ namespace dive
 
 		void ApplyMaterial(IMeshPtr mesh, IMaterialPtr material);
 		void ApplyValue(IMeshPtr mesh, IMatrixCoordinatesPtr value);
-		void DeformByInterpolation(IMeshPtr mesh, IInterpolationPtr interpolation);
-
-		void GmshInitialize();	
-		void GmshOpenFile(const String& fileName);
-		void GmshFinalize();
-
-		using PhysicalGroup = std::pair<int, int>;
-		using PhysicalGroups = std::vector<PhysicalGroup>;
-
-		PhysicalGroups GmshGetPhysicalGroups();
-		PhysicalGroup GmshGetPhysicalGroupByName(const String& groupName);
-		String GmshGetPhysicalName(int dim, int tag);
-		Nodes GmshGetNodesForPhysicalGroup(IMeshPtr mesh, const String& groupName);
-		EdgePairs GmshGetEdgesForPhysicalGroup(IMeshPtr mesh, const String& groupName);
-		FacePairs GmshGetFacesForPhysicalGroup(IMeshPtr mesh, const String& groupName);
-		Elements GmshGetElementsForPhysicalGroup(IMeshPtr mesh, const String& groupName);
-		IMeshPtr GmshGetMeshForPhysicalGroup(Tag meshTag, NumberCoordinates numberCoordinates, NumberDof numberDof, const String& groupName);
-
 	} //namespace mesh
 } //namespace dive
 

@@ -39,15 +39,16 @@ namespace dive
 	using Matrix = eilig::Matrix;
 	using Sparse = eilig::Ellpack;
 
-#ifdef EILIG_ENABLE_OPENCL
+#ifdef ENABLE_OPENCL
 	using KernelsPtr = eilig::opencl::KernelsPtr;
 	using VectorCL = eilig::opencl::Vector;
 	using SparseCL = eilig::opencl::Ellpack;
 #endif
 
-	using Scalars = std::vector<Scalar>;
-	using Vectors = std::vector<Vector>;
-	using Matrices = std::vector<Matrix>;
+	using Scalars = eilig::Scalars;
+	using Vectors = eilig::Vectors;
+	using Matrices = eilig::Matrices;
+	using Sparses = eilig::Sparses;
 	
 	using Status = long long int;
 	using Tag = std::size_t;
@@ -280,6 +281,10 @@ namespace dive
 		using IProblemPtr = std::shared_ptr<IProblem>;
 		using ConstIProblemPtr = std::shared_ptr<const IProblem>;
 
+		class IDeformation;
+		using IDeformationPtr = std::shared_ptr<IDeformation>;
+		using ConstIDeformationPtr = std::shared_ptr<const IDeformation>;
+
 		class IFluid;
 		using IFluidPtr = std::shared_ptr<IFluid>;
 		using ConstIFluidPtr = std::shared_ptr<const IFluid>;
@@ -311,6 +316,14 @@ namespace dive
 		class ProblemStructural;
 		using ProblemStructuralPtr = std::shared_ptr<ProblemStructural>;
 		using ConstProblemStructuralPtr = std::shared_ptr<const ProblemStructural>;
+
+		class ProblemDeformationInterpolation;
+		using ProblemDeformationInterpolationPtr = std::shared_ptr<ProblemDeformationInterpolation>;
+		using ConstProblemDeformationInterpolationPtr = std::shared_ptr<const ProblemDeformationInterpolation>;
+
+		class ProblemDeformationElastic;
+		using ProblemDeformationElasticPtr = std::shared_ptr<ProblemDeformationElastic>;
+		using ConstProblemDeformationElasticPtr = std::shared_ptr<const ProblemDeformationElastic>;
 	}
 
 	using IValuePtr = values::IValuePtr;

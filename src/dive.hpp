@@ -19,6 +19,7 @@
 
 #include "dive_mesh.hpp"
 #include "dive_mesh_basic.hpp"
+#include "dive_mesh_gmsh.hpp"
 #include "dive_selection.hpp"
 
 #include "dive_load.hpp"
@@ -55,6 +56,8 @@
 #include "dive_problem_pressure.hpp"
 #include "dive_problem_thermal.hpp"
 #include "dive_problem_structural.hpp"
+#include "dive_problem_deformation_interpolation.hpp"
+#include "dive_problem_deformation_elastic.hpp"
 
 #include "dive_routines.hpp"
 

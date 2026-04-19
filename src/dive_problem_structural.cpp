@@ -51,10 +51,6 @@ namespace dive {
 		{
 			return pressure_;
 		}
-		IMatrixCoordinatesPtr ProblemStructural::GetVelocity() const
-		{
-			return velocity_;
-		}
 		IMeshPtr ProblemStructural::GetMesh() const
 		{
 			return mesh_;
@@ -119,7 +115,6 @@ namespace dive {
 			}
 
 			mesh_ = mesh;
-			velocity_ = values::CreateValueMatrixCoordinatesCongruent(mesh_);
 
 			UpdateMeshElements(mesh_, numberDof_);
 		}
@@ -129,6 +124,11 @@ namespace dive {
 		}
 		void ProblemStructural::ApplyLoad(ILoadPtr load)
 		{
+			if (load == nullptr)
+			{
+				throw std::invalid_argument("Load cannot be null.");
+			}
+
 			loads_.push_back(load);
 		}
 		void ProblemStructural::Initialize()

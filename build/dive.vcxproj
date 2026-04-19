@@ -80,6 +80,8 @@
       <StringPooling>true</StringPooling>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -101,7 +103,10 @@
     <ClInclude Include="..\src\dive_load_node.hpp" />
     <ClInclude Include="..\src\dive_mesh.hpp" />
     <ClInclude Include="..\src\dive_mesh_basic.hpp" />
+    <ClInclude Include="..\src\dive_mesh_gmsh.hpp" />
     <ClInclude Include="..\src\dive_problem.hpp" />
+    <ClInclude Include="..\src\dive_problem_deformation_elastic.hpp" />
+    <ClInclude Include="..\src\dive_problem_deformation_interpolation.hpp" />
     <ClInclude Include="..\src\dive_problem_fluid.hpp" />
     <ClInclude Include="..\src\dive_problem_pressure.hpp" />
     <ClInclude Include="..\src\dive_problem_structural.hpp" />
@@ -148,7 +153,10 @@
     <ClCompile Include="..\src\dive_load_distributed_volume.cpp" />
     <ClCompile Include="..\src\dive_load_node.cpp" />
     <ClCompile Include="..\src\dive_mesh_basic.cpp" />
+    <ClCompile Include="..\src\dive_mesh_gmsh.cpp" />
     <ClCompile Include="..\src\dive_problem.cpp" />
+    <ClCompile Include="..\src\dive_problem_deformation_elastic.cpp" />
+    <ClCompile Include="..\src\dive_problem_deformation_interpolation.cpp" />
     <ClCompile Include="..\src\dive_problem_fluid.cpp" />
     <ClCompile Include="..\src\dive_problem_pressure.cpp" />
     <ClCompile Include="..\src\dive_problem_structural.cpp" />

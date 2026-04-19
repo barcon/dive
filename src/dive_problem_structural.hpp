@@ -30,7 +30,6 @@ namespace dive
 
 			IScalarCoordinatesPtr GetTemperature() const override;
 			IScalarCoordinatesPtr GetPressure() const override;
-			IMatrixCoordinatesPtr GetVelocity() const override;
 			IMeshPtr GetMesh() const override;
 			Type GetType() const override;
 			Tag	GetTag() const override;
@@ -73,7 +72,6 @@ namespace dive
 
 			IScalarCoordinatesPtr temperature_{ nullptr };
 			IScalarCoordinatesPtr pressure_{ nullptr };
-			IMatrixCoordinatesPtr velocity_{ nullptr };
 			IMeshPtr mesh_{ nullptr };
 
 			Loads loads_;
