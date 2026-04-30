@@ -30,10 +30,7 @@
 #include "dive_load_node.hpp"
 
 #include "dive_weakforms.hpp"
-#include "dive_weakforms_thermal_mass.hpp"
-#include "dive_weakforms_thermal_stiffness.hpp"
-#include "dive_weakforms_thermal_convection.hpp"
-#include "dive_weakforms_thermal_stabilization.hpp"
+#include "dive_weakforms_deformation_stiffness.hpp"
 #include "dive_weakforms_fluid_mass.hpp"
 #include "dive_weakforms_fluid_stiffness.hpp"
 #include "dive_weakforms_fluid_convection.hpp"
@@ -50,6 +47,10 @@
 #include "dive_weakforms_structural_load_distributed_volume.hpp"
 #include "dive_weakforms_structural_load_distributed_face.hpp"
 #include "dive_weakforms_structural_load_distributed_edge.hpp"
+#include "dive_weakforms_thermal_mass.hpp"
+#include "dive_weakforms_thermal_stiffness.hpp"
+#include "dive_weakforms_thermal_convection.hpp"
+#include "dive_weakforms_thermal_stabilization.hpp"
 
 #include "dive_problem.hpp"
 #include "dive_problem_fluid.hpp"
@@ -57,7 +58,7 @@
 #include "dive_problem_thermal.hpp"
 #include "dive_problem_structural.hpp"
 #include "dive_problem_deformation_interpolation.hpp"
-#include "dive_problem_deformation_elastic.hpp"
+#include "dive_problem_deformation_laplace.hpp"
 
 #include "dive_routines.hpp"
 

@@ -22,7 +22,7 @@ namespace dive
 		
 		Vectors Partition(const Vector& vector, NumberDof totalDof, DofIndex pivot);
 		Matrices Partition(const Matrix& matrix, NumberDof totalDof, DofIndex pivot);
-		Sparses Partition(const Sparse& matrix, NumberDof totalDof, DofIndex pivot);
+		//Sparses Partition(const Sparse& matrix, NumberDof totalDof, DofIndex pivot);
 
 		void UpdateMeshElements(IMeshPtr mesh, NumberDof numberDof);
 		void UpdateDofMeshIndices(IMeshPtr mesh, NumberDof& totalDof, DofMeshIndices& dofMeshIndices);
@@ -42,10 +42,11 @@ namespace dive
 			virtual Type GetType() const = 0;
 			virtual Tag	GetTag() const = 0;
 
-			virtual const Loads& GetLoads() const = 0;
+			virtual Loads& GetLoads() = 0;
+	
 			virtual void SetTag(Tag tag) = 0;
-
 			virtual void ApplyLoad(ILoadPtr load) = 0;
+
 		protected:
 			virtual void SetMesh(IMeshPtr mesh) = 0;
 		};
@@ -73,6 +74,21 @@ namespace dive
 			virtual void DeformMesh(IMeshPtr mesh) = 0;
 		};
 
+		class IDeformationLaplace : public IDeformation, public IExtra
+		{
+		public:
+			virtual ~IDeformationLaplace() = default;
+			
+			virtual void SetTemperature(IScalarCoordinatesPtr temperature) = 0;
+			virtual void SetPressure(IScalarCoordinatesPtr pressure) = 0;
+
+			virtual void UpdateMeshValues(const Vector& u) = 0;
+			virtual void UpdateMeshValues(const Vector& u0, const Vector& u1) = 0;
+
+			virtual Sparse Stiffness() const = 0;
+			virtual Vector Displacement() const = 0;
+		};
+
 		class IFluid : public IProblem, public IExtra
 		{
 		public:
@@ -95,8 +111,7 @@ namespace dive
 			virtual Sparse Convection() const = 0;
 			virtual Sparse Stabilization() const = 0;		
 			virtual Vector LoadDistributedVolume() const = 0;
-			virtual Vector LoadDistributedVolumeStabilization() const = 0;
-			
+			virtual Vector LoadDistributedVolumeStabilization() const = 0;	
 			virtual Vector Momentum() const = 0;
 			virtual Vector Velocity() const = 0;
 		};
@@ -119,29 +134,7 @@ namespace dive
 			virtual Sparse Crossed(IProblemPtr problemMomentum) const = 0;
 			virtual Sparse Stabilization(IProblemPtr problemMomentum) const = 0;
 			virtual Sparse DistributedVolumeDivergence(IProblemPtr problemMomentum) const = 0;
-
 			virtual Vector Pressure() const = 0;
-		};
-
-		class IThermal : public IProblem, public IExtra
-		{
-		public:
-			virtual ~IThermal() = default;
-
-			virtual IScalarCoordinatesPtr GetTemperature() const = 0;
-			virtual IScalarCoordinatesPtr GetPressure() const = 0;
-
-			virtual void SetPressure(IScalarCoordinatesPtr pressure) = 0;
-
-			virtual void UpdateMeshValues(const Vector& u) = 0;
-			virtual void UpdateMeshValues(const Vector& u0, const Vector& u1) = 0;
-
-			virtual Sparse Mass(bool lumped = false) const = 0;
-			virtual Sparse Stiffness() const = 0;
-			virtual Sparse Convection(IProblemPtr problemMomentum) const = 0;
-			virtual Sparse Stabilization(IProblemPtr problemMomentum) const = 0;
-
-			virtual Vector Energy() const = 0;
 		};
 
 		class IStructural : public IProblem, public IExtra
@@ -165,8 +158,27 @@ namespace dive
 			virtual Vector LoadDistributedFace() const = 0;
 			virtual Vector LoadDistributedVolume() const = 0;
 			virtual Vector LoadNode() const = 0;
-
 			virtual Vector Displacement() const = 0;
+		};
+
+		class IThermal : public IProblem, public IExtra
+		{
+		public:
+			virtual ~IThermal() = default;
+
+			virtual IScalarCoordinatesPtr GetTemperature() const = 0;
+			virtual IScalarCoordinatesPtr GetPressure() const = 0;
+
+			virtual void SetPressure(IScalarCoordinatesPtr pressure) = 0;
+
+			virtual void UpdateMeshValues(const Vector& u) = 0;
+			virtual void UpdateMeshValues(const Vector& u0, const Vector& u1) = 0;
+
+			virtual Sparse Mass(bool lumped = false) const = 0;
+			virtual Sparse Stiffness() const = 0;
+			virtual Sparse Convection(IProblemPtr problemMomentum) const = 0;
+			virtual Sparse Stabilization(IProblemPtr problemMomentum) const = 0;
+			virtual Vector Energy() const = 0;
 		};
 	} //namespace problem
 } //namespace dive

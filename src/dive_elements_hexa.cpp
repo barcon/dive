@@ -247,7 +247,7 @@ namespace dive
 		}
 		Matrix ElementHexa::InvJ(const Vector& local) const
 		{
-			return eilig::Inverse(J(local));
+			return eilig::Inverse3x3(J(local));
 		}
 		Matrix ElementHexa::N(const Vector& local) const
 		{
@@ -287,7 +287,7 @@ namespace dive
 		}
 		Scalar ElementHexa::DetJ(const Vector& local) const
 		{
-			return eilig::Determinant(J(local));
+			return eilig::Determinant3x3(J(local));
 		}
 		Scalar ElementHexa::DelA(const Vector& local, const DimensionIndex& dimensionIndex1, const DimensionIndex& dimensionIndex2) const
 		{
@@ -1070,8 +1070,8 @@ namespace dive
 				auto jacobian = this->J(points[i]);
 				
 				cacheLocal_.J[i] = jacobian;
-				cacheLocal_.InvJ[i] = eilig::Inverse(jacobian);
-				cacheLocal_.DetJ[i] = eilig::Determinant(jacobian);
+				cacheLocal_.InvJ[i] = eilig::Inverse3x3(jacobian);
+				cacheLocal_.DetJ[i] = eilig::Determinant3x3(jacobian);
 			}
 			cacheLocal_.isValid = true;
 

@@ -1,6 +1,14 @@
 #include "dive_problem_thermal.hpp"
 #include "dive_values_scalar_congruent.hpp"
 
+#include "dive_weakforms.hpp"
+#include "dive_weakforms_thermal_mass.hpp"
+#include "dive_weakforms_thermal_stiffness.hpp"
+#include "dive_weakforms_thermal_convection.hpp"
+#include "dive_weakforms_thermal_stabilization.hpp"
+//#include "dive_weakforms_thermal_load_distributed_volume.hpp"
+//#include "dive_weakforms_thermal_load_distributed_volume_stabilization.hpp"
+
 namespace dive {
 	namespace problem {
 		ProblemThermalPtr CreateProblemThermal(Tag problemTag, IMeshPtr mesh)
@@ -60,7 +68,7 @@ namespace dive {
 		{
 			return tag_;
 		}
-		const Loads& ProblemThermal::GetLoads() const
+		Loads& ProblemThermal::GetLoads()
 		{
 			return loads_;
 		}

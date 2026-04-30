@@ -242,6 +242,11 @@ namespace dive
 		class LoadNodeStructural;
 		using LoadNodeStructuralPtr = std::shared_ptr<LoadNodeStructural>;
 		using ConstLoadNodeStructuralPtr = std::shared_ptr<const LoadNodeStructural>;
+		
+		//---------------------------------------------------------------------
+		class StiffnessDeformation;
+		using StiffnessDeformationPtr = std::shared_ptr<StiffnessDeformation>;
+		using ConstStiffnessDeformationPtr = std::shared_ptr<const StiffnessDeformation>;
 	}
 
 	namespace load
@@ -285,6 +290,10 @@ namespace dive
 		using IDeformationPtr = std::shared_ptr<IDeformation>;
 		using ConstIDeformationPtr = std::shared_ptr<const IDeformation>;
 
+		class IDeformationLaplace;
+		using IDeformationLaplacePtr = std::shared_ptr<IDeformationLaplace>;
+		using ConstIDeformationLaplacePtr = std::shared_ptr<const IDeformationLaplace>;
+
 		class IFluid;
 		using IFluidPtr = std::shared_ptr<IFluid>;
 		using ConstIFluidPtr = std::shared_ptr<const IFluid>;
@@ -321,9 +330,9 @@ namespace dive
 		using ProblemDeformationInterpolationPtr = std::shared_ptr<ProblemDeformationInterpolation>;
 		using ConstProblemDeformationInterpolationPtr = std::shared_ptr<const ProblemDeformationInterpolation>;
 
-		class ProblemDeformationElastic;
-		using ProblemDeformationElasticPtr = std::shared_ptr<ProblemDeformationElastic>;
-		using ConstProblemDeformationElasticPtr = std::shared_ptr<const ProblemDeformationElastic>;
+		class ProblemDeformationLaplace;
+		using ProblemDeformationLaplacePtr = std::shared_ptr<ProblemDeformationLaplace>;
+		using ConstProblemDeformationLaplacePtr = std::shared_ptr<const ProblemDeformationLaplace>;
 	}
 
 	using IValuePtr = values::IValuePtr;

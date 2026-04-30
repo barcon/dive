@@ -1,64 +1,59 @@
-#ifndef DIVE_PROBLEM_STRUCTURAL_HPP_
-#define DIVE_PROBLEM_STRUCTURAL_HPP_
+#ifndef DIVE_PROBLEM_DEFORMATION_LAPLACE_HPP_
+#define DIVE_PROBLEM_DEFORMATION_LAPLACE_HPP_
 
 #include "dive_problem.hpp"
+#include "dive_problem_thermal.hpp"
 
 namespace dive
 {
 	namespace problem
 	{
-		ProblemStructuralPtr CreateProblemStructural(Tag problemTag, IMeshPtr mesh);
+		ProblemDeformationLaplacePtr CreateProblemDeformationLaplace(Tag problemTag, IMeshPtr mesh);
 
-		class ProblemStructural : public IStructural, virtual public std::enable_shared_from_this<ProblemStructural>
+		class ProblemDeformationLaplace : public IDeformationLaplace, virtual public std::enable_shared_from_this<ProblemDeformationLaplace>
 		{
 		public:
-			virtual ~ProblemStructural() = default;
+			virtual ~ProblemDeformationLaplace() = default;
 
-			static ProblemStructuralPtr Create(Tag problemTag, IMeshPtr mesh);
-			ProblemStructuralPtr GetPtr();
-			ConstProblemStructuralPtr GetPtr() const;
+			static ProblemDeformationLaplacePtr Create(Tag problemTag, IMeshPtr mesh);
+			ProblemDeformationLaplacePtr GetPtr();
+			ConstProblemDeformationLaplacePtr GetPtr() const;
 
 			NumberDof GetNumberDof() const override;
 			NumberDof GetTotalDof() const override;
 			DofIndex GetPivot() const override;
 
-			IScalarCoordinatesPtr GetTemperature() const override;
-			IScalarCoordinatesPtr GetPressure() const override;
 			IMeshPtr GetMesh() const override;
 			Type GetType() const override;
 			Tag	GetTag() const override;
-
 			Loads& GetLoads() override;
-
-			const DofMeshIndices& GetDofMeshIndices() const override;
-			const NodeMeshIndices& GetNodeMeshIndices() const override;
-			const DirichletMeshIndices& GetDirichletMeshIndices() const override;
 
 			void SetTemperature(IScalarCoordinatesPtr temperature) override;
 			void SetPressure(IScalarCoordinatesPtr pressure) override;
 			void SetTag(Tag tag) override;
 
+			const DofMeshIndices& GetDofMeshIndices() const override;
+			const NodeMeshIndices& GetNodeMeshIndices() const override;
+			const DirichletMeshIndices& GetDirichletMeshIndices() const override;
+
 			void ApplyLoad(ILoadPtr load) override;
-			void Initialize() override;
+			void DeformMesh(IMeshPtr mesh) override;
+			void Initialize();
+
 			void UpdateMeshValues(const Vector& u) override;
 			void UpdateMeshValues(const Vector& u0, const Vector& u1) override;
 
-			Sparse Mass(bool lumped = false) const override;
 			Sparse Stiffness() const override;
-			Sparse Damping() const override;
-			Vector LoadDistributedEdge() const override;
-			Vector LoadDistributedFace() const override;
-			Vector LoadDistributedVolume() const override;
-			Vector LoadNode() const override;		
 			Vector Displacement() const override;
 
 		protected:
-			ProblemStructural() = default;
+			ProblemDeformationLaplace() = default;
 
 			void SetMesh(IMeshPtr mesh) override;
+			void UpdateMeshMaterial(IMeshPtr mesh);
 
 			Tag tag_{ 0 };
-			Type type_{ problem_structural };
+			Type type_{ problem_deformation };
 			NumberDof numberDof_{ 3 };
 			NumberDof totalDof_{ 0 };
 			DofIndex pivot_{ 0 };
@@ -77,4 +72,4 @@ namespace dive
 	} //namespace problem
 } //namespace dive
 
-#endif /* DIVE_PROBLEM_STRUCTURAL_HPP_*/
+#endif /* DIVE_PROBLEM_DEFORMATION_LAPLACE_HPP_*/

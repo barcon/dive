@@ -47,7 +47,7 @@ namespace dive {
 
 			auto numberNodes = elementMomentum->GetNumberNodes();
 			auto numberDof = elementMomentum->GetNumberDof();
-			auto dN = eilig::Inverse(elementMomentum->J(local)) * elementMomentum->dN(local);
+			auto dN = eilig::Inverse3x3(elementMomentum->J(local)) * elementMomentum->dN(local);
 
 			Matrix res(1, numberNodes * numberDof, eilig::matrix_zeros);
 

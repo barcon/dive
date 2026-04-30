@@ -34,6 +34,16 @@ namespace dive {
 
 			return PhysicalGroup(-1, -1);
 		}
+		
+		void GmshInitialize()
+		{
+			gmsh::initialize();
+		}
+		void GmshFinalize()
+		{
+			gmsh::finalize();
+		}
+
 		PhysicalGroups GmshGetPhysicalGroups()
 		{
 			PhysicalGroups res;
@@ -263,11 +273,14 @@ namespace dive {
 				for (NodeIndex i = 0; i < nodeTags.size(); ++i)
 				{
 					auto nodeTag = nodeTags[i];
+					auto coordinate = Scalars(3);
+					auto parametricCoordinate = Scalars(3);
+					
 					auto x = coordinates[3 * i + 0];
 					auto y = coordinates[3 * i + 1];
 					auto z = coordinates[3 * i + 2];
-
 					auto node = node::CreateNode(nodeTag, x, y, z);
+
 					mesh->AddNode(node, status, false);
 				}
 

@@ -4,6 +4,13 @@
 #include "dive_values_scalar_congruent.hpp"
 #include "dive_values_matrix_congruent.hpp"
 
+#include "dive_weakforms.hpp"
+#include "dive_weakforms_structural_mass.hpp"
+#include "dive_weakforms_structural_stiffness.hpp"
+#include "dive_weakforms_structural_load_distributed_volume.hpp"
+#include "dive_weakforms_structural_load_distributed_face.hpp"
+#include "dive_weakforms_structural_load_distributed_edge.hpp"
+
 namespace dive {
 	namespace problem {
 		ProblemStructuralPtr CreateProblemStructural(Tag problemTag, IMeshPtr mesh)
@@ -63,7 +70,7 @@ namespace dive {
 		{
 			return tag_;
 		}
-		const Loads& ProblemStructural::GetLoads() const
+		Loads& ProblemStructural::GetLoads()
 		{
 			return loads_;
 		}

@@ -1,6 +1,13 @@
 #include "dive_problem_pressure.hpp"
 #include "dive_values_scalar_congruent.hpp"
 
+#include "dive_weakforms.hpp"
+#include "dive_weakforms_pressure_mass.hpp"
+#include "dive_weakforms_pressure_stiffness.hpp"
+#include "dive_weakforms_pressure_crossed.hpp"
+#include "dive_weakforms_pressure_stabilization.hpp"
+#include "dive_weakforms_pressure_distributed_volume_divergence.hpp"
+
 namespace dive {
 	namespace problem {
 		ProblemPressurePtr CreateProblemPressure(Tag problemTag, IMeshPtr mesh)
@@ -60,7 +67,7 @@ namespace dive {
 		{
 			return tag_;
 		}
-		const Loads& ProblemPressure::GetLoads() const
+		Loads& ProblemPressure::GetLoads()
 		{
 			return loads_;
 		}

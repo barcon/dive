@@ -53,7 +53,7 @@ namespace dive {
 			auto numberNodes = element->GetNumberNodes();
 			auto numberDof = element->GetNumberDof();
 			auto numberDimensions = element->GetNumberDimensions();
-			auto dN = eilig::Inverse(element->J(point)) * element->dN(point);
+			auto dN = eilig::Inverse3x3(element->J(point)) * element->dN(point);
 
 			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
 
@@ -76,7 +76,7 @@ namespace dive {
 		}
 		Scalar LoadDistributedVolumeStabilizationFluid::FormDivergence(IElementMappedPtr element, const Vector& point) const
 		{
-			auto du = eilig::Inverse(element->J(point)) * element->du(point);
+			auto du = eilig::Inverse3x3(element->J(point)) * element->du(point);
 
 			Scalar divergence{ 0.0 };
 

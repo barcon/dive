@@ -2,12 +2,6 @@
 #define DIVE_PROBLEM_PRESSURE_HPP_
 
 #include "dive_problem.hpp"
-#include "dive_weakforms.hpp"
-#include "dive_weakforms_pressure_mass.hpp"
-#include "dive_weakforms_pressure_stiffness.hpp"
-#include "dive_weakforms_pressure_crossed.hpp"
-#include "dive_weakforms_pressure_stabilization.hpp"
-#include "dive_weakforms_pressure_distributed_volume_divergence.hpp"
 
 namespace dive
 {
@@ -34,7 +28,7 @@ namespace dive
 			Type GetType() const override;
 			Tag	GetTag() const override;
 
-			const Loads& GetLoads() const override;
+			Loads& GetLoads() override;
 
 			const DofMeshIndices& GetDofMeshIndices() const override;
 			const NodeMeshIndices& GetNodeMeshIndices() const override;
@@ -53,8 +47,7 @@ namespace dive
 			Sparse Stiffness() const override;
 			Sparse Crossed(IProblemPtr problemMomentum) const override;
 			Sparse Stabilization(IProblemPtr problemMomentum) const override;
-			Sparse DistributedVolumeDivergence(IProblemPtr problemMomentum) const override;
-			
+			Sparse DistributedVolumeDivergence(IProblemPtr problemMomentum) const override;		
 			Vector Pressure() const override;
 
 		protected:

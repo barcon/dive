@@ -43,7 +43,7 @@ namespace dive {
 		{
 			return tag_;
 		}
-		const Loads& ProblemDeformationInterpolation::GetLoads() const
+		Loads& ProblemDeformationInterpolation::GetLoads()
 		{
 			return loads_;
 		}

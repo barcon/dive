@@ -2,13 +2,6 @@
 #define DIVE_PROBLEM_FLUID_HPP_
 
 #include "dive_problem.hpp"
-#include "dive_weakforms.hpp"
-#include "dive_weakforms_fluid_mass.hpp"
-#include "dive_weakforms_fluid_stiffness.hpp"
-#include "dive_weakforms_fluid_convection.hpp"
-#include "dive_weakforms_fluid_stabilization.hpp"
-#include "dive_weakforms_fluid_load_distributed_volume.hpp"
-#include "dive_weakforms_fluid_load_distributed_volume_stabilization.hpp"
 
 namespace dive
 {
@@ -36,7 +29,7 @@ namespace dive
 			Type GetType() const override;
 			Tag	GetTag() const override;
 
-			const Loads& GetLoads() const override;
+			Loads& GetLoads() override;
 
 			const DofMeshIndices& GetDofMeshIndices() const override;
 			const NodeMeshIndices& GetNodeMeshIndices() const override;
@@ -59,8 +52,7 @@ namespace dive
 			Sparse Convection() const override;
 			Sparse Stabilization() const override;	
 			Vector LoadDistributedVolume() const override;
-			Vector LoadDistributedVolumeStabilization() const override;
-			
+			Vector LoadDistributedVolumeStabilization() const override;		
 			Vector Momentum() const override;
 			Vector Velocity() const override;
 

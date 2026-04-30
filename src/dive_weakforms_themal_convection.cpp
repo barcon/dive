@@ -80,7 +80,7 @@ namespace dive {
 		{
 			const auto& elementIndex = element->GetElementIndex();
 			const auto& elementVelocity = std::dynamic_pointer_cast<elements::IElementMapped>(problemMomentum_->GetMesh()->GetElements()[elementIndex]);
-			auto du = eilig::Inverse(elementVelocity->J(local)) * elementVelocity->du(local);
+			auto du = eilig::Inverse3x3(elementVelocity->J(local)) * elementVelocity->du(local);
 
 			Scalar divergence{ 0.0 };
 

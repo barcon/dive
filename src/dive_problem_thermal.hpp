@@ -2,13 +2,6 @@
 #define DIVE_PROBLEM_THERMAL_HPP_
 
 #include "dive_problem.hpp"
-#include "dive_weakforms.hpp"
-#include "dive_weakforms_thermal_mass.hpp"
-#include "dive_weakforms_thermal_stiffness.hpp"
-#include "dive_weakforms_thermal_convection.hpp"
-#include "dive_weakforms_thermal_stabilization.hpp"
-//#include "dive_weakforms_thermal_load_distributed_volume.hpp"
-//#include "dive_weakforms_thermal_load_distributed_volume_stabilization.hpp"
 
 namespace dive
 {
@@ -35,7 +28,7 @@ namespace dive
 			Type GetType() const override;
 			Tag	GetTag() const override;
 
-			const Loads& GetLoads() const override;
+			Loads& GetLoads() override;
 
 			const DofMeshIndices& GetDofMeshIndices() const override;
 			const NodeMeshIndices& GetNodeMeshIndices() const override;
@@ -53,7 +46,6 @@ namespace dive
 			Sparse Stiffness() const override;
 			Sparse Convection(IProblemPtr problemMomentum) const override;
 			Sparse Stabilization(IProblemPtr problemMomentum) const override;
-
 			Vector Energy() const override;
 
 		protected:

@@ -10,6 +10,9 @@ namespace dive
 		using PhysicalGroup = std::pair<int, int>;
 		using PhysicalGroups = std::vector<PhysicalGroup>;
 
+		void GmshInitialize();
+		void GmshFinalize();
+
 		PhysicalGroups GmshGetPhysicalGroups();
 		PhysicalGroup GmshGetPhysicalGroupByName(const String& groupName);
 		String GmshGetPhysicalName(int dim, int tag);

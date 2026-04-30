@@ -2,6 +2,14 @@
 #include "dive_values_scalar_congruent.hpp"
 #include "dive_values_matrix_congruent.hpp"
 
+#include "dive_weakforms.hpp"
+#include "dive_weakforms_fluid_mass.hpp"
+#include "dive_weakforms_fluid_stiffness.hpp"
+#include "dive_weakforms_fluid_convection.hpp"
+#include "dive_weakforms_fluid_stabilization.hpp"
+#include "dive_weakforms_fluid_load_distributed_volume.hpp"
+#include "dive_weakforms_fluid_load_distributed_volume_stabilization.hpp"
+
 namespace dive {
 	namespace problem {
 		ProblemFluidPtr CreateProblemFluid(Tag problemTag, IMeshPtr mesh)
@@ -65,7 +73,7 @@ namespace dive {
 		{
 			return tag_;
 		}
-		const Loads& ProblemFluid::GetLoads() const
+		Loads& ProblemFluid::GetLoads()
 		{
 			return loads_;
 		}

@@ -24,7 +24,7 @@ namespace dive
 			Type GetType() const override;
 			Tag	GetTag() const override;
 
-			const Loads& GetLoads() const override;
+			Loads& GetLoads() override;
 
 			void SetTag(Tag tag) override;
 

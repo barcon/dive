@@ -51,7 +51,7 @@ namespace dive {
 		Scalar StabilizationPressure::FormDivergence(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
 			const auto& elementMomentum = std::dynamic_pointer_cast<elements::IElementMapped>(problemMomentum_->GetMesh()->GetElements()[element->GetElementIndex()]);
-			auto du = eilig::Inverse(elementMomentum->J(local)) * elementMomentum->du(local);
+			auto du = eilig::Inverse3x3(elementMomentum->J(local)) * elementMomentum->du(local);
 
 			Scalar divergence{ 0.0 };
 
