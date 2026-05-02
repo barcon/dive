@@ -2,7 +2,7 @@
 #define DIVE_SELECTION_HPP_
 
 #include "dive_types.hpp"
-#include "dive_elements.hpp"
+#include "dive_element.hpp"
 
 #include <set>
 

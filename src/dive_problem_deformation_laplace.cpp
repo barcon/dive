@@ -1,16 +1,16 @@
 #include "dive_problem_deformation_laplace.hpp"
 
 #include "dive_mesh_basic.hpp"
-#include "dive_weakforms_deformation_stiffness.hpp"
+#include "dive_weakform_deformation_stiffness.hpp"
 
 namespace dive {
 	namespace problem {
 
 		CallbackIterative callbackIterative = [](Index iteration, Scalar residual) -> long long int
 			{
-				logger::Info(headerDive, utils::string::Format("Iteration: {}, Residual: {}", iteration, residual));
+				logger::Info(headerDive, utils::string::Format("Iteration: {}, Residual: {:.3e}", iteration, residual));
 
-				dive::Scalar tolerance{ 1e-6 };
+				dive::Scalar tolerance{ 1e-5 };
 
 				if (std::isnan(residual))
 				{
@@ -39,8 +39,8 @@ namespace dive {
 
 			res->SetTag(problemTag);
 			res->SetMesh(mesh);
-			res->SetTemperature(values::CreateValueScalarCoordinates(mesh->GetNumberCoordinates(), 1.0));
-			res->SetPressure(values::CreateValueScalarCoordinates(mesh->GetNumberCoordinates(), 1.0));
+			res->SetTemperature(value::CreateValueScalarCoordinates(mesh->GetNumberCoordinates(), 1.0));
+			res->SetPressure(value::CreateValueScalarCoordinates(mesh->GetNumberCoordinates(), 1.0));
 
 			return res;
 		}
@@ -142,9 +142,9 @@ namespace dive {
 
 			for (auto& element : elements)
 			{
-				auto material = material::CreateSolidUnit(element->GetTag());
+				auto material = material::CreateSolid(element->GetTag());
 
-				//material->SetThermalConductivity(values::CreateValueScalarCoordinates(2, 1.0));
+				material->SetThermalConductivity(value::CreateValueScalarCoordinates(2, 1.0));
 				element->SetMaterial(material);
 			}
 		}
@@ -259,7 +259,7 @@ namespace dive {
 		}
 		Sparse ProblemDeformationLaplace::Stiffness() const
 		{
-			auto stiffnessWeak = weakforms::CreateWeakFormStiffnessDeformation();
+			auto stiffnessWeak = weakform::CreateWeakFormStiffnessDeformation();
 			stiffnessWeak->SetTemperature(temperature_);
 			stiffnessWeak->SetPressure(pressure_);
 

@@ -56,7 +56,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\utils\src;..\..\logger\src;..\..\eilig\src;..\..\basis\src;..\..\quadrature\src;..\..\node\src;..\..\kdtree\src;..\..\interpolation\src;..\..\values\src;..\..\material\src;..\..\thread-pool\include;..\..\gmsh\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\utils\src;..\..\logger\src;..\..\eilig\src;..\..\basis\src;..\..\quadrature\src;..\..\node\src;..\..\kdtree\src;..\..\interpolation\src;..\..\value\src;..\..\material\src;..\..\thread-pool\include;..\..\gmsh\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <LanguageStandard>stdcpp20</LanguageStandard>
@@ -74,7 +74,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\utils\src;..\..\logger\src;..\..\eilig\src;..\..\basis\src;..\..\quadrature\src;..\..\node\src;..\..\kdtree\src;..\..\interpolation\src;..\..\values\src;..\..\material\src;..\..\thread-pool\include;..\..\gmsh\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\utils\src;..\..\logger\src;..\..\eilig\src;..\..\basis\src;..\..\quadrature\src;..\..\node\src;..\..\kdtree\src;..\..\interpolation\src;..\..\value\src;..\..\material\src;..\..\thread-pool\include;..\..\gmsh\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -93,10 +93,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\src\dive.hpp" />
-    <ClInclude Include="..\src\dive_elements.hpp" />
-    <ClInclude Include="..\src\dive_elements_combined.hpp" />
-    <ClInclude Include="..\src\dive_elements_hexa.hpp" />
-    <ClInclude Include="..\src\dive_elements_mass.hpp" />
+    <ClInclude Include="..\src\dive_element.hpp" />
+    <ClInclude Include="..\src\dive_element_combined.hpp" />
+    <ClInclude Include="..\src\dive_element_hexa.hpp" />
+    <ClInclude Include="..\src\dive_element_mass.hpp" />
     <ClInclude Include="..\src\dive_load.hpp" />
     <ClInclude Include="..\src\dive_load_dirichlet.hpp" />
     <ClInclude Include="..\src\dive_load_distributed_edge.hpp" />
@@ -120,36 +120,36 @@
     <ClInclude Include="..\src\dive_timer_stationary.hpp" />
     <ClInclude Include="..\src\dive_timer_stepped.hpp" />
     <ClInclude Include="..\src\dive_types.hpp" />
-    <ClInclude Include="..\src\dive_values_matrix_congruent.hpp" />
-    <ClInclude Include="..\src\dive_values_scalar_congruent.hpp" />
-    <ClInclude Include="..\src\dive_values_vector_congruent.hpp" />
-    <ClInclude Include="..\src\dive_weakforms.hpp" />
-    <ClInclude Include="..\src\dive_weakforms_deformation_stiffness.hpp" />
-    <ClInclude Include="..\src\dive_weakforms_fluid_convection.hpp" />
-    <ClInclude Include="..\src\dive_weakforms_fluid_load_distributed_volume.hpp" />
-    <ClInclude Include="..\src\dive_weakforms_fluid_load_distributed_volume_stabilization.hpp" />
-    <ClInclude Include="..\src\dive_weakforms_fluid_mass.hpp" />
-    <ClInclude Include="..\src\dive_weakforms_fluid_stabilization.hpp" />
-    <ClInclude Include="..\src\dive_weakforms_fluid_stiffness.hpp" />
-    <ClInclude Include="..\src\dive_weakforms_pressure_crossed.hpp" />
-    <ClInclude Include="..\src\dive_weakforms_pressure_distributed_volume_divergence.hpp" />
-    <ClInclude Include="..\src\dive_weakforms_pressure_mass.hpp" />
-    <ClInclude Include="..\src\dive_weakforms_pressure_stabilization.hpp" />
-    <ClInclude Include="..\src\dive_weakforms_pressure_stiffness.hpp" />
-    <ClInclude Include="..\src\dive_weakforms_structural_load_distributed_edge.hpp" />
-    <ClInclude Include="..\src\dive_weakforms_structural_load_distributed_face.hpp" />
-    <ClInclude Include="..\src\dive_weakforms_structural_load_distributed_volume.hpp" />
-    <ClInclude Include="..\src\dive_weakforms_structural_mass.hpp" />
-    <ClInclude Include="..\src\dive_weakforms_structural_stiffness.hpp" />
-    <ClInclude Include="..\src\dive_weakforms_thermal_convection.hpp" />
-    <ClInclude Include="..\src\dive_weakforms_thermal_mass.hpp" />
-    <ClInclude Include="..\src\dive_weakforms_thermal_stabilization.hpp" />
-    <ClInclude Include="..\src\dive_weakforms_thermal_stiffness.hpp" />
+    <ClInclude Include="..\src\dive_value_matrix_congruent.hpp" />
+    <ClInclude Include="..\src\dive_value_scalar_congruent.hpp" />
+    <ClInclude Include="..\src\dive_value_vector_congruent.hpp" />
+    <ClInclude Include="..\src\dive_weakform.hpp" />
+    <ClInclude Include="..\src\dive_weakform_deformation_stiffness.hpp" />
+    <ClInclude Include="..\src\dive_weakform_fluid_convection.hpp" />
+    <ClInclude Include="..\src\dive_weakform_fluid_load_distributed_volume.hpp" />
+    <ClInclude Include="..\src\dive_weakform_fluid_load_distributed_volume_stabilization.hpp" />
+    <ClInclude Include="..\src\dive_weakform_fluid_mass.hpp" />
+    <ClInclude Include="..\src\dive_weakform_fluid_stabilization.hpp" />
+    <ClInclude Include="..\src\dive_weakform_fluid_stiffness.hpp" />
+    <ClInclude Include="..\src\dive_weakform_pressure_crossed.hpp" />
+    <ClInclude Include="..\src\dive_weakform_pressure_distributed_volume_divergence.hpp" />
+    <ClInclude Include="..\src\dive_weakform_pressure_mass.hpp" />
+    <ClInclude Include="..\src\dive_weakform_pressure_stabilization.hpp" />
+    <ClInclude Include="..\src\dive_weakform_pressure_stiffness.hpp" />
+    <ClInclude Include="..\src\dive_weakform_structural_load_distributed_edge.hpp" />
+    <ClInclude Include="..\src\dive_weakform_structural_load_distributed_face.hpp" />
+    <ClInclude Include="..\src\dive_weakform_structural_load_distributed_volume.hpp" />
+    <ClInclude Include="..\src\dive_weakform_structural_mass.hpp" />
+    <ClInclude Include="..\src\dive_weakform_structural_stiffness.hpp" />
+    <ClInclude Include="..\src\dive_weakform_thermal_convection.hpp" />
+    <ClInclude Include="..\src\dive_weakform_thermal_mass.hpp" />
+    <ClInclude Include="..\src\dive_weakform_thermal_stabilization.hpp" />
+    <ClInclude Include="..\src\dive_weakform_thermal_stiffness.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\dive_elements_combined.cpp" />
-    <ClCompile Include="..\src\dive_elements_hexa.cpp" />
-    <ClCompile Include="..\src\dive_elements_mass.cpp" />
+    <ClCompile Include="..\src\dive_element_combined.cpp" />
+    <ClCompile Include="..\src\dive_element_hexa.cpp" />
+    <ClCompile Include="..\src\dive_element_mass.cpp" />
     <ClCompile Include="..\src\dive_load_dirichlet.cpp" />
     <ClCompile Include="..\src\dive_load_distributed_edge.cpp" />
     <ClCompile Include="..\src\dive_load_distributed_face.cpp" />
@@ -168,30 +168,30 @@
     <ClCompile Include="..\src\dive_selection.cpp" />
     <ClCompile Include="..\src\dive_timer_stationary.cpp" />
     <ClCompile Include="..\src\dive_timer_stepped.cpp" />
-    <ClCompile Include="..\src\dive_values_matrix_congruent.cpp" />
-    <ClCompile Include="..\src\dive_values_scalar_congruent.cpp" />
-    <ClCompile Include="..\src\dive_values_vector_congruent.cpp" />
-    <ClCompile Include="..\src\dive_weakforms_deformation_stiffness.cpp" />
-    <ClCompile Include="..\src\dive_weakforms_fluid_convection.cpp" />
-    <ClCompile Include="..\src\dive_weakforms_fluid_load_distributed_volume.cpp" />
-    <ClCompile Include="..\src\dive_weakforms_fluid_load_distributed_volume_stabilization.cpp" />
-    <ClCompile Include="..\src\dive_weakforms_fluid_mass.cpp" />
-    <ClCompile Include="..\src\dive_weakforms_fluid_stabilization.cpp" />
-    <ClCompile Include="..\src\dive_weakforms_fluid_stiffness.cpp" />
-    <ClCompile Include="..\src\dive_weakforms_pressure_crossed.cpp" />
-    <ClCompile Include="..\src\dive_weakforms_pressure_distributed_volume_divergence.cpp" />
-    <ClCompile Include="..\src\dive_weakforms_pressure_mass.cpp" />
-    <ClCompile Include="..\src\dive_weakforms_pressure_stabilization.cpp" />
-    <ClCompile Include="..\src\dive_weakforms_pressure_stiffness.cpp" />
-    <ClCompile Include="..\src\dive_weakforms_structural_load_distributed_edge.cpp" />
-    <ClCompile Include="..\src\dive_weakforms_structural_load_distributed_face.cpp" />
-    <ClCompile Include="..\src\dive_weakforms_structural_load_distributed_volume.cpp" />
-    <ClCompile Include="..\src\dive_weakforms_structural_mass.cpp" />
-    <ClCompile Include="..\src\dive_weakforms_structural_stiffness.cpp" />
-    <ClCompile Include="..\src\dive_weakforms_themal_convection.cpp" />
-    <ClCompile Include="..\src\dive_weakforms_thermal_mass.cpp" />
-    <ClCompile Include="..\src\dive_weakforms_thermal_stabilization.cpp" />
-    <ClCompile Include="..\src\dive_weakforms_thermal_stiffness.cpp" />
+    <ClCompile Include="..\src\dive_value_matrix_congruent.cpp" />
+    <ClCompile Include="..\src\dive_value_scalar_congruent.cpp" />
+    <ClCompile Include="..\src\dive_value_vector_congruent.cpp" />
+    <ClCompile Include="..\src\dive_weakform_deformation_stiffness.cpp" />
+    <ClCompile Include="..\src\dive_weakform_fluid_convection.cpp" />
+    <ClCompile Include="..\src\dive_weakform_fluid_load_distributed_volume.cpp" />
+    <ClCompile Include="..\src\dive_weakform_fluid_load_distributed_volume_stabilization.cpp" />
+    <ClCompile Include="..\src\dive_weakform_fluid_mass.cpp" />
+    <ClCompile Include="..\src\dive_weakform_fluid_stabilization.cpp" />
+    <ClCompile Include="..\src\dive_weakform_fluid_stiffness.cpp" />
+    <ClCompile Include="..\src\dive_weakform_pressure_crossed.cpp" />
+    <ClCompile Include="..\src\dive_weakform_pressure_distributed_volume_divergence.cpp" />
+    <ClCompile Include="..\src\dive_weakform_pressure_mass.cpp" />
+    <ClCompile Include="..\src\dive_weakform_pressure_stabilization.cpp" />
+    <ClCompile Include="..\src\dive_weakform_pressure_stiffness.cpp" />
+    <ClCompile Include="..\src\dive_weakform_structural_load_distributed_edge.cpp" />
+    <ClCompile Include="..\src\dive_weakform_structural_load_distributed_face.cpp" />
+    <ClCompile Include="..\src\dive_weakform_structural_load_distributed_volume.cpp" />
+    <ClCompile Include="..\src\dive_weakform_structural_mass.cpp" />
+    <ClCompile Include="..\src\dive_weakform_structural_stiffness.cpp" />
+    <ClCompile Include="..\src\dive_weakform_themal_convection.cpp" />
+    <ClCompile Include="..\src\dive_weakform_thermal_mass.cpp" />
+    <ClCompile Include="..\src\dive_weakform_thermal_stabilization.cpp" />
+    <ClCompile Include="..\src\dive_weakform_thermal_stiffness.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

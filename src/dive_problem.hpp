@@ -4,7 +4,7 @@
 #include "dive_types.hpp"
 #include "dive_timer.hpp"
 #include "dive_mesh.hpp"
-#include "dive_weakforms.hpp"
+#include "dive_weakform.hpp"
 #include "dive_load.hpp"
 
 namespace dive

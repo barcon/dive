@@ -1,7 +1,7 @@
 #include "dive_mesh_basic.hpp"
 #include "dive_status.hpp"
-#include "dive_elements.hpp"
-#include "dive_elements_hexa.hpp"
+#include "dive_element.hpp"
+#include "dive_element_hexa.hpp"
 #include "dive_selection.hpp"
 
 #include "gmsh.h"

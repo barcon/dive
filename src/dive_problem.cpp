@@ -70,7 +70,7 @@ namespace dive
 					taskIndex.elementIndex = i;
 					taskIndex.matrix = Matrix(numberNodes1 * numberDof1, numberNodes2 * numberDof2);
 
-					std::dynamic_pointer_cast<elements::IElementMapped>(elements1[i])->IntegralWeakFormElement(weakForm_, taskIndex.matrix);
+					std::dynamic_pointer_cast<element::IElementMapped>(elements1[i])->IntegralWeakFormElement(weakForm_, taskIndex.matrix);
 
 					taskIndices.push_back(taskIndex);
 				}
@@ -300,7 +300,7 @@ namespace dive
 
 			for (ElementIndex i = 0; i < elements.size(); ++i)
 			{
-				auto element = std::static_pointer_cast<elements::IElement>(elements[i]);
+				auto element = std::static_pointer_cast<element::IElement>(elements[i]);
 
 				element->SetNumberDof(numberDof);
 				element->SetElementIndex(i);

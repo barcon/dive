@@ -9,7 +9,7 @@
 #include "material.hpp"
 #include "quadrature.hpp"
 #include "interpolation.hpp"
-#include "values.hpp"
+#include "value.hpp"
 
 #include <algorithm>
 #include <vector>
@@ -96,7 +96,7 @@ namespace dive
 		using ConstTimerSteppedPtr = std::shared_ptr<const TimerStepped>;
 	}
 
-	namespace elements
+	namespace element
 	{
 		class IElement;
 		using IElementPtr = std::shared_ptr<IElement>;
@@ -145,7 +145,7 @@ namespace dive
 		using ConstMeshPtr = std::shared_ptr<const Mesh>;
 	}
 
-	namespace weakforms
+	namespace weakform
 	{
 		class IWeakFormElement;
 		using IWeakFormElementPtr = std::shared_ptr<IWeakFormElement>;
@@ -335,26 +335,26 @@ namespace dive
 		using ConstProblemDeformationLaplacePtr = std::shared_ptr<const ProblemDeformationLaplace>;
 	}
 
-	using IValuePtr = values::IValuePtr;
-	using IBoolPtr = values::IBoolPtr;
-	using IStringPtr = values::IStringPtr;
+	using IValuePtr = value::IValuePtr;
+	using IBoolPtr = value::IBoolPtr;
+	using IStringPtr = value::IStringPtr;
 	
-	using IScalarPtr = values::IScalarPtr;
-	using IVectorPtr = values::IVectorPtr;
-	using IMatrixPtr = values::IMatrixPtr;
+	using IScalarPtr = value::IScalarPtr;
+	using IVectorPtr = value::IVectorPtr;
+	using IMatrixPtr = value::IMatrixPtr;
 
-	using IScalarCoordinatesPtr = values::IScalarCoordinatesPtr;
-	using IVectorCoordinatesPtr = values::IVectorCoordinatesPtr;
-	using IMatrixCoordinatesPtr = values::IMatrixCoordinatesPtr;
+	using IScalarCoordinatesPtr = value::IScalarCoordinatesPtr;
+	using IVectorCoordinatesPtr = value::IVectorCoordinatesPtr;
+	using IMatrixCoordinatesPtr = value::IMatrixCoordinatesPtr;
 	
 	using ITimerPtr = timer::ITimerPtr;
 	using IBasisPtr = basis::IBasisPtr;
 	using INodePtr = node::INodePtr;
-	using IElementPtr = elements::IElementPtr;
-	using IElementMappedPtr = elements::IElementMappedPtr;
+	using IElementPtr = element::IElementPtr;
+	using IElementMappedPtr = element::IElementMappedPtr;
 	using IMeshPtr = mesh::IMeshPtr;
-	using IWeakFormElementPtr = weakforms::IWeakFormElementPtr;
-	using IWeakFormLoadPtr = weakforms::IWeakFormLoadPtr;
+	using IWeakFormElementPtr = weakform::IWeakFormElementPtr;
+	using IWeakFormLoadPtr = weakform::IWeakFormLoadPtr;
 	using IMaterialPtr = material::IMaterialPtr;
 	using IGaussPtr = quadrature::IGaussPtr;
 	using IInterpolationPtr = interpolation::IInterpolationPtr;
@@ -362,8 +362,8 @@ namespace dive
 	using ILoadDirichletPtr = load::ILoadDirichletPtr;
 	using IProblemPtr = problem::IProblemPtr;
 
-	using FacePair = elements::FacePair;
-	using EdgePair = elements::EdgePair;
+	using FacePair = element::FacePair;
+	using EdgePair = element::EdgePair;
 
 	using Tags = std::vector<Tag>;
 	using Indices = std::vector<Index>;

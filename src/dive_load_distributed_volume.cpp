@@ -1,5 +1,5 @@
 #include "dive_load_distributed_volume.hpp"
-#include "dive_values_vector_congruent.hpp"
+#include "dive_value_vector_congruent.hpp"
 #include "dive_status.hpp"
 
 namespace dive
@@ -10,7 +10,7 @@ namespace dive
 		{
 			auto res = LoadDistributedVolume::Create();
 
-			res->SetElement(std::dynamic_pointer_cast<elements::IElementMapped>(element));
+			res->SetElement(std::dynamic_pointer_cast<element::IElementMapped>(element));
 			res->SetValue(value);
 
 			return res;
@@ -47,7 +47,7 @@ namespace dive
 		}
 		Vector LoadDistributedVolume::GetValue(const Vector& point) const
 		{
-			return values::GetValueVectorCoordinates(value_, point, element_);
+			return value::GetValueVectorCoordinates(value_, point, element_);
 		}
 		void LoadDistributedVolume::SetElement(IElementMappedPtr element)
 		{

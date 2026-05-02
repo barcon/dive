@@ -1,15 +1,15 @@
 #include "dive_problem_structural.hpp"
-#include "dive_elements_mass.hpp"
-#include "dive_elements_combined.hpp"
-#include "dive_values_scalar_congruent.hpp"
-#include "dive_values_matrix_congruent.hpp"
+#include "dive_element_mass.hpp"
+#include "dive_element_combined.hpp"
+#include "dive_value_scalar_congruent.hpp"
+#include "dive_value_matrix_congruent.hpp"
 
-#include "dive_weakforms.hpp"
-#include "dive_weakforms_structural_mass.hpp"
-#include "dive_weakforms_structural_stiffness.hpp"
-#include "dive_weakforms_structural_load_distributed_volume.hpp"
-#include "dive_weakforms_structural_load_distributed_face.hpp"
-#include "dive_weakforms_structural_load_distributed_edge.hpp"
+#include "dive_weakform.hpp"
+#include "dive_weakform_structural_mass.hpp"
+#include "dive_weakform_structural_stiffness.hpp"
+#include "dive_weakform_structural_load_distributed_volume.hpp"
+#include "dive_weakform_structural_load_distributed_face.hpp"
+#include "dive_weakform_structural_load_distributed_edge.hpp"
 
 namespace dive {
 	namespace problem {
@@ -187,7 +187,7 @@ namespace dive {
 		}
 		Sparse ProblemStructural::Mass(bool lumped) const
 		{
-			auto massWeak = weakforms::CreateWeakFormMassStructural();
+			auto massWeak = weakform::CreateWeakFormMassStructural();
 			massWeak->SetTemperature(temperature_);
 			massWeak->SetPressure(pressure_);
 
@@ -205,11 +205,11 @@ namespace dive {
 
 				if (elements[i]->IsMapped())
 				{
-					std::dynamic_pointer_cast<elements::IElementMapped>(elements[i])->IntegralWeakFormElement(massWeak, local);
+					std::dynamic_pointer_cast<element::IElementMapped>(elements[i])->IntegralWeakFormElement(massWeak, local);
 				}
-				else if (elements[i]->GetType() == elements::element_mass)
+				else if (elements[i]->GetType() == element::element_mass)
 				{
-					std::dynamic_pointer_cast<elements::ElementMass>(elements[i])->Mass(local);
+					std::dynamic_pointer_cast<element::ElementMass>(elements[i])->Mass(local);
 				}
 				else
 				{
@@ -246,7 +246,7 @@ namespace dive {
 		}
 		Sparse ProblemStructural::Stiffness() const
 		{
-			auto stiffnessWeak = weakforms::CreateWeakFormStiffnessStructural();
+			auto stiffnessWeak = weakform::CreateWeakFormStiffnessStructural();
 			stiffnessWeak->SetTemperature(temperature_);
 			stiffnessWeak->SetPressure(pressure_);
 
@@ -264,11 +264,11 @@ namespace dive {
 
 				if (elements[i]->IsMapped())
 				{
-					std::dynamic_pointer_cast<elements::IElementMapped>(elements[i])->IntegralWeakFormElement(stiffnessWeak, local);
+					std::dynamic_pointer_cast<element::IElementMapped>(elements[i])->IntegralWeakFormElement(stiffnessWeak, local);
 				}
-				else if (elements[i]->GetType() == elements::element_combined)
+				else if (elements[i]->GetType() == element::element_combined)
 				{
-					std::dynamic_pointer_cast<elements::ElementCombined>(elements[i])->Stiffness(local);
+					std::dynamic_pointer_cast<element::ElementCombined>(elements[i])->Stiffness(local);
 				}
 				else
 				{
@@ -313,9 +313,9 @@ namespace dive {
 				{
 					continue;
 				}
-				else if (elements[i]->GetType() == elements::element_combined)
+				else if (elements[i]->GetType() == element::element_combined)
 				{
-					std::dynamic_pointer_cast<elements::ElementCombined>(elements[i])->Damping(local);
+					std::dynamic_pointer_cast<element::ElementCombined>(elements[i])->Damping(local);
 				}
 				else
 				{
@@ -344,7 +344,7 @@ namespace dive {
 		}
 		Vector ProblemStructural::LoadDistributedEdge() const
 		{
-			auto loadDistributedEdgeWeak = weakforms::CreateWeakFormLoadDistributedEdgeStructural();
+			auto loadDistributedEdgeWeak = weakform::CreateWeakFormLoadDistributedEdgeStructural();
 			auto problemStructural = std::make_shared<ProblemStructural>(*this);
 			auto res = IntegralForm(loadDistributedEdgeWeak, problemStructural, loads_);
 
@@ -352,7 +352,7 @@ namespace dive {
 		}
 		Vector ProblemStructural::LoadDistributedFace() const
 		{
-			auto loadDistributedFaceWeak = weakforms::CreateWeakFormLoadDistributedFaceStructural();
+			auto loadDistributedFaceWeak = weakform::CreateWeakFormLoadDistributedFaceStructural();
 			auto problemStructural = std::make_shared<ProblemStructural>(*this);
 			auto res = IntegralForm(loadDistributedFaceWeak, problemStructural, loads_);
 
@@ -360,7 +360,7 @@ namespace dive {
 		}
 		Vector ProblemStructural::LoadDistributedVolume() const
 		{
-			auto loadDistributedVolumeWeak = weakforms::CreateWeakFormLoadDistributedVolumeStructural();
+			auto loadDistributedVolumeWeak = weakform::CreateWeakFormLoadDistributedVolumeStructural();
 			auto problemStructural = std::make_shared<ProblemStructural>(*this);
 			auto res = IntegralForm(loadDistributedVolumeWeak, problemStructural, loads_);
 

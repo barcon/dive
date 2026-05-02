@@ -1,12 +1,12 @@
 #include "dive_problem_pressure.hpp"
-#include "dive_values_scalar_congruent.hpp"
+#include "dive_value_scalar_congruent.hpp"
 
-#include "dive_weakforms.hpp"
-#include "dive_weakforms_pressure_mass.hpp"
-#include "dive_weakforms_pressure_stiffness.hpp"
-#include "dive_weakforms_pressure_crossed.hpp"
-#include "dive_weakforms_pressure_stabilization.hpp"
-#include "dive_weakforms_pressure_distributed_volume_divergence.hpp"
+#include "dive_weakform.hpp"
+#include "dive_weakform_pressure_mass.hpp"
+#include "dive_weakform_pressure_stiffness.hpp"
+#include "dive_weakform_pressure_crossed.hpp"
+#include "dive_weakform_pressure_stabilization.hpp"
+#include "dive_weakform_pressure_distributed_volume_divergence.hpp"
 
 namespace dive {
 	namespace problem {
@@ -105,7 +105,7 @@ namespace dive {
 			}
 
 			mesh_ = mesh;
-			pressure_ = values::CreateValueScalarCoordinatesCongruent(mesh_);
+			pressure_ = value::CreateValueScalarCoordinatesCongruent(mesh_);
 			
 			UpdateMeshElements(mesh_, numberDof_);
 		}
@@ -171,7 +171,7 @@ namespace dive {
 		}
 		Sparse ProblemPressure::Mass(IFluidPtr problemMomentum, bool lumped) const
 		{
-			auto massWeak = weakforms::CreateWeakFormMassPressure();
+			auto massWeak = weakform::CreateWeakFormMassPressure();
 			
 			massWeak->SetTemperature(temperature_);
 			massWeak->SetPressure(pressure_);
@@ -192,7 +192,7 @@ namespace dive {
 		}
 		Sparse ProblemPressure::Stiffness() const
 		{
-			auto stiffnessWeak = weakforms::CreateWeakFormStiffnessPressure();
+			auto stiffnessWeak = weakform::CreateWeakFormStiffnessPressure();
 			auto problemPressure = std::make_shared<ProblemPressure>(*this);
 			auto res = IntegralForm(stiffnessWeak, problemPressure, problemPressure);
 
@@ -200,7 +200,7 @@ namespace dive {
 		}
 		Sparse ProblemPressure::Crossed(IProblemPtr problemMomentum) const
 		{
-			auto crossedWeak = weakforms::CreateWeakFormCrossedPressure();
+			auto crossedWeak = weakform::CreateWeakFormCrossedPressure();
 			crossedWeak->SetProblemMomentum(problemMomentum);
 
 			auto problemPressure = std::make_shared<ProblemPressure>(*this);
@@ -210,7 +210,7 @@ namespace dive {
 		}
 		Sparse ProblemPressure::Stabilization(IProblemPtr problemMomentum) const
 		{
-			auto stabilizationWeak = weakforms::CreateWeakFormStabilizationPressure();
+			auto stabilizationWeak = weakform::CreateWeakFormStabilizationPressure();
 			stabilizationWeak->SetProblemMomentum(problemMomentum);
 
 			auto problemPressure = std::make_shared<ProblemPressure>(*this);
@@ -220,7 +220,7 @@ namespace dive {
 		}
 		Sparse ProblemPressure::DistributedVolumeDivergence(IProblemPtr problemMomentum) const
 		{
-			auto distributedVolumeDivergencePressureWeak = weakforms::CreateWeakFormDistributedVolumeDivergencePressure();
+			auto distributedVolumeDivergencePressureWeak = weakform::CreateWeakFormDistributedVolumeDivergencePressure();
 			distributedVolumeDivergencePressureWeak->SetProblemMomentum(problemMomentum);
 
 			auto problemPressure = std::make_shared<ProblemPressure>(*this);

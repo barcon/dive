@@ -1,0 +1,40 @@
+#ifndef DIVE_WEAKFORM_PRESSURE_DISTRIBUTED_VOLUME_DIVERGENCE_HPP_
+#define DIVE_WEAKFORM_PRESSURE_DISTRIBUTED_VOLUME_DIVERGENCE_HPP_
+
+#include "dive_weakform.hpp"
+#include "dive_problem.hpp"
+
+namespace dive
+{
+    namespace weakform
+    {
+		DistributedVolumeDivergencePressurePtr CreateWeakFormDistributedVolumeDivergencePressure();
+
+		class DistributedVolumeDivergencePressure : public IWeakFormElement, virtual public std::enable_shared_from_this<DistributedVolumeDivergencePressure>
+		{
+		public:
+			virtual ~DistributedVolumeDivergencePressure() = default;
+
+			static DistributedVolumeDivergencePressurePtr Create();
+			DistributedVolumeDivergencePressurePtr GetPtr();
+			ConstDistributedVolumeDivergencePressurePtr GetPtr() const;
+
+			void WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const override;
+
+			void SetProblemMomentum(IProblemPtr problemMomentum);
+
+		protected:
+			DistributedVolumeDivergencePressure() = default;
+
+			Matrix FormMatrix_N(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const;
+			Matrix FormMatrix_Div(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const;
+
+			IProblemPtr problemMomentum_{ nullptr };
+
+			using std::enable_shared_from_this<DistributedVolumeDivergencePressure>::shared_from_this;
+		};
+
+	} //namespace weakform
+} //namespace dive
+
+#endif /* DIVE_WEAKFORM_PRESSURE_DISTRIBUTED_VOLUME_DIVERGENCE_HPP_ */

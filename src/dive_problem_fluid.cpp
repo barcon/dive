@@ -1,14 +1,14 @@
 #include "dive_problem_fluid.hpp"
-#include "dive_values_scalar_congruent.hpp"
-#include "dive_values_matrix_congruent.hpp"
+#include "dive_value_scalar_congruent.hpp"
+#include "dive_value_matrix_congruent.hpp"
 
-#include "dive_weakforms.hpp"
-#include "dive_weakforms_fluid_mass.hpp"
-#include "dive_weakforms_fluid_stiffness.hpp"
-#include "dive_weakforms_fluid_convection.hpp"
-#include "dive_weakforms_fluid_stabilization.hpp"
-#include "dive_weakforms_fluid_load_distributed_volume.hpp"
-#include "dive_weakforms_fluid_load_distributed_volume_stabilization.hpp"
+#include "dive_weakform.hpp"
+#include "dive_weakform_fluid_mass.hpp"
+#include "dive_weakform_fluid_stiffness.hpp"
+#include "dive_weakform_fluid_convection.hpp"
+#include "dive_weakform_fluid_stabilization.hpp"
+#include "dive_weakform_fluid_load_distributed_volume.hpp"
+#include "dive_weakform_fluid_load_distributed_volume_stabilization.hpp"
 
 namespace dive {
 	namespace problem {
@@ -125,7 +125,7 @@ namespace dive {
 			}
 		
 			mesh_ = mesh;
-			velocity_ = values::CreateValueMatrixCoordinatesCongruent(mesh_);
+			velocity_ = value::CreateValueMatrixCoordinatesCongruent(mesh_);
 
 			UpdateMeshElements(mesh_, numberDof_);
 		}
@@ -202,8 +202,8 @@ namespace dive {
 				const auto& material = element->GetMaterial();
 
 				auto state = Vector(2);
-				state(0) = values::GetValueScalarCoordinates(temperature_, point, element);
-				state(1) = values::GetValueScalarCoordinates(pressure_, point, element);
+				state(0) = value::GetValueScalarCoordinates(temperature_, point, element);
+				state(1) = value::GetValueScalarCoordinates(pressure_, point, element);
 
 				auto density = material->GetDensity(state);
 
@@ -223,8 +223,8 @@ namespace dive {
 				const auto& material = element->GetMaterial();
 
 				auto state = Vector(2);
-				state(0) = values::GetValueScalarCoordinates(temperature_, point, element);
-				state(1) = values::GetValueScalarCoordinates(pressure_, point, element);
+				state(0) = value::GetValueScalarCoordinates(temperature_, point, element);
+				state(1) = value::GetValueScalarCoordinates(pressure_, point, element);
 
 				auto density = material->GetDensity(state);
 
@@ -241,7 +241,7 @@ namespace dive {
 		}
 		Sparse ProblemFluid::Mass(bool lumped) const
 		{
-			auto massWeak = weakforms::CreateWeakFormMassFluid();
+			auto massWeak = weakform::CreateWeakFormMassFluid();
 			auto problemFluid = std::make_shared<ProblemFluid>(*this);		
 			auto res = IntegralForm(massWeak, problemFluid, problemFluid);
 
@@ -257,7 +257,7 @@ namespace dive {
 		}
 		Sparse ProblemFluid::Stiffness() const
 		{
-			auto stiffnessWeak = weakforms::CreateWeakFormStiffnessFluid();
+			auto stiffnessWeak = weakform::CreateWeakFormStiffnessFluid();
 			stiffnessWeak->SetTemperature(temperature_);
 			stiffnessWeak->SetPressure(pressure_);
 
@@ -268,7 +268,7 @@ namespace dive {
 		}
 		Sparse ProblemFluid::Convection() const
 		{
-			auto convectionWeak = weakforms::CreateWeakFormConvectionFluid();
+			auto convectionWeak = weakform::CreateWeakFormConvectionFluid();
 			auto problemFluid = std::make_shared<ProblemFluid>(*this);
 			auto res = IntegralForm(convectionWeak, problemFluid, problemFluid);
 
@@ -276,7 +276,7 @@ namespace dive {
 		}
 		Sparse ProblemFluid::Stabilization() const
 		{
-			auto stabilizationWeak = weakforms::CreateWeakFormStabilizationFluid();
+			auto stabilizationWeak = weakform::CreateWeakFormStabilizationFluid();
 			auto problemFluid = std::make_shared<ProblemFluid>(*this);
 			auto res = IntegralForm(stabilizationWeak, problemFluid, problemFluid);
 
@@ -284,7 +284,7 @@ namespace dive {
 		}
 		Vector ProblemFluid::LoadDistributedVolume() const
 		{
-			auto loadDistributedVolumeWeak = weakforms::CreateWeakFormLoadDistributedVolumeFluid();
+			auto loadDistributedVolumeWeak = weakform::CreateWeakFormLoadDistributedVolumeFluid();
 			auto problemFluid = std::make_shared<ProblemFluid>(*this);
 			auto res = IntegralForm(loadDistributedVolumeWeak, problemFluid, loads_);
 
@@ -292,7 +292,7 @@ namespace dive {
 		}
 		Vector ProblemFluid::LoadDistributedVolumeStabilization() const
 		{
-			auto loadDistributedVolumeStabilizationWeak = weakforms::CreateWeakFormLoadDistributedVolumeStabilizationFluid();
+			auto loadDistributedVolumeStabilizationWeak = weakform::CreateWeakFormLoadDistributedVolumeStabilizationFluid();
 			auto problemFluid = std::make_shared<ProblemFluid>(*this);
 			auto res = IntegralForm(loadDistributedVolumeStabilizationWeak, problemFluid, loads_);
 
@@ -315,8 +315,8 @@ namespace dive {
 				auto material = std::static_pointer_cast<material::IMaterialFluid>(element->GetMaterial());
 
 				auto state = Vector(2);
-				state(0) = values::GetValueScalarCoordinates(temperature_, point, element);
-				state(1) = values::GetValueScalarCoordinates(pressure_, point, element);
+				state(0) = value::GetValueScalarCoordinates(temperature_, point, element);
+				state(1) = value::GetValueScalarCoordinates(pressure_, point, element);
 
 				auto density = material->GetDensity(state);
 

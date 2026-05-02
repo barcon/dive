@@ -1,6 +1,6 @@
 #include "dive_mesh_gmsh.hpp"
 #include "dive_status.hpp"
-#include "dive_elements_hexa.hpp"
+#include "dive_element_hexa.hpp"
 #include "dive_selection.hpp"
 
 #include "gmsh.h"
@@ -305,7 +305,7 @@ namespace dive {
 						if (elementTypes[0] == 5)
 						{
 							auto elementTag = static_cast<Tag>((elementTags[0][i]));
-							auto element = elements::CreateElementHexa82(elementTag);
+							auto element = element::CreateElementHexa82(elementTag);
 
 							mesh->AddElement(element, status, false);
 							auto numberNodes = element->GetNumberNodes();
@@ -322,7 +322,7 @@ namespace dive {
 						else if (elementTypes[0] == 17)
 						{
 							auto elementTag = static_cast<Tag>((elementTags[0][i]));
-							auto element = elements::CreateElementHexa202(elementTag);
+							auto element = element::CreateElementHexa202(elementTag);
 
 							mesh->AddElement(element, status, false);
 							auto numberNodes = element->GetNumberNodes();

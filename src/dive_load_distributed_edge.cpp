@@ -1,5 +1,5 @@
 #include "dive_load_distributed_edge.hpp"
-#include "dive_values_vector_congruent.hpp"
+#include "dive_value_vector_congruent.hpp"
 #include "dive_status.hpp"
 
 namespace dive
@@ -10,7 +10,7 @@ namespace dive
 		{
 			auto res = LoadDistributedEdge::Create();
 
-			res->SetElement(std::dynamic_pointer_cast<elements::IElementMapped>(element));
+			res->SetElement(std::dynamic_pointer_cast<element::IElementMapped>(element));
 			res->SetEdgeIndex(edgeIndex);
 			res->SetValue(value);
 
@@ -48,7 +48,7 @@ namespace dive
 		}
 		Vector LoadDistributedEdge::GetValue(const Vector& point) const
 		{
-			return values::GetValueVectorCoordinates(value_, point, element_);
+			return value::GetValueVectorCoordinates(value_, point, element_);
 		}
 		EdgeIndex LoadDistributedEdge::GetEdgeIndex() const
 		{

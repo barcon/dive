@@ -89,7 +89,7 @@ namespace dive
                 continue;
             }
 
-            auto element3D = std::dynamic_pointer_cast<elements::IElementSolid>(element);
+            auto element3D = std::dynamic_pointer_cast<element::IElementSolid>(element);
             
             if (element3D != nullptr)
             {

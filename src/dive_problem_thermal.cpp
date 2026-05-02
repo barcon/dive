@@ -1,13 +1,13 @@
 #include "dive_problem_thermal.hpp"
-#include "dive_values_scalar_congruent.hpp"
+#include "dive_value_scalar_congruent.hpp"
 
-#include "dive_weakforms.hpp"
-#include "dive_weakforms_thermal_mass.hpp"
-#include "dive_weakforms_thermal_stiffness.hpp"
-#include "dive_weakforms_thermal_convection.hpp"
-#include "dive_weakforms_thermal_stabilization.hpp"
-//#include "dive_weakforms_thermal_load_distributed_volume.hpp"
-//#include "dive_weakforms_thermal_load_distributed_volume_stabilization.hpp"
+#include "dive_weakform.hpp"
+#include "dive_weakform_thermal_mass.hpp"
+#include "dive_weakform_thermal_stiffness.hpp"
+#include "dive_weakform_thermal_convection.hpp"
+#include "dive_weakform_thermal_stabilization.hpp"
+//#include "dive_weakform_thermal_load_distributed_volume.hpp"
+//#include "dive_weakform_thermal_load_distributed_volume_stabilization.hpp"
 
 namespace dive {
 	namespace problem {
@@ -106,7 +106,7 @@ namespace dive {
 			}
 
 			mesh_ = mesh;
-			temperature_ = values::CreateValueScalarCoordinatesCongruent(mesh_);
+			temperature_ = value::CreateValueScalarCoordinatesCongruent(mesh_);
 
 			UpdateMeshElements(mesh_, numberDof_);
 		}
@@ -172,7 +172,7 @@ namespace dive {
 		}
 		Sparse ProblemThermal::Mass(bool lumped) const
 		{
-			auto massWeak = weakforms::CreateWeakFormMassThermal();
+			auto massWeak = weakform::CreateWeakFormMassThermal();
 			massWeak->SetTemperature(temperature_);
 			massWeak->SetPressure(pressure_);
 
@@ -191,7 +191,7 @@ namespace dive {
 		}
 		Sparse ProblemThermal::Stiffness() const
 		{
-			auto stiffnessWeak = weakforms::CreateWeakFormStiffnessThermal();
+			auto stiffnessWeak = weakform::CreateWeakFormStiffnessThermal();
 			stiffnessWeak->SetTemperature(temperature_);
 			stiffnessWeak->SetPressure(pressure_);
 
@@ -202,7 +202,7 @@ namespace dive {
 		}
 		Sparse ProblemThermal::Convection(IProblemPtr problemMomentum) const
 		{
-			auto convectionWeak = weakforms::CreateWeakFormConvectionThermal();
+			auto convectionWeak = weakform::CreateWeakFormConvectionThermal();
 			convectionWeak->SetTemperature(temperature_);
 			convectionWeak->SetPressure(pressure_);
 			convectionWeak->SetProblemMomentum(problemMomentum);
@@ -214,7 +214,7 @@ namespace dive {
 		}
 		Sparse ProblemThermal::Stabilization(IProblemPtr problemMomentum) const
 		{
-			auto stabilizationWeak = weakforms::CreateWeakFormStabilizationThermal();
+			auto stabilizationWeak = weakform::CreateWeakFormStabilizationThermal();
 			stabilizationWeak->SetTemperature(temperature_);
 			stabilizationWeak->SetPressure(pressure_);
 			stabilizationWeak->SetProblemMomentum(problemMomentum);
