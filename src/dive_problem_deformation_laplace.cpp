@@ -139,7 +139,7 @@ namespace dive {
 		void ProblemDeformationLaplace::UpdateMeshMaterial(IMeshPtr mesh)
 		{
 			const auto& elements = mesh->GetElements();
-
+			
 			for (auto& element : elements)
 			{
 				auto material = material::CreateSolid(element->GetTag());
@@ -150,51 +150,21 @@ namespace dive {
 		}
 		void ProblemDeformationLaplace::DeformMesh(IMeshPtr mesh)
 		{
+			auto& nodes = mesh->GetNodes();
+			
 			auto K = Partition(Stiffness(), totalDof_, pivot_);
 			auto y = Partition(Displacement(), totalDof_, pivot_);
-			
 			auto status = eilig::IterativeBiCGStab(K[3], y[1], -K[2] * y[0], callbackIterative);
+			
+			UpdateMeshValues(y[0], y[1]);
 
-			/*const auto& nodes = mesh->GetNodes();
-
-			for (DofIndex dof = 0; dof < numberDof_; dof++)
+			for (NodeIndex i = 0; i < nodes.size(); i++)
 			{
-				problem_->GetLoads().clear();
-				for(Index i = 0; i < loads_.size(); i++)
-				{
-					auto load = std::static_pointer_cast<load::ILoadDirichlet>(loads_[i]);
-					
-					if (load->GetDofIndex() == dof)
-					{
-						problem_->ApplyLoad(load);
-					}
+				auto offset = Vector(mesh_->GetNodes()[i]->GetValue(), 0);
+				auto point = nodes[i]->GetPoint();
 
-				}
-				
-				problem_->Initialize();
-
-				auto totalDof = problem_->GetTotalDof();
-				auto pivot = problem_->GetPivot();
-
-				std::cout << "Total DOF: " << totalDof << ", Pivot: " << pivot << std::endl;
-
-				auto K = Partition(problem_->Stiffness(), totalDof, pivot);
-				auto y = Partition(problem_->Energy(), totalDof, pivot);
-				auto status = eilig::IterativeBiCGStab(K[3], y[1], -K[2] * y[0], callbackIterative);
-
-				problem_->UpdateMeshValues(y[0], y[1]);
-
-				for (NodeIndex i = 0; i < nodes.size(); i++)
-				{
-					auto& nodeIndex = nodes[i]->GetConnectivity().nodeIndex;
-					auto offset = problem_->GetMesh()->GetNodes()[nodeIndex]->GetPoint().GetValue(dof);
-					auto point = nodes[i]->GetPoint();
-
-					point(dof) = point(dof) + offset;
-
-					nodes[i]->SetPoint(point);
-				}
-			}*/
+				nodes[i]->SetPoint(point + offset);
+			}
 		}
 		void ProblemDeformationLaplace::ApplyLoad(ILoadPtr load)
 		{
