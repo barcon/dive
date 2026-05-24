@@ -112,7 +112,7 @@ namespace dive
 
 			Sparse global(totalDof1, totalDof2);
 
-			NumberProcessors numberProcessors = std::thread::hardware_concurrency() > 1 ? std::thread::hardware_concurrency() - 1 : 1;
+			NumberProcessors numberProcessors = std::thread::hardware_concurrency() > 1 ? std::thread::hardware_concurrency() : 1;
 			NumberElements numberElements1 = elements1.size();
 			Number numberTasks = (numberElements1 % taskSize) == 0 ? (numberElements1 / taskSize) : (numberElements1 / taskSize) + 1;
 
