@@ -173,7 +173,7 @@ namespace dive
 											auto aux = global.GetValue(nodeMeshIndices1[i][m].dofIndices[dof1], nodeMeshIndices2[i][n].dofIndices[dof2]);
 											aux += local.GetValue(m * numberDof1 + dof1, n * numberDof2 + dof2);
 
-											global.SetValue(nodeMeshIndices1[i][m].dofIndices[dof1], nodeMeshIndices2[i][n].dofIndices[dof2], aux);
+											global.Equal(nodeMeshIndices1[i][m].dofIndices[dof1], nodeMeshIndices2[i][n].dofIndices[dof2], aux);
 										}
 									}
 								}
@@ -217,7 +217,7 @@ namespace dive
 						aux = global.GetValue(globalIndex);
 						aux += local.GetValue(j);
 
-						global.SetValue(globalIndex, aux);
+						global.Equal(globalIndex, aux);
 					}
 				}
 				else
@@ -257,39 +257,13 @@ namespace dive
 							aux = global.GetValue(nodeMeshIndices[elementIndex][i].dofIndices[j]);
 							aux += local.GetValue(i * numberDof + j);
 
-							global.SetValue(nodeMeshIndices[elementIndex][i].dofIndices[j], aux);
+							global.Equal(nodeMeshIndices[elementIndex][i].dofIndices[j], aux);
 						}
 					}
 				}
 			}
 
 			return global;
-		}
-
-		Vectors Partition(const Vector& vector, NumberDof totalDof, DofIndex pivot)
-		{
-			auto v0 = vector.Region(0, pivot - 1);
-			auto v1 = vector.Region(pivot, totalDof - 1);
-
-			return {v0 , v1};
-		}
-		Matrices Partition(const Matrix& matrix, NumberDof totalDof, DofIndex pivot)
-		{
-			auto m00 = matrix.Region(0, 0, pivot - 1, pivot - 1);
-			auto m01 = matrix.Region(0, pivot, pivot - 1, totalDof - 1);
-			auto m10 = matrix.Region(pivot, 0, totalDof - 1, pivot - 1);
-			auto m11 = matrix.Region(pivot, pivot, totalDof - 1, totalDof - 1);
-
-			return { m00, m01, m10, m11 };
-		}
-		Sparses Partition(const Sparse& matrix, NumberDof totalDof, DofIndex pivot)
-		{
-			auto m00 = matrix.Region(0, 0, pivot - 1, pivot - 1);
-			auto m01 = matrix.Region(0, pivot, pivot - 1, totalDof - 1);
-			auto m10 = matrix.Region(pivot, 0, totalDof - 1, pivot - 1);
-			auto m11 = matrix.Region(pivot, pivot, totalDof - 1, totalDof - 1);
-
-			return { m00, m01, m10, m11 };
 		}
 
 		void UpdateMeshElements(IMeshPtr mesh, NumberDof numberDof)
@@ -554,3 +528,31 @@ namespace dive
 		}
 	} // namespace problem
 } // namespace dive
+
+/*
+		Vectors Partition(const Vector& vector, NumberDof totalDof, DofIndex pivot)
+		{
+			auto v0 = vector.Region(0, pivot - 1);
+			auto v1 = vector.Region(pivot, totalDof - 1);
+
+			return {v0 , v1};
+		}
+		Matrices Partition(const Matrix& matrix, NumberDof totalDof, DofIndex pivot)
+		{
+			auto m00 = matrix.Region(0, 0, pivot - 1, pivot - 1);
+			auto m01 = matrix.Region(0, pivot, pivot - 1, totalDof - 1);
+			auto m10 = matrix.Region(pivot, 0, totalDof - 1, pivot - 1);
+			auto m11 = matrix.Region(pivot, pivot, totalDof - 1, totalDof - 1);
+
+			return { m00, m01, m10, m11 };
+		}
+		Sparses Partition(const Sparse& matrix, NumberDof totalDof, DofIndex pivot)
+		{
+			auto m00 = matrix.Region(0, 0, pivot - 1, pivot - 1);
+			auto m01 = matrix.Region(0, pivot, pivot - 1, totalDof - 1);
+			auto m10 = matrix.Region(pivot, 0, totalDof - 1, pivot - 1);
+			auto m11 = matrix.Region(pivot, pivot, totalDof - 1, totalDof - 1);
+
+			return { m00, m01, m10, m11 };
+		}
+*/

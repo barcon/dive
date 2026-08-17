@@ -6,7 +6,7 @@
 namespace dive {
 	namespace problem {
 
-		CallbackIterative callbackIterative = [](Index iteration, Scalar residual) -> long long int
+		eilig::CallbackIterative callbackIterative = [](Index iteration, Scalar residual) -> long long int
 			{
 				logger::Info(headerDive, utils::string::Format("Iteration: {}, Residual: {:.3e}", iteration, residual));
 
@@ -152,8 +152,8 @@ namespace dive {
 		{
 			auto& nodes = mesh->GetNodes();
 			
-			auto K = Partition(Stiffness(), totalDof_, pivot_);
-			auto y = Partition(Displacement(), totalDof_, pivot_);
+			auto K = Partition<Sparses>(Stiffness(), totalDof_, pivot_);
+			auto y = Partition<Vectors>(Displacement(), totalDof_, pivot_);
 			auto status = eilig::IterativeBiCGStab(K[3], y[1], -K[2] * y[0], callbackIterative);
 			
 			UpdateMeshValues(y[0], y[1]);

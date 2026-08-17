@@ -37,13 +37,7 @@ namespace dive
 	using Scalar = eilig::Scalar;
 	using Vector = eilig::Vector;
 	using Matrix = eilig::Matrix;
-	using Sparse = eilig::Ellpack;
-
-#ifdef ENABLE_OPENCL
-	using KernelsPtr = eilig::opencl::KernelsPtr;
-	using VectorCL = eilig::opencl::Vector;
-	using SparseCL = eilig::opencl::Ellpack;
-#endif
+	using Sparse = eilig::Sparse;
 
 	using Scalars = eilig::Scalars;
 	using Vectors = eilig::Vectors;

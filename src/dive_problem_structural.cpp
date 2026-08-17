@@ -227,7 +227,7 @@ namespace dive {
 								auto aux = res.GetValue(nodeMeshIndices[i][m].dofIndices[dof1], nodeMeshIndices[i][n].dofIndices[dof2]);
 								aux += local.GetValue(m * numberDof + dof1, n * numberDof + dof2);
 
-								res.SetValue(nodeMeshIndices[i][m].dofIndices[dof1], nodeMeshIndices[i][n].dofIndices[dof2], aux);
+								res.Equal(nodeMeshIndices[i][m].dofIndices[dof1], nodeMeshIndices[i][n].dofIndices[dof2], aux);
 							}
 						}
 					}
@@ -286,7 +286,7 @@ namespace dive {
 								auto aux = res.GetValue(nodeMeshIndices[i][m].dofIndices[dof1], nodeMeshIndices[i][n].dofIndices[dof2]);
 								aux += local.GetValue(m * numberDof + dof1, n * numberDof + dof2);
 
-								res.SetValue(nodeMeshIndices[i][m].dofIndices[dof1], nodeMeshIndices[i][n].dofIndices[dof2], aux);
+								res.Equal(nodeMeshIndices[i][m].dofIndices[dof1], nodeMeshIndices[i][n].dofIndices[dof2], aux);
 							}
 						}
 					}
@@ -333,7 +333,7 @@ namespace dive {
 								auto aux = res.GetValue(nodeMeshIndices[i][m].dofIndices[dof1], nodeMeshIndices[i][n].dofIndices[dof2]);
 								aux += local.GetValue(m * numberDof + dof1, n * numberDof + dof2);
 
-								res.SetValue(nodeMeshIndices[i][m].dofIndices[dof1], nodeMeshIndices[i][n].dofIndices[dof2], aux);
+								res.Equal(nodeMeshIndices[i][m].dofIndices[dof1], nodeMeshIndices[i][n].dofIndices[dof2], aux);
 							}
 						}
 					}

@@ -20,9 +20,25 @@ namespace dive
 		Sparse IntegralForm(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2);
 		Vector IntegralForm(IWeakFormLoadPtr weakForm, IProblemPtr problem1, const Loads& loads);
 		
-		Vectors Partition(const Vector& vector, NumberDof totalDof, DofIndex pivot);
-		Matrices Partition(const Matrix& matrix, NumberDof totalDof, DofIndex pivot);
-		//Sparses Partition(const Sparse& matrix, NumberDof totalDof, DofIndex pivot);
+		template <typename T>
+		std::enable_if_t<std::is_same_v<T, Vectors>, T> Partition(const typename T::value_type& vector, NumberDof totalDof, DofIndex pivot)
+		{
+			auto v0 = vector.Region(0, pivot - 1);
+			auto v1 = vector.Region(pivot, totalDof - 1);
+
+			return { v0 , v1 };
+		}
+
+		template <typename T>
+		std::enable_if_t<std::is_same_v<T, Sparses>, T> Partition(const typename T::value_type& matrix, NumberDof totalDof, DofIndex pivot)
+		{
+			auto m00 = matrix.Region(0, 0, pivot - 1, pivot - 1);
+			auto m01 = matrix.Region(0, pivot, pivot - 1, totalDof - 1);
+			auto m10 = matrix.Region(pivot, 0, totalDof - 1, pivot - 1);
+			auto m11 = matrix.Region(pivot, pivot, totalDof - 1, totalDof - 1);
+
+			return { m00, m01, m10, m11 };
+		}
 
 		void UpdateMeshElements(IMeshPtr mesh, NumberDof numberDof);
 		void UpdateDofMeshIndices(IMeshPtr mesh, NumberDof& totalDof, DofMeshIndices& dofMeshIndices);
