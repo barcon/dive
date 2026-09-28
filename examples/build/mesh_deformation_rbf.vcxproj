@@ -42,14 +42,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(ProjectDir)Release\</OutDir>
-    <IntDir>$(ProjectDir)obj\_Release\</IntDir>
+    <IntDir>$(ProjectDir)obj\_Release\Release\mesh_deformation_rbf\</IntDir>
     <TargetName>mesh_deformation_rbf</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseCL|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(ProjectDir)ReleaseCL\</OutDir>
-    <IntDir>$(ProjectDir)obj\_ReleaseCL\</IntDir>
+    <IntDir>$(ProjectDir)obj\_ReleaseCL\ReleaseCL\mesh_deformation_rbf\</IntDir>
     <TargetName>mesh_deformation_rbf</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
@@ -57,7 +57,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLOBAL;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\..\utils\src;..\..\..\logger\src;..\..\..\eilig\src;..\..\..\basis\src;..\..\..\quadrature\src;..\..\..\node\src;..\..\..\kdtree\src;..\..\..\interpolation\src;..\..\..\value\src;..\..\..\material\src;..\..\src;..\..\..\thread-pool\include;..\..\..\gmsh\include;..\..\..\json\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -81,7 +81,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>NDEBUG;EILIG_ENABLE_OPENCL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLOBAL;NDEBUG;EILIG_ENABLE_OPENCL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\..\utils\src;..\..\..\logger\src;..\..\..\eilig\src;..\..\..\basis\src;..\..\..\quadrature\src;..\..\..\node\src;..\..\..\kdtree\src;..\..\..\interpolation\src;..\..\..\value\src;..\..\..\material\src;..\..\src;..\..\..\thread-pool\include;..\..\..\gmsh\include;..\..\..\json\include;..\..\..\club\src;..\..\..\opencl\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>

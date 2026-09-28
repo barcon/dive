@@ -1,0 +1,40 @@
+{
+    "bearing": {
+        "bearingRatio": 0.546,
+        "cooler": {
+            "diameterInletOil": 0.005
+        },
+        "diameterBearing": 0.12007,
+        "diameterShaft": 0.10993,
+        "relativeClearance": 92.241,
+        "type": "1",
+        "widthBearing": 0.06
+    },
+    "loadCases": [
+        {
+            "forceX": 0,
+            "forceY": -36000,
+            "inletOilPressure": 202650.2,
+            "inletOilTemperature": 331.15,
+            "loadCaseID": "24c3cb4f-34dc-4d82-bb7a-318cb26e35d8",
+            "loadCaseName": "Normal Operation",
+            "speedRotational": 2000,
+            "state": true
+        }
+    ],
+    "materials": {
+        "fluid": "Oil ISO VG 100"
+    },
+    "reference": {
+        "pressure": 101325.1,
+        "temperature": 273.15
+    },
+    "solver": {
+        "accelerator": "Local",
+        "fileMesh": "mesh.msh",
+        "fileParameters": "parameters.json",
+        "filePoints": "points.msh",
+        "residual": 1e-05,
+        "workspace": "C:\\devel\\gleiter-crow\\examples\\Example1_ISO7902"
+    }
+}

@@ -90,14 +90,11 @@ namespace dive
 			virtual void DeformMesh(IMeshPtr mesh) = 0;
 		};
 
-		class IDeformationLaplace : public IDeformation, public IExtra
+		class IDeformationStrain : public IDeformation, public IExtra
 		{
 		public:
-			virtual ~IDeformationLaplace() = default;
+			virtual ~IDeformationStrain() = default;
 			
-			virtual void SetTemperature(IScalarCoordinatesPtr temperature) = 0;
-			virtual void SetPressure(IScalarCoordinatesPtr pressure) = 0;
-
 			virtual void UpdateMeshValues(const Vector& u) = 0;
 			virtual void UpdateMeshValues(const Vector& u0, const Vector& u1) = 0;
 

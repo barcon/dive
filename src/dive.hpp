@@ -58,7 +58,7 @@
 #include "dive_problem_thermal.hpp"
 #include "dive_problem_structural.hpp"
 #include "dive_problem_deformation_interpolation.hpp"
-#include "dive_problem_deformation_laplace.hpp"
+#include "dive_problem_deformation_strain.hpp"
 
 #include "dive_routines.hpp"
 

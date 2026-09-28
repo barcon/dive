@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mesh_deformation_rbf", "mesh_deformation_rbf.vcxproj", "{428AC568-2E19-4F32-D737-632DC3A55FD8}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mesh_deformation_strain", "mesh_deformation_strain.vcxproj", "{D99B18BE-45D3-6055-4EDD-C478BA93874E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		ReleaseCL|x64 = ReleaseCL|x64
@@ -13,6 +15,10 @@ Global
 		{428AC568-2E19-4F32-D737-632DC3A55FD8}.ReleaseCL|x64.Build.0 = ReleaseCL|x64
 		{428AC568-2E19-4F32-D737-632DC3A55FD8}.Release|x64.ActiveCfg = Release|x64
 		{428AC568-2E19-4F32-D737-632DC3A55FD8}.Release|x64.Build.0 = Release|x64
+		{D99B18BE-45D3-6055-4EDD-C478BA93874E}.ReleaseCL|x64.ActiveCfg = ReleaseCL|x64
+		{D99B18BE-45D3-6055-4EDD-C478BA93874E}.ReleaseCL|x64.Build.0 = ReleaseCL|x64
+		{D99B18BE-45D3-6055-4EDD-C478BA93874E}.Release|x64.ActiveCfg = Release|x64
+		{D99B18BE-45D3-6055-4EDD-C478BA93874E}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

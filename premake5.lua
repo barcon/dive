@@ -1,6 +1,6 @@
 -- premake5.lua
 workspace "dive"
-	configurations { "Debug", "Release"}
+	configurations { "Debug", "Release", "ReleaseCL" }
 	location "build"	
 
 project "dive"
@@ -33,3 +33,10 @@ project "dive"
 	filter "configurations:Release"   
 		defines { "NDEBUG" }
 		optimize "Speed"
+		
+	filter "configurations:ReleaseCL"   
+		defines { "NDEBUG", "EILIG_ENABLE_OPENCL" }
+		optimize "Speed"	
+		
+		includedirs { "../club/src" }	
+		includedirs { "../opencl/inc" }		

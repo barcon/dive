@@ -65,15 +65,18 @@ namespace dive {
 		void ProblemDeformationInterpolation::DeformMesh(IMeshPtr mesh)
 		{
 			const auto& nodes = mesh->GetNodes();
-			const auto& numberCoordinates = mesh->GetNumberCoordinates();
 
-			for (auto& node : nodes)
+			Vectors points;
+
+			std::transform(nodes.begin(), nodes.end(), std::back_inserter(points), [](INodePtr node) -> Vector {
+				return node->GetPoint();
+				});
+
+			auto offset = interpolation_->GetValue(points);
+
+			for (NodeIndex i = 0; i < nodes.size(); ++i)
 			{
-				const auto& point = node->GetPoint();
-
-				auto offset = Vector(interpolation_->GetValue(point), 0);
-
-				node->SetPoint(point + offset);
+				nodes[i]->SetPoint(points[i] + Vector(offset[i], 0));
 			}
 		}
 		void ProblemDeformationInterpolation::ApplyLoad(ILoadPtr load)

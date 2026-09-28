@@ -8,16 +8,16 @@ namespace dive
 {
 	namespace problem
 	{
-		ProblemDeformationLaplacePtr CreateProblemDeformationLaplace(Tag problemTag, IMeshPtr mesh);
+		ProblemDeformationStrainPtr CreateProblemDeformationStrain(Tag problemTag, IMeshPtr mesh);
 
-		class ProblemDeformationLaplace : public IDeformationLaplace, virtual public std::enable_shared_from_this<ProblemDeformationLaplace>
+		class ProblemDeformationStrain : public IDeformationStrain, virtual public std::enable_shared_from_this<ProblemDeformationStrain>
 		{
 		public:
-			virtual ~ProblemDeformationLaplace() = default;
+			virtual ~ProblemDeformationStrain() = default;
 
-			static ProblemDeformationLaplacePtr Create(Tag problemTag, IMeshPtr mesh);
-			ProblemDeformationLaplacePtr GetPtr();
-			ConstProblemDeformationLaplacePtr GetPtr() const;
+			static ProblemDeformationStrainPtr Create(Tag problemTag, IMeshPtr mesh);
+			ProblemDeformationStrainPtr GetPtr();
+			ConstProblemDeformationStrainPtr GetPtr() const;
 
 			NumberDof GetNumberDof() const override;
 			NumberDof GetTotalDof() const override;
@@ -28,8 +28,6 @@ namespace dive
 			Tag	GetTag() const override;
 			Loads& GetLoads() override;
 
-			void SetTemperature(IScalarCoordinatesPtr temperature) override;
-			void SetPressure(IScalarCoordinatesPtr pressure) override;
 			void SetTag(Tag tag) override;
 
 			const DofMeshIndices& GetDofMeshIndices() const override;
@@ -47,7 +45,7 @@ namespace dive
 			Vector Displacement() const override;
 
 		protected:
-			ProblemDeformationLaplace() = default;
+			ProblemDeformationStrain();
 
 			void SetMesh(IMeshPtr mesh) override;
 			void UpdateMeshMaterial(IMeshPtr mesh);

@@ -1,14 +1,5 @@
 #include "routines.hpp"
 
-Json settings = {
-    {"reference",
-        {
-            {"temperature", 273.15},
-            {"pressure", 101325.1}
-        }
-    }
-};
-
 auto cartesianBearing  = basis::CreateBasisCartesian(1);
 auto cartesianShaft    = basis::CreateBasisCartesian(2);
 auto cylindricalShaft  = basis::CreateBasisCylindrical(3);
@@ -64,23 +55,26 @@ int main()
 
     try
     {
+        eilig::opencl::Initialize("kernels_eilig.c", 0, { 0 });
+        interpolation::opencl::Initialize("kernels_interpolation.c", 0, { 0 });
+
         InitializeGmsh("./mesh_deformation.msh");
 
         auto fluidProblem = CreateProblemFluid(1, "fluid", loadCase);
         auto deformationProblem = CreateProblemDeformationInterpolation(2, "deformation", loadCase);
         auto nodes = dive::mesh::GmshGetNodesForPhysicalGroup(fluidProblem->GetMesh(), "pressure:dirichlet:0:upstream");
-
         auto nodesDeformation = deformationProblem->GetMesh()->GetNodes();
 
         FinalizeGmsh();
 
-        //---------------------------------------------------------------------------------------------------------------------------
+        ////---------------------------------------------------------------------------------------------------------------------------
 
-        auto interpolation = interpolation::CreateInterpolationRBF(cartesianBearing, interpolation::interpolation_function_TPS, 1.0);
+        auto interpolation = interpolation::opencl::CreateInterpolationRBF(cartesianBearing, interpolation::interpolation_function_TPS, 1.0);
         deformationProblem->Initialize(interpolation);
-        deformationProblem->DeformMesh(fluidProblem->GetMesh());
+        //deformationProblem->DeformMesh(fluidProblem->GetMesh());
 
-        std::cout << dive::ListNodes(nodes) << std::endl;
+        //std::cout << dive::ListNodes(nodes) << std::endl;
+
     }
     catch (const std::exception& error)
     {

@@ -1,17 +1,14 @@
 -- premake5.lua
-workspace "dive"
-	configurations { "Release", "ReleaseCL"}
-	location "build"	
-
-project "mesh_deformation_rbf"
+defines { "GLOBAL" }
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++20"
-	targetname ("mesh_deformation_rbf")	
 	architecture "x86_64"  
+	
+	location "build"	
 	objdir "%{cfg.location}/obj/%{cfg.platform}_%{cfg.buildcfg}"	
-
 	targetdir "build/%{cfg.buildcfg}"
+	
 	includedirs { "../../utils/src" }	
 	includedirs { "../../logger/src" }	
 	includedirs { "../../eilig/src" }	
@@ -25,10 +22,13 @@ project "mesh_deformation_rbf"
 	includedirs { "../../dive/src" }
 	includedirs { "../../thread-pool/include" }	
 	includedirs { "../../gmsh/include" }
-	includedirs { "../../json/include" }								
+	includedirs { "../../json/include" }
 
-	files { "src/**.hpp", "src/**.cpp" }
-		
+	files { "src/routines.hpp", "src/routines.cpp" }
+
+workspace "examples"
+	configurations { "Release", "ReleaseCL"}
+	
 	filter {"configurations:Release", "action:gmake*", "toolset:gcc" }   
 		defines { "NDEBUG" }
 		optimize "Speed"
@@ -114,3 +114,11 @@ project "mesh_deformation_rbf"
 		libdirs { "../../gmsh/lib" }		
 		
 		links { "dive", "gmsh.dll.lib", "opencl", "material", "value", "interpolation", "kdtree", "node", "quadrature", "basis", "eilig", "club", "logger", "utils"}
+
+project "mesh_deformation_rbf"
+	targetname ("mesh_deformation_rbf")		
+	files { "src/mesh_deformation_rbf.cpp" }	
+	
+project "mesh_deformation_strain"
+	targetname ("mesh_deformation_strain")	
+	files { "src/mesh_deformation_strain.cpp" }		

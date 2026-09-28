@@ -19,7 +19,6 @@ dive::problem::ProblemFluidPtr CreateProblemFluid(dive::Tag problemTag, const di
 dive::problem::ProblemThermalPtr CreateProblemThermal(dive::Tag problemTag, const dive::String problemName, const dive::Values& loads);
 dive::problem::ProblemPressurePtr CreateProblemPressure(dive::Tag problemTag, const dive::String problemName, const dive::Values& loads);
 dive::problem::ProblemStructuralPtr CreateProblemStructural(dive::Tag problemTag, const dive::String problemName, const dive::Values& loads);
-dive::problem::ProblemDeformationLaplacePtr CreateProblemDeformationLaplace(dive::Tag problemTag, const dive::String problemName, const dive::Values& loads);
 dive::problem::ProblemDeformationInterpolationPtr CreateProblemDeformationInterpolation(dive::Tag problemTag, const dive::String problemName, const dive::Values& loads);
 
 #endif /* GRADIENT_ROUTINES_HPP_ */

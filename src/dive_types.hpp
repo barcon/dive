@@ -324,9 +324,9 @@ namespace dive
 		using ProblemDeformationInterpolationPtr = std::shared_ptr<ProblemDeformationInterpolation>;
 		using ConstProblemDeformationInterpolationPtr = std::shared_ptr<const ProblemDeformationInterpolation>;
 
-		class ProblemDeformationLaplace;
-		using ProblemDeformationLaplacePtr = std::shared_ptr<ProblemDeformationLaplace>;
-		using ConstProblemDeformationLaplacePtr = std::shared_ptr<const ProblemDeformationLaplace>;
+		class ProblemDeformationStrain;
+		using ProblemDeformationStrainPtr = std::shared_ptr<ProblemDeformationStrain>;
+		using ConstProblemDeformationStrainPtr = std::shared_ptr<const ProblemDeformationStrain>;
 	}
 
 	using IValuePtr = value::IValuePtr;

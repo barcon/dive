@@ -1,4 +1,4 @@
-#include "dive_problem_deformation_laplace.hpp"
+#include "dive_problem_deformation_strain.hpp"
 
 #include "dive_mesh_basic.hpp"
 #include "dive_weakform_deformation_stiffness.hpp"
@@ -25,13 +25,13 @@ namespace dive {
 				return eilig::EILIG_CONTINUE;
 			};
 
-		ProblemDeformationLaplacePtr CreateProblemDeformationLaplace(Tag problemTag, IMeshPtr mesh)
+		ProblemDeformationStrainPtr CreateProblemDeformationStrain(Tag problemTag, IMeshPtr mesh)
 		{
-			return ProblemDeformationLaplace::Create(problemTag, mesh);
+			return ProblemDeformationStrain::Create(problemTag, mesh);
 		}
-		ProblemDeformationLaplacePtr ProblemDeformationLaplace::Create(Tag problemTag, IMeshPtr mesh)
+		ProblemDeformationStrainPtr ProblemDeformationStrain::Create(Tag problemTag, IMeshPtr mesh)
 		{
-			class MakeSharedEnabler : public ProblemDeformationLaplace
+			class MakeSharedEnabler : public ProblemDeformationStrain
 			{
 			};
 
@@ -39,92 +39,67 @@ namespace dive {
 
 			res->SetTag(problemTag);
 			res->SetMesh(mesh);
-			res->SetTemperature(value::CreateValueScalarCoordinates(mesh->GetNumberCoordinates(), 1.0));
-			res->SetPressure(value::CreateValueScalarCoordinates(mesh->GetNumberCoordinates(), 1.0));
 
 			return res;
 		}
-		ProblemDeformationLaplacePtr ProblemDeformationLaplace::GetPtr()
+		ProblemDeformationStrain::ProblemDeformationStrain()
 		{
-			return std::dynamic_pointer_cast<ProblemDeformationLaplace>(shared_from_this());
+			temperature_ = value::CreateValueScalarCoordinates(mesh_->GetNumberCoordinates(), 1.0);
+			pressure_ = value::CreateValueScalarCoordinates(mesh_->GetNumberCoordinates(), 1.0);
 		}
-		ConstProblemDeformationLaplacePtr ProblemDeformationLaplace::GetPtr() const
+		ProblemDeformationStrainPtr ProblemDeformationStrain::GetPtr()
 		{
-			return const_cast<ProblemDeformationLaplace*>(this)->GetPtr();
+			return std::dynamic_pointer_cast<ProblemDeformationStrain>(shared_from_this());
 		}
-		NumberDof ProblemDeformationLaplace::GetNumberDof() const
+		ConstProblemDeformationStrainPtr ProblemDeformationStrain::GetPtr() const
+		{
+			return const_cast<ProblemDeformationStrain*>(this)->GetPtr();
+		}
+		NumberDof ProblemDeformationStrain::GetNumberDof() const
 		{
 			return numberDof_;
 		}
-		NumberDof ProblemDeformationLaplace::GetTotalDof() const
+		NumberDof ProblemDeformationStrain::GetTotalDof() const
 		{
 			return totalDof_;
 		}
-		DofIndex ProblemDeformationLaplace::GetPivot() const
+		DofIndex ProblemDeformationStrain::GetPivot() const
 		{
 			return pivot_;
 		}
-		IMeshPtr ProblemDeformationLaplace::GetMesh() const
+		IMeshPtr ProblemDeformationStrain::GetMesh() const
 		{
 			return mesh_;
 		}
-		Type ProblemDeformationLaplace::GetType() const
+		Type ProblemDeformationStrain::GetType() const
 		{
 			return type_;
 		}
-		Tag ProblemDeformationLaplace::GetTag() const
+		Tag ProblemDeformationStrain::GetTag() const
 		{
 			return tag_;
 		}
-		Loads& ProblemDeformationLaplace::GetLoads() 
+		Loads& ProblemDeformationStrain::GetLoads() 
 		{
 			return loads_;
 		}
-		const DofMeshIndices& ProblemDeformationLaplace::GetDofMeshIndices() const
+		const DofMeshIndices& ProblemDeformationStrain::GetDofMeshIndices() const
 		{
 			return dofMeshIndices_;
 		}
-		const NodeMeshIndices& ProblemDeformationLaplace::GetNodeMeshIndices() const
+		const NodeMeshIndices& ProblemDeformationStrain::GetNodeMeshIndices() const
 		{
 			return  nodeMeshIndices_;
 		}
-		const DirichletMeshIndices& ProblemDeformationLaplace::GetDirichletMeshIndices() const
+		const DirichletMeshIndices& ProblemDeformationStrain::GetDirichletMeshIndices() const
 		{
 			return dirichletMeshIndices_;
 		}
-		void ProblemDeformationLaplace::SetTemperature(IScalarCoordinatesPtr temperature)
-		{
-			if (temperature == nullptr)
-			{
-				throw std::invalid_argument("Temperature cannot be null.");
-			}
-
-			if (temperature->GetNumberCoordinates() != mesh_->GetNumberCoordinates())
-			{
-				throw std::invalid_argument("Temperature number of coordinates must match mesh number of coordinates.");
-			}
-
-			temperature_ = temperature;
-		}
-		void ProblemDeformationLaplace::SetPressure(IScalarCoordinatesPtr pressure)
-		{
-			if (pressure == nullptr)
-			{
-				throw std::invalid_argument("Pressure cannot be null.");
-			}
-
-			if (pressure->GetNumberCoordinates() != mesh_->GetNumberCoordinates())
-			{
-				throw std::invalid_argument("Pressure number of coordinates must match mesh number of coordinates.");
-			}
-
-			pressure_ = pressure;;
-		}
-		void ProblemDeformationLaplace::SetTag(Tag tag)
+		void ProblemDeformationStrain::SetTag(Tag tag)
 		{
 			tag_ = tag;
 		}
-		void ProblemDeformationLaplace::SetMesh(IMeshPtr mesh)
+		void ProblemDeformationStrain::SetMesh(IMeshPtr mesh)
 		{
 			if (mesh == nullptr)
 			{
@@ -136,7 +111,7 @@ namespace dive {
 			UpdateMeshMaterial(mesh_);
 			UpdateMeshElements(mesh_, numberDof_);
 		}
-		void ProblemDeformationLaplace::UpdateMeshMaterial(IMeshPtr mesh)
+		void ProblemDeformationStrain::UpdateMeshMaterial(IMeshPtr mesh)
 		{
 			const auto& elements = mesh->GetElements();
 			
@@ -148,7 +123,7 @@ namespace dive {
 				element->SetMaterial(material);
 			}
 		}
-		void ProblemDeformationLaplace::DeformMesh(IMeshPtr mesh)
+		void ProblemDeformationStrain::DeformMesh(IMeshPtr mesh)
 		{
 			auto& nodes = mesh->GetNodes();
 			
@@ -166,7 +141,7 @@ namespace dive {
 				nodes[i]->SetPoint(point + offset);
 			}
 		}
-		void ProblemDeformationLaplace::ApplyLoad(ILoadPtr load)
+		void ProblemDeformationStrain::ApplyLoad(ILoadPtr load)
 		{
 			if(load == nullptr)
 			{
@@ -180,7 +155,7 @@ namespace dive {
 
 			loads_.push_back(load);
 		}
-		void ProblemDeformationLaplace::Initialize()
+		void ProblemDeformationStrain::Initialize()
 		{
 			Dirichlets dirichlets;
 
@@ -199,7 +174,7 @@ namespace dive {
 
 			Reorder(mesh_, numberDof_, nodeMeshIndices_, dofMeshIndices_);
 		}
-		void ProblemDeformationLaplace::UpdateMeshValues(const Vector& u)
+		void ProblemDeformationStrain::UpdateMeshValues(const Vector& u)
 		{
 			for (Index i = 0; i < dofMeshIndices_.size(); ++i)
 			{
@@ -209,7 +184,7 @@ namespace dive {
 				dofMeshIndices_[i].node->SetValue(dofIndex, u(globalIndex));
 			}
 		}
-		void ProblemDeformationLaplace::UpdateMeshValues(const Vector& u0, const Vector& u1)
+		void ProblemDeformationStrain::UpdateMeshValues(const Vector& u0, const Vector& u1)
 		{
 			for (Index i = 0; i < dofMeshIndices_.size(); ++i)
 			{
@@ -227,18 +202,18 @@ namespace dive {
 				}
 			}
 		}
-		Sparse ProblemDeformationLaplace::Stiffness() const
+		Sparse ProblemDeformationStrain::Stiffness() const
 		{
 			auto stiffnessWeak = weakform::CreateWeakFormStiffnessDeformation();
 			stiffnessWeak->SetTemperature(temperature_);
 			stiffnessWeak->SetPressure(pressure_);
 
-			auto problemDeformationLaplace = std::make_shared<ProblemDeformationLaplace>(*this);
-			auto res = IntegralForm(stiffnessWeak, problemDeformationLaplace, problemDeformationLaplace);
+			auto problemDeformationStrain = std::make_shared<ProblemDeformationStrain>(*this);
+			auto res = IntegralForm(stiffnessWeak, problemDeformationStrain, problemDeformationStrain);
 
 			return res;
 		}
-		Vector ProblemDeformationLaplace::Displacement() const
+		Vector ProblemDeformationStrain::Displacement() const
 		{
 			Vector res(totalDof_, 0.0);
 
