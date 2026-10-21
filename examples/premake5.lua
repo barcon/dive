@@ -29,7 +29,7 @@ defines { "GLOBAL" }
 workspace "examples"
 	configurations { "Release", "ReleaseCL"}
 	
-	filter {"configurations:Release", "action:gmake*", "toolset:gcc" }   
+	filter {"configurations:Release" }   
 		defines { "NDEBUG" }
 		optimize "Speed"
 		
@@ -44,30 +44,15 @@ workspace "examples"
 		libdirs { "../../value/build/Release" }
 		libdirs { "../../material/build/Release" }
 		libdirs { "../../dive/build/Release" }
-		libdirs { "../../gmsh/lib" }		
+		libdirs { "../../gmsh/lib" }			
 		
-		links { "dive", "gmsh", "material", "value", "interpolation", "kdtree", "node", "quadrature", "basis", "eilig", "logger", "utils"}
+		filter {"configurations:Release", "action:gmake*", "toolset:gcc" }	
+			links { "dive", "gmsh-4.15", "material", "value", "interpolation", "kdtree", "node", "quadrature", "basis", "eilig", "logger", "utils"}
 
-	filter {"configurations:Release", "action:vs*" }   
-		defines { "NDEBUG" }
-		optimize "Speed"
-		
-		libdirs { "../../utils/build/Release" }
-		libdirs { "../../logger/build/Release" }
-		libdirs { "../../eilig/build/Release" }
-		libdirs { "../../basis/build/Release" }
-		libdirs { "../../quadrature/build/Release" }
-		libdirs { "../../node/build/Release" }
-		libdirs { "../../kdtree/build/Release" }
-		libdirs { "../../interpolation/build/Release" }
-		libdirs { "../../value/build/Release" }
-		libdirs { "../../material/build/Release" }
-		libdirs { "../../dive/build/Release" }
-		libdirs { "../../gmsh/lib" }		
-		
-		links { "dive", "gmsh.dll.lib", "material", "value", "interpolation", "kdtree", "node", "quadrature", "basis", "eilig", "logger", "utils"}
-		
-	filter {"configurations:ReleaseCL", "action:gmake*", "toolset:gcc" }   
+		filter {"configurations:Release", "action:vs*" }	
+			links { "dive", "gmsh.dll.lib", "material", "value", "interpolation", "kdtree", "node", "quadrature", "basis", "eilig", "logger", "utils"}
+	
+	filter {"configurations:ReleaseCL"}   
 		defines { "NDEBUG", "EILIG_ENABLE_OPENCL" }
 		optimize "Speed"
 		
@@ -87,32 +72,12 @@ workspace "examples"
 		libdirs { "../../material/build/ReleaseCL" }
 		libdirs { "../../dive/build/ReleaseCL" }
 		libdirs { "../../opencl/lib/x86_64" }			
-		libdirs { "../../gmsh/lib" }		
+		libdirs { "../../gmsh/lib" }
 		
-		links { "dive", "gmsh", "opencl", "material", "value", "interpolation", "kdtree", "node", "quadrature", "basis", "eilig", "club", "logger", "utils"}
+	filter {"configurations:ReleaseCL", "action:gmake*", "toolset:gcc" }	
+		links { "dive", "gmsh-4.15", "opencl", "material", "value", "interpolation", "kdtree", "node", "quadrature", "basis", "eilig", "club", "logger", "utils"}
 
-	filter {"configurations:ReleaseCL", "action:vs*" }   
-		defines { "NDEBUG", "EILIG_ENABLE_OPENCL" }
-		optimize "Speed"
-		
-		includedirs { "../../club/src" }	
-		includedirs { "../../opencl/inc" }	
-		
-		libdirs { "../../utils/build/Release" }
-		libdirs { "../../logger/build/Release" }
-		libdirs { "../../club/build/ReleaseCL" }
-		libdirs { "../../eilig/build/ReleaseCL" }
-		libdirs { "../../basis/build/ReleaseCL" }
-		libdirs { "../../quadrature/build/ReleaseCL" }
-		libdirs { "../../node/build/ReleaseCL" }
-		libdirs { "../../kdtree/build/ReleaseCL" }
-		libdirs { "../../interpolation/build/ReleaseCL" }
-		libdirs { "../../value/build/ReleaseCL" }
-		libdirs { "../../material/build/ReleaseCL" }
-		libdirs { "../../dive/build/ReleaseCL" }
-		libdirs { "../../opencl/lib/x86_64" }	
-		libdirs { "../../gmsh/lib" }		
-		
+	filter {"configurations:ReleaseCL", "action:vs*" }	
 		links { "dive", "gmsh.dll.lib", "opencl", "material", "value", "interpolation", "kdtree", "node", "quadrature", "basis", "eilig", "club", "logger", "utils"}
 
 project "mesh_deformation_rbf"
@@ -121,4 +86,12 @@ project "mesh_deformation_rbf"
 	
 project "mesh_deformation_strain"
 	targetname ("mesh_deformation_strain")	
-	files { "src/mesh_deformation_strain.cpp" }		
+	files { "src/mesh_deformation_strain.cpp" }	
+
+project "shell_bearing_stokes_flow"
+	targetname ("shell_bearing_stokes_flow")	
+	files { "src/shell_bearing_stokes_flow.cpp" }	
+	
+project "cavity_stokes_flow"
+	targetname ("cavity_stokes_flow")	
+	files { "src/cavity_stokes_flow.cpp" }	

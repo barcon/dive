@@ -30,7 +30,6 @@
 #include "dive_load_node.hpp"
 
 #include "dive_weakform.hpp"
-#include "dive_weakform_deformation_stiffness.hpp"
 #include "dive_weakform_fluid_mass.hpp"
 #include "dive_weakform_fluid_stiffness.hpp"
 #include "dive_weakform_fluid_convection.hpp"

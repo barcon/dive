@@ -112,7 +112,7 @@ namespace dive
 
 			Sparse global(totalDof1, totalDof2);
 
-			NumberProcessors numberProcessors = std::thread::hardware_concurrency() > 1 ? std::thread::hardware_concurrency() : 1;
+			NumberProcessors numberProcessors = std::thread::hardware_concurrency() > 1 ? std::thread::hardware_concurrency() - 1: 1;
 			NumberElements numberElements1 = elements1.size();
 			Number numberTasks = (numberElements1 % taskSize) == 0 ? (numberElements1 / taskSize) : (numberElements1 / taskSize) + 1;
 
@@ -528,31 +528,3 @@ namespace dive
 		}
 	} // namespace problem
 } // namespace dive
-
-/*
-		Vectors Partition(const Vector& vector, NumberDof totalDof, DofIndex pivot)
-		{
-			auto v0 = vector.Region(0, pivot - 1);
-			auto v1 = vector.Region(pivot, totalDof - 1);
-
-			return {v0 , v1};
-		}
-		Matrices Partition(const Matrix& matrix, NumberDof totalDof, DofIndex pivot)
-		{
-			auto m00 = matrix.Region(0, 0, pivot - 1, pivot - 1);
-			auto m01 = matrix.Region(0, pivot, pivot - 1, totalDof - 1);
-			auto m10 = matrix.Region(pivot, 0, totalDof - 1, pivot - 1);
-			auto m11 = matrix.Region(pivot, pivot, totalDof - 1, totalDof - 1);
-
-			return { m00, m01, m10, m11 };
-		}
-		Sparses Partition(const Sparse& matrix, NumberDof totalDof, DofIndex pivot)
-		{
-			auto m00 = matrix.Region(0, 0, pivot - 1, pivot - 1);
-			auto m01 = matrix.Region(0, pivot, pivot - 1, totalDof - 1);
-			auto m10 = matrix.Region(pivot, 0, totalDof - 1, pivot - 1);
-			auto m11 = matrix.Region(pivot, pivot, totalDof - 1, totalDof - 1);
-
-			return { m00, m01, m10, m11 };
-		}
-*/

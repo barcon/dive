@@ -141,7 +141,7 @@ namespace dive
 		}
 		Matrix ElementHexa::u() const
 		{
-			Matrix res(numberDof_ * numberNodes_, 1, eilig::matrix_zeros);
+			Matrix res(numberDof_ * numberNodes_, 1, MatrixType::zeros);
 
 			for (NodeIndex i = 0; i < numberNodes_; ++i)
 			{
@@ -155,7 +155,7 @@ namespace dive
 		}
 		Matrix ElementHexa::u(const Vector& local) const
 		{
-			Matrix res(numberDof_, 1, eilig::matrix_zeros);
+			Matrix res(numberDof_, 1, MatrixType::zeros);
 
 			for (NodeIndex i = 0; i < numberNodes_; ++i)
 			{
@@ -171,7 +171,7 @@ namespace dive
 		}
 		Matrix ElementHexa::du() const
 		{
-			Matrix res(numberCoordinates_, numberDof_ * numberNodes_, eilig::matrix_zeros);
+			Matrix res(numberCoordinates_, numberDof_ * numberNodes_, MatrixType::zeros);
 
 			for (CoordinateIndex k = 0; k < numberCoordinates_; ++k)
 			{
@@ -192,7 +192,7 @@ namespace dive
 		}
 		Matrix ElementHexa::du(const Vector& local) const
 		{
-			Matrix res(numberCoordinates_, numberDof_, eilig::matrix_zeros);
+			Matrix res(numberCoordinates_, numberDof_, MatrixType::zeros);
 
 			for (CoordinateIndex i = 0; i < numberCoordinates_; ++i)
 			{
@@ -211,7 +211,7 @@ namespace dive
 		}
 		Matrix ElementHexa::du(const Vector& local, const DimensionIndex& dimensionIndex) const
 		{
-			Matrix res(1, numberDof_, eilig::matrix_zeros);
+			Matrix res(1, numberDof_, MatrixType::zeros);
 
 			for (NodeIndex i = 0; i < numberNodes_; ++i)
 			{
@@ -228,7 +228,7 @@ namespace dive
 		}
 		Matrix ElementHexa::J(const Vector& local) const
 		{
-			Matrix output(numberCoordinates_, numberCoordinates_, eilig::matrix_zeros);
+			Matrix output(numberCoordinates_, numberCoordinates_, MatrixType::zeros);
 
 			for (CoordinateIndex i = 0; i < numberCoordinates_; ++i)
 			{
@@ -251,7 +251,7 @@ namespace dive
 		}
 		Matrix ElementHexa::N(const Vector& local) const
 		{
-			Matrix res(numberDof_, numberNodes_ * numberDof_, eilig::matrix_zeros);
+			Matrix res(numberDof_, numberNodes_ * numberDof_, MatrixType::zeros);
 
 			for (DofIndex i = 0; i < numberDof_; ++i)
 			{
@@ -273,7 +273,7 @@ namespace dive
 		}
 		Matrix ElementHexa::dN(const Vector& local) const
 		{
-			Matrix res(numberCoordinates_, numberNodes_, eilig::matrix_zeros);
+			Matrix res(numberCoordinates_, numberNodes_, MatrixType::zeros);
 
 			for (CoordinateIndex i = 0; i < numberCoordinates_; ++i)
 			{

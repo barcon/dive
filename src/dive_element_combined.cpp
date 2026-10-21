@@ -419,7 +419,7 @@ namespace dive
 
 		Matrix ElementCombined::FormMatrix_Decomposed() const
 		{
-			auto res = Matrix(numberNodes_ * numberDof_, numberNodes_ * numberDof_, eilig::matrix_zeros);
+			auto res = Matrix(numberNodes_ * numberDof_, numberNodes_ * numberDof_, MatrixType::zeros);
 
 			auto local = GetLocalVector0();
 			auto dot1 = std::abs(eilig::Dot(local, GetGlobalVector0()));
@@ -470,106 +470,3 @@ namespace dive
 		}
 	} //namespace elements
 } //namespace dive
-
-/*
-
-		Matrix ElementCombined::FormMatrix_Canonical() const
-		{
-			auto res = Matrix(numberNodes_ * numberDof_, numberNodes_ * numberDof_, eilig::matrix_zeros);
-
-			switch (numberDof_)
-			{
-			case 1:
-				res(0, 0) = +1.0;
-				res(0, 1) = -1.0;
-				res(1, 1) = +1.0;
-				res(1, 0) = -1.0;
-
-				break;
-			case 2:
-				res(0, 0) = +1.0;
-				res(0, 2) = -1.0;
-				res(2, 2) = +1.0;
-				res(2, 0) = -1.0;
-
-				res(1, 1) = +1.0;
-				res(1, 3) = -1.0;
-				res(3, 3) = +1.0;
-				res(3, 1) = -1.0;
-
-				break;
-			case 3:
-				res(0, 0) = +1.0;
-				res(0, 3) = -1.0;
-				res(3, 3) = +1.0;
-				res(3, 0) = -1.0;
-
-				res(1, 1) = +1.0;
-				res(1, 4) = -1.0;
-				res(4, 4) = +1.0;
-				res(4, 1) = -1.0;
-
-				res(2, 2) = +1.0;
-				res(2, 5) = -1.0;
-				res(5, 5) = +1.0;
-				res(5, 2) = -1.0;
-
-				break;
-			}
-
-			return res;
-		}
-
-		Vector ElementCombined::GetLocalVector0() const
-		{
-			const auto& p0 = nodes_[0]->GetPoint();
-			const auto& p1 = nodes_[1]->GetPoint();
-
-			auto l0 = eilig::NormP2(p1 - p0);
-			auto v0 = (1.0 / l0) * (p1 - p0);
-
-			return v0;
-		}
-		Vector ElementCombined::GetLocalVector1() const
-		{
-			Vector v0 = GetLocalVector0();
-			Vector v1;
-			Scalars dots;
-
-			auto e0 = GetGlobalVector0();
-			auto e1 = GetGlobalVector1();
-			auto e2 = GetGlobalVector2();
-
-			dots.push_back(std::abs(eilig::Dot(v0, e0)));
-			dots.push_back(std::abs(eilig::Dot(v0, e1)));
-			dots.push_back(std::abs(eilig::Dot(v0, e2)));
-
-			auto minimum = std::min_element(dots.begin(), dots.end());
-			auto index = std::distance(dots.begin(), minimum);
-
-			switch (index)
-			{
-			case 0:
-				v1 = eilig::Cross(v0, e0);
-				break;
-			case 1:
-				v1 = eilig::Cross(v0, e1);
-				break;
-			case 2:
-				v1 = eilig::Cross(v0, e2);
-				break;
-			}
-
-			auto l1 = eilig::NormP2(v1);
-
-			return (1.0 / l1) * v1;
-		}
-		Vector ElementCombined::GetLocalVector2() const
-		{
-			Vector v0 = GetLocalVector0();
-			Vector v1 = GetLocalVector1();
-
-			return eilig::Cross(v0, v1);
-		}
-
-*/

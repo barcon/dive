@@ -11,10 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{421D3F97-2E43-09FE-1789-8EC9034E2ECA}</ProjectGuid>
+    <ProjectGuid>{836BD522-EF2D-09AD-38DE-9739A4DFE18A}</ProjectGuid>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>mesh_deformation_strain_energy</RootNamespace>
+    <RootNamespace>shell_bearing_stokes_flow</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -42,15 +42,15 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(ProjectDir)Release\</OutDir>
-    <IntDir>$(ProjectDir)obj\_Release\Release\mesh_deformation_strain_energy\</IntDir>
-    <TargetName>mesh_deformation_strain</TargetName>
+    <IntDir>$(ProjectDir)obj\_Release\Release\shell_bearing_stokes_flow\</IntDir>
+    <TargetName>shell_bearing_stokes_flow</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseCL|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(ProjectDir)ReleaseCL\</OutDir>
-    <IntDir>$(ProjectDir)obj\_ReleaseCL\ReleaseCL\mesh_deformation_strain_energy\</IntDir>
-    <TargetName>mesh_deformation_strain</TargetName>
+    <IntDir>$(ProjectDir)obj\_ReleaseCL\ReleaseCL\shell_bearing_stokes_flow\</IntDir>
+    <TargetName>shell_bearing_stokes_flow</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -105,8 +105,8 @@
     <ClInclude Include="..\src\routines.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\mesh_deformation_strain.cpp" />
     <ClCompile Include="..\src\routines.cpp" />
+    <ClCompile Include="..\src\shell_bearing_stokes_flow.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

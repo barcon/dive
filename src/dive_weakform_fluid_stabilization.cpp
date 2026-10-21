@@ -66,7 +66,7 @@ namespace dive {
 			auto numberDimensions = element->GetNumberDimensions();
 			auto dN = element->InvJ(cacheIndex) * element->dN(cacheIndex);
 
-			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
+			Matrix res(numberDof, numberNodes * numberDof, MatrixType::zeros);
 
 			for (DofIndex m = 0; m < numberDof; ++m)
 			{

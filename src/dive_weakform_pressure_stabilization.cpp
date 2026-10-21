@@ -78,7 +78,7 @@ namespace dive {
 			auto momentum = FormMomentum(elementMomentum, local, cacheIndex);
 			auto dN = elementMomentum->InvJ(local) * elementMomentum->dN(local);
 
-			Matrix res(numberDimensions, numberNodes * numberDof, eilig::matrix_zeros);
+			Matrix res(numberDimensions, numberNodes * numberDof, MatrixType::zeros);
 
 			for (NodeIndex i = 0; i < numberNodes; ++i)
 			{

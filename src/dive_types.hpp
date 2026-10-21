@@ -33,46 +33,30 @@
 
 namespace dive
 {
-	using Axis = eilig::Axis;
-	using Scalar = eilig::Scalar;
-	using Vector = eilig::Vector;
-	using Matrix = eilig::Matrix;
-	using Sparse = eilig::Sparse;
-
-	using Scalars = eilig::Scalars;
-	using Vectors = eilig::Vectors;
-	using Matrices = eilig::Matrices;
-	using Sparses = eilig::Sparses;
+	using namespace eilig;
+	using namespace basis;
+	using namespace node;
+	using namespace quadrature;
+	using namespace interpolation;
+	using namespace material;
+	using namespace value;
 	
-	using Status = long long int;
-	using Tag = std::size_t;
-	using Type = std::size_t;
-
-	using Coordinate = std::size_t;
-	using Index = std::size_t;
-	using DofIndex = Index;
 	using NodeIndex = Index;
 	using ElementIndex = Index;
+	using DimensionIndex = Index;
 	using FaceIndex = Index;
 	using EdgeIndex = Index;
 	using LoadIndex = Index;
-	using DimensionIndex = Index;
-	using CoordinateIndex = Index;
 	using CacheIndex = Index;
 
 	using Timer = utils::Timer;
 	using Cache = std::unordered_map<Type, Matrices>;
 
-	using Number = std::size_t;
-	using NumberDof = Number;
-	using NumberNodes = Number;
 	using NumberFaces = Number;
 	using NumberEdges = Number;
 	using NumberElements = Number;
 	using NumberDimensions = Number;
-	using NumberCoordinates = Number;
 
-	using String = utils::String;
 	static const String headerDive = "DIVE";
 
 	namespace timer
@@ -237,10 +221,7 @@ namespace dive
 		using LoadNodeStructuralPtr = std::shared_ptr<LoadNodeStructural>;
 		using ConstLoadNodeStructuralPtr = std::shared_ptr<const LoadNodeStructural>;
 		
-		//---------------------------------------------------------------------
-		class StiffnessDeformation;
-		using StiffnessDeformationPtr = std::shared_ptr<StiffnessDeformation>;
-		using ConstStiffnessDeformationPtr = std::shared_ptr<const StiffnessDeformation>;
+		//---------------------------------------------------------------------	
 	}
 
 	namespace load
@@ -284,10 +265,6 @@ namespace dive
 		using IDeformationPtr = std::shared_ptr<IDeformation>;
 		using ConstIDeformationPtr = std::shared_ptr<const IDeformation>;
 
-		class IDeformationLaplace;
-		using IDeformationLaplacePtr = std::shared_ptr<IDeformationLaplace>;
-		using ConstIDeformationLaplacePtr = std::shared_ptr<const IDeformationLaplace>;
-
 		class IFluid;
 		using IFluidPtr = std::shared_ptr<IFluid>;
 		using ConstIFluidPtr = std::shared_ptr<const IFluid>;
@@ -329,29 +306,12 @@ namespace dive
 		using ConstProblemDeformationStrainPtr = std::shared_ptr<const ProblemDeformationStrain>;
 	}
 
-	using IValuePtr = value::IValuePtr;
-	using IBoolPtr = value::IBoolPtr;
-	using IStringPtr = value::IStringPtr;
-	
-	using IScalarPtr = value::IScalarPtr;
-	using IVectorPtr = value::IVectorPtr;
-	using IMatrixPtr = value::IMatrixPtr;
-
-	using IScalarCoordinatesPtr = value::IScalarCoordinatesPtr;
-	using IVectorCoordinatesPtr = value::IVectorCoordinatesPtr;
-	using IMatrixCoordinatesPtr = value::IMatrixCoordinatesPtr;
-	
 	using ITimerPtr = timer::ITimerPtr;
-	using IBasisPtr = basis::IBasisPtr;
-	using INodePtr = node::INodePtr;
 	using IElementPtr = element::IElementPtr;
 	using IElementMappedPtr = element::IElementMappedPtr;
 	using IMeshPtr = mesh::IMeshPtr;
 	using IWeakFormElementPtr = weakform::IWeakFormElementPtr;
 	using IWeakFormLoadPtr = weakform::IWeakFormLoadPtr;
-	using IMaterialPtr = material::IMaterialPtr;
-	using IGaussPtr = quadrature::IGaussPtr;
-	using IInterpolationPtr = interpolation::IInterpolationPtr;
 	using ILoadPtr = load::ILoadPtr;
 	using ILoadDirichletPtr = load::ILoadDirichletPtr;
 	using IProblemPtr = problem::IProblemPtr;
@@ -360,8 +320,6 @@ namespace dive
 	using EdgePair = element::EdgePair;
 
 	using Tags = std::vector<Tag>;
-	using Indices = std::vector<Index>;
-	using Strings = utils::Strings;
 	using Bases = std::vector<IBasisPtr>;
 	using Timers = std::vector<ITimerPtr>;
 	using Values = std::unordered_map<String, IValuePtr>;

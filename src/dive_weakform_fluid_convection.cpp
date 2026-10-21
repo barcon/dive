@@ -74,7 +74,7 @@ namespace dive {
 			auto u = FormVelocity(element, local, cacheIndex);
 			auto dN = element->InvJ(cacheIndex) * element->dN(cacheIndex);
 
-			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
+			Matrix res(numberDof, numberNodes * numberDof, MatrixType::zeros);
 
 			for (DofIndex i = 0; i < numberDof; ++i)
 			{

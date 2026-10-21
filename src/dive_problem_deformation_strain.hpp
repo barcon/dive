@@ -1,8 +1,10 @@
-#ifndef DIVE_PROBLEM_DEFORMATION_LAPLACE_HPP_
-#define DIVE_PROBLEM_DEFORMATION_LAPLACE_HPP_
+#ifndef DIVE_PROBLEM_DEFORMATION_STRAIN_HPP_
+#define DIVE_PROBLEM_DEFORMATION_STRAIN_HPP_
 
 #include "dive_problem.hpp"
 #include "dive_problem_thermal.hpp"
+
+#include <limits>
 
 namespace dive
 {
@@ -45,10 +47,13 @@ namespace dive
 			Vector Displacement() const override;
 
 		protected:
-			ProblemDeformationStrain();
+			ProblemDeformationStrain() = default;
 
 			void SetMesh(IMeshPtr mesh) override;
-			void UpdateMeshMaterial(IMeshPtr mesh);
+			void UpdateMeshMaterial1(IMeshPtr mesh) const;
+			void UpdateMeshMaterial2(IMeshPtr mesh) const;
+			void SolveElasticityProblem();
+			void CalculateStrainEnergy();
 
 			Tag tag_{ 0 };
 			Type type_{ problem_deformation };
@@ -65,9 +70,13 @@ namespace dive
 			DofMeshIndices dofMeshIndices_;
 			NodeMeshIndices nodeMeshIndices_;
 			DirichletMeshIndices dirichletMeshIndices_;
+
+			Scalar strainEnergyMax_{ 0.0 };
+			Scalar strainEnergyMin_{ 0.0 };
+			Scalars strainEnergies_;
 		};
 
 	} //namespace problem
 } //namespace dive
 
-#endif /* DIVE_PROBLEM_DEFORMATION_LAPLACE_HPP_*/
+#endif /* DIVE_PROBLEM_DEFORMATION_STRAIN_HPP_*/

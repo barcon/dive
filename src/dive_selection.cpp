@@ -17,8 +17,9 @@ namespace dive
 		bool SpecNodesByCoordinate::IsSatisfied(INodePtr item)
 		{
 			auto local = basis_->GlobalToLocalPoint(item->GetPoint());
+			auto index = static_cast<Index>(axis_);
 
-			if (std::fabs(local(axis_) - pos_) <= tol_)
+			if (std::fabs(local(index) - pos_) <= tol_)
 			{
 				return true;
 			}
@@ -37,8 +38,9 @@ namespace dive
 		bool SpecNodesByRange::IsSatisfied(INodePtr item)
 		{
 			auto local = basis_->GlobalToLocalPoint(item->GetPoint());
+			auto index = static_cast<Index>(axis_);
 
-			if ((local(axis_) >= (min_ - tol_)) && (local(axis_) <= (max_ + tol_)))
+			if ((local(index) >= (min_ - tol_)) && (local(index) <= (max_ + tol_)))
 			{
 				return true;
 			}
@@ -330,8 +332,9 @@ namespace dive
 		{
 			auto local1 = basis_->GlobalToLocalPoint(item1->GetPoint());
 			auto local2 = basis_->GlobalToLocalPoint(item2->GetPoint());
+			auto index = static_cast<Index>(axis_);
 
-			return local1(axis_) < local2(axis_);
+			return local1(index) < local2(index);
 		}
 
 		Nodes SortNodes(SpecificationSort<INodePtr>& spec, const Nodes& input)

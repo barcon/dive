@@ -1,7 +1,7 @@
 #include "dive_problem_deformation_strain.hpp"
 
 #include "dive_mesh_basic.hpp"
-#include "dive_weakform_deformation_stiffness.hpp"
+#include "dive_weakform_structural_stiffness.hpp"
 
 namespace dive {
 	namespace problem {
@@ -41,11 +41,6 @@ namespace dive {
 			res->SetMesh(mesh);
 
 			return res;
-		}
-		ProblemDeformationStrain::ProblemDeformationStrain()
-		{
-			temperature_ = value::CreateValueScalarCoordinates(mesh_->GetNumberCoordinates(), 1.0);
-			pressure_ = value::CreateValueScalarCoordinates(mesh_->GetNumberCoordinates(), 1.0);
 		}
 		ProblemDeformationStrainPtr ProblemDeformationStrain::GetPtr()
 		{
@@ -107,21 +102,10 @@ namespace dive {
 			}
 
 			mesh_ = mesh;
+			pressure_ = value::CreateValueScalarCoordinates(mesh_->GetNumberCoordinates(), 1.0);
+			temperature_ = value::CreateValueScalarCoordinates(mesh_->GetNumberCoordinates(), 1.0);
 			
-			UpdateMeshMaterial(mesh_);
 			UpdateMeshElements(mesh_, numberDof_);
-		}
-		void ProblemDeformationStrain::UpdateMeshMaterial(IMeshPtr mesh)
-		{
-			const auto& elements = mesh->GetElements();
-			
-			for (auto& element : elements)
-			{
-				auto material = material::CreateSolid(element->GetTag());
-
-				material->SetThermalConductivity(value::CreateValueScalarCoordinates(2, 1.0));
-				element->SetMaterial(material);
-			}
 		}
 		void ProblemDeformationStrain::DeformMesh(IMeshPtr mesh)
 		{
@@ -173,7 +157,43 @@ namespace dive {
 			UpdateDirichletLoads(dofMeshIndices_);
 
 			Reorder(mesh_, numberDof_, nodeMeshIndices_, dofMeshIndices_);
+
+			UpdateMeshMaterial1(mesh_);
+			SolveElasticityProblem();
+			CalculateStrainEnergy();
+			UpdateMeshMaterial2(mesh_);
+			SolveElasticityProblem();
 		}
+		void ProblemDeformationStrain::UpdateMeshMaterial1(IMeshPtr mesh) const
+		{
+			const auto& elements = mesh->GetElements();
+
+			for (Index i = 0; i < elements.size(); i++)
+			{
+				auto material = material::CreateSolid(elements[i]->GetTag());
+				
+				material->SetPoissonRatio(value::CreateValueScalarCoordinates(2, 0.0));
+				material->SetElasticModulus(value::CreateValueScalarCoordinates(2, 1.0));
+
+				elements[i]->SetMaterial(material);
+			}
+		}
+		void ProblemDeformationStrain::UpdateMeshMaterial2(IMeshPtr mesh) const
+		{
+			const auto& elements = mesh->GetElements();
+
+			for (Index i = 0; i < elements.size(); i++)
+			{
+				auto material = material::CreateSolid(elements[i]->GetTag());
+				auto elasticModulus = (std::sqrt(strainEnergies_[i]) - std::sqrt(strainEnergyMin_)) / (std::sqrt(strainEnergyMax_) - std::sqrt(strainEnergyMin_));
+				auto c = 1.0E+4;
+
+				material->SetPoissonRatio(value::CreateValueScalarCoordinates(2, 0.0));
+				material->SetElasticModulus(value::CreateValueScalarCoordinates(2, 1.0 + c * elasticModulus));
+
+				elements[i]->SetMaterial(material);
+			}
+		}			
 		void ProblemDeformationStrain::UpdateMeshValues(const Vector& u)
 		{
 			for (Index i = 0; i < dofMeshIndices_.size(); ++i)
@@ -204,7 +224,7 @@ namespace dive {
 		}
 		Sparse ProblemDeformationStrain::Stiffness() const
 		{
-			auto stiffnessWeak = weakform::CreateWeakFormStiffnessDeformation();
+			auto stiffnessWeak = weakform::CreateWeakFormStiffnessStructural();
 			stiffnessWeak->SetTemperature(temperature_);
 			stiffnessWeak->SetPressure(pressure_);
 
@@ -226,6 +246,48 @@ namespace dive {
 			}
 
 			return res;
+		}
+	
+		void ProblemDeformationStrain::SolveElasticityProblem()
+		{
+			auto K = Partition<Sparses>(Stiffness(), totalDof_, pivot_);
+			auto y = Partition<Vectors>(Displacement(), totalDof_, pivot_);
+			
+			auto status = eilig::IterativeBiCGStab(K[3], y[1], -K[2] * y[0], callbackIterative);
+
+			if(status != eilig::EILIG_SUCCESS)
+			{
+				throw std::runtime_error("Linear system not converged");
+			}
+
+			UpdateMeshValues(y[0], y[1]);
+		}
+		void ProblemDeformationStrain::CalculateStrainEnergy()
+		{
+			Matrix K;
+
+			auto stiffnessWeak = weakform::CreateWeakFormStiffnessStructural();
+			stiffnessWeak->SetTemperature(temperature_);
+			stiffnessWeak->SetPressure(pressure_);
+
+			const auto& elements = mesh_->GetElements();
+			strainEnergies_.resize(elements.size());
+			
+			for (Index i = 0; i < elements.size(); i++)
+			{
+				std::dynamic_pointer_cast<element::IElementMapped>(elements[i])->IntegralWeakFormElement(stiffnessWeak, K);
+
+				auto y = eilig::Matrix(std::dynamic_pointer_cast<element::IElementMapped>(elements[i])->u());
+				auto volume = std::dynamic_pointer_cast<element::IElementSolid>(elements[i])->Volume();
+				auto strainEnergy = ((y.Transpose() * K * y)(0) / 2.0 ) / volume;
+				
+				strainEnergies_[i] = strainEnergy;
+			}
+
+			const auto [strainEnergyMin, strainEnergyMax] = std::minmax_element(strainEnergies_.begin(), strainEnergies_.end());
+
+			strainEnergyMin_ = *strainEnergyMin;
+			strainEnergyMax_ = *strainEnergyMax;
 		}
 	} // namespace problem
 } // namespace dive

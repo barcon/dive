@@ -8,8 +8,8 @@ dive::Scalar pi = utils::math::Pi<dive::Scalar>();
 dive::Scalar diameterBearing = 0.12007;
 dive::Scalar diameterShaft = 0.10993;
 dive::Scalar clearance = (diameterBearing - diameterShaft) / 2.0;
-dive::Scalar attitude = 90.0 * (pi / 180.0);
-dive::Scalar eccentricityRelative = 0.5;
+dive::Scalar attitude = 45.0 * (pi / 180.0);
+dive::Scalar eccentricityRelative = 0.9;
 dive::Scalar eccentricity = eccentricityRelative * clearance;
 
 auto deformationBearing0 = value::CreateValueScalarCoordinates(3, 0.0);
@@ -48,21 +48,13 @@ dive::Values loadCase =
 
 int main()
 {
-    dive::Vector offset{eccentricity, attitude, 0.0};
-
-    cartesianShaft->Offset(cylindricalShaft->LocalToGlobalVector(offset));
-    cylindricalShaft->Offset(cylindricalShaft->LocalToGlobalVector(offset));
-
     try
     {
-		eilig::opencl::Initialize("kernels.c", 0, { 0 });
         InitializeGmsh("./mesh_deformation.msh");
 
         auto fluidProblem = CreateProblemFluid(1, "fluid", loadCase);
         auto deformationProblem = CreateProblemDeformationStrain(2, "deformation", loadCase);
-        auto nodes = dive::mesh::GmshGetNodesForPhysicalGroup(fluidProblem->GetMesh(), "pressure:dirichlet:0:upstream");
-
-        auto nodesDeformation = deformationProblem->GetMesh()->GetNodes();
+        auto nodes = dive::mesh::GmshGetNodesForPhysicalGroup(fluidProblem->GetMesh(), "fluid:domain");
 
         FinalizeGmsh();
 

@@ -55,7 +55,7 @@ namespace dive {
 			auto numberDimensions = element->GetNumberDimensions();
 			auto dN = eilig::Inverse3x3(element->J(point)) * element->dN(point);
 
-			Matrix res(numberDof, numberNodes * numberDof, eilig::matrix_zeros);
+			Matrix res(numberDof, numberNodes * numberDof, MatrixType::zeros);
 
 			for (DofIndex m = 0; m < numberDof; ++m)
 			{

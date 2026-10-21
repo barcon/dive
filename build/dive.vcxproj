@@ -165,7 +165,6 @@
     <ClInclude Include="..\src\dive_value_scalar_congruent.hpp" />
     <ClInclude Include="..\src\dive_value_vector_congruent.hpp" />
     <ClInclude Include="..\src\dive_weakform.hpp" />
-    <ClInclude Include="..\src\dive_weakform_deformation_stiffness.hpp" />
     <ClInclude Include="..\src\dive_weakform_fluid_convection.hpp" />
     <ClInclude Include="..\src\dive_weakform_fluid_load_distributed_volume.hpp" />
     <ClInclude Include="..\src\dive_weakform_fluid_load_distributed_volume_stabilization.hpp" />
@@ -212,7 +211,6 @@
     <ClCompile Include="..\src\dive_value_matrix_congruent.cpp" />
     <ClCompile Include="..\src\dive_value_scalar_congruent.cpp" />
     <ClCompile Include="..\src\dive_value_vector_congruent.cpp" />
-    <ClCompile Include="..\src\dive_weakform_deformation_stiffness.cpp" />
     <ClCompile Include="..\src\dive_weakform_fluid_convection.cpp" />
     <ClCompile Include="..\src\dive_weakform_fluid_load_distributed_volume.cpp" />
     <ClCompile Include="..\src\dive_weakform_fluid_load_distributed_volume_stabilization.cpp" />
