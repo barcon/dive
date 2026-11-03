@@ -40,8 +40,9 @@ namespace dive {
 			auto h = element->SizeMinimum();
 
 			uconv = nu / h;
-			udiff = eilig::NormP2(u);
-			beta = std::max({ 0.5, uconv, udiff });
+			//udiff = eilig::NormP2(u);
+			//beta = std::max({ 0.5, uconv, udiff });
+			beta = std::max({ 0.5, uconv });
 
 			output = (1.0 / (beta * beta)) * N.Transpose() * N;
 		}

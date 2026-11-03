@@ -21,5 +21,42 @@ problem::ProblemStructuralPtr CreateProblemStructural(Tag problemTag, const Stri
 problem::ProblemDeformationInterpolationPtr CreateProblemDeformationInterpolation(Tag problemTag, const String problemName, const Values& loads);
 problem::ProblemDeformationStrainPtr CreateProblemDeformationStrain(Tag problemTag, const String problemName, const Values& loads);
 
+static inline eilig::CallbackIterative callbackIterativeMomentum = [](Index iteration, Scalar residual) -> long long int
+    {
+        Scalar tolerance{ 1e-5 };
+
+        //logger::Info("DIVE Momentum", utils::string::Format("Iteration: {}, Residual: {:.3e}", iteration, residual));
+
+        if (std::isnan(residual))
+        {
+            return eilig::EILIG_NOT_CONVERGED;
+        }
+
+        if (residual < tolerance)
+        {
+            return eilig::EILIG_SUCCESS;
+        }
+
+        return eilig::EILIG_CONTINUE;
+    };
+
+static inline eilig::CallbackIterative callbackIterativePressure = [](Index iteration, Scalar residual) -> long long int
+    {
+        Scalar tolerance{ 1e-5 };
+
+        //logger::Info("DIVE Pressure", utils::string::Format("Iteration: {}, Residual: {:.3e}", iteration, residual));
+
+        if (std::isnan(residual))
+        {
+            return eilig::EILIG_NOT_CONVERGED;
+        }
+
+        if (residual < tolerance)
+        {
+            return eilig::EILIG_SUCCESS;
+        }
+
+        return eilig::EILIG_CONTINUE;
+    };
 
 #endif /* ROUTINES_HPP_ */
