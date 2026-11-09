@@ -35,10 +35,6 @@ namespace dive
 		{
 			return std::dynamic_pointer_cast<TimerStepped>(shared_from_this());
 		}
-		ConstTimerSteppedPtr TimerStepped::GetPtr() const
-		{
-			return const_cast<TimerStepped*>(this)->GetPtr();
-		}
 		Scalar TimerStepped::GetCurrent() const
 		{
 			return t_;

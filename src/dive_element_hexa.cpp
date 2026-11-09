@@ -135,10 +135,6 @@ namespace dive
 		{
 			return std::dynamic_pointer_cast<ElementHexa>(shared_from_this());
 		}
-		ConstElementHexaPtr ElementHexa::GetPtr() const
-		{
-			return const_cast<ElementHexa*>(this)->GetPtr();
-		}
 		Matrix ElementHexa::u() const
 		{
 			Matrix res(numberDof_ * numberNodes_, 1, MatrixType::zeros);

@@ -16,7 +16,6 @@ namespace dive
 
 			static ProblemPressurePtr Create(Tag problemTag, IMeshPtr mesh);
 			ProblemPressurePtr GetPtr();
-			ConstProblemPressurePtr GetPtr() const;
 
 			NumberDof GetNumberDof() const override;
 			NumberDof GetTotalDof() const override;

@@ -23,10 +23,6 @@ namespace dive {
 		{
 			return std::dynamic_pointer_cast<LoadDistributedFaceStructural>(shared_from_this());
 		}
-		ConstLoadDistributedFaceStructuralPtr LoadDistributedFaceStructural::GetPtr() const
-		{
-			return const_cast<LoadDistributedFaceStructural*>(this)->GetPtr();
-		}
 		void LoadDistributedFaceStructural::WeakFormulation(ILoadPtr load, const Vector& point, Vector& output) const
 		{
 			auto force = std::static_pointer_cast<load::LoadDistributedFace>(load);

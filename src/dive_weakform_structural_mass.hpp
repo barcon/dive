@@ -16,8 +16,6 @@ namespace dive
 
 			static MassStructuralPtr Create();
 			MassStructuralPtr GetPtr();
-			ConstMassStructuralPtr GetPtr() const;
-
 			void WeakFormulation(IElementMappedPtr element, const Vector& point, Matrix& output, const CacheIndex& cacheIndex) const override;
 
 			void SetTemperature(IScalarCoordinatesPtr temperature);

@@ -19,7 +19,6 @@ namespace dive
 
 			static ElementCombinedPtr Create();
 			ElementCombinedPtr GetPtr();
-			ConstElementCombinedPtr GetPtr() const;
 
 			Tag GetTag() const override;
 			Type GetType() const override;

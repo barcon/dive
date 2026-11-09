@@ -63,50 +63,39 @@ namespace dive
 	{
 		class ITimer;
 		using ITimerPtr = std::shared_ptr<ITimer>;
-		using ConstITimerPtr = std::shared_ptr<const ITimer>;
 
 		class TimerStationary;
 		using TimerStationaryPtr = std::shared_ptr<TimerStationary>;
-		using ConstTimerStationaryPtr = std::shared_ptr<const TimerStationary>;
 
 		class TimerStepped;
 		using TimerSteppedPtr = std::shared_ptr<TimerStepped>;
-		using ConstTimerSteppedPtr = std::shared_ptr<const TimerStepped>;
 	}
 
 	namespace element
 	{
 		class IElement;
 		using IElementPtr = std::shared_ptr<IElement>;
-		using ConstIElementPtr = std::shared_ptr<const IElement>;
 
 		class IElementMapped;
 		using IElementMappedPtr = std::shared_ptr<IElementMapped>;
-		using ConstIElementMappedPtr = std::shared_ptr<const IElementMapped>;
 
 		class IElementBeam;
 		using IElementBeamPtr = std::shared_ptr<IElementBeam>;
-		using ConstIElementBeamPtr = std::shared_ptr<const IElementBeam>;
 
 		class IElementShell;
 		using IElementShellPtr = std::shared_ptr<IElementShell>;
-		using ConstIElementShellPtr = std::shared_ptr<const IElementShell>;
 
 		class IElementSolid;
 		using IElementSolidPtr = std::shared_ptr<IElementSolid>;
-		using ConstIElementSolidPtr = std::shared_ptr<const IElementSolid>;
 
 		class ElementHexa;
 		using ElementHexaPtr = std::shared_ptr<ElementHexa>;
-		using ConstElementHexaPtr = std::shared_ptr<const ElementHexa>;
 
 		class ElementMass;
 		using ElementMassPtr = std::shared_ptr<ElementMass>;
-		using ConstElementMassPtr = std::shared_ptr<const ElementMass>;
 
 		class ElementCombined;
 		using ElementCombinedPtr = std::shared_ptr<ElementCombined>;
-		using ConstElementCombinedPtr = std::shared_ptr<const ElementCombined>;
 
 		struct FacePair;
 		struct EdgePair;
@@ -116,110 +105,88 @@ namespace dive
 	{
 		class IMesh;
 		using IMeshPtr = std::shared_ptr<IMesh>;
-		using ConstIMeshPtr = std::shared_ptr<const IMesh>;
 
 		class Mesh;
 		using MeshPtr = std::shared_ptr<Mesh>;
-		using ConstMeshPtr = std::shared_ptr<const Mesh>;
 	}
 
 	namespace weakform
 	{
 		class IWeakFormElement;
 		using IWeakFormElementPtr = std::shared_ptr<IWeakFormElement>;
-		using ConstIWeakFormElementPtr = std::shared_ptr<const IWeakFormElement>;
 
 		class IWeakFormLoad;
 		using IWeakFormLoadPtr = std::shared_ptr<IWeakFormLoad>;
-		using ConstIWeakFormLoadPtr = std::shared_ptr<const IWeakFormLoad>;
 
 		//---------------------------------------------------------------------
 		class MassFluid;
 		using MassFluidPtr = std::shared_ptr<MassFluid>;
-		using ConstMassFluidPtr = std::shared_ptr<const MassFluid>;
 
 		class StiffnessFluid;
 		using StiffnessFluidPtr = std::shared_ptr<StiffnessFluid>;
-		using ConstStiffnessFluidPtr = std::shared_ptr<const StiffnessFluid>;
 
 		class ConvectionFluid;
 		using ConvectionFluidPtr = std::shared_ptr<ConvectionFluid>;
-		using ConstConvectionFluidPtr = std::shared_ptr<const ConvectionFluid>;
 
 		class StabilizationFluid;
 		using StabilizationFluidPtr = std::shared_ptr<StabilizationFluid>;
-		using ConstStabilizationFluidPtr = std::shared_ptr<const StabilizationFluid>;
 
 		class LoadDistributedVolumeFluid;
 		using LoadDistributedVolumeFluidPtr = std::shared_ptr<LoadDistributedVolumeFluid>;
-		using ConstLoadDistributedVolumeFluidPtr = std::shared_ptr<const LoadDistributedVolumeFluid>;
 
 		class LoadDistributedVolumeStabilizationFluid;
 		using LoadDistributedVolumeStabilizationFluidPtr = std::shared_ptr<LoadDistributedVolumeStabilizationFluid>;
-		using ConstLoadDistributedVolumeStabilizationFluidPtr = std::shared_ptr<const LoadDistributedVolumeStabilizationFluid>;
 
 		//---------------------------------------------------------------------
 		class MassPressure;
 		using MassPressurePtr = std::shared_ptr<MassPressure>;
-		using ConstMassPressurePtr = std::shared_ptr<const MassPressure>;
 
 		class StiffnessPressure;
 		using StiffnessPressurePtr = std::shared_ptr<StiffnessPressure>;
-		using ConstStiffnessPressurePtr = std::shared_ptr<const StiffnessPressure>;
 
 		class CrossedPressure;
 		using CrossedPressurePtr = std::shared_ptr<CrossedPressure>;
-		using ConstCrossedPressurePtr = std::shared_ptr<const CrossedPressure>;
 
 		class StabilizationPressure;
 		using StabilizationPressurePtr = std::shared_ptr<StabilizationPressure>;
-		using ConstStabilizationPressurePtr = std::shared_ptr<const StabilizationPressure>;
 
 		class DistributedVolumeDivergencePressure;
 		using DistributedVolumeDivergencePressurePtr = std::shared_ptr<DistributedVolumeDivergencePressure>;
-		using ConstDistributedVolumeDivergencePressurePtr = std::shared_ptr<const DistributedVolumeDivergencePressure>;
+
+		class LoadDistributedFacePressure;
+		using LoadDistributedFacePressurePtr = std::shared_ptr<LoadDistributedFacePressure>;
 
 		//---------------------------------------------------------------------
 		class MassThermal;
 		using MassThermalPtr = std::shared_ptr<MassThermal>;
-		using ConstMassThermalPtr = std::shared_ptr<const MassThermal>;
 
 		class StiffnessThermal;
 		using StiffnessThermalPtr = std::shared_ptr<StiffnessThermal>;
-		using ConstStiffnessThermalPtr = std::shared_ptr<const StiffnessThermal>;
 
 		class ConvectionThermal;
 		using ConvectionThermalPtr = std::shared_ptr<ConvectionThermal>;
-		using ConstConvectionThermalPtr = std::shared_ptr<const ConvectionThermal>;
 
 		class StabilizationThermal;
 		using StabilizationThermalPtr = std::shared_ptr<StabilizationThermal>;
-		using ConstStabilizationThermalPtr = std::shared_ptr<const StabilizationThermal>;
 
 		//---------------------------------------------------------------------
 		class MassStructural;
 		using MassStructuralPtr = std::shared_ptr<MassStructural>;
-		using ConstMassStructuralPtr = std::shared_ptr<const MassStructural>;
 
 		class StiffnessStructural;
 		using StiffnessStructuralPtr = std::shared_ptr<StiffnessStructural>;
-		using ConstStiffnessStructuralPtr = std::shared_ptr<const StiffnessStructural>;
 
 		class LoadDistributedVolumeStructural;
 		using LoadDistributedVolumeStructuralPtr = std::shared_ptr<LoadDistributedVolumeStructural>;
-		using ConstLoadDistributedVolumeStructuralPtr = std::shared_ptr<const LoadDistributedVolumeStructural>;
 
 		class LoadDistributedFaceStructural;
 		using LoadDistributedFaceStructuralPtr = std::shared_ptr<LoadDistributedFaceStructural>;
-		using ConstLoadDistributedFaceStructuralPtr = std::shared_ptr<const LoadDistributedFaceStructural>;
 
 		class LoadDistributedEdgeStructural;
 		using LoadDistributedEdgeStructuralPtr = std::shared_ptr<LoadDistributedEdgeStructural>;
-		using ConstLoadDistributedEdgeStructuralPtr = std::shared_ptr<const LoadDistributedEdgeStructural>;
 
 		class LoadNodeStructural;
 		using LoadNodeStructuralPtr = std::shared_ptr<LoadNodeStructural>;
-		using ConstLoadNodeStructuralPtr = std::shared_ptr<const LoadNodeStructural>;
 		
 		//---------------------------------------------------------------------	
 	}
@@ -228,82 +195,63 @@ namespace dive
 	{
 		class ILoad;
 		using ILoadPtr = std::shared_ptr<ILoad>;
-		using ConstIBoundaryPtr = std::shared_ptr<const ILoad>;
 
 		class ILoadDirichlet;
 		using ILoadDirichletPtr = std::shared_ptr<ILoadDirichlet>;
-		using ConstILoadDirichletPtr = std::shared_ptr<const ILoadDirichlet>;
 
 		class LoadDirichlet;
 		using LoadDirichletPtr = std::shared_ptr<LoadDirichlet>;
-		using ConstLoadDirichletPtr = std::shared_ptr<const LoadDirichlet>;
 
 		class LoadDistributedVolume;
 		using LoadDistributedVolumePtr = std::shared_ptr<LoadDistributedVolume>;
-		using ConstLoadDistributedVolumePtr = std::shared_ptr<const LoadDistributedVolume>;
 
 		class LoadDistributedFace;
 		using LoadDistributedFacePtr = std::shared_ptr<LoadDistributedFace>;
-		using ConstLoadDistributedFacePtr = std::shared_ptr<const LoadDistributedFace>;
 
 		class LoadDistributedEdge;
 		using LoadDistributedEdgePtr = std::shared_ptr<LoadDistributedEdge>;
-		using ConstLoadDistributedEdgePtr = std::shared_ptr<const LoadDistributedEdge>;
 
 		class LoadNode;
 		using LoadNodePtr = std::shared_ptr<LoadNode>;
-		using ConstLoadNodePtr = std::shared_ptr<const LoadNode>;
 	}
 
 	namespace problem
 	{
 		class IProblem;
 		using IProblemPtr = std::shared_ptr<IProblem>;
-		using ConstIProblemPtr = std::shared_ptr<const IProblem>;
 
 		class IDeformation;
 		using IDeformationPtr = std::shared_ptr<IDeformation>;
-		using ConstIDeformationPtr = std::shared_ptr<const IDeformation>;
 
 		class IFluid;
 		using IFluidPtr = std::shared_ptr<IFluid>;
-		using ConstIFluidPtr = std::shared_ptr<const IFluid>;
 
 		class IPressure;
 		using IPressurePtr = std::shared_ptr<IPressure>;
-		using ConstIPressurePtr = std::shared_ptr<const IPressure>;
 
 		class IThermal;
 		using IThermalPtr = std::shared_ptr<IThermal>;
-		using ConstIThermalPtr = std::shared_ptr<const IThermal>;
 
 		class IStructural;
 		using IStructuralPtr = std::shared_ptr<IStructural>;
-		using ConstIStructuralPtr = std::shared_ptr<const IStructural>;
 
 		class ProblemThermal;
 		using ProblemThermalPtr = std::shared_ptr<ProblemThermal>;
-		using ConstProblemThermalPtr = std::shared_ptr<const ProblemThermal>;
 
 		class ProblemFluid;
 		using ProblemFluidPtr = std::shared_ptr<ProblemFluid>;
-		using ConstProblemFluidPtr = std::shared_ptr<const ProblemFluid>;
 
 		class ProblemPressure;
 		using ProblemPressurePtr = std::shared_ptr<ProblemPressure>;
-		using ConstProblemPressurePtr = std::shared_ptr<const ProblemPressure>;
 
 		class ProblemStructural;
 		using ProblemStructuralPtr = std::shared_ptr<ProblemStructural>;
-		using ConstProblemStructuralPtr = std::shared_ptr<const ProblemStructural>;
 
 		class ProblemDeformationInterpolation;
 		using ProblemDeformationInterpolationPtr = std::shared_ptr<ProblemDeformationInterpolation>;
-		using ConstProblemDeformationInterpolationPtr = std::shared_ptr<const ProblemDeformationInterpolation>;
 
 		class ProblemDeformationStrain;
 		using ProblemDeformationStrainPtr = std::shared_ptr<ProblemDeformationStrain>;
-		using ConstProblemDeformationStrainPtr = std::shared_ptr<const ProblemDeformationStrain>;
 	}
 
 	using ITimerPtr = timer::ITimerPtr;

@@ -22,10 +22,6 @@ namespace dive {
 		{
 			return std::dynamic_pointer_cast<DistributedVolumeDivergencePressure>(shared_from_this());
 		}
-		ConstDistributedVolumeDivergencePressurePtr DistributedVolumeDivergencePressure::GetPtr() const
-		{
-			return const_cast<DistributedVolumeDivergencePressure*>(this)->GetPtr();
-		}
 		void DistributedVolumeDivergencePressure::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const
 		{
 			auto N = FormMatrix_N(element, local, cacheIndex);

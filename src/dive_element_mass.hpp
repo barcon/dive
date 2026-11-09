@@ -19,7 +19,6 @@ namespace dive
 
 			static ElementMassPtr Create();
 			ElementMassPtr GetPtr();
-			ConstElementMassPtr GetPtr() const;
 
 			Tag GetTag() const override;
 			Type GetType() const override;

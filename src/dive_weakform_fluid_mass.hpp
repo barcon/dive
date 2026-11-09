@@ -16,7 +16,6 @@ namespace dive
 
 			static MassFluidPtr Create();
 			MassFluidPtr GetPtr();
-			ConstMassFluidPtr GetPtr() const;
 
 			void WeakFormulation(IElementMappedPtr element, const Vector& point, Matrix& output, const CacheIndex& cacheIndex) const override;
 

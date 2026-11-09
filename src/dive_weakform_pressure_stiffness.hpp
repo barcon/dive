@@ -16,7 +16,6 @@ namespace dive
 
 			static StiffnessPressurePtr Create();
 			StiffnessPressurePtr GetPtr();
-			ConstStiffnessPressurePtr GetPtr() const;
 
 			void WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const override;
 

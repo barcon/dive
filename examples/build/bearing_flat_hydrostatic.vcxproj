@@ -11,10 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{836BD522-EF2D-09AD-38DE-9739A4DFE18A}</ProjectGuid>
+    <ProjectGuid>{D07652B2-BC9B-A132-E5E6-86C2D16AA050}</ProjectGuid>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>shell_bearing_stokes_flow</RootNamespace>
+    <RootNamespace>bearing_flat_hydrostatic</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -42,15 +42,15 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(ProjectDir)Release\</OutDir>
-    <IntDir>$(ProjectDir)obj\_Release\Release\shell_bearing_stokes_flow\</IntDir>
-    <TargetName>shell_bearing_stokes_flow</TargetName>
+    <IntDir>$(ProjectDir)obj\_Release\Release\bearing_flat_hydrostatic\</IntDir>
+    <TargetName>bearing_flat_hydrostatic</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseCL|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(ProjectDir)ReleaseCL\</OutDir>
-    <IntDir>$(ProjectDir)obj\_ReleaseCL\ReleaseCL\shell_bearing_stokes_flow\</IntDir>
-    <TargetName>shell_bearing_stokes_flow</TargetName>
+    <IntDir>$(ProjectDir)obj\_ReleaseCL\ReleaseCL\bearing_flat_hydrostatic\</IntDir>
+    <TargetName>bearing_flat_hydrostatic</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -105,8 +105,8 @@
     <ClInclude Include="..\src\routines.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\bearing_flat_hydrostatic.cpp" />
     <ClCompile Include="..\src\routines.cpp" />
-    <ClCompile Include="..\src\shell_bearing_stokes_flow.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

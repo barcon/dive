@@ -23,10 +23,6 @@ namespace dive {
 		{
 			return std::dynamic_pointer_cast<ConvectionFluid>(shared_from_this());
 		}
-		ConstConvectionFluidPtr ConvectionFluid::GetPtr() const
-		{
-			return const_cast<ConvectionFluid*>(this)->GetPtr();
-		}
 		void ConvectionFluid::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const
 		{
 			auto N = FormMatrix_N(element, local, cacheIndex);

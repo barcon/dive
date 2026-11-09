@@ -108,36 +108,27 @@ int main()
             auto q2 = problem::Partition<eilig::Vectors>(Vector(totalDofMomentum, 0.0), totalDofMomentum, pivotMomentum);
             auto dq = problem::Partition<eilig::Vectors>(Vector(totalDofMomentum, 0.0), totalDofMomentum, pivotMomentum);
             auto dqq = problem::Partition<eilig::Vectors>(Vector(totalDofMomentum, 0.0), totalDofMomentum, pivotMomentum);
+            auto gp = problem::Partition<eilig::Vectors>(G_Transpose * pressureProblem->Pressure(), totalDofMomentum, pivotMomentum);
 
-            eilig::IterativeBiCGStab(M[3], dq[1], -dt * (K[2] * q0[0] + C[2] * q0[0] + K[3] * q0[1] + C[3] * q0[1]), callbackIterativeMomentum);
-            //eilig::IterativeBiCGStab(M[3], dq[1], -dt * (K[2] * q0[0] + K[3] * q0[1]), callbackIterativeMomentum);
+            eilig::IterativeBiCGStab(M[3], dq[1], -dt * (K[2] * q0[0] + C[2] * q0[0] + K[3] * q0[1] + C[3] * q0[1] + gp[1]), callbackIterativeMomentum);
 
             q1[0] = q0[0] + dq[0];
             q1[1] = q0[1] + dq[1];
 
             fluidProblem->UpdateMeshValuesMomentum(q1[0], q1[1]);
 
-            auto fg = problem::Partition<eilig::Vectors>(G * fluidProblem->Momentum(), totalDofPressure, pivotPressure);
+            auto gu = problem::Partition<eilig::Vectors>(G * fluidProblem->Momentum(), totalDofPressure, pivotPressure);
             auto p0 = problem::Partition<eilig::Vectors>(pressureProblem->Pressure(), totalDofPressure, pivotPressure);
             auto p1 = problem::Partition<eilig::Vectors>(Vector(totalDofPressure, 0.0), totalDofPressure, pivotPressure);
             auto dp = problem::Partition<eilig::Vectors>(Vector(totalDofPressure, 0.0), totalDofPressure, pivotPressure);
-            eilig::IterativeBiCGStab(Mp[3], dp[1], dt * (fg[1] - dt * H[2] * p0[0] - dt * H[3] * p0[1]), callbackIterativePressure);
+            eilig::IterativeBiCGStab(Mp[3], dp[1], dt * (gu[1]), callbackIterativePressure);
 
             p1[0] = p0[0] + dp[0];
             p1[1] = p0[1] + dp[1];
 
             pressureProblem->UpdateMeshValues(p1[0], p1[1]);
 
-            auto p = pressureProblem->Pressure();
-            auto fc = problem::Partition<eilig::Vectors>(G_Transpose * p, totalDofMomentum, pivotMomentum);
-            eilig::IterativeBiCGStab(M[3], dqq[1], -dt * (fc[1]), callbackIterativeMomentum);
-
-            q2[0] = q1[0] + dqq[0];
-            q2[1] = q1[1] + dqq[1];
-
-            fluidProblem->UpdateMeshValuesMomentum(q2[0], q2[1]);
-
-            auto numerator = eilig::NormP2(q2[1] - q0[1]);
+            auto numerator = eilig::NormP2(q1[1] - q0[1]);
             auto denominator = eilig::NormP2(q0[1]);
             denominator = (denominator < 1e-10) ? 1.0 : denominator;
             auto norm = numerator / denominator;
@@ -147,12 +138,12 @@ int main()
 
             std::cout << utils::string::Format("Step = {} | Norm = {:.3e}", step, norm) << std::endl;
 
-            if (norm < 5.0e-4)
+            if (norm < 1.0e-4)
             {
                 break;
             }
 
-            step += 1;          
+            step += 1;
         }
 
         SaveToFile("cavity_stokes_flow_velocity.dat", probeVelocity);
@@ -165,3 +156,61 @@ int main()
 
     return 0;
 }
+
+/*
+while (true)
+{
+    auto C = problem::Partition<Sparses>(fluidProblem->Convection(), totalDofMomentum, pivotMomentum);
+
+    auto q0 = problem::Partition<eilig::Vectors>(fluidProblem->Momentum(), totalDofMomentum, pivotMomentum);
+    auto q1 = problem::Partition<eilig::Vectors>(Vector(totalDofMomentum, 0.0), totalDofMomentum, pivotMomentum);
+    auto q2 = problem::Partition<eilig::Vectors>(Vector(totalDofMomentum, 0.0), totalDofMomentum, pivotMomentum);
+    auto dq = problem::Partition<eilig::Vectors>(Vector(totalDofMomentum, 0.0), totalDofMomentum, pivotMomentum);
+    auto dqq = problem::Partition<eilig::Vectors>(Vector(totalDofMomentum, 0.0), totalDofMomentum, pivotMomentum);
+
+    eilig::IterativeBiCGStab(M[3], dq[1], -dt * (K[2] * q0[0] + C[2] * q0[0] + K[3] * q0[1] + C[3] * q0[1]), callbackIterativeMomentum);
+    //eilig::IterativeBiCGStab(M[3], dq[1], -dt * (K[2] * q0[0] + K[3] * q0[1]), callbackIterativeMomentum);
+
+    q1[0] = q0[0] + dq[0];
+    q1[1] = q0[1] + dq[1];
+
+    fluidProblem->UpdateMeshValuesMomentum(q1[0], q1[1]);
+
+    auto fg = problem::Partition<eilig::Vectors>(G * fluidProblem->Momentum(), totalDofPressure, pivotPressure);
+    auto p0 = problem::Partition<eilig::Vectors>(pressureProblem->Pressure(), totalDofPressure, pivotPressure);
+    auto p1 = problem::Partition<eilig::Vectors>(Vector(totalDofPressure, 0.0), totalDofPressure, pivotPressure);
+    auto dp = problem::Partition<eilig::Vectors>(Vector(totalDofPressure, 0.0), totalDofPressure, pivotPressure);
+    eilig::IterativeBiCGStab(Mp[3], dp[1], dt * (fg[1] - dt * H[2] * p0[0] - dt * H[3] * p0[1]), callbackIterativePressure);
+
+    p1[0] = p0[0] + dp[0];
+    p1[1] = p0[1] + dp[1];
+
+    pressureProblem->UpdateMeshValues(p1[0], p1[1]);
+
+    auto p = pressureProblem->Pressure();
+    auto fc = problem::Partition<eilig::Vectors>(G_Transpose * p, totalDofMomentum, pivotMomentum);
+    eilig::IterativeBiCGStab(M[3], dqq[1], -dt * (fc[1]), callbackIterativeMomentum);
+
+    q2[0] = q1[0] + dqq[0];
+    q2[1] = q1[1] + dqq[1];
+
+    fluidProblem->UpdateMeshValuesMomentum(q2[0], q2[1]);
+
+    auto numerator = eilig::NormP2(q2[1] - q0[1]);
+    auto denominator = eilig::NormP2(q0[1]);
+    denominator = (denominator < 1e-10) ? 1.0 : denominator;
+    auto norm = numerator / denominator;
+
+    steps.push_back(step);
+    norms.push_back(norm);
+
+    std::cout << utils::string::Format("Step = {} | Norm = {:.3e}", step, norm) << std::endl;
+
+    if (norm < 5.0e-4)
+    {
+        break;
+    }
+
+    step += 1;
+}
+*/

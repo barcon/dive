@@ -23,10 +23,6 @@ namespace dive {
 		{
 			return std::dynamic_pointer_cast<ProblemDeformationInterpolation>(shared_from_this());
 		}
-		ConstProblemDeformationInterpolationPtr ProblemDeformationInterpolation::GetPtr() const
-		{
-			return const_cast<ProblemDeformationInterpolation*>(this)->GetPtr();
-		}
 		NumberDof ProblemDeformationInterpolation::GetNumberDof() const
 		{
 			return numberDof_;

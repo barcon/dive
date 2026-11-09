@@ -18,7 +18,6 @@ namespace dive
 
 			static TimerStationaryPtr Create();
 			TimerStationaryPtr GetPtr();
-			ConstTimerStationaryPtr GetPtr() const;
 
 			Scalar GetCurrent() const override;
 			Scalar GetInitial() const override;

@@ -23,10 +23,6 @@ namespace dive {
 		{
 			return std::dynamic_pointer_cast<StiffnessFluid>(shared_from_this());
 		}
-		ConstStiffnessFluidPtr StiffnessFluid::GetPtr() const
-		{
-			return const_cast<StiffnessFluid*>(this)->GetPtr();
-		}
 		void StiffnessFluid::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const
 		{		
 			auto B = FormMatrix_B(element, local, cacheIndex);

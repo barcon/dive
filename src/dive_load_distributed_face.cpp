@@ -34,10 +34,6 @@ namespace dive
 		{
 			return std::dynamic_pointer_cast<LoadDistributedFace>(shared_from_this());
 		}
-		ConstLoadDistributedFacePtr LoadDistributedFace::GetPtr() const
-		{
-			return const_cast<LoadDistributedFace*>(this)->GetPtr();
-		}
 		Type LoadDistributedFace::GetType() const
 		{
 			return type_;

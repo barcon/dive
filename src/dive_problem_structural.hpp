@@ -16,7 +16,6 @@ namespace dive
 
 			static ProblemStructuralPtr Create(Tag problemTag, IMeshPtr mesh);
 			ProblemStructuralPtr GetPtr();
-			ConstProblemStructuralPtr GetPtr() const;
 
 			NumberDof GetNumberDof() const override;
 			NumberDof GetTotalDof() const override;

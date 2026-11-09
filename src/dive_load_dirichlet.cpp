@@ -28,10 +28,6 @@ namespace dive
 		{
 			return std::dynamic_pointer_cast<LoadDirichlet>(shared_from_this());
 		}
-		ConstLoadDirichletPtr LoadDirichlet::GetPtr() const
-		{
-			return const_cast<LoadDirichlet*>(this)->GetPtr();
-		}
 		INodePtr LoadDirichlet::GetNode() const
 		{
 			return node_;

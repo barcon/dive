@@ -17,7 +17,6 @@ namespace dive
 
 			static CrossedPressurePtr Create();
 			CrossedPressurePtr GetPtr();
-			ConstCrossedPressurePtr GetPtr() const;
 
 			void WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const override;
 

@@ -31,10 +31,6 @@ namespace dive
 		{
 			return std::dynamic_pointer_cast<LoadNode>(shared_from_this());;
 		}
-		ConstLoadNodePtr LoadNode::GetPtr() const
-		{
-			return const_cast<LoadNode*>(this)->GetPtr();
-		}
 		Type LoadNode::GetType() const
 		{
 			return type_;

@@ -46,10 +46,6 @@ namespace dive {
 		{
 			return std::dynamic_pointer_cast<ProblemDeformationStrain>(shared_from_this());
 		}
-		ConstProblemDeformationStrainPtr ProblemDeformationStrain::GetPtr() const
-		{
-			return const_cast<ProblemDeformationStrain*>(this)->GetPtr();
-		}
 		NumberDof ProblemDeformationStrain::GetNumberDof() const
 		{
 			return numberDof_;

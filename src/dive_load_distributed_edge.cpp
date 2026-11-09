@@ -34,10 +34,6 @@ namespace dive
 		{
 			return std::dynamic_pointer_cast<LoadDistributedEdge>(shared_from_this());
 		}
-		ConstLoadDistributedEdgePtr LoadDistributedEdge::GetPtr() const
-		{
-			return const_cast<LoadDistributedEdge*>(this)->GetPtr();
-		}
 		Type LoadDistributedEdge::GetType() const
 		{
 			return type_;

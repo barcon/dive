@@ -16,7 +16,6 @@ namespace dive
 
 			static MeshPtr Create(Tag tag, NumberCoordinates numberCoordinates);
 			MeshPtr GetPtr();
-			ConstMeshPtr GetPtr() const;
 
 			void AddNode(INodePtr node, Status& status, bool IndexCheck = false) override;
 			void AddElement(IElementPtr element, Status& status, bool IndexCheck = false) override;

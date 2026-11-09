@@ -16,7 +16,6 @@ namespace dive
 
 			static ConvectionFluidPtr Create();
 			ConvectionFluidPtr GetPtr();
-			ConstConvectionFluidPtr GetPtr() const;
 
 			void WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const override;
 

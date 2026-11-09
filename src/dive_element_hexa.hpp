@@ -24,7 +24,6 @@ namespace dive
 
 			static ElementHexaPtr Create();
 			ElementHexaPtr GetPtr();
-			ConstElementHexaPtr GetPtr() const;
 
 			Matrix u() const override;
 			Matrix u(const Vector& local) const override;

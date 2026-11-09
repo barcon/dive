@@ -31,10 +31,6 @@ namespace dive {
 		{
 			return std::dynamic_pointer_cast<ProblemPressure>(shared_from_this());
 		}
-		ConstProblemPressurePtr ProblemPressure::GetPtr() const
-		{
-			return const_cast<ProblemPressure*>(this)->GetPtr();
-		}
 		NumberDof ProblemPressure::GetNumberDof() const
 		{
 			return numberDof_;

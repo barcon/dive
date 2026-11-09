@@ -33,10 +33,6 @@ namespace dive
 		{
 			return std::dynamic_pointer_cast<LoadDistributedVolume>(shared_from_this());;
 		}
-		ConstLoadDistributedVolumePtr LoadDistributedVolume::GetPtr() const
-		{
-			return const_cast<LoadDistributedVolume*>(this)->GetPtr();
-		}
 		Type LoadDistributedVolume::GetType() const
 		{
 			return type_;

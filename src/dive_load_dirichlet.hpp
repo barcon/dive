@@ -16,7 +16,6 @@ namespace dive
 
 			static LoadDirichletPtr Create();
 			LoadDirichletPtr GetPtr();
-			ConstLoadDirichletPtr GetPtr() const;
 
 			Type GetType() const override;
 			INodePtr GetNode() const override;

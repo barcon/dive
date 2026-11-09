@@ -23,10 +23,6 @@ namespace dive {
 		{
 			return std::dynamic_pointer_cast<LoadDistributedVolumeStructural>(shared_from_this());
 		}
-		ConstLoadDistributedVolumeStructuralPtr LoadDistributedVolumeStructural::GetPtr() const
-		{
-			return const_cast<LoadDistributedVolumeStructural*>(this)->GetPtr();
-		}
 		void LoadDistributedVolumeStructural::WeakFormulation(ILoadPtr load, const Vector& point, Vector& output) const
 		{
 			auto force = std::static_pointer_cast<load::LoadDistributedVolume>(load);

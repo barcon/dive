@@ -16,7 +16,6 @@ namespace dive
 
 			static LoadDistributedVolumeStabilizationFluidPtr Create();
 			LoadDistributedVolumeStabilizationFluidPtr GetPtr();
-			ConstLoadDistributedVolumeStabilizationFluidPtr GetPtr() const;
 
 			void WeakFormulation(ILoadPtr load, const Vector& point, Vector& output) const override;
 

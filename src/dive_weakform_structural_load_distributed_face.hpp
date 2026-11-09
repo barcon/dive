@@ -16,7 +16,6 @@ namespace dive
 
 			static LoadDistributedFaceStructuralPtr Create();
 			LoadDistributedFaceStructuralPtr GetPtr();
-			ConstLoadDistributedFaceStructuralPtr GetPtr() const;
 
 			void WeakFormulation(ILoadPtr load, const Vector& point, Vector& output) const override;
 

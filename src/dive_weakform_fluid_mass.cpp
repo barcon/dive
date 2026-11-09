@@ -22,10 +22,6 @@ namespace dive {
 		{
 			return std::dynamic_pointer_cast<MassFluid>(shared_from_this());
 		}
-		ConstMassFluidPtr MassFluid::GetPtr() const
-		{
-			return const_cast<MassFluid*>(this)->GetPtr();
-		}
 		void MassFluid::WeakFormulation(IElementMappedPtr element, const Vector& point, Matrix& output, const CacheIndex& cacheIndex) const
 		{
 			auto NN = FormMatrix_NN(element, point, cacheIndex);

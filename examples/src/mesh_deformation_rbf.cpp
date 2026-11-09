@@ -60,14 +60,13 @@ int main()
 
         FinalizeGmsh();
 
-        ////---------------------------------------------------------------------------------------------------------------------------
+        //---------------------------------------------------------------------------------------------------------------------------
 
         auto interpolation = interpolation::CreateInterpolationRBF(cartesianBearing, FunctionType::TPS, 1.0);
         deformationProblem->Initialize(interpolation);
         deformationProblem->DeformMesh(fluidProblem->GetMesh());
 
-        std::cout << ListNodes(nodes) << std::endl;
-
+        SaveToFile("mesh_deformation_rbf.dat", nodes);
     }
     catch (const std::exception& error)
     {

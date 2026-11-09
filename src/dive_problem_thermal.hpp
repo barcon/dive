@@ -16,7 +16,6 @@ namespace dive
 
 			static ProblemThermalPtr Create(Tag problemTag, IMeshPtr mesh);
 			ProblemThermalPtr GetPtr();
-			ConstProblemThermalPtr GetPtr() const;
 			
 			NumberDof GetNumberDof() const override;
 			NumberDof GetTotalDof() const override;

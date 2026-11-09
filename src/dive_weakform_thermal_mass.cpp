@@ -23,10 +23,6 @@ namespace dive {
 		{
 			return std::dynamic_pointer_cast<MassThermal>(shared_from_this());
 		}
-		ConstMassThermalPtr MassThermal::GetPtr() const
-		{
-			return const_cast<MassThermal*>(this)->GetPtr();
-		}
 		void MassThermal::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const
 		{
 			auto NN = FormMatrix_NN(element, local, cacheIndex);

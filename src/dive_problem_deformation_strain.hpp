@@ -19,7 +19,6 @@ namespace dive
 
 			static ProblemDeformationStrainPtr Create(Tag problemTag, IMeshPtr mesh);
 			ProblemDeformationStrainPtr GetPtr();
-			ConstProblemDeformationStrainPtr GetPtr() const;
 
 			NumberDof GetNumberDof() const override;
 			NumberDof GetTotalDof() const override;

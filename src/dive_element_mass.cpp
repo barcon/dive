@@ -54,10 +54,6 @@ namespace dive
 		{
 			return std::dynamic_pointer_cast<ElementMass>(shared_from_this());
 		}
-		ConstElementMassPtr ElementMass::GetPtr() const
-		{
-			return const_cast<ElementMass*>(this)->GetPtr();
-		}
 
 		Tag ElementMass::GetTag() const
 		{

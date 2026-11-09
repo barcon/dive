@@ -23,10 +23,6 @@ namespace dive {
 		{
 			return std::dynamic_pointer_cast<StiffnessThermal>(shared_from_this());
 		}
-		ConstStiffnessThermalPtr StiffnessThermal::GetPtr() const
-		{
-			return const_cast<StiffnessThermal*>(this)->GetPtr();
-		}
 		void StiffnessThermal::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const
 		{
 			auto dN = FormMatrix_dN(element, local, cacheIndex);

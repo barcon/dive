@@ -17,7 +17,6 @@ namespace dive
 
 			static LoadDistributedVolumePtr Create();
 			LoadDistributedVolumePtr GetPtr();
-			ConstLoadDistributedVolumePtr GetPtr() const;
 
 			Type GetType() const override;
 			IElementMappedPtr GetElement() const override;

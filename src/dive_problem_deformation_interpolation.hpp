@@ -17,7 +17,6 @@ namespace dive
 
 			static ProblemDeformationInterpolationPtr Create(Tag problemTag, IMeshPtr mesh);
 			ProblemDeformationInterpolationPtr GetPtr();
-			ConstProblemDeformationInterpolationPtr GetPtr() const;
 
 			NumberDof GetNumberDof() const override;
 			IMeshPtr GetMesh() const override;

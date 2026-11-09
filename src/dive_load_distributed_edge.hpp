@@ -17,7 +17,6 @@ namespace dive
 
 			static LoadDistributedEdgePtr Create();
 			LoadDistributedEdgePtr GetPtr();
-			ConstLoadDistributedEdgePtr GetPtr() const;
 
 			Type GetType() const override;
 			IElementMappedPtr GetElement() const override;

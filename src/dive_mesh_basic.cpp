@@ -39,10 +39,6 @@ namespace dive {
 		{
 			return std::dynamic_pointer_cast<Mesh>(shared_from_this());
 		}
-		ConstMeshPtr Mesh::GetPtr() const
-		{
-			return const_cast<Mesh*>(this)->GetPtr();
-		}
 		void Mesh::AddNode(INodePtr node, Status& status, bool IndexCheck)
 		{
 			if (node == nullptr)

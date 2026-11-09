@@ -23,10 +23,6 @@ namespace dive {
 		{
 			return std::dynamic_pointer_cast<LoadDistributedEdgeStructural>(shared_from_this());
 		}
-		ConstLoadDistributedEdgeStructuralPtr LoadDistributedEdgeStructural::GetPtr() const
-		{
-			return const_cast<LoadDistributedEdgeStructural*>(this)->GetPtr();
-		}
 		void LoadDistributedEdgeStructural::WeakFormulation(ILoadPtr load, const Vector& point, Vector& output) const
 		{
 			auto force = std::static_pointer_cast<load::LoadDistributedEdge>(load);

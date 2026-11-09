@@ -17,7 +17,6 @@ namespace dive
 
 			static LoadNodePtr Create();
 			LoadNodePtr GetPtr();
-			ConstLoadNodePtr GetPtr() const;
 
 			Type GetType() const override;
 			INodePtr GetNode() const override;

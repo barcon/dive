@@ -13,8 +13,8 @@ Scalar diameterBearing = 0.12007;
 Scalar diameterShaft = 0.11993;
 Scalar widthBearing = 0.06;
 Scalar clearance = (diameterBearing - diameterShaft) / 2.0;
-Scalar attitude = 270.0 * (pi / 180.0);
-Scalar eccentricityRelative = 0.5;
+Scalar attitude = 335.0 * (pi / 180.0);
+Scalar eccentricityRelative = 0.7;
 Scalar eccentricityAbsolute = eccentricityRelative * clearance;
 Scalar speedRotational = 2000.0;
 Scalar speedAngular = 2.0 * pi * speedRotational / 60.0;
@@ -56,8 +56,8 @@ auto velocityShaft2 = CreateValueScalarCoordinatesFunction([](Scalar x, Scalar y
     });
 
 auto pressureInlet = CreateValueScalarCoordinates(3, pressure);
-auto pressureUpstream = CreateValueScalarCoordinates(3, 0.0);
-auto pressureDownstream = CreateValueScalarCoordinates(3, 0.0);
+//auto pressureUpstream = CreateValueScalarCoordinates(3, 0.0);
+//auto pressureDownstream = CreateValueScalarCoordinates(3, 0.0);
 
 auto deformationBearing0 = CreateValueScalarCoordinates(3, 0.0);
 auto deformationBearing1 = CreateValueScalarCoordinates(3, 0.0);
@@ -87,8 +87,8 @@ Values loadCase =
     {"fluid:dirichlet:2:shaft", velocityShaft2},
     
     {"pressure:dirichlet:0:inlet", pressureInlet},
-    {"pressure:dirichlet:0:upstream", pressureUpstream},
-	{"pressure:dirichlet:0:downstream", pressureDownstream},
+    //{"pressure:dirichlet:0:upstream", pressureUpstream},
+	//{"pressure:dirichlet:0:downstream", pressureDownstream},
     
     {"deformation:dirichlet:0:bearing", deformationBearing0},
     {"deformation:dirichlet:1:bearing", deformationBearing1},
@@ -107,14 +107,15 @@ int main()
 		cartesianShaft->Offset(offset);
 		cylindricalShaft->Offset(offset);
 
-        InitializeGmsh("./shell_bearing_stokes_flow.msh");
+        InitializeGmsh("./bearing_shell_stokes.msh");
 
         auto fluidMaterial = material::CreateOilVG100(1, temperature, pressure);
         auto fluidProblem = CreateProblemFluid(1, "fluid", loadCase);
         auto thermalProblem = CreateProblemThermal(2, "thermal", loadCase);
         auto pressureProblem = CreateProblemPressure(3, "pressure", loadCase);
         auto deformationProblem = CreateProblemDeformationStrain(4, "deformation", loadCase);
-        auto probePressure = mesh::GmshGetNodesForPhysicalGroup(pressureProblem->GetMesh(), "probe:pressure:shaft");
+        auto probePressureBearing = mesh::GmshGetNodesForPhysicalGroup(pressureProblem->GetMesh(), "probe:pressure:bearing");
+        auto probePressureShaft = mesh::GmshGetNodesForPhysicalGroup(pressureProblem->GetMesh(), "probe:pressure:shaft");
 
         auto nodes = mesh::GmshGetNodesForPhysicalGroup(fluidProblem->GetMesh(), "fluid:domain");
             
@@ -136,7 +137,7 @@ int main()
 
         auto dt1 = (sizeElement * sizeElement) / kinematicViscosity;
         auto dt2 = sizeElement / (speedSliding);
-        auto dt = 0.1 * std::min(dt1, dt2);
+        auto dt = 0.2 * dt1 * dt2 / (dt1 + dt2);
 
 		std::cout << utils::string::Format("Size element = {:.3e} | Speed fluid = {:.3e} | Time step = {:.3e}", sizeElement, speedSliding, dt) << std::endl;
 
@@ -218,7 +219,7 @@ int main()
 
             std::cout << utils::string::Format("Step = {} | Norm = {:.3e}", step, norm) << std::endl;
 
-            if (norm < 1e-3)
+            if (norm < 1e-4)
             {
                 break;
             }
@@ -226,7 +227,8 @@ int main()
             step += 1;
         }
 
-        SaveToFile("shell_bearing_stokes_flow_plot_pressure.dat", probePressure);
+        SaveToFile("bearing_shell_stokes_pressure.dat", probePressureBearing);
+        SaveToFile("bearing_shell_stokes_pressure_shaft.dat", probePressureShaft);
     }
     catch (const std::exception& error)
     {

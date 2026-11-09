@@ -24,10 +24,6 @@ namespace dive {
 		{
 			return std::dynamic_pointer_cast<MassPressure>(shared_from_this());
 		}
-		ConstMassPressurePtr MassPressure::GetPtr() const
-		{
-			return const_cast<MassPressure*>(this)->GetPtr();
-		}
 		void MassPressure::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const
 		{
 			Scalar uconv{ 0.0 };

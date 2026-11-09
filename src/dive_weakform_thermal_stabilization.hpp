@@ -16,7 +16,6 @@ namespace dive
 
 			static StabilizationThermalPtr Create();
 			StabilizationThermalPtr GetPtr();
-			ConstStabilizationThermalPtr GetPtr() const;
 
 			void WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const override;
 

@@ -25,10 +25,6 @@ namespace dive {
 		{
 			return std::dynamic_pointer_cast<StabilizationThermal>(shared_from_this());
 		}
-		ConstStabilizationThermalPtr StabilizationThermal::GetPtr() const
-		{
-			return const_cast<StabilizationThermal*>(this)->GetPtr();
-		}
 		void StabilizationThermal::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const
 		{
 			auto N = FormMatrix_N(element, local, cacheIndex);

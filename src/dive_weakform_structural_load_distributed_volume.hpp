@@ -16,7 +16,6 @@ namespace dive
 
 			static LoadDistributedVolumeStructuralPtr Create();
 			LoadDistributedVolumeStructuralPtr GetPtr();
-			ConstLoadDistributedVolumeStructuralPtr GetPtr() const;
 
 			void WeakFormulation(ILoadPtr load, const Vector& point, Vector& output) const override;
 

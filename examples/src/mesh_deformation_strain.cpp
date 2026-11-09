@@ -1,41 +1,43 @@
 #include "routines.hpp"
 
-auto cartesianBearing  = basis::CreateBasisCartesian(1);
-auto cartesianShaft    = basis::CreateBasisCartesian(2);
-auto cylindricalShaft  = basis::CreateBasisCylindrical(3);
+using namespace dive;
 
-dive::Scalar pi = utils::math::Pi<dive::Scalar>();
-dive::Scalar diameterBearing = 0.12007;
-dive::Scalar diameterShaft = 0.10993;
-dive::Scalar clearance = (diameterBearing - diameterShaft) / 2.0;
-dive::Scalar attitude = 45.0 * (pi / 180.0);
-dive::Scalar eccentricityRelative = 0.9;
-dive::Scalar eccentricity = eccentricityRelative * clearance;
+auto cartesianBearing  = CreateBasisCartesian(1);
+auto cartesianShaft    = CreateBasisCartesian(2);
+auto cylindricalShaft  = CreateBasisCylindrical(3);
 
-auto deformationBearing0 = value::CreateValueScalarCoordinates(3, 0.0);
-auto deformationBearing1 = value::CreateValueScalarCoordinates(3, 0.0);
-auto deformationBearing2 = value::CreateValueScalarCoordinates(3, 0.0);
+Scalar pi = utils::math::Pi<Scalar>();
+Scalar diameterBearing = 0.12007;
+Scalar diameterShaft = 0.10993;
+Scalar clearance = (diameterBearing - diameterShaft) / 2.0;
+Scalar attitude = 45.0 * (pi / 180.0);
+Scalar eccentricityRelative = 0.9;
+Scalar eccentricity = eccentricityRelative * clearance;
 
-auto deformationShaft0 = value::CreateValueScalarCoordinatesFunction([](dive::Scalar x, dive::Scalar y, dive::Scalar z) -> dive::Scalar
+auto deformationBearing0 = CreateValueScalarCoordinates(3, 0.0);
+auto deformationBearing1 = CreateValueScalarCoordinates(3, 0.0);
+auto deformationBearing2 = CreateValueScalarCoordinates(3, 0.0);
+
+auto deformationShaft0 = CreateValueScalarCoordinatesFunction([](Scalar x, Scalar y, Scalar z) -> Scalar
     {
-		dive::Vector offset{ eccentricity, attitude, 0.0 };
+		Vector offset{ eccentricity, attitude, 0.0 };
 
         return cylindricalShaft->LocalToGlobalVector(offset)(0);
     });
-auto deformationShaft1 = value::CreateValueScalarCoordinatesFunction([](dive::Scalar x, dive::Scalar y, dive::Scalar z) -> dive::Scalar
+auto deformationShaft1 = CreateValueScalarCoordinatesFunction([](Scalar x, Scalar y, Scalar z) -> Scalar
     {
-        dive::Vector offset{ eccentricity, attitude, 0.0 };
+        Vector offset{ eccentricity, attitude, 0.0 };
 
         return cylindricalShaft->LocalToGlobalVector(offset)(1);
     });
-auto deformationShaft2 = value::CreateValueScalarCoordinatesFunction([](dive::Scalar x, dive::Scalar y, dive::Scalar z) -> dive::Scalar
+auto deformationShaft2 = CreateValueScalarCoordinatesFunction([](Scalar x, Scalar y, Scalar z) -> Scalar
     {
-        dive::Vector offset{ eccentricity, attitude, 0.0 };
+        Vector offset{ eccentricity, attitude, 0.0 };
 
         return cylindricalShaft->LocalToGlobalVector(offset)(2);
     });
 
-dive::Values loadCase =
+Values loadCase =
 {
     {"deformation:dirichlet:0:bearing", deformationBearing0},
     {"deformation:dirichlet:1:bearing", deformationBearing1},
@@ -54,16 +56,17 @@ int main()
 
         auto fluidProblem = CreateProblemFluid(1, "fluid", loadCase);
         auto deformationProblem = CreateProblemDeformationStrain(2, "deformation", loadCase);
-        auto nodes = dive::mesh::GmshGetNodesForPhysicalGroup(fluidProblem->GetMesh(), "fluid:domain");
+        auto nodes = mesh::GmshGetNodesForPhysicalGroup(fluidProblem->GetMesh(), "fluid:domain");
 
         FinalizeGmsh();
 
         //---------------------------------------------------------------------------------------------------------------------------
 
+
         deformationProblem->Initialize();
         deformationProblem->DeformMesh(fluidProblem->GetMesh());
 
-        std::cout << dive::ListNodes(nodes) << std::endl;
+        SaveToFile("mesh_deformation_strain.dat", nodes);
     }
     catch (const std::exception& error)
     {

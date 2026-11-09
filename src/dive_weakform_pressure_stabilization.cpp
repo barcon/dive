@@ -25,10 +25,6 @@ namespace dive {
 		{
 			return std::dynamic_pointer_cast<StabilizationPressure>(shared_from_this());
 		}
-		ConstStabilizationPressurePtr StabilizationPressure::GetPtr() const
-		{
-			return const_cast<StabilizationPressure*>(this)->GetPtr();
-		}
 		void StabilizationPressure::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const
 		{
 			auto N = FormMatrix_N(element, local, cacheIndex);

@@ -32,10 +32,6 @@ namespace dive {
 		{
 			return std::dynamic_pointer_cast<ProblemThermal>(shared_from_this());
 		}
-		ConstProblemThermalPtr ProblemThermal::GetPtr() const
-		{
-			return const_cast<ProblemThermal*>(this)->GetPtr();
-		}
 		NumberDof ProblemThermal::GetNumberDof() const
 		{
 			return numberDof_;

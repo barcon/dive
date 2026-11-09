@@ -16,7 +16,6 @@ namespace dive
 
 			static MassThermalPtr Create();
 			MassThermalPtr GetPtr();
-			ConstMassThermalPtr GetPtr() const;
 
 			void WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const override;
 

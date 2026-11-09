@@ -23,10 +23,6 @@ namespace dive {
 		{
 			return std::dynamic_pointer_cast<MassStructural>(shared_from_this());
 		}
-		ConstMassStructuralPtr MassStructural::GetPtr() const
-		{
-			return const_cast<MassStructural*>(this)->GetPtr();
-		}
 		void MassStructural::WeakFormulation(IElementMappedPtr element, const Vector& point, Matrix& output, const CacheIndex& cacheIndex) const
 		{
 			auto NN = FormMatrix_NN(element, point, cacheIndex);

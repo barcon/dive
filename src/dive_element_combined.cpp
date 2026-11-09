@@ -60,10 +60,6 @@ namespace dive
 		{
 			return std::dynamic_pointer_cast<ElementCombined>(shared_from_this());
 		}
-		ConstElementCombinedPtr ElementCombined::GetPtr() const
-		{
-			return const_cast<ElementCombined*>(this)->GetPtr();
-		}
 
 		Tag ElementCombined::GetTag() const
 		{

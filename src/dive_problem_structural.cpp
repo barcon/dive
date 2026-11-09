@@ -34,10 +34,6 @@ namespace dive {
 		{
 			return std::dynamic_pointer_cast<ProblemStructural>(shared_from_this());
 		}
-		ConstProblemStructuralPtr ProblemStructural::GetPtr() const
-		{
-			return const_cast<ProblemStructural*>(this)->GetPtr();
-		}
 		NumberDof ProblemStructural::GetNumberDof() const
 		{
 			return numberDof_;

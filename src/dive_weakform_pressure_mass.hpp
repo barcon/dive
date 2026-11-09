@@ -16,7 +16,6 @@ namespace dive
 
 			static MassPressurePtr Create();
 			MassPressurePtr GetPtr();
-			ConstMassPressurePtr GetPtr() const;
 
 			void WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const override;
 

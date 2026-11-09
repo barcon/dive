@@ -17,7 +17,6 @@ namespace dive
 
 			static DistributedVolumeDivergencePressurePtr Create();
 			DistributedVolumeDivergencePressurePtr GetPtr();
-			ConstDistributedVolumeDivergencePressurePtr GetPtr() const;
 
 			void WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const override;
 

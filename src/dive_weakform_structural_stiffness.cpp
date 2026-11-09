@@ -23,10 +23,6 @@ namespace dive {
 		{
 			return std::dynamic_pointer_cast<StiffnessStructural>(shared_from_this());
 		}
-		ConstStiffnessStructuralPtr StiffnessStructural::GetPtr() const
-		{
-			return const_cast<StiffnessStructural*>(this)->GetPtr();
-		}
 		void StiffnessStructural::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const
 		{		
 			auto B = FormMatrix_B(element, local, cacheIndex);

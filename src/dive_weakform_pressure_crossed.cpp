@@ -22,10 +22,6 @@ namespace dive {
 		{
 			return std::dynamic_pointer_cast<CrossedPressure>(shared_from_this());
 		}
-		ConstCrossedPressurePtr CrossedPressure::GetPtr() const
-		{
-			return const_cast<CrossedPressure*>(this)->GetPtr();
-		}
 		void CrossedPressure::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const
 		{
 			auto N = FormMatrix_N(element, local, cacheIndex);

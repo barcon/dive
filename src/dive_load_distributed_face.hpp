@@ -17,7 +17,6 @@ namespace dive
 
 			static LoadDistributedFacePtr Create();
 			LoadDistributedFacePtr GetPtr();
-			ConstLoadDistributedFacePtr GetPtr() const;
 
 			Type GetType() const override;
 			IElementMappedPtr GetElement() const override;
