@@ -417,6 +417,14 @@ namespace dive
 
 			return res;
 		}
+		Vector ElementHexa::Normal(const FaceIndex& face, const Vector& local) const
+		{
+			Vector du = GlobalDerivatives(local, lookUpTable1_[face]);
+			Vector dv = GlobalDerivatives(local, lookUpTable2_[face]);
+			Vector dw = eilig::Cross(du, dv);
+
+			return dw * (1.0 / eilig::NormP2(dw));
+		}
 		Scalar ElementHexa::SizeMinimum() const
 		{
 			Vector local1(3, 0.0);

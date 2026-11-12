@@ -14,12 +14,14 @@ void SaveToFile(const String& fileName, const Nodes& nodes);
 void InitializeGmsh(const String& meshFile);
 void FinalizeGmsh();
 
-problem::ProblemFluidPtr CreateProblemFluid(Tag problemTag, const String problemName, const Values& loads);
-problem::ProblemThermalPtr CreateProblemThermal(Tag problemTag, const String problemName, const Values& loads);
-problem::ProblemPressurePtr CreateProblemPressure(Tag problemTag, const String problemName, const Values& loads);
-problem::ProblemStructuralPtr CreateProblemStructural(Tag problemTag, const String problemName, const Values& loads);
-problem::ProblemDeformationInterpolationPtr CreateProblemDeformationInterpolation(Tag problemTag, const String problemName, const Values& loads);
-problem::ProblemDeformationStrainPtr CreateProblemDeformationStrain(Tag problemTag, const String problemName, const Values& loads);
+problem::ProblemFluidPtr CreateProblemFluid(Tag problemTag, const String problemName);
+problem::ProblemThermalPtr CreateProblemThermal(Tag problemTag, const String problemName);
+problem::ProblemPressurePtr CreateProblemPressure(Tag problemTag, const String problemName);
+problem::ProblemStructuralPtr CreateProblemStructural(Tag problemTag, const String problemName);
+problem::ProblemDeformationInterpolationPtr CreateProblemDeformationInterpolation(Tag problemTag, const String problemName);
+problem::ProblemDeformationStrainPtr CreateProblemDeformationStrain(Tag problemTag, const String problemName);
+
+void ApplyLoad(IProblemPtr problem, const String& name, IValuePtr value);
 
 static inline eilig::CallbackIterative callbackIterativeMomentum = [](Index iteration, Scalar residual) -> long long int
     {
@@ -39,7 +41,6 @@ static inline eilig::CallbackIterative callbackIterativeMomentum = [](Index iter
 
         return eilig::EILIG_CONTINUE;
     };
-
 static inline eilig::CallbackIterative callbackIterativePressure = [](Index iteration, Scalar residual) -> long long int
     {
         Scalar tolerance{ 1e-5 };

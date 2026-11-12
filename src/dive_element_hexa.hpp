@@ -54,6 +54,8 @@ namespace dive
 			Scalar Volume() const override;
 			Scalar Area(const FaceIndex& face) const override;
 			Scalar Length(const EdgeIndex& edge) const override;
+			Vector Normal(const FaceIndex& face, const Vector& local) const override;
+
 			Scalar SizeMinimum() const override;
 			Scalar SizeMaximum() const override;
 

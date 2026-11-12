@@ -44,9 +44,9 @@ int main()
         InitializeGmsh("./cavity_stokes_flow.msh");
 
         auto fluidMaterial = CreateOilVG100(1, temperature, pressure);
-        auto fluidProblem = CreateProblemFluid(1, "fluid", loadCase);
-        auto thermalProblem = CreateProblemThermal(2, "thermal", loadCase);
-        auto pressureProblem = CreateProblemPressure(3, "pressure", loadCase);
+        auto fluidProblem = CreateProblemFluid(1, "fluid");
+        auto thermalProblem = CreateProblemThermal(2, "thermal");
+        auto pressureProblem = CreateProblemPressure(3, "pressure");
         auto probeVelocity = mesh::GmshGetNodesForPhysicalGroup(fluidProblem->GetMesh(), "probe");
         auto probePressure = mesh::GmshGetNodesForPhysicalGroup(pressureProblem->GetMesh(), "probe");
 

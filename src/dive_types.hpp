@@ -48,14 +48,14 @@ namespace dive
 	using EdgeIndex = Index;
 	using LoadIndex = Index;
 	using CacheIndex = Index;
-
-	using Timer = utils::Timer;
 	using Cache = std::unordered_map<Type, Matrices>;
-
+	
 	using NumberFaces = Number;
 	using NumberEdges = Number;
 	using NumberElements = Number;
 	using NumberDimensions = Number;
+	
+	using Timer = utils::Timer;
 
 	static const String headerDive = "DIVE";
 
@@ -150,11 +150,8 @@ namespace dive
 		class StabilizationPressure;
 		using StabilizationPressurePtr = std::shared_ptr<StabilizationPressure>;
 
-		class DistributedVolumeDivergencePressure;
-		using DistributedVolumeDivergencePressurePtr = std::shared_ptr<DistributedVolumeDivergencePressure>;
-
-		class LoadDistributedFacePressure;
-		using LoadDistributedFacePressurePtr = std::shared_ptr<LoadDistributedFacePressure>;
+		class LoadDistributedFaceFlowPressure;
+		using LoadDistributedFaceFlowPressurePtr = std::shared_ptr<LoadDistributedFaceFlowPressure>;
 
 		//---------------------------------------------------------------------
 		class MassThermal;
@@ -264,8 +261,17 @@ namespace dive
 	using ILoadDirichletPtr = load::ILoadDirichletPtr;
 	using IProblemPtr = problem::IProblemPtr;
 
-	using FacePair = element::FacePair;
-	using EdgePair = element::EdgePair;
+	struct FacePair
+	{
+		IElementPtr element{ nullptr };
+		FaceIndex faceIndex{ 0 };
+	};
+
+	struct EdgePair
+	{
+		IElementPtr element{ nullptr };
+		EdgeIndex edgeIndex{ 0 };
+	};
 
 	using Tags = std::vector<Tag>;
 	using Bases = std::vector<IBasisPtr>;

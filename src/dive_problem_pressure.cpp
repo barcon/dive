@@ -6,7 +6,7 @@
 #include "dive_weakform_pressure_stiffness.hpp"
 #include "dive_weakform_pressure_crossed.hpp"
 #include "dive_weakform_pressure_stabilization.hpp"
-#include "dive_weakform_pressure_distributed_volume_divergence.hpp"
+#include "dive_weakform_pressure_load_distributed_face_flow.hpp"
 
 namespace dive {
 	namespace problem {
@@ -214,13 +214,13 @@ namespace dive {
 
 			return res;
 		}
-		Sparse ProblemPressure::DistributedVolumeDivergence(IProblemPtr problemMomentum) const
+		Vector ProblemPressure::LoadDistributedFaceFlow(IProblemPtr problemMomentum) const
 		{
-			auto distributedVolumeDivergencePressureWeak = weakform::CreateWeakFormDistributedVolumeDivergencePressure();
-			distributedVolumeDivergencePressureWeak->SetProblemMomentum(problemMomentum);
+			auto loadDistributedFaceFlowPressureWeak = weakform::CreateWeakFormLoadDistributedFaceFlowPressure();
+			loadDistributedFaceFlowPressureWeak->SetProblemMomentum(problemMomentum);
 
 			auto problemPressure = std::make_shared<ProblemPressure>(*this);
-			auto res = IntegralForm(distributedVolumeDivergencePressureWeak, problemPressure, problemMomentum);
+			auto res = IntegralForm(loadDistributedFaceFlowPressureWeak, problemPressure, loads_);
 
 			return res;
 		}

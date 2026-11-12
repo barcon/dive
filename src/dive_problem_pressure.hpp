@@ -46,7 +46,7 @@ namespace dive
 			Sparse Stiffness() const override;
 			Sparse Crossed(IProblemPtr problemMomentum) const override;
 			Sparse Stabilization(IProblemPtr problemMomentum) const override;
-			Sparse DistributedVolumeDivergence(IProblemPtr problemMomentum) const override;		
+			Vector LoadDistributedFaceFlow(IProblemPtr problemMomentum) const override;
 			Vector Pressure() const override;
 
 		protected:

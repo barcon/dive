@@ -20,19 +20,6 @@ auto velocityWall2 = CreateValueScalarCoordinates(3, 0.0);
 
 auto pressureInlet = CreateValueScalarCoordinates(3, pressure);
 
-Values loadCase =
-{
-    {"fluid:dirichlet:0:top", velocityWall0},
-    {"fluid:dirichlet:1:top", velocityWall1},
-    {"fluid:dirichlet:2:top", velocityWall2},
-
-    {"fluid:dirichlet:0:bottom", velocityWall0},
-    {"fluid:dirichlet:1:bottom", velocityWall0},
-    {"fluid:dirichlet:2:bottom", velocityWall0},
-
-    {"pressure:dirichlet:0:inlet", pressureInlet},
-};
-
 int main()
 {
     try
@@ -40,9 +27,21 @@ int main()
         InitializeGmsh("./bearing_flat_hydrostatic.msh");
 
         auto fluidMaterial = material::CreateOilVG100(1, temperature, pressure);
-        auto fluidProblem = CreateProblemFluid(1, "fluid", loadCase);
-        auto thermalProblem = CreateProblemThermal(2, "thermal", loadCase);
-        auto pressureProblem = CreateProblemPressure(3, "pressure", loadCase);
+        auto fluidProblem = CreateProblemFluid(1, "fluid");
+        auto thermalProblem = CreateProblemThermal(2, "thermal");       
+        auto pressureProblem = CreateProblemPressure(3, "pressure");
+        
+        ApplyLoad(fluidProblem, "fluid:dirichlet:0:top", velocityWall0);
+        ApplyLoad(fluidProblem, "fluid:dirichlet:1:top", velocityWall1);
+        ApplyLoad(fluidProblem, "fluid:dirichlet:2:top", velocityWall2);
+        
+        ApplyLoad(fluidProblem, "fluid:dirichlet:0:bottom", velocityWall0);
+        ApplyLoad(fluidProblem, "fluid:dirichlet:1:bottom", velocityWall1);
+        ApplyLoad(fluidProblem, "fluid:dirichlet:2:bottom", velocityWall2);
+
+        ApplyLoad(pressureProblem, "pressure:dirichlet:0:inlet", pressureInlet);
+        ApplyLoad(pressureProblem, "pressure:load:face:flow:inlet", CreateValueVectorCoordinatesCongruent(fluidProblem->GetMesh()));
+        ApplyLoad(pressureProblem, "pressure:load:face:flow:outlet", CreateValueVectorCoordinatesCongruent(fluidProblem->GetMesh()));
 
         auto probeFluidInlet = mesh::GmshGetNodesForPhysicalGroup(fluidProblem->GetMesh(), "fluid:probe:inlet");
         auto probeFluidOutlet = mesh::GmshGetNodesForPhysicalGroup(fluidProblem->GetMesh(), "fluid:probe:outlet");
@@ -61,7 +60,7 @@ int main()
         mesh::ApplyValue(thermalProblem->GetMesh(), CreateValueMatrixCoordinates(3, { {temperature} }));
 
         FinalizeGmsh();
-               
+             
         //-------------------------------------------------------------------------------------------------
 
         auto sizeElement = mesh::GetSizeMinimum(fluidProblem->GetMesh()->GetElements());
@@ -95,6 +94,9 @@ int main()
         auto H = problem::Partition<eilig::Sparses>(pressureProblem->Stiffness(), totalDofPressure, pivotPressure);
         auto G = pressureProblem->Crossed(fluidProblem);
         auto G_Transpose = G.Transpose();
+		auto f = problem::Partition<eilig::Vectors>(pressureProblem->LoadDistributedFaceFlow(fluidProblem), totalDofMomentum, pivotMomentum);
+
+        exit(0);
 
         Index step{ 1 };
         Indices steps;

@@ -63,18 +63,6 @@ namespace dive
 			Scalar coord3;
 		};
 
-		struct FacePair
-		{
-			IElementPtr element{ nullptr };
-			FaceIndex faceIndex{ 0 };
-		};
-
-		struct EdgePair
-		{
-			IElementPtr element{nullptr};
-			EdgeIndex edgeIndex{ 0 };
-		};
-
 		class IElement
 		{
 		public:
@@ -187,6 +175,8 @@ namespace dive
 
 			virtual Scalar Area() const = 0;
 			virtual Scalar Length(const EdgeIndex& edge) const = 0;
+			
+			virtual Vector Normal(const Vector& local) const = 0;
 		};
 
 		class IElementSolid : virtual public IElementMapped
@@ -197,6 +187,8 @@ namespace dive
 			virtual Scalar Volume() const = 0;
 			virtual Scalar Area(const FaceIndex& face) const = 0;
 			virtual Scalar Length(const EdgeIndex& edge) const = 0;
+			
+			virtual Vector Normal(const FaceIndex& face, const Vector& local) const = 0;
 		};
 
 		struct CacheLocal

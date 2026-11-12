@@ -172,8 +172,7 @@
     <ClInclude Include="..\src\dive_weakform_fluid_stabilization.hpp" />
     <ClInclude Include="..\src\dive_weakform_fluid_stiffness.hpp" />
     <ClInclude Include="..\src\dive_weakform_pressure_crossed.hpp" />
-    <ClInclude Include="..\src\dive_weakform_pressure_distributed_volume_divergence.hpp" />
-    <ClInclude Include="..\src\dive_weakform_pressure_load_distributed_face.hpp" />
+    <ClInclude Include="..\src\dive_weakform_pressure_load_distributed_face_flow.hpp" />
     <ClInclude Include="..\src\dive_weakform_pressure_mass.hpp" />
     <ClInclude Include="..\src\dive_weakform_pressure_stabilization.hpp" />
     <ClInclude Include="..\src\dive_weakform_pressure_stiffness.hpp" />
@@ -219,8 +218,7 @@
     <ClCompile Include="..\src\dive_weakform_fluid_stabilization.cpp" />
     <ClCompile Include="..\src\dive_weakform_fluid_stiffness.cpp" />
     <ClCompile Include="..\src\dive_weakform_pressure_crossed.cpp" />
-    <ClCompile Include="..\src\dive_weakform_pressure_distributed_volume_divergence.cpp" />
-    <ClCompile Include="..\src\dive_weakform_pressure_load_distributed_face.cpp" />
+    <ClCompile Include="..\src\dive_weakform_pressure_load_distributed_face_flow.cpp" />
     <ClCompile Include="..\src\dive_weakform_pressure_mass.cpp" />
     <ClCompile Include="..\src\dive_weakform_pressure_stabilization.cpp" />
     <ClCompile Include="..\src\dive_weakform_pressure_stiffness.cpp" />
