@@ -23,12 +23,10 @@ namespace dive
 
 			IScalarCoordinatesPtr GetTemperature() const override;
 			IScalarCoordinatesPtr GetPressure() const override;
-			IMatrixCoordinatesPtr GetVelocity() const override;
+			IMatrixCoordinatesPtr GetMomentum() const override;
 			IMeshPtr GetMesh() const override;
 			Type GetType() const override;
 			Tag	GetTag() const override;
-
-			Loads& GetLoads() override;
 
 			const DofMeshIndices& GetDofMeshIndices() const override;
 			const NodeMeshIndices& GetNodeMeshIndices() const override;
@@ -38,20 +36,19 @@ namespace dive
 			void SetPressure(IScalarCoordinatesPtr pressure) override;
 			void SetTag(Tag tag) override;
 
-			void ApplyLoad(ILoadPtr load) override;
+			void ApplyLoad(String key, const Loads& loads) override;
 			void Initialize() override;
 
-			void UpdateMeshValues(const Vector& u) override;
-			void UpdateMeshValues(const Vector& u0, const Vector& u1) override;
-			void UpdateMeshValuesMomentum(const Vector& q) override;
-			void UpdateMeshValuesMomentum(const Vector& q0, const Vector& q1) override;
+			void UpdateMeshValues(const Vector& q) override;
+			void UpdateMeshValues(const Vector& q0, const Vector& q1) override;
+			void UpdateMeshValuesVelocity(const Vector& v) override;
+			void UpdateMeshValuesVelocity(const Vector& v0, const Vector& v1) override;
 
 			Sparse Mass(bool lumped = false) const override;
 			Sparse Stiffness() const override;
 			Sparse Convection() const override;
 			Sparse Stabilization() const override;	
-			Vector LoadDistributedVolume() const override;
-			Vector LoadDistributedVolumeStabilization() const override;		
+			Vector Load(String key) const override;
 			Vector Momentum() const override;
 			Vector Velocity() const override;
 
@@ -68,11 +65,10 @@ namespace dive
 
 			IScalarCoordinatesPtr temperature_{ nullptr };
 			IScalarCoordinatesPtr pressure_{ nullptr };
-			IMatrixCoordinatesPtr velocity_{ nullptr };
+			IMatrixCoordinatesPtr momentum_{ nullptr };
 			IMeshPtr mesh_{ nullptr };
 
-			Loads loads_;
-
+			LoadsMap loadsMap_;
 			DofMeshIndices dofMeshIndices_;
 			NodeMeshIndices nodeMeshIndices_;
 			DirichletMeshIndices dirichletMeshIndices_;

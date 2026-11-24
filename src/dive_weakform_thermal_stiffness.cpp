@@ -3,7 +3,7 @@
 
 namespace dive {
 	namespace weakform {
-		StiffnessThermalPtr CreateWeakFormStiffnessThermal()
+		StiffnessThermalPtr CreateStiffnessThermal()
 		{
 			auto res = StiffnessThermal::Create();
 

@@ -27,8 +27,6 @@ namespace dive
 			Type GetType() const override;
 			Tag	GetTag() const override;
 
-			Loads& GetLoads() override;
-
 			const DofMeshIndices& GetDofMeshIndices() const override;
 			const NodeMeshIndices& GetNodeMeshIndices() const override;
 			const DirichletMeshIndices& GetDirichletMeshIndices() const override;
@@ -36,17 +34,17 @@ namespace dive
 			void SetTemperature(IScalarCoordinatesPtr temperature) override;
 			void SetTag(Tag tag) override;
 
-			void ApplyLoad(ILoadPtr load) override;
+			void ApplyLoad(String key, const Loads& loads) override;
 			void Initialize() override;
 			
-			void UpdateMeshValues(const Vector& u) override;
-			void UpdateMeshValues(const Vector& u0, const Vector& u1) override;
+			void UpdateMeshValues(const Vector& p) override;
+			void UpdateMeshValues(const Vector& p0, const Vector& p1) override;
 
 			Sparse Mass(IFluidPtr problemMomentum, bool lumped = false) const override;
 			Sparse Stiffness() const override;
 			Sparse Crossed(IProblemPtr problemMomentum) const override;
 			Sparse Stabilization(IProblemPtr problemMomentum) const override;
-			Vector LoadDistributedFaceFlow(IProblemPtr problemMomentum) const override;
+			Vector Load(String key) const override;
 			Vector Pressure() const override;
 
 		protected:
@@ -63,9 +61,8 @@ namespace dive
 			IScalarCoordinatesPtr temperature_{ nullptr };
 			IScalarCoordinatesPtr pressure_{ nullptr };
 			IMeshPtr mesh_{ nullptr };
-
-			Loads loads_;
-
+			
+			LoadsMap loadsMap_;
 			DofMeshIndices dofMeshIndices_;
 			NodeMeshIndices nodeMeshIndices_;
 			DirichletMeshIndices dirichletMeshIndices_;

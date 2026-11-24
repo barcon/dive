@@ -3,7 +3,7 @@
 
 namespace dive {
 	namespace weakform {
-		LoadDistributedVolumeStructuralPtr CreateWeakFormLoadDistributedVolumeStructural()
+		LoadDistributedVolumeStructuralPtr CreateLoadDistributedVolumeStructural()
 		{
 			auto res = LoadDistributedVolumeStructural::Create();
 

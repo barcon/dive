@@ -188,7 +188,7 @@ namespace dive
 
 			return global;
 		}
-		Vector IntegralForm(IWeakFormLoadPtr weakForm, IProblemPtr problem1, const Loads& loads)
+		Vector IntegralForm(IProblemPtr problem1, const Loads& loads)
 		{
 			Vector global(std::dynamic_pointer_cast<problem::IExtra>(problem1)->GetTotalDof(), 0.0);
 			Vector local;
@@ -226,7 +226,7 @@ namespace dive
 					{
 						const auto& element = std::dynamic_pointer_cast<load::ILoadDistributedVolume>(load)->GetElement();
 
-						element->IntegralWeakFormLoad(weakForm, load, local);
+						element->IntegralWeakFormLoad(load->GetWeakForm(), load, local);
 						numberDof = element->GetNumberDof();
 						numberNodes = element->GetNumberNodes();
 						elementIndex = element->GetElementIndex();
@@ -235,7 +235,7 @@ namespace dive
 					{
 						const auto& element = std::static_pointer_cast<load::ILoadDistributedFace>(load)->GetElement();
 
-						element->IntegralWeakFormLoad(weakForm, load, local);
+						element->IntegralWeakFormLoad(load->GetWeakForm(), load, local);
 						numberDof = element->GetNumberDof();
 						numberNodes = element->GetNumberNodes();
 						elementIndex = element->GetElementIndex();
@@ -244,7 +244,7 @@ namespace dive
 					{
 						const auto& element = std::static_pointer_cast<load::ILoadDistributedEdge>(load)->GetElement();
 
-						element->IntegralWeakFormLoad(weakForm, load, local);
+						element->IntegralWeakFormLoad(load->GetWeakForm(), load, local);
 						numberDof = element->GetNumberDof();
 						numberNodes = element->GetNumberNodes();
 						elementIndex = element->GetElementIndex();

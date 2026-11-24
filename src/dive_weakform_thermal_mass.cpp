@@ -3,7 +3,7 @@
 
 namespace dive {
 	namespace weakform {
-		MassThermalPtr CreateWeakFormMassThermal()
+		MassThermalPtr CreateMassThermal()
 		{
 			auto res = MassThermal::Create();
 

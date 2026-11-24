@@ -2,7 +2,7 @@
 
 namespace dive {
 	namespace weakform {
-		MassFluidPtr CreateWeakFormMassFluid()
+		MassFluidPtr CreateMassFluid()
 		{
 			auto res = MassFluid::Create();
 

@@ -3,7 +3,7 @@
 
 namespace dive {
 	namespace weakform {
-		LoadDistributedFaceStructuralPtr CreateWeakFormLoadDistributedFaceStructural()
+		LoadDistributedFaceStructuralPtr CreateLoadDistributedFaceStructural()
 		{
 			auto res = LoadDistributedFaceStructural::Create();
 

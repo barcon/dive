@@ -5,11 +5,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bearing_flat_hydrostatic", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bearing_shell_stokes", "bearing_shell_stokes.vcxproj", "{8C79F7DC-7808-81A6-2127-95A10D95914C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cavity_stokes_flow", "cavity_stokes_flow.vcxproj", "{0427BAA6-F00A-7BFC-596B-754F456E657E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cavity_flow", "cavity_flow.vcxproj", "{8CE035A1-F895-AE96-818A-A86DED3EA59A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mesh_deformation_rbf", "mesh_deformation_rbf.vcxproj", "{428AC568-2E19-4F32-D737-632DC3A55FD8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mesh_deformation_strain", "mesh_deformation_strain.vcxproj", "{D99B18BE-45D3-6055-4EDD-C478BA93874E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "thermal_square_plate", "thermal_square_plate.vcxproj", "{37401F29-23CF-A8F2-CCED-BCEDB85BB998}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +27,10 @@ Global
 		{8C79F7DC-7808-81A6-2127-95A10D95914C}.ReleaseCL|x64.Build.0 = ReleaseCL|x64
 		{8C79F7DC-7808-81A6-2127-95A10D95914C}.Release|x64.ActiveCfg = Release|x64
 		{8C79F7DC-7808-81A6-2127-95A10D95914C}.Release|x64.Build.0 = Release|x64
-		{0427BAA6-F00A-7BFC-596B-754F456E657E}.ReleaseCL|x64.ActiveCfg = ReleaseCL|x64
-		{0427BAA6-F00A-7BFC-596B-754F456E657E}.ReleaseCL|x64.Build.0 = ReleaseCL|x64
-		{0427BAA6-F00A-7BFC-596B-754F456E657E}.Release|x64.ActiveCfg = Release|x64
-		{0427BAA6-F00A-7BFC-596B-754F456E657E}.Release|x64.Build.0 = Release|x64
+		{8CE035A1-F895-AE96-818A-A86DED3EA59A}.ReleaseCL|x64.ActiveCfg = ReleaseCL|x64
+		{8CE035A1-F895-AE96-818A-A86DED3EA59A}.ReleaseCL|x64.Build.0 = ReleaseCL|x64
+		{8CE035A1-F895-AE96-818A-A86DED3EA59A}.Release|x64.ActiveCfg = Release|x64
+		{8CE035A1-F895-AE96-818A-A86DED3EA59A}.Release|x64.Build.0 = Release|x64
 		{428AC568-2E19-4F32-D737-632DC3A55FD8}.ReleaseCL|x64.ActiveCfg = ReleaseCL|x64
 		{428AC568-2E19-4F32-D737-632DC3A55FD8}.ReleaseCL|x64.Build.0 = ReleaseCL|x64
 		{428AC568-2E19-4F32-D737-632DC3A55FD8}.Release|x64.ActiveCfg = Release|x64
@@ -37,6 +39,10 @@ Global
 		{D99B18BE-45D3-6055-4EDD-C478BA93874E}.ReleaseCL|x64.Build.0 = ReleaseCL|x64
 		{D99B18BE-45D3-6055-4EDD-C478BA93874E}.Release|x64.ActiveCfg = Release|x64
 		{D99B18BE-45D3-6055-4EDD-C478BA93874E}.Release|x64.Build.0 = Release|x64
+		{37401F29-23CF-A8F2-CCED-BCEDB85BB998}.ReleaseCL|x64.ActiveCfg = ReleaseCL|x64
+		{37401F29-23CF-A8F2-CCED-BCEDB85BB998}.ReleaseCL|x64.Build.0 = ReleaseCL|x64
+		{37401F29-23CF-A8F2-CCED-BCEDB85BB998}.Release|x64.ActiveCfg = Release|x64
+		{37401F29-23CF-A8F2-CCED-BCEDB85BB998}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

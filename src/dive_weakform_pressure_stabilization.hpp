@@ -7,7 +7,7 @@ namespace dive
 {
     namespace weakform
     {
-		StabilizationPressurePtr CreateWeakFormStabilizationPressure();
+		StabilizationPressurePtr CreateStabilizationPressure();
 
 		class StabilizationPressure : public IWeakFormElement, virtual public std::enable_shared_from_this<StabilizationPressure>
 		{

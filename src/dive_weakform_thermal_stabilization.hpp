@@ -7,7 +7,7 @@ namespace dive
 {
     namespace weakform
     {
-		StabilizationThermalPtr CreateWeakFormStabilizationThermal();
+		StabilizationThermalPtr CreateStabilizationThermal();
 
 		class StabilizationThermal : public IWeakFormElement, virtual public std::enable_shared_from_this<StabilizationThermal>
 		{

@@ -7,7 +7,7 @@ namespace dive
 {
     namespace weakform
     {
-		LoadDistributedVolumeFluidPtr CreateWeakFormLoadDistributedVolumeFluid();
+		LoadDistributedVolumeFluidPtr CreateLoadDistributedVolumeFluid();
 
 		class LoadDistributedVolumeFluid : public IWeakFormLoad, virtual public std::enable_shared_from_this<LoadDistributedVolumeFluid>
 		{

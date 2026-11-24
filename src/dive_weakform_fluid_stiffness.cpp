@@ -3,7 +3,7 @@
 
 namespace dive {
 	namespace weakform {
-		StiffnessFluidPtr CreateWeakFormStiffnessFluid()
+		StiffnessFluidPtr CreateStiffnessFluid()
 		{
 			auto res = StiffnessFluid::Create();
 
@@ -27,9 +27,8 @@ namespace dive {
 		{		
 			auto B = FormMatrix_B(element, local, cacheIndex);
 			auto Id = FormMatrix_Id(element, local, cacheIndex);
-			auto Z = FormVector_Z(element, local, cacheIndex);
 
-			output = eilig::ScaleByVector(B.Transpose() * Id * B, Z);
+			output = B.Transpose() * Id * B;
 		}
 		void StiffnessFluid::SetTemperature(IScalarCoordinatesPtr temperature)
 		{

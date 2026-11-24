@@ -3,7 +3,7 @@
 
 namespace dive {
 	namespace weakform {
-		ConvectionFluidPtr CreateWeakFormConvectionFluid()
+		ConvectionFluidPtr CreateConvectionFluid()
 		{
 			auto res = ConvectionFluid::Create();
 

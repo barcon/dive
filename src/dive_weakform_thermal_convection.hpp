@@ -7,7 +7,7 @@ namespace dive
 {
     namespace weakform
     {
-		ConvectionThermalPtr CreateWeakFormConvectionThermal();
+		ConvectionThermalPtr CreateConvectionThermal();
 
 		class ConvectionThermal : public IWeakFormElement, virtual public std::enable_shared_from_this<ConvectionThermal>
 		{

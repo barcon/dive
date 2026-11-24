@@ -40,6 +40,10 @@ namespace dive
 		{
 			return value_->GetValue(node_->GetPoint());
 		}
+		IWeakFormLoadPtr LoadDirichlet::GetWeakForm() const
+		{
+			return nullptr;
+		}
 		Type LoadDirichlet::GetType() const
 		{
 			return type_;
@@ -75,6 +79,10 @@ namespace dive
 			}
 
 			value_ = value;
+		}
+		void LoadDirichlet::SetWeakForm(IWeakFormLoadPtr weakForm)
+		{
+			logger::Info(headerDive, "LoadDirichlet::SetWeakForm: weak form is not applicable for Dirichlet load");
 		}
 	} //namespace load
 } //namespace dive

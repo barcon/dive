@@ -7,7 +7,7 @@ namespace dive
 {
     namespace weakform
     {
-		MassFluidPtr CreateWeakFormMassFluid();
+		MassFluidPtr CreateMassFluid();
 
 		class MassFluid : public IWeakFormElement, virtual public std::enable_shared_from_this<MassFluid>
 		{

@@ -88,9 +88,9 @@ project "mesh_deformation_strain"
 	targetname ("mesh_deformation_strain")	
 	files { "src/mesh_deformation_strain.cpp" }	
 
-project "cavity_stokes_flow"
-	targetname ("cavity_stokes_flow")	
-	files { "src/cavity_stokes_flow.cpp" }	
+project "cavity_flow"
+	targetname ("cavity_flow")	
+	files { "src/cavity_flow.cpp" }	
 	
 project "bearing_shell_stokes"
 	targetname ("bearing_shell_stokes")	
@@ -98,4 +98,8 @@ project "bearing_shell_stokes"
 	
 project "bearing_flat_hydrostatic"
 	targetname ("bearing_flat_hydrostatic")	
-	files { "src/bearing_flat_hydrostatic.cpp" }	
+	files { "src/bearing_flat_hydrostatic.cpp" }
+	
+project "thermal_square_plate"
+	targetname ("thermal_square_plate")	
+	files { "src/thermal_square_plate.cpp" }

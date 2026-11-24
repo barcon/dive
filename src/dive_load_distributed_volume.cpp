@@ -6,18 +6,15 @@ namespace dive
 {
 	namespace load
 	{
-		LoadDistributedVolumePtr CreateLoadDistributedVolume(IElementPtr element, IVectorCoordinatesPtr value)
+		LoadDistributedVolumePtr CreateLoadDistributedVolume(IElementPtr element, IVectorCoordinatesPtr value, IWeakFormLoadPtr weakForm)
 		{
 			auto res = LoadDistributedVolume::Create();
 
 			res->SetElement(std::dynamic_pointer_cast<element::IElementMapped>(element));
 			res->SetValue(value);
+			res->SetWeakForm(weakForm);
 
 			return res;
-		}
-		LoadDistributedVolumePtr CastToLoadDistributedVolume(ILoadPtr load)
-		{
-			return std::dynamic_pointer_cast<LoadDistributedVolume>(load);
 		}
 		LoadDistributedVolumePtr LoadDistributedVolume::Create()
 		{
@@ -44,6 +41,10 @@ namespace dive
 		Vector LoadDistributedVolume::GetValue(const Vector& point) const
 		{
 			return value::GetValueVectorCoordinates(value_, point, element_);
+		}
+		IWeakFormLoadPtr LoadDistributedVolume::GetWeakForm() const
+		{
+			return weakForm_;
 		}
 		void LoadDistributedVolume::SetElement(IElementMappedPtr element)
 		{
@@ -72,6 +73,15 @@ namespace dive
 			}
 
 			value_ = value;
+		}
+		void LoadDistributedVolume::SetWeakForm(IWeakFormLoadPtr weakForm)
+		{
+			if (weakForm == nullptr)
+			{
+				throw std::invalid_argument("Weak form is nullptr");
+			}
+
+			weakForm_ = weakForm;
 		}
 	} //namespace load
 } //namespace dive

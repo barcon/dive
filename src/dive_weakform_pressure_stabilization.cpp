@@ -5,7 +5,7 @@
 
 namespace dive {
 	namespace weakform {
-		StabilizationPressurePtr CreateWeakFormStabilizationPressure()
+		StabilizationPressurePtr CreateStabilizationPressure()
 		{
 			auto res = StabilizationPressure::Create();
 

@@ -7,7 +7,7 @@ namespace dive
 {
     namespace weakform
     {
-		LoadDistributedVolumeStabilizationFluidPtr CreateWeakFormLoadDistributedVolumeStabilizationFluid();
+		LoadDistributedVolumeStabilizationFluidPtr CreateLoadDistributedVolumeStabilizationFluid();
 
 		class LoadDistributedVolumeStabilizationFluid : public IWeakFormLoad, virtual public std::enable_shared_from_this<LoadDistributedVolumeStabilizationFluid>
 		{

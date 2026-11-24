@@ -70,10 +70,6 @@ namespace dive {
 		{
 			return tag_;
 		}
-		Loads& ProblemDeformationStrain::GetLoads() 
-		{
-			return loads_;
-		}
 		const DofMeshIndices& ProblemDeformationStrain::GetDofMeshIndices() const
 		{
 			return dofMeshIndices_;
@@ -121,29 +117,46 @@ namespace dive {
 				nodes[i]->SetPoint(point + offset);
 			}
 		}
-		void ProblemDeformationStrain::ApplyLoad(ILoadPtr load)
+		void ProblemDeformationStrain::ApplyLoad(String key, const Loads& loads)
 		{
-			if(load == nullptr)
+			auto it = loadsMap_.find(key);
+			if (it != loadsMap_.end())
 			{
-				throw std::invalid_argument("Load cannot be null.");
+				throw std::invalid_argument("Load with the same key already exists.");
 			}
 
-			if (load->GetType() != load::load_dirichlet)
+			for(auto & load : loads)
 			{
-				throw std::invalid_argument("Load type is not supported for deformation problem.");
+				if (load == nullptr)
+				{
+					throw std::invalid_argument("Load cannot be null.");
+				}
+
+				if (load->GetType() != load::load_dirichlet)
+				{
+					throw std::invalid_argument("Load type is not supported for deformation problem.");
+				}
+
+				if (load->GetType() != load::load_dirichlet)
+				{
+					throw std::invalid_argument("Load type is not supported for deformation problem.");
+				}
 			}
 
-			loads_.push_back(load);
+			loadsMap_.insert({ key, loads });
 		}
 		void ProblemDeformationStrain::Initialize()
 		{
 			Dirichlets dirichlets;
 
-			for (auto& load : loads_)
+			for (const auto& it : loadsMap_)
 			{
-				if (load->GetType() == load::load_dirichlet)
+				for (const auto& load : it.second)
 				{
-					dirichlets.push_back(std::static_pointer_cast<load::ILoadDirichlet>(load));
+					if (load->GetType() == load::load_dirichlet)
+					{
+						dirichlets.push_back(std::static_pointer_cast<load::ILoadDirichlet>(load));
+					}
 				}
 			}
 
@@ -220,7 +233,7 @@ namespace dive {
 		}
 		Sparse ProblemDeformationStrain::Stiffness() const
 		{
-			auto stiffnessWeak = weakform::CreateWeakFormStiffnessStructural();
+			auto stiffnessWeak = weakform::CreateStiffnessStructural();
 			stiffnessWeak->SetTemperature(temperature_);
 			stiffnessWeak->SetPressure(pressure_);
 
@@ -228,6 +241,16 @@ namespace dive {
 			auto res = IntegralForm(stiffnessWeak, problemDeformationStrain, problemDeformationStrain);
 
 			return res;
+		}
+		Vector ProblemDeformationStrain::Load(String key) const
+		{
+			auto it = loadsMap_.find(key);
+			if (it != loadsMap_.end())
+			{
+				return IntegralForm(std::make_shared<ProblemDeformationStrain>(*this), it->second);
+			}
+
+			throw std::invalid_argument("Load with the specified key does not exist.");
 		}
 		Vector ProblemDeformationStrain::Displacement() const
 		{
@@ -262,7 +285,7 @@ namespace dive {
 		{
 			Matrix K;
 
-			auto stiffnessWeak = weakform::CreateWeakFormStiffnessStructural();
+			auto stiffnessWeak = weakform::CreateStiffnessStructural();
 			stiffnessWeak->SetTemperature(temperature_);
 			stiffnessWeak->SetPressure(pressure_);
 

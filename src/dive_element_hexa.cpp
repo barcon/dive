@@ -112,11 +112,6 @@ namespace dive
 
 			return res;
 		}
-
-		ElementHexaPtr CastToElementHexa(IElementPtr element)
-		{
-			return std::dynamic_pointer_cast<ElementHexa>(element);
-		}
 		
 		ElementHexa::ElementHexa()
 		{

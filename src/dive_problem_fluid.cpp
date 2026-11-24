@@ -53,9 +53,9 @@ namespace dive {
 		{
 			return pressure_;
 		}
-		IMatrixCoordinatesPtr ProblemFluid::GetVelocity() const
+		IMatrixCoordinatesPtr ProblemFluid::GetMomentum() const
 		{
-			return velocity_;
+			return momentum_;
 		}
 		IMeshPtr ProblemFluid::GetMesh() const
 		{
@@ -68,10 +68,6 @@ namespace dive {
 		Tag ProblemFluid::GetTag() const
 		{
 			return tag_;
-		}
-		Loads& ProblemFluid::GetLoads()
-		{
-			return loads_;
 		}
 		const DofMeshIndices& ProblemFluid::GetDofMeshIndices() const
 		{
@@ -121,7 +117,7 @@ namespace dive {
 			}
 		
 			mesh_ = mesh;
-			velocity_ = value::CreateValueMatrixCoordinatesCongruent(mesh_);
+			momentum_ = value::CreateValueMatrixCoordinatesCongruent(mesh_);
 
 			UpdateMeshElements(mesh_, numberDof_);
 		}
@@ -129,24 +125,46 @@ namespace dive {
 		{
 			tag_ = tag;
 		}
-		void ProblemFluid::ApplyLoad(ILoadPtr load)
+		void ProblemFluid::ApplyLoad(String key, const Loads& loads)
 		{
-			if (load == nullptr)
+			auto it = loadsMap_.find(key);
+			if (it != loadsMap_.end())
 			{
-				throw std::invalid_argument("Load cannot be null.");
+				throw std::invalid_argument("Load with the same key already exists.");
 			}
 
-			loads_.push_back(load);
+			for (auto& load : loads)
+			{
+				if (load == nullptr)
+				{
+					throw std::invalid_argument("Load cannot be null.");
+				}
+
+				if (load->GetWeakForm() == nullptr)
+				{
+					if (load->GetType() == load::load_node || load->GetType() == load::load_dirichlet)
+					{
+						continue;
+					}
+
+					throw std::invalid_argument("Weak form cannot be null.");
+				}
+			}
+
+			loadsMap_.insert({ key, loads });
 		}
 		void ProblemFluid::Initialize()
 		{
 			Dirichlets dirichlets;
 
-			for (auto& load : loads_)
+			for (const auto& it : loadsMap_)
 			{
-				if (load->GetType() == load::load_dirichlet)
+				for (const auto& load : it.second)
 				{
-					dirichlets.push_back(std::static_pointer_cast<load::ILoadDirichlet>(load));
+					if (load->GetType() == load::load_dirichlet)
+					{
+						dirichlets.push_back(std::static_pointer_cast<load::ILoadDirichlet>(load));
+					}
 				}
 			}
 
@@ -157,17 +175,17 @@ namespace dive {
 
 			Reorder(mesh_, numberDof_, nodeMeshIndices_, dofMeshIndices_);
 		}
-		void ProblemFluid::UpdateMeshValues(const Vector& u)
+		void ProblemFluid::UpdateMeshValues(const Vector& q)
 		{
 			for (Index i = 0; i < dofMeshIndices_.size(); ++i)
 			{
 				auto globalIndex = dofMeshIndices_[i].globalIndex;
 				auto dofIndex = dofMeshIndices_[i].dofIndex;
 
-				dofMeshIndices_[i].node->SetValue(dofIndex, u(globalIndex));
+				dofMeshIndices_[i].node->SetValue(dofIndex, q(globalIndex));
 			}
 		}
-		void ProblemFluid::UpdateMeshValues(const Vector& u0, const Vector& u1)
+		void ProblemFluid::UpdateMeshValues(const Vector& q0, const Vector& q1)
 		{
 			for (Index i = 0; i < dofMeshIndices_.size(); ++i)
 			{
@@ -176,16 +194,16 @@ namespace dive {
 
 				if (globalIndex < pivot_)
 				{
-					dofMeshIndices_[i].node->SetValue(dofIndex, u0(globalIndex));
+					dofMeshIndices_[i].node->SetValue(dofIndex, q0(globalIndex));
 				}
 				else
 				{
-					dofMeshIndices_[i].node->SetValue(dofIndex, u1(globalIndex - pivot_));
+					dofMeshIndices_[i].node->SetValue(dofIndex, q1(globalIndex - pivot_));
 
 				}
 			}
 		}
-		void ProblemFluid::UpdateMeshValuesMomentum(const Vector& q)
+		void ProblemFluid::UpdateMeshValuesVelocity(const Vector& v)
 		{
 			for (Index i = 0; i < dofMeshIndices_.size(); ++i)
 			{
@@ -203,10 +221,10 @@ namespace dive {
 
 				auto density = material->GetDensity(state);
 
-				dofMeshIndices_[i].node->SetValue(dofIndex, q(globalIndex) / density);
+				dofMeshIndices_[i].node->SetValue(dofIndex, density * v(globalIndex));
 			}
 		}
-		void ProblemFluid::UpdateMeshValuesMomentum(const Vector& q0, const Vector& q1)
+		void ProblemFluid::UpdateMeshValuesVelocity(const Vector& v0, const Vector& v1)
 		{
 			for (Index i = 0; i < dofMeshIndices_.size(); ++i)
 			{
@@ -226,18 +244,18 @@ namespace dive {
 
 				if (globalIndex < pivot_)
 				{
-					dofMeshIndices_[i].node->SetValue(dofIndex, q0(globalIndex) / density);
+					dofMeshIndices_[i].node->SetValue(dofIndex, density * v0(globalIndex));
 				}
 				else
 				{
-					dofMeshIndices_[i].node->SetValue(dofIndex, q1(globalIndex - pivot_) / density);
+					dofMeshIndices_[i].node->SetValue(dofIndex, density * v1(globalIndex - pivot_));
 
 				}
 			}
 		}
 		Sparse ProblemFluid::Mass(bool lumped) const
 		{
-			auto massWeak = weakform::CreateWeakFormMassFluid();
+			auto massWeak = weakform::CreateMassFluid();
 			auto problemFluid = std::make_shared<ProblemFluid>(*this);		
 			auto res = IntegralForm(massWeak, problemFluid, problemFluid);
 
@@ -253,7 +271,7 @@ namespace dive {
 		}
 		Sparse ProblemFluid::Stiffness() const
 		{
-			auto stiffnessWeak = weakform::CreateWeakFormStiffnessFluid();
+			auto stiffnessWeak = weakform::CreateStiffnessFluid();
 			stiffnessWeak->SetTemperature(temperature_);
 			stiffnessWeak->SetPressure(pressure_);
 
@@ -264,7 +282,7 @@ namespace dive {
 		}
 		Sparse ProblemFluid::Convection() const
 		{
-			auto convectionWeak = weakform::CreateWeakFormConvectionFluid();
+			auto convectionWeak = weakform::CreateConvectionFluid();
 			auto problemFluid = std::make_shared<ProblemFluid>(*this);
 			auto res = IntegralForm(convectionWeak, problemFluid, problemFluid);
 
@@ -272,29 +290,37 @@ namespace dive {
 		}
 		Sparse ProblemFluid::Stabilization() const
 		{
-			auto stabilizationWeak = weakform::CreateWeakFormStabilizationFluid();
+			auto stabilizationWeak = weakform::CreateStabilizationFluid();
 			auto problemFluid = std::make_shared<ProblemFluid>(*this);
 			auto res = IntegralForm(stabilizationWeak, problemFluid, problemFluid);
 
 			return res;
 		}
-		Vector ProblemFluid::LoadDistributedVolume() const
+		Vector ProblemFluid::Load(String key) const
 		{
-			auto loadDistributedVolumeWeak = weakform::CreateWeakFormLoadDistributedVolumeFluid();
-			auto problemFluid = std::make_shared<ProblemFluid>(*this);
-			auto res = IntegralForm(loadDistributedVolumeWeak, problemFluid, loads_);
+			auto it = loadsMap_.find(key);
+			if (it != loadsMap_.end())
+			{
+				return IntegralForm(std::make_shared<ProblemFluid>(*this), it->second);
+			}
 
-			return res;
-		}
-		Vector ProblemFluid::LoadDistributedVolumeStabilization() const
-		{
-			auto loadDistributedVolumeStabilizationWeak = weakform::CreateWeakFormLoadDistributedVolumeStabilizationFluid();
-			auto problemFluid = std::make_shared<ProblemFluid>(*this);
-			auto res = IntegralForm(loadDistributedVolumeStabilizationWeak, problemFluid, loads_);
-
-			return res;
+			throw std::invalid_argument("Load with the specified key does not exist.");
 		}
 		Vector ProblemFluid::Momentum() const
+		{
+			Vector res(totalDof_, 0.0);
+
+			for (Index i = 0; i < dofMeshIndices_.size(); ++i)
+			{
+				auto globalIndex = dofMeshIndices_[i].globalIndex;
+				auto dofIndex = dofMeshIndices_[i].dofIndex;
+
+				res(globalIndex) = dofMeshIndices_[i].node->GetValue(dofIndex);
+			}
+
+			return res;
+		}
+		Vector ProblemFluid::Velocity() const
 		{
 			Vector res(totalDof_, 0.0);
 			
@@ -316,21 +342,7 @@ namespace dive {
 
 				auto density = material->GetDensity(state);
 
-				res(globalIndex) = density * dofMeshIndices_[i].node->GetValue(dofIndex);
-			}
-
-			return res;
-		}
-		Vector ProblemFluid::Velocity() const
-		{
-			Vector res(totalDof_, 0.0);
-
-			for (Index i = 0; i < dofMeshIndices_.size(); ++i)
-			{
-				auto globalIndex = dofMeshIndices_[i].globalIndex;
-				auto dofIndex = dofMeshIndices_[i].dofIndex;
-
-				res(globalIndex) = dofMeshIndices_[i].node->GetValue(dofIndex);
+				res(globalIndex) = dofMeshIndices_[i].node->GetValue(dofIndex) / density;
 			}
 
 			return res;

@@ -1,9 +1,10 @@
 #include "dive_weakform_pressure_load_distributed_face_flow.hpp"
 #include "dive_load_distributed_face.hpp"
+#include "dive_problem.hpp"
 
 namespace dive {
 	namespace weakform {
-		LoadDistributedFaceFlowPressurePtr CreateWeakFormLoadDistributedFaceFlowPressure()
+		LoadDistributedFaceFlowPressurePtr CreateLoadDistributedFaceFlowPressure()
 		{
 			auto res = LoadDistributedFaceFlowPressure::Create();
 
@@ -29,13 +30,12 @@ namespace dive {
 			auto element = force->GetElement();
 			auto faceIndex = force->GetFaceIndex();
 
-			auto N = FormMatrix_N(element, point);
-			auto n = std::dynamic_pointer_cast<element::IElementSolid>(element)->Normal(faceIndex, point);
-			auto f = force->GetValue(point);
-			
-			std::cout << eilig::List(n) << std::endl;
 
-			//output = N.Transpose() * eilig::Dot(n, f);
+	    	auto N = FormMatrix_N(element, point);
+			auto n = std::dynamic_pointer_cast<element::IElementSolid>(element)->Normal(faceIndex, point);
+			//auto u = std::dynamic_pointer_cast<problem::IFluid>(problemMomentum_)->Momentum(elementIndex, point);
+
+			//output = Vector(N.Transpose() * eilig::Dot(n, u), 0);
 		}
 		void LoadDistributedFaceFlowPressure::SetProblemMomentum(IProblemPtr problemMomentum)
 		{

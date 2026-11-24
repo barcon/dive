@@ -6,19 +6,16 @@ namespace dive
 {
 	namespace load
 	{
-		LoadDistributedEdgePtr CreateLoadDistributedEdge(IElementPtr element, EdgeIndex edgeIndex, IVectorCoordinatesPtr value)
+		LoadDistributedEdgePtr CreateLoadDistributedEdge(IElementPtr element, EdgeIndex edgeIndex, IVectorCoordinatesPtr value, IWeakFormLoadPtr weakForm)
 		{
 			auto res = LoadDistributedEdge::Create();
 
 			res->SetElement(std::dynamic_pointer_cast<element::IElementMapped>(element));
 			res->SetEdgeIndex(edgeIndex);
 			res->SetValue(value);
+			res->SetWeakForm(weakForm);
 
 			return res;
-		}
-		LoadDistributedEdgePtr CastToLoadDistributedEdge(ILoadPtr load)
-		{
-			return std::dynamic_pointer_cast<LoadDistributedEdge>(load);
 		}
 		LoadDistributedEdgePtr LoadDistributedEdge::Create()
 		{
@@ -49,6 +46,10 @@ namespace dive
 		EdgeIndex LoadDistributedEdge::GetEdgeIndex() const
 		{
 			return edgeIndex_;
+		}
+		IWeakFormLoadPtr LoadDistributedEdge::GetWeakForm() const
+		{
+			return weakForm_;
 		}
 		void LoadDistributedEdge::SetElement(IElementMappedPtr element)
 		{
@@ -81,6 +82,15 @@ namespace dive
 			}
 
 			value_ = value;
+		}
+		void LoadDistributedEdge::SetWeakForm(IWeakFormLoadPtr weakForm)
+		{
+			if (weakForm == nullptr)
+			{
+				throw std::invalid_argument("Weak form is nullptr");
+			}
+
+			weakForm_ = weakForm;
 		}
 	} //namespace load
 } //namespace dive

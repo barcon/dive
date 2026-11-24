@@ -33,10 +33,6 @@ namespace dive
 
 			return res;
 		}
-		ElementCombinedPtr CastToElementCombined(IElementPtr element)
-		{
-			return std::dynamic_pointer_cast<ElementCombined>(element);
-		}
 
 		ElementCombined::ElementCombined()
 		{

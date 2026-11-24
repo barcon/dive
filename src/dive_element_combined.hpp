@@ -10,7 +10,6 @@ namespace dive
 		ElementCombinedPtr CreateElementCombined();
 		ElementCombinedPtr CreateElementCombined(Tag elementTag);
 		ElementCombinedPtr CreateElementCombined(Tag elementTag, IScalarPtr stiffness, IScalarPtr damping);
-		ElementCombinedPtr CastToElementCombined(IElementPtr element);
 
 		class ElementCombined : public IElement, virtual public std::enable_shared_from_this<ElementCombined>
 		{

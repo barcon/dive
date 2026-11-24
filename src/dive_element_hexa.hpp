@@ -15,8 +15,6 @@ namespace dive
 		ElementHexaPtr CreateElementHexa202(Tag elementTag);
 		ElementHexaPtr CreateElementHexa203(Tag elementTag);
 		
-		ElementHexaPtr CastToElementHexa(IElementPtr element);
-
 		class ElementHexa : public IElementSolid, virtual public std::enable_shared_from_this<ElementHexa>
 		{
 		public:

@@ -7,6 +7,7 @@
 #include "dive_weakform_pressure_crossed.hpp"
 #include "dive_weakform_pressure_stabilization.hpp"
 #include "dive_weakform_pressure_load_distributed_face_flow.hpp"
+#include "dive_weakform_pressure_load_distributed_volume_divergence.hpp"
 
 namespace dive {
 	namespace problem {
@@ -63,10 +64,6 @@ namespace dive {
 		{
 			return tag_;
 		}
-		Loads& ProblemPressure::GetLoads()
-		{
-			return loads_;
-		}
 		const DofMeshIndices& ProblemPressure::GetDofMeshIndices() const
 		{
 			return dofMeshIndices_;
@@ -109,24 +106,46 @@ namespace dive {
 		{
 			tag_ = tag;
 		}
-		void ProblemPressure::ApplyLoad(ILoadPtr load)
+		void ProblemPressure::ApplyLoad(String key, const Loads& loads)
 		{
-			if (load == nullptr)
+			auto it = loadsMap_.find(key);
+			if (it != loadsMap_.end())
 			{
-				throw std::invalid_argument("Load cannot be null.");
+				throw std::invalid_argument("Load with the same key already exists.");
 			}
 
-			loads_.push_back(load);
+			for (auto& load : loads)
+			{
+				if (load == nullptr)
+				{
+					throw std::invalid_argument("Load cannot be null.");
+				}
+
+				if (load->GetWeakForm() == nullptr)
+				{
+					if (load->GetType() == load::load_node || load->GetType() == load::load_dirichlet)
+					{
+						continue;
+					}
+
+					throw std::invalid_argument("Weak form cannot be null.");
+				}
+			}
+
+			loadsMap_.insert({ key, loads });
 		}
 		void ProblemPressure::Initialize()
 		{
 			Dirichlets dirichlets;
 
-			for (auto& load : loads_)
+			for (const auto& it : loadsMap_)
 			{
-				if (load->GetType() == load::load_dirichlet)
+				for (const auto& load : it.second)
 				{
-					dirichlets.push_back(std::static_pointer_cast<load::ILoadDirichlet>(load));
+					if (load->GetType() == load::load_dirichlet)
+					{
+						dirichlets.push_back(std::static_pointer_cast<load::ILoadDirichlet>(load));
+					}
 				}
 			}
 
@@ -137,17 +156,17 @@ namespace dive {
 
 			Reorder(mesh_, numberDof_, nodeMeshIndices_, dofMeshIndices_);
 		}
-		void ProblemPressure::UpdateMeshValues(const Vector& u)
+		void ProblemPressure::UpdateMeshValues(const Vector& p)
 		{
 			for (Index i = 0; i < dofMeshIndices_.size(); ++i)
 			{
 				auto globalIndex = dofMeshIndices_[i].globalIndex;
 				auto dofIndex = dofMeshIndices_[i].dofIndex;
 
-				dofMeshIndices_[i].node->SetValue(dofIndex, u(globalIndex));
+				dofMeshIndices_[i].node->SetValue(dofIndex, p(globalIndex));
 			}
 		}
-		void ProblemPressure::UpdateMeshValues(const Vector& u0, const Vector& u1)
+		void ProblemPressure::UpdateMeshValues(const Vector& p0, const Vector& p1)
 		{
 			for (Index i = 0; i < dofMeshIndices_.size(); ++i)
 			{
@@ -156,22 +175,22 @@ namespace dive {
 
 				if (globalIndex < pivot_)
 				{
-					dofMeshIndices_[i].node->SetValue(dofIndex, u0(globalIndex));
+					dofMeshIndices_[i].node->SetValue(dofIndex, p0(globalIndex));
 				}
 				else
 				{
-					dofMeshIndices_[i].node->SetValue(dofIndex, u1(globalIndex - pivot_));
+					dofMeshIndices_[i].node->SetValue(dofIndex, p1(globalIndex - pivot_));
 
 				}
 			}
 		}
 		Sparse ProblemPressure::Mass(IFluidPtr problemMomentum, bool lumped) const
 		{
-			auto massWeak = weakform::CreateWeakFormMassPressure();
+			auto massWeak = weakform::CreateMassPressure();
 			
 			massWeak->SetTemperature(temperature_);
 			massWeak->SetPressure(pressure_);
-			massWeak->SetVelocity(problemMomentum->GetVelocity());
+			massWeak->SetMomentum(problemMomentum->GetMomentum());
 
 			auto problemPressure = std::make_shared<ProblemPressure>(*this);
 			auto res = IntegralForm(massWeak, problemPressure, problemPressure);
@@ -188,7 +207,7 @@ namespace dive {
 		}
 		Sparse ProblemPressure::Stiffness() const
 		{
-			auto stiffnessWeak = weakform::CreateWeakFormStiffnessPressure();
+			auto stiffnessWeak = weakform::CreateStiffnessPressure();
 			auto problemPressure = std::make_shared<ProblemPressure>(*this);
 			auto res = IntegralForm(stiffnessWeak, problemPressure, problemPressure);
 
@@ -196,17 +215,17 @@ namespace dive {
 		}
 		Sparse ProblemPressure::Crossed(IProblemPtr problemMomentum) const
 		{
-			auto crossedWeak = weakform::CreateWeakFormCrossedPressure();
+			auto crossedWeak = weakform::CreateCrossedPressure();
 			crossedWeak->SetProblemMomentum(problemMomentum);
 
 			auto problemPressure = std::make_shared<ProblemPressure>(*this);
 			auto res = IntegralForm(crossedWeak, problemPressure, problemMomentum);
 
 			return res;
-		}
+		}		
 		Sparse ProblemPressure::Stabilization(IProblemPtr problemMomentum) const
 		{
-			auto stabilizationWeak = weakform::CreateWeakFormStabilizationPressure();
+			auto stabilizationWeak = weakform::CreateStabilizationPressure();
 			stabilizationWeak->SetProblemMomentum(problemMomentum);
 
 			auto problemPressure = std::make_shared<ProblemPressure>(*this);
@@ -214,15 +233,15 @@ namespace dive {
 
 			return res;
 		}
-		Vector ProblemPressure::LoadDistributedFaceFlow(IProblemPtr problemMomentum) const
+		Vector ProblemPressure::Load(String key) const
 		{
-			auto loadDistributedFaceFlowPressureWeak = weakform::CreateWeakFormLoadDistributedFaceFlowPressure();
-			loadDistributedFaceFlowPressureWeak->SetProblemMomentum(problemMomentum);
+			auto it = loadsMap_.find(key);
+			if (it != loadsMap_.end())
+			{
+				return IntegralForm(std::make_shared<ProblemPressure>(*this), it->second);
+			}
 
-			auto problemPressure = std::make_shared<ProblemPressure>(*this);
-			auto res = IntegralForm(loadDistributedFaceFlowPressureWeak, problemPressure, loads_);
-
-			return res;
+			throw std::invalid_argument("Load with the specified key does not exist.");
 		}
 		Vector ProblemPressure::Pressure() const
 		{

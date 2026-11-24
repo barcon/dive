@@ -39,6 +39,10 @@ namespace dive
 		{
 			return node_;
 		}
+		IWeakFormLoadPtr LoadNode::GetWeakForm() const
+		{
+			return nullptr;
+		}
 		void LoadNode::SetNode(INodePtr node)
 		{
 			if (node == nullptr)
@@ -65,6 +69,10 @@ namespace dive
 			}
 
 			value_ = value;
+		}
+		void LoadNode::SetWeakForm(IWeakFormLoadPtr weakForm)
+		{
+			logger::Info(headerDive, "LoadNode::SetWeakForm: weak form is not applicable for Node load");
 		}
 	} //namespace loads
 } //namespace dive

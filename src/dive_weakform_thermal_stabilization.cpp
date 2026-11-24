@@ -5,7 +5,7 @@
 
 namespace dive {
 	namespace weakform {
-		StabilizationThermalPtr CreateWeakFormStabilizationThermal()
+		StabilizationThermalPtr CreateStabilizationThermal()
 		{
 			auto res = StabilizationThermal::Create();
 

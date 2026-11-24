@@ -4,7 +4,7 @@
 
 namespace dive {
 	namespace weakform {
-		LoadDistributedVolumeStabilizationFluidPtr CreateWeakFormLoadDistributedVolumeStabilizationFluid()
+		LoadDistributedVolumeStabilizationFluidPtr CreateLoadDistributedVolumeStabilizationFluid()
 		{
 			auto res = LoadDistributedVolumeStabilizationFluid::Create();
 

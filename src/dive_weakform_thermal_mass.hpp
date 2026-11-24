@@ -7,7 +7,7 @@ namespace dive
 {
     namespace weakform
     {
-		MassThermalPtr CreateWeakFormMassThermal();
+		MassThermalPtr CreateMassThermal();
 
 		class MassThermal : public IWeakFormElement, virtual public std::enable_shared_from_this<MassThermal>
 		{

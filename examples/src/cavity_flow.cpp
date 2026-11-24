@@ -16,38 +16,26 @@ auto sizeDomain = 1.0;
 auto reynolds   = 1000.0;
 auto speed = reynolds * dynamicViscosity / (density * sizeDomain);
 
-auto velocityTop0 = CreateValueScalarCoordinates(3, speed);
-auto velocityTop1 = CreateValueScalarCoordinates(3, 0.0);
-auto velocityTop2 = CreateValueScalarCoordinates(3, 0.0);
-auto velocityWall0 = CreateValueScalarCoordinates(3, 0.0);
-auto velocityWall1 = CreateValueScalarCoordinates(3, 0.0);
-auto velocityWall2 = CreateValueScalarCoordinates(3, 0.0);
-auto velocitySymmetry = CreateValueScalarCoordinates(3, 0.0);
+auto momentumTop0 = CreateValueScalarCoordinates(3, density * speed);
+auto momentumTop1 = CreateValueScalarCoordinates(3, 0.0);
+auto momentumTop2 = CreateValueScalarCoordinates(3, 0.0);
+auto momentumWall0 = CreateValueScalarCoordinates(3, 0.0);
+auto momentumWall1 = CreateValueScalarCoordinates(3, 0.0);
+auto momentumWall2 = CreateValueScalarCoordinates(3, 0.0);
+auto momentumSymmetry = CreateValueScalarCoordinates(3, 0.0);
 auto pressureCorner = CreateValueScalarCoordinates(3, 0.0);
-
-Values loadCase =
-{
-    {"fluid:dirichlet:0:top", velocityTop0},
-    {"fluid:dirichlet:1:top", velocityTop1},
-    {"fluid:dirichlet:2:top", velocityTop2},
-    {"fluid:dirichlet:0:wall", velocityWall0},
-    {"fluid:dirichlet:1:wall", velocityWall1},
-    {"fluid:dirichlet:2:wall", velocityWall2},
-    {"fluid:dirichlet:2:symmetry", velocitySymmetry},
-    {"pressure:dirichlet:0:corner", pressureCorner},
-};
 
 int main()
 {
     try
     {
-        InitializeGmsh("./cavity_stokes_flow.msh");
+        InitializeGmsh("./cavity_flow.msh");
 
         auto fluidMaterial = CreateOilVG100(1, temperature, pressure);
         auto fluidProblem = CreateProblemFluid(1, "fluid");
         auto thermalProblem = CreateProblemThermal(2, "thermal");
         auto pressureProblem = CreateProblemPressure(3, "pressure");
-        auto probeVelocity = mesh::GmshGetNodesForPhysicalGroup(fluidProblem->GetMesh(), "probe");
+        auto probeMomentum = mesh::GmshGetNodesForPhysicalGroup(fluidProblem->GetMesh(), "probe");
         auto probePressure = mesh::GmshGetNodesForPhysicalGroup(pressureProblem->GetMesh(), "probe");
 
         thermalProblem->SetPressure(std::static_pointer_cast<value::IScalarCoordinates>(pressureProblem->GetPressure()));
@@ -55,11 +43,17 @@ int main()
         fluidProblem->SetPressure(std::static_pointer_cast<value::IScalarCoordinates>(pressureProblem->GetPressure()));
         fluidProblem->SetTemperature(std::static_pointer_cast<value::IScalarCoordinates>(thermalProblem->GetTemperature()));
 
-        mesh::ApplyMaterial(fluidProblem->GetMesh(), fluidMaterial);
-        mesh::ApplyMaterial(thermalProblem->GetMesh(), fluidMaterial);
-        mesh::ApplyMaterial(pressureProblem->GetMesh(), fluidMaterial);
-        mesh::ApplyValue(thermalProblem->GetMesh(), CreateValueMatrixCoordinates(3, { {temperature} }));
-        mesh::ApplyValue(pressureProblem->GetMesh(), CreateValueMatrixCoordinates(3, { {0.0} }));
+        ApplyMaterial(fluidProblem->GetMesh(), fluidMaterial);
+        ApplyMaterial(thermalProblem->GetMesh(), fluidMaterial);
+        ApplyMaterial(pressureProblem->GetMesh(), fluidMaterial);
+        
+        ApplyValue(thermalProblem->GetMesh(), CreateValueMatrixCoordinates(3, { {temperature} }));
+        ApplyValue(pressureProblem->GetMesh(), CreateValueMatrixCoordinates(3, { {0.0} }));
+
+        ApplyLoad(pressureProblem, "pressure:dirichlet:0:corner", pressureCorner);
+        ApplyLoad(fluidProblem, "fluid:dirichlet:0:top", momentumTop0);
+        ApplyLoad(fluidProblem, "fluid:dirichlet:1:top", momentumTop1);
+        ApplyLoad(fluidProblem, "fluid:dirichlet:2:top", momentumTop2);
 
         FinalizeGmsh();
 
@@ -71,7 +65,9 @@ int main()
         auto dt2 = sizeElement / (speed);
         auto dt = 0.5 * dt1 * dt2 / (dt1 + dt2);
 
-		std::cout << utils::string::Format("Size element = {:.3e} | Speed fluid = {:.3e} | Time step = {:.3e}", sizeElement, speed, dt) << std::endl;
+		logger::Info("EXAMPLES", utils::string::Format("Size element = {:.3e}", sizeElement));
+		logger::Info("EXAMPLES", utils::string::Format("Speed fluid = {:.3e}", speed));
+		logger::Info("EXAMPLES", utils::string::Format("Time step = {:.3e}", dt));
 
 //-------------------------------------------------------------------------------------------------
 
@@ -84,8 +80,9 @@ int main()
         
         auto totalDofPressure = pressureProblem->GetTotalDof();      
         auto pivotPressure = pressureProblem->GetPivot();
-
-		std::cout << utils::string::Format("Total dof pressure = {} | Pivot pressure = {}", totalDofPressure, pivotPressure) << std::endl;
+	
+		logger::Info("EXAMPLES", utils::string::Format("Total dof momentum = {}", totalDofMomentum));
+		logger::Info("EXAMPLES", utils::string::Format("Pivot momentum = {}", pivotMomentum));
 
         auto M = problem::Partition<Sparses>(fluidProblem->Mass(false), totalDofMomentum, pivotMomentum);
         auto K = problem::Partition<Sparses>(fluidProblem->Stiffness(), totalDofMomentum, pivotMomentum);     
@@ -101,34 +98,38 @@ int main()
         
         while (true)
         {
-            auto C = problem::Partition<Sparses>(fluidProblem->Convection(), totalDofMomentum, pivotMomentum);
+            //auto C = problem::Partition<Sparses>(fluidProblem->Convection(), totalDofMomentum, pivotMomentum);
 
+            auto v0 = problem::Partition<eilig::Vectors>(fluidProblem->Velocity(), totalDofMomentum, pivotMomentum);
             auto q0 = problem::Partition<eilig::Vectors>(fluidProblem->Momentum(), totalDofMomentum, pivotMomentum);
             auto q1 = problem::Partition<eilig::Vectors>(Vector(totalDofMomentum, 0.0), totalDofMomentum, pivotMomentum);
             auto q2 = problem::Partition<eilig::Vectors>(Vector(totalDofMomentum, 0.0), totalDofMomentum, pivotMomentum);
             auto dq = problem::Partition<eilig::Vectors>(Vector(totalDofMomentum, 0.0), totalDofMomentum, pivotMomentum);
             auto dqq = problem::Partition<eilig::Vectors>(Vector(totalDofMomentum, 0.0), totalDofMomentum, pivotMomentum);
-            auto gp = problem::Partition<eilig::Vectors>(G_Transpose * pressureProblem->Pressure(), totalDofMomentum, pivotMomentum);
 
-            eilig::IterativeBiCGStab(M[3], dq[1], -dt * (K[2] * q0[0] + C[2] * q0[0] + K[3] * q0[1] + C[3] * q0[1] + gp[1]), callbackIterativeMomentum);
+            eilig::IterativeBiCGStab(M[3], dq[1], -dt * (K[2] * v0[0] + K[3] * v0[1]), callbackIterativeMomentum);
 
             q1[0] = q0[0] + dq[0];
             q1[1] = q0[1] + dq[1];
 
-            fluidProblem->UpdateMeshValuesMomentum(q1[0], q1[1]);
+            fluidProblem->UpdateMeshValues(q1[0], q1[1]);
 
-            auto gu = problem::Partition<eilig::Vectors>(G * fluidProblem->Momentum(), totalDofPressure, pivotPressure);
             auto p0 = problem::Partition<eilig::Vectors>(pressureProblem->Pressure(), totalDofPressure, pivotPressure);
-            auto p1 = problem::Partition<eilig::Vectors>(Vector(totalDofPressure, 0.0), totalDofPressure, pivotPressure);
-            auto dp = problem::Partition<eilig::Vectors>(Vector(totalDofPressure, 0.0), totalDofPressure, pivotPressure);
-            eilig::IterativeBiCGStab(Mp[3], dp[1], dt * (gu[1]), callbackIterativePressure);
-
-            p1[0] = p0[0] + dp[0];
-            p1[1] = p0[1] + dp[1];
+            auto p1 = problem::Partition<eilig::Vectors>(pressureProblem->Pressure(), totalDofPressure, pivotPressure);
+            auto fd = problem::Partition<eilig::Vectors>(pressureProblem->Load("pressure:load:volume:divergence"), totalDofPressure, pivotPressure);
+            eilig::IterativeBiCGStab(H[3], p1[1], -H[2] * p1[0] - 1.0 / dt * (fd[1]), callbackIterativePressure);
 
             pressureProblem->UpdateMeshValues(p1[0], p1[1]);
 
-            auto numerator = eilig::NormP2(q1[1] - q0[1]);
+            auto fc = problem::Partition<eilig::Vectors>(G_Transpose * pressureProblem->Pressure(), totalDofMomentum, pivotMomentum);
+            eilig::IterativeBiCGStab(M[3], dqq[1], -dt * fc[1], callbackIterativeMomentum);
+
+            q2[0] = q0[0] + dq[0] + dqq[0];
+            q2[1] = q0[1] + dq[1] + dqq[1];
+
+            fluidProblem->UpdateMeshValues(q2[0], q2[1]);
+
+            auto numerator = eilig::NormP2(q2[1] - q0[1]);
             auto denominator = eilig::NormP2(q0[1]);
             denominator = (denominator < 1e-10) ? 1.0 : denominator;
             auto norm = numerator / denominator;
@@ -146,12 +147,12 @@ int main()
             step += 1;
         }
 
-        SaveToFile("cavity_stokes_flow_velocity.dat", probeVelocity);
-        SaveToFile("cavity_stokes_flow_pressure.dat", probePressure);
+        SaveToFile("cavity_flow_momentum.dat", probeMomentum);
+        SaveToFile("cavity_flow_pressure.dat", probePressure);
     }
     catch (const std::exception& error)
     {
-        logger::Error("DIVE", error.what());
+        logger::Error("EXAMPLES", error.what());
     }
 
     return 0;

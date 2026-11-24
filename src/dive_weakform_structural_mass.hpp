@@ -7,7 +7,7 @@ namespace dive
 {
     namespace weakform
     {
-		MassStructuralPtr CreateWeakFormMassStructural();
+		MassStructuralPtr CreateMassStructural();
 
 		class MassStructural : public IWeakFormElement, virtual public std::enable_shared_from_this<MassStructural>
 		{

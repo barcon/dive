@@ -31,10 +31,6 @@ namespace dive
 
 			return res;
 		}
-		ElementMassPtr CastToElementMass(IElementPtr element)
-		{
-			return std::dynamic_pointer_cast<ElementMass>(element);
-		}
 
 		ElementMass::ElementMass()
 		{

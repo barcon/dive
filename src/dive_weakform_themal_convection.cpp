@@ -5,7 +5,7 @@
 
 namespace dive {
 	namespace weakform {
-		ConvectionThermalPtr CreateWeakFormConvectionThermal()
+		ConvectionThermalPtr CreateConvectionThermal()
 		{
 			auto res = ConvectionThermal::Create();
 

@@ -18,7 +18,7 @@ namespace dive
 		static const Type problem_deformation	= 5;
 
 		Sparse IntegralForm(IWeakFormElementPtr weakForm, IProblemPtr problem1, IProblemPtr problem2);
-		Vector IntegralForm(IWeakFormLoadPtr weakForm, IProblemPtr problem1, const Loads& loads);
+		Vector IntegralForm(IProblemPtr problem1, const Loads& loads);
 		
 		template <typename T>
 		std::enable_if_t<std::is_same_v<T, Vectors>, T> Partition(const typename T::value_type& vector, NumberDof totalDof, DofIndex pivot)
@@ -56,12 +56,12 @@ namespace dive
 			virtual NumberDof GetNumberDof() const = 0;
 			virtual IMeshPtr GetMesh() const = 0;
 			virtual Type GetType() const = 0;
-			virtual Tag	GetTag() const = 0;
+			virtual Tag	GetTag() const = 0;	
 
-			virtual Loads& GetLoads() = 0;
-	
-			virtual void SetTag(Tag tag) = 0;
-			virtual void ApplyLoad(ILoadPtr load) = 0;
+			virtual void SetTag(Tag tag) = 0;						
+			
+			virtual void ApplyLoad(String key, const Loads& loads) = 0;
+			virtual Vector Load(String key) const = 0;
 
 		protected:
 			virtual void SetMesh(IMeshPtr mesh) = 0;
@@ -109,22 +109,20 @@ namespace dive
 
 			virtual IScalarCoordinatesPtr GetTemperature() const = 0;
 			virtual IScalarCoordinatesPtr GetPressure() const = 0;
-			virtual IMatrixCoordinatesPtr GetVelocity() const = 0;
+			virtual IMatrixCoordinatesPtr GetMomentum() const = 0;
 
 			virtual void SetTemperature(IScalarCoordinatesPtr temperature) = 0;
 			virtual void SetPressure(IScalarCoordinatesPtr pressure) = 0;
 			
-			virtual void UpdateMeshValues(const Vector& u) = 0;
-			virtual void UpdateMeshValues(const Vector& u0, const Vector& u1) = 0;
-			virtual void UpdateMeshValuesMomentum(const Vector& q) = 0;
-			virtual void UpdateMeshValuesMomentum(const Vector& q0, const Vector& q1) = 0;
+			virtual void UpdateMeshValues(const Vector& q) = 0;
+			virtual void UpdateMeshValues(const Vector& q0, const Vector& u1) = 0;
+			virtual void UpdateMeshValuesVelocity(const Vector& v) = 0;
+			virtual void UpdateMeshValuesVelocity(const Vector& v0, const Vector& v1) = 0;
 
 			virtual Sparse Mass(bool lumped = false) const = 0;
 			virtual Sparse Stiffness() const = 0;
 			virtual Sparse Convection() const = 0;
 			virtual Sparse Stabilization() const = 0;		
-			virtual Vector LoadDistributedVolume() const = 0;
-			virtual Vector LoadDistributedVolumeStabilization() const = 0;	
 			virtual Vector Momentum() const = 0;
 			virtual Vector Velocity() const = 0;
 		};
@@ -139,14 +137,13 @@ namespace dive
 
 			virtual void SetTemperature(IScalarCoordinatesPtr temperature) = 0;
 
-			virtual void UpdateMeshValues(const Vector& u) = 0;
-			virtual void UpdateMeshValues(const Vector& u0, const Vector& u1) = 0;
+			virtual void UpdateMeshValues(const Vector& p) = 0;
+			virtual void UpdateMeshValues(const Vector& p0, const Vector& p1) = 0;
 
 			virtual Sparse Mass(IFluidPtr problemMomentum, bool lumped = false) const = 0;
 			virtual Sparse Stiffness() const = 0;
 			virtual Sparse Crossed(IProblemPtr problemMomentum) const = 0;
 			virtual Sparse Stabilization(IProblemPtr problemMomentum) const = 0;
-			virtual Vector LoadDistributedFaceFlow(IProblemPtr problemMomentum) const = 0;
 			virtual Vector Pressure() const = 0;
 		};
 
@@ -167,10 +164,6 @@ namespace dive
 			virtual Sparse Mass(bool lumped = false) const = 0;
 			virtual Sparse Stiffness() const = 0;
 			virtual Sparse Damping() const = 0;
-			virtual Vector LoadDistributedEdge() const = 0;
-			virtual Vector LoadDistributedFace() const = 0;
-			virtual Vector LoadDistributedVolume() const = 0;
-			virtual Vector LoadNode() const = 0;
 			virtual Vector Displacement() const = 0;
 		};
 
@@ -184,8 +177,8 @@ namespace dive
 
 			virtual void SetPressure(IScalarCoordinatesPtr pressure) = 0;
 
-			virtual void UpdateMeshValues(const Vector& u) = 0;
-			virtual void UpdateMeshValues(const Vector& u0, const Vector& u1) = 0;
+			virtual void UpdateMeshValues(const Vector& t) = 0;
+			virtual void UpdateMeshValues(const Vector& t0, const Vector& t1) = 0;
 
 			virtual Sparse Mass(bool lumped = false) const = 0;
 			virtual Sparse Stiffness() const = 0;

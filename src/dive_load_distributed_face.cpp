@@ -6,19 +6,16 @@ namespace dive
 {
 	namespace load
 	{
-		LoadDistributedFacePtr CreateLoadDistributedFace(IElementPtr element, FaceIndex faceIndex, IVectorCoordinatesPtr value)
+		LoadDistributedFacePtr CreateLoadDistributedFace(IElementPtr element, FaceIndex faceIndex, IVectorCoordinatesPtr value, IWeakFormLoadPtr weakForm)
 		{
 			auto res = LoadDistributedFace::Create();
 
 			res->SetElement(std::dynamic_pointer_cast<element::IElementMapped>(element));
 			res->SetFaceIndex(faceIndex);
 			res->SetValue(value);
+			res->SetWeakForm(weakForm);
 
 			return res;
-		}
-		LoadDistributedFacePtr CastToLoadDistributedFace(ILoadPtr load)
-		{
-			return std::dynamic_pointer_cast<LoadDistributedFace>(load);
 		}
 		LoadDistributedFacePtr LoadDistributedFace::Create()
 		{
@@ -49,6 +46,10 @@ namespace dive
 		FaceIndex LoadDistributedFace::GetFaceIndex() const
 		{
 			return faceIndex_;
+		}
+		IWeakFormLoadPtr LoadDistributedFace::GetWeakForm() const
+		{
+			return weakForm_;
 		}
 		void LoadDistributedFace::SetElement(IElementMappedPtr element)
 		{
@@ -81,6 +82,15 @@ namespace dive
 			}
 
 			value_ = value;
+		}
+		void LoadDistributedFace::SetWeakForm(IWeakFormLoadPtr weakForm)
+		{
+			if (weakForm == nullptr)
+			{
+				throw std::invalid_argument("Weak form is nullptr");
+			}
+
+			weakForm_ = weakForm;
 		}
 	} //namespace load
 } //namespace dive

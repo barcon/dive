@@ -4,7 +4,7 @@
 
 namespace dive {
 	namespace weakform {
-		MassPressurePtr CreateWeakFormMassPressure()
+		MassPressurePtr CreateMassPressure()
 		{
 			auto res = MassPressure::Create();
 
@@ -26,19 +26,18 @@ namespace dive {
 		}
 		void MassPressure::WeakFormulation(IElementMappedPtr element, const Vector& local, Matrix& output, const CacheIndex& cacheIndex) const
 		{
-			Scalar uconv{ 0.0 };
-			Scalar udiff{ 0.0 };
-			Scalar beta{ 0.0 };
+			Scalar speedDiffusion{ 0.0 };
+			Scalar speedConvection{ 0.0 };
+			Scalar beta{ 0.5 };
 
 			auto N = FormMatrix_N(element, local, cacheIndex);
 			auto u = FormVelocity(element, local, cacheIndex);
 			auto nu = FormKineticViscosity(element, local, cacheIndex);
 			auto h = element->SizeMinimum();
 
-			uconv = nu / h;
-			//udiff = eilig::NormP2(u);
-			//beta = std::max({ 0.5, uconv, udiff });
-			beta = std::max({ 0.5, uconv });
+			speedDiffusion = nu / h;
+			speedConvection = eilig::NormP2(u);
+			beta = std::max({ beta, speedConvection, speedDiffusion });
 
 			output = (1.0 / (beta * beta)) * N.Transpose() * N;
 		}
@@ -50,13 +49,19 @@ namespace dive {
 		{
 			pressure_ = pressure;
 		}
-		void MassPressure::SetVelocity(IMatrixCoordinatesPtr velocity)
+		void MassPressure::SetMomentum(IMatrixCoordinatesPtr momentum)
 		{
-			velocity_ = velocity;
+			momentum_ = momentum;
 		}
 		Matrix MassPressure::FormVelocity(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{
-			return value::GetValueMatrixCoordinates(velocity_, local, element) ;
+			auto state = Vector(2);
+			state(0) = value::GetValueScalarCoordinates(temperature_, local, element);
+			state(1) = value::GetValueScalarCoordinates(pressure_, local, element);
+
+			auto density = element->GetMaterial()->GetDensity(state);
+
+			return value::GetValueMatrixCoordinates(momentum_, local, element) * (1.0 / density);
 		}
 		Scalar MassPressure::FormKineticViscosity(IElementMappedPtr element, const Vector& local, const CacheIndex& cacheIndex) const
 		{

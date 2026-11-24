@@ -66,10 +66,6 @@ namespace dive {
 		{
 			return tag_;
 		}
-		Loads& ProblemStructural::GetLoads()
-		{
-			return loads_;
-		}
 		const DofMeshIndices& ProblemStructural::GetDofMeshIndices() const
 		{
 			return dofMeshIndices_;
@@ -125,24 +121,46 @@ namespace dive {
 		{
 			tag_ = tag;
 		}
-		void ProblemStructural::ApplyLoad(ILoadPtr load)
+		void ProblemStructural::ApplyLoad(String key, const Loads& loads)
 		{
-			if (load == nullptr)
+			auto it = loadsMap_.find(key);
+			if (it != loadsMap_.end())
 			{
-				throw std::invalid_argument("Load cannot be null.");
+				throw std::invalid_argument("Load with the same key already exists.");
 			}
 
-			loads_.push_back(load);
+			for (auto& load : loads)
+			{
+				if (load == nullptr)
+				{
+					throw std::invalid_argument("Load cannot be null.");
+				}
+
+				if (load->GetWeakForm() == nullptr)
+				{
+					if (load->GetType() == load::load_node || load->GetType() == load::load_dirichlet)
+					{
+						continue;
+					}
+
+					throw std::invalid_argument("Weak form cannot be null.");
+				}
+			}
+
+			loadsMap_.insert({ key, loads });
 		}
 		void ProblemStructural::Initialize()
 		{
 			Dirichlets dirichlets;
 
-			for (auto& load : loads_)
+			for (const auto& it : loadsMap_)
 			{
-				if (load->GetType() == load::load_dirichlet)
+				for (const auto& load : it.second)
 				{
-					dirichlets.push_back(std::static_pointer_cast<load::ILoadDirichlet>(load));
+					if (load->GetType() == load::load_dirichlet)
+					{
+						dirichlets.push_back(std::static_pointer_cast<load::ILoadDirichlet>(load));
+					}
 				}
 			}
 
@@ -183,7 +201,7 @@ namespace dive {
 		}
 		Sparse ProblemStructural::Mass(bool lumped) const
 		{
-			auto massWeak = weakform::CreateWeakFormMassStructural();
+			auto massWeak = weakform::CreateMassStructural();
 			massWeak->SetTemperature(temperature_);
 			massWeak->SetPressure(pressure_);
 
@@ -242,7 +260,7 @@ namespace dive {
 		}
 		Sparse ProblemStructural::Stiffness() const
 		{
-			auto stiffnessWeak = weakform::CreateWeakFormStiffnessStructural();
+			auto stiffnessWeak = weakform::CreateStiffnessStructural();
 			stiffnessWeak->SetTemperature(temperature_);
 			stiffnessWeak->SetPressure(pressure_);
 
@@ -338,36 +356,15 @@ namespace dive {
 
 			return res;
 		}
-		Vector ProblemStructural::LoadDistributedEdge() const
+		Vector ProblemStructural::Load(String key) const
 		{
-			auto loadDistributedEdgeWeak = weakform::CreateWeakFormLoadDistributedEdgeStructural();
-			auto problemStructural = std::make_shared<ProblemStructural>(*this);
-			auto res = IntegralForm(loadDistributedEdgeWeak, problemStructural, loads_);
+			auto it = loadsMap_.find(key);
+			if (it != loadsMap_.end())
+			{
+				return IntegralForm(std::make_shared<ProblemStructural>(*this), it->second);
+			}
 
-			return res;
-		}
-		Vector ProblemStructural::LoadDistributedFace() const
-		{
-			auto loadDistributedFaceWeak = weakform::CreateWeakFormLoadDistributedFaceStructural();
-			auto problemStructural = std::make_shared<ProblemStructural>(*this);
-			auto res = IntegralForm(loadDistributedFaceWeak, problemStructural, loads_);
-
-			return res;
-		}
-		Vector ProblemStructural::LoadDistributedVolume() const
-		{
-			auto loadDistributedVolumeWeak = weakform::CreateWeakFormLoadDistributedVolumeStructural();
-			auto problemStructural = std::make_shared<ProblemStructural>(*this);
-			auto res = IntegralForm(loadDistributedVolumeWeak, problemStructural, loads_);
-
-			return res;
-		}
-		Vector ProblemStructural::LoadNode() const
-		{
-			auto problemStructural = std::make_shared<ProblemStructural>(*this);
-			auto res = IntegralForm(nullptr, problemStructural, loads_);
-
-			return res;
+			throw std::invalid_argument("Load with the specified key does not exist.");
 		}
 		Vector ProblemStructural::Displacement() const
 		{

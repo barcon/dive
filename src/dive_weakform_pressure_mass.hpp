@@ -7,7 +7,7 @@ namespace dive
 {
     namespace weakform
     {
-		MassPressurePtr CreateWeakFormMassPressure();
+		MassPressurePtr CreateMassPressure();
 
 		class MassPressure : public IWeakFormElement, virtual public std::enable_shared_from_this<MassPressure>
 		{
@@ -21,7 +21,7 @@ namespace dive
 
 			void SetTemperature(IScalarCoordinatesPtr temperature);
 			void SetPressure(IScalarCoordinatesPtr pressure);
-			void SetVelocity(IMatrixCoordinatesPtr velocity);
+			void SetMomentum(IMatrixCoordinatesPtr momentum);
 
 		protected:
 			MassPressure() = default;
@@ -32,7 +32,7 @@ namespace dive
 
 			IScalarCoordinatesPtr temperature_{ nullptr };
 			IScalarCoordinatesPtr pressure_{ nullptr };
-			IMatrixCoordinatesPtr velocity_{ nullptr };
+			IMatrixCoordinatesPtr momentum_{ nullptr };
 
 			using std::enable_shared_from_this<MassPressure>::shared_from_this;
 		};

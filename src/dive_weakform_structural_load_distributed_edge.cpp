@@ -3,7 +3,7 @@
 
 namespace dive {
 	namespace weakform {
-		LoadDistributedEdgeStructuralPtr CreateWeakFormLoadDistributedEdgeStructural()
+		LoadDistributedEdgeStructuralPtr CreateLoadDistributedEdgeStructural()
 		{
 			auto res = LoadDistributedEdgeStructural::Create();
 

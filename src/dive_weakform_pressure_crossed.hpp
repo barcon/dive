@@ -8,7 +8,7 @@ namespace dive
 {
     namespace weakform
     {
-		CrossedPressurePtr CreateWeakFormCrossedPressure();
+		CrossedPressurePtr CreateCrossedPressure();
 
 		class CrossedPressure : public IWeakFormElement, virtual public std::enable_shared_from_this<CrossedPressure>
 		{

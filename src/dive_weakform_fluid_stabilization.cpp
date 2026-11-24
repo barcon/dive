@@ -3,7 +3,7 @@
 
 namespace dive {
 	namespace weakform {
-		StabilizationFluidPtr CreateWeakFormStabilizationFluid()
+		StabilizationFluidPtr CreateStabilizationFluid()
 		{
 			auto res = StabilizationFluid::Create();
 

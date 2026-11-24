@@ -27,8 +27,6 @@ namespace dive
 			Type GetType() const override;
 			Tag	GetTag() const override;
 
-			Loads& GetLoads() override;
-
 			const DofMeshIndices& GetDofMeshIndices() const override;
 			const NodeMeshIndices& GetNodeMeshIndices() const override;
 			const DirichletMeshIndices& GetDirichletMeshIndices() const override;
@@ -37,7 +35,7 @@ namespace dive
 			void SetPressure(IScalarCoordinatesPtr pressure) override;
 			void SetTag(Tag tag) override;
 
-			void ApplyLoad(ILoadPtr load) override;
+			void ApplyLoad(String key, const Loads& loads) override;
 			void Initialize() override;
 			void UpdateMeshValues(const Vector& u) override;
 			void UpdateMeshValues(const Vector& u0, const Vector& u1) override;
@@ -45,10 +43,7 @@ namespace dive
 			Sparse Mass(bool lumped = false) const override;
 			Sparse Stiffness() const override;
 			Sparse Damping() const override;
-			Vector LoadDistributedEdge() const override;
-			Vector LoadDistributedFace() const override;
-			Vector LoadDistributedVolume() const override;
-			Vector LoadNode() const override;		
+			Vector Load(String key) const override;
 			Vector Displacement() const override;
 
 		protected:
@@ -66,7 +61,7 @@ namespace dive
 			IScalarCoordinatesPtr pressure_{ nullptr };
 			IMeshPtr mesh_{ nullptr };
 
-			Loads loads_;
+			LoadsMap loadsMap_;
 
 			DofMeshIndices dofMeshIndices_;
 			NodeMeshIndices nodeMeshIndices_;

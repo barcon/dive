@@ -7,7 +7,7 @@ namespace dive
 {
     namespace weakform
     {
-		LoadDistributedFaceStructuralPtr CreateWeakFormLoadDistributedFaceStructural();
+		LoadDistributedFaceStructuralPtr CreateLoadDistributedFaceStructural();
 
 		class LoadDistributedFaceStructural : public IWeakFormLoad, virtual public std::enable_shared_from_this<LoadDistributedFaceStructural>
 		{

@@ -21,9 +21,11 @@ namespace dive
 			Type GetType() const override;
 			INodePtr GetNode() const override;
 			Vector GetValue() const override;
+			IWeakFormLoadPtr GetWeakForm() const override;
 
 			void SetNode(INodePtr node) override;
 			void SetValue(IVectorCoordinatesPtr value) override;
+			void SetWeakForm(IWeakFormLoadPtr weakForm) override;
 
 		protected:
 			LoadNode() = default;

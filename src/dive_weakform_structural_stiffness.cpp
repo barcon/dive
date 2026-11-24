@@ -3,7 +3,7 @@
 
 namespace dive {
 	namespace weakform {
-		StiffnessStructuralPtr CreateWeakFormStiffnessStructural()
+		StiffnessStructuralPtr CreateStiffnessStructural()
 		{
 			auto res = StiffnessStructural::Create();
 

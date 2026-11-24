@@ -2,7 +2,7 @@
 
 namespace dive {
 	namespace weakform {
-		CrossedPressurePtr CreateWeakFormCrossedPressure()
+		CrossedPressurePtr CreateCrossedPressure()
 		{
 			auto res = CrossedPressure::Create();
 

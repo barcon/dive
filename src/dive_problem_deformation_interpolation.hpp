@@ -23,13 +23,13 @@ namespace dive
 			Type GetType() const override;
 			Tag	GetTag() const override;
 
-			Loads& GetLoads() override;
-
 			void SetTag(Tag tag) override;
 
 			void DeformMesh(IMeshPtr mesh) override;
-			void ApplyLoad(ILoadPtr load) override;
+			void ApplyLoad(String key, const Loads& loads) override;
 			void Initialize(IInterpolationPtr interpolation);
+
+			Vector Load(String key) const override;
 
 		protected:
 			ProblemDeformationInterpolation() = default;
@@ -43,7 +43,7 @@ namespace dive
 
 			IMeshPtr mesh_{ nullptr };
 
-			Loads loads_;
+			LoadsMap loadsMap_;
 		};
 
 	} //namespace problem

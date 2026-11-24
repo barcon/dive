@@ -3,7 +3,7 @@
 
 namespace dive {
 	namespace weakform {
-		MassStructuralPtr CreateWeakFormMassStructural()
+		MassStructuralPtr CreateMassStructural()
 		{
 			auto res = MassStructural::Create();
 

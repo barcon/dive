@@ -7,8 +7,7 @@ namespace dive
 {
 	namespace load
 	{
-		LoadDistributedFacePtr CreateLoadDistributedFace(IElementPtr element, FaceIndex faceIndex, IVectorCoordinatesPtr value);
-		LoadDistributedFacePtr CastToLoadDistributedFace(ILoadPtr load);
+		LoadDistributedFacePtr CreateLoadDistributedFace(IElementPtr element, FaceIndex faceIndex, IVectorCoordinatesPtr value, IWeakFormLoadPtr weakForm);
 
 		class LoadDistributedFace : public ILoadDistributedFace, virtual public std::enable_shared_from_this<LoadDistributedFace>
 		{
@@ -22,10 +21,12 @@ namespace dive
 			IElementMappedPtr GetElement() const override;
 			Vector GetValue(const Vector& point) const;
 			FaceIndex GetFaceIndex() const;
+			IWeakFormLoadPtr GetWeakForm() const override;
 
 			void SetElement(IElementMappedPtr element) override;
 			void SetFaceIndex(FaceIndex faceIndex);
 			void SetValue(IVectorCoordinatesPtr value);
+			void SetWeakForm(IWeakFormLoadPtr weakForm) override;
 
 		protected:
 			LoadDistributedFace() = default;
@@ -35,6 +36,7 @@ namespace dive
 			FaceIndex faceIndex_{ 0 };
 			IElementMappedPtr element_{ nullptr };
 			IVectorCoordinatesPtr value_{ nullptr };
+			IWeakFormLoadPtr weakForm_{ nullptr };
 		};
 
 	} //namespace load

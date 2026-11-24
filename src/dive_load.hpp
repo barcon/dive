@@ -8,23 +8,33 @@ namespace dive
 {
 	namespace load
 	{
-		static const Type load_dirichlet				= 1;
-		static const Type load_distributed_volume		= 2;
-		static const Type load_distributed_face			= 3;
-		static const Type load_distributed_edge			= 4;
-		static const Type load_node						= 5;
-		static const Type load_inflow					= 7;
-		static const Type load_outflow					= 8;
-		static const Type load_heat_source_volume		= 9;
-		static const Type load_heat_conduction_face		= 10;
-		static const Type load_coupling_equation		= 11;
+		static const Type load_node					= 1;
+		static const Type load_dirichlet			= 2;
+		static const Type load_distributed_edge		= 3;
+		static const Type load_distributed_face		= 4;
+		static const Type load_distributed_volume	= 5;
 		
 		class ILoad
 		{
 		public:
 			virtual ~ILoad() = default;
 
-			virtual Type GetType() const = 0;
+			virtual Type GetType() const = 0;			
+			virtual IWeakFormLoadPtr GetWeakForm() const = 0;
+
+			virtual void SetWeakForm(IWeakFormLoadPtr weakForm) = 0;
+		};
+
+		class ILoadNode : public ILoad
+		{
+		public:
+			virtual ~ILoadNode() = default;
+
+			virtual INodePtr GetNode() const = 0;
+			virtual Vector GetValue() const = 0;
+
+			virtual void SetNode(INodePtr node) = 0;
+			virtual void SetValue(IVectorCoordinatesPtr value) = 0;
 		};
 
 		class ILoadDirichlet : public ILoad
@@ -80,19 +90,6 @@ namespace dive
 			virtual void SetEdgeIndex(EdgeIndex edgeIndex) = 0;
 			virtual void SetValue(IVectorCoordinatesPtr value) = 0;
 		};
-
-		class ILoadNode : public ILoad
-		{
-		public:
-			virtual ~ILoadNode() = default;
-
-			virtual INodePtr GetNode() const = 0;
-			virtual Vector GetValue() const = 0;
-
-			virtual void SetNode(INodePtr node) = 0;
-			virtual void SetValue(IVectorCoordinatesPtr value) = 0;
-		};
-
 	} //namespace load
 } //namespace dive
 

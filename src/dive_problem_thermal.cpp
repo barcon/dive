@@ -64,10 +64,6 @@ namespace dive {
 		{
 			return tag_;
 		}
-		Loads& ProblemThermal::GetLoads()
-		{
-			return loads_;
-		}
 		const DofMeshIndices& ProblemThermal::GetDofMeshIndices() const
 		{
 			return dofMeshIndices_;
@@ -110,24 +106,46 @@ namespace dive {
 		{
 			tag_ = tag;
 		}
-		void ProblemThermal::ApplyLoad(ILoadPtr load)
+		void ProblemThermal::ApplyLoad(String key, const Loads& loads)
 		{
-			if (load == nullptr)
+			auto it = loadsMap_.find(key);
+			if (it != loadsMap_.end())
 			{
-				throw std::invalid_argument("Load cannot be null.");
+				throw std::invalid_argument("Load with the same key already exists.");
 			}
 
-			loads_.push_back(load);
+			for (auto& load : loads)
+			{
+				if (load == nullptr)
+				{
+					throw std::invalid_argument("Load cannot be null.");
+				}
+
+				if (load->GetWeakForm() == nullptr)
+				{
+					if (load->GetType() == load::load_node || load->GetType() == load::load_dirichlet)
+					{
+						continue;
+					}
+
+					throw std::invalid_argument("Weak form cannot be null.");
+				}
+			}
+
+			loadsMap_.insert({ key, loads });
 		}
 		void ProblemThermal::Initialize()
 		{
 			Dirichlets dirichlets;
 
-			for (auto& load : loads_)
+			for (const auto& it : loadsMap_)
 			{
-				if (load->GetType() == load::load_dirichlet)
+				for (const auto& load : it.second)
 				{
-					dirichlets.push_back(std::static_pointer_cast<load::ILoadDirichlet>(load));
+					if (load->GetType() == load::load_dirichlet)
+					{
+						dirichlets.push_back(std::static_pointer_cast<load::ILoadDirichlet>(load));
+					}
 				}
 			}
 
@@ -138,17 +156,17 @@ namespace dive {
 
 			Reorder(mesh_, numberDof_, nodeMeshIndices_, dofMeshIndices_);
 		}
-		void ProblemThermal::UpdateMeshValues(const Vector& u)
+		void ProblemThermal::UpdateMeshValues(const Vector& t)
 		{
 			for (Index i = 0; i < dofMeshIndices_.size(); ++i)
 			{
 				auto globalIndex = dofMeshIndices_[i].globalIndex;
 				auto dofIndex = dofMeshIndices_[i].dofIndex;
 
-				dofMeshIndices_[i].node->SetValue(dofIndex, u(globalIndex));
+				dofMeshIndices_[i].node->SetValue(dofIndex, t(globalIndex));
 			}
 		}
-		void ProblemThermal::UpdateMeshValues(const Vector& u0, const Vector& u1)
+		void ProblemThermal::UpdateMeshValues(const Vector& t0, const Vector& t1)
 		{
 			for (Index i = 0; i < dofMeshIndices_.size(); ++i)
 			{
@@ -157,18 +175,18 @@ namespace dive {
 
 				if (globalIndex < pivot_)
 				{
-					dofMeshIndices_[i].node->SetValue(dofIndex, u0(globalIndex));
+					dofMeshIndices_[i].node->SetValue(dofIndex, t0(globalIndex));
 				}
 				else
 				{
-					dofMeshIndices_[i].node->SetValue(dofIndex, u1(globalIndex - pivot_));
+					dofMeshIndices_[i].node->SetValue(dofIndex, t1(globalIndex - pivot_));
 
 				}
 			}
 		}
 		Sparse ProblemThermal::Mass(bool lumped) const
 		{
-			auto massWeak = weakform::CreateWeakFormMassThermal();
+			auto massWeak = weakform::CreateMassThermal();
 			massWeak->SetTemperature(temperature_);
 			massWeak->SetPressure(pressure_);
 
@@ -187,7 +205,7 @@ namespace dive {
 		}
 		Sparse ProblemThermal::Stiffness() const
 		{
-			auto stiffnessWeak = weakform::CreateWeakFormStiffnessThermal();
+			auto stiffnessWeak = weakform::CreateStiffnessThermal();
 			stiffnessWeak->SetTemperature(temperature_);
 			stiffnessWeak->SetPressure(pressure_);
 
@@ -198,7 +216,7 @@ namespace dive {
 		}
 		Sparse ProblemThermal::Convection(IProblemPtr problemMomentum) const
 		{
-			auto convectionWeak = weakform::CreateWeakFormConvectionThermal();
+			auto convectionWeak = weakform::CreateConvectionThermal();
 			convectionWeak->SetTemperature(temperature_);
 			convectionWeak->SetPressure(pressure_);
 			convectionWeak->SetProblemMomentum(problemMomentum);
@@ -210,7 +228,7 @@ namespace dive {
 		}
 		Sparse ProblemThermal::Stabilization(IProblemPtr problemMomentum) const
 		{
-			auto stabilizationWeak = weakform::CreateWeakFormStabilizationThermal();
+			auto stabilizationWeak = weakform::CreateStabilizationThermal();
 			stabilizationWeak->SetTemperature(temperature_);
 			stabilizationWeak->SetPressure(pressure_);
 			stabilizationWeak->SetProblemMomentum(problemMomentum);
@@ -219,6 +237,16 @@ namespace dive {
 			auto res = IntegralForm(stabilizationWeak, problemThermal, problemThermal);
 
 			return res;
+		}
+		Vector ProblemThermal::Load(String key) const
+		{
+			auto it = loadsMap_.find(key);
+			if (it != loadsMap_.end())
+			{
+				return IntegralForm(std::make_shared<ProblemThermal>(*this), it->second);
+			}
+
+			throw std::invalid_argument("Load with the specified key does not exist.");
 		}
 		Vector ProblemThermal::Energy() const
 		{

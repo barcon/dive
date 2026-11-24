@@ -2,7 +2,7 @@
 
 namespace dive {
 	namespace weakform {
-		StiffnessPressurePtr CreateWeakFormStiffnessPressure()
+		StiffnessPressurePtr CreateStiffnessPressure()
 		{
 			auto res = StiffnessPressure::Create();
 

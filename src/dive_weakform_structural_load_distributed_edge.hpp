@@ -7,7 +7,7 @@ namespace dive
 {
     namespace weakform
     {
-		LoadDistributedEdgeStructuralPtr CreateWeakFormLoadDistributedEdgeStructural();
+		LoadDistributedEdgeStructuralPtr CreateLoadDistributedEdgeStructural();
 
 		class LoadDistributedEdgeStructural : public IWeakFormLoad, virtual public std::enable_shared_from_this<LoadDistributedEdgeStructural>
 		{

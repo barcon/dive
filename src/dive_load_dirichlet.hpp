@@ -21,10 +21,12 @@ namespace dive
 			INodePtr GetNode() const override;
 			DofIndex GetDofIndex() const override;
 			Scalar GetValue() const override;
+			IWeakFormLoadPtr GetWeakForm() const override;
 
 			void SetNode(INodePtr node) override;
 			void SetDofIndex(DofIndex dofIndex) override;
 			void SetValue(IScalarCoordinatesPtr value) override;
+			void SetWeakForm(IWeakFormLoadPtr weakForm) override;
 
 		protected:
 			LoadDirichlet() = default;

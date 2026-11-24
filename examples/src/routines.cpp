@@ -230,7 +230,7 @@ problem::ProblemDeformationStrainPtr CreateProblemDeformationStrain(Tag problemT
     return problem;
 }
 
-void ApplyLoad(IProblemPtr problem, const String& name, IValuePtr value)
+void ApplyLoad(IProblemPtr problem, const String& key, IValuePtr value)
 {
     if (problem == nullptr)
     {
@@ -248,7 +248,7 @@ void ApplyLoad(IProblemPtr problem, const String& name, IValuePtr value)
     {
         auto groupName = mesh::GmshGetPhysicalName(physicalGroup.first, physicalGroup.second);
 
-        if (groupName == name)
+        if (groupName == key)
         {
             auto groupNameSplit = utils::string::Split(groupName, { ':' });
 
@@ -262,16 +262,17 @@ void ApplyLoad(IProblemPtr problem, const String& name, IValuePtr value)
 
                 auto load = std::dynamic_pointer_cast<value::IScalarCoordinates>(value);
                 if (load != nullptr)
-                {
-                    auto nodes = mesh::GmshGetNodesForPhysicalGroup(problem->GetMesh(), groupName);
+                {                    
+                    Loads loads;
 
+                    auto nodes = mesh::GmshGetNodesForPhysicalGroup(problem->GetMesh(), groupName);
                     for (auto& node : nodes)
                     {
                         auto dirichlet = load::CreateLoadDirichlet(node, dofIndex, load);
-                        problem->ApplyLoad(dirichlet);
+                        loads.push_back(dirichlet);
                     }
 
-                    return;
+                    problem->ApplyLoad(key, loads);
                 }
             }
             else if (groupNameSplit[1] == "load")
@@ -280,29 +281,38 @@ void ApplyLoad(IProblemPtr problem, const String& name, IValuePtr value)
                 {
                     auto nodes = mesh::GmshGetNodesForPhysicalGroup(problem->GetMesh(), groupName);
 
+                    Loads loads;
                     for (auto& node : nodes)
                     {
                         auto loadNode = load::CreateLoadNode(node, std::dynamic_pointer_cast<value::IVectorCoordinates>(value));
-                        problem->ApplyLoad(loadNode);
+                        loads.push_back(loadNode);
                     }
 
-                    return;
+                    problem->ApplyLoad(key, loads);
                 }
-                else if(groupNameSplit[2] == "face")
+                else if (groupNameSplit[2] == "volume")
                 {
-                    auto facePairs = mesh::GmshGetFacesForPhysicalGroup(problem->GetMesh(), groupName);
-
-                    for (auto& facePair : facePairs)
+                    if (groupNameSplit[3] == "divergence")
                     {
-                        auto loadFace = load::CreateLoadDistributedFace(facePair.element, facePair.faceIndex, std::dynamic_pointer_cast<value::IVectorCoordinates>(value));
-                        problem->ApplyLoad(loadFace);
-                    }
+                        auto elements = mesh::GmshGetElementsForPhysicalGroup(problem->GetMesh(), groupName);
 
-                    return;
-				}
+                        Loads loads;
+                        for (auto& element : elements)
+                        {
+                            auto weakForm = weakform::LoadDistributedVolumeDivergencePressure
+                            auto load = load::CreateLoadDistributedVolume(element, std::dynamic_pointer_cast<value::IVectorCoordinates>(value), );
+                            loads.push_back(load);
+                        }
+
+                        problem->ApplyLoad(key, loads);
+                    }
+                }
             }
+
+            logger::Info("EXAMPLES", utils::string::Format("Load applied: {}", groupName));
+            return;
         }
     }
 
-    logger::Warning("EXAMPLES", utils::string::Format("Invalid boundary condition: {}", name));
+    logger::Warning("EXAMPLES", utils::string::Format("Invalid boundary condition: {}", key));
 }

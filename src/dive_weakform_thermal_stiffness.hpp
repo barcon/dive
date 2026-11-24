@@ -7,7 +7,7 @@ namespace dive
 {
     namespace weakform
     {
-		StiffnessThermalPtr CreateWeakFormStiffnessThermal();
+		StiffnessThermalPtr CreateStiffnessThermal();
 
 		class StiffnessThermal : public IWeakFormElement, virtual public std::enable_shared_from_this<StiffnessThermal>
 		{

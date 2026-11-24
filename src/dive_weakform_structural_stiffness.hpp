@@ -7,7 +7,7 @@ namespace dive
 {
     namespace weakform
     {
-		StiffnessStructuralPtr CreateWeakFormStiffnessStructural();
+		StiffnessStructuralPtr CreateStiffnessStructural();
 
 		class StiffnessStructural : public IWeakFormElement, virtual public std::enable_shared_from_this<StiffnessStructural>
 		{

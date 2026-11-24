@@ -150,6 +150,9 @@ namespace dive
 		class StabilizationPressure;
 		using StabilizationPressurePtr = std::shared_ptr<StabilizationPressure>;
 
+		class LoadDistributedVolumeDivergencePressure;
+		using LoadDistributedVolumeDivergencePressurePtr = std::shared_ptr<LoadDistributedVolumeDivergencePressure>;
+
 		class LoadDistributedFaceFlowPressure;
 		using LoadDistributedFaceFlowPressurePtr = std::shared_ptr<LoadDistributedFaceFlowPressure>;
 
@@ -280,6 +283,7 @@ namespace dive
 	using Nodes = std::vector<INodePtr>;
 	using Elements = std::vector<IElementPtr>;
 	using Loads = std::vector<ILoadPtr>;
+	using LoadsMap = std::unordered_map<String, Loads>;
 	using Dirichlets = std::vector<ILoadDirichletPtr>;
 	using Materials = std::vector<IMaterialPtr>;
 	using Meshes = std::vector<IMeshPtr>;

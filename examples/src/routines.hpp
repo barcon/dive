@@ -21,11 +21,11 @@ problem::ProblemStructuralPtr CreateProblemStructural(Tag problemTag, const Stri
 problem::ProblemDeformationInterpolationPtr CreateProblemDeformationInterpolation(Tag problemTag, const String problemName);
 problem::ProblemDeformationStrainPtr CreateProblemDeformationStrain(Tag problemTag, const String problemName);
 
-void ApplyLoad(IProblemPtr problem, const String& name, IValuePtr value);
+void ApplyLoad(IProblemPtr problem, const String& key, IValuePtr value);
 
 static inline eilig::CallbackIterative callbackIterativeMomentum = [](Index iteration, Scalar residual) -> long long int
     {
-        Scalar tolerance{ 1e-5 };
+        Scalar tolerance{ 1e-4 };
 
         //logger::Info("DIVE Momentum", utils::string::Format("Iteration: {}, Residual: {:.3e}", iteration, residual));
 
@@ -43,9 +43,27 @@ static inline eilig::CallbackIterative callbackIterativeMomentum = [](Index iter
     };
 static inline eilig::CallbackIterative callbackIterativePressure = [](Index iteration, Scalar residual) -> long long int
     {
-        Scalar tolerance{ 1e-5 };
+        Scalar tolerance{ 1e-4 };
 
         //logger::Info("DIVE Pressure", utils::string::Format("Iteration: {}, Residual: {:.3e}", iteration, residual));
+
+        if (std::isnan(residual))
+        {
+            return eilig::EILIG_NOT_CONVERGED;
+        }
+
+        if (residual < tolerance)
+        {
+            return eilig::EILIG_SUCCESS;
+        }
+
+        return eilig::EILIG_CONTINUE;
+    };
+static inline eilig::CallbackIterative callbackIterativeThermal = [](Index iteration, Scalar residual) -> long long int
+    {
+        Scalar tolerance{ 1e-4 };
+
+        logger::Info("DIVE Thermal", utils::string::Format("Iteration: {}, Residual: {:.3e}", iteration, residual));
 
         if (std::isnan(residual))
         {
